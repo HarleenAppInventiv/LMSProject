@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="step1"
+            type="com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/offwhiteTextColor"
+        tools:context=".ui.create_course.add_courses_steps.Step1Fragment">
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_category_select"
+            spanText="@{@string/how_about_a_course_title}"
+            android:text="@string/how_about_a_course_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:fontType="semiBold"
+            android:layout_margin="@dimen/_15sdp"
+            android:lineSpacingExtra="@dimen/_6sdp"
+            android:textSize="@dimen/_13ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+           />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+            android:id="@+id/tv_selected_category"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:background="@drawable/edt_bg_white"
+            android:hint="@string/enter_course_title"
+            android:lineSpacingExtra="@dimen/_6sdp"
+            android:maxLines="1"
+            android:paddingStart="@dimen/_15sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:singleLine="true"
+            android:text="@={step1.course_title}"
+            app:layout_constraintEnd_toEndOf="@+id/tv_category_select"
+            app:layout_constraintStart_toStartOf="@+id/tv_category_select"
+            app:layout_constraintTop_toBottomOf="@+id/tv_category_select"
+             />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_language_select"
+           app:fontType="semiBold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_35sdp"
+            android:lineSpacingExtra="@dimen/_6sdp"
+            spanText="@{@string/let_s_discuss_your_course_objective}"
+            android:textSize="@dimen/_13ssp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_category_select"
+            app:layout_constraintStart_toStartOf="@+id/tv_category_select"
+            app:layout_constraintTop_toBottomOf="@+id/tv_selected_category"
+           />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+            android:id="@+id/tv_selected_language"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:background="@drawable/edt_bg_white"
+            android:hint="@string/enter_description"
+            android:imeOptions="actionDone"
+            android:inputType="textImeMultiLine|textMultiLine|textCapSentences"
+            android:lineSpacingExtra="@dimen/_6sdp"
+            android:maxLines="7"
+            android:paddingStart="@dimen/_15sdp"
+            android:paddingEnd="@dimen/_15sdp"
+
+            app:layout_constraintEnd_toEndOf="@+id/tv_category_select"
+            app:layout_constraintStart_toStartOf="@+id/tv_category_select"
+            app:layout_constraintTop_toBottomOf="@+id/tv_language_select"
+
+
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

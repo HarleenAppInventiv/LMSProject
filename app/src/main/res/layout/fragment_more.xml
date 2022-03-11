@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="handleClick"
+            type="com.selflearningcoursecreationapp.utils.HandleClick" />
+
+        <variable
+            name="localeCode"
+            type="String" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/secondaryScreenBgColor"
+        android:fillViewport="true"
+        tools:context=".ui.bottom_more.MoreFragment">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/_15sdp">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_settings"
+            spanText="@{@string/settings}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bottom_line"
+                app:primaryIconTint="start"
+android:drawableStart="@drawable/ic_settings"
+                android:drawablePadding="@dimen/_10sdp"
+                android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
+
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_33sdp" />
+
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bottom_line"
+                app:primaryIconTint="start"
+                android:drawableStart="@drawable/ic_moderator"
+                android:drawablePadding="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_30sdp"
+
+                spanText="@{@string/become_a_moderator}" />
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bottom_line"
+                app:primaryIconTint="start"
+                android:drawableStart="@drawable/ic_practise_accent"
+                android:drawablePadding="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_30sdp"
+                spanText="@{@string/practice_accent}" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bottom_line"
+                app:primaryIconTint="start"
+android:drawableStart="@drawable/ic_payments"
+                android:drawablePadding="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_30sdp"
+android:id="@+id/tv_payments"
+                android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
+                spanText="@{@string/payments}"
+                 />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bottom_line"
+                app:primaryIconTint="start"
+android:drawableStart="@drawable/ic_manage_payment"
+                android:drawablePadding="@dimen/_10sdp"
+                android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
+android:text="@string/saved_cards"
+                android:id="@+id/tv_cards"
+                android:paddingVertical="@dimen/_30sdp"
+                spanText="@{@string/saved_cards}" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:primaryIconTint="start"
+android:drawableStart="@drawable/ic_add_card"
+                android:drawablePadding="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_30sdp"
+                spanText="@{@string/add_a_new_card}" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+</layout>

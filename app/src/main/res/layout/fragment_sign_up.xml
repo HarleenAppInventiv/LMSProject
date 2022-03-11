@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="signup"
+            type="com.selflearningcoursecreationapp.ui.authentication.viewModel.OnBoardingViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/screenBackgroundColor"
+        android:descendantFocusability="blocksDescendants"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/_20sdp"
+            tools:context=".ui.authentication.OnBoardingActivity">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/edt_reg_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edt_bg"
+                android:drawableStart="@drawable/ic_user_profile"
+                android:drawablePadding="@dimen/_18sdp"
+                android:hint="@string/name"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
+                android:singleLine="true"
+                android:text="@={signup.reg_name}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.1"
+                app:layout_constraintWidth_percent=".9"
+                app:primaryIconTint="start" />
+
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_35sdp"
+                android:importantForAccessibility="no"
+                android:background="@color/et_dash_color"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_reg_name"
+                app:layout_constraintStart_toStartOf="@+id/edt_reg_name"
+                app:layout_constraintTop_toTopOf="@+id/edt_reg_name" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/edt_reg_email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/edt_bg"
+                android:drawableStart="@drawable/ic_mail_blue"
+                android:drawablePadding="@dimen/_18sdp"
+                android:hint="@string/prompt_email"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
+                android:text="@={signup.reg_email}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edt_reg_name"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintWidth_percent=".9"
+                app:primaryIconTint="start" />
+
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_35sdp"
+                android:importantForAccessibility="no"
+                android:background="@color/et_dash_color"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_reg_email"
+                app:layout_constraintStart_toStartOf="@+id/edt_reg_email"
+                app:layout_constraintTop_toTopOf="@+id/edt_reg_email" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/edt_reg_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/edt_bg"
+                android:drawableStart="@drawable/ic_call"
+                android:drawablePadding="@dimen/_18sdp"
+                android:hint="@string/phone"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:singleLine="true"
+                android:text="@={signup.reg_phone}"
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edt_reg_email"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintWidth_percent=".9"
+                app:primaryIconTint="start" />
+
+
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_35sdp"
+                android:background="@color/et_dash_color"
+                android:importantForAccessibility="no"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_reg_phone"
+                app:layout_constraintStart_toStartOf="@+id/edt_reg_phone"
+                app:layout_constraintTop_toTopOf="@+id/edt_reg_phone" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/edt_reg_password"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/edt_bg"
+                android:drawableStart="@drawable/ic_key_password"
+                android:drawablePadding="@dimen/_18sdp"
+                android:hint="@string/prompt_password"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                android:text="@={signup.reg_pass}"
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edt_reg_phone"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintWidth_percent=".9"
+                app:primaryIconTint="start" />
+
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="0dp"
+                android:importantForAccessibility="no"
+                android:layout_marginVertical="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_35sdp"
+                android:background="@color/et_dash_color"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_reg_password"
+                app:layout_constraintStart_toStartOf="@+id/edt_reg_password"
+                app:layout_constraintTop_toTopOf="@+id/edt_reg_password" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSCheckBox
+                android:id="@+id/chk_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/by_registering_you_are_accepting_privacy_policy_and_terms_of_use"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:checked="@={signup.isPrivacyPolicyChecked}"
+                android:lineSpacingExtra="@dimen/_7ssp"
+                android:padding="@dimen/_5sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_terms"
+                app:layout_constraintStart_toStartOf="@+id/edt_reg_name"
+                app:layout_constraintTop_toTopOf="@+id/tv_terms"
+                app:layout_constraintWidth_percent=".9"
+                app:textColorType="body"
+
+                />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_terms"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:checked="false"
+                android:lineSpacingExtra="@dimen/_2ssp"
+                android:text="@string/by_registering_you_are_accepting_privacy_policy_and_terms_of_use"
+                android:textColor="?attr/primaryTextColor"
+                android:textSize="@dimen/_11ssp"
+                app:fontType="medium"
+                app:layout_constraintEnd_toEndOf="@+id/edt_reg_name"
+                app:layout_constraintStart_toEndOf="@+id/chk_register"
+                app:layout_constraintTop_toBottomOf="@+id/edt_reg_password"
+
+                />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                android:id="@+id/btn_sign_up"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:onClick="@{()->signup.signupValidations()}"
+                android:text="@string/sign_up"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_terms"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintWidth_percent=".9"
+                app:textAllCaps="true" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

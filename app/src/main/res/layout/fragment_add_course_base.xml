@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.create_course.add_courses_steps.AddCourseBaseFragment">
+
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_add_courses"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/top_bottom_line"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_goto"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_goto" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_pagerDot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_goto"
+            app:layout_constraintEnd_toEndOf="@+id/bt_continue"
+            app:layout_constraintTop_toTopOf="@+id/tv_goto"
+            tools:itemCount="3"
+            tools:listitem="@layout/adapter_pref_pager_dot" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_goto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:drawablePadding="@dimen/_10sdp"
+            android:gravity="center_vertical"
+            android:paddingVertical="@dimen/_5sdp"
+            android:text="@string/select_all"
+            spanText="@{@string/select_all}"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/bt_continue"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+            android:id="@+id/bt_continue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_15sdp"
+            android:text="@string/continue_text"
+           spanText="@{@string/continue_text}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.9" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

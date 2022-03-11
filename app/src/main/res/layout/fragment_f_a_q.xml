@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="faq"
+            type="com.selflearningcoursecreationapp.utils.HandleClick" />
+
+    </data>
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/constraintLayout4"
+        android:layout_width="match_parent"
+        android:background="?attr/screenBackgroundColor"
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/fragment_profile_details_xml_constraintlayout2_scene">
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200sdp"
+            android:importantForAccessibility="no"
+
+            app:changeBackgroundType="background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:id="@+id/imageView4"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200sdp"
+            android:importantForAccessibility="no"
+android:src="@drawable/ic_half_trans_circle_bg"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:changeBackgroundType="tint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fontType="semiBold"
+            android:layout_marginTop="@dimen/_35sdp"
+android:drawableStart="@drawable/ic_arrow_left_white"
+            android:drawablePadding="@dimen/_5sdp"
+            android:lineSpacingExtra="6sp"
+            android:onClickListener="@{(v)->faq.onHandleClick(v)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.056"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/appCompatImageView"
+            android:layout_width="wrap_content"
+            android:importantForAccessibility="no"
+
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+            app:layout_constraintEnd_toEndOf="@+id/imageView3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_help_header" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/appCompatTextView2"
+           app:fontType="semiBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="4sp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/question_we_ve_got_instant_answers"
+            spanText="@{@string/question_we_ve_got_instant_answers}"
+            android:textColor="?attr/whiteTextColor"
+            android:textSize="@dimen/_13ssp"
+            app:textColorType="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_faq_question"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3"
+            tools:listitem="@layout/faq_list_view" />
+
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+</layout>

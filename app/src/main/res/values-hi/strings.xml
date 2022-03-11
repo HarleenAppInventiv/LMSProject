@@ -1,0 +1,208 @@
+<resources>
+    <string name="app_name">Self Learning &amp; Course Creation App</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email">Enter Email</string>
+    <string name="password">Enter Password</string>
+    <string name="login">Login</string>
+    <string name="phone">Phone</string>
+    <string name="loading">Loading...</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="enter_email">Please enter email address</string>
+    <string name="enter_valid_email">Please enter valid email address</string>
+    <string name="enter_password">Please enter password</string>
+    <string name="enter_valid_password">Please enter valid password</string>
+    <string name="title_activity_login_singup">LoginSingupActivity</string>
+    <string name="enter_name">Please enter name</string>
+    <string name="enter_valid_name">Please enter valid name</string>
+    <string name="enter_phone_number">Please enter phone number</string>
+    <string name="enter_valid_phone_number">Please enter valid phone number</string>
+    <string name="select">Select</string>
+    <string name="select_category_subheading_text">Tap on categories you want to select and you will get the relative contents according to your choice.</string>
+    <string name="continue_text">Continue</string>
+    <string name="major_selected">Major Selected</string>
+    <string name="categories">Categories</string>
+    <string name="don_t_have_an_account_sign_up">Don’t have an account? SIGN UP</string>
+    <string name="google">Google</string>
+    <string name="via_otp">VIA OTP</string>
+    <string name="or">OR</string>
+    <string name="remember_me">Remember me</string>
+    <string name="forgot_password">FORGOT PASSWORD</string>
+    <string name="forgot_password2">Forgot password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="or_continue_as_a">or continue as a</string>
+    <string name="guest_user">GUEST USER</string>
+    <string name="enter_your_phone_number_and_we_will_send_you_an_otp_to_verify">Enter your phone number and we will send you an OTP to verify.</string>
+    <string name="login_via_otp">Login via OTP</string>
+    <string name="phone_number">Enter phone number</string>
+    <string name="verify_with_otp">Verify with OTP</string>
+    <string name="enter_4_digit_number_that_sent_to_your_number.">Enter 4 digit number that sent to your number.</string>
+    <string name="enter_the_email_mobile_number_associated_with_your_account_and_we_ll_send_an_email_with_instructions_or_a_otp_on_your_mobile_number_to_reset_your_password">Enter the email/mobile number associated with your account and we’ll send an email with instructions or a OTP on your mobile number to reset your password</string>
+    <string name="reset">Reset</string>
+    <string name="continues">Continue</string>
+    <string name="check_your_mail">Check your mail</string>
+    <string name="i_ll_confirm_later">I’ll CONFIRM LATER</string>
+    <string name="enable_visually_impaired_mode">Enable visually impaired mode</string>
+    <string name="sign_in_to_continue_your_account">Sign in to continue your account</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="by_registering_you_are_accepting_privacy_policy_and_terms_of_use">By Registering you are accepting “PRIVACY POLICY” and “TERMS OF USE”</string>
+    <string name="please_enter_otp">Please enter OTP</string>
+    <string name="please_enter_valid_otp">Please enter valid OTP</string>
+    <string name="please_enter_new_password">Please enter new password</string>
+    <string name="please_enter_valid_new_password">Please enter valid new password</string>
+    <string name="please_enter_confirm_password">Please enter confirm password</string>
+    <string name="please_enter_valid_confirm_password">Please enter valid confirm password</string>
+    <string name="both_pass_does_not_match">Entered passwords do not match</string>
+
+    <integer-array name="walkthrough_icons">
+        <item>@drawable/ic_slider1</item>
+        <item>@drawable/ic_slider2</item>
+        <item>@drawable/ic_slider2</item>
+    </integer-array>
+
+    <string-array name="walkthrough_title">
+        <item>Scale up your skill</item>
+        <item>Find your favourite lessons</item>
+        <item>Find your favourite lessons</item>
+    </string-array>
+    <string-array name="preference_option">
+        <item>Categories</item>
+        <item>Theme</item>
+        <item>Font</item>
+        <item>Language</item>
+    </string-array>
+
+    <string-array name="preference_option_description">
+        <item>Tap on categories you want to select and you will get the relative contents according to your choice.  </item>
+        <item>Tap on a color theme you want to select and whole app colour will be updated accordingly</item>
+        <item>Tap on a font type you want to select and whole app text will be updated accordingly</item>
+        <item>Set whole app language as per your preferred language</item>
+    </string-array>
+    <string-array name="preference_selected_title">
+        <item>Major Selected</item>
+        <item>Theme Selected</item>
+        <item>Font Selected</item>
+        <item>Language Selected</item>
+    </string-array>
+
+    <string-array name="walkthrough_description">
+        <item>Anyone can join the millions of members in our platform to learn cutting edge skills</item>
+        <item>Anyone can join the millions of members in our platform to learn cutting edge skills</item>
+        <item>Anyone can join the millions of members in our platform to learn cutting edge skills</item>
+    </string-array>
+
+    <string name="reset_password">Reset Password</string>
+    <string name="your_password_must_include_0_9_a_z_a_z_one_special_character_also_it_should_be_6_characters_long"><![CDATA[Your password must include 0-9, A-Z, a-z & one special character. Also, It should be 6 characters long]]></string>
+    <string name="enter_new_password">Enter new password</string>
+    <string name="confirm_new_password">Confirm new password</string>
+    <string name="settings">सेटिंग्स</string>
+    <string name="payments">भुगतान</string>
+    <string name="become_a_moderator">मॉडरेटर बनें</string>
+    <string name="manage_payment_methods">भुगतान विधियों को प्रबंधित करें</string>
+    <string name="add_a_new_card">कोई नया कार्ड जोड़ें</string>
+    <string name="change_password">पासवर्ड बदलें</string>
+    <string name="change_language">भाषा बदलें</string>
+    <string name="about_us">हमारे बारे में</string>
+    <string name="privacy_policy">गोपनीयता नीति</string>
+    <string name="support">सहायता</string>
+    <string name="terms_amp_condtions">नियम और शर्तें</string>
+    <string name="help">मदद</string>
+    <string name="old_password">OLD Password</string>
+    <string name="new_password">NEW Password</string>
+    <string name="provide_your_old_password">Provide your old password</string>
+    <string name="enter_current_password">Enter current password</string>
+    <string name="enter_new_password_and_confirm_it">enter new password and confirm it</string>
+    <string name="update_password">Update Password</string>
+    <string name="you_have_to_login_on_all_devices_again">You have to login on all devices again</string>
+    <string name="log_me_out_from_the_all_devices">Log me out from the all devices</string>
+    <string name="name">Name</string>
+    <string name="rewards_points">Rewards points</string>
+    <string name="practise_accent">Practise accent</string>
+    <string name="bookmarked_wishlist_courses">Bookmarked/wishlist courses</string>
+    <string name="courses">Courses</string>
+    <string name="deactivate_account">Deactivate account</string>
+    <string name="logout">Logout</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="profile_details">Profile details</string>
+    <string name="personal_details">PERSONAL DETAILS</string>
+    <string name="save">Save</string>
+    <string name="more">More</string>
+    <string name="home">Home</string>
+    <string name="add">Add</string>
+    <string name="download">Download</string>
+    <string name="hello_welcome">नमस्कार! स्वागत</string>
+    <string name="enter_phone_email">Enter phone/email</string>
+    <string name="submit">Submit</string>
+    <string name="submit_otp">submit OTP</string>
+    <string name="select_all">Select All</string>
+    <string name="take_photo">Take photo</string>
+    <string name="select_from_gallery">Select from gallery</string>
+    <string name="resend_code_in">Resend code in :</string>
+    <string name="resend_otp">Resend</string>
+    <string name="select_categories">Select Categories</string>
+    <string name="select_theme">Select Theme</string>
+    <string name="select_theme_subtext">Tap on a color theme you want to select and whole app colour will be updated accordingly</string>
+    <string name="select_font">Select Font</string>
+    <string name="select_font_subtext">Tap on a font type you want to select and whole app text will be updated accordingly</string>
+    <string name="select_language">Select Language</string>
+    <string name="select_language_subtext">Set whole app language as per your preferred language</string>
+    <string name="your_preferences">Your Preferences</string>
+    <string name="blue_theme">Blue</string>
+    <string name="wine_theme">Wine</string>
+    <string name="black_theme">Black</string>
+    <string name="sea_theme">Sea</string>
+    <string name="roboto_font">Roboto Sans</string>
+    <string name="ibm_font">IBM Plex Sans</string>
+    <string name="worksans_font">Work Sans</string>
+    <string name="english_language">English (UK)</string>
+    <string name="kannada_language">ಕನ್ನಡ (Kannada)</string>
+    <string name="tamil_language">தமிழ் (Tamil)</string>
+    <string name="telugu_language">తెలుగు (Telugu)</string>
+    <string name="bengali_language">বাংলা (Bengali)</string>
+    <string name="hindi_language">हिंदी (Hindi)</string>
+    <string-array name="theme_name_array">
+        <item>@string/blue_theme</item>
+        <item>@string/wine_theme</item>
+        <item>@string/black_theme</item>
+        <item>@string/sea_theme</item>
+
+    </string-array>
+
+    <integer-array name="theme_color_array">
+        <item>@color/blue</item>
+        <item>@color/wine_red</item>
+        <item>@color/heading_color_262626</item>
+        <item>@color/sea</item>
+    </integer-array>
+    <string-array name="font_name_array">
+        <item>@string/roboto_font</item>
+        <item>@string/ibm_font</item>
+        <item>@string/worksans_font</item>
+
+    </string-array>
+    <string-array name="language_array">
+        <item>@string/english_language</item>
+        <item>@string/kannada_language</item>
+        <item>@string/tamil_language</item>
+        <item>@string/telugu_language</item>
+        <item>@string/bengali_language</item>
+        <item>@string/hindi_language</item>
+
+    </string-array>
+
+    <string name="come_back_soon">Come back soon!</string>
+    <string name="cancel">Cancel</string>
+    <string name="on_vi_mode_the_user_interface_of_this_app_will_set_to_visually_impaired_mode_the_colors_text_sizes_of_the_interface_gets_updated_as_per_the_government_guidelines"><![CDATA[On VI mode, the User interface of this app will set to visually impaired mode, the colors & text sizes of the interface gets updated as per the government guidelines]]></string>
+    <string name="close">Close</string>
+    <string name="in_vi_mode_the_current_theme_gets_updated_into_the_black_theme">In VI mode, The current theme gets updated into the black theme</string>
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
+
+</resources>

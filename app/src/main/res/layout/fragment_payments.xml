@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:background="?attr/secondaryScreenBgColor"
+        android:fillViewport="true"
+        android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        tools:context=".ui.bottom_more.payments.PaymentsFragment">
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:id="@+id/iv_bg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/_15sdp"
+            android:importantForAccessibility="no"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_payment_header_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/cv_reward"
+            app:layout_constraintTop_toTopOf="parent"
+            app:changeBackgroundType="tint" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_wallet_title"
+            spanText="@{@string/remaining_wallet_balance}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:text="@string/remaining_wallet_balance"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_11ssp"
+            app:fontType="medium"
+            app:textColorType="none"
+            app:layout_constraintEnd_toEndOf="@id/iv_bg"
+            app:layout_constraintStart_toStartOf="@id/iv_bg"
+            app:layout_constraintTop_toTopOf="@+id/iv_bg" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:src="@drawable/ic_info_white"
+android:contentDescription="@string/wallet_info"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_wallet_title"
+            app:layout_constraintStart_toEndOf="@+id/tv_wallet_title"
+            app:layout_constraintTop_toTopOf="@+id/tv_wallet_title" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_rewards"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:textColorType="none"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+android:drawableStart="@drawable/ic_rewards_points_large"
+            android:drawablePadding="@dimen/_5sdp"
+            android:gravity="center_vertical"
+            android:text="16789.56"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_22ssp"
+            app:fontType="bold"
+            app:layout_constraintEnd_toEndOf="@+id/iv_bg"
+            app:layout_constraintStart_toStartOf="@+id/iv_bg"
+            app:layout_constraintTop_toBottomOf="@+id/tv_wallet_title"
+            app:layout_constraintWidth_default="wrap" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+            android:id="@+id/bt_request"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            app:buttonBackground="secondary"
+            app:btnTextColor="secondary"
+            spanText="@{@string/new_request}"
+            android:padding="0dp"
+            android:text="@string/new_request"
+
+            android:textSize="@dimen/_10ssp"
+            app:cornerRadius="0dp"
+            app:layout_constraintEnd_toStartOf="@+id/bt_history"
+            app:layout_constraintStart_toStartOf="@id/iv_bg"
+            app:layout_constraintTop_toBottomOf="@+id/tv_rewards" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+            android:id="@+id/bt_history"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            app:buttonBackground="secondary"
+            app:btnTextColor="secondary"
+            android:padding="0dp"
+            android:text="@string/wallet_history"
+            spanText="@{@string/wallet_history}"
+            android:textSize="@dimen/_10ssp"
+            app:cornerRadius="0dp"
+
+            app:layout_constraintEnd_toEndOf="@id/iv_bg"
+            app:layout_constraintStart_toEndOf="@+id/bt_request"
+            app:layout_constraintTop_toTopOf="@+id/bt_request" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/cv_reward"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bt_request"
+            android:layout_marginTop="@dimen/_30sdp"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardBackgroundColor="?attr/viewBackgroundColor"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_15sdp">
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tv_earned_title"
+                    spanText="@{@string/total_earning}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/total_earning"
+                    android:textColor="@color/coin_stroked_color"
+                    android:textSize="@dimen/_11ssp"
+                    android:drawablePadding="@dimen/_5sdp"
+                    app:textColorType="none"
+                    app:layout_constraintHorizontal_bias="0"
+android:drawableStart="@drawable/ic_earning_down"
+                    app:fontType="medium"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_earned"
+                    app:layout_constraintStart_toStartOf="@+id/tv_earned"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tv_earned"
+                    android:layout_width="0dp"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+android:drawableStart="@drawable/ic_coin_black"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:gravity="center_vertical"
+                    android:text="26789.56"
+                    app:textColorType="secondary"
+                    android:textSize="@dimen/_18ssp"
+                    app:fontType="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_expense"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_earned_title"
+                    app:layout_constraintWidth_default="wrap" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tv_expense_title"
+                    spanText="@{@string/total_expense}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/total_expense"
+                    android:textColor="?attr/googleButtonBackgroundColor"
+                    android:textSize="@dimen/_11ssp"
+                    android:drawablePadding="@dimen/_5sdp"
+                    app:layout_constraintHorizontal_bias="0"
+android:drawableStart="@drawable/ic_expense_up"
+                    app:fontType="medium"
+                    app:textColorType="none"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_expense"
+                    app:layout_constraintStart_toStartOf="@+id/tv_expense"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tv_expense"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_6sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+
+                    android:gravity="center_vertical"
+                    android:text="₹ 10000.00"
+                    app:textColorType="secondary"
+                    android:textSize="@dimen/_18ssp"
+                    app:fontType="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tv_earned"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_earned_title"
+                    app:layout_constraintWidth_default="wrap" />
+
+                <View
+                    android:layout_width="@dimen/_2sdp"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@drawable/ic_dotted_vertical_line"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_height="0dp"/>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.tabs.TabLayout
+            android:layout_width="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cv_reward"
+            app:tabIndicatorColor="?attr/colorPrimary"
+            android:background="?attr/secondaryScreenBgColor"
+            app:tabTextAppearance="@style/MyTabTextAppearance"
+            android:layout_margin="@dimen/_15sdp"
+            app:tabBackground="?attr/secondaryScreenBgColor"
+            app:tabIndicatorHeight="@dimen/_2sdp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="?attr/headingTextColor"
+            android:id="@+id/tl_header"
+            app:tabTextColor="?attr/hintColor"
+            android:layout_height="?attr/actionBarSize"/>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:layout_width="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tl_header"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/viewpager"
+            android:layout_height="0dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

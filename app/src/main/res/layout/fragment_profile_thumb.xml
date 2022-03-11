@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="profileThumb"
+            type="com.selflearningcoursecreationapp.utils.HandleClick" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutDescription="@xml/fragment_profile_thumb_xml_constraintlayout_scene">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_200sdp"
+                android:background="@color/white"
+                android:importantForAccessibility="no"
+                app:changeBackgroundType="background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:id="@+id/imageView4"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_200sdp"
+                android:importantForAccessibility="no"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_half_trans_circle_bg"
+
+                app:changeBackgroundType="tint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/img_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_35sdp"
+                android:contentDescription="@string/back_icon"
+                android:onClickListener="@{(v)->profileThumb.onHandleClick(v)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.056"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_arrow_left_white" />
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/circle"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:layout_marginTop="50dp"
+                android:contentDescription="@string/user_image"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_user_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/circle" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/txt_user_name"
+                style="@style/textViewStyle.Heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="Alisi Nikolson"
+                android:textColor="?attr/whiteTextColor"
+                app:fontType="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/circle"
+                app:textColorType="none" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/appCompatTextView"
+                style="@style/textViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="@dimen/_6ssp"
+                android:text="limadacell"
+                android:textColor="?attr/profile_mail_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_user_name"
+                app:textColorType="none" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/txt_profile_details"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:background="@drawable/bottom_line_grey"
+                android:drawableStart="@drawable/ic_user_profile"
+                android:drawablePadding="@dimen/_10sdp"
+                android:onClickListener="@{(v)->profileThumb.onHandleClick(v)}"
+                android:paddingVertical="@dimen/_16sdp"
+                android:text="@string/profile_details"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                app:primaryIconTint="start"
+                app:textColorType="heading" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/txt_reward_point"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:background="@drawable/bottom_line_grey"
+
+                android:drawableStart="@drawable/ic_rewards"
+                android:drawablePadding="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_16sdp"
+                android:text="@string/rewards_points"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/txt_profile_details"
+                app:primaryIconTint="start"
+                app:textColorType="heading"
+
+                />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/txt_prac_accent"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:background="@drawable/bottom_line_grey"
+                android:drawableStart="@drawable/ic_practise_accent"
+                android:drawablePadding="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_16sdp"
+
+                android:text="@string/practise_accent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/txt_reward_point"
+                app:primaryIconTint="start"
+                app:textColorType="heading"
+
+                />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/txt_booked_wish_cources"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:background="@drawable/bottom_line_grey"
+                android:drawableStart="@drawable/ic_bookmark_blue"
+                android:drawablePadding="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_16sdp"
+
+                android:text="@string/bookmarked_wishlist_courses"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/txt_prac_accent"
+                app:primaryIconTint="start"
+                app:textColorType="heading"
+
+                />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/txt_cources"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:background="@drawable/bottom_line_grey"
+                android:drawableStart="@drawable/ic_course_blue"
+                android:drawablePadding="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_16sdp"
+
+                android:text="@string/courses"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/txt_booked_wish_cources"
+                app:primaryIconTint="start"
+                app:textColorType="heading"
+
+                />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/txt_my_bank"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:background="@drawable/bottom_line_grey"
+                android:drawableStart="@drawable/ic_add_bank"
+                android:drawablePadding="@dimen/_10sdp"
+                android:onClickListener="@{(v)->profileThumb.onHandleClick(v)}"
+
+                android:paddingVertical="@dimen/_16sdp"
+                android:text="@string/my_bank_account"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_cources"
+                app:primaryIconTint="start"
+                app:textColorType="heading"
+
+                />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/txt_deactivate_account"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:background="@drawable/bottom_line_grey"
+                android:drawableStart="@drawable/ic_deactivate"
+                android:drawablePadding="@dimen/_10sdp"
+app:textColorType="none"
+                android:paddingVertical="@dimen/_16sdp"
+                android:text="@string/delete_account"
+                android:textColor="?attr/orange_text_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_my_bank"
+
+                />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/txt_logout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:textColorType="none"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:drawableStart="@drawable/ic_log_out"
+                android:drawablePadding="@dimen/_10sdp"
+                android:onClickListener="@{(v)->profileThumb.onHandleClick(v)}"
+                android:paddingVertical="@dimen/_16sdp"
+                android:text="@string/logout"
+                android:textColor="?attr/orange_text_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_deactivate_account" />
+
+
+        </androidx.constraintlayout.motion.widget.MotionLayout>
+    </ScrollView>
+</layout>

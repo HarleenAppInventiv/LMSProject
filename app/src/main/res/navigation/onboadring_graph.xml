@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/onboadring_graph"
+    app:startDestination="@id/loginSignUpFragment">
+
+
+    <fragment
+        android:id="@+id/loginSignUpFragment"
+        android:name="com.selflearningcoursecreationapp.ui.authentication.login_signup.LoginSignUpFragment"
+        android:label="LoginSignUpFragment"
+        tools:layout="@layout/fragment_login_sign_up">
+        <action
+            android:id="@+id/action_loginSignUpFragment_to_loginOTPFragment"
+            app:destination="@id/loginOTPFragment" />
+        <action
+            android:id="@+id/action_loginSignUpFragment_to_forgotPassFragment"
+            app:destination="@id/forgotPassFragment" />
+        <action
+            android:id="@+id/action_loginSignUpFragment_to_preferencesFragment"
+            app:destination="@id/preferencesFragment" />
+        <action
+            android:id="@+id/action_loginSignUpFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginOTPFragment"
+        android:name="com.selflearningcoursecreationapp.ui.authentication.login_otp.LoginOTPFragment"
+        tools:layout="@layout/fragment_login_o_t_p">
+        <action
+            android:id="@+id/action_loginOTPFragment_to_OTPVerifyFragment"
+            app:destination="@id/OTPVerifyFragment" />
+        <action
+            android:id="@+id/action_loginOTPFragment_to_OTPVerifyFragment2"
+            app:destination="@id/OTPVerifyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/OTPVerifyFragment"
+        android:name="com.selflearningcoursecreationapp.ui.authentication.otp_verify.OTPVerifyFragment"
+        android:label=" "
+        tools:layout="@layout/fragment_o_t_p_varify" >
+        <action
+            android:id="@+id/action_OTPVerifyFragment_to_resetPassFragment"
+            app:destination="@id/resetPassFragment"
+            app:popUpTo="@id/loginSignUpFragment" />
+        <argument
+            android:name="phone"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="type"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_OTPVerifyFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPassFragment"
+        android:name="com.selflearningcoursecreationapp.ui.authentication.forgotPass.ForgotPassFragment"
+        android:label=""
+        tools:layout="@layout/fragment_forgot_pass" >
+        <action
+            android:id="@+id/action_forgotPassFragment_to_OTPVerifyFragment"
+            app:destination="@id/OTPVerifyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/preferencesFragment"
+        android:name="com.selflearningcoursecreationapp.ui.preferences.PreferencesFragment"
+        android:label="@string/your_preferences"
+        tools:layout="@layout/fragment_preferences">
+        <action
+            android:id="@+id/action_preferencesFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
+        <argument
+            android:name="type"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="title"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="screenType"
+            app:argType="integer"
+            android:defaultValue="1" />
+    </fragment>
+    <fragment
+        android:id="@+id/resetPassFragment"
+        android:name="com.selflearningcoursecreationapp.ui.authentication.resetPassword.ResetPassFragment"
+        android:label=""
+        tools:layout="@layout/fragment_reset_pass"/>
+    <activity
+        android:id="@+id/homeActivity"
+        android:name="com.selflearningcoursecreationapp.ui.home.HomeActivity"
+        android:label="HomeActivity"
+        tools:layout="@layout/activity_home"
+        />
+</navigation>

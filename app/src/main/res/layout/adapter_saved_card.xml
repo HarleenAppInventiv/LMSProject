@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginVertical="@dimen/_10sdp"
+        app:cardBackgroundColor="?attr/viewBackgroundColor"
+        app:cardCornerRadius="@dimen/_5sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_8sdp">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_bank"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:text="SBI CARD"
+                app:textColorType="secondary"
+                app:fontType="medium"
+                app:layout_constraintEnd_toStartOf="@+id/tv_date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="16 Feb 2022"
+                app:textColorType="secondary"
+                app:fontType="medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_card_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/card_number"
+                android:textAllCaps="true"
+                app:textColorType="body"
+                android:textSize="@dimen/_11ssp"
+                app:fontType="medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_bank" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_card_number"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="4364 74XX XXXX 4567"
+                android:textAllCaps="true"
+                app:textColorType="secondary"
+                android:textSize="@dimen/_13ssp"
+                app:fontType="medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_card_title" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_name_title"
+                spanText="@{@string/name_on_card}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/name_on_card"
+                android:textAllCaps="true"
+                app:textColorType="body"
+                android:textSize="@dimen/_11ssp"
+                app:fontType="medium"
+                android:layout_marginEnd="@dimen/_10sdp"
+                app:layout_constraintEnd_toStartOf="@+id/barrier"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_card_number" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Alisi Nikolson"
+                android:textAllCaps="true"
+                app:textColorType="secondary"
+                android:textSize="@dimen/_13ssp"
+                app:fontType="medium"
+                android:layout_marginEnd="@dimen/_10sdp"
+                app:layout_constraintEnd_toStartOf="@+id/barrier"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name_title" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="start"
+                app:constraint_referenced_ids="tv_expiry_title,tv_expiry" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_expiry_title"
+                spanText="@{@string/expiry_on}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/expiry_on"
+                android:textAllCaps="true"
+                app:textColorType="body"
+                android:textSize="@dimen/_11ssp"
+                app:fontType="medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_card_number" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_expiry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="XX / XX"
+                android:textAllCaps="true"
+                app:textColorType="secondary"
+                android:textSize="@dimen/_13ssp"
+                app:fontType="medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_expiry_title" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/ic_dotted_line"
+android:layout_height="@dimen/_2sdp"
+                android:id="@+id/view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                android:id="@+id/bt_delete_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:backgroundTint="?attr/introButtonBackgroundColor"
+                spanText="@{@string/delete}"
+                android:text="@string/delete"
+                app:fontType="semiBold"
+                app:buttonBackground="none"
+                app:btnTextColor="none"
+                android:textColor="?attr/googleButtonBackgroundColor"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:cornerRadius="0dp"
+                app:layout_constraintEnd_toStartOf="@+id/bt_edit_card"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                android:id="@+id/bt_edit_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                app:fontType="semiBold"
+                android:backgroundTint="?attr/introButtonBackgroundColor"
+                android:text="@string/edit"
+                spanText="@{@string/edit}"
+                android:textSize="@dimen/_10ssp"
+                app:btnTextColor="secondary"
+                app:buttonBackground="none"
+                app:cornerRadius="0dp"
+app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/bt_delete_card"
+                app:layout_constraintTop_toTopOf="@+id/bt_delete_card" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

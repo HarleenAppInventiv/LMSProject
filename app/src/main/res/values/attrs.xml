@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="CirleImageView">
+        <attr name="civ_border_width" format="dimension" />
+        <attr name="civ_border_color" format="color" />
+        <attr name="civ_border_overlay" format="boolean" />
+        <attr name="civ_fill_color" format="color" />
+        <attr name="civ_circle_background_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="LMSTextView">
+        <attr name="primaryIconTint" format="enum">
+            <enum name="start" value="0" />
+            <enum name="top" value="1" />
+            <enum name="end" value="2" />
+            <enum name="bottom" value="3" />
+            <enum name="none" value="-1" />
+        </attr>
+
+        <attr name="textColorType" format="enum">
+            <enum name="primary" value="1" />
+            <enum name="secondary" value="2" />
+            <enum name="theme" value="3" />
+            <enum name="heading" value="4" />
+            <enum name="body" value="5" />
+            <enum name="none" value="-1" />
+        </attr>
+        <attr name="fontType" format="enum">
+            <enum name="regular" value="1" />
+            <enum name="medium" value="2" />
+            <enum name="semiBold" value="3" />
+            <enum name="bold" value="4" />
+            <enum name="none" value="-1" />
+        </attr>
+        <attr name="textBgColor" format="enum">
+            <enum name="primary" value="1" />
+            <enum name="secondary" value="2" />
+            <enum name="theme" value="3" />
+            <enum name="tint" value="6" />
+            <enum name="none" value="-1" />
+        </attr>
+
+        <attr name="textBgMode" format="enum">
+            <enum name="solid" value="7"/>
+            <enum name="tint" value="6"/>
+            <enum name="none" value="-1"/>
+        </attr>
+
+    </declare-styleable>
+    <declare-styleable name="LMSEditText" parent="LMSTextView">
+        <attr name="primaryIconTint" />
+        <attr name="textColorType" />
+        <attr name="textBgColor" />
+        <attr name="fontType" />
+
+    </declare-styleable>
+    <declare-styleable name="LMSMaterialButton" parent="LMSTextView">
+        <attr name="buttonBackground" format="enum">
+            <enum name="primary" value="1" />
+            <enum name="secondary" value="2" />
+            <enum name="none" value="-1" />
+
+        </attr>
+        <attr name="buttonFont" format="enum">
+            <enum name="regular" value="1" />
+            <enum name="medium" value="2" />
+            <enum name="semiBold" value="3" />
+            <enum name="bold" value="4" />
+            <enum name="none" value="-1" />
+
+        </attr>
+        <attr name="btnTextColor" format="enum">
+            <enum name="primary" value="1" />
+            <enum name="secondary" value="2" />
+            <enum name="theme" value="3" />
+            <enum name="heading" value="4" />
+            <enum name="body" value="5" />
+            <enum name="none" value="-1" />
+        </attr>
+
+    </declare-styleable>
+
+    <declare-styleable name="LMSCheckBox">
+        <attr name="btnTint" format="enum">
+            <enum name="primary" value="1" />
+            <enum name="secondary" value="2" />
+            <enum name="none" value="-1" />
+        </attr>
+        <attr name="compoundFont" format="enum">
+            <enum name="regular" value="1" />
+            <enum name="medium" value="2" />
+            <enum name="semiBold" value="3" />
+            <enum name="bold" value="4" />
+            <enum name="none" value="-1" />
+        </attr>
+
+        <attr name="compoundTextColor" format="enum">
+            <enum name="primary" value="1" />
+            <enum name="secondary" value="2" />
+            <enum name="theme" value="3" />
+            <enum name="heading" value="4" />
+            <enum name="body" value="5" />
+            <enum name="none" value="-1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="LMSRadioButton" parent="LMSCheckBox">
+        <attr name="btnTint" />
+        <attr name="compoundFont" />
+        <attr name="compoundTextColor" />
+    </declare-styleable>
+    <declare-styleable name="LMSImageView">
+        <attr name="changeBackgroundType">
+            <enum name="tint" value="6" />
+            <enum name="tint_src" value="8" />
+            <enum name="background" value="7" />
+            <enum name="none" value="-1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="LMSConstraintLayout">
+        <attr name="viewBackground" format="enum">
+            <enum name="primary" value="1" />
+            <enum name="secondary" value="2" />
+            <enum name="theme" value="3" />
+            <enum name="tint" value="6" />
+            <enum name="none" value="-1" />
+
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="LMSCardView">
+        <attr name="cardBackground" format="enum">
+            <enum name="primary" value="1" />
+            <enum name="secondary" value="2" />
+            <enum name="theme" value="3" />
+            <enum name="tint" value="6" />
+            <enum name="none" value="-1" />
+
+        </attr>
+    </declare-styleable>
+    <attr name="primaryTextColor" format="reference" />
+    <attr name="secondaryTextColor" format="reference" />
+    <attr name="headingTextColor" format="reference" />
+    <attr name="buttonTextColor" format="reference" />
+    <attr name="buttonBackgroundColor" format="reference" />
+    <attr name="introButtonBackgroundColor" format="reference" />
+    <attr name="googleButtonBackgroundColor" format="reference" />
+    <attr name="otpButtonBackgroundColor" format="reference" />
+    <attr name="screenBackgroundColor" format="reference" />
+    <attr name="secondaryScreenBgColor" format="reference" />
+    <attr name="hintColor" format="reference" />
+    <attr name="buttonBackgroundTintColor" format="reference" />
+    <attr name="fontRegular" format="reference" />
+    <attr name="fontMedium" format="reference" />
+    <attr name="fontSemiBold" format="reference" />
+    <attr name="fontBold" format="reference" />
+    <attr name="fontSelectionBgColor" format="reference" />
+    <attr name="lineColor" format="reference" />
+    <attr name="whiteTextColor" format="reference" />
+    <attr name="offwhiteTextColor" format="reference" />
+    <attr name="forgotPassTextColor" format="reference" />
+    <attr name="otpViewStyle" format="reference" />
+    <attr name="profile_mail_color" format="reference" />
+    <attr name="divider_grey" format="reference" />
+    <attr name="orange_text_color" format="reference" />
+    <attr name="toolbarColor" format="reference" />
+    <attr name="toolbarTitleColor" format="reference" />
+    <attr name="viewBackgroundColor" format="reference" />
+    <attr name="viewSecondaryBgColor" format="reference" />
+    <attr name="bgCircleOne" format="reference" />
+    <attr name="bgCircleTwo" format="reference" />
+    <attr name="bgCircleThree" format="reference" />
+    <attr name="search_color" format="reference" />
+    <attr name="sliderIndicatorColor" format="reference" />
+
+
+    <declare-styleable name="material_btn_gradient">
+        <attr name="horizontal_color_start" format="color" />
+        <attr name="horizontal_color_end" format="color" />
+
+    </declare-styleable>
+</resources>

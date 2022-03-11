@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="cardDetail"
+            type="com.selflearningcoursecreationapp.utils.HandleClick" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/offwhiteTextColor">
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/textView8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="6sp"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingTop="@dimen/_16sdp"
+            android:paddingBottom="@dimen/_16sdp"
+            app:textColorType="none"
+            app:fontType="medium"
+            app:textBgColor="theme"
+            android:text="@string/edit_card_details"
+            android:textColor="?attr/whiteTextColor"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            tools:ignore="RtlSymmetry" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:contentDescription="@string/close"
+            android:onClickListener="@{(v)->cardDetail.onHandleClick(v)}"
+            android:src="@drawable/ic_close"
+            app:layout_constraintBottom_toBottomOf="@+id/textView8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView8" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_card_number"
+            spanText="@{@string/enter_card_details}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:fontType="semiBold"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+            android:id="@+id/ev_card_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/edt_bg_white"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:lineSpacingExtra="@dimen/_7ssp"
+            android:singleLine="true"
+            android:text="4554 45554 4554 4466"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_card_number" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_card_name"
+            spanText="@{@string/name_on_card}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:fontType="semiBold"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ev_card_number" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+            android:id="@+id/ev_login_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/edt_bg_white"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:lineSpacingExtra="@dimen/_7ssp"
+            android:singleLine="true"
+            android:text="Alisi Nikolson"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_card_name" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_expiry_month"
+            spanText="@{@string/expiry_month}"
+            android:layout_width="0dp"
+            app:fontType="semiBold"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ev_login_email" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+            android:id="@+id/ev_exp_month"
+            app:primaryIconTint="end"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:background="@drawable/edt_bg_white"
+            android:clickable="true"
+            android:drawableEnd="@drawable/ic_calendar"
+            android:focusable="false"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:lineSpacingExtra="@dimen/_7ssp"
+            android:onClickListener="@{(v)->cardDetail.onHandleClick(v)}"
+            android:singleLine="true"
+            android:text="01(Jan)"
+            app:layout_constraintEnd_toStartOf="@+id/ev_exp_year"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_expiry_month" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_expiry_year"
+            spanText="@{@string/expiry_year}"
+            app:fontType="semiBold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/ev_exp_year"
+            app:layout_constraintTop_toBottomOf="@+id/ev_login_email" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+            android:id="@+id/ev_exp_year"
+            app:primaryIconTint="end"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:background="@drawable/edt_bg_white"
+            android:clickable="true"
+            android:drawableEnd="@drawable/ic_calendar"
+            android:focusable="false"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:lineSpacingExtra="@dimen/_7ssp"
+            android:onClickListener="@{(v)->cardDetail.onHandleClick(v)}"
+            android:singleLine="true"
+            android:text="2025"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ev_exp_month"
+            app:layout_constraintTop_toBottomOf="@+id/tv_expiry_year" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+            android:id="@+id/bt_save_card"
+            spanText="@{@string/save_card}"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_48sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:letterSpacing="0.02"
+            android:lineSpacingExtra="@dimen/_4ssp"
+            android:minHeight="0dp"
+            android:onClickListener="@{(v)->cardDetail.onHandleClick(v)}"
+            android:text="@string/save_card"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ev_exp_month"
+            app:layout_constraintWidth_percent=".9"
+            app:textAllCaps="true" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

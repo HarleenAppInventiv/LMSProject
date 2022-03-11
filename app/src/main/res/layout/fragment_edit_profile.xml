@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="editProfile"
+            type="com.selflearningcoursecreationapp.ui.profile.edit_profile.EditProfileViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/divider_grey">
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_16sdp"
+                android:text="@string/personal_details"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textColorType="secondary" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/edt_user_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@drawable/edt_bg_white"
+                android:drawableStart="@drawable/ic_user_profile"
+                android:drawablePadding="@dimen/_18sdp"
+                android:hint="Alisi Nikolson"
+                android:imeOptions="actionNext"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:singleLine="true"
+                android:text="@={editProfile.name}"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6"
+                app:layout_constraintWidth_percent=".9"
+                app:primaryIconTint="start" />
+
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_35sdp"
+                android:importantForAccessibility="no"
+                android:background="@color/et_dash_color"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_user_name"
+                app:layout_constraintStart_toStartOf="@+id/edt_user_name"
+                app:layout_constraintTop_toTopOf="@+id/edt_user_name" />
+
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/edt_user_email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@drawable/edt_bg_white"
+                android:drawableStart="@drawable/ic_mail_blue"
+                android:drawablePadding="@dimen/_18sdp"
+                android:hint="alisi@yopmail.com"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
+                android:text="@={editProfile.email}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edt_user_name"
+                app:layout_constraintWidth_percent=".9"
+                app:primaryIconTint="start" />
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_35sdp"
+                android:importantForAccessibility="no"
+                android:background="@color/et_dash_color"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_user_email"
+                app:layout_constraintStart_toStartOf="@+id/edt_user_email"
+                app:layout_constraintTop_toTopOf="@+id/edt_user_email" />
+
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/edt_user_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@drawable/edt_bg_white"
+                android:drawableStart="@drawable/ic_call"
+                android:drawablePadding="@dimen/_18sdp"
+                android:hint="78383 69568"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:singleLine="true"
+                android:text="@={editProfile.phone}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edt_user_email"
+                app:layout_constraintWidth_percent=".9"
+                app:primaryIconTint="start" />
+
+
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_35sdp"
+                android:importantForAccessibility="no"
+                android:background="@color/et_dash_color"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_user_phone"
+                app:layout_constraintStart_toStartOf="@+id/edt_user_phone"
+                app:layout_constraintTop_toTopOf="@+id/edt_user_phone" />
+
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/edt_user_dob"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@drawable/edt_bg_white"
+                android:drawableStart="@drawable/dash_dob"
+                android:drawablePadding="@dimen/_10sdp"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="Oct 18, 1995"
+                android:imeOptions="actionNext"
+                android:singleLine="true"
+                android:text="@={editProfile.dob}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edt_user_phone"
+                app:layout_constraintWidth_percent=".9"
+                app:primaryIconTint="start" />
+
+
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_35sdp"
+                android:importantForAccessibility="no"
+                android:background="@color/et_dash_color"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_user_dob"
+                app:layout_constraintStart_toStartOf="@+id/edt_user_dob"
+                app:layout_constraintTop_toTopOf="@+id/edt_user_dob" />
+
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:padding="@dimen/_16sdp"
+                android:text="@string/address_details"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edt_user_dob"
+                app:textColorType="secondary" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/edt_user_city"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@drawable/edt_bg_white"
+                android:drawableStart="@drawable/dash_city"
+                android:drawablePadding="@dimen/_10sdp"
+                android:hint="Noida"
+                android:imeOptions="actionNext"
+                android:singleLine="true"
+                android:text="@={editProfile.city}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView7"
+                app:layout_constraintWidth_percent=".9"
+                app:primaryIconTint="start" />
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_35sdp"
+                android:importantForAccessibility="no"
+                android:background="@color/et_dash_color"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_user_city"
+                app:layout_constraintStart_toStartOf="@+id/edt_user_city"
+                app:layout_constraintTop_toTopOf="@+id/edt_user_city" />
+
+
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/edt_user_state"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@drawable/edt_bg_white"
+                android:drawableStart="@drawable/dash_location"
+                android:drawablePadding="@dimen/_10sdp"
+                android:hint="Uttarpradesh"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:text="@={editProfile.state}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edt_user_city"
+                app:layout_constraintWidth_percent=".9"
+                app:primaryIconTint="start" />
+
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_35sdp"
+                android:importantForAccessibility="no"
+                android:background="@color/et_dash_color"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_user_state"
+                app:layout_constraintStart_toStartOf="@+id/edt_user_state"
+                app:layout_constraintTop_toTopOf="@+id/edt_user_state" />
+
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                android:id="@+id/btn_sing_in"
+                spanText="@{@string/save}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:onClick="@{()->editProfile.saveEditProfile()}"
+                android:text="@string/save"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edt_user_state"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintWidth_percent=".9"
+                app:textAllCaps="true" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

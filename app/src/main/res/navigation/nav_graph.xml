@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.selflearningcoursecreationapp.ui.splash.SplashFragment"
+        android:label="SplashFragment" >
+        <action
+            android:id="@+id/action_splashFragment_to_sliderFragment"
+            app:destination="@id/sliderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sliderFragment"
+        android:name="com.selflearningcoursecreationapp.ui.splash.intro_slider.SliderFragment"
+        android:label="SliderFragment" >
+        <action
+            android:id="@+id/action_sliderFragment_self"
+            app:destination="@id/sliderFragment" />
+    </fragment>
+</navigation>

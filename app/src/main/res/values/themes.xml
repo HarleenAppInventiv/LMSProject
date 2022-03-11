@@ -1,0 +1,198 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorAccent">@color/blue</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <!-- Status bar color. -->
+        <!-- Customize your theme here. -->
+        <item name="primaryTextColor">@color/text_color_black_131414</item>
+        <item name="secondaryTextColor">@color/heading_color_262626</item>
+        <item name="headingTextColor">@color/heading_color_262626</item>
+        <item name="buttonBackgroundColor">@color/blue</item>
+        <item name="introButtonBackgroundColor">@color/intro_btn_bg_color_f5f5f5</item>
+        <item name="googleButtonBackgroundColor">@color/google_btn_bg_color_fc6d5b</item>
+        <item name="buttonBackgroundTintColor">@color/blue_tint_color</item>
+        <item name="otpButtonBackgroundColor">@color/otp_btn_bg_color_start_051f32</item>
+        <item name="screenBackgroundColor">@color/white</item>
+        <item name="actionMenuTextColor">?attr/colorPrimary</item>
+        <item name="secondaryScreenBgColor">@color/intro_btn_bg_color_f5f5f5</item>
+        <item name="hintColor">@color/hint_color_929292</item>
+        <item name="buttonTextColor">@color/white</item>
+        <item name="fontSelectionBgColor">@color/transblue_05</item>
+        <item name="lineColor">@color/line_color_cfd9e9</item>
+        <item name="android:textViewStyle">@style/textViewStyle</item>
+        <item name="materialButtonStyle">@style/buttonViewStyle</item>
+        <item name="fontBold">@font/ibm_bold</item>
+        <item name="fontSemiBold">@font/ibm_semibold</item>
+        <item name="fontRegular">@font/ibm_regular</item>
+        <item name="fontMedium">@font/ibm_medium</item>
+        <item name="whiteTextColor">@color/white</item>
+        <item name="offwhiteTextColor">@color/offwhite</item>
+        <item name="forgotPassTextColor">@color/forgotColor</item>
+        <item name="profile_mail_color">@color/profile_mail_color</item>
+        <item name="divider_grey">@color/dividerGrey</item>
+        <item name="orange_text_color">@color/orange_text_color</item>
+        <item name="toolbarTitleColor">@color/heading_color_262626</item>
+        <item name="search_color">@color/search_color</item>
+
+
+        <item name="checkboxStyle">@style/CheckboxTheme</item>
+        <item name="radioButtonStyle">@style/RadioButtonTheme</item>
+        <item name="android:radioButtonStyle">@style/RadioButtonTheme</item>
+        <item name="android:checkboxStyle">@style/CheckboxTheme</item>
+        <item name="toolbarColor">@color/white</item>
+        <item name="viewBackgroundColor">@color/white</item>
+        <item name="viewSecondaryBgColor">@color/intro_btn_bg_color_f5f5f5</item>
+        <item name="editTextStyle">@style/editTextTheme</item>
+        <item name="android:editTextStyle">@style/editTextTheme</item>
+
+
+        <item name="bgCircleOne">@color/blue_circle_1</item>
+        <item name="bgCircleTwo">@color/blue_circle_2</item>
+        <item name="bgCircleThree">@color/blue_circle_3</item>
+        <item name="sliderIndicatorColor">@color/blue_indicator_color</item>
+
+       <!-- <item name="bottomSheetDialogTheme">@style/MyBottomSheetStyle</item>-->
+
+    </style>
+
+
+    <style name="AppTheme.WorkSansTheme" parent="AppTheme">
+        <item name="fontBold">@font/worksans_bold</item>
+        <item name="fontSemiBold">@font/worksans_semibold</item>
+        <item name="fontRegular">@font/worksans_regular</item>
+        <item name="fontMedium">@font/worksans_medium</item>
+    </style>
+
+
+    <style name="AppTheme.Soleto" parent="AppTheme">
+        <item name="fontBold">@font/soleto_black</item>
+        <item name="fontSemiBold">@font/soleto_bold</item>
+        <item name="fontRegular">@font/soleto_regular</item>
+        <item name="fontMedium">@font/soleto_medium</item>
+    </style>
+
+    <style name="AppTheme.Roboto" parent="AppTheme">
+        <item name="fontBold">@font/roboto_black</item>
+        <item name="fontSemiBold">@font/roboto_bold</item>
+        <item name="fontRegular">@font/roboto_regular</item>
+        <item name="fontMedium">@font/roboto_medium</item>
+    </style>
+
+
+    <style name="BlackTheme" parent="AppTheme">
+        <item name="buttonBackgroundColor">@color/heading_color_262626</item>
+        <item name="buttonBackgroundTintColor">@color/black_tint_color</item>
+        <item name="buttonTextColor">@color/white</item>
+        <item name="colorPrimary">@color/heading_color_262626</item>
+        <item name="colorAccent">@color/heading_color_262626</item>
+
+
+        <item name="colorPrimaryDark">@color/colorGrey</item>
+
+        <item name="bgCircleOne">@color/black_circle_1</item>
+        <item name="bgCircleTwo">@color/black_circle_2</item>
+        <item name="bgCircleThree">@color/black_circle_3</item>
+        <item name="sliderIndicatorColor">@color/black_indicator_color</item>
+
+
+    </style>
+
+    <style name="BlackTheme.WorkSansTheme" parent="BlackTheme">
+        <item name="fontBold">@font/worksans_bold</item>
+        <item name="fontSemiBold">@font/worksans_semibold</item>
+        <item name="fontRegular">@font/worksans_regular</item>
+        <item name="fontMedium">@font/worksans_medium</item>
+    </style>
+
+
+    <style name="BlackTheme.Soleto" parent="BlackTheme">
+        <item name="fontBold">@font/soleto_black</item>
+        <item name="fontSemiBold">@font/soleto_bold</item>
+        <item name="fontRegular">@font/soleto_regular</item>
+        <item name="fontMedium">@font/soleto_medium</item>
+    </style>
+
+    <style name="BlackTheme.Roboto" parent="BlackTheme">
+        <item name="fontBold">@font/roboto_black</item>
+        <item name="fontSemiBold">@font/roboto_bold</item>
+        <item name="fontRegular">@font/roboto_regular</item>
+        <item name="fontMedium">@font/roboto_medium</item>
+    </style>
+
+
+    <style name="SeaTheme" parent="AppTheme">
+        <item name="buttonBackgroundColor">@color/sea</item>
+        <item name="buttonBackgroundTintColor">@color/sea_tint</item>
+        <item name="colorPrimary">@color/sea</item>
+        <item name="colorAccent">@color/sea</item>
+        <item name="colorPrimaryDark">@color/sea</item>
+        <item name="bgCircleOne">@color/sea_circle_1</item>
+        <item name="bgCircleTwo">@color/sea_circle_2</item>
+        <item name="bgCircleThree">@color/sea_circle_3</item>
+    </style>
+
+    <style name="SeaTheme.WorkSansTheme" parent="SeaTheme">
+        <item name="fontBold">@font/worksans_bold</item>
+        <item name="fontSemiBold">@font/worksans_semibold</item>
+        <item name="fontRegular">@font/worksans_regular</item>
+        <item name="fontMedium">@font/worksans_medium</item>
+    </style>
+
+
+    <style name="SeaTheme.Soleto" parent="SeaTheme">
+        <item name="fontBold">@font/soleto_black</item>
+        <item name="fontSemiBold">@font/soleto_bold</item>
+        <item name="fontRegular">@font/soleto_regular</item>
+        <item name="fontMedium">@font/soleto_medium</item>
+    </style>
+
+    <style name="SeaTheme.Roboto" parent="SeaTheme">
+        <item name="fontBold">@font/roboto_black</item>
+        <item name="fontSemiBold">@font/roboto_bold</item>
+        <item name="fontRegular">@font/roboto_regular</item>
+        <item name="fontMedium">@font/roboto_medium</item>
+    </style>
+
+    <style name="WineTheme" parent="AppTheme">
+        <item name="buttonBackgroundColor">@color/wine_red</item>
+        <item name="buttonBackgroundTintColor">@color/wine_red_tint</item>
+        <item name="colorPrimary">@color/wine_red</item>
+        <item name="colorAccent">@color/wine_red</item>
+        <item name="colorPrimaryDark">@color/wine_red</item>
+        <item name="bgCircleOne">@color/wine_circle_1</item>
+        <item name="bgCircleTwo">@color/wine_circle_2</item>
+        <item name="bgCircleThree">@color/wine_circle_3</item>
+    </style>
+
+    <style name="WineTheme.WorkSansTheme" parent="WineTheme">
+        <item name="fontBold">@font/worksans_bold</item>
+        <item name="fontSemiBold">@font/worksans_semibold</item>
+        <item name="fontRegular">@font/worksans_regular</item>
+        <item name="fontMedium">@font/worksans_medium</item>
+    </style>
+
+
+    <style name="WineTheme.Soleto" parent="WineTheme">
+        <item name="fontBold">@font/soleto_black</item>
+        <item name="fontSemiBold">@font/soleto_bold</item>
+        <item name="fontRegular">@font/soleto_regular</item>
+        <item name="fontMedium">@font/soleto_medium</item>
+    </style>
+
+    <style name="WineTheme.Roboto" parent="WineTheme">
+        <item name="fontBold">@font/roboto_black</item>
+        <item name="fontSemiBold">@font/roboto_bold</item>
+        <item name="fontRegular">@font/roboto_regular</item>
+        <item name="fontMedium">@font/roboto_medium</item>
+    </style>
+
+
+</resources>

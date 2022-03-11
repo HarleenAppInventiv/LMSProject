@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/ic_walkthrough_trans_bg"
+        app:viewBackground="tint"
+        android:layout_height="match_parent">
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+           android:src="@drawable/ic_walkthrough_trans_bg"
+            app:changeBackgroundType="tint"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout>
+</layout>

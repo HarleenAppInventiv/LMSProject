@@ -1,0 +1,3 @@
+package com.selflearningcoursecreationapp.ui.authentication.resetPassword
+
+interface ResetPassRepo

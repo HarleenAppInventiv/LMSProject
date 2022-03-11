@@ -1,0 +1,3 @@
+package com.selflearningcoursecreationapp.ui.authentication.otp_verify
+
+interface OTPVerifyRepo

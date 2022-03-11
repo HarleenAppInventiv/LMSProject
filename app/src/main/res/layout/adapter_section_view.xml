@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        app:cardBackgroundColor="?attr/viewBackgroundColor"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            >
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_section_number"
+                app:fontType="medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="6sp"
+                android:padding="@dimen/_10sdp"
+                android:text="SECTION 1"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                app:fontType="medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/offwhiteTextColor"
+                android:lineSpacingExtra="6sp"
+                android:padding="@dimen/_4sdp"
+                android:text="2 lectures"
+                android:textColor="?attr/orange_text_color"
+                android:textSize="@dimen/_10sdp"
+                app:textColorType="none"
+                app:layout_constraintBottom_toTopOf="@+id/rv_lecture"
+                app:layout_constraintStart_toEndOf="@+id/tv_section_number"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_visible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:contentDescription="@string/expand_collapse_icon"
+                app:layout_constraintBottom_toTopOf="@+id/rv_lecture"
+                app:layout_constraintEnd_toStartOf="@+id/iv_more"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_arrow_bottom" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/more_button"
+                app:srcCompat="@drawable/ic_more"
+                android:background="@drawable/left_line"
+                android:padding="@dimen/_10sdp" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_lecture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@+id/tv_section_number"
+                tools:itemCount="1"
+                android:visibility="gone"
+                tools:listitem="@layout/adapter_lecture_layout" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

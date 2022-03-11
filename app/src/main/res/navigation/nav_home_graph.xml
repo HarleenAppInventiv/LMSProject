@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_home_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/moreFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.MoreFragment"
+        android:label="@string/more"
+        tools:layout="@layout/fragment_more">
+        <action
+            android:id="@+id/action_moreFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_moreFragment_to_paymentsFragment"
+            app:destination="@id/paymentsFragment" />
+        <action
+            android:id="@+id/action_moreFragment_to_cardsFragment"
+            app:destination="@id/cardsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.settings.SettingsFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_selectLanguageFragment"
+            app:destination="@id/selectLanguageFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_privacyFragment"
+            app:destination="@id/privacyFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_termsFragment"
+            app:destination="@id/termsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_FAQFragment"
+            app:destination="@id/FAQFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_preferencesFragment"
+            app:destination="@id/preferencesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.settings.changePassword.ChangePasswordFragment"
+        android:label="@string/change_password"
+        tools:layout="@layout/fragment_change_password" />
+
+    <fragment
+        android:id="@+id/profileThumbFragment"
+        android:name="com.selflearningcoursecreationapp.ui.profile.profileThumb.ProfileThumbFragment"
+        android:label=""
+        tools:layout="@layout/fragment_profile_thumb">
+        <action
+            android:id="@+id/action_profileThumbFragment_to_profileDetailsFragment"
+            app:destination="@id/profileDetailsFragment" />
+        <action
+            android:id="@+id/action_profileThumbFragment_to_myBankFragment"
+            app:destination="@id/myBankFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileDetailsFragment"
+        android:name="com.selflearningcoursecreationapp.ui.profile.profileDetails.ProfileDetailsFragment"
+        android:label=""
+        tools:layout="@layout/fragment_profile_details">
+        <action
+            android:id="@+id/action_profileDetailsFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.selflearningcoursecreationapp.ui.profile.edit_profile.EditProfileFragment"
+        android:label="@string/edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/selectLanguageFragment"
+        android:name="com.selflearningcoursecreationapp.ui.preferences.language.SelectLanguageFragment"
+        android:label="@string/select_language"
+        tools:layout="@layout/fragment_select_language" />
+    <fragment
+        android:id="@+id/privacyFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.settings.staticPages.PrivacyFragment"
+        android:label="PrivacyFragment"
+        tools:layout="@layout/fragment_privacy" />
+    <fragment
+        android:id="@+id/termsFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.settings.staticPages.TermsFragment"
+        android:label="TermsFragment"
+        tools:layout="@layout/fragment_terms" />
+    <fragment
+        android:id="@+id/FAQFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.settings.faq.FAQFragment"
+        android:label="FAQFragment"
+        tools:layout="@layout/faq_list_view" />
+
+    <fragment
+        android:id="@+id/preferencesFragment"
+        android:name="com.selflearningcoursecreationapp.ui.preferences.PreferencesFragment"
+        android:label="@string/your_preferences"
+        tools:layout="@layout/fragment_preferences">
+
+        <argument
+            android:name="type"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="title"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="screenType"
+            app:argType="integer"
+            android:defaultValue="1" />
+    </fragment>
+    <fragment
+        android:id="@+id/myCourseTabFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_course.MyCourseTabFragment"
+        android:label="@string/my_course"
+        tools:layout="@layout/fragment_my_course_tab"/>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_profileThumbFragment"
+            app:destination="@id/profileThumbFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addCourseBaseFragment"
+        android:name="com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseBaseFragment"
+        android:label="Create Course"
+        tools:layout="@layout/fragment_add_course_base">
+        <action
+            android:id="@+id/action_addCourseBaseFragment_to_addSectionOrLectureFragment"
+            app:destination="@id/addSectionOrLectureFragment" />
+        <action
+            android:id="@+id/action_addCourseBaseFragment_to_preferencesFragment"
+            app:destination="@id/preferencesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addSectionOrLectureFragment"
+        android:name="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.AddSectionOrLectureFragment"
+        android:label="Add Section"
+        tools:layout="@layout/fragment_add_section_or_lecture"/>
+    <fragment
+        android:id="@+id/paymentsFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.payments.PaymentsFragment"
+        android:label="@string/payments" >
+        <action
+            android:id="@+id/action_paymentsFragment_to_walletFragment"
+            app:destination="@id/walletFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/walletFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.payments.wallet.WalletFragment"
+        android:label="@string/wallet_history" />
+    <fragment
+        android:id="@+id/cardsFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.cards.CardsFragment"
+        android:label="@string/saved_cards" />
+    <fragment
+        android:id="@+id/myBankFragment"
+        android:name="com.selflearningcoursecreationapp.ui.my_bank.MyBankFragment"
+        android:label="Bank Account"
+        tools:layout="@layout/fragment_my_bank"
+        />
+</navigation>

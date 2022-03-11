@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="fragCard"
+            type="com.selflearningcoursecreationapp.utils.HandleClick" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="?attr/secondaryScreenBgColor"
+        android:layout_height="match_parent"
+        tools:context=".ui.bottom_more.payments.earnings.EarningFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/bt_add"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_default="wrap"
+            tools:listitem="@layout/adapter_saved_card"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+            android:id="@+id/bt_add"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="+ Add New Card"
+            android:layout_margin="@dimen/_15sdp"
+            android:textColor="?attr/colorPrimary"
+            android:backgroundTint="@color/white"
+            app:strokeWidth="@dimen/_1sdp"
+            app:strokeColor="?attr/buttonBackgroundTintColor"
+            app:layout_constraintTop_toBottomOf="@+id/rv_list"
+            app:layout_constraintVertical_bias="0"
+            android:onClickListener="@{(v)->fragCard.onHandleClick(v)}"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

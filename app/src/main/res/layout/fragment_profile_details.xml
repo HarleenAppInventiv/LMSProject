@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutDescription="@xml/fragment_profile_details_xml_constraintlayout2_scene">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_200sdp"
+                android:background="@color/white"
+                android:importantForAccessibility="no"
+                app:changeBackgroundType="background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:id="@+id/imageView4"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_200sdp"
+                android:importantForAccessibility="no"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_half_trans_circle_bg"
+                app:changeBackgroundType="tint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/img_back"
+                spanText="@{@string/profile_details}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_35sdp"
+                android:contentDescription="@string/back_icon"
+                android:drawableStart="@drawable/ic_arrow_left_white"
+                android:drawablePadding="@dimen/_5sdp"
+                android:lineSpacingExtra="6sp"
+                android:text="@string/profile_details"
+                android:textColor="?attr/whiteTextColor"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="normal"
+                app:fontType="semiBold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.056"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textColorType="none"
+
+
+                />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/img_edit_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_35sdp"
+                android:contentDescription="@string/edit_profile"
+                android:src="@drawable/ic_edit_white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias=".9"
+                app:layout_constraintStart_toEndOf="@+id/img_back"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img_profile_image"
+                android:layout_width="@dimen/_110sdp"
+                android:layout_height="@dimen/_110sdp"
+                android:contentDescription="@string/user_image"
+                android:padding="@dimen/_3sdp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                app:shapeAppearanceOverlay="@style/circle"
+                app:srcCompat="@drawable/ic_course_dummy"
+                app:strokeColor="?attr/whiteTextColor"
+                app:strokeWidth="@dimen/_2sdp" />
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_edt_bg"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:background="@color/white"
+                android:importantForAccessibility="no"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="@+id/img_profile_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.685"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                app:shapeAppearanceOverlay="@style/circle" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:id="@+id/img_edit_profile_image"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:contentDescription="@string/upload_image"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_camera_profile"
+                app:changeBackgroundType="tint_src"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_edt_bg"
+                app:layout_constraintEnd_toEndOf="@id/iv_edt_bg"
+                app:layout_constraintStart_toStartOf="@id/iv_edt_bg"
+                app:layout_constraintTop_toTopOf="@+id/iv_edt_bg"
+                app:shapeAppearanceOverlay="@style/circle" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/txt_user_name"
+                style="@style/textViewStyle.Heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="Alisi Nikolson"
+                app:fontType="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/img_profile_image" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/appCompatTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="@dimen/_6ssp"
+                android:text="limadacell"
+                app:fontType="medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_user_name"
+                app:textColorType="body" />
+
+            <View
+                android:id="@+id/view8"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="?attr/divider_grey"
+                android:importantForAccessibility="no"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView"
+                app:layout_constraintWidth_percent=".9" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/txt_contact_number"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:background="@drawable/bottom_line_grey"
+                android:drawablePadding="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_20sdp"
+                android:text="+91 78685 69797"
+                app:drawableStartCompat="@drawable/ic_call_blue"
+                app:fontType="semiBold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view8"
+                app:primaryIconTint="start"
+                app:textColorType="heading" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/txt_conatact_mail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:background="@drawable/bottom_line_grey"
+                android:drawablePadding="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_20sdp"
+                android:text="abc@yopmail.com"
+                app:drawableStartCompat="@drawable/ic_mail_blue"
+                app:fontType="semiBold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_contact_number"
+                app:primaryIconTint="start"
+
+                app:textColorType="heading" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/txt_dob"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:background="@drawable/bottom_line_grey"
+                android:drawablePadding="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_20sdp"
+                android:text="October 18, 1998"
+                app:drawableStartCompat="@drawable/ic_dob"
+                app:fontType="semiBold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_conatact_mail"
+                app:primaryIconTint="start"
+
+                app:textColorType="heading" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/txt_address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:drawableStart="@drawable/ic_location"
+                android:drawablePadding="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_20sdp"
+                android:text="Noida, Uttar pradesh, India"
+                app:fontType="semiBold"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/txt_dob"
+                app:primaryIconTint="start"
+                app:textColorType="heading"
+
+                />
+
+
+        </androidx.constraintlayout.motion.widget.MotionLayout>
+
+
+    </ScrollView>
+</layout>
