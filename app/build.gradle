@@ -4,7 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-android-extensions'
     id 'androidx.navigation.safeargs.kotlin'
-
+    id "org.sonarqube" version "3.3"
 }
 
 android {
@@ -17,7 +17,13 @@ android {
         }
     }
     compileSdk 32
-
+    sonarqube {
+        properties {
+            property "sonar.projectKey", "HarleenAppInventiv_LMSProject"
+            property "sonar.organization", "harleenappinventiv"
+            property "sonar.host.url", "https://sonarcloud.io"
+        }
+    }
     defaultConfig {
         applicationId "com.selflearningcoursecreationapp"
         minSdk 21
