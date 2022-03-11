@@ -2,7 +2,6 @@ package com.selflearningcoursecreationapp.ui.bottom_more.payments.wallet
 
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
-import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterMyWalletSpendBinding
 
 
@@ -15,7 +14,5 @@ class WalletSpendAdapter() :BaseAdapter<AdapterMyWalletSpendBinding>() {
         return 5
     }
 
-    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-    }
 
 }

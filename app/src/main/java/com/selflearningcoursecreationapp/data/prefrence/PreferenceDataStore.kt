@@ -15,31 +15,31 @@ object PreferenceDataStore {
 
 
     suspend fun saveString(key: Constants, value: String) {
-        val dataStoreKey = stringPreferencesKey(key.toString())
         getAppContext().dataStore.edit {
+            val dataStoreKey = stringPreferencesKey(key.toString())
             it[dataStoreKey] = value
         }
     }
 
     suspend fun saveInt(key: Constants, value: Int) {
-        val dataStoreKey = intPreferencesKey(key.toString())
         getAppContext().dataStore.edit {
+            val dataStoreKey = intPreferencesKey(key.toString())
             it[dataStoreKey] = value
         }
 
     }
 
     suspend fun saveBoolean(key: Constants, value: Boolean) {
-        val dataStoreKey = booleanPreferencesKey(key.toString())
         getAppContext().dataStore.edit {
+            val dataStoreKey = booleanPreferencesKey(key.toString())
             it[dataStoreKey] = value
         }
 
     }
 
     suspend fun getString(key: Constants): String? {
-        val dataStoreKey = stringPreferencesKey(key.toString())
         val preferences: Flow<String?> = getAppContext().dataStore.data.map {
+            val dataStoreKey = stringPreferencesKey(key.toString())
             it[dataStoreKey]
         }
         return preferences.first()
