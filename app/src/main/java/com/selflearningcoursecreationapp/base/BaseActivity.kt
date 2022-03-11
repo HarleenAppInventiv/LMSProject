@@ -7,15 +7,14 @@ import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.LocaleList
 import android.provider.Settings
 import android.text.style.LocaleSpan
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.data.network.ApiError
@@ -25,10 +24,12 @@ import com.selflearningcoursecreationapp.extensions.setTransparentLightStatusBar
 import com.selflearningcoursecreationapp.extensions.showAlertDialog
 import com.selflearningcoursecreationapp.extensions.showLog
 import com.selflearningcoursecreationapp.models.AppThemeFile
-import com.selflearningcoursecreationapp.models.ThemeData
 import com.selflearningcoursecreationapp.ui.dialog.ProgressDialog
 import com.selflearningcoursecreationapp.utils.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 import java.util.*
 
@@ -121,7 +122,7 @@ open class BaseActivity : AppCompatActivity() {
                 PreferenceDataStore.getInt(Constants.APP_THEME) ?: THEME_CONSTANT.BLUE
             var fontValue: Int =
                 PreferenceDataStore.getInt(Constants.FONT_THEME) ?: FONT_CONSTANT.IBM
-            val theme = when (themeValue) {
+            when (themeValue) {
 
                 THEME_CONSTANT.SEA -> {
                     val fontArray = listOf(
@@ -129,7 +130,7 @@ open class BaseActivity : AppCompatActivity() {
                         R.style.SeaTheme,
                         R.style.SeaTheme_WorkSansTheme
                     )
-                    fontArray[(fontValue ?: 2) - 1]
+                    fontArray[fontValue - 1]
                 }
                 THEME_CONSTANT.BLACK -> {
                     val fontArray = listOf(
@@ -137,7 +138,7 @@ open class BaseActivity : AppCompatActivity() {
                         R.style.BlackTheme,
                         R.style.BlackTheme_WorkSansTheme
                     )
-                    fontArray[(fontValue ?: 2) - 1]
+                    fontArray[fontValue - 1]
                 }
                 THEME_CONSTANT.WINE -> {
                     val fontArray = listOf(
@@ -145,7 +146,7 @@ open class BaseActivity : AppCompatActivity() {
                         R.style.WineTheme,
                         R.style.WineTheme_WorkSansTheme
                     )
-                    fontArray[(fontValue ?: 2) - 1]
+                    fontArray[fontValue - 1]
                 }
                 else -> {
                     val fontArray = listOf(
@@ -153,7 +154,7 @@ open class BaseActivity : AppCompatActivity() {
                         R.style.AppTheme,
                         R.style.AppTheme_WorkSansTheme
                     )
-                    fontArray[(fontValue ?: 2) - 1]
+                    fontArray[fontValue - 1]
                 }
             }
 //            if (Build.VERSION.SDK_INT >= 23) {
@@ -232,7 +233,8 @@ open class BaseActivity : AppCompatActivity() {
 
         when {
             isActive ->
-                    showAlertDialog(title = getString(R.string.disable_screen_reading_mode),
+                showAlertDialog(
+                    title = getString(R.string.disable_screen_reading_mode),
                     description = getString(R.string.disable_screen_reading_mode_desc),
                     buttonText = getString(R.string.disable),
                     negativeButtonText = getString(R.string.cancel),
@@ -279,7 +281,7 @@ open class BaseActivity : AppCompatActivity() {
 
     }
 
-     fun getThemeFile(colorString: String): AppThemeFile {
+    fun getThemeFile(colorString: String): AppThemeFile {
         val myTheme = AppThemeFile()
         myTheme.themeColor = colorString
         myTheme.btnTextColor = colorString
@@ -332,7 +334,7 @@ open class BaseActivity : AppCompatActivity() {
         return myTheme
     }
 
-    fun saveThemeFile(themeFile: AppThemeFile){
+    fun saveThemeFile(themeFile: AppThemeFile) {
         lifecycleScope.launch {
             PreferenceDataStore.saveString(Constants.THEME_FILE, Gson().toJson(themeFile))
         }

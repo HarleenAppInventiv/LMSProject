@@ -1,7 +1,5 @@
 package com.selflearningcoursecreationapp.base
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -11,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.annotation.LayoutRes
-import androidx.appcompat.view.ContextThemeWrapper
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
@@ -19,7 +16,6 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.data.network.ApiError
 import com.selflearningcoursecreationapp.data.network.LiveDataObserver
 import com.selflearningcoursecreationapp.data.network.ToastData
-import com.selflearningcoursecreationapp.extensions.showAlertDialog
 import com.selflearningcoursecreationapp.extensions.showLog
 
 abstract class BaseDialog<DB : ViewDataBinding> : DialogFragment(), LiveDataObserver {
@@ -34,7 +30,7 @@ abstract class BaseDialog<DB : ViewDataBinding> : DialogFragment(), LiveDataObse
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NO_TITLE,R.style.DialogTransparent)
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogTransparent)
     }
 
 
@@ -65,10 +61,6 @@ abstract class BaseDialog<DB : ViewDataBinding> : DialogFragment(), LiveDataObse
         if (context is BaseActivity) {
             baseActivity = context
         }
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return super.onCreateDialog(savedInstanceState)
     }
 
     interface IDialogClick {
