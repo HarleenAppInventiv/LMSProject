@@ -12,5 +12,5 @@ data class TestStateData(
     val createdAt: String,
     val id: Int,
     val state: String,
-    val updated_at: String,
+    val updatedAt: String,
 )
