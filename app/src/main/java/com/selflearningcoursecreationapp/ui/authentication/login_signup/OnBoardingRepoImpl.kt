@@ -1,10 +1,10 @@
 package com.selflearningcoursecreationapp.ui.authentication.login_signup
 
-import ccom.example.roomwithmvvmdemo.all_states.StateData
 import com.selflearningcoursecreationapp.base.BaseRepo
 import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.data.network.ApiService
 import com.selflearningcoursecreationapp.data.network.Resource
+import com.selflearningcoursecreationapp.models.StateData
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

@@ -7,6 +7,7 @@ import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentChangePasswordBinding
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.extensions.showHidePassword
+import com.selflearningcoursecreationapp.utils.SpanUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -23,19 +24,18 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
     }
 
     private fun initUi() {
-        binding.viewModel=viewModel
+        binding.viewModel = viewModel
         binding.etConfirm.showHidePassword()
         binding.etNew.showHidePassword()
         binding.etOld.showHidePassword()
+
         binding.tvOld.setSpanString(
-            baseActivity.getString(R.string.old_password),
-            endPos = 3,
-            isBold = true
+            SpanUtils.with(baseActivity, baseActivity.getString(R.string.old_password)).endPos(3)
+                .isBold().getSpanString()
         )
         binding.tvNew.setSpanString(
-            baseActivity.getString(R.string.new_password),
-            endPos = 3,
-            isBold = true
+            SpanUtils.with(baseActivity, baseActivity.getString(R.string.new_password)).endPos(7)
+                .isBold().getSpanString()
         )
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
     }

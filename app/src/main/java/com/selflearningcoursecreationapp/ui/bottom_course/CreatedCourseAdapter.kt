@@ -8,9 +8,10 @@ import com.selflearningcoursecreationapp.databinding.AdapterCreatedCourseBinding
 import com.selflearningcoursecreationapp.extensions.gone
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.extensions.visible
+import com.selflearningcoursecreationapp.utils.SpanUtils
 
 
-class CreatedCourseAdapter() :BaseAdapter<AdapterCreatedCourseBinding>() {
+class CreatedCourseAdapter : BaseAdapter<AdapterCreatedCourseBinding>() {
     override fun getLayoutRes(): Int {
         return R.layout.adapter_created_course
     }
@@ -20,12 +21,11 @@ class CreatedCourseAdapter() :BaseAdapter<AdapterCreatedCourseBinding>() {
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        val binding= holder.binding as AdapterCreatedCourseBinding
-        val context= binding.root.context
+        val binding = holder.binding as AdapterCreatedCourseBinding
+        val context = binding.root.context
 
-        when(position)
-        {
-            0->{
+        when (position) {
+            0 -> {
                 binding.tvStudents.visible()
                 binding.tvPrice.visible()
                 binding.btCourse.gone()
@@ -33,30 +33,43 @@ class CreatedCourseAdapter() :BaseAdapter<AdapterCreatedCourseBinding>() {
                 binding.tvAssessment.visible()
 
             }
-            1->{
+            1 -> {
                 binding.tvAssessment.gone()
 
                 binding.tvStudents.gone()
                 binding.tvPrice.gone()
                 binding.btCourse.visible()
-                binding.tvState.text="Pending"
-                binding.tvState.setTextColor(ContextCompat.getColor(context,R.color.coin_stroked_color))
-                binding.btCourse.text="Edit Course"
+                binding.tvState.text = "Pending"
+                binding.tvState.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.coin_stroked_color
+                    )
+                )
+                binding.btCourse.text = "Edit Course"
             }
-            else->{
+            else -> {
                 binding.tvAssessment.gone()
 
                 binding.tvStudents.gone()
                 binding.tvPrice.gone()
                 binding.btCourse.visible()
-                binding.tvState.text="Rejected"
-                binding.tvState.setTextColor(ContextCompat.getColor(context,R.color.google_btn_bg_color_fc6d5b))
-                binding.btCourse.text="Update Course"
+                binding.tvState.text = "Rejected"
+                binding.tvState.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.google_btn_bg_color_fc6d5b
+                    )
+                )
+                binding.btCourse.text = "Update Course"
             }
 
         }
+        val msg = SpanUtils.with(context, "Revenue: \$2000").startPos(7)
+            .textColor(ContextCompat.getColor(context, R.color.priceColor))
+            .getSpanString()
+        binding.tvPrice.setSpanString(msg)
 
-        binding.tvPrice.setSpanString("Revenue: \$2000",startPos = 9,color = ContextCompat.getColor(binding.root.context,R.color.priceColor))
 
     }
 }

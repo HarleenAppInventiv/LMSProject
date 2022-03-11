@@ -1,6 +1,5 @@
 package com.selflearningcoursecreationapp.ui.authentication.login_otp
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
@@ -9,11 +8,11 @@ import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentLoginOTPBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.selflearningcoursecreationapp.extensions.content
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.ui.authentication.otp_verify.OTPVerifyFragment
-import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
+import com.selflearningcoursecreationapp.utils.SpanUtils
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class LoginOTPFragment : BaseFragment<FragmentLoginOTPBinding>() {
@@ -31,18 +30,25 @@ class LoginOTPFragment : BaseFragment<FragmentLoginOTPBinding>() {
         binding.loginViaOTP = viewModel
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         onClickListner()
+
         binding.textView.setSpanString(
-            baseActivity.getString(R.string.login_via_otp),
-            endPos = 5,
-            isBold = true
+            SpanUtils.with(baseActivity, baseActivity.getString(R.string.login_via_otp)).endPos(
+                5
+            ).isBold().getSpanString()
         )
         binding.txtSignUp.setSpanString(
-            baseActivity.getString(R.string.don_t_have_an_account_sign_up),
-            startPos = 22,
-            isBold = true, color = ThemeUtils.getAppColor(baseActivity), onClick = {
-setFragmentResult("loginData", bundleOf("type" to 1))
+            SpanUtils.with(
+                baseActivity,
+                baseActivity.getString(R.string.don_t_have_an_account_sign_up)
+            ).startPos(
+                22
+            ).isBold().themeColor().getCallback {
+
+                setFragmentResult("loginData", bundleOf("type" to 1))
                 findNavController().navigateUp()
-            }
+            }.getSpanString()
+
+
         )
     }
 
@@ -51,8 +57,10 @@ setFragmentResult("loginData", bundleOf("type" to 1))
         when (apiCode) {
             "101" -> {
                 var action =
-                    LoginOTPFragmentDirections.actionLoginOTPFragmentToOTPVerifyFragment(binding.edtRegPhone.content(),
-                        OTPVerifyFragment.TYPE_LOGIN)
+                    LoginOTPFragmentDirections.actionLoginOTPFragmentToOTPVerifyFragment(
+                        binding.edtRegPhone.content(),
+                        OTPVerifyFragment.TYPE_LOGIN
+                    )
                 findNavController().navigate(action)
             }
             "102" -> {

@@ -10,6 +10,7 @@ import com.selflearningcoursecreationapp.databinding.FragmentSelectLanguageBindi
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceViewModel
 import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.utils.SpanUtils
 
 
 class SelectLanguageFragment : BaseFragment<FragmentSelectLanguageBinding>(),
@@ -54,9 +55,9 @@ class SelectLanguageFragment : BaseFragment<FragmentSelectLanguageBinding>(),
     private fun initUi() {
 //        initLanguageList()
         binding.tvTitle.setSpanString(
-            baseActivity.getString(R.string.select_language),
-            endPos = 6,
-            isBold = true
+            SpanUtils.with(baseActivity, baseActivity.getString(R.string.select_language)).endPos(6)
+                .isBold().getSpanString()
+
         )
         setAdapter()
     }

@@ -8,6 +8,7 @@ import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentResetPassBinding
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.extensions.showHidePassword
+import com.selflearningcoursecreationapp.utils.SpanUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -28,9 +29,9 @@ class ResetPassFragment : BaseFragment<FragmentResetPassBinding>() {
         binding.resetPass = viewModel
 
         binding.textView.setSpanString(
-            baseActivity.getString(R.string.reset_password),
-            endPos = 5,
-            isBold = true
+            SpanUtils.with(baseActivity, baseActivity.getString(R.string.reset_password)).endPos(5)
+                .isBold().getSpanString()
+
         )
         binding.edtConfirmPass.showHidePassword()
         binding.etNewPass.showHidePassword()

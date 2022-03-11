@@ -3,27 +3,25 @@ package com.selflearningcoursecreationapp.ui.preferences
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseViewModel
 import com.selflearningcoursecreationapp.data.prefrence.PreferenceDataStore
-import com.selflearningcoursecreationapp.models.AppThemeFile
 import com.selflearningcoursecreationapp.models.ThemeData
 import com.selflearningcoursecreationapp.utils.Constants
 import com.selflearningcoursecreationapp.utils.FONT_CONSTANT
 import com.selflearningcoursecreationapp.utils.LANGUAGE_CONSTANT
 import com.selflearningcoursecreationapp.utils.THEME_CONSTANT
-import kotlinx.coroutines.*
-import kotlin.collections.ArrayList
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class PreferenceViewModel() : BaseViewModel() {
+class PreferenceViewModel : BaseViewModel() {
     var selectedThemeId = THEME_CONSTANT.BLUE
     var selectedFontId = FONT_CONSTANT.IBM
     var selectedLanguageId = LANGUAGE_CONSTANT.ENGLISH
 
     init {
         viewModelScope.launch {
-//
+
             selectedThemeId = PreferenceDataStore.getInt(Constants.APP_THEME) ?: THEME_CONSTANT.BLUE
             selectedLanguageId =
                 PreferenceDataStore.getString(Constants.LANGUAGE_THEME) ?: LANGUAGE_CONSTANT.ENGLISH
@@ -42,7 +40,7 @@ class PreferenceViewModel() : BaseViewModel() {
         }
     }
 
-     fun saveTheme() {
+    fun saveTheme() {
         viewModelScope.launch {
             themeListLiveData.value?.singleOrNull { it.isSelected }?.let {
                 PreferenceDataStore.saveInt(Constants.APP_THEME, it.id)
@@ -51,7 +49,7 @@ class PreferenceViewModel() : BaseViewModel() {
     }
 
 
-     fun saveFont() {
+    fun saveFont() {
         viewModelScope.launch {
             fontListData.value?.singleOrNull { it.isSelected }?.let {
                 PreferenceDataStore.saveInt(Constants.FONT_THEME, it.id)
@@ -60,20 +58,18 @@ class PreferenceViewModel() : BaseViewModel() {
     }
 
 
-
     fun saveLanguage() {
         viewModelScope.launch {
-            languageListLiveData.value?.firstOrNull() { it.isSelected }?.let {
-                Log.d("main", "${it.toString()}")
-                PreferenceDataStore.saveString(Constants.LANGUAGE_THEME,
-                    it.languageId ?: LANGUAGE_CONSTANT.ENGLISH)
-                Log.d("SavedLanguage",
-                    PreferenceDataStore.getString(Constants.LANGUAGE_THEME).orEmpty())
-               // changeAppLanguage()
-
-
-//                PrefrenceDataStore.saveString()
-//                Log.d("main", "${it.toString()}")
+            languageListLiveData.value?.firstOrNull { it.isSelected }?.let {
+                Log.d("main", "$it")
+                PreferenceDataStore.saveString(
+                    Constants.LANGUAGE_THEME,
+                    it.languageId ?: LANGUAGE_CONSTANT.ENGLISH
+                )
+                Log.d(
+                    "SavedLanguage",
+                    PreferenceDataStore.getString(Constants.LANGUAGE_THEME).orEmpty()
+                )
 
             }
         }
@@ -82,7 +78,7 @@ class PreferenceViewModel() : BaseViewModel() {
     var categoryListLiveData = MutableLiveData<ArrayList<ThemeData>>().apply {
         value = ArrayList()
         for (i in 0 until 9) {
-            value!!.add(ThemeData(languageId = "Category ${i+1}",isSelected = false))
+            value!!.add(ThemeData(languageId = "Category ${i + 1}", isSelected = false))
         }
     }
 
@@ -201,7 +197,6 @@ class PreferenceViewModel() : BaseViewModel() {
             )
         )
     }
-
 
 
 }

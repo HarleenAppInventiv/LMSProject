@@ -2,11 +2,13 @@ package com.selflearningcoursecreationapp.ui.authentication.login_signup
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.setFragmentResultListener
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentLoginSignUpBinding
 import com.selflearningcoursecreationapp.extensions.setSpanString
+import com.selflearningcoursecreationapp.utils.SpanUtils
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 
 class LoginSignUpFragment : BaseFragment<FragmentLoginSignUpBinding>(), View.OnClickListener {
@@ -20,10 +22,9 @@ class LoginSignUpFragment : BaseFragment<FragmentLoginSignUpBinding>(), View.OnC
 
     fun init() {
         binding.textView.setSpanString(
-            baseActivity.getString(R.string.hello_welcome),
-            endPos = 6,
-            attrColor = R.attr.secondaryTextColor,
-            isBold = true
+            SpanUtils.with(baseActivity, baseActivity.getString(R.string.hello_welcome)).endPos(6)
+                .textColor(ContextCompat.getColor(baseActivity, R.color.heading_color_262626))
+                .isBold().getSpanString()
         )
 
         binding.txtSingIn.setOnClickListener(this)
@@ -59,7 +60,7 @@ class LoginSignUpFragment : BaseFragment<FragmentLoginSignUpBinding>(), View.OnC
         if (type == 0)
             binding.txtSingIn.changeBackgroundTint(ThemeConstants.TYPE_THEME)
         else binding.txtSingIn.backgroundTintList = null
-  if (type == 1)
+        if (type == 1)
             binding.txtSignUp.changeBackgroundTint(ThemeConstants.TYPE_THEME)
         else binding.txtSignUp.backgroundTintList = null
 

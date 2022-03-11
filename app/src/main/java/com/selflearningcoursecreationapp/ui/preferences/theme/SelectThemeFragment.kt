@@ -10,6 +10,7 @@ import com.selflearningcoursecreationapp.databinding.FragmentSelectThemeBinding
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceViewModel
 import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.utils.SpanUtils
 
 
 class SelectThemeFragment : BaseFragment<FragmentSelectThemeBinding>(), BaseAdapter.IViewClick {
@@ -29,9 +30,9 @@ class SelectThemeFragment : BaseFragment<FragmentSelectThemeBinding>(), BaseAdap
     private fun initUi() {
 //        initThemeList()
         binding.tvTitle.setSpanString(
-            baseActivity.getString(R.string.select_theme),
-            endPos = 6,
-            isBold = true
+            SpanUtils.with(baseActivity, baseActivity.getString(R.string.select_theme)).endPos(6)
+                .isBold().getSpanString()
+
         )
 
       setAdapter()

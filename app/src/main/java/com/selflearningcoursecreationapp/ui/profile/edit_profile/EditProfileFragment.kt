@@ -2,17 +2,15 @@ package com.selflearningcoursecreationapp.ui.profile.edit_profile
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentEditProfileBinding
 import com.selflearningcoursecreationapp.extensions.getStringDate
 import com.selflearningcoursecreationapp.extensions.openDatePickerDialog
 import com.selflearningcoursecreationapp.extensions.setSpanString
+import com.selflearningcoursecreationapp.utils.SpanUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
-
-
-
 
 
 class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnClickListener {
@@ -28,8 +26,19 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
         binding.editProfile = viewModel
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         binding.edtUserDob.setOnClickListener(this)
-        binding.textView6.setSpanString(baseActivity.getString(R.string.personal_details),endPos = 8,isBold = true,attrColor = R.attr.secondaryTextColor)
-        binding.textView7.setSpanString(baseActivity.getString(R.string.address_details),endPos = 7,isBold = true,attrColor = R.attr.secondaryTextColor)
+
+        binding.textView6.setSpanString(
+            SpanUtils.with(baseActivity, baseActivity.getString(R.string.personal_details))
+                .endPos(8).isBold()
+                .textColor(ContextCompat.getColor(baseActivity, R.color.heading_color_262626))
+                .getSpanString()
+        )
+        binding.textView7.setSpanString(
+            SpanUtils.with(baseActivity, baseActivity.getString(R.string.address_details)).endPos(7)
+                .isBold()
+                .textColor(ContextCompat.getColor(baseActivity, R.color.heading_color_262626))
+                .getSpanString()
+        )
     }
 
 

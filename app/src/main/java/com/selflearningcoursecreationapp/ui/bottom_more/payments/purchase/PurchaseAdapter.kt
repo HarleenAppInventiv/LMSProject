@@ -16,7 +16,6 @@ class PurchaseAdapter() :BaseAdapter<AdapterMyPaymentBinding>() {
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        val binding= holder.binding as AdapterMyPaymentBinding
 
     }
 

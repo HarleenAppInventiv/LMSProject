@@ -6,14 +6,13 @@ import android.os.CountDownTimer
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentOTPVarifyBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
-
-import com.selflearningcoursecreationapp.R
-import com.selflearningcoursecreationapp.extensions.setColor
 import com.selflearningcoursecreationapp.extensions.setSpanString
+import com.selflearningcoursecreationapp.utils.SpanUtils
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
 
 
@@ -40,9 +39,8 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
     fun init() {
         startTimer()
         binding.textView.setSpanString(
-            baseActivity!!.getString(R.string.verify_with_otp),
-            isBold = true,
-            endPos = 7
+            SpanUtils.with(baseActivity, baseActivity.getString(R.string.verify_with_otp)).endPos(7)
+                .isBold().getSpanString()
         )
         binding.otpverify = viewModel
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
@@ -91,26 +89,32 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
             override fun onTick(millisUntilFinished: Long) {
                 if (isVisible) {
 
-                    var min= TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished).toString()
-                    if (min.length==1)
-                    {
-                        min="0$min"
+                    var min = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished).toString()
+                    if (min.length == 1) {
+                        min = "0$min"
                     }
 
-                   var sec= TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
-                       .minus(TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(
-                               millisUntilFinished))).toString()
-                    if (sec.length==1)
-                    {
-                        sec="0$sec"
+                    var sec = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
+                        .minus(
+                            TimeUnit.MINUTES.toSeconds(
+                                TimeUnit.MILLISECONDS.toMinutes(
+                                    millisUntilFinished
+                                )
+                            )
+                        ).toString()
+                    if (sec.length == 1) {
+                        sec = "0$sec"
                     }
 
-                    val resendText = baseActivity.getString(R.string.resend_code_in) + " $min : $sec"
+                    val resendText =
+                        baseActivity.getString(R.string.resend_code_in) + " $min : $sec"
                     binding.tvResend.setSpanString(
-                        resendText,
-                        isBold = true,
-                        color = ContextCompat.getColor(baseActivity,R.color.google_btn_bg_color_fc6d5b),
-                        startPos = 16
+                        SpanUtils.with(baseActivity, resendText).startPos(16).textColor(
+                            ContextCompat.getColor(
+                                baseActivity,
+                                R.color.google_btn_bg_color_fc6d5b
+                            )
+                        ).isBold().getSpanString()
                     )
                     binding.tvResend.isEnabled = false
                 }

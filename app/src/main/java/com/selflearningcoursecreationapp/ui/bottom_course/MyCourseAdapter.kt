@@ -7,7 +7,7 @@ import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterMyCourseBinding
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.extensions.visibleView
-import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
+import com.selflearningcoursecreationapp.utils.SpanUtils
 
 class MyCourseAdapter(private var isCompleted: Boolean) : BaseAdapter<AdapterMyCourseBinding>() {
     override fun getLayoutRes(): Int {
@@ -33,11 +33,10 @@ class MyCourseAdapter(private var isCompleted: Boolean) : BaseAdapter<AdapterMyC
             binding.pbProgress.progress = 10
 
         }
-        binding.tvDuration.setSpanString(
-            "10m left in lesson",
-            endPos = 8,
-            color = ThemeUtils.getAppColor(binding.root.context)
-        )
+        val msg =
+            SpanUtils.with(context, "10m left in lesson").endPos(8).themeColor().getSpanString()
+
+        binding.tvDuration.setSpanString(msg)
         binding.tvCoin.visibleView(isCompleted)
         binding.tvDuration.visibleView(!isCompleted)
 

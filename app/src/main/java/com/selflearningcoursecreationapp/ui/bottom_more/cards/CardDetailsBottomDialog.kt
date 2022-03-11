@@ -1,6 +1,5 @@
 package com.selflearningcoursecreationapp.ui.bottom_more.cards
 
-import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import com.selflearningcoursecreationapp.R
@@ -44,8 +43,7 @@ class CardDetailsBottomDialog() : BaseBottomSheetDialog<BottomDialogCardDetailBi
         if (items.isNotEmpty()) {
             val view = items[0] as View
             when (view.id) {
-                R.id.bt_save_card -> {
-                }
+
                 R.id.iv_close -> {
                     dismiss()
                 }

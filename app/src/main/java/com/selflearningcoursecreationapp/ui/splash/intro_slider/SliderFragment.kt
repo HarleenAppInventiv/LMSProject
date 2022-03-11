@@ -1,20 +1,16 @@
 package com.selflearningcoursecreationapp.ui.splash.intro_slider
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Button
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.selflearningcoursecreationapp.R
-import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.base.SelfLearningApplication
 import com.selflearningcoursecreationapp.data.prefrence.PreferenceDataStore
@@ -31,8 +27,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 
-class SliderFragment : BaseFragment<FragmentSliderBinding>(), View.OnClickListener,
-    BaseAdapter.IViewClick {
+class SliderFragment : BaseFragment<FragmentSliderBinding>(), View.OnClickListener {
     var adapter: SlideViewPagerAdapter? = null
     var dotAdapter: DotAdapter? = null
     var dotList: ArrayList<Boolean> = ArrayList()
@@ -63,7 +58,6 @@ class SliderFragment : BaseFragment<FragmentSliderBinding>(), View.OnClickListen
         dotList.set(0, true)
         adapter = SlideViewPagerAdapter(list)
         binding.viewpager.adapter = adapter
-        adapter!!.setOnAdapterItemClickListener(this)
         iconList.recycle()
         binding.btnGetStarted.setOnClickListener(this)
 
@@ -188,17 +182,6 @@ class SliderFragment : BaseFragment<FragmentSliderBinding>(), View.OnClickListen
     }
 
 
-    override fun onItemClick(vararg items: Any) {
-        if (items.isNotEmpty()) {
-            val type = items[0] as Int
-            val position = items[1] as Int
-            when (type) {
-                Constant.CLICK_VIEW -> {
-                    Log.d("main", "")
-                }
-            }
-        }
-    }
 
 
 }

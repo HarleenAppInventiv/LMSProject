@@ -14,18 +14,18 @@ class LMSRichView : RichPathView {
         attrs: AttributeSet?,
         defStyle: Int
     ) : super(context, attrs, defStyle) {
-        initView(context, attrs, defStyle)
+        initView(context)
     }
 
     constructor(
         context: Context,
         attrs: AttributeSet?
     ) : super(context, attrs) {
-        initView(context, attrs)
+        initView(context)
     }
 
 
-    private fun initView(context: Context, attrs: AttributeSet? = null, defStyle: Int? = 0) {
+    private fun initView(context: Context) {
 
         findRichPathByName("primary_path")?.fillColor = ThemeUtils.getAppColor(context)
 

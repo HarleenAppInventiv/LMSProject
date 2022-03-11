@@ -1,23 +1,17 @@
 package com.selflearningcoursecreationapp.ui.dialog
 
 import android.annotation.SuppressLint
-import android.content.res.ColorStateList
-import android.graphics.Color
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
-import com.selflearningcoursecreationapp.base.BaseDialog
 import com.selflearningcoursecreationapp.databinding.DialogUploadImageBinding
-import com.selflearningcoursecreationapp.databinding.DialogViLayoutBinding
-import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.ImagePickUtils
-import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
 import org.koin.android.ext.android.inject
 
 class UploadImageOptionsDialog : BaseBottomSheetDialog<DialogUploadImageBinding>(),
         (String?) -> Unit {
 
-    private val imagePickUtils : ImagePickUtils by inject()
+    private val imagePickUtils: ImagePickUtils by inject()
+    private var type: Int = 0
 
     override fun getLayoutRes(): Int {
         return R.layout.dialog_upload_image
@@ -25,24 +19,35 @@ class UploadImageOptionsDialog : BaseBottomSheetDialog<DialogUploadImageBinding>
 
     @SuppressLint("ResourceType")
     override fun initUi() {
+        arguments?.let {
+            type = it.getInt("type")
+        }
 
-       binding.imgClose.setOnClickListener() {
+        binding.imgClose.setOnClickListener {
             dismiss()
         }
 
-       binding.txtTakePhoto.setOnClickListener() {
-         imagePickUtils.captureImage(baseActivity,this,registry = requireActivity().activityResultRegistry)
+        binding.txtTakePhoto.setOnClickListener {
+            imagePickUtils.captureImage(
+                baseActivity,
+                this,
+                registry = requireActivity().activityResultRegistry
+            )
 
         }
 
-        binding.txtTakeFromGallary.setOnClickListener() {
-            imagePickUtils.openGallery(baseActivity,this,registry = requireActivity().activityResultRegistry)
+        binding.txtTakeFromGallary.setOnClickListener {
+            imagePickUtils.openGallery(
+                baseActivity,
+                this,
+                registry = requireActivity().activityResultRegistry
+            )
 
         }
     }
 
     override fun invoke(p1: String?) {
-        onDialogClick(Constant.CLICK_IMAGE, p1?:"")
+        onDialogClick(type, p1 ?: "")
         dismiss()
     }
 

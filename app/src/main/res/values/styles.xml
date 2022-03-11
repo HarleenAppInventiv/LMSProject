@@ -124,14 +124,12 @@
     </style>
 
     <style name="CheckboxTheme" parent="Widget.AppCompat.CompoundButton.CheckBox">
-<!--        <item name="android:button">@drawable/cb_selector</item>-->
         <item name="fontFamily">?attr/fontRegular</item>
     </style>
 
     <style name="RadioButtonTheme" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="fontFamily">?attr/fontRegular</item>
         <item name="colorAccent">?attr/colorPrimary</item>
-<!--        <item name="android:button">@drawable/radio_selector</item>-->
 
     </style>
 

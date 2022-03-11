@@ -6,7 +6,7 @@ import com.selflearningcoursecreationapp.base.BaseDialog
 import com.selflearningcoursecreationapp.databinding.DialogCheckYourMailBinding
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.extensions.setSpanText
-import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
+import com.selflearningcoursecreationapp.utils.SpanUtils
 
 class CheckMailDialog : BaseDialog<DialogCheckYourMailBinding>() {
 
@@ -24,19 +24,17 @@ class CheckMailDialog : BaseDialog<DialogCheckYourMailBinding>() {
             }
             if (it.containsKey("description")) {
                 binding.tvDesc.setSpanText(it.getString("description"))
-                binding.btnConfirmLater.setSpanText( baseActivity.getString(R.string.ok))
+                binding.btnConfirmLater.setSpanText(baseActivity.getString(R.string.ok))
             }
         }
 
-
-        binding.tvResend.setSpanString(
-            baseActivity.getString(R.string.not_received_email_resend_again),
-            startPos = 53,
-            isBold = true,
-            color = ThemeUtils.getAppColor(baseActivity),
-            onClick = {
-                showToastShort("resent")
-            })
+        val msg = SpanUtils.with(
+            baseActivity,
+            baseActivity.getString(R.string.not_received_email_resend_again)
+        ).startPos(53).isBold().themeColor().getCallback {
+            showToastShort("resent")
+        }.getSpanString()
+        binding.tvResend.setSpanString(msg)
         binding.btnConfirmLater.setOnClickListener {
             onDialogClick()
             dismiss()

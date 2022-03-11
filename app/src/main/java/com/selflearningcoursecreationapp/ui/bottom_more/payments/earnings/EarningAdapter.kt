@@ -4,7 +4,6 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterMyEarningBinding
-import com.selflearningcoursecreationapp.databinding.AdapterMyPaymentBinding
 
 class EarningAdapter() :BaseAdapter<AdapterMyEarningBinding>() {
     override fun getLayoutRes(): Int {
@@ -16,7 +15,6 @@ class EarningAdapter() :BaseAdapter<AdapterMyEarningBinding>() {
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        val binding= holder.binding as AdapterMyEarningBinding
 
     }
 

@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentSignUpBinding
-import com.selflearningcoursecreationapp.extensions.getAttrColor
 import com.selflearningcoursecreationapp.extensions.showHidePassword
 import com.selflearningcoursecreationapp.ui.authentication.viewModel.OnBoardingViewModel
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
@@ -32,16 +31,10 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         binding.edtRegPassword.showHidePassword()
         binding.signup = viewModel
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
-
-        setListners()
         setSpanString()
     }
 
 
-    fun setListners() {
-//        binding.btnSignUp.setOnClickListener(this)
-//        binding.txtSignIn.setOnClickListener(this)
-    }
 
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)

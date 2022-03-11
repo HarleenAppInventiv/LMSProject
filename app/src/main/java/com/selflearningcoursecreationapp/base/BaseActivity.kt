@@ -21,7 +21,6 @@ import com.selflearningcoursecreationapp.data.network.ApiError
 import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.data.prefrence.PreferenceDataStore
 import com.selflearningcoursecreationapp.extensions.setTransparentLightStatusBar
-import com.selflearningcoursecreationapp.extensions.showAlertDialog
 import com.selflearningcoursecreationapp.extensions.showLog
 import com.selflearningcoursecreationapp.models.AppThemeFile
 import com.selflearningcoursecreationapp.ui.dialog.ProgressDialog
@@ -232,13 +231,13 @@ open class BaseActivity : AppCompatActivity() {
         val isActive = getAccessibilityService()
 
         when {
-            isActive ->
-                showAlertDialog(
-                    title = getString(R.string.disable_screen_reading_mode),
-                    description = getString(R.string.disable_screen_reading_mode_desc),
-                    buttonText = getString(R.string.disable),
-                    negativeButtonText = getString(R.string.cancel),
-                    icon = null, onClick = {
+            isActive -> {
+                CommonAlertDialog.builder(this)
+                    .title(getString(R.string.disable_screen_reading_mode))
+                    .description(getString(R.string.disable_screen_reading_mode_desc))
+                    .positiveBtnText(getString(R.string.disable))
+                    .icon(null)
+                    .getCallback {
                         if (it) {
 
                             try {
@@ -247,19 +246,20 @@ open class BaseActivity : AppCompatActivity() {
                                 startActivityForResult(intent, REQUEST_CODE.ACCESSIBILITY)
 
                             } catch (e: ActivityNotFoundException) {
-                                showToastLong("You don't have activity to perform this action")
+                                showToastLong(getString(R.string.you_dont_have_activity_to_perform_action))
                             }
                         }
+                    }.build()
 
-                    })
 
-            else ->
-
-                showAlertDialog(title = getString(R.string.enable_screen_reading_mode),
-                    description = getString(R.string.enable_screen_reading_mode_desc),
-                    buttonText = getString(R.string.enable),
-                    negativeButtonText = getString(R.string.cancel),
-                    icon = null, onClick = {
+            }
+            else -> {
+                CommonAlertDialog.builder(this)
+                    .title(getString(R.string.enable_screen_reading_mode))
+                    .description(getString(R.string.enable_screen_reading_mode_desc))
+                    .positiveBtnText(getString(R.string.enable))
+                    .icon(null)
+                    .getCallback {
                         if (it) {
 
                             try {
@@ -268,14 +268,11 @@ open class BaseActivity : AppCompatActivity() {
                                 startActivityForResult(intent, REQUEST_CODE.ACCESSIBILITY)
 
                             } catch (e: ActivityNotFoundException) {
-                                showToastLong("You don't have activity to perform this action")
+                                showToastLong(getString(R.string.you_dont_have_activity_to_perform_action))
                             }
                         }
-
-                    })
-//
-
-
+                    }.build()
+            }
         }
 
 

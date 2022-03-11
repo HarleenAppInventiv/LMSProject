@@ -16,7 +16,6 @@ class WalletSpendAdapter() :BaseAdapter<AdapterMyWalletSpendBinding>() {
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        val binding= holder.binding as AdapterMyWalletSpendBinding
     }
 
 }

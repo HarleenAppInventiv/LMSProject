@@ -1,10 +1,7 @@
 package com.selflearningcoursecreationapp.ui.authentication.forgotPass
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import androidx.core.text.isDigitsOnly
 import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
@@ -17,6 +14,7 @@ import com.selflearningcoursecreationapp.extensions.isValidEmail
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.ui.authentication.otp_verify.OTPVerifyFragment
 import com.selflearningcoursecreationapp.ui.dialog.CheckMailDialog
+import com.selflearningcoursecreationapp.utils.SpanUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ForgotPassFragment : BaseFragment<FragmentForgotPassBinding>() {
@@ -29,11 +27,9 @@ class ForgotPassFragment : BaseFragment<FragmentForgotPassBinding>() {
 
     fun init() {
         binding.forgotPass = viewModel
-        binding.textView.setSpanString(
-            baseActivity!!.getString(R.string.forgot_password2),
-            isBold = true,
-            endPos = 6
-        )
+        val msg = SpanUtils.with(baseActivity, baseActivity.getString(R.string.forgot_password2))
+            .isBold().endPos(6).getSpanString()
+        binding.textView.setSpanString(msg)
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         onClickListners()
     }
@@ -45,11 +41,26 @@ class ForgotPassFragment : BaseFragment<FragmentForgotPassBinding>() {
 
 
             if (binding.edtForgotphone.text.toString().trim().isBlank()) {
-                viewModel.updateResponseObserver(Resource.Error(ToastData(errorString =baseActivity. getString(R.string.plz_enter_phone_email))))
-            }
-          else  if (binding.edtForgotphone.content().isDigitsOnly()) {
+                viewModel.updateResponseObserver(
+                    Resource.Error(
+                        ToastData(
+                            errorString = baseActivity.getString(
+                                R.string.plz_enter_phone_email
+                            )
+                        )
+                    )
+                )
+            } else if (binding.edtForgotphone.content().isDigitsOnly()) {
                 if (binding.edtForgotphone.text.toString().trim().length < 10) {
-                    viewModel.updateResponseObserver(Resource.Error(ToastData(errorString = baseActivity.getString(R.string.enter_valid_phone_number))))
+                    viewModel.updateResponseObserver(
+                        Resource.Error(
+                            ToastData(
+                                errorString = baseActivity.getString(
+                                    R.string.enter_valid_phone_number
+                                )
+                            )
+                        )
+                    )
 
                 } else {
                     findNavController().navigate(
@@ -60,10 +71,18 @@ class ForgotPassFragment : BaseFragment<FragmentForgotPassBinding>() {
                 }
 
             } else if (!binding.edtForgotphone.content().isValidEmail()) {
-                viewModel.updateResponseObserver(Resource.Error(ToastData(errorString = baseActivity.getString(R.string.enter_valid_email))))
+                viewModel.updateResponseObserver(
+                    Resource.Error(
+                        ToastData(
+                            errorString = baseActivity.getString(
+                                R.string.enter_valid_email
+                            )
+                        )
+                    )
+                )
 
             } else {
-               CheckMailDialog().show(childFragmentManager,"")
+                CheckMailDialog().show(childFragmentManager, "")
             }
         }
     }

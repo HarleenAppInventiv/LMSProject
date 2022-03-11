@@ -11,6 +11,7 @@ import com.selflearningcoursecreationapp.databinding.FragmentCategoryBinding
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceViewModel
 import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.utils.SpanUtils
 
 
 class CategoryFragment : BaseFragment<FragmentCategoryBinding>(), BaseAdapter.IViewClick {
@@ -28,9 +29,9 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>(), BaseAdapter.IV
 
     private fun initUi() {
         binding.tvTitle.setSpanString(
-            baseActivity.getString(R.string.select_categories),
-            endPos = 6,
-            isBold = true
+            SpanUtils.with(baseActivity, baseActivity.getString(R.string.select_categories))
+                .endPos(6).isBold().getSpanString()
+
         )
 
         viewModel.categoryListLiveData.observe(viewLifecycleOwner, Observer {

@@ -1,15 +1,15 @@
-package ccom.example.roomwithmvvmdemo.all_states
+package com.selflearningcoursecreationapp.models
 
 data class StateData(
     val quoteId: Int,
-    val created_at: String,
+    val createdAt: String,
     val id: Int,
     val state: String,
-    val updated_at: String,
+    val updatedAt: String,
 )
 data class TestStateData(
     val quoteId: Int,
-    val created_at: String,
+    val createdAt: String,
     val id: Int,
     val state: String,
     val updated_at: String,

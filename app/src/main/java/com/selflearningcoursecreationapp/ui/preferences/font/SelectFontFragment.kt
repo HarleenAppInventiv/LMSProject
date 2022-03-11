@@ -10,6 +10,7 @@ import com.selflearningcoursecreationapp.databinding.FragmentSelectFontBinding
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceViewModel
 import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.utils.SpanUtils
 
 class SelectFontFragment : BaseFragment<FragmentSelectFontBinding>(), BaseAdapter.IViewClick {
     private val viewModel: PreferenceViewModel by viewModels({ if (parentFragment != null) requireParentFragment() else this })
@@ -25,13 +26,13 @@ class SelectFontFragment : BaseFragment<FragmentSelectFontBinding>(), BaseAdapte
     }
 
     private fun initUi() {
-        binding.tvTitle.setSpanString(
-            baseActivity.getString(R.string.select_font),
-            endPos = 6,
-            isBold = true
-        )
+        val msg = SpanUtils.with(baseActivity, baseActivity.getString(R.string.select_font)).apply {
+            isBold()
+            endPos(6)
+        }.getSpanString()
+        binding.tvTitle.setSpanString(msg)
 
-            setAdapter()
+        setAdapter()
 
     }
 

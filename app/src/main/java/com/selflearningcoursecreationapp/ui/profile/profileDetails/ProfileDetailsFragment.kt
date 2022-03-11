@@ -3,11 +3,7 @@ package com.selflearningcoursecreationapp.ui.profile.profileDetails
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.navigation.fragment.findNavController
-import com.github.dhaval2404.imagepicker.ImagePicker
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.base.BaseFragment
@@ -18,7 +14,6 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
-          profileImageView = binding.imgProfileImage
     }
 
     fun init() {
@@ -57,32 +52,5 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
             }
         }
     }
-
-
-//    private fun showBottomSheetDialog() {
-//        val bottomSheetDialog = BottomSheetDialog(requireContext())
-//        bottomSheetDialog.setContentView(R.layout.select_media_layout)
-//        val camera = bottomSheetDialog.findViewById<TextView>(R.id.txt_take_photo)
-//        val gallary = bottomSheetDialog.findViewById<TextView>(R.id.txt_take_from_gallary)
-//        val imgClose = bottomSheetDialog.findViewById<ImageView>(R.id.img_close)
-//
-//        imgClose!!.setOnClickListener() {
-//            bottomSheetDialog.dismiss()
-//        }
-//
-//        camera!!.setOnClickListener() {
-//            bottomSheetDialog.dismiss()
-//            selectImage()
-//        }
-//
-//        gallary!!.setOnClickListener() {
-//            bottomSheetDialog.dismiss()
-//            selectGallary()
-//        }
-//        bottomSheetDialog.show()
-//    }
-
-
-
 
 }

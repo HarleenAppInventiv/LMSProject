@@ -334,4 +334,7 @@
     <string name="update_logo">Update Logo</string>
     <string name="update_course_theme">Update Course Theme</string>
     <string name="update_course_font">Update Course Font</string>
+    <string name="you_dont_have_activity_to_perform_action">You don\'t have activity to perform this action</string>
+    <string name="enter_course_fee">Enter Course Fee</string>
+    <string name="add_a_link">Add a Link</string>
 </resources>

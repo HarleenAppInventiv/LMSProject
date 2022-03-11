@@ -2,15 +2,12 @@ package com.selflearningcoursecreationapp.utils.customViews
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import com.selflearningcoursecreationapp.R
-import com.selflearningcoursecreationapp.models.AppThemeFile
 
-class LMSImageView: AppCompatImageView {
+class LMSImageView : AppCompatImageView {
 
     constructor(context: Context) : super(context) {
         initView(context)
@@ -38,25 +35,27 @@ class LMSImageView: AppCompatImageView {
         )
 
         val changeBgType =
-            themeAttrs.getInt(R.styleable.LMSImageView_changeBackgroundType, ThemeConstants.TYPE_NONE)
-        when(changeBgType)
-        {
-            ThemeConstants.TYPE_TINT->{
+            themeAttrs.getInt(
+                R.styleable.LMSImageView_changeBackgroundType,
+                ThemeConstants.TYPE_NONE
+            )
+        when (changeBgType) {
+            ThemeConstants.TYPE_TINT -> {
 
-                imageTintList= ColorStateList.valueOf(ThemeUtils.getAppColor(context))
-                imageTintMode=PorterDuff.Mode.MULTIPLY
+                imageTintList = ColorStateList.valueOf(ThemeUtils.getAppColor(context))
+                imageTintMode = PorterDuff.Mode.MULTIPLY
             }
-            ThemeConstants.TYPE_TINT_SRC->{
+            ThemeConstants.TYPE_TINT_SRC -> {
 
-                imageTintList= ColorStateList.valueOf(ThemeUtils.getAppColor(context))
-                imageTintMode=PorterDuff.Mode.SRC_IN
+                imageTintList = ColorStateList.valueOf(ThemeUtils.getAppColor(context))
+                imageTintMode = PorterDuff.Mode.SRC_IN
             }
-            ThemeConstants.TYPE_BACKGROUND->{
+            ThemeConstants.TYPE_BACKGROUND -> {
                 setBackgroundColor(ThemeUtils.getAppColor(context))
             }
         }
 
-themeAttrs.recycle()
+        themeAttrs.recycle()
     }
 
 }

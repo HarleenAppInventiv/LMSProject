@@ -1,12 +1,12 @@
 package com.selflearningcoursecreationapp.ui.preferences
 
-import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -21,26 +21,23 @@ import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.base.SelfLearningApplication
 import com.selflearningcoursecreationapp.databinding.FragmentPreferencesBinding
 import com.selflearningcoursecreationapp.di.getAppContext
-import com.selflearningcoursecreationapp.extensions.*
-import com.selflearningcoursecreationapp.models.AppThemeFile
-import com.selflearningcoursecreationapp.models.ThemeData
+import com.selflearningcoursecreationapp.extensions.gone
+import com.selflearningcoursecreationapp.extensions.setColor
+import com.selflearningcoursecreationapp.extensions.visible
+import com.selflearningcoursecreationapp.extensions.visibleView
 import com.selflearningcoursecreationapp.ui.authentication.InitialActivity
 import com.selflearningcoursecreationapp.ui.preferences.category.CategoryFragment
 import com.selflearningcoursecreationapp.ui.preferences.font.SelectFontFragment
 import com.selflearningcoursecreationapp.ui.preferences.language.SelectLanguageFragment
 import com.selflearningcoursecreationapp.ui.preferences.theme.SelectThemeFragment
 import com.selflearningcoursecreationapp.ui.splash.intro_slider.DotAdapter
+import com.selflearningcoursecreationapp.utils.CommonAlertDialog
 import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.utils.SpanUtils
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import android.text.style.ForegroundColorSpan
-
-import android.text.SpannableString
-
-
-
 
 
 class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnClickListener {
@@ -87,10 +84,10 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val item= menu.findItem(R.id.action_skip)
-        val s = SpannableString(item.getTitle())
+        val item = menu.findItem(R.id.action_skip)
+        val s = SpannableString(item.title)
         s.setSpan(ForegroundColorSpan(ThemeUtils.getAppColor(baseActivity)), 0, s.length, 0)
-        item.setTitle(s)
+        item.title = s
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -147,16 +144,6 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
         binding.rvPagerDot.visibleView(type == TYPE_ALL)
 
 
-//        if (type == TYPE_ALL || type == TYPE_CATEGORY)
-//            list.add(CategoryFragment())
-//        if (type == TYPE_ALL || type == TYPE_THEME)
-//            list.add(SelectThemeFragment())
-//        if (type == TYPE_ALL || type == TYPE_FONT)
-//            list.add(SelectFontFragment())
-//        if (type == TYPE_ALL || type == TYPE_LANGUAGE)
-//            list.add(SelectLanguageFragment())
-//
-
         val adapter = ScreenSlidePagerAdapter(childFragmentManager, list, this.lifecycle)
         binding.viewpager.adapter = adapter
         dotList.clear()
@@ -193,7 +180,7 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
             })
         }
         if (type == TYPE_ALL || type == TYPE_FONT) {
-            viewModel.fontListData.observe(viewLifecycleOwner, Observer {
+            viewModel.fontListData.observe(viewLifecycleOwner, {
                 setFontData()
             })
         }
@@ -443,19 +430,22 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
             delay(1000)
             baseActivity.runOnUiThread {
                 hideLoading()
-                val msg = baseActivity.getSpanString(
-                    "$changedText \"$themeText\"",
-                    isBold = true,
-                    startPos = changedText.length
-                )
-                baseActivity.showAlertDialog(
-                    spanText = msg,
-                    buttonText = baseActivity.getString(R.string.ok_close),
-                    isCancellable = false,
-                    onClick = {
-                        baseActivity.recreate()
-                    })
+                val msg = SpanUtils.with(baseActivity, "$changedText \"$themeText\"").apply {
+                    isBold()
+                    startPos(changedText.length)
+                    themeColor()
+                }.getSpanString()
 
+                CommonAlertDialog.builder(baseActivity)
+                    .spannedText(msg)
+                    .notCancellable()
+                    .positiveBtnText(getString(R.string.ok_close))
+                    .showNegativeBtn(false)
+                    .getCallback {
+                        if (it) {
+                            baseActivity.recreate()
+                        }
+                    }.build()
 
             }
         }
