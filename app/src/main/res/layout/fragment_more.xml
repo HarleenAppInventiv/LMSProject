@@ -51,7 +51,7 @@ android:drawableStart="@drawable/ic_settings"
                 android:drawableStart="@drawable/ic_moderator"
                 android:drawablePadding="@dimen/_10sdp"
                 android:paddingVertical="@dimen/_30sdp"
-
+                android:id="@+id/tv_moderator"
                 spanText="@{@string/become_a_moderator}" />
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:layout_width="match_parent"
