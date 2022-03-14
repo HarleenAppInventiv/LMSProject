@@ -280,9 +280,9 @@
                 android:id="@+id/iv_upload_logo"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
-                android:src="@drawable/ic_upload_blue"
-                app:changeBackgroundType="tint_src"
                 android:onClickListener="@{(v)-> handleClick.onHandleClick(v)}"
+                app:changeBackgroundType="tint_src"
+                android:src="@drawable/ic_upload_blue"
 
                 android:contentDescription="@string/upload_logo"
                 app:layout_constraintEnd_toEndOf="@+id/iv_logo_bg"
@@ -392,14 +392,13 @@
                 android:layout_height="@dimen/_25sdp"
                 android:contentDescription="@string/upload_font"
                 app:changeBackgroundType="tint_src"
-                android:src="@drawable/ic_add_blue"
                 android:onClickListener="@{(v)-> handleClick.onHandleClick(v)}"
+                android:src="@drawable/ic_add_blue"
                 android:padding="@dimen/_2sdp"
                 app:layout_constraintEnd_toEndOf="@+id/iv_font_bg"
                 app:layout_constraintStart_toStartOf="@+id/iv_font_bg"
                 app:layout_constraintTop_toTopOf="@+id/iv_font_bg"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_font_bg"
-               />
+                app:layout_constraintBottom_toBottomOf="@+id/iv_font_bg" />
 
 
             <androidx.appcompat.widget.AppCompatImageView

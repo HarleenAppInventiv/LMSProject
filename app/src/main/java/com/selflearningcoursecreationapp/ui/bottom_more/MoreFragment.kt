@@ -22,9 +22,10 @@ class MoreFragment :
 
     private fun initUi() {
         binding.handleClick = this
-      /*  val spannable: SpannableString = SpannableString(baseActivity.getString(R.string.settings))
-        spannable.setSpan(baseActivity.localeSpan?: LocaleSpan(Locale.getDefault()), 0, spannable.length, 0)
-        binding.tvSettings.text=spannable */ }
+        /*  val spannable: SpannableString = SpannableString(baseActivity.getString(R.string.settings))
+          spannable.setSpan(baseActivity.localeSpan?: LocaleSpan(Locale.getDefault()), 0, spannable.length, 0)
+          binding.tvSettings.text=spannable */
+    }
 
     override fun onHandleClick(vararg items: Any) {
         if (items.isNotEmpty()) {
@@ -38,6 +39,10 @@ class MoreFragment :
                 }
                 R.id.tv_cards -> {
                     findNavController().navigate(R.id.action_moreFragment_to_cardsFragment)
+                }
+                R.id.tv_moderator -> {
+                    findNavController().navigate(R.id.action_moreFragment_to_reviewTabFragment)
+
                 }
             }
         }

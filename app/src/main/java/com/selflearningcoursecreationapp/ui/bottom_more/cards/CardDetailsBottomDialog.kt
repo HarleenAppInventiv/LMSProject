@@ -1,5 +1,6 @@
 package com.selflearningcoursecreationapp.ui.bottom_more.cards
 
+import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import com.selflearningcoursecreationapp.R
@@ -11,24 +12,50 @@ import com.selflearningcoursecreationapp.utils.HandleClick
 class CardDetailsBottomDialog() : BaseBottomSheetDialog<BottomDialogCardDetailBinding>(),
     HandleClick {
     lateinit var yearMonthBottomDialog: YearMonthBottomDialog
+    private var cardType: Int = Constant.TYPE_MONTH
+    private var position: Int = 0
     override fun getLayoutRes() = R.layout.bottom_dialog_card_detail
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        init()
+    }
 
-  override  fun initUi() {
+    fun init() {
+        arguments?.let {
+            cardType = it.getInt("type")
+            position = it.getInt("position")
+        }
+
+        when (cardType) {
+            Constant.CLICK_ADD -> {
+                binding.evCardNumber.setText("")
+                binding.evLoginEmail.setText("")
+                binding.evExpMonth.setText("")
+                binding.evExpYear.setText("")
+
+            }
+            Constant.CLICK_EDIT -> {
+                binding.evCardNumber.setText("12345678909876")
+                binding.evLoginEmail.setText("abcd@gmail.com")
+                binding.evExpMonth.setText("02 (feb)")
+                binding.evExpYear.setText("2023")
+            }
+
+        }
+
         binding.cardDetail = this
-        yearMonthBottomDialog= YearMonthBottomDialog()
-        yearMonthBottomDialog.setOnDialogClickListener(object : IDialogClick{
+        yearMonthBottomDialog = YearMonthBottomDialog()
+        yearMonthBottomDialog.setOnDialogClickListener(object : IDialogClick {
             override fun onDialogClick(vararg items: Any) {
-                if (items.isNotEmpty())
-                {
-                    val type= items[0] as Int
-                    val data= items[1] as String
-                    when(type)
-                    {
-                        Constant.TYPE_MONTH->{
+                if (items.isNotEmpty()) {
+                    val type = items[0] as Int
+                    val data = items[1] as String
+                    when (type) {
+                        Constant.TYPE_MONTH -> {
                             binding.evExpMonth.setText(data)
                         }
-                        Constant.TYPE_YEAR->{
+                        Constant.TYPE_YEAR -> {
                             binding.evExpYear.setText(data)
 
                         }
@@ -36,33 +63,39 @@ class CardDetailsBottomDialog() : BaseBottomSheetDialog<BottomDialogCardDetailBi
                 }
             }
         })
+    }
 
+    override fun onResume() {
+        super.onResume()
+        init()
     }
 
     override fun onHandleClick(vararg items: Any) {
         if (items.isNotEmpty()) {
             val view = items[0] as View
             when (view.id) {
-
+                R.id.bt_save_card -> {
+                    onDialogClick(cardType, position)
+                    dismiss()
+                }
                 R.id.iv_close -> {
                     dismiss()
                 }
                 R.id.ev_exp_year -> {
                     yearMonthBottomDialog.apply {
-                        arguments= bundleOf("type" to Constant.TYPE_YEAR)
+                        arguments = bundleOf("type" to Constant.TYPE_YEAR)
                     }
-                     yearMonthBottomDialog.show(childFragmentManager,"year")
+                    yearMonthBottomDialog.show(childFragmentManager, "year")
                 }
                 R.id.ev_exp_month -> {
                     yearMonthBottomDialog.apply {
-                        arguments= bundleOf("type" to Constant.TYPE_MONTH)
+                        arguments = bundleOf("type" to Constant.TYPE_MONTH)
                     }
-                    yearMonthBottomDialog.show(childFragmentManager,"month")
+                    yearMonthBottomDialog.show(childFragmentManager, "month")
                 }
+
 
             }
         }
     }
-
-
 }

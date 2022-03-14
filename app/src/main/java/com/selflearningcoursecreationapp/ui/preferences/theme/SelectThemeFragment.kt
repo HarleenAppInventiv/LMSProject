@@ -75,7 +75,8 @@ class SelectThemeFragment : BaseFragment<FragmentSelectThemeBinding>(), BaseAdap
             val position = items[1] as Int
             when (type) {
                 Constant.CLICK_VIEW -> {
-                   viewModel.themeListLiveData.value= viewModel.themeListLiveData.value?.apply {
+//                   viewModel.themeListLiveData.value=
+                    viewModel.themeListLiveData.value?.apply {
                         forEachIndexed { index, themeData ->
                             themeData.isSelected = position == index
                         }

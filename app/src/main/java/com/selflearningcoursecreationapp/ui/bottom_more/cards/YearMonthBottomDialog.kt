@@ -1,7 +1,6 @@
 package com.selflearningcoursecreationapp.ui.bottom_more.cards
 
 import android.view.View
-import android.widget.Toast
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
@@ -59,7 +58,6 @@ class YearMonthBottomDialog : BaseBottomSheetDialog<BottomDialogYearMonthBinding
             when (type) {
                 Constant.CLICK_VIEW -> {
 
-                    Toast.makeText(requireContext(), "${list[position]}", Toast.LENGTH_SHORT).show()
                     onDialogClick(dialogType, list[position])
                     dismiss()
                 }

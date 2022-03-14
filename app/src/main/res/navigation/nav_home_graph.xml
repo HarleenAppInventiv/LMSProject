@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_moreFragment_to_cardsFragment"
             app:destination="@id/cardsFragment" />
+        <action
+            android:id="@+id/action_moreFragment_to_reviewTabFragment"
+            app:destination="@id/reviewTabFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -167,6 +170,10 @@
         android:id="@+id/myBankFragment"
         android:name="com.selflearningcoursecreationapp.ui.my_bank.MyBankFragment"
         android:label="Bank Account"
-        tools:layout="@layout/fragment_my_bank"
-        />
+        tools:layout="@layout/fragment_my_bank" />
+    <fragment
+        android:id="@+id/reviewTabFragment"
+        android:name="com.selflearningcoursecreationapp.ui.review.ReviewTabFragment"
+        android:label="ReviewTabFragment"
+        tools:layout="@layout/fragment_review_parent" />
 </navigation>

@@ -43,6 +43,8 @@ object Constant {
     const val CLICK_UPLOAD = 103
     const val CLICK_LOGO = 106
     const val CLICK_BANNER = 107
+    const val CLICK_EDIT = 104
+    const val CLICK_ADD = 108
 
     const val TYPE_ROUND = 1
     const val TYPE_LINE = 2

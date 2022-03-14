@@ -77,7 +77,6 @@
             android:inputType="textEmailAddress"
             android:lineSpacingExtra="@dimen/_7ssp"
             android:singleLine="true"
-            android:text="4554 45554 4554 4466"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_card_number" />
@@ -108,7 +107,6 @@
             android:inputType="textEmailAddress"
             android:lineSpacingExtra="@dimen/_7ssp"
             android:singleLine="true"
-            android:text="Alisi Nikolson"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_card_name" />
@@ -146,7 +144,6 @@
             android:lineSpacingExtra="@dimen/_7ssp"
             android:onClickListener="@{(v)->cardDetail.onHandleClick(v)}"
             android:singleLine="true"
-            android:text="01(Jan)"
             app:layout_constraintEnd_toStartOf="@+id/ev_exp_year"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_expiry_month" />
@@ -183,7 +180,6 @@
             android:lineSpacingExtra="@dimen/_7ssp"
             android:onClickListener="@{(v)->cardDetail.onHandleClick(v)}"
             android:singleLine="true"
-            android:text="2025"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ev_exp_month"
             app:layout_constraintTop_toBottomOf="@+id/tv_expiry_year" />
