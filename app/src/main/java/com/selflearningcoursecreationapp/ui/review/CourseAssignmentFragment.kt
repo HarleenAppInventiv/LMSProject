@@ -11,10 +11,6 @@ class CourseAssignmentFragment : BaseFragment<FragmentCourseAssignmentBinding>()
     override fun getLayoutRes() = R.layout.fragment_course_assignment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initUI()
-    }
-
-    fun initUI() {
 
     }
 

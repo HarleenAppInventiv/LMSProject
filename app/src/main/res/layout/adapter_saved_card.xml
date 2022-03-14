@@ -133,11 +133,9 @@
                 app:textColorType="secondary" />
 
             <View
-                android:id="@+id/view"
                 android:layout_width="0dp"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:background="@drawable/ic_dotted_line"
-android:layout_height="@dimen/_2sdp"
                 android:id="@+id/view"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
