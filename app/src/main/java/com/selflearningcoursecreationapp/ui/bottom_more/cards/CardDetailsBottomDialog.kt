@@ -1,6 +1,5 @@
 package com.selflearningcoursecreationapp.ui.bottom_more.cards
 
-import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import com.selflearningcoursecreationapp.R
@@ -15,23 +14,18 @@ class CardDetailsBottomDialog() : BaseBottomSheetDialog<BottomDialogCardDetailBi
     private var cardType: Int = Constant.TYPE_MONTH
     private var position: Int = 0
     override fun getLayoutRes() = R.layout.bottom_dialog_card_detail
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-        init()
-    }
+  override fun initUi() {
+      arguments?.let {
+          cardType = it.getInt("type")
+          position = it.getInt("position")
+      }
 
-    fun init() {
-        arguments?.let {
-            cardType = it.getInt("type")
-            position = it.getInt("position")
-        }
-
-        when (cardType) {
-            Constant.CLICK_ADD -> {
-                binding.evCardNumber.setText("")
-                binding.evLoginEmail.setText("")
-                binding.evExpMonth.setText("")
+      when (cardType) {
+          Constant.CLICK_ADD -> {
+              binding.evCardNumber.setText("")
+              binding.evLoginEmail.setText("")
+              binding.evExpMonth.setText("")
                 binding.evExpYear.setText("")
 
             }
@@ -67,7 +61,7 @@ class CardDetailsBottomDialog() : BaseBottomSheetDialog<BottomDialogCardDetailBi
 
     override fun onResume() {
         super.onResume()
-        init()
+        initUi()
     }
 
     override fun onHandleClick(vararg items: Any) {
