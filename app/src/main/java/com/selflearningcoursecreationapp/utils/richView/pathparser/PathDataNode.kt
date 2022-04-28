@@ -419,78 +419,78 @@ class PathDataNode(var type: Char, val params: FloatArray) {
          * @param start The start angle of the arc on the ellipse
          * @param sweep The angle (positive or negative) of the sweep of the arc on the ellipse
          */
-        private fun arcToBezier(
-            p: Path,
-            cx: Double,
-            cy: Double,
-            a: Double,
-            b: Double,
-            e1x: Double,
-            e1y: Double,
-            theta: Double,
-            start: Double,
-            sweep: Double
-        ) {
-            // Taken from equations at: http://spaceroots.org/documents/ellipse/node8.html
-            // and http://www.spaceroots.org/documents/ellipse/node22.html
+//        private fun arcToBezier(
+//            p: Path,
+//            cx: Double,
+//            cy: Double,
+//            a: Double,
+//            b: Double,
+//            e1x: Double,
+//            e1y: Double,
+//            theta: Double,
+//            start: Double,
+//            sweep: Double
+//        ) {
+//            // Taken from equations at: http://spaceroots.org/documents/ellipse/node8.html
+//            // and http://www.spaceroots.org/documents/ellipse/node22.html
+//
+//            // Maximum of 45 degrees per cubic Bezier segment
+//            val numSegments = ceil(abs(sweep * 4 / Math.PI)).toInt()
+//
+//            var e1x = e1x
+//            var e1y = e1y
+//            var eta1 = start
+//            val cosTheta = cos(theta)
+//            val sinTheta = sin(theta)
+//            val cosEta1 = cos(eta1)
+//            val sinEta1 = sin(eta1)
+//            var ep1x = (-a * cosTheta * sinEta1) - (b * sinTheta * cosEta1)
+//            var ep1y = (-a * sinTheta * sinEta1) + (b * cosTheta * cosEta1)
+//
+//            val anglePerSegment = sweep / numSegments
+//            for (i in 0 until numSegments) {
+//                val eta2 = eta1 + anglePerSegment
+//                val sinEta2 = sin(eta2)
+//                val cosEta2 = cos(eta2)
+//                val e2x = cx + (a * cosTheta * cosEta2) - (b * sinTheta * sinEta2)
+//                val e2y = cy + (a * sinTheta * cosEta2) + (b * cosTheta * sinEta2)
+//                val ep2x = -a * cosTheta * sinEta2 - b * sinTheta * cosEta2
+//                val ep2y = -a * sinTheta * sinEta2 + b * cosTheta * cosEta2
+//                val tanDiff2 = tan((eta2 - eta1) / 2)
+//                val alpha = sin(eta2 - eta1) * (sqrt(4 + 3 * tanDiff2 * tanDiff2) - 1) / 3
+//                val q1x = e1x + alpha * ep1x
+//                val q1y = e1y + alpha * ep1y
+//                val q2x = e2x - alpha * ep2x
+//                val q2y = e2y - alpha * ep2y
+//
+//                // Adding this no-op call to workaround a proguard related issue.
+//                p.rLineTo(0f, 0f)
+//                p.cubicTo(
+//                    q1x.toFloat(),
+//                    q1y.toFloat(),
+//                    q2x.toFloat(),
+//                    q2y.toFloat(),
+//                    e2x.toFloat(),
+//                    e2y.toFloat()
+//                )
+//                eta1 = eta2
+//                e1x = e2x
+//                e1y = e2y
+//                ep1x = ep2x
+//                ep1y = ep2y
+//            }
+//        }
+//    }
 
-            // Maximum of 45 degrees per cubic Bezier segment
-            val numSegments = ceil(abs(sweep * 4 / Math.PI)).toInt()
-
-            var e1x = e1x
-            var e1y = e1y
-            var eta1 = start
-            val cosTheta = cos(theta)
-            val sinTheta = sin(theta)
-            val cosEta1 = cos(eta1)
-            val sinEta1 = sin(eta1)
-            var ep1x = (-a * cosTheta * sinEta1) - (b * sinTheta * cosEta1)
-            var ep1y = (-a * sinTheta * sinEta1) + (b * cosTheta * cosEta1)
-
-            val anglePerSegment = sweep / numSegments
-            for (i in 0 until numSegments) {
-                val eta2 = eta1 + anglePerSegment
-                val sinEta2 = sin(eta2)
-                val cosEta2 = cos(eta2)
-                val e2x = cx + (a * cosTheta * cosEta2) - (b * sinTheta * sinEta2)
-                val e2y = cy + (a * sinTheta * cosEta2) + (b * cosTheta * sinEta2)
-                val ep2x = -a * cosTheta * sinEta2 - b * sinTheta * cosEta2
-                val ep2y = -a * sinTheta * sinEta2 + b * cosTheta * cosEta2
-                val tanDiff2 = tan((eta2 - eta1) / 2)
-                val alpha = sin(eta2 - eta1) * (sqrt(4 + 3 * tanDiff2 * tanDiff2) - 1) / 3
-                val q1x = e1x + alpha * ep1x
-                val q1y = e1y + alpha * ep1y
-                val q2x = e2x - alpha * ep2x
-                val q2y = e2y - alpha * ep2y
-
-                // Adding this no-op call to workaround a proguard related issue.
-                p.rLineTo(0f, 0f)
-                p.cubicTo(
-                    q1x.toFloat(),
-                    q1y.toFloat(),
-                    q2x.toFloat(),
-                    q2y.toFloat(),
-                    e2x.toFloat(),
-                    e2y.toFloat()
-                )
-                eta1 = eta2
-                e1x = e2x
-                e1y = e2y
-                ep1x = ep2x
-                ep1y = ep2y
-            }
-        }
-    }
-
-    /**
-     * The current PathDataNode will be interpolated between the
-     * <code>nodeFrom</code> and <code>nodeTo</code> according to the
-     * <code>fraction</code>.
-     *
-     * @param nodeFrom The start value as a PathDataNode.
-     * @param nodeTo   The end value as a PathDataNode
-     * @param fraction The fraction to interpolate.
-     */
+        /**
+         * The current PathDataNode will be interpolated between the
+         * <code>nodeFrom</code> and <code>nodeTo</code> according to the
+         * <code>fraction</code>.
+         *
+         * @param nodeFrom The start value as a PathDataNode.
+         * @param nodeTo   The end value as a PathDataNode
+         * @param fraction The fraction to interpolate.
+         */
     fun interpolatePathDataNode(nodeFrom: PathDataNode, nodeTo: PathDataNode, fraction: Float) {
         (nodeFrom.params.indices).forEach { index ->
             params[index] =
