@@ -30,6 +30,9 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
         BOLD, ITALIC, SUBSCRIPT, SUPERSCRIPT, STRIKETHROUGH, UNDERLINE, H1, H2, H3, H4, H5, H6, ORDEREDLIST, UNORDEREDLIST, JUSTIFYCENTER, JUSTIFYFULL, JUSTIFYLEFT, JUSTIFYRIGHT
     }
 
+    val PX = "px', '"
+    val Exec_Prep_Insert = "javascript:RE.prepareInsert();"
+
     interface OnTextChangeListener {
         fun onTextChange(text: String?)
     }
@@ -141,7 +144,7 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
     override fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
         super.setPadding(left, top, right, bottom)
         exec(
-            "javascript:RE.setPadding('" + left + "px', '" + top + "px', '" + right + "px', '" + bottom
+            "javascript:RE.setPadding('" + left + PX + top + PX + right + PX + bottom
                     + "px');"
         )
     }
@@ -241,13 +244,13 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
     }
 
     fun setTextColor(color: Int) {
-        exec("javascript:RE.prepareInsert();")
+        exec(Exec_Prep_Insert)
         val hex = convertHexColorString(color)
         exec("javascript:RE.setTextColor('$hex');")
     }
 
     fun setTextBackgroundColor(color: Int) {
-        exec("javascript:RE.prepareInsert();")
+        exec(Exec_Prep_Insert)
         val hex = convertHexColorString(color)
         exec("javascript:RE.setTextBackgroundColor('$hex');")
     }
@@ -300,7 +303,7 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
     }
 
     fun insertImage(url: String, alt: String) {
-        exec("javascript:RE.prepareInsert();")
+        exec(Exec_Prep_Insert)
         exec("javascript:RE.insertImage('$url', '$alt');")
     }
 
@@ -312,7 +315,7 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
      * @param width
      */
     fun insertImage(url: String, alt: String, width: Int) {
-        exec("javascript:RE.prepareInsert();")
+        exec(Exec_Prep_Insert)
         exec("javascript:RE.insertImageW('$url', '$alt','$width');")
     }
 
@@ -326,52 +329,52 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
      * @param height
      */
     fun insertImage(url: String, alt: String, width: Int, height: Int) {
-        exec("javascript:RE.prepareInsert();")
+        exec(Exec_Prep_Insert)
         exec("javascript:RE.insertImageWH('$url', '$alt','$width', '$height');")
     }
 
     fun insertVideo(url: String) {
-        exec("javascript:RE.prepareInsert();")
+        exec(Exec_Prep_Insert)
         exec("javascript:RE.insertVideo('$url');")
     }
 
     fun insertVideo(url: String, width: Int) {
-        exec("javascript:RE.prepareInsert();")
+        exec(Exec_Prep_Insert)
         exec("javascript:RE.insertVideoW('$url', '$width');")
     }
 
     fun insertVideo(url: String, width: Int, height: Int) {
-        exec("javascript:RE.prepareInsert();")
+        exec(Exec_Prep_Insert)
         exec("javascript:RE.insertVideoWH('$url', '$width', '$height');")
     }
 
     fun insertAudio(url: String) {
-        exec("javascript:RE.prepareInsert();")
+        exec(Exec_Prep_Insert)
         exec("javascript:RE.insertAudio('$url');")
     }
 
     fun insertYoutubeVideo(url: String) {
-        exec("javascript:RE.prepareInsert();")
+        exec(Exec_Prep_Insert)
         exec("javascript:RE.insertYoutubeVideo('$url');")
     }
 
     fun insertYoutubeVideo(url: String, width: Int) {
-        exec("javascript:RE.prepareInsert();")
+        exec(Exec_Prep_Insert)
         exec("javascript:RE.insertYoutubeVideoW('$url', '$width');")
     }
 
     fun insertYoutubeVideo(url: String, width: Int, height: Int) {
-        exec("javascript:RE.prepareInsert();")
+        exec(Exec_Prep_Insert)
         exec("javascript:RE.insertYoutubeVideoWH('$url', '$width', '$height');")
     }
 
     fun insertLink(href: String, title: String) {
-        exec("javascript:RE.prepareInsert();")
+        exec(Exec_Prep_Insert)
         exec("javascript:RE.insertLink('$href', '$title');")
     }
 
     fun insertTodo() {
-        exec("javascript:RE.prepareInsert();")
+        exec(Exec_Prep_Insert)
         exec("javascript:RE.setTodo('" + TextEditorUtils.currentTime + "');")
     }
 

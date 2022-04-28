@@ -12,7 +12,6 @@ import com.selflearningcoursecreationapp.data.prefrence.PreferenceDataStore
 import com.selflearningcoursecreationapp.databinding.FragmentSplashBinding
 import com.selflearningcoursecreationapp.models.user.UserProfile
 import com.selflearningcoursecreationapp.ui.authentication.InitialActivity
-import com.selflearningcoursecreationapp.ui.home.HomeActivity
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.Constants
 import kotlinx.coroutines.delay
@@ -58,32 +57,19 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
         if (apiCode == ApiEndPoints.API_VIEW_PROFILE) {
             val user = (value as BaseResponse<UserProfile>).resource
 
-            if (!(user?.languageUpdated ?: false) || !(user?.fontUpdated
-                    ?: false) || !(user?.themeUpdated ?: false) || !(user?.categoryUpdated ?: false)
-            ) {
-                var level = when {
-                    user?.languageUpdated ?: false -> 4
-                    user?.fontUpdated ?: false -> 3
-                    user?.themeUpdated ?: false -> 2
-                    user?.categoryUpdated ?: false -> 1
-                    else -> 0
-                }
-                if (level != 4) {
-                    lifecycleScope.launch {
+            if (user?.getPreferenceValue() != 4) {
 
-                        viewModel.saveUser(null)
-                        viewModel.saveUserToken("")
-                    }
-                    baseActivity.startActivity(Intent(baseActivity, InitialActivity::class.java))
-                    baseActivity.finish()
-                } else {
-                    activity?.startActivity(Intent(requireActivity(), HomeActivity::class.java))
-                    activity?.finish()
+                lifecycleScope.launch {
+
+                    viewModel.saveUser(null)
+                    viewModel.saveUserToken("")
                 }
+                baseActivity.startActivity(Intent(baseActivity, InitialActivity::class.java))
+                baseActivity.finish()
+
 
             } else {
-                activity?.startActivity(Intent(requireActivity(), HomeActivity::class.java))
-                activity?.finish()
+                baseActivity.goToHomeActivity()
             }
 
         }

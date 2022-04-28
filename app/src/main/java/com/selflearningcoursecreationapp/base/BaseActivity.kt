@@ -25,6 +25,7 @@ import com.selflearningcoursecreationapp.extensions.setTransparentLightStatusBar
 import com.selflearningcoursecreationapp.extensions.showLog
 import com.selflearningcoursecreationapp.ui.authentication.InitialActivity
 import com.selflearningcoursecreationapp.ui.dialog.ProgressDialog
+import com.selflearningcoursecreationapp.ui.home.HomeActivity
 import com.selflearningcoursecreationapp.utils.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -381,5 +382,14 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver {
 
     }
 
+    fun goToHomeActivity() {
+        startActivity(
+            Intent(
+                this,
+                HomeActivity::class.java
+            )
+        )
+        finish()
+    }
 
 }

@@ -7,6 +7,7 @@ import android.graphics.PorterDuffColorFilter
 import android.text.*
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
@@ -116,42 +117,23 @@ fun TextView.onRightDrawableClick(onClick: () -> Unit) {
 fun EditText.otpHelper() {
     setOnKeyListener { _, keyCode, keyEvent ->
         showLog("OTP", "setOnKeyListener>> >> $keyEvent")
+
+
         when {
             keyCode == KeyEvent.KEYCODE_DEL && isBlank() -> {
 
-                //            if (isBlank()) {
+
                 val view = focusSearch(View.FOCUS_LEFT)
                 view?.requestFocus()
                 if (view is EditText)
                     view?.setSelection(view.text.toString().length)
 
-                //            }
+
             }
             keyEvent.action == KeyEvent.ACTION_UP && content().length == 1 && keyCode != KeyEvent.KEYCODE_DEL -> {
 
                 //            if (content().length == 1) {
-                val m = keyEvent.getUnicodeChar(keyEvent.metaState).toChar().toString()
-                if (m.isDigitsOnly()) {
-                    showLog("OTP", "charrr>> >> ${m}")
-                    val view = focusSearch(View.FOCUS_RIGHT)
-
-                    view?.let {
-
-                        if (view is EditText && view.text.toString().isNullOrEmpty()) {
-
-                            view.setText(m)
-                            view.requestFocus()
-                            view.setSelection(view.text.toString().length)
-
-                        } else {
-                            setText(m)
-                            it.requestFocus()
-
-                        }
-                    } ?: kotlin.run {
-                        this@otpHelper.hideKeyboard()
-                    }
-                }
+                setOverridingText(keyEvent)
             }
         }
 
@@ -162,31 +144,56 @@ fun EditText.otpHelper() {
     }
 
 
-//    addTextChangedListener(object : TextWatcher {
-//        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//            showLog("OTP", "beforeTextChanged>>" + p0.toString())
-//        }
-//
-//        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//
-//            showLog("OTP", p0.toString())
-//            showLog("OTP", "p1>>> $p1")
-//            showLog("OTP", "p2>>> $p2")
-//            showLog("OTP", "p3>>> $p3")
-//            if (p0.toString().length == 1 && p3 == 1) {
-//
-//                val view = focusSearch(View.FOCUS_RIGHT)
-//                view?.let { it.requestFocus() } ?: kotlin.run {
-//                    this@otpHelper.hideKeyboard()
-//                }
-//            }
-//        }
-//
-//        override fun afterTextChanged(p0: Editable?) {
-//            Log.d("text", "afterTextChanged: ")
-//        }
-//
-//    })
+    addTextChangedListener(object : TextWatcher {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            showLog("OTP", "beforeTextChanged>>" + p0.toString())
+        }
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            showLog("OTP", p0.toString())
+            showLog("OTP", "p1>>> $p1")
+            showLog("OTP", "p2>>> $p2")
+            showLog("OTP", "p3>>> $p3")
+            if (p0.toString().length == 1 && p3 == 1) {
+
+                val view = focusSearch(View.FOCUS_RIGHT)
+                view?.let { it.requestFocus() } ?: kotlin.run {
+                    this@otpHelper.hideKeyboard()
+                }
+            }
+        }
+
+        override fun afterTextChanged(p0: Editable?) {
+            Log.d("text", "afterTextChanged: ")
+        }
+
+    })
+}
+
+private fun EditText.setOverridingText(keyEvent: KeyEvent) {
+    val m = keyEvent.getUnicodeChar(keyEvent.metaState).toChar().toString()
+    if (m.isDigitsOnly()) {
+        showLog("OTP", "charrr>> >> ${m}")
+        val view = focusSearch(View.FOCUS_RIGHT)
+
+        view?.let {
+
+            if (view is EditText && view.text.toString().isNullOrEmpty()) {
+
+                view.setText(m)
+                view.requestFocus()
+                view.setSelection(view.text.toString().length)
+
+            } else {
+                setText(m)
+                it.requestFocus()
+
+            }
+        } ?: kotlin.run {
+            this.hideKeyboard()
+        }
+    }
 }
 
 fun TextView.setNoSpaceFilter() {

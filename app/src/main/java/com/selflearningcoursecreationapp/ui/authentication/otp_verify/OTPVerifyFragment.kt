@@ -1,6 +1,5 @@
 package com.selflearningcoursecreationapp.ui.authentication.otp_verify
 
-import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -14,7 +13,6 @@ import com.selflearningcoursecreationapp.databinding.FragmentOTPVarifyBinding
 import com.selflearningcoursecreationapp.extensions.otpHelper
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.models.user.UserResponse
-import com.selflearningcoursecreationapp.ui.home.HomeActivity
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.OTP_TYPE
 import com.selflearningcoursecreationapp.utils.SpanUtils
@@ -59,11 +57,12 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
 
             if (it.phone?.isEmpty() == true) {
                 binding.tvPhone.text = it.email
-                binding.tvSendOtpText.setText(getString(R.string.enter_four_digit_from_mail))
+                binding.tvSendOtpText.text = getString(R.string.enter_four_digit_from_mail)
 
             } else {
                 binding.tvPhone.text = "${it.countryCode} ${it.phone}"
-                binding.tvSendOtpText.setText(getString(R.string.enter_4_digit_number_that_sent_to_your_number))
+                binding.tvSendOtpText.text =
+                    getString(R.string.enter_4_digit_number_that_sent_to_your_number)
             }
         }
 
@@ -114,58 +113,8 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
                         findNavController().navigate(action)
                     }
                     OTP_TYPE.TYPE_LOGIN -> {
-//                        lifecycleScope.launch {
-//
-//                            viewModel.saveUserDataInDB(userResponse)
-//                            delay(2000)
-
-//                        findNavController().navigate(R.id.homeActivity)
                         val userData = (value as BaseResponse<UserResponse>).resource
-                        if (userData?.user?.passwordUpdated == false) {
-                            var action =
-                                OTPVerifyFragmentDirections.actionOTPVerifyFragmentToAddPasswordFragment(
-                                    value.resource?.user?.id.toString()
-                                )
-                            findNavController().navigate(action)
-                        }
-//
-                        else if (!(userData?.user?.languageUpdated
-                                ?: false) || !(userData?.user?.fontUpdated
-                                ?: false) || !(userData?.user?.themeUpdated
-                                ?: false) || !(userData?.user?.categoryUpdated ?: false)
-                        ) {
-                            var level = when {
-                                userData?.user?.languageUpdated ?: false -> 4
-                                userData?.user?.fontUpdated ?: false -> 3
-                                userData?.user?.themeUpdated ?: false -> 2
-                                userData?.user?.categoryUpdated ?: false -> 1
-                                else -> 0
-                            }
-                            if (level != 4) {
-                                findNavController().navigate(
-                                    OTPVerifyFragmentDirections.actionOTPVerifyFragmentToPreferencesFragment(
-                                        currentSelection = level ?: 0
-                                    )
-                                )
-                            } else {
-                                activity?.startActivity(
-                                    Intent(
-                                        requireActivity(),
-                                        HomeActivity::class.java
-                                    )
-                                )
-                                activity?.finish()
-                            }
-
-                        } else {
-                            activity?.startActivity(
-                                Intent(
-                                    requireActivity(),
-                                    HomeActivity::class.java
-                                )
-                            )
-                            activity?.finish()
-                        }
+                        handleLoginResponse(userData)
 
 
 //                        }
@@ -180,11 +129,6 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
                             )
                         findNavController().navigate(action)
 
-//                        lifecycleScope.launch {
-//                            viewModel.saveUserDataInDB(userResponse)
-//                            delay(2000)
-//                        }
-
                     }
                     OTP_TYPE.TYPE_EMAIL -> {
                         findNavController().navigateUp()
@@ -195,22 +139,43 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
         }
     }
 
+    private fun handleLoginResponse(
+        userData: UserResponse?
+    ) {
+        if (userData?.user?.passwordUpdated == false) {
+            var action =
+                OTPVerifyFragmentDirections.actionOTPVerifyFragmentToAddPasswordFragment(
+                    userData?.user?.id.toString()
+                )
+            findNavController().navigate(action)
+        }
+        //
+        else if (userData?.user?.getPreferenceValue() != 4) {
+
+            findNavController().navigate(
+                OTPVerifyFragmentDirections.actionOTPVerifyFragmentToPreferencesFragment(
+                    currentSelection = userData?.user?.getPreferenceValue() ?: 0
+                )
+            )
+
+
+        } else {
+            baseActivity.goToHomeActivity()
+        }
+    }
+
 
     private fun startTimer() {
-        if (maxRequest == 0) {
-            startTime = OTP_TIME.times(5)
-        } else {
-            startTime = OTP_TIME.times(2)
-        }
+        setStartTime()
         timer?.cancel()
         timer = object : CountDownTimer(startTime, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 if (isVisible) {
 
-                    var min = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished).toString()
-                    if (min.length == 1) {
-                        min = "0$min"
-                    }
+                    var min = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+//                    if (min.length == 1) {
+//                        min = "0$min"
+//                    }
 
                     var sec = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
                         .minus(
@@ -219,13 +184,18 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
                                     millisUntilFinished
                                 )
                             )
-                        ).toString()
-                    if (sec.length == 1) {
-                        sec = "0$sec"
-                    }
+                        )
+//                    if (sec.length == 1) {
+//                        sec = "0$sec"
+//                    }
 
-                    val resendText =
-                        baseActivity.getString(R.string.resend_code_in) + " $min : $sec"
+                    val resendText = String.format(
+                        "%s %02d : %02d",
+                        baseActivity.getString(R.string.resend_code_in),
+                        min,
+                        sec
+                    )
+//                        baseActivity.getString(R.string.resend_code_in) + " $min : $sec"
                     binding.tvResend.setSpanString(
                         SpanUtils.with(baseActivity, resendText).startPos(16).textColor(
                             ContextCompat.getColor(
@@ -254,6 +224,14 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
         }
 
         timer?.start()
+    }
+
+    private fun setStartTime() {
+        if (maxRequest == 0) {
+            startTime = OTP_TIME.times(5)
+        } else {
+            startTime = OTP_TIME.times(2)
+        }
     }
 
 

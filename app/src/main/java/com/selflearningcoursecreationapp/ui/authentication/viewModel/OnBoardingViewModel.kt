@@ -92,6 +92,7 @@ class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewMod
                     if (it is Resource.Success<*>) {
                         val data = it.value as BaseResponse<UserResponse>
                         if (data.resource?.user?.phoneNumberVerified == true) {
+
                             saveUserDataInDB(data)
 
                         }
@@ -125,6 +126,7 @@ class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewMod
             }
 
         }
+
 
     fun loginValidation(selectedCountryCodeWithPlus: String) {
 //        updateResponseObserver(Resource.)

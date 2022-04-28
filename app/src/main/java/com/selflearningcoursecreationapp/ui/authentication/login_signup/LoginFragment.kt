@@ -81,8 +81,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
 
     }
 
-    fun limitEditText(s: Int) {
-        val maxLength = s
+    fun limitEditText(maxLength: Int) {
         val filters = arrayOfNulls<InputFilter>(1)
         filters[0] = InputFilter.LengthFilter(maxLength)
         binding.edtLoginEmail.setFilters(filters)
@@ -114,28 +113,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
                         )
                     )
 
-                } else if (!(userData?.user?.languageUpdated
-                        ?: false) || !(userData?.user?.fontUpdated
-                        ?: false) || !(userData?.user?.themeUpdated
-                        ?: false) || !(userData?.user?.categoryUpdated ?: false)
-                ) {
-                    var level = when {
-                        userData?.user?.languageUpdated ?: false -> 4
-                        userData?.user?.fontUpdated ?: false -> 3
-                        userData?.user?.themeUpdated ?: false -> 2
-                        userData?.user?.categoryUpdated ?: false -> 1
-                        else -> 0
-                    }
-                    if (level != 4) {
-                        findNavController().navigate(
-                            LoginSignUpFragmentDirections.actionLoginSignUpFragmentToPreferencesFragment(
-                                currentSelection = level ?: 0
-                            )
+                } else if (userData?.user?.getPreferenceValue() != 4) {
+
+                    findNavController().navigate(
+                        LoginSignUpFragmentDirections.actionLoginSignUpFragmentToPreferencesFragment(
+                            currentSelection = userData?.user?.getPreferenceValue() ?: 0
                         )
-                    } else {
-                        activity?.startActivity(Intent(requireActivity(), HomeActivity::class.java))
-                        activity?.finish()
-                    }
+                    )
 
                 } else {
                     activity?.startActivity(Intent(requireActivity(), HomeActivity::class.java))

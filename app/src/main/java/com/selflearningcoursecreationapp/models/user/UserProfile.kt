@@ -269,4 +269,15 @@ data class UserProfile(
             }
         }
     }
+
+    fun getPreferenceValue(): Int {
+        return when {
+            languageUpdated ?: false -> 4
+            fontUpdated ?: false -> 3
+            themeUpdated ?: false -> 2
+            categoryUpdated ?: false -> 1
+            else -> 0
+        }
+    }
+
 }

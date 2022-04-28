@@ -72,25 +72,23 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), BaseBottomSheetDia
         super.onResponseSuccess(value, apiCode)
         Log.d("SignUpFragment", "onResponseSuccess: $apiCode")
         val response = value as? BaseResponse<*>
-        response.let {
-            when (apiCode) {
-                ApiEndPoints.API_SIGNUP -> {
-                    val result = response?.resource as? UserProfile
-                    result?.let {
-                        findNavController().navigate(
-                            LoginSignUpFragmentDirections.actionLoginSignUpFragmentToOTPVerifyFragment(
-                                phone = binding.edtRegPhone.content(),
-                                email = "",
-                                type = OTP_TYPE.TYPE_SIGNUP,
-                                countryCode = binding.countryCodePicker.selectedCountryCodeWithPlus
-                            )
+        response?.let {
+
+            if (apiCode == ApiEndPoints.API_SIGNUP) {
+                val result = response?.resource as? UserProfile
+                result?.let {
+                    findNavController().navigate(
+                        LoginSignUpFragmentDirections.actionLoginSignUpFragmentToOTPVerifyFragment(
+                            phone = binding.edtRegPhone.content(),
+                            email = "",
+                            type = OTP_TYPE.TYPE_SIGNUP,
+                            countryCode = binding.countryCodePicker.selectedCountryCodeWithPlus
                         )
+                    )
                     }
                 }
 
-                else -> {
-                }
-            }
+
         }
     }
 
