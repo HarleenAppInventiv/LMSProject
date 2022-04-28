@@ -26,24 +26,7 @@ object XmlParser {
         while (eventType != XmlPullParser.END_DOCUMENT) {
             val tagName = xpp.name
             if (eventType == XmlPullParser.START_TAG) {
-                when (tagName) {
-                    Vector.TAG_NAME -> parseVectorElement(vector, xpp, context)
-                    Group.TAG_NAME -> {
-                        val group = parseGroupElement(context, xpp)
-                        if (!groupStack.empty()) {
-                            group.scale(groupStack.peek().matrix())
-                        }
-                        groupStack.push(group)
-                    }
-                    RichPath.TAG_NAME -> {
-                        parsePathElement(context, xpp)?.run {
-                            if (!groupStack.empty()) {
-                                applyGroup(groupStack.peek())
-                            }
-                            vector.paths.add(this)
-                        }
-                    }
-                }
+                vector.parseStartTag(tagName, xpp, context, groupStack)
             } else if (eventType == XmlPullParser.END_TAG) {
                 if (Group.TAG_NAME == tagName) {
                     if (!groupStack.empty()) {
@@ -54,6 +37,33 @@ object XmlParser {
             eventType = xpp.next()
         }
         xpp.close()
+    }
+
+    private fun Vector.parseStartTag(
+        tagName: String?,
+
+        xpp: XmlResourceParser,
+        context: Context,
+        groupStack: Stack<Group>
+    ) {
+        when (tagName) {
+            Vector.TAG_NAME -> parseVectorElement(this, xpp, context)
+            Group.TAG_NAME -> {
+                val group = parseGroupElement(context, xpp)
+                if (!groupStack.empty()) {
+                    group.scale(groupStack.peek().matrix())
+                }
+                groupStack.push(group)
+            }
+            RichPath.TAG_NAME -> {
+                parsePathElement(context, xpp)?.run {
+                    if (!groupStack.empty()) {
+                        applyGroup(groupStack.peek())
+                    }
+                    this@parseStartTag.paths.add(this)
+                }
+            }
+        }
     }
 
     private fun parseVectorElement(vector: Vector, xpp: XmlResourceParser, context: Context) {

@@ -221,37 +221,37 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
     }
 
     private fun observeListeners() {
-        if (type == PREFERENCES.TYPE_ALL || type == PREFERENCES.TYPE_CATEGORY) {
-            viewModel.categoryListLiveData.observe(viewLifecycleOwner, Observer {
-                if (currentSelection == PREFERENCES.TYPE_CATEGORY) {
-                    resetData()
-                    setCategoryData()
+//        if (type == PREFERENCES.TYPE_ALL || type == PREFERENCES.TYPE_CATEGORY) {
+        viewModel.categoryListLiveData.observe(viewLifecycleOwner, Observer {
+            if (currentSelection == PREFERENCES.TYPE_CATEGORY) {
+                resetData()
+                setCategoryData()
 
-                    binding.cbSelectAll.isChecked = it.filter { !it.isSelected }.isNullOrEmpty()
-                }
-            })
-        }
-        if (type == PREFERENCES.TYPE_ALL || type == PREFERENCES.TYPE_THEME) {
-            viewModel.themeListLiveData.observe(viewLifecycleOwner, Observer {
-                if (currentSelection == PREFERENCES.TYPE_THEME) {
-                    resetData()
-                    setThemeData()
-                }
-            })
-        }
-        if (type == PREFERENCES.TYPE_ALL || type == PREFERENCES.TYPE_FONT) {
-            viewModel.fontListData.observe(viewLifecycleOwner, {
+                binding.cbSelectAll.isChecked = it.filter { !it.isSelected }.isNullOrEmpty()
+            }
+        })
+//        }
+//        if (type == PREFERENCES.TYPE_ALL || type == PREFERENCES.TYPE_THEME) {
+        viewModel.themeListLiveData.observe(viewLifecycleOwner, Observer {
+            if (currentSelection == PREFERENCES.TYPE_THEME) {
+                resetData()
+                setThemeData()
+            }
+        })
+//        }
+//        if (type == PREFERENCES.TYPE_ALL || type == PREFERENCES.TYPE_FONT) {
+        viewModel.fontListData.observe(viewLifecycleOwner, {
 //                if (currentSelection==PREFERENCES.TYPE_FONT) {
+            setData()
+        })
+//        }
+//        if (type == PREFERENCES.TYPE_ALL || type == PREFERENCES.TYPE_LANGUAGE) {
+        viewModel.languageListLiveData.observe(viewLifecycleOwner, Observer {
+            if (currentSelection == PREFERENCES.TYPE_LANGUAGE) {
                 setData()
-            })
-        }
-        if (type == PREFERENCES.TYPE_ALL || type == PREFERENCES.TYPE_LANGUAGE) {
-            viewModel.languageListLiveData.observe(viewLifecycleOwner, Observer {
-                if (currentSelection == PREFERENCES.TYPE_LANGUAGE) {
-                    setData()
-                }
-            })
-        }
+            }
+        })
+//        }
 
     }
 

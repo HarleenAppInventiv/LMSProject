@@ -1,4 +1,4 @@
-package com.richpath
+package com.selflearningcoursecreationapp.utils.richView
 
 import android.graphics.*
 import android.graphics.drawable.Drawable
@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.ImageView.ScaleType
 import androidx.annotation.IntRange
 import com.richpath.util.PathUtils
-import com.selflearningcoursecreationapp.utils.richView.RichPath
 import com.selflearningcoursecreationapp.utils.richView.listener.OnRichPathUpdatedListener
 import com.selflearningcoursecreationapp.utils.richView.model.Vector
 import com.selflearningcoursecreationapp.utils.richView.pathparser.PathParser
@@ -189,7 +188,7 @@ class RichPathDrawable(private val vector: Vector?, private val scaleType: Image
     }
 
     override fun setAlpha(@IntRange(from = 0, to = 255) alpha: Int) {
-
+        //set alpha level on drawable
     }
 
     override fun getOpacity(): Int {
@@ -197,5 +196,6 @@ class RichPathDrawable(private val vector: Vector?, private val scaleType: Image
     }
 
     override fun setColorFilter(colorFilter: ColorFilter?) {
+        //apply color filter on drawable
     }
 }

@@ -9,7 +9,6 @@ import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.annotation.IntRange
 import androidx.appcompat.widget.AppCompatImageView
-import com.richpath.RichPathDrawable
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.utils.richView.model.Vector
 import com.selflearningcoursecreationapp.utils.richView.pathparser.PathParser

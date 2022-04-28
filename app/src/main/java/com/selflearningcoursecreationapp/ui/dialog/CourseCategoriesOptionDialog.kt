@@ -10,7 +10,7 @@ import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.DialogType
 
 class CourseCategoriesOptionDialog() : BaseBottomSheetDialog<BottomDialogCourceCateBinding>(),
-        (String?) -> Unit, BaseAdapter.IViewClick {
+    BaseAdapter.IViewClick {
 
     var list = ArrayList<String>()
     lateinit var adapterCourseCategories: AdapterCourseCategory
@@ -62,8 +62,5 @@ class CourseCategoriesOptionDialog() : BaseBottomSheetDialog<BottomDialogCourceC
         }
     }
 
-    override fun invoke(p1: String?) {
-
-    }
 
 }

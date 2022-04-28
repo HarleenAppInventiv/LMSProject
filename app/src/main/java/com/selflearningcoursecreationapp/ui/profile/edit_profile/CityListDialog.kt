@@ -1,7 +1,6 @@
 package com.selflearningcoursecreationapp.ui.profile.edit_profile
 
-import android.text.Editable
-import android.text.TextWatcher
+import androidx.core.widget.doOnTextChanged
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
@@ -28,31 +27,23 @@ class CityListDialog : BaseBottomSheetDialog<BottomDialogCourceCateBinding>(),
         binding.etSearch.hint = baseActivity.getString(R.string.search_city)
         binding.tvTitle.text = baseActivity.getString(R.string.select_city)
 
-        binding.etSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        binding.etSearch.doOnTextChanged { text, start, before, count ->
+            if (text.isNullOrEmpty()) {
+                setStateAdapter(list)
 
-            }
+            } else {
+                arguments?.let {
+                    val dataList = it.getParcelableArrayList<CityModel>("data")?.filter {
+                        it.cityName?.toLowerCase()
+                            ?.contains(text.toString().toLowerCase()) == true
+                    } as ArrayList
+                    setStateAdapter(dataList)
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0.isNullOrEmpty()) {
-                    setStateAdapter(list)
-
-                } else {
-                    arguments?.let {
-                        val dataList = it.getParcelableArrayList<CityModel>("data")?.filter {
-                            it.cityName?.toLowerCase()
-                                ?.contains(p0.toString().toLowerCase()) == true
-                        } as ArrayList
-                        setStateAdapter(dataList)
-
-                    }
                 }
-
             }
+        }
 
-            override fun afterTextChanged(p0: Editable?) {
-            }
-        })
+
 
         binding.ivClose.setOnClickListener {
             dismiss()

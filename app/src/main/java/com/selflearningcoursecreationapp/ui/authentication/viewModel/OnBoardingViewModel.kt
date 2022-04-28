@@ -96,25 +96,7 @@ class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewMod
                             saveUserDataInDB(data)
 
                         }
-                        if (isRememberChecked.value == true) {
-                            PreferenceDataStore.saveString(
-                                Constants.EMAIL,
-                                loginLiveData.value?.email
-                            )
-                            PreferenceDataStore.saveString(
-                                Constants.PASSWORD,
-                                loginLiveData.value?.password
-                            )
-                            PreferenceDataStore.saveString(
-                                Constants.COUNTYRY_CODE,
-                                selectedCountryCodeWithPlus
-                            )
-                        } else {
-                            PreferenceDataStore.saveString(Constants.EMAIL, "")
-                            PreferenceDataStore.saveString(Constants.PASSWORD, "")
-                            PreferenceDataStore.saveString(Constants.COUNTYRY_CODE, "")
-
-                        }
+                        rememberMeFunctionality(selectedCountryCodeWithPlus)
 
                         delay(2000)
 
@@ -126,6 +108,28 @@ class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewMod
             }
 
         }
+
+    private suspend fun rememberMeFunctionality(selectedCountryCodeWithPlus: String) {
+        if (isRememberChecked.value == true) {
+            PreferenceDataStore.saveString(
+                Constants.EMAIL,
+                loginLiveData.value?.email
+            )
+            PreferenceDataStore.saveString(
+                Constants.PASSWORD,
+                loginLiveData.value?.password
+            )
+            PreferenceDataStore.saveString(
+                Constants.COUNTYRY_CODE,
+                selectedCountryCodeWithPlus
+            )
+        } else {
+            PreferenceDataStore.saveString(Constants.EMAIL, "")
+            PreferenceDataStore.saveString(Constants.PASSWORD, "")
+            PreferenceDataStore.saveString(Constants.COUNTYRY_CODE, "")
+
+        }
+    }
 
 
     fun loginValidation(selectedCountryCodeWithPlus: String) {

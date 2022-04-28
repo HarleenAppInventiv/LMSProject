@@ -51,51 +51,51 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
 
     fun savePrefernce(currentSelection: Int) = viewModelScope.launch(coroutineExceptionHandle) {
         val map = HashMap<String, Any>().apply {
-            if (currentSelection == 0) {
+            when (currentSelection) {
+                0 -> {
 
-                categoryListLiveData.value?.filter { it.isSelected }?.map { it.id }?.joinToString()
-                    ?.let {
-                        if (it.isNotEmpty()) {
+                    categoryListLiveData.value?.filter { it.isSelected }?.map { it.id }
+                        ?.joinToString()
+                        ?.let {
                             put(
                                 "categories",
                                 it
                             )
-                        } else {
-                            put("categories", "")
-                        }
-                    } ?: run {
-                    put(
-                        "categories",
-                        ""
-                    )
-                }
+                        } ?: run {
+                        put(
+                            "categories",
+                            ""
+                        )
+                    }
 
 
-            }
-            if (currentSelection == 1) {
-                themeListLiveData.value?.singleOrNull { it.isSelected }?.id?.let {
-                    put(
-                        "themeId",
-                        it
-                    )
+                }
+                1 -> {
+                    themeListLiveData.value?.singleOrNull { it.isSelected }?.id?.let {
+                        put(
+                            "themeId",
+                            it
+                        )
+                    }
+                }
+                2 -> {
+                    fontListData.value?.singleOrNull { it.isSelected }?.id?.let {
+                        put(
+                            "fontId",
+                            it
+                        )
+                    }
+                }
+                3 -> {
+                    languageListLiveData.value?.singleOrNull { it.isSelected }?.id?.let {
+                        put(
+                            "languageId",
+                            it
+                        )
+                    }
                 }
             }
-            if (currentSelection == 2) {
-                fontListData.value?.singleOrNull { it.isSelected }?.id?.let {
-                    put(
-                        "fontId",
-                        it
-                    )
-                }
-            }
-            if (currentSelection == 3) {
-                languageListLiveData.value?.singleOrNull { it.isSelected }?.id?.let {
-                    put(
-                        "languageId",
-                        it
-                    )
-                }
-            }
+
         }
         var response = repo.savePreference(map)
         withContext(Dispatchers.IO) {

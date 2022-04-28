@@ -11,7 +11,7 @@ import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.DialogType
 
 class ProfessionOptionDialog : BaseBottomSheetDialog<BottomDialogCourceCateBinding>(),
-        (String?) -> Unit, BaseAdapter.IViewClick {
+    BaseAdapter.IViewClick {
     lateinit var adapterCourseCategories: AdapterProfession
 
     override fun getLayoutRes() = R.layout.bottom_dialog_cource_cate
@@ -53,9 +53,6 @@ class ProfessionOptionDialog : BaseBottomSheetDialog<BottomDialogCourceCateBindi
         }
     }
 
-    override fun invoke(p1: String?) {
-
-    }
 
 }
 

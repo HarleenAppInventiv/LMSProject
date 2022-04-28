@@ -4,7 +4,6 @@ package com.selflearningcoursecreationapp.extensions
 import android.view.View
 
 
-
 fun View.visibleView(show: Boolean) {
     visibility = if (show) {
         View.VISIBLE
@@ -26,6 +25,8 @@ fun View.visible() {
 fun Int?.isNullOrZero(): Boolean {
     return this == null || this == 0
 }
+
+
 
 
 
