@@ -7,6 +7,7 @@ import com.selflearningcoursecreationapp.data.network.ApiError
 import com.selflearningcoursecreationapp.data.network.HTTPCode
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.utils.isInternetAvailable
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import org.json.JSONObject
 import retrofit2.Response
@@ -29,15 +30,7 @@ abstract class BaseRepo<REQUEST> {
                 when {
                     response.isSuccessful -> {
 
-                        when {
-                            data != null && (data.statusCode == HTTPCode.SUCCESS || data.statusCode == HTTPCode.CREATED || data.statusCode == HTTPCode.AUTOMATIC_COMPLETE || data.statusCode == HTTPCode.UNJOIN || data.statusCode == HTTPCode.UPDATE_SUCCESS) -> emit(
-                                Resource.Success(
-                                    data,
-                                    apiCode
-                                )
-                            )
-                            else -> emit(Resource.Failure(false, apiCode, getError(response)))
-                        }
+                        handleSuccessResponse(data, apiCode, response)
 
                     }
                     else -> {
@@ -59,6 +52,19 @@ abstract class BaseRepo<REQUEST> {
         } else {
             emit(Resource.Failure(true, apiCode, setApiError(false) ?: ApiError()))
         }
+    }
+
+    private suspend fun FlowCollector<Resource>.handleSuccessResponse(
+        data: BaseResponse<REQUEST>?,
+        apiCode: String,
+        response: Response<BaseResponse<REQUEST>>
+    ) {
+        if (data != null && (data.statusCode == HTTPCode.SUCCESS || data.statusCode == HTTPCode.CREATED || data.statusCode == HTTPCode.AUTOMATIC_COMPLETE || data.statusCode == HTTPCode.UNJOIN || data.statusCode == HTTPCode.UPDATE_SUCCESS)) emit(
+            Resource.Success(
+                data,
+                apiCode
+            )
+        ) else emit(Resource.Failure(false, apiCode, getError(response)))
     }
 
     private fun getError(response: Response<BaseResponse<REQUEST>>): ApiError {

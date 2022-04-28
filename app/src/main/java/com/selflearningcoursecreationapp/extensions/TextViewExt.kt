@@ -7,7 +7,6 @@ import android.graphics.PorterDuffColorFilter
 import android.text.*
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
-import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
@@ -163,31 +162,31 @@ fun EditText.otpHelper() {
     }
 
 
-    addTextChangedListener(object : TextWatcher {
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            showLog("OTP", "beforeTextChanged>>" + p0.toString())
-        }
-
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            showLog("OTP", p0.toString())
-            showLog("OTP", "p1>>> $p1")
-            showLog("OTP", "p2>>> $p2")
-            showLog("OTP", "p3>>> $p3")
-            if (p0.toString().length == 1 && p3 == 1) {
-
-                val view = focusSearch(View.FOCUS_RIGHT)
-                view?.let { it.requestFocus() } ?: kotlin.run {
-                    this@otpHelper.hideKeyboard()
-                }
-            }
-        }
-
-        override fun afterTextChanged(p0: Editable?) {
-            Log.d("text", "afterTextChanged: ")
-        }
-
-    })
+//    addTextChangedListener(object : TextWatcher {
+//        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//            showLog("OTP", "beforeTextChanged>>" + p0.toString())
+//        }
+//
+//        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//
+//            showLog("OTP", p0.toString())
+//            showLog("OTP", "p1>>> $p1")
+//            showLog("OTP", "p2>>> $p2")
+//            showLog("OTP", "p3>>> $p3")
+//            if (p0.toString().length == 1 && p3 == 1) {
+//
+//                val view = focusSearch(View.FOCUS_RIGHT)
+//                view?.let { it.requestFocus() } ?: kotlin.run {
+//                    this@otpHelper.hideKeyboard()
+//                }
+//            }
+//        }
+//
+//        override fun afterTextChanged(p0: Editable?) {
+//            Log.d("text", "afterTextChanged: ")
+//        }
+//
+//    })
 }
 
 fun TextView.setNoSpaceFilter() {
