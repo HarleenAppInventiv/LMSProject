@@ -117,38 +117,41 @@ fun TextView.onRightDrawableClick(onClick: () -> Unit) {
 fun EditText.otpHelper() {
     setOnKeyListener { _, keyCode, keyEvent ->
         showLog("OTP", "setOnKeyListener>> >> $keyEvent")
-        if (keyCode == KeyEvent.KEYCODE_DEL && isBlank()) {
+        when {
+            keyCode == KeyEvent.KEYCODE_DEL && isBlank() -> {
 
-//            if (isBlank()) {
-            val view = focusSearch(View.FOCUS_LEFT)
-            view?.requestFocus()
-            if (view is EditText)
-                view?.setSelection(view.text.toString().length)
+                //            if (isBlank()) {
+                val view = focusSearch(View.FOCUS_LEFT)
+                view?.requestFocus()
+                if (view is EditText)
+                    view?.setSelection(view.text.toString().length)
 
-//            }
-        } else if (keyEvent.action == KeyEvent.ACTION_UP && content().length == 1 && keyCode != KeyEvent.KEYCODE_DEL) {
+                //            }
+            }
+            keyEvent.action == KeyEvent.ACTION_UP && content().length == 1 && keyCode != KeyEvent.KEYCODE_DEL -> {
 
-//            if (content().length == 1) {
-            val m = keyEvent.getUnicodeChar(keyEvent.metaState).toChar().toString()
-            if (m.isDigitsOnly()) {
-                showLog("OTP", "charrr>> >> ${m}")
-                val view = focusSearch(View.FOCUS_RIGHT)
+                //            if (content().length == 1) {
+                val m = keyEvent.getUnicodeChar(keyEvent.metaState).toChar().toString()
+                if (m.isDigitsOnly()) {
+                    showLog("OTP", "charrr>> >> ${m}")
+                    val view = focusSearch(View.FOCUS_RIGHT)
 
-                view?.let {
+                    view?.let {
 
-                    if (view is EditText && view.text.toString().isNullOrEmpty()) {
+                        if (view is EditText && view.text.toString().isNullOrEmpty()) {
 
-                        view.setText(m)
-                        view.requestFocus()
-                        view.setSelection(view.text.toString().length)
+                            view.setText(m)
+                            view.requestFocus()
+                            view.setSelection(view.text.toString().length)
 
-                    } else {
-                        setText(m)
-                        it.requestFocus()
+                        } else {
+                            setText(m)
+                            it.requestFocus()
 
+                        }
+                    } ?: kotlin.run {
+                        this@otpHelper.hideKeyboard()
                     }
-                } ?: kotlin.run {
-                    this@otpHelper.hideKeyboard()
                 }
             }
         }

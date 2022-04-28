@@ -26,25 +26,31 @@ abstract class BaseRepo<REQUEST> {
             try {
                 val response = fetchDataFromRemoteSource()
                 val data = response.body()
-                if (response.isSuccessful) {
+                when {
+                    response.isSuccessful -> {
 
-                    if (data != null && (data.statusCode == HTTPCode.SUCCESS || data.statusCode == HTTPCode.CREATED || data.statusCode == HTTPCode.AUTOMATIC_COMPLETE || data.statusCode == HTTPCode.UNJOIN || data.statusCode == HTTPCode.UPDATE_SUCCESS)) emit(
-                        Resource.Success(
-                            data,
-                            apiCode
-                        )
-                    ) else emit(Resource.Failure(false, apiCode, getError(response)))
+                        when {
+                            data != null && (data.statusCode == HTTPCode.SUCCESS || data.statusCode == HTTPCode.CREATED || data.statusCode == HTTPCode.AUTOMATIC_COMPLETE || data.statusCode == HTTPCode.UNJOIN || data.statusCode == HTTPCode.UPDATE_SUCCESS) -> emit(
+                                Resource.Success(
+                                    data,
+                                    apiCode
+                                )
+                            )
+                            else -> emit(Resource.Failure(false, apiCode, getError(response)))
+                        }
 
-                } else {
-                    val error = Gson().fromJson(
-                        JSONObject(
+                    }
+                    else -> {
+                        val error = Gson().fromJson(
                             JSONObject(
-                                response.errorBody()?.string()
-                                    ?: "{}"
-                            ).toString()
-                        ).toString(), ApiError::class.java
-                    )
-                    emit(Resource.Failure(false, apiCode, error))
+                                JSONObject(
+                                    response.errorBody()?.string()
+                                        ?: "{}"
+                                ).toString()
+                            ).toString(), ApiError::class.java
+                        )
+                        emit(Resource.Failure(false, apiCode, error))
+                    }
                 }
             } catch (e: Exception) {
                 val error = handleException(e)
