@@ -70,23 +70,6 @@
                 app:layout_constraintEnd_toEndOf="@+id/appCompatImageView2"
                 app:layout_constraintTop_toTopOf="@+id/appCompatImageView2" />
 
-            <!--                        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView-->
-            <!--                            android:layout_width="wrap_content"-->
-            <!--                            android:layout_height="wrap_content"-->
-            <!--                            android:layout_margin="@dimen/_8sdp"-->
-            <!--                            android:background="@drawable/edt_white_bg"-->
-            <!--                            android:drawablePadding="@dimen/_5sdp"-->
-            <!--                            android:elevation="@dimen/_1sdp"-->
-            <!--                            android:focusable="true"-->
-            <!--                            android:paddingHorizontal="@dimen/_8sdp"-->
-            <!--                            android:paddingVertical="@dimen/_3sdp"-->
-            <!--                            android:text="4.8"-->
-            <!--                            android:textSize="@dimen/_12ssp"-->
-            <!--                            app:drawableStartCompat="@drawable/ic_star"-->
-            <!--                            app:fontType="semiBold"-->
-            <!--                            app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView2"-->
-            <!--                            app:layout_constraintStart_toStartOf="@+id/appCompatImageView2"-->
-            <!--                            app:layout_constraintTop_toBottomOf="@+id/appCompatImageView2" />-->
 
             <View
                 android:layout_width="0dp"

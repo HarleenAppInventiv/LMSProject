@@ -97,39 +97,15 @@
       <path
           android:pathData="M18.84,85.935 L6.081,76.25 64.325,-0.473l12.76,9.686L18.84,85.935z"
           android:strokeAlpha="0.5"
-          android:fillAlpha="0.5">
-          <!--        <aapt:attr name="android:fillColor">-->
-          <!--          <gradient-->
-          <!--              android:startY="5.39"-->
-          <!--              android:startX="34.292"-->
-          <!--              android:endY="80.074"-->
-          <!--              android:endX="48.872"-->
-          <!--              android:type="linear">-->
-          <!--            <item android:offset="0" android:color="#FFFFFFFF"/>-->
-          <!--            <item android:offset="0.994" android:color="#FFFFFFFF"/>-->
-          <!--          </gradient>-->
-          <!--        </aapt:attr>-->
-      </path>
+          android:fillAlpha="0.5"></path>
     </group>
     <group>
       <clip-path
           android:pathData="m35.367,100.61 l-6.993,-5.307 58.244,-76.727 6.99,5.308 -58.24,76.726z"/>
-        <path
-            android:pathData="m35.368,100.61 l-6.993,-5.307 58.244,-76.727 6.99,5.308 -58.24,76.726z"
-            android:strokeAlpha="0.5"
-            android:fillAlpha="0.5">
-            <!--        <aapt:attr name="android:fillColor">-->
-            <!--          <gradient -->
-            <!--              android:startY="24.902"-->
-            <!--              android:startX="54.221"-->
-            <!--              android:endY="94.284"-->
-            <!--              android:endX="67.765"-->
-            <!--              android:type="linear">-->
-            <!--            <item android:offset="0" android:color="#FFFFFFFF"/>-->
-            <!--            <item android:offset="0.994" android:color="#FFFFFFFF"/>-->
-            <!--          </gradient>-->
-            <!--        </aapt:attr>-->
-        </path>
+      <path
+          android:pathData="m35.368,100.61 l-6.993,-5.307 58.244,-76.727 6.99,5.308 -58.24,76.726z"
+          android:strokeAlpha="0.5"
+          android:fillAlpha="0.5"></path>
     </group>
   </group>
 </vector>

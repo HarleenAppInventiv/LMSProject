@@ -135,8 +135,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
 
             }
 
-            else -> {
-            }
+
         }
 
 

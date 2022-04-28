@@ -36,7 +36,6 @@ class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClic
 
         binding.btAddText.setOnClickListener {
 
-            var a = textEditor.html?.length
             requireActivity().supportFragmentManager.setFragmentResult(
                 "valueHTML",
                 bundleOf("value" to textEditor.html.toString(), "type" to type)

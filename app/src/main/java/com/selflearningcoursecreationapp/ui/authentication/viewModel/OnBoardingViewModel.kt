@@ -40,12 +40,12 @@ class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewMod
         viewModelScope.launch {
             val email = PreferenceDataStore.getString(Constants.EMAIL)
             val password = PreferenceDataStore.getString(Constants.PASSWORD)
-            val country_code = PreferenceDataStore.getString(Constants.COUNTYRY_CODE)
+            val countryCode = PreferenceDataStore.getString(Constants.COUNTYRY_CODE)
             if (!email.isNullOrEmpty()) {
                 value!!.email = email
                 value!!.password = password ?: ""
                 isRememberChecked.value = true
-                value?.countryCode = country_code.toString()
+                value?.countryCode = countryCode ?: ""
             }
         }
 

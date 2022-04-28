@@ -1,7 +1,7 @@
 package com.selflearningcoursecreationapp.utils.richView.pathparser
 
 import android.graphics.Path
-import android.util.Log
+import com.selflearningcoursecreationapp.utils.PathNodeArc
 import com.selflearningcoursecreationapp.utils.richView.pathparser.PathParserCompat.copyOfRange
 import kotlin.math.*
 
@@ -235,36 +235,56 @@ class PathDataNode(var type: Char, val params: FloatArray) {
                     }
                     'a' -> { // Draws an elliptical arc
                         // (rx ry x-axis-rotation large-arc-flag sweep-flag x y)
-                        drawArc(
-                            path,
-                            currentX,
-                            currentY,
-                            params[k + 5] + currentX,
-                            params[k + 6] + currentY,
-                            params[k + 0],
-                            params[k + 1],
-                            params[k + 2],
-                            params[k + 3] != 0f,
-                            params[k + 4] != 0f
-                        )
+                        PathNodeArc.with(path)
+                            .setCurrentX(currentX)
+                            .setCurrentY(currentY)
+                            .setX1(params[k + 5] + currentX)
+                            .setY1(params[k + 6] + currentY)
+                            .setA(params[k + 0])
+                            .setB(params[k + 1])
+                            .setTheta(params[k + 2])
+                            .setMoreThanHalf(params[k + 3] != 0f)
+                            .setPositiveArc(params[k + 4] != 0f).drawArc()
+//                        drawArc(
+//                            path,
+//                            currentX,
+//                            currentY,
+//                            params[k + 5] + currentX,
+//                            params[k + 6] + currentY,
+//                            params[k + 0],
+//                            params[k + 1],
+//                            params[k + 2],
+//                            params[k + 3] != 0f,
+//                            params[k + 4] != 0f
+//                        )
                         currentX += params[k + 5]
                         currentY += params[k + 6]
                         ctrlPointX = currentX
                         ctrlPointY = currentY
                     }
                     'A' -> { // Draws an elliptical arc
-                        drawArc(
-                            path,
-                            currentX,
-                            currentY,
-                            params[k + 5],
-                            params[k + 6],
-                            params[k + 0],
-                            params[k + 1],
-                            params[k + 2],
-                            params[k + 3] != 0f,
-                            params[k + 4] != 0f
-                        )
+                        PathNodeArc.with(path)
+                            .setCurrentX(currentX)
+                            .setCurrentY(currentY)
+                            .setX1(params[k + 5])
+                            .setY1(params[k + 6])
+                            .setA(params[k + 0])
+                            .setB(params[k + 1])
+                            .setTheta(params[k + 2])
+                            .setMoreThanHalf(params[k + 3] != 0f)
+                            .setPositiveArc(params[k + 4] != 0f).drawArc()
+//                        drawArc(
+//                            path,
+//                            currentX,
+//                            currentY,
+//                            params[k + 5],
+//                            params[k + 6],
+//                            params[k + 0],
+//                            params[k + 1],
+//                            params[k + 2],
+//                            params[k + 3] != 0f,
+//                            params[k + 4] != 0f
+//                        )
                         currentX = params[k + 5]
                         currentY = params[k + 6]
                         ctrlPointX = currentX
@@ -281,98 +301,109 @@ class PathDataNode(var type: Char, val params: FloatArray) {
             current[5] = currentSegmentStartY
         }
 
-        private fun drawArc(
-            p: Path,
-            x0: Float,
-            y0: Float,
-            x1: Float,
-            y1: Float,
-            a: Float,
-            b: Float,
-            theta: Float,
-            isMoreThanHalf: Boolean,
-            isPositiveArc: Boolean
-        ) {
-
-            /* Convert rotation angle from degrees to radians */
-            val thetaD = Math.toRadians(theta.toDouble())
-            /* Pre-compute rotation matrix entries */
-            val cosTheta = cos(thetaD)
-            val sinTheta = sin(thetaD)
-            /* Transform (x0, y0) and (x1, y1) into unit space */
-            /* using (inverse) rotation, followed by (inverse) scale */
-            val x0p = (x0 * cosTheta + y0 * sinTheta) / a
-            val y0p = (-x0 * sinTheta + y0 * cosTheta) / b
-            val x1p = (x1 * cosTheta + y1 * sinTheta) / a
-            val y1p = (-x1 * sinTheta + y1 * cosTheta) / b
-
-            /* Compute differences and averages */
-            val dx = x0p - x1p
-            val dy = y0p - y1p
-            val xm = (x0p + x1p) / 2
-            val ym = (y0p + y1p) / 2
-            /* Solve for intersecting unit circles */
-            val dsq = dx * dx + dy * dy
-            if (dsq == 0.0) {
-                Log.w(LOGTAG, " Points are coincident")
-                return  /* Points are coincident */
-            }
-            val disc = 1.0 / dsq - 1.0 / 4.0
-            if (disc < 0.0) {
-                Log.w(LOGTAG, "Points are too far apart $dsq")
-                val adjust = (sqrt(dsq) / 1.99999).toFloat()
-                drawArc(
-                    p, x0, y0, x1, y1, a * adjust,
-                    b * adjust, theta, isMoreThanHalf, isPositiveArc
-                )
-                return  /* Points are too far apart */
-            }
-            val s = sqrt(disc)
-            val sdx = s * dx
-            val sdy = s * dy
-            var cx: Double
-            var cy: Double
-            if (isMoreThanHalf == isPositiveArc) {
-                cx = xm - sdy
-                cy = ym + sdx
-            } else {
-                cx = xm + sdy
-                cy = ym - sdx
-            }
-
-            val eta0 = atan2(y0p - cy, x0p - cx)
-
-            val eta1 = atan2(y1p - cy, x1p - cx)
-
-            var sweep = eta1 - eta0
-            if (isPositiveArc != sweep >= 0) {
-                if (sweep > 0) {
-                    sweep -= 2 * Math.PI
-                } else {
-                    sweep += 2 * Math.PI
-                }
-            }
-
-            cx *= a
-            cy *= b
-            val tcx = cx
-            cx = cx * cosTheta - cy * sinTheta
-            cy = tcx * sinTheta + cy * cosTheta
-
-            arcToBezier(
-                p,
-                cx,
-                cy,
-                a.toDouble(),
-                b.toDouble(),
-                x0.toDouble(),
-                y0.toDouble(),
-                thetaD,
-                eta0,
-                sweep
-            )
-
-        }
+//        private fun drawArc(
+//            p: Path,
+//            x0: Float,
+//            y0: Float,
+//            x1: Float,
+//            y1: Float,
+//            a: Float,
+//            b: Float,
+//            theta: Float,
+//            isMoreThanHalf: Boolean,
+//            isPositiveArc: Boolean
+//        ) {
+//
+//            /* Convert rotation angle from degrees to radians */
+//            val thetaD = Math.toRadians(theta.toDouble())
+//            /* Pre-compute rotation matrix entries */
+//            val cosTheta = cos(thetaD)
+//            val sinTheta = sin(thetaD)
+//            /* Transform (x0, y0) and (x1, y1) into unit space */
+//            /* using (inverse) rotation, followed by (inverse) scale */
+//            val x0p = (x0 * cosTheta + y0 * sinTheta) / a
+//            val y0p = (-x0 * sinTheta + y0 * cosTheta) / b
+//            val x1p = (x1 * cosTheta + y1 * sinTheta) / a
+//            val y1p = (-x1 * sinTheta + y1 * cosTheta) / b
+//
+//            /* Compute differences and averages */
+//            val dx = x0p - x1p
+//            val dy = y0p - y1p
+//            val xm = (x0p + x1p) / 2
+//            val ym = (y0p + y1p) / 2
+//            /* Solve for intersecting unit circles */
+//            val dsq = dx * dx + dy * dy
+//            if (dsq == 0.0) {
+//                Log.w(LOGTAG, " Points are coincident")
+//                return  /* Points are coincident */
+//            }
+//            val disc = 1.0 / dsq - 1.0 / 4.0
+//            if (disc < 0.0) {
+//                Log.w(LOGTAG, "Points are too far apart $dsq")
+//                val adjust = (sqrt(dsq) / 1.99999).toFloat()
+//
+////                PathNodeArc.with(p)
+////                    .setCurrentX(x0)
+////                    .setCurrentY(y0)
+////                    .setX1(x1)
+////                    .setY1(y1)
+////                    .setA( a * adjust)
+////                    .setB(b * adjust)
+////                    .setTheta( theta)
+////                    .setMoreThanHalf(isMoreThanHalf)
+////                    .setPositiveArc(isPositiveArc).drawArc()
+//                drawArc(
+//                    p, x0, y0, x1, y1, a * adjust,
+//                    b * adjust, theta, isMoreThanHalf, isPositiveArc
+//                )
+//                return  /* Points are too far apart */
+//            }
+//            val s = sqrt(disc)
+//            val sdx = s * dx
+//            val sdy = s * dy
+//            var cx: Double
+//            var cy: Double
+//            if (isMoreThanHalf == isPositiveArc) {
+//                cx = xm - sdy
+//                cy = ym + sdx
+//            } else {
+//                cx = xm + sdy
+//                cy = ym - sdx
+//            }
+//
+//            val eta0 = atan2(y0p - cy, x0p - cx)
+//
+//            val eta1 = atan2(y1p - cy, x1p - cx)
+//
+//            var sweep = eta1 - eta0
+//            if (isPositiveArc != sweep >= 0) {
+//                if (sweep > 0) {
+//                    sweep -= 2 * Math.PI
+//                } else {
+//                    sweep += 2 * Math.PI
+//                }
+//            }
+//
+//            cx *= a
+//            cy *= b
+//            val tcx = cx
+//            cx = cx * cosTheta - cy * sinTheta
+//            cy = tcx * sinTheta + cy * cosTheta
+//
+//            arcToBezier(
+//                p,
+//                cx,
+//                cy,
+//                a.toDouble(),
+//                b.toDouble(),
+//                x0.toDouble(),
+//                y0.toDouble(),
+//                thetaD,
+//                eta0,
+//                sweep
+//            )
+//
+//        }
 
         /**
          * Converts an arc to cubic Bezier segments and records them in p.

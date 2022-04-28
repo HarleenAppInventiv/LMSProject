@@ -29,7 +29,7 @@ class StateListDialog() : BaseBottomSheetDialog<BottomDialogCourceCateBinding>()
         }
         binding.etSearch.hint = baseActivity.getString(R.string.search_state)
         binding.tvTitle.text = baseActivity.getString(R.string.select_state)
-        binding.etSearch.doOnTextChanged { text, start, before, count ->
+        binding.etSearch.doOnTextChanged { text, _, _, _ ->
             if (text.isNullOrEmpty()) {
                 setStateAdapter(list)
 

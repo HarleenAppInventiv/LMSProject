@@ -211,23 +211,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_contact_number" />
 
-            <!--            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginRight="@dimen/_8sdp"-->
-            <!--                android:drawablePadding="@dimen/_8sdp"-->
-            <!--                android:text="Verified"-->
-            <!--                android:textAllCaps="true"-->
-            <!--                android:visibility="gone"-->
-            <!--                android:textColor="@color/price_text_color_green"-->
-            <!--                android:textSize="@dimen/_10sdp"-->
-            <!--                app:drawableStartCompat="@drawable/ic_check_green"-->
-            <!--                app:layout_constraintBottom_toBottomOf="@+id/txt_contact_number"-->
-            <!--                app:layout_constraintEnd_toEndOf="@+id/txt_contact_number"-->
-            <!--                app:layout_constraintTop_toTopOf="@+id/txt_contact_number"-->
-            <!--                app:textColorType="none" />-->
-
-
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/txt_contact_mail"
                 android:layout_width="0dp"
@@ -254,42 +237,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_contact_mail" />
-
-            <!--            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView-->
-            <!--                android:id="@+id/tv_verify"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginRight="@dimen/_8sdp"-->
-            <!--                android:background="@drawable/edt_bg"-->
-            <!--                android:backgroundTint="@color/orange_text_color"-->
-            <!--                android:paddingHorizontal="@dimen/_10sdp"-->
-            <!--                android:paddingVertical="@dimen/_5sdp"-->
-            <!--                android:visibility="gone"-->
-            <!--                android:text="Verify"-->
-            <!--                android:textAllCaps="true"-->
-            <!--                android:textColor="?attr/whiteTextColor"-->
-            <!--                android:textSize="@dimen/_10sdp"-->
-            <!--                app:layout_constraintBottom_toBottomOf="@+id/txt_contact_mail"-->
-            <!--                app:layout_constraintEnd_toEndOf="@+id/txt_contact_mail"-->
-            <!--                app:layout_constraintTop_toTopOf="@+id/txt_contact_mail"-->
-            <!--                app:textColorType="none" />-->
-
-            <!--            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:id="@+id/tv_email_verified"-->
-            <!--                android:layout_marginRight="@dimen/_8sdp"-->
-            <!--                android:drawablePadding="@dimen/_8sdp"-->
-            <!--                android:text="Verified"-->
-            <!--                android:visibility="gone"-->
-            <!--                android:textAllCaps="true"-->
-            <!--                android:textColor="@color/price_text_color_green"-->
-            <!--                android:textSize="@dimen/_10sdp"-->
-            <!--                app:drawableStartCompat="@drawable/ic_check_green"-->
-            <!--                app:layout_constraintBottom_toBottomOf="@+id/txt_contact_mail"-->
-            <!--                app:layout_constraintEnd_toEndOf="@+id/txt_contact_mail"-->
-            <!--                app:layout_constraintTop_toTopOf="@+id/txt_contact_mail"-->
-            <!--                app:textColorType="none" />-->
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_add_email"
@@ -382,7 +329,6 @@
 
                 />
 
-            <!--        </androidx.constraintlayout.motion.widget.MotionLayout>-->
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

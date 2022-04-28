@@ -195,7 +195,7 @@ RE.insertImageWH = function(url, alt, width, height) {
     RE.insertHTML(html);
 }
 
-RE.insertVideo = function(url, alt) {
+RE.insertVideo = function(url, _alt) {
     var html = '<video src="' + url + '" controls></video><br>';
     RE.insertHTML(html);
 }
@@ -210,7 +210,7 @@ RE.insertVideoWH = function(url, width, height) {
     RE.insertHTML(html);
 }
 
-RE.insertAudio = function(url, alt) {
+RE.insertAudio = function(url, _alt) {
     var html = '<audio src="' + url + '" controls></audio><br>';
     RE.insertHTML(html);
 }
@@ -283,7 +283,7 @@ RE.restorerange = function(){
     selection.addRange(range);
 }
 
-RE.enabledEditingItems = function(e) {
+RE.enabledEditingItems = function(_e) {
     var items = [];
     if (document.queryCommandState('bold')) {
         items.push('bold');

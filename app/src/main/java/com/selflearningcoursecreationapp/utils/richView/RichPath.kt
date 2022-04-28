@@ -319,7 +319,6 @@ class RichPath(private val src: Path) : Path(src) {
         paint.strokeJoin = strokeLineJoin
         paint.strokeMiter = strokeMiterLimit
         paint.strokeWidth = strokeWidth
-        //todo fillType
     }
 
     private fun onPathUpdated() {

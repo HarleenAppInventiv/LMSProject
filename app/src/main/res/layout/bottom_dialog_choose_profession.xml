@@ -58,11 +58,5 @@
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
 
-        <!--                <androidx.recyclerview.widget.RecyclerView-->
-        <!--                    android:id="@+id/recycler_profession_list"-->
-        <!--                    android:layout_width="match_parent"-->
-        <!--                    android:layout_height="0dp"-->
-        <!--                 />-->
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -12,14 +12,6 @@
         <import type="com.selflearningcoursecreationapp.R" />
     </data>
 
-    <!--    <ScrollView-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:background="?attr/screenBackgroundColor"-->
-    <!--        android:descendantFocusability="blocksDescendants"-->
-    <!--        android:fillViewport="true"-->
-    <!--        android:overScrollMode="never"-->
-    <!--        android:scrollbars="none">-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -77,37 +69,6 @@
             app:layout_constraintTop_toTopOf="@+id/btn_google_login"
             app:layout_constraintWidth_percent="0.45" />
 
-
-        <!--        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText-->
-        <!--            android:id="@+id/edt_login_email"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="@dimen/_30sdp"-->
-        <!--            android:background="@drawable/edt_bg"-->
-        <!--            android:digits="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM@._"-->
-        <!--            android:drawablePadding="@dimen/_18sdp"-->
-        <!--            android:hint="@string/email"-->
-        <!--            android:imeOptions="actionNext"-->
-        <!--            android:inputType="textEmailAddress"-->
-        <!--            android:lineSpacingExtra="@dimen/_7ssp"-->
-        <!--            android:singleLine="true"-->
-        <!--            android:text="@={login.loginLiveData.email}"-->
-        <!--            app:drawableStartCompat="@drawable/ic_mail_blue"-->
-        <!--            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"-->
-        <!--            app:layout_constraintStart_toStartOf="@id/guidelineStart"-->
-        <!--            app:layout_constraintTop_toTopOf="parent"-->
-        <!--            app:primaryIconTint="start" />-->
-
-        <!--        <View-->
-        <!--            android:layout_width="@dimen/_1sdp"-->
-        <!--            android:layout_height="0dp"-->
-        <!--            android:layout_marginVertical="@dimen/_12sdp"-->
-        <!--            android:layout_marginStart="@dimen/_35sdp"-->
-        <!--            android:background="@color/et_dash_color"-->
-        <!--            android:importantForAccessibility="no"-->
-        <!--            app:layout_constraintBottom_toBottomOf="@+id/edt_login_email"-->
-        <!--            app:layout_constraintStart_toStartOf="@+id/edt_login_email"-->
-        <!--            app:layout_constraintTop_toTopOf="@+id/edt_login_email" />-->
 
         <LinearLayout
             android:id="@+id/ll_phone"
@@ -346,6 +307,5 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/_16sdp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <!--    </ScrollView>-->
 
 </layout>

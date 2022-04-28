@@ -3,6 +3,7 @@ package com.selflearningcoursecreationapp.ui.create_course.add_courses_steps
 import android.os.Bundle
 import android.text.Html
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
@@ -11,6 +12,7 @@ import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentStep1Binding
 import com.selflearningcoursecreationapp.ui.dialog.CourseCategoriesOptionDialog
 import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.utils.DialogType
 import com.selflearningcoursecreationapp.utils.HandleClick
 
 
@@ -31,7 +33,7 @@ class Step1Fragment : BaseFragment<FragmentStep1Binding>(), HandleClick,
         requireActivity().supportFragmentManager.setFragmentResultListener(
             "valueHTML",
             viewLifecycleOwner
-        ) { requestKey, bundle ->
+        ) { _, bundle ->
             val value = bundle.getString("value")
             val type = bundle.getInt("type")
             if (type == Constant.DESC) {
@@ -54,19 +56,17 @@ class Step1Fragment : BaseFragment<FragmentStep1Binding>(), HandleClick,
             when (view.id) {
                 R.id.ev_choose_course_category -> {
                     CourseCategoriesOptionDialog().apply {
-//                        arguments = bundleOf("type" to Constant.COURSE)
+                        arguments = bundleOf("type" to DialogType.CATEGORY)
                         setOnDialogClickListener(this@Step1Fragment)
                     }.show(childFragmentManager, "")
                 }
                 R.id.ev_choose_course_language -> {
                     CourseCategoriesOptionDialog().apply {
-//                        arguments = bundleOf("type" to Constant.COURSE)
+                        arguments = bundleOf("type" to DialogType.LANGUAGE)
                         setOnDialogClickListener(this@Step1Fragment)
                     }.show(childFragmentManager, "")
                 }
-                R.id.ev_enter_title -> {
 
-                }
                 R.id.ev_enter_description -> {
                     var action =
                         AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToTextEditorFragment(

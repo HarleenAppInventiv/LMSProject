@@ -20,7 +20,6 @@ class Vector {
 
     private var autoMirrored = false
 
-    //TODO private PorterDuff.Mode tintMode = PorterDuff.Mode.SRC_IN;
 
     var viewportWidth = 0f
         private set
@@ -42,6 +41,5 @@ class Vector {
         viewportHeight = XmlParser.getAttributeFloat(xpp, "viewportHeight", viewportHeight)
         currentWidth = viewportWidth
         currentHeight = viewportHeight
-        //TODO tintMode = XmlParser.getAttributeFloat(xpp, "tintMode", tintMode);
     }
 }

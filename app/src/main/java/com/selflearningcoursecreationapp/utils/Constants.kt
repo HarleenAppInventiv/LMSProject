@@ -87,10 +87,7 @@ object PREFERENCES {
     const val TYPE_ALL = -1
     const val SCREEN_APP = 1
     const val SCREEN_COURSE = 2
-    const val STEP_CATEGORY = 1
-    const val STEP_THEME = 2
-    const val STEP_FONT = 4
-    const val STEP_LANGUAGE = 8
+
 }
 
 object OTP_TYPE {
@@ -107,4 +104,6 @@ object DialogType {
     const val STATE = 7
     const val CITY = 1
     const val GENDER = 6
+    const val CATEGORY = 8
+    const val LANGUAGE = 9
 }

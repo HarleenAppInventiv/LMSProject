@@ -75,7 +75,6 @@
             <enum name="tint" value="6" />
 
         </attr>
-        <!--        <attr name="btnEnabled" format="boolean" />-->
         <attr name="buttonFont" format="enum">
             <enum name="regular" value="1" />
             <enum name="medium" value="2" />

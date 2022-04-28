@@ -35,8 +35,8 @@ class GoogleSignInAI {
     /*
     *  Initialize Google request code
     */
-    fun setRequestCode(GOOGLE_SIGN_IN_REQUEST_CODE: Int) {
-        this.GOOGLE_SIGN_IN_REQUEST_CODE = GOOGLE_SIGN_IN_REQUEST_CODE
+    fun setRequestCode(requestCode: Int) {
+        this.GOOGLE_SIGN_IN_REQUEST_CODE = requestCode
     }
 
     /*

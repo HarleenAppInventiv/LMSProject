@@ -27,12 +27,12 @@ object XmlParser {
             val tagName = xpp.name
             if (eventType == XmlPullParser.START_TAG) {
                 vector.parseStartTag(tagName, xpp, context, groupStack)
-            } else if (eventType == XmlPullParser.END_TAG) {
-                if (Group.TAG_NAME == tagName) {
-                    if (!groupStack.empty()) {
-                        groupStack.pop()
-                    }
-                }
+            } else if (eventType == XmlPullParser.END_TAG && Group.TAG_NAME == tagName && !groupStack.empty()) {
+//                if (Group.TAG_NAME == tagName) {
+//                    if (!groupStack.empty()) {
+                groupStack.pop()
+//                    }
+//                }
             }
             eventType = xpp.next()
         }

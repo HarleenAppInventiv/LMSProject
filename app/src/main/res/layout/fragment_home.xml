@@ -214,25 +214,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:primaryIconTint="end"
                     app:textColorType="primary" />
-                <!--                <com.google.android.material.tabs.TabLayout-->
-                <!--                    android:id="@+id/tl_course_type"-->
-                <!--                    style="@style/tab_text"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="@dimen/_40sdp"-->
-                <!--                    android:background="?attr/offwhiteTextColor"-->
-                <!--                    android:padding="@dimen/_10sdp"-->
-                <!--                    android:textSize="@dimen/_12sdp"-->
-                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-                <!--                    app:layout_constraintStart_toStartOf="parent"-->
-                <!--                    app:tabIndicatorColor="?attr/colorPrimary"-->
-                <!--                    app:tabIndicatorFullWidth="false"-->
-                <!--                    app:tabIndicatorHeight="@dimen/_2sdp"-->
-                <!--                    app:tabMode="scrollable"-->
-                <!--                    app:tabSelectedTextColor="?attr/headingTextColor"-->
-                <!--                    app:tabTextAppearance="@style/MyTabTextAppearance"-->
-
-                <!--                    app:tabTextColor="?attr/hintColor" />-->
 
                 <View
                     android:id="@+id/view6"

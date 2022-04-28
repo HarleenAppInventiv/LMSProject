@@ -53,12 +53,7 @@ class AssessmentFragment :
                         .positiveBtnText(getString(R.string.ok))
                         .hideNegativeBtn(true)
                         .icon(R.drawable.ic_assessment_submitted)
-                        .getCallback {
-                            if (it) {
-
-
-                            }
-                        }.build()
+                        .build()
 
                 }
             }

@@ -54,9 +54,7 @@ class SingleChoiceBottomDialog : BaseBottomSheetDialog<BottomDialogSingleChoiceB
 
 
             }
-            else -> {
 
-            }
         }
 
     }
@@ -77,17 +75,6 @@ class SingleChoiceBottomDialog : BaseBottomSheetDialog<BottomDialogSingleChoiceB
 
     }
 
-    private fun setProfessionData() {
-        arrayOf(
-            "Student",
-            "Working Professional",
-            "Pursuing Graduation"
-        )?.forEachIndexed { index, s ->
-            list.add(SingleChoiceData(index + 1, false, s))
-        }
-        setAdapter()
-
-    }
 
     private fun setAdapter() {
         adapter?.notifyDataSetChanged() ?: kotlin.run {
