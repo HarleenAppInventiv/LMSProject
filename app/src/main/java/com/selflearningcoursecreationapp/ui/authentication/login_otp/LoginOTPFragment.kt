@@ -10,7 +10,8 @@ import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentLoginOTPBinding
 import com.selflearningcoursecreationapp.extensions.content
 import com.selflearningcoursecreationapp.extensions.setSpanString
-import com.selflearningcoursecreationapp.ui.authentication.otp_verify.OTPVerifyFragment
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.OTP_TYPE
 import com.selflearningcoursecreationapp.utils.SpanUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -29,7 +30,6 @@ class LoginOTPFragment : BaseFragment<FragmentLoginOTPBinding>() {
         binding.imageView.invalidate()
         binding.loginViaOTP = viewModel
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
-        onClickListner()
 
         binding.textView.setSpanString(
             SpanUtils.with(baseActivity, baseActivity.getString(R.string.login_via_otp)).endPos(
@@ -50,28 +50,32 @@ class LoginOTPFragment : BaseFragment<FragmentLoginOTPBinding>() {
 
 
         )
+
+
+        binding.countryCodePicker.apply {
+            setDefaultCountryUsingNameCode("IN")
+        }
+
+        binding.btnContinue.setOnClickListener {
+            viewModel.loginViaOTP(binding.countryCodePicker.selectedCountryCodeWithPlus)
+        }
     }
 
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)
         when (apiCode) {
-            "101" -> {
+            ApiEndPoints.API_OTP_REQ -> {
                 var action =
                     LoginOTPFragmentDirections.actionLoginOTPFragmentToOTPVerifyFragment(
-                        binding.edtRegPhone.content(),
-                        OTPVerifyFragment.TYPE_LOGIN
+                        phone = binding.edtRegPhone.content(),
+                        email = "",
+                        type = OTP_TYPE.TYPE_LOGIN,
+                        countryCode = binding.countryCodePicker.selectedCountryCodeWithPlus
                     )
                 findNavController().navigate(action)
             }
-            "102" -> {
-                findNavController().popBackStack()
-            }
-        }
-    }
 
-    fun onClickListner() {
-//        binding.btnContinue.setOnClickListener(this)
-//        binding.txtSignUp.setOnClickListener(this)
+        }
     }
 
 

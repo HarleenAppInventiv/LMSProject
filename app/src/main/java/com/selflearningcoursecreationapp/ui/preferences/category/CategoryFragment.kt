@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.NavHostFragment
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseFragment
@@ -15,8 +16,7 @@ import com.selflearningcoursecreationapp.utils.SpanUtils
 
 
 class CategoryFragment : BaseFragment<FragmentCategoryBinding>(), BaseAdapter.IViewClick {
-    private val viewModel: PreferenceViewModel by viewModels({ if (parentFragment != null) requireParentFragment() else this })
-
+    private val viewModel: PreferenceViewModel by viewModels({ if (parentFragment !is NavHostFragment) requireParentFragment() else this })
     private var adapter: CategoryAdapter? = null
     override fun getLayoutRes(): Int {
         return R.layout.fragment_category
@@ -28,6 +28,11 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>(), BaseAdapter.IV
     }
 
     private fun initUi() {
+        if (viewModel.categoryListLiveData.value.isNullOrEmpty()) {
+
+            viewModel.getApiResponse().observe(viewLifecycleOwner, this)
+            viewModel.getCategories()
+        }
         binding.tvTitle.setSpanString(
             SpanUtils.with(baseActivity, baseActivity.getString(R.string.select_categories))
                 .endPos(6).isBold().getSpanString()
@@ -35,8 +40,14 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>(), BaseAdapter.IV
         )
 
         viewModel.categoryListLiveData.observe(viewLifecycleOwner, Observer {
+
+            adapter?.notifyDataSetChanged()
+            adapter = null
             setCategoryAdapter()
         })
+        adapter?.notifyDataSetChanged()
+        adapter = null
+        setCategoryAdapter()
     }
 
     private fun setCategoryAdapter() {
@@ -58,7 +69,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>(), BaseAdapter.IV
                         viewModel.categoryListLiveData.value?.apply {
                             forEachIndexed { index, data ->
                                 if (index == position) {
-                                    data.isSelected =  ! data.isSelected
+                                    data.isSelected = !data.isSelected
                                 }
                             }
 
@@ -70,5 +81,6 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>(), BaseAdapter.IV
         }
 
     }
+
 
 }

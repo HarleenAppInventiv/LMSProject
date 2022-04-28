@@ -10,121 +10,200 @@
             type="com.selflearningcoursecreationapp.ui.authentication.login_otp.LoginOTPViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        tools:context=".ui.authentication.OnBoardingActivity"
+        tools:context=".ui.authentication.OnBoardingActivity">
 
-        >
-
-
-        <com.selflearningcoursecreationapp.utils.customViews.LMSRichView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:importantForAccessibility="no"
-android:src="@drawable/ic_login_via_otp"
-            android:layout_marginTop="@dimen/_24sdp"
-          app:vector="@drawable/ic_login_via_otp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-            android:id="@+id/textView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:text="@string/login_via_otp"
-            spanText="@{@string/login_via_otp}"
-            android:textSize="@dimen/_22ssp"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-            android:id="@+id/textView3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:lineSpacingExtra="@dimen/_3sdp"
-            android:text="@string/enter_your_phone_number_and_we_will_send_you_an_otp_to_verify"
-            spanText="@{@string/enter_your_phone_number_and_we_will_send_you_an_otp_to_verify}"
-            app:textColorType="body"
-            app:layout_constraintEnd_toEndOf="@+id/textView"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            >
 
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
-            android:id="@+id/edt_reg_phone"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_50sdp"
-            android:background="@drawable/edt_bg"
-            app:primaryIconTint="start"
-android:drawableStart="@drawable/ic_call"
-            android:drawablePadding="@dimen/_18sdp"
-            android:hint="@string/phone_number"
-            android:imeOptions="actionDone"
+            <com.selflearningcoursecreationapp.utils.customViews.LMSRichView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_24sdp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_login_via_otp"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toTopOf="parent"
+                app:vector="@drawable/ic_login_via_otp" />
 
-            android:inputType="phone"
-            android:maxLength="10"
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/textView"
+                spanText="@{@string/login_via_otp}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/login_via_otp"
+                android:textSize="@dimen/_22ssp"
 
-            android:singleLine="true"
-            android:text="@={loginViaOTP.phone}"
-            app:layout_constraintEnd_toEndOf="@+id/textView"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-        <View
-            android:layout_width="@dimen/_1sdp"
-            android:layout_height="0dp"
-            android:layout_marginVertical="@dimen/_12sdp"
-            android:importantForAccessibility="no"
-            android:layout_marginStart="@dimen/_35sdp"
-            android:background="@color/et_dash_color"
-            app:layout_constraintBottom_toBottomOf="@+id/edt_reg_phone"
-            app:layout_constraintStart_toStartOf="@+id/edt_reg_phone"
-            app:layout_constraintTop_toTopOf="@+id/edt_reg_phone" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 
-
-        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-            android:id="@+id/txt_sign_up"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:text="@string/don_t_have_an_account_sign_up"
-            app:textColorType="body"
-            app:layout_constraintEnd_toEndOf="@+id/textView3"
-            app:layout_constraintStart_toStartOf="@+id/textView3"
-            app:layout_constraintTop_toBottomOf="@+id/edt_reg_phone"
-
-            />
-
-
-        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
-            android:id="@+id/btn_continue"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_60sdp"
-            android:onClick="@{()->loginViaOTP.loginViaOTP()}"
-            android:text="@string/continues"
-            spanText="@{@string/continues}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/textView"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/txt_sign_up"
-            app:layout_constraintVertical_bias="0"
-            app:textAllCaps="true" />
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/textView3"
+                spanText="@{@string/enter_your_phone_number_and_we_will_send_you_an_otp_to_verify}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:lineSpacingExtra="@dimen/_3sdp"
+                android:text="@string/enter_your_phone_number_and_we_will_send_you_an_otp_to_verify"
+                app:layout_constraintEnd_toEndOf="@+id/textView"
+                app:layout_constraintStart_toStartOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:textColorType="body" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:id="@+id/ll_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/edt_bg"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@+id/textView3">
 
+                <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingLeft="@dimen/_10sdp"
+                    app:changeBackgroundType="tint_src"
+                    app:srcCompat="@drawable/ic_call"
+
+                    />
+
+                <View
+                    android:id="@+id/view10"
+                    android:layout_width="@dimen/_1sdp"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="@dimen/_12sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:background="@color/et_dash_color"
+                    android:importantForAccessibility="no" />
+
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/country_code_picker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    app:ccpDialog_backgroundColor="?attr/viewBackgroundColor"
+                    app:ccp_showFlag="false"
+                    app:ccp_showNameCode="false"
+                    app:ccp_textSize="@dimen/_12ssp" />
+
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                    android:id="@+id/edt_reg_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edt_bg"
+                    android:digits="1234567890"
+                    android:hint="@string/enter_phone_num"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone"
+                    android:maxLength="15"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:singleLine="true"
+                    android:text="@={loginViaOTP.phone}"
+
+                    app:primaryIconTint="start" />
+
+
+            </LinearLayout>
+
+            <!--            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText-->
+            <!--                android:id="@+id/edt_reg_phone"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/_50sdp"-->
+            <!--                android:background="@drawable/edt_bg"-->
+            <!--                app:drawableStartCompat="@drawable/ic_call"-->
+            <!--                android:drawablePadding="@dimen/_18sdp"-->
+            <!--                android:hint="@string/phone_number"-->
+            <!--                android:imeOptions="actionDone"-->
+            <!--                android:inputType="phone"-->
+
+            <!--                            android:maxLength="10"-->
+            <!--                            android:singleLine="true"-->
+
+            <!--                android:text="@={loginViaOTP.phone}"-->
+            <!--                app:layout_constraintEnd_toEndOf="@+id/textView"-->
+            <!--                app:layout_constraintStart_toStartOf="@+id/textView"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/textView3"-->
+            <!--                app:primaryIconTint="start" />-->
+
+            <!--            <View-->
+            <!--                android:layout_width="@dimen/_1sdp"-->
+            <!--                android:layout_height="0dp"-->
+            <!--                android:layout_marginVertical="@dimen/_12sdp"-->
+            <!--                android:layout_marginStart="@dimen/_35sdp"-->
+            <!--                android:background="@color/et_dash_color"-->
+            <!--                android:importantForAccessibility="no"-->
+            <!--                app:layout_constraintBottom_toBottomOf="@+id/edt_reg_phone"-->
+            <!--                app:layout_constraintStart_toStartOf="@+id/edt_reg_phone"-->
+            <!--                app:layout_constraintTop_toTopOf="@+id/edt_reg_phone" />-->
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/txt_sign_up"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/don_t_have_an_account_sign_up"
+                app:layout_constraintEnd_toEndOf="@+id/textView3"
+                app:layout_constraintStart_toStartOf="@+id/textView3"
+                app:layout_constraintTop_toBottomOf="@+id/ll_phone"
+                app:textColorType="body"
+
+                />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                android:id="@+id/btn_continue"
+                spanText="@{@string/continues}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_60sdp"
+                android:layout_marginBottom="@dimen/_24sdp"
+                android:enabled="@{!loginViaOTP.phone.empty &amp;&amp; loginViaOTP.phone.length()>=5 }"
+                android:text="@string/continues"
+                app:btnEnabled="@{!loginViaOTP.phone.empty &amp;&amp; loginViaOTP.phone.length()>=5 }"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+                app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@+id/txt_sign_up"
+                app:textAllCaps="true" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/_16sdp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/_16sdp" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </layout>

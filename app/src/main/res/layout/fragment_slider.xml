@@ -13,7 +13,7 @@
         android:id="@+id/parentCL"
 
         android:background="@drawable/ic_walkthrough_trans_bg"
-      app:viewBackground="tint"
+        app:viewBackground="background_tint"
         tools:context=".ui.intro_slider.SliderActivity">
 
         <androidx.viewpager2.widget.ViewPager2
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
             android:padding="@dimen/_5sdp"
-            android:text="@string/enable_visually_impaired_mode"
+            android:text="@string/enable_high_contrast_view"
             android:textColor="@color/offwhite"
             app:layout_constraintBottom_toTopOf="@+id/sv_reading_mode"
             app:layout_constraintEnd_toStartOf="@+id/iv_info"
@@ -83,8 +83,9 @@
             app:layout_constraintEnd_toStartOf="@+id/sv_visual_impared"
             app:layout_constraintStart_toEndOf="@+id/cb_visual"
             app:layout_constraintTop_toTopOf="@+id/cb_visual"
-
-            />
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/sv_visual_impared"
@@ -129,8 +130,9 @@
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@+id/cb_reading_mode"
             app:layout_constraintTop_toTopOf="@+id/cb_reading_mode"
-
-            />
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/sv_reading_mode"

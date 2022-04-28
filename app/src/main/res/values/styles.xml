@@ -61,7 +61,7 @@
     <style name="SWTheme" parent="Widget.Material3.CompoundButton.Switch">
         <item name="colorOnSurface">@color/white</item>
         <item name="colorSecondary">@color/priceColor</item>
-     <item name="colorPrimary">@color/priceColor</item>
+        <item name="colorPrimary">@color/priceColor</item>
         <item name="trackColor">#85929292</item>
         <item name="trackTint">#85929292</item>
     </style>
@@ -71,6 +71,13 @@
         <item name="android:fontFamily">?attr/fontSemiBold</item>
         <item name="android:textColor">?attr/toolbarTitleColor</item>
         <item name="android:textSize">@dimen/_15ssp</item>
+    </style>
+
+    <style name="toolbarSubTitleTheme" parent="textViewStyle">
+        <item name="fontFamily">?attr/fontRegular</item>
+        <item name="android:fontFamily">?attr/fontRegular</item>
+        <item name="android:textColor">?attr/toolbarTitleColor</item>
+        <item name="android:textSize">@dimen/_10ssp</item>
     </style>
 
     <style name="editTextTheme" parent="Widget.AppCompat.EditText">
@@ -86,8 +93,8 @@
     <style name="buttonViewStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">?attr/buttonTextColor</item>
         <item name="android:textSize">@dimen/_12ssp</item>
-        <item name="backgroundTint">?attr/buttonBackgroundColor</item>
-        <item name="android:backgroundTint">?attr/buttonBackgroundColor</item>
+        <item name="backgroundTint">@color/white</item>
+        <item name="android:backgroundTint">@color/white</item>
         <item name="rippleColor">?attr/buttonBackgroundTintColor</item>
         <item name="fontFamily">?attr/fontMedium</item>
         <item name="android:fontFamily">?attr/fontMedium</item>
@@ -102,7 +109,8 @@
     <style name="circleImage">
         <item name="cornerSize">50%</item>
     </style>
-  <style name="corneredImage5">
+
+    <style name="corneredImage5">
         <item name="cornerSize">5%</item>
     </style>
 
@@ -155,4 +163,6 @@
         <item name="colorPrimaryDark">@color/purple_700</item>
         <item name="colorAccent">@color/purple_200</item>
     </style>
+
+
 </resources>

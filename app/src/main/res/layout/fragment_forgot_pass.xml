@@ -11,101 +11,181 @@
     </data>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/screenBackgroundColor"
-        tools:context=".ui.authentication.OnBoardingActivity"
+        tools:context=".ui.authentication.OnBoardingActivity">
 
-        >
-
-        <com.selflearningcoursecreationapp.utils.customViews.LMSRichView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_15sdp"
-app:vector="@drawable/ic_fogot_password"
-            android:layout_marginTop="@dimen/_24sdp"
-            android:importantForAccessibility="no"
-            android:src="@drawable/ic_fogot_password"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-            android:id="@+id/textView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:text="@string/forgot_password2"
-            android:textAllCaps="false"
-            android:textSize="@dimen/_22ssp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            app:layout_constraintWidth_percent=".9"
-            app:textAllCaps="false" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-            android:id="@+id/textView3"
-            spanText="@{@string/enter_the_email_mobile_number_associated_with_your_account_and_we_ll_send_an_email_with_instructions_or_a_otp_on_your_mobile_number_to_reset_your_password}"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:text="@string/enter_the_email_mobile_number_associated_with_your_account_and_we_ll_send_an_email_with_instructions_or_a_otp_on_your_mobile_number_to_reset_your_password"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:textColorType="body" />
+            >
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_24sdp"
+                android:importantForAccessibility="no"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_fogot_password" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/forgot_password2"
+                android:textAllCaps="false"
+                android:textSize="@dimen/_22ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                app:textAllCaps="false" />
 
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
-            android:id="@+id/edt_forgotphone"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_35sdp"
-            android:background="@drawable/edt_bg"
-            android:drawableStart="@drawable/ic_call_forgot"
-            android:drawablePadding="@dimen/_18sdp"
-            android:hint="@string/enter_phone_email"
-            android:imeOptions="actionDone"
-            android:inputType="textEmailAddress|textNoSuggestions"
-            android:singleLine="true"
-            app:layout_constraintEnd_toEndOf="@+id/textView3"
-            app:layout_constraintStart_toStartOf="@+id/textView3"
-            app:layout_constraintTop_toBottomOf="@+id/textView3"
-            app:primaryIconTint="start" />
-        <View
-            android:layout_width="@dimen/_1sdp"
-            android:layout_height="0dp"
-            android:layout_marginVertical="@dimen/_12sdp"
-            android:layout_marginStart="@dimen/_35sdp"
-            android:background="@color/et_dash_color"
-            android:importantForAccessibility="no"
-            app:layout_constraintBottom_toBottomOf="@+id/edt_forgotphone"
-            app:layout_constraintStart_toStartOf="@+id/edt_forgotphone"
-            app:layout_constraintTop_toTopOf="@+id/edt_forgotphone" />
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/textView3"
+                spanText="@{@string/forgot_pass_desc_text}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="@string/forgot_pass_desc_text"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:textColorType="body" />
+
+            <LinearLayout
+                android:id="@+id/ll_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/edt_bg"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@+id/textView3">
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingLeft="@dimen/_10sdp"
+                    app:changeBackgroundType="tint_src"
+                    app:srcCompat="@drawable/ic_mail_blue"
+
+                    />
+
+                <View
+                    android:id="@+id/view10"
+                    android:layout_width="@dimen/_1sdp"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="@dimen/_12sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:background="@color/et_dash_color"
+                    android:importantForAccessibility="no" />
+
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/country_code_picker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    app:ccpDialog_backgroundColor="?attr/viewBackgroundColor"
+                    app:ccp_showFlag="false"
+                    app:ccp_showNameCode="false"
+                    app:ccp_textSize="@dimen/_12ssp" />
 
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
-            android:id="@+id/btn_submit"
-            spanText="@{@string/submit}"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_50sdp"
-            android:layout_marginBottom="@dimen/_20sdp"
-            android:text="@string/submit"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/textView3"
-            app:layout_constraintStart_toStartOf="@+id/textView3"
-            app:layout_constraintTop_toBottomOf="@+id/edt_forgotphone"
-            app:layout_constraintVertical_bias="0"
-
-            />
+                <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                    android:id="@+id/edt_forgotphone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edt_bg"
+                    android:digits="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890.@_"
+                    android:hint="@string/enter_email_normal"
+                    android:imeOptions="actionDone"
+                    android:inputType="textEmailAddress"
+                    android:singleLine="true"
+                    android:text="@={forgotPass.emailPhone}"
+                    app:primaryIconTint="start" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+            <!--            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText-->
+            <!--                android:id="@+id/edt_forgotphone"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/_35sdp"-->
+            <!--                android:background="@drawable/edt_bg"-->
+            <!--                app:drawableStartCompat="@drawable/ic_call_forgot"-->
+            <!--                android:drawablePadding="@dimen/_18sdp"-->
+            <!--                android:hint="@string/enter_phone_email"-->
+            <!--                android:digits="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890.@_"-->
+            <!--                android:imeOptions="actionDone"-->
+            <!--                android:inputType="textEmailAddress|textNoSuggestions"-->
+            <!--                android:singleLine="true"-->
+            <!--                android:text="@={forgotPass.emailPhone}"-->
+            <!--                app:layout_constraintEnd_toEndOf="@+id/textView3"-->
+            <!--                app:layout_constraintStart_toStartOf="@+id/textView3"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/textView3"-->
+            <!--                app:primaryIconTint="start" />-->
+
+            <!--            <View-->
+            <!--                android:layout_width="@dimen/_1sdp"-->
+            <!--                android:layout_height="0dp"-->
+            <!--                android:layout_marginVertical="@dimen/_12sdp"-->
+            <!--                android:layout_marginStart="@dimen/_35sdp"-->
+            <!--                android:background="@color/et_dash_color"-->
+            <!--                android:importantForAccessibility="no"-->
+            <!--                app:layout_constraintBottom_toBottomOf="@+id/edt_forgotphone"-->
+            <!--                app:layout_constraintStart_toStartOf="@+id/edt_forgotphone"-->
+            <!--                app:layout_constraintTop_toTopOf="@+id/edt_forgotphone" />-->
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                android:id="@+id/btn_submit"
+                spanText="@{@string/submit}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_50sdp"
+                android:layout_marginBottom="@dimen/_24sdp"
+                android:enabled="@{forgotPass.emailPhone!=null &amp;&amp; !forgotPass.emailPhone.empty}"
+                android:text="@string/submit"
+                app:btnEnabled="@{forgotPass.emailPhone!=null &amp;&amp; !forgotPass.emailPhone.empty}"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/textView3"
+                app:layout_constraintStart_toStartOf="@+id/textView3"
+                app:layout_constraintTop_toBottomOf="@+id/ll_phone"
+                app:layout_constraintVertical_bias="0"
+
+                />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/_16sdp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/_16sdp" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 
 </layout>

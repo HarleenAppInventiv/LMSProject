@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/_20sdp">
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/textView8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="6sp"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingTop="@dimen/_16sdp"
+                android:paddingBottom="@dimen/_16sdp"
+                android:text="@string/filters"
+                android:textColor="?attr/whiteTextColor"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="normal"
+                app:fontType="medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textBgColor="theme"
+                app:textColorType="none"
+
+                tools:ignore="RtlSymmetry" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:contentDescription="@string/close"
+                android:src="@drawable/ic_close"
+                app:layout_constraintBottom_toBottomOf="@+id/textView8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView8" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_profession"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:text="@string/profession"
+                android:textColor="@color/adapter_header_color"
+                app:fontType="semiBold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView8"
+                app:textColorType="none" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_profession"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="@+id/tv_profession"
+                app:layout_constraintStart_toStartOf="@+id/tv_profession"
+                app:layout_constraintTop_toBottomOf="@+id/tv_profession"
+                tools:itemCount="4"
+                tools:listitem="@layout/adapter_select_filter" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_age"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:text="Age"
+                android:textColor="@color/adapter_header_color"
+                app:fontType="semiBold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rv_profession"
+                app:textColorType="none" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_age"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="@+id/tv_profession"
+                app:layout_constraintStart_toStartOf="@+id/tv_profession"
+                app:layout_constraintTop_toBottomOf="@+id/tv_age"
+                tools:itemCount="4"
+                tools:listitem="@layout/adapter_select_filter">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                android:id="@+id/btn_apply"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_20sdp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:letterSpacing="0.02"
+                android:padding="@dimen/_12sdp"
+                android:text="@string/apply"
+                android:textAlignment="center"
+
+                android:textSize="@dimen/_12ssp"
+                app:buttonFont="semiBold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btn_reset"
+                app:layout_constraintTop_toBottomOf="@+id/rv_age"
+                app:layout_goneMarginStart="@dimen/_15sdp" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                android:id="@+id/btn_reset"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_20sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0.02"
+                android:padding="@dimen/_12sdp"
+                android:text="@string/reset"
+                android:textAlignment="center"
+                android:textSize="@dimen/_12ssp"
+                app:btnTextColor="secondary"
+                app:buttonBackground="secondary"
+                app:buttonFont="semiBold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_apply"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_age"
+                app:layout_goneMarginEnd="@dimen/_15sdp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

@@ -15,8 +15,8 @@ fun String.isValidEmail(): Boolean {
 fun String.isPasswordValid(): Boolean {
     val expression = ("^(?=.*[0-9])"
             + "(?=.*[a-z])(?=.*[A-Z])"
-            + "(?=.*[@#$%^&+=])"
-            + "(?=\\S+$).{8,40}$")
+            + "(?=.*[@#$%^&+=!*])"
+            + "(?=\\S+$).{6,40}$")
 
     val pattern = Pattern.compile(expression)
     val matcher = pattern.matcher(this)

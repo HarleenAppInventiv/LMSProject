@@ -1,16 +1,17 @@
 package com.selflearningcoursecreationapp.ui.bottom_more.settings
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentSettingsBinding
-import com.selflearningcoursecreationapp.ui.preferences.PreferencesFragment
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.HandleClick
+import com.selflearningcoursecreationapp.utils.PREFERENCES
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(), HandleClick {
 
@@ -22,10 +23,20 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(), HandleClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUi()
+        setHasOptionsMenu(true)
     }
 
     private fun initUi() {
         binding.handleClick = this
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.course_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return super.onOptionsItemSelected(item)
 
     }
 
@@ -37,54 +48,65 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(), HandleClick {
                     findNavController().navigate(R.id.action_settingsFragment_to_changePasswordFragment)
                 }
                 R.id.tv_language -> {
-                    findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToPreferencesFragment(PreferencesFragment.TYPE_LANGUAGE,baseActivity.getString(R.string.change_language)))
+                    findNavController().navigate(
+                        SettingsFragmentDirections.actionSettingsFragmentToPreferencesFragment(
+                            PREFERENCES.TYPE_LANGUAGE,
+                            baseActivity.getString(R.string.change_language)
+                        )
+                    )
                 }
                 R.id.tv_theme -> {
-                    findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToPreferencesFragment(PreferencesFragment.TYPE_THEME,baseActivity.getString(R.string.change_theme)))
+                    findNavController().navigate(
+                        SettingsFragmentDirections.actionSettingsFragmentToPreferencesFragment(
+                            PREFERENCES.TYPE_THEME,
+                            baseActivity.getString(R.string.change_theme)
+                        )
+                    )
                 }
                 R.id.tv_font -> {
-                    findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToPreferencesFragment(PreferencesFragment.TYPE_FONT,baseActivity.getString(R.string.change_font)))
+                    findNavController().navigate(
+                        SettingsFragmentDirections.actionSettingsFragmentToPreferencesFragment(
+                            PREFERENCES.TYPE_FONT,
+                            baseActivity.getString(R.string.change_font)
+                        )
+                    )
+                }
+                R.id.tv_support -> {
+//                    findNavController().navigate(
+//                        SettingsFragmentDirections.actionSettingsFragmentToPreferencesFragment(
+//                            PREFERENCES.TYPE_ALL,
+//                            baseActivity.getString(R.string.your_preferences)
+//                        )
+//                    )
                 }
                 R.id.tv_privacy_policy -> {
-                    findNavController().navigate(R.id.action_settingsFragment_to_privacyFragment)
+                    var action = SettingsFragmentDirections.actionSettingsFragmentToPrivacyFragment(
+                        baseActivity.getString(R.string.privacy_policy),
+                        ApiEndPoints.LINK_PRIVECY_POL
+                    )
+                    findNavController().navigate(action)
                 }
                 R.id.tv_terms_and_conditions -> {
-                    findNavController().navigate(R.id.action_settingsFragment_to_termsFragment)
+                    var action = SettingsFragmentDirections.actionSettingsFragmentToPrivacyFragment(
+                        baseActivity.getString(R.string.terms_amp_conditions),
+                        ApiEndPoints.LINK_TERM_COND
+                    )
+                    findNavController().navigate(action)
+
                 }
                 R.id.tv_help -> {
-                    helpBottomDrawer()
+                    findNavController().navigate(R.id.action_settingsFragment_to_helpDialog)
+                }
+                R.id.tv_about_us -> {
+                    var action = SettingsFragmentDirections.actionSettingsFragmentToPrivacyFragment(
+                        baseActivity.getString(R.string.about_us),
+                        ApiEndPoints.LINK_ABOUT_US
+                    )
+                    findNavController().navigate(action)
                 }
 
             }
         }
-    }
-
-    fun helpBottomDrawer() {
-
-        val bottomSheetDialog = BottomSheetDialog(requireContext())
-        bottomSheetDialog.setContentView(R.layout.select_help_layout)
-        val faq = bottomSheetDialog.findViewById<TextView>(R.id.tv_faq)
-        val contactUs = bottomSheetDialog.findViewById<TextView>(R.id.tv_contact_us)
-        val chatUs = bottomSheetDialog.findViewById<TextView>(R.id.tv_chat_us)
-        val imgCancel = bottomSheetDialog.findViewById<ImageView>(R.id.img_close)
-
-        faq!!.setOnClickListener() {
-            bottomSheetDialog.dismiss()
-            findNavController().navigate(R.id.action_settingsFragment_to_FAQFragment)
-        }
-
-        contactUs!!.setOnClickListener() {
-            bottomSheetDialog.dismiss()
-        }
-
-        chatUs!!.setOnClickListener() {
-            bottomSheetDialog.dismiss()
-        }
-        imgCancel?.setOnClickListener {
-            bottomSheetDialog.dismiss()
-
-        }
-        bottomSheetDialog.show()
     }
 
 

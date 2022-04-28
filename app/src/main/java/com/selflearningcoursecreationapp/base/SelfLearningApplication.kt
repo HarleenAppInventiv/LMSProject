@@ -10,6 +10,7 @@ import com.selflearningcoursecreationapp.di.repoModule
 import com.selflearningcoursecreationapp.di.viewModelModule
 import com.selflearningcoursecreationapp.utils.Constants
 import com.selflearningcoursecreationapp.utils.FONT_CONSTANT
+import com.selflearningcoursecreationapp.utils.LANGUAGE_CONSTANT
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.koin.android.ext.koin.androidContext
@@ -29,6 +30,9 @@ class SelfLearningApplication : Application(), LifecycleObserver {
         private var instance: SelfLearningApplication? = null
         var themeFile: String? = null
         var fontId: Int = FONT_CONSTANT.IBM
+        var languageCode: String = LANGUAGE_CONSTANT.ENGLISH
+
+        var token: String? = null
         private var localeSpan: LocaleSpan? = null
         fun applicationContext(): Context {
             return instance!!.applicationContext
@@ -39,6 +43,7 @@ class SelfLearningApplication : Application(), LifecycleObserver {
         super.onCreate()
         GlobalScope.launch {
             updatedThemeFile()
+            updateToken()
         }
         startKoin {
             androidLogger(Level.ERROR)
@@ -52,8 +57,14 @@ class SelfLearningApplication : Application(), LifecycleObserver {
     suspend fun updatedThemeFile() {
 
         themeFile = PreferenceDataStore.getString(Constants.THEME_FILE)
-        fontId = PreferenceDataStore.getInt(Constants.FONT_THEME)?:FONT_CONSTANT.IBM
+        fontId = PreferenceDataStore.getInt(Constants.FONT_THEME) ?: FONT_CONSTANT.IBM
+        languageCode =
+            PreferenceDataStore.getString(Constants.LANGUAGE_THEME) ?: LANGUAGE_CONSTANT.ENGLISH
 
+    }
+
+    suspend fun updateToken() {
+        token = PreferenceDataStore.getString(Constants.USER_TOKEN)
     }
 
     override fun onLowMemory() {

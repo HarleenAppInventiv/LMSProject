@@ -5,10 +5,10 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterSelectLanguageBinding
-import com.selflearningcoursecreationapp.models.ThemeData
+import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.utils.Constant
 
-class LanguageAdapter(private var list: ArrayList<ThemeData>) :
+class LanguageAdapter(private var list: ArrayList<CategoryData>) :
     BaseAdapter<AdapterSelectLanguageBinding>() {
     override fun getLayoutRes(): Int {
         return R.layout.adapter_select_language
@@ -21,7 +21,7 @@ class LanguageAdapter(private var list: ArrayList<ThemeData>) :
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val binding = holder.binding as AdapterSelectLanguageBinding
         val data = list[position]
-        binding.rbName.text = binding.root.context.getString(data.themeName)
+        binding.rbName.text = data.name
         binding.rbName.isChecked = data.isSelected
         binding.rbName.typeface = if (data.isSelected) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
         binding.rbName.setOnClickListener { onItemClick(Constant.CLICK_VIEW, position) }

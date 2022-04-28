@@ -12,265 +12,340 @@
         <import type="com.selflearningcoursecreationapp.R" />
     </data>
 
-    <ScrollView
+    <!--    <ScrollView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:background="?attr/screenBackgroundColor"-->
+    <!--        android:descendantFocusability="blocksDescendants"-->
+    <!--        android:fillViewport="true"-->
+    <!--        android:overScrollMode="never"-->
+    <!--        android:scrollbars="none">-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/screenBackgroundColor"
-        android:descendantFocusability="blocksDescendants"
-        android:fillViewport="true"
-        android:overScrollMode="never"
-        android:scrollbars="none">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="@dimen/_20sdp"
-            tools:context=".ui.authentication.OnBoardingActivity">
+        android:paddingBottom="@dimen/_20sdp"
+        tools:context=".ui.authentication.OnBoardingActivity">
 
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
-                android:id="@+id/btn_google_login"
-                spanText="@{@string/google}"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:backgroundTint="?attr/googleButtonBackgroundColor"
-                android:letterSpacing="0.02"
-                android:padding="@dimen/_12sdp"
-                android:text="@string/google"
-                app:buttonBackground="none"
-                app:icon="@drawable/ic_google"
-                app:iconGravity="textStart"
-                app:iconPadding="@dimen/_10sdp"
-                app:iconTint="@color/white"
-                app:layout_constraintEnd_toStartOf="@+id/btn_otp_login"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:textAllCaps="true" />
+        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+            android:id="@+id/btn_google_login"
+            spanText="@{@string/google}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:backgroundTint="?attr/googleButtonBackgroundColor"
+            android:letterSpacing="0.02"
+            android:padding="@dimen/_12sdp"
+            android:text="@string/google"
+            app:buttonBackground="none"
+            app:icon="@drawable/ic_google"
+            app:iconGravity="textStart"
+            app:iconPadding="@dimen/_10sdp"
+            app:iconTint="@color/white"
+            app:layout_constraintEnd_toStartOf="@+id/btn_otp_login"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@+id/tv_or"
+            app:textAllCaps="true" />
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
-                android:id="@+id/btn_otp_login"
-                spanText="@{@string/via_otp}"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginVertical="@dimen/_4sdp"
-                android:layout_marginEnd="@dimen/_15sdp"
-                android:background="@drawable/btn_otp_bg"
-                android:backgroundTint="@null"
-                android:contentDescription="@string/login_via_otp"
-                android:letterSpacing="0.02"
-                android:padding="@dimen/_5sdp"
-                android:text="@string/via_otp"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_12ssp"
-                app:backgroundTint="@null"
-                app:buttonBackground="none"
-                app:icon="@drawable/ic_call_blue"
-                app:iconGravity="textStart"
-                app:iconPadding="@dimen/_10sdp"
-                app:iconTint="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/btn_google_login"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btn_google_login"
-                app:layout_constraintTop_toTopOf="@+id/btn_google_login"
-                app:layout_constraintWidth_percent="0.45" />
+        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+            android:id="@+id/btn_otp_login"
+            spanText="@{@string/via_otp}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="@dimen/_4sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:background="@drawable/btn_otp_bg"
+            android:backgroundTint="@null"
+            android:contentDescription="@string/login_via_otp"
+            android:letterSpacing="0.02"
+            android:padding="@dimen/_5sdp"
+            android:text="@string/via_otp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp"
+            app:backgroundTint="@null"
+            app:buttonBackground="none"
+            app:icon="@drawable/ic_call_blue"
+            app:iconGravity="textStart"
+            app:iconPadding="@dimen/_10sdp"
+            app:iconTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_google_login"
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintStart_toEndOf="@+id/btn_google_login"
+            app:layout_constraintTop_toTopOf="@+id/btn_google_login"
+            app:layout_constraintWidth_percent="0.45" />
 
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_1sdp"
-android:importantForAccessibility="no"
-                android:layout_marginEnd="@dimen/_15sdp"
-                android:background="?attr/introButtonBackgroundColor"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_or"
-                app:layout_constraintEnd_toStartOf="@+id/tv_or"
-                app:layout_constraintStart_toStartOf="@+id/btn_google_login"
-                app:layout_constraintTop_toTopOf="@+id/tv_or" />
+        <!--        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText-->
+        <!--            android:id="@+id/edt_login_email"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="@dimen/_30sdp"-->
+        <!--            android:background="@drawable/edt_bg"-->
+        <!--            android:digits="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM@._"-->
+        <!--            android:drawablePadding="@dimen/_18sdp"-->
+        <!--            android:hint="@string/email"-->
+        <!--            android:imeOptions="actionNext"-->
+        <!--            android:inputType="textEmailAddress"-->
+        <!--            android:lineSpacingExtra="@dimen/_7ssp"-->
+        <!--            android:singleLine="true"-->
+        <!--            android:text="@={login.loginLiveData.email}"-->
+        <!--            app:drawableStartCompat="@drawable/ic_mail_blue"-->
+        <!--            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"-->
+        <!--            app:layout_constraintStart_toStartOf="@id/guidelineStart"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            app:primaryIconTint="start" />-->
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_1sdp"
-android:importantForAccessibility="no"
-                android:layout_marginStart="@dimen/_15sdp"
-                android:background="?attr/introButtonBackgroundColor"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_or"
-                app:layout_constraintEnd_toEndOf="@+id/btn_otp_login"
-                app:layout_constraintStart_toEndOf="@+id/tv_or"
-                app:layout_constraintTop_toTopOf="@+id/tv_or" />
+        <!--        <View-->
+        <!--            android:layout_width="@dimen/_1sdp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:layout_marginVertical="@dimen/_12sdp"-->
+        <!--            android:layout_marginStart="@dimen/_35sdp"-->
+        <!--            android:background="@color/et_dash_color"-->
+        <!--            android:importantForAccessibility="no"-->
+        <!--            app:layout_constraintBottom_toBottomOf="@+id/edt_login_email"-->
+        <!--            app:layout_constraintStart_toStartOf="@+id/edt_login_email"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/edt_login_email" />-->
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/tv_or"
+        <LinearLayout
+            android:id="@+id/ll_phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/edt_bg"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/_30sdp"
-                android:background="@android:color/white"
-                android:importantForAccessibility="no"
-                android:lineSpacingExtra="@dimen/_5ssp"
-                android:padding="@dimen/_2sdp"
-                android:text="@string/or"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_google_login"
-                app:textColorType="body" />
+                android:layout_gravity="center"
+                android:paddingLeft="@dimen/_10sdp"
+                app:changeBackgroundType="tint_src"
+                app:srcCompat="@drawable/ic_call_forgot"
+
+                />
+
+            <View
+                android:id="@+id/view10"
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:background="@color/et_dash_color"
+                android:importantForAccessibility="no" />
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/country_code_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:visibility="gone"
+
+                app:ccpDialog_backgroundColor="?attr/viewBackgroundColor"
+                app:ccp_showFlag="false"
+                app:ccp_showNameCode="false"
+                app:ccp_textSize="@dimen/_12ssp" />
 
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
                 android:id="@+id/edt_login_email"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_30sdp"
                 android:background="@drawable/edt_bg"
-                android:drawableStart="@drawable/ic_mail_blue"
-                android:drawablePadding="@dimen/_18sdp"
-                android:hint="@string/email"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                android:lineSpacingExtra="@dimen/_7ssp"
-                android:singleLine="true"
-                android:text="@={login.login_email}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_or"
-                app:primaryIconTint="start" />
-
-            <View
-                android:layout_width="@dimen/_1sdp"
-                android:layout_height="0dp"
-                android:layout_marginVertical="@dimen/_12sdp"
-                android:layout_marginStart="@dimen/_35sdp"
-                android:importantForAccessibility="no"
-                android:background="@color/et_dash_color"
-                app:layout_constraintBottom_toBottomOf="@+id/edt_login_email"
-                app:layout_constraintStart_toStartOf="@+id/edt_login_email"
-                app:layout_constraintTop_toTopOf="@+id/edt_login_email" />
-
-
-            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
-                android:id="@+id/edt_login_password"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/edt_bg"
-                android:drawableStart="@drawable/ic_key_password"
-                android:drawablePadding="@dimen/_18sdp"
-                android:hint="@string/password"
+                android:digits="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890.@_"
+                android:hint="@string/enter_phone_email"
                 android:imeOptions="actionDone"
-                android:inputType="textPassword"
-                android:lineSpacingExtra="@dimen/_7ssp"
+                android:inputType="textEmailAddress|textNoSuggestions"
+                android:maxLength="40"
+                android:text="@={login.loginLiveData.email}"
                 android:singleLine="true"
-                android:text="@={login.login_pass}"
-                app:layout_constraintEnd_toEndOf="@+id/edt_login_email"
-                app:layout_constraintStart_toStartOf="@+id/edt_login_email"
-                app:layout_constraintTop_toBottomOf="@+id/edt_login_email"
                 app:primaryIconTint="start" />
 
-            <View
-                android:layout_width="@dimen/_1sdp"
-                android:layout_height="0dp"
-                android:importantForAccessibility="no"
-                android:layout_marginVertical="@dimen/_12sdp"
-                android:layout_marginStart="@dimen/_35sdp"
-                android:background="@color/et_dash_color"
-                app:layout_constraintBottom_toBottomOf="@+id/edt_login_password"
-                app:layout_constraintStart_toStartOf="@+id/edt_login_password"
-                app:layout_constraintTop_toTopOf="@+id/edt_login_password" />
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSCheckBox
-                android:id="@+id/chk_remember_me"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:lineSpacingExtra="@dimen/_7ssp"
-                android:onCheckedChanged="@{(btn,checked)->login.rememberMeCheck(btn,checked)}"
-                android:padding="@dimen/_5sdp"
-                android:text="@string/remember_me"
-                android:contentDescription="@string/remember_login_credentials"
-                app:layout_constraintBaseline_toBaselineOf="@+id/txt_forgot_pass"
-                app:layout_constraintStart_toStartOf="@id/edt_login_email"
-                app:layout_constraintWidth_percent=".45"
-app:compoundTextColor="body"
-                />
+        </LinearLayout>
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/txt_forgot_pass"
-                spanText="@{@string/forgot_password}"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="@dimen/_4ssp"
-                android:text="@string/forgot_password"
-                android:textAlignment="textEnd"
-                android:textColor="?attr/googleButtonBackgroundColor"
-                app:fontType="semiBold"
-                app:textColorType="none"
-                app:layout_constraintBottom_toTopOf="@+id/btn_sing_in"
-                app:layout_constraintEnd_toEndOf="@id/edt_login_email"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/chk_remember_me"
-                app:layout_constraintTop_toBottomOf="@+id/edt_login_password"
-                app:layout_constraintVertical_bias="0.404"
-                app:layout_constraintWidth_percent=".45" />
+        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+            android:id="@+id/edt_login_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/edt_bg"
+            android:drawablePadding="@dimen/_18sdp"
+            android:hint="@string/password"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:lineSpacingExtra="@dimen/_7ssp"
+            android:singleLine="true"
+            android:text="@={login.loginLiveData.password}"
+            app:drawableStartCompat="@drawable/ic_key_password"
+            app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@+id/ll_phone"
+            app:primaryIconTint="start" />
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
-                android:id="@+id/btn_sing_in"
-                spanText="@{@string/sign_in}"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_25sdp"
-                android:letterSpacing="0.02"
-                android:lineSpacingExtra="@dimen/_4ssp"
-                android:onClick="@{()->login.loginValidation()}"
-                android:text="@string/sign_in"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chk_remember_me"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintWidth_percent=".9"
-                app:textAllCaps="true" />
+        <View
+            android:layout_width="@dimen/_1sdp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="@dimen/_12sdp"
+            android:layout_marginStart="@dimen/_35sdp"
+            android:background="@color/et_dash_color"
+            android:importantForAccessibility="no"
+            app:layout_constraintBottom_toBottomOf="@+id/edt_login_password"
+            app:layout_constraintStart_toStartOf="@+id/edt_login_password"
+            app:layout_constraintTop_toTopOf="@+id/edt_login_password" />
 
+        <com.selflearningcoursecreationapp.utils.customViews.LMSCheckBox
+            android:id="@+id/chk_remember_me"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:checked="@={login.isRememberChecked}"
+            android:contentDescription="@string/remember_login_credentials"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:padding="0dp"
+            android:text="@string/remember_me"
+            app:compoundTextColor="body"
+            app:layout_constraintBottom_toBottomOf="@id/txt_forgot_pass"
+            app:layout_constraintEnd_toStartOf="@+id/txt_forgot_pass"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toTopOf="@+id/txt_forgot_pass"
+            app:layout_constraintWidth_default="wrap" />
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/guest_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_marginBottom="@dimen/_15sdp"
-                android:importantForAccessibility="no"
-                android:lineSpacingExtra="@dimen/_7ssp"
-                android:text="@string/or_continue_as_a"
-                android:textAlignment="textEnd"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tv_guest"
-                app:layout_constraintStart_toStartOf="@+id/edt_login_email"
-                app:layout_constraintTop_toBottomOf="@+id/btn_sing_in"
-                app:layout_constraintVertical_bias="0"
-                app:textColorType="body" />
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/txt_forgot_pass"
+            spanText="@{@string/forgot_password}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:lineSpacingExtra="@dimen/_4ssp"
+            android:text="@string/forgot_password"
+            android:textAlignment="textEnd"
+            android:textColor="?attr/googleButtonBackgroundColor"
+            app:fontType="semiBold"
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/tv_guest"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_6ssp"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_marginBottom="@dimen/_15sdp"
-                android:contentDescription="@string/or_continue_as_a_guest"
-                android:lineSpacingExtra="@dimen/_7ssp"
-                android:text="@string/guest_user"
-                app:fontType="medium"
-                app:textColorType="theme"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/edt_login_email"
-                app:layout_constraintStart_toEndOf="@+id/guest_text"
-                app:layout_constraintTop_toBottomOf="@+id/btn_sing_in"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintWidth_percent=".45" />
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@+id/edt_login_password"
+            app:layout_constraintVertical_bias="0.404"
+            app:textColorType="none" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+            android:id="@+id/btn_sing_in"
+            spanText="@{@string/sign_in}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:enabled="@{login.loginLiveData.dataEntered}"
+            android:letterSpacing="0.02"
+            android:lineSpacingExtra="@dimen/_4ssp"
+            android:text="@string/sign_in"
+            app:btnEnabled="@{login.loginLiveData.dataEntered}"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@+id/chk_remember_me"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintWidth_percent=".9"
+            app:textAllCaps="true" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/guest_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:importantForAccessibility="no"
+            android:lineSpacingExtra="@dimen/_7ssp"
+            android:text="@string/or_continue_as_a"
+            android:textAlignment="textEnd"
+            app:layout_constraintEnd_toStartOf="@+id/tv_guest"
+            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@+id/btn_sing_in"
+            app:layout_constraintVertical_bias="0"
+            app:textColorType="body" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_guest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_6ssp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:contentDescription="@string/or_continue_as_a_guest"
+            android:lineSpacingExtra="@dimen/_7ssp"
+            android:text="@string/guest_user"
+            app:fontType="medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+            app:layout_constraintStart_toEndOf="@+id/guest_text"
+            app:layout_constraintTop_toBottomOf="@+id/btn_sing_in"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintWidth_percent=".45"
+            app:textColorType="theme" />
+
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:background="?attr/introButtonBackgroundColor"
+            android:importantForAccessibility="no"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_or"
+            app:layout_constraintEnd_toStartOf="@+id/tv_or"
+            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+            app:layout_constraintTop_toTopOf="@+id/tv_or" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:background="?attr/introButtonBackgroundColor"
+            android:importantForAccessibility="no"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_or"
+            app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+            app:layout_constraintStart_toEndOf="@+id/tv_or"
+            app:layout_constraintTop_toTopOf="@+id/tv_or" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_or"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@android:color/white"
+            android:importantForAccessibility="no"
+            android:lineSpacingExtra="@dimen/_5ssp"
+            android:padding="@dimen/_2sdp"
+            android:text="@string/or"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guest_text"
+            app:textColorType="body" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/_16sdp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/_16sdp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--    </ScrollView>-->
 
 </layout>

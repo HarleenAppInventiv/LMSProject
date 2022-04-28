@@ -1,21 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.review.CourseContentFragment">
+        android:background="?attr/offwhiteTextColor"
+        tools:context=".ui.review.CourseAssignmentFragment">
 
-
-    <TextView
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            style="@style/textViewStyle.SemiBold"
+            android:layout_height="wrap_content"
 
-    </FrameLayout>
+            android:layout_margin="@dimen/_10sdp"
+            android:text="4 Sections in this COURSE"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/v_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_margin="@dimen/_10sdp"
+            android:background="?attr/hintColor"
+            app:layout_constraintTop_toBottomOf="@+id/tv"
+
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_course_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/ll_bottom_bt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/v_divider"
+            tools:itemCount="1"
+            tools:listitem="@layout/adapter_course_assmnt_list" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ll_bottom_bt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/whiteTextColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_course_list"
+
+            >
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                android:id="@+id/bt_edit"
+                spanText="@{@string/edit}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0.02"
+                android:lineSpacingExtra="@dimen/_4ssp"
+                android:text="@string/edit"
+                app:btnTextColor="secondary"
+                app:buttonBackground="none"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/bt_submit"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:strokeColor="?attr/buttonBackgroundTintColor"
+                app:strokeWidth="@dimen/_1sdp"
+                app:textAllCaps="true" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                android:id="@+id/bt_submit"
+                spanText="@{@string/submit}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:letterSpacing="0.02"
+                android:lineSpacingExtra="@dimen/_4ssp"
+                android:text="@string/submit"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/bt_edit"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textAllCaps="true" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

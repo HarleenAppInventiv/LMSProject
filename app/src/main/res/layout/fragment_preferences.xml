@@ -26,34 +26,34 @@
 
 
         <View
+            android:id="@+id/view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:id="@+id/view"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:background="@drawable/top_bottom_line"
+            android:importantForAccessibility="no"
             app:layout_constraintBottom_toTopOf="@+id/bt_continue"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:importantForAccessibility="no"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/barrier" />
 
 
         <androidx.constraintlayout.widget.Barrier
-            android:layout_width="wrap_content"
-            app:barrierDirection="top"
-            app:constraint_referenced_ids="rv_pagerDot,cb_selectAll"
             android:id="@+id/barrier"
-            android:layout_height="wrap_content"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="top"
+            app:constraint_referenced_ids="rv_pagerDot,cb_selectAll" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_pagerDot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-android:importantForAccessibility="no"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:importantForAccessibility="no"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/bt_continue"
-            android:layout_marginBottom="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="@+id/bt_continue"
             tools:itemCount="4"
 
@@ -65,24 +65,27 @@ android:importantForAccessibility="no"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-android:contentDescription="@string/select_all_categories"
-        android:paddingStart="@dimen/_5sdp"
+            android:contentDescription="@string/select_all_categories"
             android:drawablePadding="@dimen/_10sdp"
             android:gravity="center_vertical"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
             android:paddingVertical="@dimen/_5sdp"
-            android:textColor="?attr/primaryTextColor"
+            android:paddingStart="@dimen/_5sdp"
             android:text="@string/select_all"
+            android:textAllCaps="true"
+            android:textColor="?attr/primaryTextColor"
             app:layout_constraintBottom_toTopOf="@+id/bt_continue"
             app:layout_constraintStart_toStartOf="parent" />
 
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
             android:id="@+id/bt_continue"
+            spanText="@{@string/continue_text}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_15sdp"
             android:text="@string/continue_text"
-           spanText="@{@string/continue_text}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1"
@@ -91,21 +94,21 @@ android:contentDescription="@string/select_all_categories"
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_selected_title"
+            spanText="@{@string/major_selected}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:text="@string/major_selected"
-           spanText="@{@string/major_selected}"
-            app:textColorType="body"
             app:layout_constraintEnd_toStartOf="@+id/bt_continue"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/bt_continue" />
+            app:layout_constraintTop_toTopOf="@+id/bt_continue"
+            app:textColorType="body" />
 
         <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivSelectedTheme"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
-            android:id="@+id/ivSelectedTheme"
             app:layout_constraintBottom_toBottomOf="@+id/tv_selected_value"
             app:layout_constraintStart_toStartOf="@+id/tv_selected_title"
             app:layout_constraintTop_toTopOf="@+id/tv_selected_value"
@@ -115,17 +118,17 @@ android:contentDescription="@string/select_all_categories"
             android:id="@+id/tv_selected_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:text="@string/major_selected"
             android:drawablePadding="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            app:layout_goneMarginStart="0dp"
-            app:textColorType="heading"
+            android:text="@string/major_selected"
             app:fontType="semiBold"
             app:layout_constraintEnd_toStartOf="@+id/bt_continue"
             app:layout_constraintStart_toEndOf="@+id/ivSelectedTheme"
-            app:layout_constraintTop_toBottomOf="@+id/tv_selected_title" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_selected_title"
+            app:layout_goneMarginStart="0dp"
+            app:textColorType="heading" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

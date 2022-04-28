@@ -3,9 +3,7 @@ package com.selflearningcoursecreationapp.ui.dialog
 import android.app.Dialog
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.BlendMode
 import android.graphics.PorterDuff
-import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.Window
@@ -27,10 +25,10 @@ class ProgressDialog(var mContext: Context) : Dialog(mContext) {
             setGravity(Gravity.CENTER)
 //            attributes?.windowAnimations = R.style.DialogBounceAnimation
         }
-pb_loading.progressTintList= ColorStateList.valueOf(ThemeUtils.getAppColor(mContext))
-        pb_loading.progressTintMode= PorterDuff.Mode.ADD
-pb_loading.indeterminateTintList=ColorStateList.valueOf(ThemeUtils.getAppColor(mContext))
-        pb_loading.indeterminateTintMode= PorterDuff.Mode.SRC_IN
+        pb_loading.progressTintList = ColorStateList.valueOf(ThemeUtils.getAppColor(mContext))
+        pb_loading.progressTintMode = PorterDuff.Mode.ADD
+        pb_loading.indeterminateTintList = ColorStateList.valueOf(ThemeUtils.getAppColor(mContext))
+        pb_loading.indeterminateTintMode = PorterDuff.Mode.SRC_IN
 
     }
 }

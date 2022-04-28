@@ -1,34 +1,47 @@
 package com.selflearningcoursecreationapp.ui.authentication.resetPassword
 
-import com.selflearningcoursecreationapp.R
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.selflearningcoursecreationapp.base.BaseViewModel
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
-import com.selflearningcoursecreationapp.extensions.isPasswordValid
+import com.selflearningcoursecreationapp.models.ChangePasswordData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ResetViewModel(private val repo: ResetPassRepo) : BaseViewModel() {
-    var newPass: String = ""
-    var confirmNewPass: String = ""
 
+    var resetData = MutableLiveData<ChangePasswordData>().apply {
+        value = ChangePasswordData()
+    }
 
-    fun onReset() {
-        if (newPass.isBlank()) {
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.please_enter_new_password)))
-        } else if (!newPass.isPasswordValid()) {
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.please_enter_valid_new_password)))
+    fun onReset(userId: String) {
+        resetData.value?.let {
+            val errorId = it.isResetValid()
+            if (errorId == 0) {
+                resetPass(userId)
+            } else {
+                updateResponseObserver(Resource.Error(ToastData(errorCode = errorId)))
 
-        } else if (confirmNewPass.isBlank()) {
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.please_enter_confirm_password)))
-
-        } else if (!confirmNewPass.isPasswordValid()) {
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.please_enter_valid_confirm_password)))
-
-        } else if (!newPass.equals(confirmNewPass)) {
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.both_pass_does_not_match)))
-
-        } else {
-            updateResponseObserver(Resource.Success(null, ""))
-
+            }
         }
+
+    }
+
+    fun resetPass(userId: String) = viewModelScope.launch(coroutineExceptionHandle) {
+        var map = HashMap<String, Any>()
+        map["userId"] = userId
+        map["newPassword"] = resetData.value?.newPassword ?: ""
+        updateResponseObserver(Resource.Loading())
+        var response = repo.resetPass(map)
+        withContext(Dispatchers.IO) {
+            response.collect {
+
+                updateResponseObserver(it)
+            }
+        }
+
     }
 }

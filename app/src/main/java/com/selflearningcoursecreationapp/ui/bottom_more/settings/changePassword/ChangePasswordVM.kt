@@ -1,47 +1,51 @@
 package com.selflearningcoursecreationapp.ui.bottom_more.settings.changePassword
 
 import androidx.lifecycle.MutableLiveData
-import com.selflearningcoursecreationapp.R
+import androidx.lifecycle.viewModelScope
 import com.selflearningcoursecreationapp.base.BaseViewModel
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
-import com.selflearningcoursecreationapp.extensions.isPasswordValid
 import com.selflearningcoursecreationapp.models.ChangePasswordData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class ChangePasswordVM() : BaseViewModel() {
+class ChangePasswordVM(private val repo: ChangePassRepo) : BaseViewModel() {
+
 
     val passwordLiveData = MutableLiveData<ChangePasswordData>().apply {
         value = ChangePasswordData()
     }
+    var isLogout = MutableLiveData<Boolean>().apply {
+        value = true
+    }
 
-fun isValid(){
-    passwordLiveData.value?.let {
-        if (it.oldPassword.isEmpty())
-        {
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.plz_enter_old_password)))
-        }else if (!it.oldPassword.isPasswordValid())
-        {
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.old_password_should_be_valid)))
+    fun isValid() {
+        passwordLiveData.value?.let {
+            val errorId = it.isChangeValid()
+            if (errorId == 0) {
+                callChangePass(it.oldPassword, it.newPassword)
+            } else {
+                updateResponseObserver(Resource.Error(ToastData(errorCode = errorId)))
+            }
 
-        }else if (it.newPassword.isEmpty()){
-
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.plz_enter_new_password)))
-
-        }else if (!it.newPassword.isPasswordValid())
-        {
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.password_should_be_valid)))
-
-        }else if (it.confirmPassword.isEmpty()){
-
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.plz_enter_new_password)))
-
-        }else if (!it.confirmPassword.equals(it.newPassword))
-        {
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.new_confirm_paswrd_not_matched)))
-
-        }else{
-            updateResponseObserver(Resource.Success(null,""))
         }
     }
-}
+
+    fun callChangePass(oldPassword: String, newPassword: String) =
+        viewModelScope.launch(coroutineExceptionHandle) {
+            val map = HashMap<String, Any>()
+            map["oldPassword"] = oldPassword
+            map["newPassword"] = newPassword
+            map["isLogout"] = isLogout.value ?: false
+            updateResponseObserver(Resource.Loading())
+            var response = repo.changePass(map)
+            withContext(Dispatchers.IO) {
+                response.collect {
+                    updateResponseObserver(it)
+                }
+            }
+
+        }
 }

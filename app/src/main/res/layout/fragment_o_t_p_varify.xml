@@ -11,178 +11,192 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        tools:context=".ui.authentication.OnBoardingActivity"
+        tools:context=".ui.authentication.OnBoardingActivity">
 
-        >
-
-
-        <com.selflearningcoursecreationapp.utils.customViews.LMSRichView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_24sdp"
-            app:vector="@drawable/ic_login_via_otp"
-            android:background="@drawable/ic_login_via_otp"
-            android:importantForAccessibility="no"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-            android:id="@+id/textView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:text="@string/verify_with_otp"
-            android:textSize="@dimen/_22ssp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-            android:id="@+id/textView3"
-            spanText="@{@string/enter_4_digit_number_that_sent_to_your_number}"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:lineSpacingExtra="@dimen/_3ssp"
-            android:text="@string/enter_4_digit_number_that_sent_to_your_number"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:layout_constraintWidth_percent=".9"
-            app:textColorType="body" />
+            >
 
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-            android:id="@+id/tv_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:drawablePadding="@dimen/_10sdp"
-            android:contentDescription="@string/phone_number"
-            android:text="+91 99852 86399"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.076"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3"
-            app:layout_constraintWidth_percent=".9"
-            app:textColorType="theme" />
+            <com.selflearningcoursecreationapp.utils.customViews.LMSRichView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_24sdp"
+                android:background="@drawable/ic_login_via_otp"
+                android:importantForAccessibility="no"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:vector="@drawable/ic_login_via_otp" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/verify_with_otp"
+                android:textSize="@dimen/_22ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
-            android:id="@+id/et_otp1"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:contentDescription="@string/enter_4_digit_number_that_sent_to_your_number"
-            android:layout_marginTop="@dimen/_45sdp"
-app:layout_constraintDimensionRatio="1:1"
-            android:background="@drawable/edt_bg"
-            app:fontType="bold"
-            app:layout_constraintHorizontal_bias="0"
-            android:inputType="number"
-            android:maxLength="1"
-            android:paddingVertical="@dimen/_15sdp"
-android:hint="-"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toStartOf="@+id/et_otp2"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_phone"
-            />
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_send_otp_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:lineSpacingExtra="@dimen/_3ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:layout_constraintWidth_percent=".9"
+                app:textColorType="body" />
 
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
-            android:id="@+id/et_otp2"
-            android:hint="-"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/_15sdp"
-            app:layout_constraintDimensionRatio="1:1"
-            android:layout_marginTop="@dimen/_45sdp"
-            android:background="@drawable/edt_bg"
-            app:fontType="bold"
-            android:inputType="number"
-            android:maxLength="1"
-            android:paddingVertical="@dimen/_15sdp"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toStartOf="@+id/et_otp3"
-            app:layout_constraintStart_toEndOf="@+id/et_otp1"
-            app:layout_constraintTop_toBottomOf="@+id/tv_phone"
-           />
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:contentDescription="@string/phone_number"
+                android:drawablePadding="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.076"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_send_otp_text"
+                app:layout_constraintWidth_percent=".9"
+                app:textColorType="theme" />
 
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
-            android:id="@+id/et_otp3"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_45sdp"
-            android:hint="-"
-            android:background="@drawable/edt_bg"
-            app:fontType="bold"
-            android:inputType="number"
-            android:maxLength="1"
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/et_otp1"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_45sdp"
+                android:background="@drawable/edt_bg"
+                android:contentDescription="@string/enter_4_digit_number_that_sent_to_your_number"
+                android:hint="-"
+                android:inputType="number"
+                android:maxLength="1"
+                android:nextFocusRight="@id/et_otp2"
+                android:paddingVertical="@dimen/_15sdp"
+                android:text="@={otpverify.otpData.otp1}"
+                android:textAlignment="center"
+                app:fontType="bold"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@+id/et_otp2"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_phone" />
 
-            android:paddingVertical="@dimen/_15sdp"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toStartOf="@+id/et_otp4"
-            app:layout_constraintStart_toEndOf="@+id/et_otp2"
-            app:layout_constraintTop_toBottomOf="@+id/tv_phone"
-          />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/et_otp2"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_45sdp"
+                android:background="@drawable/edt_bg"
+                android:hint="-"
+                android:inputType="number"
+                android:maxLength="1"
+                android:nextFocusLeft="@id/et_otp1"
+                android:nextFocusRight="@id/et_otp3"
+                android:paddingVertical="@dimen/_15sdp"
+                android:text="@={otpverify.otpData.otp2}"
+                android:textAlignment="center"
+                app:fontType="bold"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@+id/et_otp3"
+                app:layout_constraintStart_toEndOf="@+id/et_otp1"
+                app:layout_constraintTop_toBottomOf="@+id/tv_phone" />
 
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
-            android:id="@+id/et_otp4"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_45sdp"
-            android:layout_marginEnd="@dimen/_15sdp"
-            android:hint="-"
-            android:background="@drawable/edt_bg"
-            android:inputType="number"
-            android:maxLength="1"
-            android:textAlignment="center"
-            app:fontType="bold"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/et_otp3"
-            app:layout_constraintTop_toBottomOf="@+id/tv_phone" />
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/et_otp3"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_45sdp"
+                android:background="@drawable/edt_bg"
+                android:hint="-"
+                android:inputType="number"
+                android:maxLength="1"
+                android:nextFocusLeft="@id/et_otp2"
+                android:nextFocusRight="@id/et_otp4"
+                android:paddingVertical="@dimen/_15sdp"
+                android:text="@={otpverify.otpData.otp3}"
+                android:textAlignment="center"
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-            android:id="@+id/tv_resend"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:text="@string/resend_code_in"
+                app:fontType="bold"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@+id/et_otp4"
+                app:layout_constraintStart_toEndOf="@+id/et_otp2"
+                app:layout_constraintTop_toBottomOf="@+id/tv_phone" />
 
-            app:layout_constraintEnd_toEndOf="@+id/textView"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/et_otp1" />
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
-            android:id="@+id/btn_submit_otp"
-            spanText="@{@string/submit_otp}"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_40sdp"
-            android:text="@string/submit_otp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_resend"
-            app:layout_constraintVertical_bias="0" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/et_otp4"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_45sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:background="@drawable/edt_bg"
+                android:hint="-"
+                android:inputType="number"
+                android:maxLength="1"
+                android:nextFocusLeft="@id/et_otp3"
+                android:text="@={otpverify.otpData.otp4}"
+                android:textAlignment="center"
+                app:fontType="bold"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/et_otp3"
+                app:layout_constraintTop_toBottomOf="@+id/tv_phone" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_resend"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/resend_code_in"
+
+                app:layout_constraintEnd_toEndOf="@+id/textView"
+                app:layout_constraintStart_toStartOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/et_otp1" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                android:id="@+id/btn_submit_otp"
+                spanText="@{@string/submit_otp}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_40sdp"
+                android:layout_marginBottom="@dimen/_24sdp"
+                android:enabled="@{otpverify.otpData.dataValid}"
+                android:text="@string/submit_otp"
+
+                app:btnEnabled="@{otpverify.otpData.dataValid}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_resend"
+                app:layout_constraintVertical_bias="0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 
 </layout>

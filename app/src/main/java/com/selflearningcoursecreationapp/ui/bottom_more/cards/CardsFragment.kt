@@ -1,6 +1,8 @@
 package com.selflearningcoursecreationapp.ui.bottom_more.cards
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 
 import android.view.View
 import android.widget.Toast
@@ -26,6 +28,11 @@ class CardsFragment : BaseFragment<FragmentCardsBinding>(), HandleClick, BaseAda
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUi()
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.course_menu, menu)
     }
 
     private fun initUi() {

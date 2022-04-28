@@ -7,76 +7,82 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/offwhiteTextColor"
         tools:context=".ui.create_course.add_courses_steps.Step1Fragment">
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-            android:id="@+id/tv_category_select"
-            spanText="@{@string/what_category_best_suits_your_knowledge}"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_15sdp"
-            android:lineSpacingExtra="@dimen/_6sdp"
-            android:textSize="@dimen/_13ssp"
-            app:fontType="semiBold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-         />
 
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-            android:id="@+id/tv_selected_category"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:background="@drawable/edt_bg_white"
-            android:drawableEnd="@drawable/ic_arrow_right"
-            android:hint="Choose a category..."
-            android:lineSpacingExtra="@dimen/_6sdp"
-            android:paddingStart="@dimen/_15sdp"
-            android:paddingEnd="@dimen/_15sdp"
-            android:paddingVertical="@dimen/_12sdp"
-            app:layout_constraintEnd_toEndOf="@+id/tv_category_select"
-            app:layout_constraintStart_toStartOf="@+id/tv_category_select"
-            app:layout_constraintTop_toBottomOf="@+id/tv_category_select"
-           />
+            >
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-            android:id="@+id/tv_language_select"
-          app:fontType="semiBold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_35sdp"
-            android:lineSpacingExtra="@dimen/_6sdp"
-            android:text="@{@string/select_course_language}"
-            android:textSize="@dimen/_13ssp"
-            app:layout_constraintEnd_toEndOf="@+id/tv_category_select"
-            app:layout_constraintStart_toStartOf="@+id/tv_category_select"
-            app:layout_constraintTop_toBottomOf="@+id/tv_selected_category"
-          />
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_category_select"
+                spanText="@{@string/what_category_best_suits_your_knowledge}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_15sdp"
+                android:lineSpacingExtra="@dimen/_6sdp"
+                android:textSize="@dimen/_13ssp"
+                app:fontType="semiBold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-            android:id="@+id/tv_selected_language"
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_selected_category"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/edt_bg_white"
+                android:drawableEnd="@drawable/ic_arrow_right"
+                android:hint="Choose a category..."
+                android:lineSpacingExtra="@dimen/_6sdp"
+                android:paddingVertical="@dimen/_12sdp"
+                android:paddingStart="@dimen/_15sdp"
+                android:paddingEnd="@dimen/_15sdp"
+                app:layout_constraintEnd_toEndOf="@+id/tv_category_select"
+                app:layout_constraintStart_toStartOf="@+id/tv_category_select"
+                app:layout_constraintTop_toBottomOf="@+id/tv_category_select" />
 
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:background="@drawable/edt_bg_white"
-            android:drawableEnd="@drawable/ic_arrow_right"
-            android:hint="Choose a language..."
-            android:lineSpacingExtra="@dimen/_6sdp"
-            android:paddingVertical="@dimen/_12sdp"
-            android:paddingHorizontal="@dimen/_15sdp"
-            app:layout_constraintEnd_toEndOf="@+id/tv_category_select"
-            app:layout_constraintStart_toStartOf="@+id/tv_category_select"
-            app:layout_constraintTop_toBottomOf="@+id/tv_language_select"
-      />
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_language_select"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_35sdp"
+                android:lineSpacingExtra="@dimen/_6sdp"
+                android:text="@{@string/select_course_language}"
+                android:textSize="@dimen/_13ssp"
+                app:fontType="semiBold"
+                app:layout_constraintEnd_toEndOf="@+id/tv_category_select"
+                app:layout_constraintStart_toStartOf="@+id/tv_category_select"
+                app:layout_constraintTop_toBottomOf="@+id/tv_selected_category" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_selected_language"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:background="@drawable/edt_bg_white"
+                android:drawableEnd="@drawable/ic_arrow_right"
+                android:hint="Choose a language..."
+                android:lineSpacingExtra="@dimen/_6sdp"
+                android:paddingHorizontal="@dimen/_15sdp"
+                android:paddingVertical="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/tv_category_select"
+                app:layout_constraintStart_toStartOf="@+id/tv_category_select"
+                app:layout_constraintTop_toBottomOf="@+id/tv_language_select" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

@@ -8,12 +8,12 @@
 
     <com.selflearningcoursecreationapp.utils.customViews.LMSCardView
         android:layout_width="match_parent"
-        app:cardBackground="primary"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_15sdp"
         android:layout_marginEnd="@dimen/_15sdp"
         android:elevation="@dimen/_5sdp"
+        app:cardBackground="primary"
         app:cardCornerRadius="@dimen/_5sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +31,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_cross" />
+                app:srcCompat="@drawable/ic_bank_icon" />
 
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
@@ -40,8 +40,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:text="State Bank of India"
-               app:fontType="semiBold"
                 android:textSize="@dimen/_14sdp"
+                app:fontType="semiBold"
                 app:layout_constraintBottom_toTopOf="@+id/tv_bank_number"
                 app:layout_constraintStart_toEndOf="@+id/appCompatImageView3"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -49,30 +49,30 @@
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_bank_number"
                 android:layout_width="wrap_content"
-                app:textColorType="body"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:text="30••••••0979"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/appCompatImageView3"
-                app:layout_constraintTop_toBottomOf="@+id/tv_bank_name" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_bank_name"
+                app:textColorType="body" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_15sdp"
-                app:textColorType="none"
-                app:fontType="bold"
                 android:background="@color/price_bg_color"
                 android:drawablePadding="@dimen/_5sdp"
                 android:padding="@dimen/_3sdp"
                 android:text="Success"
                 android:textColor="@color/priceColor"
                 android:textSize="@dimen/_10ssp"
+                app:fontType="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:textColorType="none" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.selflearningcoursecreationapp.utils.customViews.LMSCardView>

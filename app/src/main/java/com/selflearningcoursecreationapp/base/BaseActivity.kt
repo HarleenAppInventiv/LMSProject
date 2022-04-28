@@ -15,14 +15,15 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.google.gson.Gson
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.data.network.ApiError
+import com.selflearningcoursecreationapp.data.network.HTTPCode
+import com.selflearningcoursecreationapp.data.network.LiveDataObserver
 import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.data.prefrence.PreferenceDataStore
 import com.selflearningcoursecreationapp.extensions.setTransparentLightStatusBar
 import com.selflearningcoursecreationapp.extensions.showLog
-import com.selflearningcoursecreationapp.models.AppThemeFile
+import com.selflearningcoursecreationapp.ui.authentication.InitialActivity
 import com.selflearningcoursecreationapp.ui.dialog.ProgressDialog
 import com.selflearningcoursecreationapp.utils.*
 import kotlinx.coroutines.async
@@ -32,7 +33,7 @@ import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 import java.util.*
 
-open class BaseActivity : AppCompatActivity() {
+open class BaseActivity : AppCompatActivity(), LiveDataObserver {
     private var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,22 +91,38 @@ open class BaseActivity : AppCompatActivity() {
     fun handleOnException(networkAvailable: Boolean, exception: ApiError, apiCode: String) {
         if (isDestroyed || isFinishing)
             return
+        when (exception.statusCode) {
+            HTTPCode.TOKEN_EXPIRED -> {
+                lifecycleScope.launch {
+                    lifecycleScope.async {
+                        PreferenceDataStore.saveString(Constants.USER_TOKEN, "")
+                        PreferenceDataStore.saveString(Constants.USER_RESPONSE, null)
+                    }.await()
+                }
+                startActivity(Intent(this@BaseActivity, InitialActivity::class.java))
+                finish()
+            }
+        }
         exception.message?.let {
+            showLog("API_ERROR", it)
             showToastShort(it)
         }
 
     }
 
     fun showToastShort(message: String) {
+        showLog("SHOW_TOAST", message)
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     fun showToastLong(message: String) {
+        showLog("SHOW_TOAST", message)
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     fun handleOnError(error: ToastData) {
         error.errorCode?.let {
+            showLog("ERROR", getString(it))
             showToastShort(getString(it))
         }
         error.errorString?.let {
@@ -170,6 +187,7 @@ open class BaseActivity : AppCompatActivity() {
         showToolbar: Boolean = true,
         backIcon: Int = R.drawable.ic_arrow_left,
         showBackIcon: Boolean = true,
+        subTitle: String? = ""
     ) {
         Log.d("main", "main")
     }
@@ -278,63 +296,90 @@ open class BaseActivity : AppCompatActivity() {
 
     }
 
-    fun getThemeFile(colorString: String): AppThemeFile {
-        val myTheme = AppThemeFile()
-        myTheme.themeColor = colorString
-        myTheme.btnTextColor = colorString
-        val themeColor = Color.parseColor(colorString)
+//    fun getThemeFile(colorString: String): AppThemeFile {
+//        val myTheme = AppThemeFile()
+//        myTheme.themeColor = colorString
+//        myTheme.btnTextColor = colorString
+//        val themeColor = Color.parseColor(colorString)
+//
+//        var red = (Color.red(themeColor))
+//        if (red >= 100) {
+//            red -= 10
+//        } else {
+//            red += 10
+//        }
+//
+//
+//        var green = (Color.green(themeColor))
+//        if (green >= 100) {
+//            green -= 10
+//        } else {
+//            green += 10
+//        }
+//
+//
+//        var blue = (Color.blue(themeColor))
+//        if (blue >= 100) {
+//            blue -= 10
+//        } else {
+//            blue += 10
+//        }
+//
+//
+//
+//
+//        showLog(
+//            "COLOR_HEX",
+//            String.format(
+//                "#%02x%02x%02x%02x",
+//                200,
+//                red,
+//                green,
+//
+//                blue
+//            )
+//        )
+//        myTheme.themeTint = String.format(
+//            "#%02x%02x%02x%02x",
+//            200,
+//            red,
+//            green,
+//            blue
+//        )
+//        return myTheme
+//    }
 
-        var red = (Color.red(themeColor))
-        if (red >= 100) {
-            red -= 10
-        } else {
-            red += 10
-        }
+//    fun GetProfile(): JSONObject? {
+//        var json = ""
+//        lifecycleScope.launch {
+//            json = PreferenceDataStore.getString(Constants.USER_RESPONSE).toString()
+//        }
+//        if (json.isEmpty()) {
+//            return null
+//        } else {
+//            val response = JSONObject(json)
+//            val user = response.getJSONObject("user")
+//            return user
+//        }
+//
+//    }
 
-
-        var green = (Color.green(themeColor))
-        if (green >= 100) {
-            green -= 10
-        } else {
-            green += 10
-        }
-
-
-        var blue = (Color.blue(themeColor))
-        if (blue >= 100) {
-            blue -= 10
-        } else {
-            blue += 10
-        }
-
-
-
-
-        showLog(
-            "COLOR_HEX",
-            String.format(
-                "#%02x%02x%02x%02x",
-                200,
-                red,
-                green,
-
-                blue
-            )
-        )
-        myTheme.themeTint = String.format(
-            "#%02x%02x%02x%02x",
-            200,
-            red,
-            green,
-            blue
-        )
-        return myTheme
+    override fun <T> onResponseSuccess(value: T, apiCode: String) {
+        showLog("BASE_ACTIVITY", "onResponseSuccess>>>" + apiCode)
     }
 
-    fun saveThemeFile(themeFile: AppThemeFile) {
-        lifecycleScope.launch {
-            PreferenceDataStore.saveString(Constants.THEME_FILE, Gson().toJson(themeFile))
-        }
+    override fun onException(isNetworkAvailable: Boolean, exception: ApiError, apiCode: String) {
+        showLog("BASE_ACTIVITY", "onException>>>" + apiCode)
     }
+
+    override fun onError(error: ToastData) {
+        showLog("BASE_ACTIVITY", "onError>>>")
+    }
+
+    override fun onLoading(message: String) {
+        showLog("BASE_ACTIVITY", "onLoading>>>")
+
+    }
+
 
 }

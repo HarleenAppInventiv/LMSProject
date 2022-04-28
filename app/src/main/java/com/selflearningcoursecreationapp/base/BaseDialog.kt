@@ -22,7 +22,6 @@ abstract class BaseDialog<DB : ViewDataBinding> : DialogFragment(), LiveDataObse
     protected lateinit var binding: DB
     private var clickListener: IDialogClick? = null
     lateinit var baseActivity: BaseActivity
-
     @LayoutRes
     abstract fun getLayoutRes(): Int
     abstract fun initUi()

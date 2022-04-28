@@ -30,6 +30,7 @@ class ImagePickUtils {
 
         ImagePicker.with(context).apply {
             cameraOnly()
+
             if (doCrop) {
                 crop()
             }

@@ -39,7 +39,7 @@ class MyBankFragment : BaseFragment<FragmentMyBankBinding>(), HandleClick, BaseD
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_read -> {
-                baseActivity.checkAccessibilityService()
+//                baseActivity.checkAccessibilityService()
             }
 
         }

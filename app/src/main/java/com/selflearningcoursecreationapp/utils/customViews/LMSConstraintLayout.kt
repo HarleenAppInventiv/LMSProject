@@ -41,10 +41,15 @@ class LMSConstraintLayout : ConstraintLayout {
         when (changeBgType) {
             ThemeConstants.TYPE_TINT -> {
 
+                backgroundTintList = ColorStateList.valueOf(ThemeUtils.getTintColor(context))
+                backgroundTintMode = PorterDuff.Mode.MULTIPLY
+            }
+            ThemeConstants.TYPE_BACKGROUND_TINT -> {
+
                 backgroundTintList = ColorStateList.valueOf(ThemeUtils.getAppColor(context))
                 backgroundTintMode = PorterDuff.Mode.MULTIPLY
             }
-            ThemeConstants.TYPE_BACKGROUND -> {
+            ThemeConstants.TYPE_THEME -> {
                 setBackgroundColor(ThemeUtils.getAppColor(context))
             }
             ThemeConstants.TYPE_PRIMARY -> {

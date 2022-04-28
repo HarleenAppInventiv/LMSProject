@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_ongoing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:cardBackgroundColor="?attr/viewBackgroundColor"
+        app:cardCornerRadius="@dimen/_5sdp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+
+                android:text="UX and Web Design Course"
+                app:fontType="semiBold"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:text="BA Certification"
+                android:textSize="@dimen/_10ssp"
+                app:fontType="medium"
+                app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name"
+                app:textColorType="body" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_dot"
+                android:layout_width="@dimen/_5sdp"
+                android:layout_height="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:importantForAccessibility="no"
+                android:src="?attr/hintColor"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_author"
+                app:layout_constraintStart_toEndOf="@+id/tv_author"
+                app:layout_constraintTop_toTopOf="@+id/tv_author"
+                app:shapeAppearanceOverlay="@style/circleImage" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/iv_certification"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:text="English"
+                android:textSize="@dimen/_10ssp"
+                app:fontType="medium"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toEndOf="@+id/iv_dot"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name"
+                app:textColorType="theme" />
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_creater"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@+id/iv_certification"
+                app:shapeAppearanceOverlay="@style/circleImage"
+                app:srcCompat="@drawable/dummy_user" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_creater_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:text="Allen Wen"
+                app:fontType="semiBold"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_creater"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toEndOf="@+id/iv_creater"
+                app:layout_constraintTop_toBottomOf="@+id/iv_certification" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                android:id="@+id/btn_positive"
+                spanText="@{@string/accept}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:letterSpacing="0.02"
+                android:minHeight="0dp"
+                android:text="@string/accept"
+                android:textAlignment="center"
+                android:textSize="@dimen/_10ssp"
+                app:buttonFont="semiBold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toEndOf="@+id/btn_negative"
+                app:layout_constraintTop_toBottomOf="@+id/tv_creater_name"
+                app:layout_goneMarginStart="@dimen/_15sdp" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                android:id="@+id/btn_negative"
+                spanText="@{@string/reject}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0.02"
+                android:minHeight="0dp"
+                android:text="@string/reject"
+                android:textAlignment="center"
+                android:textColor="?attr/primaryTextColor"
+                android:textSize="@dimen/_10ssp"
+                app:btnTextColor="none"
+                app:buttonBackground="none"
+                app:buttonFont="semiBold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_positive"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@+id/tv_creater_name"
+                app:layout_goneMarginEnd="@dimen/_15sdp"
+                app:strokeColor="?attr/buttonBackgroundTintColor"
+                app:strokeWidth="@dimen/_1sdp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/_16sdp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/_16sdp" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

@@ -15,17 +15,17 @@ class CardDetailsBottomDialog() : BaseBottomSheetDialog<BottomDialogCardDetailBi
     private var position: Int = 0
     override fun getLayoutRes() = R.layout.bottom_dialog_card_detail
 
-  override fun initUi() {
-      arguments?.let {
-          cardType = it.getInt("type")
-          position = it.getInt("position")
-      }
+    override fun initUi() {
+        arguments?.let {
+            cardType = it.getInt("type")
+            position = it.getInt("position")
+        }
 
-      when (cardType) {
-          Constant.CLICK_ADD -> {
-              binding.evCardNumber.setText("")
-              binding.evLoginEmail.setText("")
-              binding.evExpMonth.setText("")
+        when (cardType) {
+            Constant.CLICK_ADD -> {
+                binding.evCardNumber.setText("")
+                binding.evLoginEmail.setText("")
+                binding.evExpMonth.setText("")
                 binding.evExpYear.setText("")
 
             }

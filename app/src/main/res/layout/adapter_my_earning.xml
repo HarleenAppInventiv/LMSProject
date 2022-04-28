@@ -113,7 +113,7 @@
                 app:textColorType="none"
                 android:drawablePadding="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_10sdp"
-android:drawableStart="@drawable/ic_rewards_points"
+                app:drawableStartCompat="@drawable/ic_rewards_points"
                 android:textColor="@color/earning_price_color"
                 android:layout_height="wrap_content"/>
 

@@ -65,7 +65,7 @@ class CreatedCourseAdapter : BaseAdapter<AdapterCreatedCourseBinding>() {
             }
 
         }
-        val msg = SpanUtils.with(context, "Revenue: \$2000").startPos(7)
+        val msg = SpanUtils.with(context, "Revenue: ₹2000").startPos(7)
             .textColor(ContextCompat.getColor(context, R.color.priceColor))
             .getSpanString()
         binding.tvPrice.setSpanString(msg)

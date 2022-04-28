@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="handleClick"
+            type="com.selflearningcoursecreationapp.utils.HandleClick" />
+
+        <variable
+            name="viewModel"
+            type="com.selflearningcoursecreationapp.ui.practice_accent.PracticeAccentVM" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/offwhiteTextColor"
+        tools:context=".ui.practice_accent.PracticeAccentFragment">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            >
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:id="@+id/view5"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_margin="@dimen/_10sdp"
+
+                android:background="@drawable/primary_color_outline"
+                app:changeBackgroundType="background_tint"
+                app:layout_constraintEnd_toEndOf="@id/guideline_start"
+                app:layout_constraintStart_toStartOf="@id/guideline_end"
+                app:layout_constraintTop_toTopOf="parent"
+
+
+                />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_from"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:drawableEnd="@drawable/ic_arrow_bottom"
+                android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
+                android:paddingVertical="@dimen/_10sdp"
+                android:textColor="?attr/whiteTextColor"
+                android:textSize="@dimen/_14ssp"
+                app:drawableTint="?attr/whiteTextColor"
+                app:layout_constraintBottom_toBottomOf="@+id/view5"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/view5"
+                app:layout_constraintTop_toTopOf="@+id/view5"
+                app:textColorType="none" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_to"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:drawableEnd="@drawable/ic_arrow_bottom"
+                android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
+                android:paddingVertical="@dimen/_10sdp"
+                android:textColor="?attr/whiteTextColor"
+                android:textSize="@dimen/_14ssp"
+                app:drawableTint="?attr/whiteTextColor"
+                app:layout_constraintBottom_toBottomOf="@+id/view5"
+                app:layout_constraintEnd_toEndOf="@+id/view5"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="@+id/view5"
+                app:textColorType="none" />
+
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="0dp"
+                android:background="?attr/offwhiteTextColor"
+                app:layout_constraintBottom_toBottomOf="@+id/view5"
+                app:layout_constraintEnd_toEndOf="@+id/view5"
+                app:layout_constraintStart_toStartOf="@+id/view5"
+                app:layout_constraintTop_toTopOf="@+id/view5" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/LMSTextView4"
+                style="@style/textViewStyle.SemiBold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="Your text"
+                android:textColor="?attr/primaryTextColor"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/view5"
+                app:primaryIconTint="start" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/et_search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/edt_white_bg"
+                android:drawableEnd="@drawable/ic_mic_home"
+                android:drawablePadding="@dimen/_10sdp"
+                android:hint="@string/enter_your_text_here"
+                android:imeOptions="actionDone"
+                android:textColor="?attr/primaryTextColor"
+                android:textColorHint="?attr/hintColor"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/LMSTextView4"
+                app:primaryIconTint="end" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/et_search_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/edt_white_bg"
+                android:drawableEnd="@drawable/ic_mic_home"
+                android:drawablePadding="@dimen/_10sdp"
+                android:gravity="top|start"
+                android:hint="@string/your_translation_will_appear_here"
+                android:inputType="textMultiLine"
+                android:lines="8"
+                android:minLines="6"
+                android:textColor="?attr/primaryTextColor"
+                android:textColorHint="?attr/hintColor"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/et_search"
+                app:primaryIconTint="end"
+
+                />
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".5" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/_10sdp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/_10sdp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

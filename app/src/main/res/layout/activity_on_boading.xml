@@ -22,7 +22,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/_25sdp"
             app:layout_constraintStart_toStartOf="parent"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
             app:layout_constraintTop_toTopOf="parent"
+            app:titleMarginStart="0dp"
             app:titleTextColor="?attr/toolbarTitleColor"
             app:navigationIcon="@drawable/ic_arrow_left"
             app:title="@string/app_name" />

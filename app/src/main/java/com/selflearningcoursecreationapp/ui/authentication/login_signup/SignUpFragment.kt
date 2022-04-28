@@ -7,19 +7,31 @@ import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.hbb20.CountryCodePicker
 import com.selflearningcoursecreationapp.R
+import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.base.BaseFragment
+import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.databinding.FragmentSignUpBinding
-import com.selflearningcoursecreationapp.extensions.showHidePassword
+import com.selflearningcoursecreationapp.extensions.content
+import com.selflearningcoursecreationapp.models.SingleChoiceData
+import com.selflearningcoursecreationapp.models.user.UserProfile
 import com.selflearningcoursecreationapp.ui.authentication.viewModel.OnBoardingViewModel
+import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceBottomDialog
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.DialogType
+import com.selflearningcoursecreationapp.utils.OTP_TYPE
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
-    val viewModel: OnBoardingViewModel by viewModel()
+class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), BaseBottomSheetDialog.IDialogClick,
+    CountryCodePicker.OnCountryChangeListener {
+    val viewModel: OnBoardingViewModel by viewModels({ if (parentFragment != null) requireParentFragment() else this })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,17 +40,58 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
     }
 
     fun init() {
-        binding.edtRegPassword.showHidePassword()
+//        binding.edtRegPassword.showHidePassword()
         binding.signup = viewModel
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
+        binding.countryCodePicker.apply {
+            setCountryForNameCode("IN")
+            setOnCountryChangeListener(this@SignUpFragment)
+        }
+        viewModel.signUpLiveData.value?.countryCode =
+            binding.countryCodePicker.selectedCountryCodeWithPlus
         setSpanString()
-    }
+//        showToastShort(binding.countryCodePicker.selectedCountryCode + "         " + binding.countryCodePicker.selectedCountryName)
+        binding.evChooseProfession.setOnClickListener {
+            SingleChoiceBottomDialog().apply {
 
+                arguments = bundleOf(
+                    "type" to DialogType.PROFESSION,
+                    "title" to this@SignUpFragment.baseActivity.getString(R.string.profession),
+                    "id" to if (!viewModel.signUpLiveData.value?.professionId.isNullOrEmpty()) {
+                        viewModel.signUpLiveData.value?.professionId!!.toInt()
+                    } else 0
+                )
+
+                setOnDialogClickListener(this@SignUpFragment)
+            }.show(childFragmentManager, "")
+        }
+    }
 
 
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)
-        findNavController().navigate(R.id.action_loginSignUpFragment_to_preferencesFragment)
+        Log.d("SignUpFragment", "onResponseSuccess: $apiCode")
+        val response = value as? BaseResponse<*>
+        response.let {
+            when (apiCode) {
+                ApiEndPoints.API_SIGNUP -> {
+                    val result = response?.resource as? UserProfile
+                    result?.let {
+                        findNavController().navigate(
+                            LoginSignUpFragmentDirections.actionLoginSignUpFragmentToOTPVerifyFragment(
+                                phone = binding.edtRegPhone.content(),
+                                email = "",
+                                type = OTP_TYPE.TYPE_SIGNUP,
+                                countryCode = binding.countryCodePicker.selectedCountryCodeWithPlus
+                            )
+                        )
+                    }
+                }
+
+                else -> {
+                }
+            }
+        }
     }
 
     fun setSpanString() {
@@ -47,7 +100,13 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         val ss = SpannableString(msg)
         val privacySpan = object : ClickableSpan() {
             override fun onClick(p0: View) {
-                baseActivity.showToastShort("Privacy policy comming soon")
+                viewModel.isMovedToPrivacy = true
+                var action =
+                    LoginSignUpFragmentDirections.actionLoginSignUpFragmentToPrivacyFragment(
+                        baseActivity.getString(R.string.privacy_policy),
+                        ApiEndPoints.LINK_PRIVECY_POL
+                    )
+                findNavController().navigate(action)
 
             }
 
@@ -55,14 +114,20 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
             override fun updateDrawState(ds: TextPaint) {
                 super.updateDrawState(ds)
                 ds.isUnderlineText = false
-                           ds.color = ThemeUtils.getAppColor(baseActivity)
+                ds.color = ThemeUtils.getAppColor(baseActivity)
 
             }
         }
         val termsSpan = object : ClickableSpan() {
             override fun onClick(p0: View) {
-//                Toast.makeText(requireContext(), , Toast.LENGTH_SHORT).show()
-                baseActivity.showToastShort("Terms comming soon")
+                viewModel.isMovedToPrivacy = true
+                var action =
+                    LoginSignUpFragmentDirections.actionLoginSignUpFragmentToPrivacyFragment(
+                        baseActivity.getString(R.string.terms_amp_conditions),
+                        ApiEndPoints.LINK_TERM_COND
+                    )
+                findNavController().navigate(action)
+
 
             }
 
@@ -75,9 +140,6 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
             }
         }
 
-//    if (isBold) {
-//        ss.setSpan(StyleSpan(Typeface.BOLD), startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-//    }
         ss.setSpan(privacySpan, 33, 49, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         ss.setSpan(termsSpan, 54, msg.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.tvTerms.text = ss
@@ -89,6 +151,31 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
 
     override fun getLayoutRes(): Int {
         return R.layout.fragment_sign_up
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("signup", "onDestroy: sdfs")
+    }
+
+    override fun onDialogClick(vararg items: Any) {
+        if (items.isNotEmpty()) {
+            val type = items[0] as Int
+            val value = items[1]
+
+            when (type) {
+                DialogType.PROFESSION -> {
+                    value as SingleChoiceData
+                    binding.evChooseProfession.setText(value.title)
+                    viewModel.signUpLiveData.value?.professionId = value.id.toString()
+                }
+            }
+        }
+    }
+
+    override fun onCountrySelected() {
+        viewModel.signUpLiveData.value?.countryCode =
+            binding.countryCodePicker.selectedCountryCodeWithPlus
     }
 
 

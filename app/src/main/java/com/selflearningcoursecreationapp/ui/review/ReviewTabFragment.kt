@@ -8,6 +8,7 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentReviewParentBinding
 import com.selflearningcoursecreationapp.ui.preferences.ScreenSlidePagerAdapter
+import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
 
 
 class ReviewTabFragment : BaseFragment<FragmentReviewParentBinding>() {
@@ -32,6 +33,8 @@ class ReviewTabFragment : BaseFragment<FragmentReviewParentBinding>() {
             tab.text = nameArray[position]
 
         }.attach()
+        binding.tlCourseType.setSelectedTabIndicatorColor(ThemeUtils.getAppColor(baseActivity))
+
     }
 
 

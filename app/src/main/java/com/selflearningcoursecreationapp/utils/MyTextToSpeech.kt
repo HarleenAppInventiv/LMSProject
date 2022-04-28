@@ -1,7 +1,6 @@
 package com.selflearningcoursecreationapp.utils
 
 import android.speech.tts.TextToSpeech
-import android.speech.tts.TextToSpeechService
 import android.util.Log
 import com.selflearningcoursecreationapp.di.getAppContext
 import java.util.*
@@ -24,6 +23,7 @@ class SpeechUtils : TextToSpeech.OnInitListener {
 
     fun speakToUser(txt: String) {
         tts?.speak(txt, TextToSpeech.QUEUE_FLUSH, null)
+
     }
 
 }

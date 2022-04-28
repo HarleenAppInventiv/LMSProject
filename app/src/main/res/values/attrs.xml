@@ -9,6 +9,9 @@
         <attr name="civ_fill_color" format="color" />
         <attr name="civ_circle_background_color" format="color" />
     </declare-styleable>
+    <declare-styleable name="RichPathView">
+        <attr name="vector" format="reference" />
+    </declare-styleable>
 
     <declare-styleable name="LMSTextView">
         <attr name="primaryIconTint" format="enum">
@@ -41,11 +44,18 @@
             <enum name="tint" value="6" />
             <enum name="none" value="-1" />
         </attr>
+        <attr name="drawableTintType" format="enum">
+            <enum name="primary" value="1" />
+            <enum name="secondary" value="2" />
+            <enum name="theme" value="3" />
+            <enum name="tint" value="6" />
+            <enum name="none" value="-1" />
+        </attr>
 
         <attr name="textBgMode" format="enum">
-            <enum name="solid" value="7"/>
-            <enum name="tint" value="6"/>
-            <enum name="none" value="-1"/>
+            <enum name="solid" value="7" />
+            <enum name="tint" value="6" />
+            <enum name="none" value="-1" />
         </attr>
 
     </declare-styleable>
@@ -54,15 +64,18 @@
         <attr name="textColorType" />
         <attr name="textBgColor" />
         <attr name="fontType" />
-
+        <attr name="drawableTintType" />
+        <attr name="textBgMode" />
     </declare-styleable>
     <declare-styleable name="LMSMaterialButton" parent="LMSTextView">
         <attr name="buttonBackground" format="enum">
             <enum name="primary" value="1" />
             <enum name="secondary" value="2" />
             <enum name="none" value="-1" />
+            <enum name="tint" value="6" />
 
         </attr>
+        <!--        <attr name="btnEnabled" format="boolean" />-->
         <attr name="buttonFont" format="enum">
             <enum name="regular" value="1" />
             <enum name="medium" value="2" />
@@ -80,6 +93,11 @@
             <enum name="none" value="-1" />
         </attr>
 
+        <attr name="btnIconColor" format="enum">
+            <enum name="primary" value="1" />
+            <enum name="secondary" value="2" />
+            <enum name="none" value="-1" />
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="LMSCheckBox">
@@ -116,6 +134,7 @@
             <enum name="tint" value="6" />
             <enum name="tint_src" value="8" />
             <enum name="background" value="7" />
+            <enum name="background_tint" value="9" />
             <enum name="none" value="-1" />
         </attr>
     </declare-styleable>
@@ -127,6 +146,7 @@
             <enum name="theme" value="3" />
             <enum name="tint" value="6" />
             <enum name="none" value="-1" />
+            <enum name="background_tint" value="9" />
 
         </attr>
     </declare-styleable>

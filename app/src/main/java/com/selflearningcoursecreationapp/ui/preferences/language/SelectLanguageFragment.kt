@@ -2,14 +2,19 @@ package com.selflearningcoursecreationapp.ui.preferences.language
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentSelectLanguageBinding
 import com.selflearningcoursecreationapp.extensions.setSpanString
+import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceViewModel
 import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.utils.LANGUAGE_CONSTANT
 import com.selflearningcoursecreationapp.utils.SpanUtils
 
 
@@ -17,7 +22,7 @@ class SelectLanguageFragment : BaseFragment<FragmentSelectLanguageBinding>(),
     BaseAdapter.IViewClick, View.OnClickListener {
     private var adapter: LanguageAdapter? = null
 
-    private val viewModel: PreferenceViewModel by viewModels({ if (parentFragment != null) requireParentFragment() else this })
+    private val viewModel: PreferenceViewModel by viewModels({ if (parentFragment !is NavHostFragment) requireParentFragment() else this })
 
     override fun getLayoutRes(): Int {
         return R.layout.fragment_select_language
@@ -26,31 +31,38 @@ class SelectLanguageFragment : BaseFragment<FragmentSelectLanguageBinding>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = parentFragment
-
+        initLanguageList()
 
         initUi()
     }
 
-//    private fun initLanguageList() {
-//        if (viewModel.languageListLiveData.value.isNullOrEmpty()) {
-//            val nameList =
-//                baseActivity.resources.getStringArray(R.array.language_array)
-//
-//            val list = ArrayList<ThemeData>()
-//            for (i in nameList.indices) {
-//                list.add(
-//                    ThemeData(
-//                        nameList[i],
-//                        0,
-//                        i + 1 == LANGUAGE_CONSTANT.ENGLISH,
-//                        i + 1
-//                    )
-//                )
-//            }
-//
-//            viewModel.languageListLiveData.value = list
-//        }
-//    }
+    private fun initLanguageList() {
+        if (viewModel.languageListLiveData.value.isNullOrEmpty()) {
+            val nameList =
+                baseActivity.resources.getStringArray(R.array.language_array)
+            val codeArray = arrayListOf(
+                LANGUAGE_CONSTANT.ENGLISH,
+                LANGUAGE_CONSTANT.HINDI,
+                LANGUAGE_CONSTANT.TELUGU,
+                LANGUAGE_CONSTANT.TAMIL,
+                LANGUAGE_CONSTANT.KANNADA,
+                LANGUAGE_CONSTANT.BENGALI
+            )
+            val list = ArrayList<CategoryData>()
+            for (i in nameList.indices) {
+                list.add(
+                    CategoryData(
+                        nameList[i],
+                        codeArray[i],
+                        id = i + 1,
+                        isSelected = i + 1 == viewModel.userProfile?.language?.id
+                    )
+                )
+            }
+
+            viewModel.languageListLiveData.value = list
+        }
+    }
 
     private fun initUi() {
 //        initLanguageList()
@@ -76,12 +88,25 @@ class SelectLanguageFragment : BaseFragment<FragmentSelectLanguageBinding>(),
             val position = items[1] as Int
             when (type) {
                 Constant.CLICK_VIEW -> {
-                    viewModel.languageListLiveData.value?.apply {
-                        forEachIndexed { index, themeData ->
-                            themeData.isSelected = position == index
+                    viewModel.languageListLiveData.value =
+                        viewModel.languageListLiveData.value?.apply {
+                            forEachIndexed { index, themeData ->
+                                themeData.isSelected = position == index
+                            }
                         }
-                    }
+
                     setAdapter()
+                    if (parentFragment is NavHostFragment) {
+
+                        val bundle = arguments ?: Bundle()
+                        bundle.putString(
+                            "language_code",
+                            viewModel.languageListLiveData.value?.singleOrNull { it.isSelected }?.code
+                        )
+
+                        setFragmentResult("languageData", bundle)
+                        findNavController().navigateUp()
+                    }
                 }
             }
         }

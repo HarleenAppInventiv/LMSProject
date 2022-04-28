@@ -3,6 +3,8 @@ package com.selflearningcoursecreationapp.ui.preferences.theme
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.NavHostFragment
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseFragment
@@ -16,7 +18,7 @@ import com.selflearningcoursecreationapp.utils.SpanUtils
 class SelectThemeFragment : BaseFragment<FragmentSelectThemeBinding>(), BaseAdapter.IViewClick {
 
     private var adapter: ThemeAdapter? = null
-    private val viewModel: PreferenceViewModel by viewModels({ if (parentFragment != null) requireParentFragment() else this })
+    private val viewModel: PreferenceViewModel by viewModels({ if (parentFragment !is NavHostFragment) requireParentFragment() else this })
 
     override fun getLayoutRes(): Int {
         return R.layout.fragment_select_theme
@@ -28,38 +30,27 @@ class SelectThemeFragment : BaseFragment<FragmentSelectThemeBinding>(), BaseAdap
     }
 
     private fun initUi() {
-//        initThemeList()
+        if (viewModel.themeListLiveData.value.isNullOrEmpty()) {
+
+            viewModel.getApiResponse().observe(viewLifecycleOwner, this)
+            viewModel.getThemeData()
+
+
+        }
         binding.tvTitle.setSpanString(
-            SpanUtils.with(baseActivity, baseActivity.getString(R.string.select_theme)).endPos(6)
+            SpanUtils.with(baseActivity, baseActivity.getString(R.string.select_theme))
+                .endPos(6)
                 .isBold().getSpanString()
 
         )
+        viewModel.themeListLiveData.observe(viewLifecycleOwner, Observer {
+            adapter?.notifyDataSetChanged()
+            adapter = null
+            setAdapter()
 
-      setAdapter()
+        })
+        setAdapter()
     }
-
-//    private fun initThemeList() {
-//        if (viewModel.themeListLiveData.value.isNullOrEmpty()) {
-//            val nameList =
-//                baseActivity.resources.getStringArray(R.array.theme_name_array)
-//            val iconList =
-//                baseActivity.resources.obtainTypedArray(R.array.walkthrough_icons)
-//            val list = ArrayList<ThemeData>()
-//            for (i in nameList.indices) {
-//                list.add(
-//                    ThemeData(
-//                        nameList[i],
-//                        iconList.getResourceId(i, -1),
-//                        i + 1 == THEME_CONSTANT.BLUE,
-//                        i + 1
-//                    )
-//                )
-//            }
-//
-//            viewModel.themeListLiveData.value = list
-//            iconList.recycle()
-//        }
-//    }
 
     private fun setAdapter() {
         adapter?.notifyDataSetChanged() ?: kotlin.run {
@@ -75,13 +66,13 @@ class SelectThemeFragment : BaseFragment<FragmentSelectThemeBinding>(), BaseAdap
             val position = items[1] as Int
             when (type) {
                 Constant.CLICK_VIEW -> {
-//                   viewModel.themeListLiveData.value=
-                    viewModel.themeListLiveData.value?.apply {
+                    viewModel.themeListLiveData.value = viewModel.themeListLiveData.value?.apply {
                         forEachIndexed { index, themeData ->
                             themeData.isSelected = position == index
                         }
 
                     }
+
                     setAdapter()
                 }
             }

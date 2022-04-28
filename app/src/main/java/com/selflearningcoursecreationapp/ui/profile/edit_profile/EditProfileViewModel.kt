@@ -1,49 +1,95 @@
 package com.selflearningcoursecreationapp.ui.profile.edit_profile
 
-import android.util.Log
-import com.selflearningcoursecreationapp.R
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.selflearningcoursecreationapp.base.BaseViewModel
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
-import com.selflearningcoursecreationapp.extensions.isValidEmail
-import com.selflearningcoursecreationapp.ui.profile.repo.EditProfileRepo
+import com.selflearningcoursecreationapp.models.user.UserProfile
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class EditProfileViewModel(private val repo: EditProfileRepo) : BaseViewModel() {
 
-    var name: String = "Akash"
-    var email: String = ""
-    var phone: String = ""
-    var dob: String = ""
-    var city: String = ""
-    var state: String = ""
+    var userData = MutableLiveData<UserProfile>().apply {
+        getUserData()
+        value = userProfile
+        value!!.professionId = value?.profession?.id?.toString() ?: ""
+        value!!.genderId = value?.genderId.toString() ?: ""
+        value!!.countryCode = value?.countryCode.toString() ?: ""
+    }
 
 
-    fun saveEditProfile() {
-        if (name.isBlank()) {
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_name)))
-        } else if (email.isBlank()) {
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_email)))
+    var email: String = userProfile?.email ?: ""
+    var phone: String = userProfile?.number ?: ""
 
-        } else if (!email.isValidEmail()) {
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_valid_email)))
 
-        } else if (phone.isBlank()) {
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_phone_number)))
+    fun saveEditProfile(selectedCountryCodeWithPlus: String) {
+        userData.value?.let {
+            val errorId = it.isProfileValid()
+            if (errorId == 0) {
+                update(selectedCountryCodeWithPlus)
+            } else {
+                updateResponseObserver(Resource.Error(ToastData(errorCode = errorId)))
+            }
+        }
+    }
 
-        } else if (phone.length < 10) {
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_valid_phone_number)))
 
-        } else if (dob.isBlank()) {
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.please_enter_dob)))
+    fun update(selectedCountryCodeWithPlus: String) =
+        viewModelScope.launch(coroutineExceptionHandle) {
+            val map = HashMap<String, Any>()
+            userData.value?.let {
+                map["name"] = it.name
+//            if (email != it.email.toString()) map["email"] = it.email
+                if (phone != it.number.toString()) map["phoneNumber"] =
+                    it.number
+                map["dob"] = it.dob ?: ""
+                map["cityId"] = it.cityId ?: 0
+                map["stateId"] = it.stateId ?: 0
+                map["bio"] = it.bio ?: ""
+                map["professionId"] = it.professionId ?: 0
+                map["genderId"] = it.genderId ?: 0
+                map["countryCode"] = selectedCountryCodeWithPlus ?: ""
 
-        } else if (city.isBlank()) {
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.please_enter_city)))
+            }
 
-        } else if (state.isBlank()) {
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.please_enter_state)))
-        } else {
-            Log.d("main", "")
+            val response = repo.updateProfile(map)
+            withContext(Dispatchers.IO) {
+                response.collect {
+                    updateResponseObserver(it)
+                }
+            }
+
         }
 
+    fun getStateList() = viewModelScope.launch(coroutineExceptionHandle) {
+        val response = repo.stateList()
+        withContext(Dispatchers.IO) {
+            response.collect {
+                updateResponseObserver(it)
+            }
+        }
+    }
+
+
+    fun getCityList(stateId: Int) = viewModelScope.launch(coroutineExceptionHandle) {
+        var response = repo.cityList(stateId)
+        withContext(Dispatchers.IO) {
+            response.collect {
+                updateResponseObserver(it)
+            }
+        }
+    }
+
+    fun getProfessionList() = viewModelScope.launch(coroutineExceptionHandle) {
+        var response = repo.professionList()
+        withContext(Dispatchers.IO) {
+            response.collect {
+                updateResponseObserver(it)
+            }
+        }
     }
 }

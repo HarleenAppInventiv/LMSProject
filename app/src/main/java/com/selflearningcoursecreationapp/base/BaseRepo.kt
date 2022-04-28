@@ -2,14 +2,15 @@ package com.selflearningcoursecreationapp.base
 
 import android.util.Log
 import androidx.annotation.MainThread
-import com.selflearningcoursecreationapp.data.network.Resource
+import com.google.gson.Gson
 import com.selflearningcoursecreationapp.data.network.ApiError
+import com.selflearningcoursecreationapp.data.network.HTTPCode
+import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.utils.isInternetAvailable
 import kotlinx.coroutines.flow.flow
 import org.json.JSONObject
 import retrofit2.Response
 import java.io.IOException
-import java.lang.Exception
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeoutException
 
@@ -25,96 +26,43 @@ abstract class BaseRepo<REQUEST> {
             try {
                 val response = fetchDataFromRemoteSource()
                 val data = response.body()
-                if (response.isSuccessful && data != null) {
-                    emit(Resource.Success(data, apiCode))
-                } else {
-                    Resource.Failure(true, apiCode, getError(response))
+                if (response.isSuccessful) {
 
+                    if (data != null && (data.statusCode == HTTPCode.SUCCESS || data.statusCode == HTTPCode.CREATED || data.statusCode == HTTPCode.AUTOMATIC_COMPLETE || data.statusCode == HTTPCode.UNJOIN || data.statusCode == HTTPCode.UPDATE_SUCCESS)) emit(
+                        Resource.Success(
+                            data,
+                            apiCode
+                        )
+                    ) else emit(Resource.Failure(false, apiCode, getError(response)))
+
+                } else {
+                    val error = Gson().fromJson(
+                        JSONObject(
+                            JSONObject(
+                                response.errorBody()?.string()
+                                    ?: "{}"
+                            ).toString()
+                        ).toString(), ApiError::class.java
+                    )
+                    emit(Resource.Failure(false, apiCode, error))
                 }
             } catch (e: Exception) {
-                val apiError = setApiError(true) ?: ApiError()
-                apiError?.exception = e
-
-                when (e) {
-                    is SocketTimeoutException, is TimeoutException, is IOException -> {
-                        Log.d("main", "")
-                    }
-                    else -> {
-                        apiError?.message = e?.message ?: ""
-                    }
-                }
-
-                emit(Resource.Failure(false, apiCode, apiError))
+                val error = handleException(e)
+                emit(Resource.Failure(false, apiCode, error))
             }
         } else {
             emit(Resource.Failure(true, apiCode, setApiError(false) ?: ApiError()))
         }
     }
-/*
-fun <T> safeAtpiCall(
-    apiCode: String = ApiEndPoints.NO_API,
-    apiCall: suspend () -> Response<BaseResponse<T>>,
-): Resource {
-    var dataClass = BaseResponse<T>()
-    dataClass.apiCode = apiCode
-    if (isInternetAvailable()) {
-        return withContext(Dispatchers.IO) {
-            try {
 
-                val response: Response<BaseResponse<T>> = apiCall.invoke()
-                if (response.body() != null) {
-                    return@withContext if (response.isSuccessful && (response.body()!!.statusCode == 200 ||
-                                response.body()!!.statusCode == 202 ||
-                                response.body()!!.statusCode == 201)
-                    ) {
-
-
-                        dataClass = response.body()!!
-                        //                        dataClass.apiError = null
-                        Resource.Success(dataClass, apiCode)
-                    } else {
-                        Resource.Failure(true, apiCode, getError(response))
-
-                    }
-                } else {
-                    return@withContext Resource.Failure(true, apiCode, getError(response))
-
-                }
-            } catch (e: Exception) {
-                val apiError = setApiError(true) ?: ApiError()
-                apiError?.exception = e
-
-                when (e) {
-                    is SocketTimeoutException, is TimeoutException, is IOException -> {
-                    }
-                    else -> {
-                        apiError?.message = e?.message ?: ""
-                    }
-                }
-
-                Resource.Failure(false, apiCode, apiError)
-
-            }
-        }
-    } else {
-
-        return Resource.Failure(true, apiCode, setApiError(false) ?: ApiError())
-
-    }
-}*/
-
-    private fun <T> getError(response: Response<BaseResponse<T>>): ApiError {
-        val error = ApiError()
+    private fun getError(response: Response<BaseResponse<REQUEST>>): ApiError {
+        var error = ApiError()
         if (response.body() != null) {
             error.message = response.body()!!.message
             error.statusCode = response.body()!!.statusCode
-            error.result = response.body()!!.data
+            error.result = response.body()!!.resource
         } else {
-            val jObjError = JSONObject(response.errorBody()!!.string())
-            //error = ErrorUtils.parseError(response)!!
-            error.statusCode = jObjError.optInt("status_code")
-            error.message = jObjError.optString("message")
-                ?: "Unable to process your request. Please try again."
+            error = Gson().fromJson(response.errorBody()?.string(), ApiError::class.java)
         }
         return error
     }
@@ -129,6 +77,20 @@ fun <T> safeAtpiCall(
                 "It seems like you are not connected with a stable internet connection"
         return apiError
 
+    }
+
+    fun handleException(e: Exception): ApiError {
+        val apiError = setApiError(true) ?: ApiError()
+        apiError.exception = e
+        when (e) {
+            is SocketTimeoutException, is TimeoutException, is IOException -> {
+                Log.d("main", "")
+            }
+            else -> {
+                apiError.message = e.message ?: ""
+            }
+        }
+        return apiError
     }
 
 }

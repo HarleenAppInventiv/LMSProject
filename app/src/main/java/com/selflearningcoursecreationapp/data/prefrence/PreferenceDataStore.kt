@@ -14,9 +14,9 @@ object PreferenceDataStore {
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "SelfLearningApp")
 
 
-    suspend fun saveString(key: Constants, value: String) {
+    suspend fun saveString(key: Constants, value: String?) {
         getAppContext().dataStore.edit {
-            it[stringPreferencesKey(key.toString())] = value
+            it[stringPreferencesKey(key.toString())] = value ?: ""
         }
     }
 

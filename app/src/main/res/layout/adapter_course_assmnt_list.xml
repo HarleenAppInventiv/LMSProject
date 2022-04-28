@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSCardView
+            android:id="@+id/cv_course_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@drawable/rounded_top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_expand_details"
+                style="@style/textViewStyle.SemiBold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_arrow_bottom"
+                android:drawablePadding="@dimen/_10sdp"
+                android:lineSpacingExtra="@dimen/_4sdp"
+                android:padding="@dimen/_10sdp"
+                android:text="Visual Elements of User Interface Design"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="normal"
+
+                />
+        </com.selflearningcoursecreationapp.utils.customViews.LMSCardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_course_content_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cv_course_content"
+            tools:itemCount="1"
+            tools:listitem="@layout/adapter_course_content_detail" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

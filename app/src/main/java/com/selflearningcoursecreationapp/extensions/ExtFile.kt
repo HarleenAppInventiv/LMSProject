@@ -6,9 +6,11 @@ import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.util.TypedValue
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.google.gson.Gson
 import com.selflearningcoursecreationapp.BuildConfig
 
 
@@ -25,6 +27,12 @@ fun Activity.hideKeyboard(): Boolean {
     return false
 }
 
+fun View.hideKeyboard() {
+    val iMM = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+    iMM?.hideSoftInputFromWindow(this.windowToken, 0)
+
+}
+
 fun Context.getAttrColor(attrColor: Int): Int {
     val typedValue = TypedValue()
     val theme = theme
@@ -35,11 +43,6 @@ fun Context.getAttrColor(attrColor: Int): Int {
 fun TextView.setColor(color: Int) {
     setTextColor(ContextCompat.getColor(context, context.getAttrColor(color)))
 }
-
-
-
-
-
 
 
 fun showLog(tag: String, msg: String) {
@@ -59,4 +62,13 @@ fun TextView.setSpanString(spanText: SpannableString?) {
     text = spanText
     movementMethod = LinkMovementMethod.getInstance()
     highlightColor = ContextCompat.getColor(context, android.R.color.transparent)
+}
+
+
+fun <T> String?.getPojoData(type: Class<T>): T? {
+
+    if (this.isNullOrEmpty()) {
+        return null
+    } else
+        return Gson().fromJson<T>(this, type)
 }

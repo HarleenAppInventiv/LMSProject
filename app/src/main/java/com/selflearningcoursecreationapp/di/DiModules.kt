@@ -3,6 +3,12 @@ package com.selflearningcoursecreationapp.di
 import com.selflearningcoursecreationapp.base.SelfLearningApplication
 import com.selflearningcoursecreationapp.data.network.getApiProvider
 import com.selflearningcoursecreationapp.data.network.getApiService
+import com.selflearningcoursecreationapp.ui.authentication.add_email.AddEmailRepo
+import com.selflearningcoursecreationapp.ui.authentication.add_email.AddEmailRepoImpl
+import com.selflearningcoursecreationapp.ui.authentication.add_email.AddEmailVM
+import com.selflearningcoursecreationapp.ui.authentication.add_password.AddPassRepo
+import com.selflearningcoursecreationapp.ui.authentication.add_password.AddPassRepoImp
+import com.selflearningcoursecreationapp.ui.authentication.add_password.AddPassViewModel
 import com.selflearningcoursecreationapp.ui.authentication.forgotPass.ForgotPassRepo
 import com.selflearningcoursecreationapp.ui.authentication.forgotPass.ForgotPassRepoImpl
 import com.selflearningcoursecreationapp.ui.authentication.forgotPass.ForgotPassViewModel
@@ -16,20 +22,40 @@ import com.selflearningcoursecreationapp.ui.authentication.otp_verify.OTPVerifyR
 import com.selflearningcoursecreationapp.ui.authentication.otp_verify.OTPVerifyViewModel
 import com.selflearningcoursecreationapp.ui.authentication.resetPassword.ResetPassRepo
 import com.selflearningcoursecreationapp.ui.authentication.resetPassword.ResetPassRepoImpl
+import com.selflearningcoursecreationapp.ui.authentication.resetPassword.ResetViewModel
 import com.selflearningcoursecreationapp.ui.authentication.viewModel.OnBoardingViewModel
 import com.selflearningcoursecreationapp.ui.authentication.viewModel.SplashViewModel
+import com.selflearningcoursecreationapp.ui.bottom_home.HomeRepo
+import com.selflearningcoursecreationapp.ui.bottom_home.HomeRepoImp
+import com.selflearningcoursecreationapp.ui.bottom_home.HomeVM
+import com.selflearningcoursecreationapp.ui.bottom_more.settings.changePassword.ChangePassRepo
+import com.selflearningcoursecreationapp.ui.bottom_more.settings.changePassword.ChangePassRepoImp
 import com.selflearningcoursecreationapp.ui.bottom_more.settings.changePassword.ChangePasswordVM
-import com.selflearningcoursecreationapp.ui.bottom_more.settings.faq.FAQViewModel
-import com.selflearningcoursecreationapp.ui.preferences.PreferenceViewModel
-import com.selflearningcoursecreationapp.ui.profile.edit_profile.EditProfileViewModel
-import com.selflearningcoursecreationapp.ui.authentication.resetPassword.ResetViewModel
 import com.selflearningcoursecreationapp.ui.bottom_more.settings.faq.FAQRepoImpl
+import com.selflearningcoursecreationapp.ui.bottom_more.settings.faq.FAQViewModel
 import com.selflearningcoursecreationapp.ui.bottom_more.settings.faq.FaqRepo
 import com.selflearningcoursecreationapp.ui.create_course.CreateCourseRepo
 import com.selflearningcoursecreationapp.ui.create_course.CreateCourseRepoImpl
 import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseViewModel
-import com.selflearningcoursecreationapp.ui.profile.repo.EditProfileRepo
-import com.selflearningcoursecreationapp.ui.profile.repo.EditProfileRepoImpl
+import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceRepo
+import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceRepoImpl
+import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceVM
+import com.selflearningcoursecreationapp.ui.practice_accent.PracticeAccentVM
+import com.selflearningcoursecreationapp.ui.preferences.PreferenceRepo
+import com.selflearningcoursecreationapp.ui.preferences.PreferenceRepoImpl
+import com.selflearningcoursecreationapp.ui.preferences.PreferenceViewModel
+import com.selflearningcoursecreationapp.ui.profile.edit_profile.EditProfileRepo
+import com.selflearningcoursecreationapp.ui.profile.edit_profile.EditProfileRepoImpl
+import com.selflearningcoursecreationapp.ui.profile.edit_profile.EditProfileViewModel
+import com.selflearningcoursecreationapp.ui.profile.profileDetails.ProfileDetailRepo
+import com.selflearningcoursecreationapp.ui.profile.profileDetails.ProfileDetailRepoImp
+import com.selflearningcoursecreationapp.ui.profile.profileDetails.ProfileDetailViewModel
+import com.selflearningcoursecreationapp.ui.profile.profileThumb.ProfileThumbRepo
+import com.selflearningcoursecreationapp.ui.profile.profileThumb.ProfileThumbRepoImp
+import com.selflearningcoursecreationapp.ui.profile.profileThumb.ProfileThumbViewModel
+import com.selflearningcoursecreationapp.ui.splash.SplashRepo
+import com.selflearningcoursecreationapp.ui.splash.SplashRepoImp
+import com.selflearningcoursecreationapp.ui.splash.SplashVM
 import com.selflearningcoursecreationapp.utils.ImagePickUtils
 import com.selflearningcoursecreationapp.utils.SpeechUtils
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -67,10 +93,10 @@ val viewModelModule = module {
         LoginOTPViewModel(get())
     }
     viewModel {
-        PreferenceViewModel()
+        PreferenceViewModel(get())
     }
     viewModel {
-        ChangePasswordVM()
+        ChangePasswordVM(get())
     }
     viewModel {
         OTPVerifyViewModel(get())
@@ -87,7 +113,23 @@ val viewModelModule = module {
     viewModel {
         AddCourseViewModel(get())
     }
+    viewModel {
+        ProfileThumbViewModel(get())
+    }
+    viewModel { ProfileDetailViewModel(get()) }
 
+    viewModel {
+        PracticeAccentVM()
+    }
+
+    viewModel {
+        SplashVM(get())
+    }
+    viewModel { HomeVM(get()) }
+    viewModel { SingleChoiceVM(get()) }
+
+    viewModel { AddPassViewModel(get()) }
+    viewModel { AddEmailVM(get()) }
 
 }
 
@@ -105,4 +147,13 @@ val repoModule = module {
     single<EditProfileRepo> { EditProfileRepoImpl(get()) }
     single<FaqRepo> { FAQRepoImpl(get()) }
     single<CreateCourseRepo> { CreateCourseRepoImpl(get()) }
+    single<ProfileThumbRepo> { ProfileThumbRepoImp(get()) }
+    single<ProfileDetailRepo> { ProfileDetailRepoImp(get()) }
+    single<ChangePassRepo> { ChangePassRepoImp(get()) }
+    single<PreferenceRepo> { PreferenceRepoImpl(get()) }
+    single<SplashRepo> { SplashRepoImp(get()) }
+    single<HomeRepo> { HomeRepoImp(get()) }
+    single<SingleChoiceRepo> { SingleChoiceRepoImpl(get()) }
+    single<AddPassRepo> { AddPassRepoImp(get()) }
+    single<AddEmailRepo> { AddEmailRepoImpl(get()) }
 }

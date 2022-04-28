@@ -64,6 +64,7 @@
             android:padding="@dimen/_12sdp"
             android:text="@string/ok"
             android:textAlignment="center"
+
             android:textSize="@dimen/_12ssp"
             app:buttonFont="semiBold"
             app:layout_constraintBottom_toBottomOf="parent"

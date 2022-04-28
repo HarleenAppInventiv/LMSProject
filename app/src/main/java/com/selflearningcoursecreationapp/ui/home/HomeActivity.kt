@@ -1,22 +1,20 @@
 package com.selflearningcoursecreationapp.ui.home
 
 import android.annotation.SuppressLint
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.navigation.NavigationBarView
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseActivity
 import com.selflearningcoursecreationapp.databinding.ActivityHomeBinding
-
-import com.selflearningcoursecreationapp.extensions.hideKeyboard
-import com.selflearningcoursecreationapp.extensions.setNavTint
-import com.selflearningcoursecreationapp.extensions.setThemeTint
-import com.selflearningcoursecreationapp.extensions.visibleView
+import com.selflearningcoursecreationapp.extensions.*
+import com.selflearningcoursecreationapp.ui.preferences.PreferencesFragment
 
 class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
     private var navController: NavController? = null
@@ -62,20 +60,45 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
     }
 
     private fun setDestinationChangeListener() {
-        navController?.addOnDestinationChangedListener { _, destination, _ ->
+        navController?.addOnDestinationChangedListener { _, destination, args ->
             hideKeyboard()
-            val hideToolbar =
-                arrayListOf<Int>(R.id.profileThumbFragment,
-                    R.id.profileDetailsFragment,
-                    R.id.homeFragment)
+            val hideToolbar = arrayListOf<Int>(
+                R.id.profileThumbFragment,
+                R.id.profileDetailsFragment,
+                R.id.homeFragment,
+                R.id.privacyFragment
+            )
+            val showCrossIcon = arrayListOf<Int>(R.id.homeCategoriesFragment)
+            val subTitleArray = arrayListOf<Int>(R.id.popularFragment)
+            val secondaryBgColor = arrayListOf(R.id.paymentDetailsFragment)
             if (hideToolbar.contains(destination.id)) {
                 setToolbar(showToolbar = false)
+            } else if (secondaryBgColor.contains(destination.id)) {
+                setToolbar(
+                    title = destination.label.toString(),
+                    toolbarColor = R.attr.secondaryScreenBgColor,
+                    showToolbar = true
+                )
+            } else if (showCrossIcon.contains(destination.id)) {
+                setToolbar(
+                    title = destination.label.toString(),
+                    backIcon = R.drawable.ic_cross_grey,
+                    showToolbar = true
+                )
+            } else if (subTitleArray.contains(destination.id)) {
+                val subtitle =
+                    if (args?.containsKey("subTitle") == true) args?.getString("subTitle") else ""
+                setToolbar(
+                    title = destination.label.toString(),
+                    showToolbar = true,
+                    subTitle = subtitle
+                )
             } else {
                 setToolbar(title = destination.label.toString(), showToolbar = true)
             }
 
             val bottomBarArray =
-                arrayListOf<Int>(R.id.moreFragment, R.id.homeFragment,R.id.myCourseTabFragment)
+                arrayListOf<Int>(R.id.moreFragment, R.id.homeFragment, R.id.myCourseTabFragment)
             bottomBarVisibility(bottomBarArray.contains(destination.id))
             if (bottomBarArray.contains(destination.id)) {
 
@@ -108,10 +131,12 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
         title: String?,
         toolbarColor: Int?,
         showToolbar: Boolean,
+
         backIcon: Int,
         showBackIcon: Boolean,
+        subTitle: String?
     ) {
-        super.setToolbar(title, toolbarColor, showToolbar, backIcon, showBackIcon)
+        super.setToolbar(title, toolbarColor, showToolbar, backIcon, showBackIcon, subTitle)
 
         supportActionBar?.title = if (title.isNullOrEmpty()) " " else title
         if (showToolbar) {
@@ -119,8 +144,36 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
         } else {
             supportActionBar?.hide()
         }
+
+        if (!subTitle.isNullOrEmpty())
+            binding.toolbar.subtitle = subTitle
+        else binding.toolbar.subtitle = ""
+        try {
+
+
+            binding.toolbar.setBackgroundColor(
+                ContextCompat.getColor(
+                    this,
+                    getAttrColor(toolbarColor ?: R.attr.toolbarColor)
+                )
+            )
+        } catch (e: UninitializedPropertyAccessException) {
+            showException(e)
+        }
         supportActionBar?.setHomeAsUpIndicator(backIcon)
         supportActionBar?.setDisplayHomeAsUpEnabled(showBackIcon)
+        if (showBackIcon) {
+            binding.toolbar.setContentInsetsRelative(
+                0,
+                resources.getDimensionPixelOffset(R.dimen._15sdp)
+            )
+
+        } else {
+            binding.toolbar.setContentInsetsRelative(
+                resources.getDimensionPixelOffset(R.dimen._15sdp),
+                resources.getDimensionPixelOffset(R.dimen._15sdp)
+            )
+        }
 
     }
 
@@ -136,12 +189,14 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
 
     override fun onBackPressed() {
         hideKeyboard()
-        val destArrayList = listOf<Int>(R.id.sliderFragment, R.id.homeFragment)
-        val bottomArray = listOf<Int>(R.id.profileThumbFragment)
+        val destArrayList = listOf<Int>(R.id.homeFragment)
+        val bottomArray = listOf<Int>(R.id.myCourseTabFragment, R.id.moreFragment)
         if (destArrayList.contains(navController?.currentDestination?.id)) {
             finishAffinity()
         } else if (bottomArray.contains(navController?.currentDestination?.id)) {
-            setSelected(R.id.action_more)
+            setSelected(R.id.action_home)
+        } else if (navController?.currentDestination?.id == R.id.preferencesFragment) {
+            (getCurrentFragment() as PreferencesFragment).onClickBack()
         } else {
             navController?.popBackStack()
         }
@@ -180,10 +235,9 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
         return true
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-
+    fun getCurrentFragment(): Fragment {
+        val navFrag = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
+        return navFrag!!.childFragmentManager.fragments[0]
     }
-
 
 }

@@ -7,8 +7,8 @@ import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentStep2Binding
-import com.selflearningcoursecreationapp.models.ThemeData
-import com.selflearningcoursecreationapp.ui.preferences.PreferencesFragment
+import com.selflearningcoursecreationapp.models.CategoryData
+import com.selflearningcoursecreationapp.utils.PREFERENCES
 
 
 class Step2Fragment : BaseFragment<FragmentStep2Binding>() {
@@ -25,29 +25,35 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>() {
 
     private fun initUi() {
         binding.tvSelectedLanguage.setOnClickListener {
-            findNavController().navigate(AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToPreferencesFragment(
-                PreferencesFragment.TYPE_LANGUAGE,
-                title = baseActivity.getString(R.string.select_language),
-                screenType = PreferencesFragment.SCREEN_COURSE))
+            findNavController().navigate(
+                AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToPreferencesFragment(
+                    PREFERENCES.TYPE_LANGUAGE,
+                    title = baseActivity.getString(R.string.select_language),
+                    screenType = PREFERENCES.SCREEN_COURSE
+                )
+            )
         }
         binding.tvSelectedCategory.setOnClickListener {
-            findNavController().navigate(AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToPreferencesFragment(
-                PreferencesFragment.TYPE_CATEGORY,
-                title = baseActivity.getString(R.string.select_categories),
-                screenType = PreferencesFragment.SCREEN_COURSE))
+            findNavController().navigate(
+                AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToPreferencesFragment(
+                    PREFERENCES.TYPE_CATEGORY,
+                    title = baseActivity.getString(R.string.select_categories),
+                    screenType = PREFERENCES.SCREEN_COURSE
+                )
+            )
         }
         parentFragment?.setFragmentResultListener("preferenceData", listener = { _, bundle ->
             val type = bundle.getInt("type")
-            val list = bundle.getParcelableArrayList<ThemeData>("data")
+            val list = bundle.getParcelableArrayList<CategoryData>("data")
             showToastShort("data received")
             when (type) {
-                PreferencesFragment.TYPE_CATEGORY -> {
-                    list?.map { it.languageId }?.let {
+                PREFERENCES.TYPE_CATEGORY -> {
+                    list?.map { it.name }?.let {
                         binding.tvSelectedCategory.text = it.joinToString()
                     }
                 }
-                PreferencesFragment.TYPE_LANGUAGE -> {
-                    list?.map { getString(it.themeName) }?.let {
+                PREFERENCES.TYPE_LANGUAGE -> {
+                    list?.map { it.name }?.let {
                         binding.tvSelectedLanguage.text = it.joinToString()
                     }
                 }

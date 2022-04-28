@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/viewBackgroundColor">
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="6sp"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingTop="@dimen/_16sdp"
+            android:paddingBottom="@dimen/_16sdp"
+            android:textColor="?attr/whiteTextColor"
+            android:textSize="@dimen/_14ssp"
+            app:fontType="medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:textBgColor="theme"
+            app:textColorType="none"
+            tools:ignore="RtlSymmetry" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/close"
+            android:padding="@dimen/_10sdp"
+            android:src="@drawable/ic_close"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvTitle" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+            android:id="@+id/et_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_14sdp"
+            android:background="@drawable/ic_bg_search_course"
+            android:drawablePadding="@dimen/_10sdp"
+            android:hint="@string/search_courses"
+            android:imeOptions="actionDone"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="?attr/whiteTextColor"
+            android:textColorHint="?attr/hintColor"
+            app:layout_constraintBottom_toTopOf="@+id/recycler_cource_category"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:primaryIconTint="end" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_cource_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_search"
+            tools:itemCount="10"
+            tools:listitem="@layout/adapter_cource_categories" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.selflearningcoursecreationapp.ui.authentication.add_email.AddEmailVM" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".ui.authentication.OnBoardingActivity">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSRichView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_24sdp"
+                android:importantForAccessibility="no"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_add_pass"
+                app:vector="@drawable/ic_add_pass" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/add_email"
+                android:textSize="@dimen/_22ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/textView3"
+                spanText="@{@string/add_your_email_and_verify_it}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/add_your_email_and_verify_it"
+                app:layout_constraintEnd_toEndOf="@+id/textView"
+                app:layout_constraintStart_toStartOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:textColorType="body" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/et_email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/edt_bg"
+                android:drawablePadding="@dimen/_18sdp"
+                android:hint="@string/email"
+                android:imeOptions="actionDone"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
+                android:text="@={viewModel.email}"
+                app:drawableStartCompat="@drawable/ic_mail_blue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/textView"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/textView3"
+                app:layout_constraintVertical_bias="0.0"
+                app:primaryIconTint="start" />
+
+
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_35sdp"
+                android:background="@color/et_dash_color"
+                android:importantForAccessibility="no"
+                app:layout_constraintBottom_toBottomOf="@+id/et_email"
+                app:layout_constraintStart_toStartOf="@+id/et_email"
+                app:layout_constraintTop_toTopOf="@+id/et_email" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                android:id="@+id/btn_reset"
+                spanText="@{@string/continues}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_20sdp"
+                android:enabled="@{!viewModel.email.empty}"
+                android:onClickListener="@{(v)->viewModel.validate()}"
+                android:text="@string/continues"
+                app:btnEnabled="@{!viewModel.email.empty}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.512"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_email"
+                app:layout_constraintVertical_bias="0.1"
+                app:layout_constraintWidth_percent=".9" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

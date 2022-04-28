@@ -37,7 +37,7 @@ class MyCourseTabFragment : BaseFragment<FragmentMyCourseTabBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_read -> {
-                baseActivity.checkAccessibilityService()
+//                baseActivity.checkAccessibilityService()
             }
 
         }
@@ -49,12 +49,14 @@ class MyCourseTabFragment : BaseFragment<FragmentMyCourseTabBinding>() {
         val list = arrayListOf<Fragment>(
             MyCourseFragment(),
             CompletedCourseFragment(),
-            CreatedCourseFragment()
+            CreatedCourseFragment(),
+            RequestedFragment()
         )
         val nameArray = arrayListOf<String>(
             baseActivity.getString(R.string.ongoing),
             baseActivity.getString(R.string.completed),
-            baseActivity.getString(R.string.created)
+            baseActivity.getString(R.string.created),
+            baseActivity.getString(R.string.requestes)
         )
         binding.viewpager.adapter =
             ScreenSlidePagerAdapter(childFragmentManager, list, this.lifecycle)

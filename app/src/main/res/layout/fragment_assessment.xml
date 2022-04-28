@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="handleClick"
+            type="com.selflearningcoursecreationapp.utils.HandleClick" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/offwhiteTextColor"
+        tools:context=".ui.create_course.add_assessment.AssessmentFragment">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_assignment_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/view_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:itemCount="10"
+            tools:listitem="@layout/adapter_course_assessment" />
+
+
+        <LinearLayout
+            android:id="@+id/ll_no_assessment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/view_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_celebration" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                spanText="@{@string/there_are_no_assessments_in_n_this_course}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/there_are_no_assessments_in_n_this_course"
+                android:textAlignment="center"
+                app:textColorType="primary" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                android:id="@+id/btn_add_assessment"
+                spanText="@{@string/add_assessment}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:backgroundTint="@color/white"
+                android:contentDescription="@string/add_assessment"
+                android:letterSpacing="0.02"
+                android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
+                android:padding="@dimen/_12sdp"
+                android:text="@string/add_assessment"
+                android:textAlignment="center"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="@dimen/_12ssp"
+                app:btnIconColor="primary"
+                app:btnTextColor="secondary"
+                app:buttonBackground="secondary"
+                app:buttonFont="semiBold"
+                app:icon="@drawable/ic_add"
+                app:iconGravity="textStart"
+                app:iconPadding="@dimen/_10sdp"
+                app:iconTint="?attr/colorPrimary"
+                app:strokeColor="?attr/buttonBackgroundTintColor"
+                app:strokeWidth="@dimen/_1sdp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/whiteTextColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".12"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+            android:id="@+id/btn_edit"
+            spanText="@{@string/edit}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_15sdp"
+            android:backgroundTint="@color/white"
+            android:contentDescription="@string/add_assessment"
+            android:letterSpacing="0.02"
+            android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
+            android:padding="@dimen/_12sdp"
+            android:text="@string/edit"
+            android:textAlignment="center"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/_12ssp"
+            app:btnIconColor="primary"
+            app:btnTextColor="secondary"
+            app:buttonBackground="secondary"
+            app:buttonFont="semiBold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_submit"
+            app:layout_constraintStart_toStartOf="@+id/view_bottom"
+            app:layout_constraintTop_toTopOf="@+id/view_bottom"
+            app:strokeColor="?attr/buttonBackgroundTintColor"
+            app:strokeWidth="@dimen/_1sdp" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+            android:id="@+id/btn_submit"
+            spanText="@{@string/submit}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_15sdp"
+            android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
+            android:text="@string/submit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_edit"
+            app:layout_constraintTop_toTopOf="@+id/view_bottom" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -20,18 +20,21 @@ import com.selflearningcoursecreationapp.extensions.setTransparentLightStatusBar
 import com.selflearningcoursecreationapp.models.WalkthroughData
 import com.selflearningcoursecreationapp.ui.authentication.InitialActivity
 import com.selflearningcoursecreationapp.ui.dialog.ViModeDialog
+import com.selflearningcoursecreationapp.ui.splash.SplashVM
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.Constants
 import com.selflearningcoursecreationapp.utils.THEME_CONSTANT
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class SliderFragment : BaseFragment<FragmentSliderBinding>(), View.OnClickListener {
     var adapter: SlideViewPagerAdapter? = null
     var dotAdapter: DotAdapter? = null
     var dotList: ArrayList<Boolean> = ArrayList()
-
+    private val viewModel: SplashVM by viewModel()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
@@ -108,16 +111,27 @@ class SliderFragment : BaseFragment<FragmentSliderBinding>(), View.OnClickListen
                     )
 
                 lifecycleScope.launch {
+
                     lifecycleScope.async {
-                        baseActivity.saveThemeFile(baseActivity.getThemeFile(colorString))
+//                        viewModel.saveThemeFile(baseActivity.getThemeFile(colorString))
+                        viewModel.saveThemeFile(viewModel.getThemeFile(colorString))
                         (getAppContext() as SelfLearningApplication).updatedThemeFile()
                         PreferenceDataStore.saveBoolean(Constants.WALKTHROUGH_DONE, true)
                     }
                         .await()
+                    delay(2000)
+                    baseActivity.runOnUiThread {
+                        hideLoading()
+                        baseActivity.startActivity(
+                            Intent(
+                                baseActivity,
+                                InitialActivity::class.java
+                            )
+                        )
+                        baseActivity.finish()
+                    }
                 }
-                hideLoading()
-                baseActivity.startActivity(Intent(baseActivity, InitialActivity::class.java))
-                baseActivity.finish()
+
 
             }
             R.id.iv_info -> {

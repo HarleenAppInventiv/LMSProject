@@ -29,12 +29,16 @@
                 app:titleTextColor="?attr/toolbarTitleColor"
                 android:elevation="@dimen/_1sdp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:titleMarginStart="@dimen/_10sdp"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp"
+                app:contentInsetStartWithNavigation="0dp"
+                app:title="@string/app_name"
                 app:layout_constraintStart_toStartOf="parent"
+
+
                 app:layout_constraintTop_toTopOf="parent"
                 app:navigationIcon="@drawable/ic_arrow_left"
-                app:title="@string/app_name"
-              />
+                app:titleMarginStart="0dp" />
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView"

@@ -10,9 +10,10 @@ open class BaseResponse<T> {
     @SerializedName("statusCode")
     @Expose
     var statusCode: Int = 0
-  @SerializedName("status")
+
+    @SerializedName("success")
     @Expose
-    var status: String = ""
+    var success: Boolean = false
 
     @SerializedName("type")
     @Expose
@@ -22,7 +23,7 @@ open class BaseResponse<T> {
     @Expose
     var message: String = ""
 
-    @SerializedName("data")
+    @SerializedName("resource", alternate = ["data"])
     @Expose
-    var data: T? = null
+    var resource: T? = null
 }

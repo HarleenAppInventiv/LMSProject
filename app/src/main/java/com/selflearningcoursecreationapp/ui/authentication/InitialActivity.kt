@@ -1,8 +1,10 @@
 package com.selflearningcoursecreationapp.ui.authentication
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
@@ -11,6 +13,8 @@ import com.selflearningcoursecreationapp.base.BaseActivity
 import com.selflearningcoursecreationapp.databinding.ActivityOnBoadingBinding
 import com.selflearningcoursecreationapp.extensions.hideKeyboard
 import com.selflearningcoursecreationapp.extensions.setTransparentLightStatusBar
+import com.selflearningcoursecreationapp.ui.authentication.login_signup.LoginSignUpFragment
+import com.selflearningcoursecreationapp.ui.preferences.PreferencesFragment
 
 class InitialActivity : BaseActivity() {
     private var navController: NavController? = null
@@ -29,6 +33,7 @@ class InitialActivity : BaseActivity() {
     }
 
     private fun initUi() {
+        Log.e("onDestroy", "Init Called")
         initToolbar()
         val navHostFrag =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment?
@@ -52,7 +57,11 @@ class InitialActivity : BaseActivity() {
             ) {
 
                 hideKeyboard()
-                val hideToolbar = arrayListOf<Int>(R.id.sliderFragment,R.id.loginSignUpFragment)
+                val hideToolbar = arrayListOf<Int>(
+                    R.id.sliderFragment,
+                    R.id.privacyFragment,
+                    R.id.loginSignUpFragment
+                )
                 if (hideToolbar.contains(destination.id)) {
                     setToolbar(showToolbar = false)
                 } else {
@@ -68,11 +77,12 @@ class InitialActivity : BaseActivity() {
         toolbarColor: Int?,
         showToolbar: Boolean,
         backIcon: Int,
-        showBackIcon: Boolean
+        showBackIcon: Boolean,
+        subTitle: String?
     ) {
-        super.setToolbar(title, toolbarColor, showToolbar, backIcon, showBackIcon)
+        super.setToolbar(title, toolbarColor, showToolbar, backIcon, showBackIcon, subTitle)
 
-        supportActionBar?.title=if (title.isNullOrEmpty()) " " else title
+        supportActionBar?.title = if (title.isNullOrEmpty()) " " else title
         if (showToolbar) {
             supportActionBar?.show()
         } else {
@@ -80,7 +90,18 @@ class InitialActivity : BaseActivity() {
         }
         supportActionBar?.setHomeAsUpIndicator(backIcon)
         supportActionBar?.setDisplayHomeAsUpEnabled(showBackIcon)
-           
+        if (showBackIcon) {
+            binding.toolbar.setContentInsetsRelative(
+                0,
+                resources.getDimensionPixelOffset(R.dimen._15sdp)
+            )
+
+        } else {
+            binding.toolbar.setContentInsetsRelative(
+                resources.getDimensionPixelOffset(R.dimen._15sdp),
+                resources.getDimensionPixelOffset(R.dimen._15sdp)
+            )
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -94,11 +115,20 @@ class InitialActivity : BaseActivity() {
 
     override fun onBackPressed() {
         hideKeyboard()
-        val destArrayList = listOf<Int>(R.id.sliderFragment, R.id.loginSignUpFragment)
+        val destArrayList = listOf<Int>(R.id.sliderFragment)
         if (destArrayList.contains(navController?.currentDestination?.id)) {
             finishAffinity()
+        } else if (navController?.currentDestination?.id == R.id.loginSignUpFragment) {
+            (getCurrentFragment() as LoginSignUpFragment).onClickBack()
+        } else if (navController?.currentDestination?.id == R.id.preferencesFragment) {
+            (getCurrentFragment() as PreferencesFragment).onClickBack()
         } else {
             navController?.popBackStack()
         }
+    }
+
+    fun getCurrentFragment(): Fragment {
+        val navFrag = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
+        return navFrag!!.childFragmentManager.fragments[0]
     }
 }

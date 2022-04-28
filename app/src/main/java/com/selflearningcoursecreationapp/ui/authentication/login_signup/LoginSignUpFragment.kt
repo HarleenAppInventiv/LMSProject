@@ -8,10 +8,15 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentLoginSignUpBinding
 import com.selflearningcoursecreationapp.extensions.setSpanString
+import com.selflearningcoursecreationapp.models.user.UserProfile
+import com.selflearningcoursecreationapp.ui.authentication.viewModel.OnBoardingViewModel
 import com.selflearningcoursecreationapp.utils.SpanUtils
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class LoginSignUpFragment : BaseFragment<FragmentLoginSignUpBinding>(), View.OnClickListener {
+    private val viewModel: OnBoardingViewModel by viewModel()
 
     private var type: Int = 0
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -29,13 +34,18 @@ class LoginSignUpFragment : BaseFragment<FragmentLoginSignUpBinding>(), View.OnC
 
         binding.txtSingIn.setOnClickListener(this)
         binding.txtSignUp.setOnClickListener(this)
+
         setSelected()
+
+
 
         setFragmentResultListener("loginData", listener = { _, bundle ->
             type = bundle.getInt("type")
 
             setSelected()
         })
+
+
     }
 
     override fun onClick(p0: View?) {
@@ -64,14 +74,35 @@ class LoginSignUpFragment : BaseFragment<FragmentLoginSignUpBinding>(), View.OnC
             binding.txtSignUp.changeBackgroundTint(ThemeConstants.TYPE_THEME)
         else binding.txtSignUp.backgroundTintList = null
 
-        if (type == 0)
+        if (!viewModel.isMovedToPrivacy) {
+            viewModel.signUpLiveData.value = UserProfile()
+            viewModel.isPrivacyPolicyChecked.value = false
+        } else {
+            viewModel.isMovedToPrivacy = false
+        }
+        if (type == 0) {
+            binding.tvSubHeading.text =
+                baseActivity.getString(R.string.sign_in_to_continue_your_account)
             childFragmentManager.beginTransaction()
                 .replace(R.id.container, LoginFragment()).commit()
-        else childFragmentManager.beginTransaction()
-            .replace(R.id.container, SignUpFragment()).commit()
+        } else {
+            binding.tvSubHeading.text = baseActivity.getString(R.string.sign_up_to_get_started)
+
+            childFragmentManager.beginTransaction()
+                .replace(R.id.container, SignUpFragment()).commit()
+        }
+
     }
 
     override fun getLayoutRes() = R.layout.fragment_login_sign_up
+    fun onClickBack() {
+        if (type == 1) {
+            type = 0
+            setSelected()
+        } else {
+            baseActivity.finishAffinity()
+        }
+    }
 
 
 }

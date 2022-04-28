@@ -1,104 +1,177 @@
 package com.selflearningcoursecreationapp.ui.authentication.viewModel
 
 
-import android.widget.CompoundButton
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.selflearningcoursecreationapp.R
+import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.base.BaseViewModel
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
+import com.selflearningcoursecreationapp.data.prefrence.PreferenceDataStore
+import com.selflearningcoursecreationapp.models.LoginData
+import com.selflearningcoursecreationapp.models.user.UserProfile
+import com.selflearningcoursecreationapp.models.user.UserResponse
 import com.selflearningcoursecreationapp.ui.authentication.login_signup.OnBoardingRepo
+import com.selflearningcoursecreationapp.utils.Constants
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+
 class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewModel() {
-
-    //login
-    var login_email: String = ""
-    var login_pass: String = ""
-    var isRememberChecked: Boolean = false
-
-    //signup
-    var reg_name: String = ""
-    var reg_email: String = ""
-    var reg_phone: String = ""
-    var reg_pass: String = ""
-    var isPrivacyPolicyChecked= MutableLiveData<Boolean>().apply {
-        value=false
+    //    var emailPhone = MutableLiveData<String>().apply {
+//        value = ""
+//    }
+//    var pass = MutableLiveData<String>().apply {
+//        value = ""
+//    }
+    var isRememberChecked = MutableLiveData<Boolean>().apply {
+        value = false
     }
 
-    fun allStates() = viewModelScope.launch {
-        updateResponseObserver(Resource.Loading())
-      val response=  repository?.allStates()
-            withContext(Dispatchers.IO){
-                response?.collect {
-                    updateResponseObserver(it)
-                }
+    var isMovedToPrivacy = false
+
+    var loginLiveData = MutableLiveData<LoginData>().apply {
+        value = LoginData()
+        viewModelScope.launch {
+            val email = PreferenceDataStore.getString(Constants.EMAIL)
+            val password = PreferenceDataStore.getString(Constants.PASSWORD)
+            val country_code = PreferenceDataStore.getString(Constants.COUNTYRY_CODE)
+            if (!email.isNullOrEmpty()) {
+                value!!.email = email
+                value!!.password = password ?: ""
+                isRememberChecked.value = true
+                value?.countryCode = country_code.toString()
+            }
         }
 
     }
 
-    //
-//    fun allTestStates() = viewModelScope.launch {
-//        updateResponseObserver(Resource.Loading())
-//        repository?.allTestStates()?.let { updateResponseObserver(it) }
-//    }
-    fun rememberMeCheck(btn: CompoundButton, checked: Boolean) {
-        updateResponseObserver(Resource.Error(ToastData(errorString = "" + checked.toString())))
+
+    var signUpLiveData = MutableLiveData<UserProfile>().apply {
+        value = UserProfile()
+    }
+    var isPrivacyPolicyChecked = MutableLiveData<Boolean>().apply {
+        value = false
     }
 
-    fun loginValidation() {
+    init {
+        TAG = "OnBoardingViewModel"
+    }
 
-//        if (login_email.isBlank()) {
-//            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_email)))
-//        } else if (!login_email.isValidEmail()) {
-//            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_valid_email)))
-//        } else if (login_pass.isBlank()) {
-//            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_password)))
-//        } else if (!login_pass.isPasswordValid()) {
-//            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_valid_password)))
-//        } else {
-            updateResponseObserver(Resource.Success(null, ""))
+    private fun signUpApi() = viewModelScope.launch(coroutineExceptionHandle) {
 
-//        }
-
+        val response = repository?.signUpApi(signUpLiveData.value!!)
+        withContext(Dispatchers.IO) {
+            response?.collect {
+                updateResponseObserver(it)
+            }
+        }
 
     }
 
-    fun checkPrivacyPolicy(btn: CompoundButton, isChecked: Boolean) {
+    private fun loginUser(selectedCountryCodeWithPlus: String) =
+        viewModelScope.launch(coroutineExceptionHandle) {
+            val map = HashMap<String, Any>()
+            if (loginLiveData.value?.email?.isDigitsOnly() == true) {
+                map["phone"] = loginLiveData.value!!.email
+                map["countryCode"] = selectedCountryCodeWithPlus
+            } else {
+                map["email"] = loginLiveData.value!!.email
+            }
 
-        updateResponseObserver(Resource.Error(ToastData(errorString = "" + isChecked.toString())))
+            map["password"] = loginLiveData.value!!.password
+
+            var response = repository?.loginInApi(map)
+            withContext(Dispatchers.IO) {
+                response?.collect {
+                    if (it is Resource.Success<*>) {
+                        val data = it.value as BaseResponse<UserResponse>
+                        if (data.resource?.user?.phoneNumberVerified == true) {
+                            saveUserDataInDB(data)
+
+                        }
+                        if (isRememberChecked.value == true) {
+                            PreferenceDataStore.saveString(
+                                Constants.EMAIL,
+                                loginLiveData.value?.email
+                            )
+                            PreferenceDataStore.saveString(
+                                Constants.PASSWORD,
+                                loginLiveData.value?.password
+                            )
+                            PreferenceDataStore.saveString(
+                                Constants.COUNTYRY_CODE,
+                                selectedCountryCodeWithPlus
+                            )
+                        } else {
+                            PreferenceDataStore.saveString(Constants.EMAIL, "")
+                            PreferenceDataStore.saveString(Constants.PASSWORD, "")
+                            PreferenceDataStore.saveString(Constants.COUNTYRY_CODE, "")
+
+                        }
+
+                        delay(2000)
+
+
+                    }
+                    updateResponseObserver(it)
+
+                }
+            }
+
+        }
+
+    fun loginValidation(selectedCountryCodeWithPlus: String) {
+//        updateResponseObserver(Resource.)
+        loginLiveData.value?.let {
+            val errorId = it.isValid()
+            if (errorId == 0) {
+                loginUser(selectedCountryCodeWithPlus)
+            } else {
+                updateResponseObserver(Resource.Error(ToastData(errorCode = errorId)))
+            }
+        }
 
     }
+
 
     fun signupValidations() {
-//        if (reg_name.isBlank()) {
-//            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_name)))
-//        } else if (reg_name.length < 2) {
-//            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_valid_name)))
-//        } else if (reg_email.isBlank()) {
-//            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_email)))
-//        } else if (!reg_email.isValidEmail()) {
-//            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_valid_email)))
-//        } else if (reg_phone.isBlank()) {
-//            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_phone_number)))
-//        } else if (reg_phone.length < 10) {
-//            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_valid_phone_number)))
-//        } else if (reg_pass.isBlank()) {
-//            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_password)))
-//        } else if (!reg_pass.isPasswordValid()) {
-//            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_valid_password)))
-//        } else if (isPrivacyPolicyChecked.value==false)
-//        {
-//            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.plz_accept_terms_conditions)))
-//
-//        }else {
-            updateResponseObserver(Resource.Success(null, ""))
+        signUpLiveData.value?.let {
+            val errorId = it.isSignUpValid()
+            if (errorId == 0) {
+                if (isPrivacyPolicyChecked.value == false) {
+                    updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.plz_accept_terms_conditions)))
+                } else {
+                    signUpApi()
+                }
 
-//        }
+            } else {
+                updateResponseObserver(Resource.Error(ToastData(errorId)))
+            }
 
+        }
     }
+
+
+    fun getProfession() = viewModelScope.launch(coroutineExceptionHandle) {
+
+        var response = repository?.professionApi()
+        withContext(Dispatchers.IO) {
+            response?.collect {
+                if (it is Resource.Success<*>) {
+                    updateResponseObserver(it)
+                } else {
+                    updateResponseObserver(it)
+                }
+            }
+
+        }
+    }
+
 
 }

@@ -1,5 +1,8 @@
 package com.selflearningcoursecreationapp.ui.preferences
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
@@ -7,11 +10,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -22,36 +23,41 @@ import com.selflearningcoursecreationapp.base.SelfLearningApplication
 import com.selflearningcoursecreationapp.databinding.FragmentPreferencesBinding
 import com.selflearningcoursecreationapp.di.getAppContext
 import com.selflearningcoursecreationapp.extensions.gone
-import com.selflearningcoursecreationapp.extensions.setColor
+import com.selflearningcoursecreationapp.extensions.showLog
 import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.extensions.visibleView
-import com.selflearningcoursecreationapp.ui.authentication.InitialActivity
+import com.selflearningcoursecreationapp.ui.home.HomeActivity
 import com.selflearningcoursecreationapp.ui.preferences.category.CategoryFragment
 import com.selflearningcoursecreationapp.ui.preferences.font.SelectFontFragment
 import com.selflearningcoursecreationapp.ui.preferences.language.SelectLanguageFragment
 import com.selflearningcoursecreationapp.ui.preferences.theme.SelectThemeFragment
 import com.selflearningcoursecreationapp.ui.splash.intro_slider.DotAdapter
-import com.selflearningcoursecreationapp.utils.CommonAlertDialog
-import com.selflearningcoursecreationapp.utils.Constant
-import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.*
+import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnClickListener {
-    private val viewModel: PreferenceViewModel by viewModels()
+    private var adapter: ScreenSlidePagerAdapter? = null
+    private val viewModel: PreferenceViewModel by viewModel()
     private var dotAdapter: DotAdapter? = null
     private var dotList: ArrayList<Boolean> = ArrayList()
-    private var type: Int = TYPE_ALL
-    private var screenType: Int = SCREEN_APP
+    private var type: Int = PREFERENCES.TYPE_ALL
+    private var currentSelection: Int = 0
+    private var screenType: Int = PREFERENCES.SCREEN_APP
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             PreferencesFragmentArgs.fromBundle(it).let { args ->
                 type = args.type
                 screenType = args.screenType
+                currentSelection =
+                    if (args.currentSelection == -1) {
+                        if (args.type == -1) 0 else args.type
+                    } else args.currentSelection
                 if (!args.title.isNullOrEmpty())
                     baseActivity.setToolbar(args.title)
             }
@@ -65,29 +71,57 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = parentFragment
-        if (type == TYPE_ALL) {
-            setHasOptionsMenu(true)
-        }
+//        if (type == PREFERENCES.TYPE_ALL) {
+        setHasOptionsMenu(true)
+//        }
         initUi()
     }
 
     private fun initUi() {
+
+        viewModel.getApiResponse().observe(viewLifecycleOwner, this)
+
         initViewPager()
         observeListeners()
+        if (screenType == PREFERENCES.SCREEN_APP && type == PREFERENCES.TYPE_ALL) {
+            lifecycleScope.launch {
+                delay(500)
+                binding.viewpager.currentItem = currentSelection
+
+                binding.viewpager.adapter?.notifyDataSetChanged()
+                baseActivity.runOnUiThread {
+//                setData()
+                }
+            }
+
+        }
         binding.cbSelectAll.setOnClickListener(this)
         binding.btContinue.setOnClickListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.preference_menu, menu)
+        if (type == PREFERENCES.TYPE_ALL) {
+            inflater.inflate(R.menu.preference_menu, menu)
+
+        } else {
+            inflater.inflate(R.menu.course_menu, menu)
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val item = menu.findItem(R.id.action_skip)
-        val s = SpannableString(item.title)
-        s.setSpan(ForegroundColorSpan(ThemeUtils.getAppColor(baseActivity)), 0, s.length, 0)
-        item.title = s
+        if (type == PREFERENCES.TYPE_ALL) {
+            val item = menu.findItem(R.id.action_skip)
+            val s = SpannableString(item.title)
+            s.setSpan(ForegroundColorSpan(ThemeUtils.getAppColor(baseActivity)), 0, s.length, 0)
+            item.title = s
+        } else {
+//            val item = menu.findItem(R.id.action_read)
+//            item.icon.colorFilter = PorterDuffColorFilter(ThemeUtils.getAppColor(requireContext()),
+//                PorterDuff.Mode.SRC_IN)
+
+        }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -98,32 +132,44 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
                         viewModel.categoryListLiveData.value?.forEachIndexed { index, _ ->
                             viewModel.categoryListLiveData.value!![index].isSelected = false
                         }
-                        binding.viewpager.currentItem += 1
+
                     }
                     1 -> {
                         viewModel.themeListLiveData.value?.forEach { themeData ->
-                            themeData.isSelected = themeData.id == viewModel.selectedThemeId
+                            themeData.isSelected = themeData.id == viewModel.userProfile?.theme?.id
                         }
-                        binding.viewpager.currentItem += 1
+
                     }
                     2 -> {
                         viewModel.fontListData.value?.forEach { themeData ->
-                            themeData.isSelected = viewModel.selectedThemeId == themeData.id
+                            themeData.isSelected = viewModel.userProfile?.font?.id == themeData.id
 
                         }
 
-                        binding.viewpager.currentItem += 1
+
                     }
 
                     3 -> {
-                        findNavController().navigate(R.id.homeActivity)
+                        viewModel.languageListLiveData.value?.forEach { data ->
+                            data.isSelected = viewModel.userProfile?.language?.code == data.code
+
+                        }
+
 
                     }
                 }
+                saveData()
+
 
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun saveData() {
+//        viewModel.getApiResponse().observe(viewLifecycleOwner, this)
+
+        viewModel.savePrefernce(currentSelection)
     }
 
     private fun initViewPager() {
@@ -136,22 +182,21 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
         )
 
 
-        if (type == TYPE_ALL) {
+        if (type == PREFERENCES.TYPE_ALL) {
             list.addAll(fragList)
         } else {
             list.add(fragList[type])
         }
-        binding.rvPagerDot.visibleView(type == TYPE_ALL)
+        binding.rvPagerDot.visibleView(type == PREFERENCES.TYPE_ALL)
+        setData()
 
-
-        val adapter = ScreenSlidePagerAdapter(childFragmentManager, list, this.lifecycle)
+        adapter = ScreenSlidePagerAdapter(childFragmentManager, list, this.lifecycle)
         binding.viewpager.adapter = adapter
         dotList.clear()
         dotList.addAll(list.map { false })
         dotList.set(0, true)
-
+        binding.viewpager.isUserInputEnabled = false
         setDotAdapter()
-        setData()
 
         binding.viewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -161,32 +206,50 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
                     dotList[index] = index == position
                 }
                 setDotAdapter()
+                if (position != 3) {
+                    setHasOptionsMenu(true)
+                } else {
+                    setHasOptionsMenu(false)
 
+                }
                 setData()
 
             }
         })
+
+
     }
 
     private fun observeListeners() {
-        if (type == TYPE_ALL || type == TYPE_CATEGORY) {
+        if (type == PREFERENCES.TYPE_ALL || type == PREFERENCES.TYPE_CATEGORY) {
             viewModel.categoryListLiveData.observe(viewLifecycleOwner, Observer {
-                setCategoryData()
+                if (currentSelection == PREFERENCES.TYPE_CATEGORY) {
+                    resetData()
+                    setCategoryData()
+
+                    binding.cbSelectAll.isChecked = it.filter { !it.isSelected }.isNullOrEmpty()
+                }
             })
         }
-        if (type == TYPE_ALL || type == TYPE_THEME) {
+        if (type == PREFERENCES.TYPE_ALL || type == PREFERENCES.TYPE_THEME) {
             viewModel.themeListLiveData.observe(viewLifecycleOwner, Observer {
-                setThemeData()
+                if (currentSelection == PREFERENCES.TYPE_THEME) {
+                    resetData()
+                    setThemeData()
+                }
             })
         }
-        if (type == TYPE_ALL || type == TYPE_FONT) {
+        if (type == PREFERENCES.TYPE_ALL || type == PREFERENCES.TYPE_FONT) {
             viewModel.fontListData.observe(viewLifecycleOwner, {
-                setFontData()
+//                if (currentSelection==PREFERENCES.TYPE_FONT) {
+                setData()
             })
         }
-        if (type == TYPE_ALL || type == TYPE_LANGUAGE) {
+        if (type == PREFERENCES.TYPE_ALL || type == PREFERENCES.TYPE_LANGUAGE) {
             viewModel.languageListLiveData.observe(viewLifecycleOwner, Observer {
-                setLanguageData()
+                if (currentSelection == PREFERENCES.TYPE_LANGUAGE) {
+                    setData()
+                }
             })
         }
 
@@ -194,40 +257,26 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
 
     private fun setCategoryData() {
         val total = viewModel.categoryListLiveData.value?.filter { it.isSelected }?.size ?: 0
-//        if (binding.viewpager.currentItem == 0) {
-        binding.tvSelectedValue.text = total.toString()
-        binding.tvSelectedValue.setColor(R.attr.colorPrimary)
-        binding.tvSelectedValue.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
-//        }
+        binding.tvSelectedValue.text = "${if (total <= 9) "0$total" else total}"
+        binding.tvSelectedValue.changeTextColor(ThemeConstants.TYPE_THEME)
     }
 
     private fun setThemeData() {
         val themeData = viewModel.themeListLiveData.value?.singleOrNull { it.isSelected }
-//        if (binding.viewpager.currentItem == 1) {
         themeData?.let { theme ->
-            binding.tvSelectedValue.text = baseActivity.getString(theme.themeName)
+            binding.tvSelectedValue.text = theme.name
             binding.ivSelectedTheme.visible()
             binding.ivSelectedTheme.setBackgroundColor(
-                ContextCompat.getColor(
-                    baseActivity,
-                    theme.themeColor
-                )
+                Color.parseColor(theme.code)
             )
-        } ?: kotlin.run {
-            binding.tvSelectedValue.text = ""
-            binding.ivSelectedTheme.gone()
         }
-
-        binding.tvSelectedValue.setColor(R.attr.headingTextColor)
-        binding.tvSelectedValue.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
-//        }
     }
 
     private fun setFontData() {
+        showLog("PREFERENCES", "setFontData")
         val themeData = viewModel.fontListData.value?.singleOrNull { it.isSelected }
-//        if (binding.viewpager.currentItem == 2) {
         themeData?.let { theme ->
-            binding.tvSelectedValue.text = baseActivity.getString(theme.themeName)
+            binding.tvSelectedValue.text = theme.name
             binding.tvSelectedValue.setCompoundDrawablesRelativeWithIntrinsicBounds(
                 R.drawable.ic_font_preview,
                 0,
@@ -235,48 +284,33 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
                 0
             )
 
-        } ?: kotlin.run {
-            binding.tvSelectedValue.text = ""
-            binding.tvSelectedValue.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
-
         }
-
-        binding.tvSelectedValue.setColor(R.attr.headingTextColor)
-//        }
     }
 
     private fun setLanguageData() {
+        showLog("PREFERENCES", "language")
         val themeData = viewModel.languageListLiveData.value?.singleOrNull { it.isSelected }
-//        if (binding.viewpager.currentItem == 3) {
         themeData?.let { theme ->
-            binding.tvSelectedValue.text = baseActivity.getString(theme.themeName)
-
-
-        } ?: kotlin.run {
-            binding.tvSelectedValue.text = ""
-
+            binding.tvSelectedValue.text = theme.name
         }
-        binding.tvSelectedValue.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
-
-        binding.tvSelectedValue.setColor(R.attr.headingTextColor)
-//        }
     }
 
+    private fun resetData() {
+        binding.tvSelectedValue.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
+        binding.tvSelectedValue.changeTextColor(ThemeConstants.TYPE_HEADING)
+        binding.tvSelectedValue.text = ""
+        binding.ivSelectedTheme.gone()
+    }
+
+
     private fun setData() {
-        val position = if (type == TYPE_ALL) binding.viewpager.currentItem else type
-
-
+        val position = if (type == PREFERENCES.TYPE_ALL) binding.viewpager.currentItem else type
         val selectedTitleList =
             baseActivity.resources.getStringArray(R.array.preference_selected_title)
         binding.tvSelectedTitle.text = selectedTitleList[position]
-        binding.tvSelectedValue.setColor(R.attr.colorPrimary)
-
+        resetData()
         binding.cbSelectAll.gone()
-        binding.ivSelectedTheme.gone()
-        binding.tvSelectedValue.setColor(R.attr.headingTextColor)
-        binding.tvSelectedValue.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
         binding.btContinue.text = baseActivity.getString(R.string.next)
-
 
         when (position) {
             0 -> {
@@ -296,8 +330,8 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
         }
 
 
-        if (type != TYPE_ALL) {
-            if (screenType == SCREEN_APP)
+        if (type != PREFERENCES.TYPE_ALL) {
+            if (screenType == PREFERENCES.SCREEN_APP)
                 binding.btContinue.text = baseActivity.getString(R.string.apply)
             else binding.btContinue.text = baseActivity.getString(R.string.select)
 
@@ -323,56 +357,24 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
                 }
             }
             R.id.bt_continue -> {
-                when (type) {
-                    TYPE_ALL -> {
-                        if (binding.viewpager.currentItem == 3) {
-                            showLoading()
+                if (screenType == PREFERENCES.SCREEN_APP)
+                    saveData()
+                else sendSelectedData()
 
-                            lifecycleScope.launch {
-                                val operation = async {
-                                    viewModel.setAllValue()
-                                }
-                                operation.await()
-                                delay(1000)
-                                baseActivity.runOnUiThread {
-                                    hideLoading()
-                                    findNavController().navigate(R.id.homeActivity)
-                                }
-                            }
-                        } else {
-                            binding.viewpager.currentItem += 1
-                            setData()
-                        }
-                    }
-
-                    TYPE_CATEGORY -> {
-                        if (screenType == SCREEN_APP)
-                            goToNext()
-                        else sendSelectedData()
-
-                    }
-
-                    else -> {
-                        if (screenType == SCREEN_APP)
-                            saveAppData()
-                        else sendSelectedData()
-                    }
-
-                }
             }
         }
     }
 
     private fun sendSelectedData() {
         val list = when (type) {
-            TYPE_LANGUAGE -> {
+            PREFERENCES.TYPE_LANGUAGE -> {
                 viewModel.languageListLiveData.value
             }
 
-            TYPE_FONT -> {
+            PREFERENCES.TYPE_FONT -> {
                 viewModel.fontListData.value
             }
-            TYPE_THEME -> {
+            PREFERENCES.TYPE_THEME -> {
                 viewModel.themeListLiveData.value
             }
             else -> {
@@ -384,91 +386,137 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
         findNavController().navigateUp()
     }
 
-    private fun saveAppData() {
-        var changedText = ""
-        var themeText = ""
-        showLoading()
-        lifecycleScope.launch {
-            val operation = async {
-                when (type) {
-                    TYPE_LANGUAGE -> {
 
-                        viewModel.saveLanguage()
-                        changedText = baseActivity.getString(R.string.language_changed_to)
-                        themeText =
-                            viewModel.languageListLiveData.value?.singleOrNull { it.isSelected }
-                                ?.let {
-                                    getString(it.themeName)
-                                } ?: ""
+    @SuppressLint("ResourceType")
+    override fun <T> onResponseSuccess(value: T, apiCode: String) {
+        super.onResponseSuccess(value, apiCode)
+        when (apiCode) {
+            ApiEndPoints.API_SAVE_PREFRENCE -> {
+                showLoading()
+                lifecycleScope.launch {
+                    viewModel.savePrefDataInDB(type)
+                    delay(2000)
+                    baseActivity.runOnUiThread {
+                        hideLoading()
+                        if (type == PREFERENCES.TYPE_ALL) {
+                            pagerMoveOrUpdateThemeFile()
+                        } else if (type != PREFERENCES.TYPE_CATEGORY) {
 
-                    }
-                    TYPE_FONT -> {
-                        viewModel.saveFont()
-                        changedText = baseActivity.getString(R.string.font_changed_to)
-                        themeText =
-                            viewModel.fontListData.value?.singleOrNull { it.isSelected }
-                                ?.let {
-                                    getString(it.themeName)
-                                } ?: ""
-                    }
-                    TYPE_THEME -> {
-                        viewModel.saveTheme()
-                        viewModel.themeListLiveData.value?.singleOrNull { it.isSelected }
-                            ?.let { baseActivity.saveThemeFile(baseActivity.getThemeFile(baseActivity.getString(it.themeColor))) }
-                        delay(1000)
-                        (getAppContext() as SelfLearningApplication).updatedThemeFile()
-                        changedText = baseActivity.getString(R.string.theme_changed_to)
-                        themeText =
-                            viewModel.themeListLiveData.value?.singleOrNull { it.isSelected }
-                                ?.let {
-                                    "${getString(it.themeName)} ${getString(R.string.theme)}"
-                                } ?: ""
+                            var changedText = ""
+                            var themeText = ""
+
+                            when (type) {
+                                PREFERENCES.TYPE_LANGUAGE -> {
+                                    changedText =
+                                        baseActivity.getString(R.string.language_changed_to)
+                                    themeText =
+                                        viewModel.languageListLiveData.value?.singleOrNull { it.isSelected }
+                                            ?.let {
+                                                it.name
+                                            } ?: ""
+
+                                }
+                                PREFERENCES.TYPE_FONT -> {
+                                    changedText = baseActivity.getString(R.string.font_changed_to)
+                                    themeText =
+                                        viewModel.fontListData.value?.singleOrNull { it.isSelected }
+                                            ?.let {
+                                                it.name
+                                            } ?: ""
+                                }
+                                PREFERENCES.TYPE_THEME -> {
+                                    lifecycleScope.launch {
+                                        (getAppContext() as SelfLearningApplication).updatedThemeFile()
+                                    }
+                                    val themeData =
+                                        viewModel.themeListLiveData.value?.singleOrNull { it.isSelected }
+                                    changedText = baseActivity.getString(R.string.theme_changed_to)
+                                    themeText = "${themeData?.name} ${getString(R.string.theme)}"
+
+                                }
+                            }
+
+                            val msg =
+                                SpanUtils.with(baseActivity, "$changedText \"$themeText\"")
+                                    .apply {
+                                        isBold()
+                                        startPos(changedText.length)
+                                        themeColor()
+                                    }.getSpanString()
+
+                            closePopUp(msg)
+
+
+                        } else {
+                            findNavController().navigateUp()
+                        }
                     }
                 }
             }
-            operation.await()
-            delay(1000)
-            baseActivity.runOnUiThread {
-                hideLoading()
-                val msg = SpanUtils.with(baseActivity, "$changedText \"$themeText\"").apply {
-                    isBold()
-                    startPos(changedText.length)
-                    themeColor()
-                }.getSpanString()
+        }
+    }
 
-                CommonAlertDialog.builder(baseActivity)
-                    .spannedText(msg)
-                    .notCancellable()
-                    .positiveBtnText(getString(R.string.ok_close))
-                    .showNegativeBtn(false)
-                    .getCallback {
-                        if (it) {
-                            baseActivity.recreate()
-                        }
-                    }.build()
+    private fun closePopUp(msg: SpannableString) {
+        CommonAlertDialog.builder(baseActivity)
+            .spannedText(msg)
+            .notCancellable()
+            .positiveBtnText(getString(R.string.ok_close))
+            .hideNegativeBtn(true)
+            .getCallback {
+                if (it) {
+                    showLog(
+                        "THEME",
+                        SelfLearningApplication.themeFile ?: "no gg"
+                    )
+                    baseActivity.startActivity(
+                        Intent(
+                            baseActivity,
+                            HomeActivity::class.java
+                        )
+                    )
+                    baseActivity.finish()
 
+//                                        baseActivity.recreate()
+                }
+            }.build()
+    }
+
+    fun onClickBack() {
+        if (type != PREFERENCES.TYPE_ALL) {
+            findNavController().navigateUp()
+        } else {
+            if (currentSelection == PreferencesFragmentArgs?.fromBundle(requireArguments())?.currentSelection) {
+                findNavController().navigateUp()
+            } else {
+                when (binding.viewpager.currentItem) {
+                    0 -> {
+                        findNavController().navigateUp()
+                    }
+                    else -> {
+                        currentSelection -= 1
+                        binding.viewpager.currentItem -= 1
+                    }
+                }
             }
         }
     }
 
-    private fun goToNext() {
-        if (baseActivity is InitialActivity) {
-            findNavController().navigate(R.id.homeActivity)
-        } else {
-            findNavController().navigateUp()
+    fun pagerMoveOrUpdateThemeFile() {
+        currentSelection += 1
+        showLog("CURRENT_SELECTION", "$currentSelection")
+        when (binding.viewpager.currentItem) {
+
+            3 -> {
+                lifecycleScope.launch {
+                    (getAppContext() as SelfLearningApplication).updatedThemeFile()
+                }
+                findNavController().navigate(R.id.homeActivity)
+            }
+            else -> {
+                binding.viewpager.currentItem += 1
+            }
         }
     }
 
-
-
-    companion object {
-        const val TYPE_CATEGORY = 0
-        const val TYPE_THEME = 1
-        const val TYPE_FONT = 2
-        const val TYPE_LANGUAGE = 3
-        const val TYPE_ALL = -1
-        const val SCREEN_APP = 1
-        const val SCREEN_COURSE = 2
-    }
 
 }

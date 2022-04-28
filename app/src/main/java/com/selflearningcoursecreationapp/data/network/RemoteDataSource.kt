@@ -1,7 +1,7 @@
 package com.selflearningcoursecreationapp.data.network
 
+import com.selflearningcoursecreationapp.base.SelfLearningApplication
 import com.selflearningcoursecreationapp.utils.ApiEndPoints.BASE_URL
-import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
@@ -30,9 +30,10 @@ private fun getHttpClient(): OkHttpClient.Builder {
             val original = chain.request()
             val requestBuilder: Request.Builder = original.newBuilder()
                 .header("Accept", "application/json")
-                .header("Authorization", Credentials.basic("okra", "okra@123"))
+                .header("Authorization", "Bearer ${SelfLearningApplication.token}")
                 .header("platform", "1")
-                .header("language", "en")
+                .header("api_key", "1234")
+                .header("language", SelfLearningApplication.languageCode)
                 .header("offset", getOffset())
                 .header("timezone", getTimeZone())
                 .method(original.method, original.body)

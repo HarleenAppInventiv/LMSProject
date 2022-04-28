@@ -58,7 +58,7 @@
         <item name="bgCircleTwo">@color/blue_circle_2</item>
         <item name="bgCircleThree">@color/blue_circle_3</item>
         <item name="sliderIndicatorColor">@color/blue_indicator_color</item>
-
+<!--        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>-->
     </style>
 
 
@@ -193,4 +193,11 @@
     </style>
 
 
+    <!--    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">-->
+    <!--        <item name="bottomSheetStyle">@style/AppModalStyle</item>-->
+    <!--    </style>-->
+
+    <!--    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">-->
+    <!--        <item name="android:background">@drawable/rounded_dialog</item>-->
+    <!--    </style>-->
 </resources>

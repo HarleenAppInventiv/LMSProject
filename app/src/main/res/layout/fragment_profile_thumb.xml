@@ -12,7 +12,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:overScrollMode="never">
 
 
         <androidx.constraintlayout.motion.widget.MotionLayout
@@ -39,7 +41,6 @@
                 android:importantForAccessibility="no"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_half_trans_circle_bg"
-
                 app:changeBackgroundType="tint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -59,19 +60,35 @@
                 app:srcCompat="@drawable/ic_arrow_left_white" />
 
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/img_talk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_35sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:contentDescription="@string/back_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.056"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_screen_reading_mode_white" />
+
+
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/circle"
                 android:layout_width="@dimen/_80sdp"
                 android:layout_height="@dimen/_80sdp"
                 android:layout_marginTop="50dp"
                 android:contentDescription="@string/user_image"
+                android:padding="@dimen/_3sdp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_user_icon"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/circle" />
+                app:shapeAppearanceOverlay="@style/circle"
+                app:srcCompat="@drawable/ic_course_dummy"
+                app:strokeColor="?attr/whiteTextColor"
+                app:strokeWidth="@dimen/_2sdp" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/txt_user_name"
@@ -79,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Alisi Nikolson"
+                android:contentDescription="User Name"
                 android:textColor="?attr/whiteTextColor"
                 app:fontType="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -88,12 +105,12 @@
                 app:textColorType="none" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/appCompatTextView"
+                android:id="@+id/tv_user_mail"
                 style="@style/textViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="@dimen/_6ssp"
-                android:text="limadacell"
+                android:visibility="gone"
                 android:textColor="?attr/profile_mail_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -107,11 +124,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:background="@drawable/bottom_line_grey"
-                android:drawableStart="@drawable/ic_user_profile"
                 android:drawablePadding="@dimen/_10sdp"
                 android:onClickListener="@{(v)->profileThumb.onHandleClick(v)}"
                 android:paddingVertical="@dimen/_16sdp"
                 android:text="@string/profile_details"
+                app:drawableStartCompat="@drawable/ic_user_profile"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView3"
@@ -120,16 +137,16 @@
 
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/txt_reward_point"
+                android:id="@+id/txt_dashboard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:background="@drawable/bottom_line_grey"
-
-                android:drawableStart="@drawable/ic_rewards"
                 android:drawablePadding="@dimen/_10sdp"
+                android:onClickListener="@{(v)->profileThumb.onHandleClick(v)}"
                 android:paddingVertical="@dimen/_16sdp"
-                android:text="@string/rewards_points"
+                android:text="@string/dashboard"
+                app:drawableStartCompat="@drawable/ic_dashboard"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
 
@@ -139,23 +156,43 @@
 
                 />
 
-
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/txt_prac_accent"
-
+                android:id="@+id/txt_tracker"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:background="@drawable/bottom_line_grey"
-                android:drawableStart="@drawable/ic_practise_accent"
                 android:drawablePadding="@dimen/_10sdp"
+                android:onClickListener="@{(v)->profileThumb.onHandleClick(v)}"
                 android:paddingVertical="@dimen/_16sdp"
-
-                android:text="@string/practise_accent"
+                android:text="@string/request_tracker"
+                app:drawableStartCompat="@drawable/ic_tracker"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
 
-                app:layout_constraintTop_toBottomOf="@+id/txt_reward_point"
+                app:layout_constraintTop_toBottomOf="@+id/txt_dashboard"
+                app:primaryIconTint="start"
+                app:textColorType="heading"
+
+                />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/txt_wishlist"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:background="@drawable/bottom_line_grey"
+                android:drawablePadding="@dimen/_10sdp"
+                android:onClickListener="@{(v)->profileThumb.onHandleClick(v)}"
+                android:paddingVertical="@dimen/_16sdp"
+                android:text="@string/wishlist"
+
+                app:drawableStartCompat="@drawable/ic_bookmark_blue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/txt_tracker"
                 app:primaryIconTint="start"
                 app:textColorType="heading"
 
@@ -163,43 +200,22 @@
 
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/txt_booked_wish_cources"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-
-                android:layout_marginHorizontal="@dimen/_15sdp"
-                android:background="@drawable/bottom_line_grey"
-                android:drawableStart="@drawable/ic_bookmark_blue"
-                android:drawablePadding="@dimen/_10sdp"
-                android:paddingVertical="@dimen/_16sdp"
-
-                android:text="@string/bookmarked_wishlist_courses"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-
-                app:layout_constraintTop_toBottomOf="@+id/txt_prac_accent"
-                app:primaryIconTint="start"
-                app:textColorType="heading"
-
-                />
-
-
-            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/txt_cources"
+                android:id="@+id/txt_courses"
 
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:background="@drawable/bottom_line_grey"
-                android:drawableStart="@drawable/ic_course_blue"
                 android:drawablePadding="@dimen/_10sdp"
+                android:onClickListener="@{(v)->profileThumb.onHandleClick(v)}"
                 android:paddingVertical="@dimen/_16sdp"
+                android:text="@string/my_courses"
 
-                android:text="@string/courses"
+                app:drawableStartCompat="@drawable/ic_course_blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
 
-                app:layout_constraintTop_toBottomOf="@+id/txt_booked_wish_cources"
+                app:layout_constraintTop_toBottomOf="@+id/txt_wishlist"
                 app:primaryIconTint="start"
                 app:textColorType="heading"
 
@@ -211,58 +227,84 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:background="@drawable/bottom_line_grey"
-                android:drawableStart="@drawable/ic_add_bank"
                 android:drawablePadding="@dimen/_10sdp"
                 android:onClickListener="@{(v)->profileThumb.onHandleClick(v)}"
-
                 android:paddingVertical="@dimen/_16sdp"
                 android:text="@string/my_bank_account"
+                android:textColor="?attr/hintColor"
+                app:drawableStartCompat="@drawable/ic_add_bank"
+                app:drawableTintType="tint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_cources"
+                app:layout_constraintTop_toBottomOf="@+id/txt_courses"
+                app:primaryIconTint="start"
+                app:textColorType="none" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/txt_reward"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:background="@drawable/bottom_line_grey"
+                android:drawablePadding="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_16sdp"
+                android:text="@string/rewards_points"
+
+                app:drawableStartCompat="@drawable/ic_rewards"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/txt_my_bank"
                 app:primaryIconTint="start"
                 app:textColorType="heading"
 
                 />
 
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:id="@+id/LMSImageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tint="?attr/hintColor"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_my_bank"
+                app:layout_constraintEnd_toEndOf="@+id/txt_my_bank"
+                app:layout_constraintTop_toTopOf="@+id/txt_my_bank"
+                app:srcCompat="@drawable/ic_info_white" />
+
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/txt_deactivate_account"
+                android:id="@+id/txt_delete_account"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
 
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:background="@drawable/bottom_line_grey"
-                android:drawableStart="@drawable/ic_deactivate"
                 android:drawablePadding="@dimen/_10sdp"
-app:textColorType="none"
+                android:onClickListener="@{(v)->profileThumb.onHandleClick(v)}"
                 android:paddingVertical="@dimen/_16sdp"
                 android:text="@string/delete_account"
                 android:textColor="?attr/orange_text_color"
+                app:drawableStartCompat="@drawable/ic_deactivate"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_my_bank"
-
-                />
-
+                app:layout_constraintTop_toBottomOf="@+id/txt_reward"
+                app:textColorType="none" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/txt_logout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:textColorType="none"
                 android:layout_marginHorizontal="@dimen/_15sdp"
-                android:drawableStart="@drawable/ic_log_out"
                 android:drawablePadding="@dimen/_10sdp"
                 android:onClickListener="@{(v)->profileThumb.onHandleClick(v)}"
                 android:paddingVertical="@dimen/_16sdp"
                 android:text="@string/logout"
                 android:textColor="?attr/orange_text_color"
+                app:drawableStartCompat="@drawable/ic_log_out"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_deactivate_account" />
-
-
+                app:layout_constraintTop_toBottomOf="@+id/txt_delete_account"
+                app:textColorType="none" />
         </androidx.constraintlayout.motion.widget.MotionLayout>
     </ScrollView>
 </layout>

@@ -43,8 +43,8 @@
     <string name="login_via_otp">Login via OTP</string>
     <string name="phone_number">Enter phone number</string>
     <string name="verify_with_otp">Verify with OTP</string>
-    <string name="enter_4_digit_number_that_sent_to_your_number.">Enter 4 digit number that sent to your number.</string>
-    <string name="enter_the_email_mobile_number_associated_with_your_account_and_we_ll_send_an_email_with_instructions_or_a_otp_on_your_mobile_number_to_reset_your_password">Enter the email/mobile number associated with your account and we’ll send an email with instructions or a OTP on your mobile number to reset your password</string>
+    <string name="enter_4_digit_number_that_sent_to_your_number">Enter 4 digit number that sent to your number.</string>
+    <string name="forgot_pass_desc_text">Enter the email/mobile number associated with your account and we’ll send an email with instructions or a OTP on your mobile number to reset your password</string>
     <string name="reset">Reset</string>
     <string name="continues">Continue</string>
     <string name="check_your_mail">Check your mail</string>
@@ -99,7 +99,7 @@
     </string-array>
 
     <string name="reset_password">Reset Password</string>
-    <string name="your_password_must_include_0_9_a_z_a_z_one_special_character_also_it_should_be_6_characters_long"><![CDATA[Your password must include 0-9, A-Z, a-z & one special character. Also, It should be 6 characters long]]></string>
+    <string name="valid_password_instructions"><![CDATA[Your password must include 0-9, A-Z, a-z & one special character. Also, It should be 6 characters long]]></string>
     <string name="enter_new_password">Enter new password</string>
     <string name="confirm_new_password">Confirm new password</string>
     <string name="settings">সেটিংস</string>
@@ -189,11 +189,11 @@
     </string-array>
     <string-array name="language_array">
         <item>@string/english_language</item>
-        <item>@string/kannada_language</item>
-        <item>@string/tamil_language</item>
-        <item>@string/telugu_language</item>
-        <item>@string/bengali_language</item>
         <item>@string/hindi_language</item>
+        <item>@string/telugu_language</item>
+        <item>@string/tamil_language</item>
+        <item>@string/kannada_language</item>
+        <item>@string/bengali_language</item>
 
     </string-array>
 

@@ -1,26 +1,25 @@
 package com.selflearningcoursecreationapp.ui.create_course.add_courses_steps
 
 
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
-
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentStep3Binding
 import com.selflearningcoursecreationapp.extensions.gone
 import com.selflearningcoursecreationapp.extensions.visible
-import com.selflearningcoursecreationapp.models.ThemeData
+import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.ui.dialog.UploadImageOptionsDialog
-import com.selflearningcoursecreationapp.ui.preferences.PreferencesFragment
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.HandleClick
+import com.selflearningcoursecreationapp.utils.PREFERENCES
 
 
 class Step3Fragment : BaseFragment<FragmentStep3Binding>(), BaseBottomSheetDialog.IDialogClick,
@@ -40,13 +39,13 @@ class Step3Fragment : BaseFragment<FragmentStep3Binding>(), BaseBottomSheetDialo
         parentFragment?.setFragmentResultListener("preferenceData",
             listener = { _, bundle ->
                 val type = bundle.getInt("type")
-                val list = bundle.getParcelableArrayList<ThemeData>("data")
+                val list = bundle.getParcelableArrayList<CategoryData>("data")
                 showToastShort("data received")
                 when (type) {
-                    PreferencesFragment.TYPE_FONT -> {
+                    PREFERENCES.TYPE_FONT -> {
 
                         list?.forEach {
-                            binding.tvUploadFont.text = getString(it.themeName)
+                            binding.tvUploadFont.text = it.name
                             binding.ivUploadFont.setImageDrawable(
                                 ContextCompat.getDrawable(
                                     baseActivity,
@@ -56,14 +55,11 @@ class Step3Fragment : BaseFragment<FragmentStep3Binding>(), BaseBottomSheetDialo
                             binding.ivEditFont.visible()
                         }
                     }
-                    PreferencesFragment.TYPE_THEME -> {
+                    PREFERENCES.TYPE_THEME -> {
                         list?.forEach {
-                            binding.tvUploadTheme.text = getString(it.themeName)
+                            binding.tvUploadTheme.text = it.name
                             binding.ivUploadTheme.setBackgroundColor(
-                                ContextCompat.getColor(
-                                    baseActivity,
-                                    it.themeColor
-                                )
+                                Color.parseColor(it.code)
                             )
                             binding.ivEditTheme.visible()
 
@@ -113,9 +109,9 @@ class Step3Fragment : BaseFragment<FragmentStep3Binding>(), BaseBottomSheetDialo
                 R.id.iv_theme_bg, R.id.iv_upload_theme, R.id.iv_edit_theme -> {
                     findNavController().navigate(
                         AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToPreferencesFragment(
-                            PreferencesFragment.TYPE_THEME,
+                            PREFERENCES.TYPE_THEME,
                             title = baseActivity.getString(R.string.select_theme),
-                            screenType = PreferencesFragment.SCREEN_COURSE
+                            screenType = PREFERENCES.SCREEN_COURSE
                         )
                     )
                 }
@@ -123,9 +119,9 @@ class Step3Fragment : BaseFragment<FragmentStep3Binding>(), BaseBottomSheetDialo
                 R.id.iv_font_bg, R.id.iv_upload_font, R.id.iv_edit_font -> {
                     findNavController().navigate(
                         AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToPreferencesFragment(
-                            PreferencesFragment.TYPE_FONT,
+                            PREFERENCES.TYPE_FONT,
                             title = baseActivity.getString(R.string.select_font),
-                            screenType = PreferencesFragment.SCREEN_COURSE
+                            screenType = PREFERENCES.SCREEN_COURSE
                         )
                     )
                 }

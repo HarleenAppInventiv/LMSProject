@@ -8,29 +8,29 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="?attr/screenBackgroundColor"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?attr/screenBackgroundColor">
 
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/textView8"
-            app:fontType="medium"
+            spanText="@{@string/help}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:textBgColor="theme"
             android:lineSpacingExtra="6sp"
             android:paddingStart="@dimen/_10sdp"
             android:paddingTop="@dimen/_16sdp"
             android:paddingBottom="@dimen/_16sdp"
             android:text="@string/help"
-           spanText="@{@string/help}"
             android:textColor="?attr/whiteTextColor"
             android:textSize="@dimen/_14ssp"
-            app:textColorType="none"
             android:textStyle="normal"
+            app:fontType="medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:textBgColor="theme"
+            app:textColorType="none"
 
             />
 
@@ -39,58 +39,58 @@
             android:id="@+id/img_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/close"
             android:paddingRight="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="@+id/textView8"
             app:layout_constraintEnd_toEndOf="parent"
-            android:contentDescription="@string/close"
             app:layout_constraintTop_toTopOf="@+id/textView8"
             app:srcCompat="@drawable/ic_close" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_faq"
-            app:fontType="medium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line_grey"
-            app:primaryIconTint="start"
-android:drawableStart="@drawable/ic_faq"
+            app:drawableStartCompat="@drawable/ic_faq"
             android:drawablePadding="@dimen/_15sdp"
             android:paddingStart="@dimen/_10sdp"
             android:paddingTop="@dimen/_20sdp"
             android:paddingBottom="@dimen/_20sdp"
             android:text="FAQ"
+            app:fontType="medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8"
+            app:primaryIconTint="start"
 
             />
 
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_contact_us"
-            app:fontType="medium"
+            spanText="@{@string/contact_us}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line_grey"
             android:drawablePadding="@dimen/_15sdp"
             android:lineSpacingExtra="4sp"
             android:paddingStart="@dimen/_10sdp"
-            app:primaryIconTint="start"
             android:paddingTop="@dimen/_20sdp"
             android:paddingBottom="@dimen/_20sdp"
             android:text="@string/contact_us"
-            spanText="@{@string/contact_us}"
             app:drawableStartCompat="@drawable/ic_call_blue"
+            app:fontType="medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_faq" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_faq"
+            app:primaryIconTint="start" />
 
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_chat_us"
-            app:fontType="medium"
+            spanText="@{@string/chat_with_us}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line_grey"
@@ -99,13 +99,13 @@ android:drawableStart="@drawable/ic_faq"
             android:paddingTop="@dimen/_20sdp"
             android:paddingBottom="@dimen/_20sdp"
             android:text="@string/chat_with_us"
-           spanText="@{@string/chat_with_us}"
-app:primaryIconTint="start"
             app:drawableStartCompat="@drawable/ic_chat"
+            app:fontType="medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_contact_us" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_contact_us"
+            app:primaryIconTint="start" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

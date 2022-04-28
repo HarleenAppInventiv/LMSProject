@@ -4,11 +4,18 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterSelectCategoryBinding
+import com.selflearningcoursecreationapp.extensions.gone
+import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.extensions.visibleView
-import com.selflearningcoursecreationapp.models.ThemeData
+import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.utils.Constant
 
-class CategoryAdapter(private val value: ArrayList<ThemeData>) :BaseAdapter<AdapterSelectCategoryBinding>() {
+class CategoryAdapter(
+    private val value: ArrayList<CategoryData>,
+    private var showRadio: Boolean = false,
+    private var type: Int = 0
+) :
+    BaseAdapter<AdapterSelectCategoryBinding>() {
     override fun getLayoutRes(): Int {
         return R.layout.adapter_select_category
     }
@@ -18,11 +25,21 @@ class CategoryAdapter(private val value: ArrayList<ThemeData>) :BaseAdapter<Adap
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        val binding= holder.binding as AdapterSelectCategoryBinding
-        binding.ivSelected.visibleView(value[position].isSelected)
-        binding.tvTitle.text= value[position].languageId
+        val binding = holder.binding as AdapterSelectCategoryBinding
+        if (showRadio) {
+            binding.ivSelected.gone()
+            binding.rbSelected.visible()
+            binding.rbSelected.isChecked = value[position].isSelected
+        } else {
+            binding.rbSelected.gone()
+            binding.ivSelected.visibleView(value[position].isSelected)
+        }
+        binding.tvTitle.text = value[position].name
         binding.parentCL.setOnClickListener {
-            onItemClick(Constant.CLICK_VIEW,position)
+            onItemClick(Constant.CLICK_VIEW, position, type)
+        }
+        binding.rbSelected.setOnClickListener {
+            onItemClick(Constant.CLICK_VIEW, position, type)
         }
     }
 

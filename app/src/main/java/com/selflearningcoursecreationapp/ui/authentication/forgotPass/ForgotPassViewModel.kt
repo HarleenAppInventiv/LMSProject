@@ -1,30 +1,96 @@
 package com.selflearningcoursecreationapp.ui.authentication.forgotPass
 
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseViewModel
+import com.selflearningcoursecreationapp.data.network.Resource
+import com.selflearningcoursecreationapp.data.network.ToastData
+import com.selflearningcoursecreationapp.extensions.isValidEmail
+import com.selflearningcoursecreationapp.ui.authentication.otp_verify.OTPVerifyRepo
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.OTP_TYPE
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class ForgotPassViewModel(private val repo: ForgotPassRepo) : BaseViewModel() {
+class ForgotPassViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
+    var emailPhone = MutableLiveData<String>().apply {
+        value = ""
+    }
 
-//    var phone_email = ""
+
+    fun validate(selectedCountryCodeWithPlus: String) {
+
+
+        when {
+            emailPhone.value.isNullOrEmpty() -> {
+
+                updateResponseObserver(
+                    Resource.Error(
+                        ToastData(R.string.plz_enter_phone_email)
+                    )
+                )
+            }
+//            emailPhone.value!!.isDigitsOnly() -> {
 //
-//    fun forgotPass() {
+//                if (emailPhone.value!!.length < 10) {
+//                    updateResponseObserver(
+//                        Resource.Error(
+//                            ToastData(R.string.enter_valid_phone_number)
+//                        )
+//                    )
+//                } else {
+//                    forgotApi(true, selectedCountryCodeWithPlus)
 //
-//        if (phone_email.isBlank()) {
-//            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.please_enter_phone_email)))
-//        }
-//        if (phone_email.isDigitsOnly()) {
-//            if (phone_email.length < 10) {
-//                updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_valid_phone_number)))
-//            }else {
-//                updateResponseObserver(Resource.Success(null, ""))
+//                    //                    viewModel.reqOTP(OTPVerifyFragment.TYPE_FORGOT,
+//                    //                        binding.edtForgotphone.content())
+//
+//                }
+//
 //            }
-//        }
-//        if (!phone_email.isValidEmail()) {
-//            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_valid_email)))
-//
-//        } else {
-//            updateResponseObserver(Resource.Success(null, ""))
-//        }
-//
-//
-//    }
+            !emailPhone.value!!.isValidEmail() -> {
+                updateResponseObserver(
+                    Resource.Error(
+                        ToastData(
+                            R.string.enter_valid_email
+                        )
+                    )
+                )
+
+            }
+            else -> {
+                forgotApi(false, selectedCountryCodeWithPlus)
+
+            }
+        }
+    }
+
+    fun forgotApi(isPhone: Boolean, selectedCountryCodeWithPlus: String) {
+        viewModelScope.launch(coroutineExceptionHandle) {
+            val map = HashMap<String, Any>()
+            if (isPhone) {
+                map["phone"] = emailPhone.value!!
+            } else {
+                map["email"] = emailPhone.value!!
+            }
+            map["OtpType"] = OTP_TYPE.TYPE_FORGOT.toString()
+            map["countryCode"] = selectedCountryCodeWithPlus
+
+
+            updateResponseObserver(Resource.Loading())
+            var response = repo.reqOtp(map)
+            withContext(Dispatchers.IO) {
+                response.collect {
+                    if (it is Resource.Success<*>) {
+                        updateResponseObserver(Resource.Success(isPhone, ApiEndPoints.API_OTP_REQ))
+                    } else {
+                        updateResponseObserver(it)
+                    }
+                }
+            }
+        }
+    }
+
 }

@@ -5,6 +5,7 @@ import android.view.View
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentMyCourseBinding
+import com.selflearningcoursecreationapp.utils.Constant
 
 
 class CompletedCourseFragment : BaseFragment<FragmentMyCourseBinding>() {
@@ -18,7 +19,8 @@ class CompletedCourseFragment : BaseFragment<FragmentMyCourseBinding>() {
     }
 
     private fun initUi() {
-        binding.rvCourse.adapter=MyCourseAdapter(true)
+
+        binding.rvCourse.adapter = MyCourseAdapter(Constant.COURSE_COMPLETED)
     }
 
 }

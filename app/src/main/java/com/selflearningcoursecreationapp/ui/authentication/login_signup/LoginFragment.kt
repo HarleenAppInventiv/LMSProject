@@ -2,39 +2,90 @@ package com.selflearningcoursecreationapp.ui.authentication.login_signup
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputFilter
 import android.util.Log
 import android.view.View
+import androidx.core.text.isDigitsOnly
+import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
+import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.databinding.FragmentLoginBinding
+import com.selflearningcoursecreationapp.extensions.gone
 import com.selflearningcoursecreationapp.extensions.showHidePassword
+import com.selflearningcoursecreationapp.extensions.visible
+import com.selflearningcoursecreationapp.models.user.UserResponse
 import com.selflearningcoursecreationapp.ui.authentication.viewModel.OnBoardingViewModel
 import com.selflearningcoursecreationapp.ui.home.HomeActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.OTP_TYPE
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>(),
     View.OnClickListener/*,GoogleSignCallback*/ {
     //    private var mGoogleSignInAI: GoogleSignInAI? = null
     private val GOOGLE_LOGIN_REQUEST_CODE = 1001
-    private val viewModel: OnBoardingViewModel by viewModel()
+    var number = ""
+    var email = ""
+    private val viewModel: OnBoardingViewModel by viewModels({ if (parentFragment != null) requireParentFragment() else this })
+    override fun getLayoutRes(): Int {
+        return R.layout.fragment_login
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         init()
-
     }
 
     fun init() {
         binding.edtLoginPassword.showHidePassword()
-            binding.login = viewModel
+        binding.login = viewModel
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         setListners()
         initializeGoogle()
-//        viewModel.allStates()
 
 
+        binding.edtLoginEmail.doAfterTextChanged {
+            if (it!!.isDigitsOnly()) {
+                number = it.toString()
+                binding.countryCodePicker.visible()
+                limitEditText(15)
+            } else {
+                binding.countryCodePicker.gone()
+                limitEditText(40)
+                email = it.toString()
+            }
+            if (it.length == 0) {
+                binding.countryCodePicker.gone()
+            }
+        }
+
+        binding.btnSingIn.setOnClickListener {
+            viewModel.loginValidation(binding.countryCodePicker.selectedCountryCodeWithPlus)
+        }
+
+
+        binding.countryCodePicker.apply {
+
+            if (!viewModel.loginLiveData.value?.countryCode.isNullOrEmpty()) {
+                setCountryForPhoneCode(
+                    viewModel.loginLiveData?.value?.countryCode?.subSequence(
+                        1,
+                        viewModel.loginLiveData?.value?.countryCode?.length ?: 0
+                    )?.toString()?.toInt() ?: 91
+                )
+            }
+        }
+
+
+    }
+
+    fun limitEditText(s: Int) {
+        val maxLength = s
+        val filters = arrayOfNulls<InputFilter>(1)
+        filters[0] = InputFilter.LengthFilter(maxLength)
+        binding.edtLoginEmail.setFilters(filters)
     }
 
     private fun initializeGoogle() {
@@ -49,17 +100,50 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)
         Log.e("API_RESPONSE", "response")
-//        when (apiCode) {
-//            ApiEndPoints.API_COUNTRIES -> {
-//                Log.e("API_RESPONSE", "county")
-//                (value as BaseResponse<StateData>).let {
-//                    Log.e("API_RESPONSE", "done ttt")
-//                }
-//            }
-//
-//        }
+        when (apiCode) {
+            ApiEndPoints.API_LOGIN -> {
 
-        activity?.startActivity(Intent(activity!!, HomeActivity::class.java))
+                val userData = (value as BaseResponse<UserResponse>).resource
+                if (userData?.user?.phoneNumberVerified == false) {
+                    findNavController().navigate(
+                        LoginSignUpFragmentDirections.actionLoginSignUpFragmentToOTPVerifyFragment(
+                            "",
+                            type = OTP_TYPE.TYPE_SIGNUP,
+                            email = userData?.user?.email,
+                            countryCode = ""
+                        )
+                    )
+
+                } else if (!(userData?.user?.languageUpdated
+                        ?: false) || !(userData?.user?.fontUpdated
+                        ?: false) || !(userData?.user?.themeUpdated
+                        ?: false) || !(userData?.user?.categoryUpdated ?: false)
+                ) {
+                    var level = when {
+                        userData?.user?.languageUpdated ?: false -> 4
+                        userData?.user?.fontUpdated ?: false -> 3
+                        userData?.user?.themeUpdated ?: false -> 2
+                        userData?.user?.categoryUpdated ?: false -> 1
+                        else -> 0
+                    }
+                    if (level != 4) {
+                        findNavController().navigate(
+                            LoginSignUpFragmentDirections.actionLoginSignUpFragmentToPreferencesFragment(
+                                currentSelection = level ?: 0
+                            )
+                        )
+                    } else {
+                        activity?.startActivity(Intent(requireActivity(), HomeActivity::class.java))
+                        activity?.finish()
+                    }
+
+                } else {
+                    activity?.startActivity(Intent(requireActivity(), HomeActivity::class.java))
+                    activity?.finish()
+                }
+            }
+
+        }
 
 
     }
@@ -88,7 +172,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
                 findNavController().navigate(action)
             }
             R.id.tv_guest -> {
-                activity?.startActivity(Intent(activity!!, HomeActivity::class.java))
+//                activity?.startActivity(Intent(activity!!, HomeActivity::class.java))
             }
 
             R.id.btn_google_login -> {
@@ -102,14 +186,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
 
     }
 
-    override fun getLayoutRes(): Int {
-        return R.layout.fragment_login
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (GOOGLE_LOGIN_REQUEST_CODE == requestCode) {
 //            mGoogleSignInAI!!.onActivityResult(data)
+
         }
     }
 //

@@ -17,8 +17,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/secondaryScreenBgColor"
+        android:background="?attr/screenBackgroundColor"
         android:fillViewport="true"
+        android:overScrollMode="never"
         tools:context=".ui.bottom_more.MoreFragment">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -29,77 +30,78 @@
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_settings"
-            spanText="@{@string/settings}"
+                spanText="@{@string/settings}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bottom_line"
-                app:primaryIconTint="start"
-android:drawableStart="@drawable/ic_settings"
+                android:background="@drawable/bottom_line_grey"
+                android:paddingBottom="@dimen/_33sdp"
                 android:drawablePadding="@dimen/_10sdp"
                 android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-
                 android:paddingTop="@dimen/_10sdp"
-                android:paddingBottom="@dimen/_33sdp" />
 
+                app:drawableStartCompat="@drawable/ic_settings"
+                app:primaryIconTint="start" />
 
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bottom_line"
-                app:primaryIconTint="start"
-                android:drawableStart="@drawable/ic_moderator"
-                android:drawablePadding="@dimen/_10sdp"
-                android:paddingVertical="@dimen/_30sdp"
                 android:id="@+id/tv_moderator"
-                spanText="@{@string/become_a_moderator}" />
-            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                spanText="@{@string/become_a_moderator}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bottom_line"
-                app:primaryIconTint="start"
-                android:drawableStart="@drawable/ic_practise_accent"
-                android:drawablePadding="@dimen/_10sdp"
-                android:paddingVertical="@dimen/_30sdp"
-                spanText="@{@string/practice_accent}" />
-
-
-            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bottom_line"
-                app:primaryIconTint="start"
-android:drawableStart="@drawable/ic_payments"
-                android:drawablePadding="@dimen/_10sdp"
-                android:paddingVertical="@dimen/_30sdp"
-android:id="@+id/tv_payments"
+                android:background="@drawable/bottom_line_grey"
                 android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
+                android:drawablePadding="@dimen/_10sdp"
+                app:drawableStartCompat="@drawable/ic_moderator"
+                android:paddingVertical="@dimen/_30sdp"
+                app:primaryIconTint="start" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_practice_accent"
+                android:layout_width="match_parent"
+                spanText="@{@string/practice_accent}"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bottom_line_grey"
+                android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
+                android:drawablePadding="@dimen/_10sdp"
+                app:drawableStartCompat="@drawable/ic_practise_accent"
+                android:paddingVertical="@dimen/_30sdp"
+                app:primaryIconTint="start" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_payments"
                 spanText="@{@string/payments}"
-                 />
-
-            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bottom_line"
-                app:primaryIconTint="start"
-android:drawableStart="@drawable/ic_manage_payment"
+                android:background="@drawable/bottom_line_grey"
+                android:paddingVertical="@dimen/_30sdp"
                 android:drawablePadding="@dimen/_10sdp"
                 android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-android:text="@string/saved_cards"
+                app:drawableStartCompat="@drawable/ic_payments"
+                app:primaryIconTint="start" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_cards"
+                spanText="@{@string/saved_cards}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/saved_cards"
+                android:drawablePadding="@dimen/_10sdp"
+                android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                 android:paddingVertical="@dimen/_30sdp"
-                spanText="@{@string/saved_cards}" />
+                app:drawableStartCompat="@drawable/ic_manage_payment"
+                app:primaryIconTint="start" />
 
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                spanText="@{@string/add_a_new_card}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:primaryIconTint="start"
-android:drawableStart="@drawable/ic_add_card"
                 android:drawablePadding="@dimen/_10sdp"
                 android:paddingVertical="@dimen/_30sdp"
-                spanText="@{@string/add_a_new_card}" />
+                app:drawableStartCompat="@drawable/ic_add_card"
+                app:primaryIconTint="start" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

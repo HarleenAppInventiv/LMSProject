@@ -7,10 +7,10 @@ import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterSelectFontBinding
 import com.selflearningcoursecreationapp.extensions.visibleView
-import com.selflearningcoursecreationapp.models.ThemeData
+import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.utils.Constant
 
-class FontAdapter(private var list: ArrayList<ThemeData>) :
+class FontAdapter(private var list: ArrayList<CategoryData>) :
     BaseAdapter<AdapterSelectFontBinding>() {
     override fun getLayoutRes(): Int {
         return R.layout.adapter_select_font
@@ -23,10 +23,10 @@ class FontAdapter(private var list: ArrayList<ThemeData>) :
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val binding = holder.binding as AdapterSelectFontBinding
         val data = list[position]
-        binding.tvFont.setText(binding.root.context.getString(data.themeName))
+        binding.tvFont.setText(data.name)
 
-        binding.tvFont.typeface = ResourcesCompat.getFont(binding.root.context, data.themeColor)
-        binding.tvPreview.typeface = ResourcesCompat.getFont(binding.root.context, data.themeColor)
+        binding.tvFont.typeface = ResourcesCompat.getFont(binding.root.context, data.codeId!!)
+        binding.tvPreview.typeface = ResourcesCompat.getFont(binding.root.context, data.codeId!!)
         binding.ivSelected.visibleView(data.isSelected)
         binding.parentCL.setOnClickListener {
             onItemClick(Constant.CLICK_VIEW, position)

@@ -2,12 +2,9 @@ package com.selflearningcoursecreationapp.utils.customViews
 
 import android.content.Context
 import android.util.AttributeSet
-import com.richpath.RichPathView
 
-class LMSRichView : RichPathView {
-    constructor(context: Context) : super(context) {
-        initView(context)
-    }
+class LMSRichView : com.selflearningcoursecreationapp.utils.richView.RichPathView {
+
 
     constructor(
         context: Context,

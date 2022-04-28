@@ -63,8 +63,8 @@ class CommonAlertDialog {
             return this
         }
 
-        fun showNegativeBtn(isShow: Boolean = true): Builder {
-            this.hideNegativeBtn = isShow
+        fun hideNegativeBtn(isHide: Boolean = false): Builder {
+            this.hideNegativeBtn = isHide
             return this
         }
 
@@ -106,9 +106,9 @@ class CommonAlertDialog {
                 tvTitle.text = title
                 tvTitle.visibleView(!title.isNullOrEmpty())
                 btnPositive.visibleView(!positiveBtnText.isNullOrEmpty())
-                btnNegative.visibleView(!negativeBtnText.isNullOrEmpty() || hideNegativeBtn)
+                btnNegative.visibleView(!hideNegativeBtn)
                 btnPositive.text = positiveBtnText
-                btnNegative.text = positiveBtnText
+                btnNegative.text = negativeBtnText
 
 
                 icon?.let {

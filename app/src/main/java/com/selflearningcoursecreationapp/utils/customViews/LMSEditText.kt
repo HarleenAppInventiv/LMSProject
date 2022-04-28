@@ -1,7 +1,6 @@
 package com.selflearningcoursecreationapp.utils.customViews
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.util.AttributeSet
@@ -52,7 +51,6 @@ class LMSEditText : AppCompatEditText {
         if (textBgMode == ThemeConstants.TYPE_TINT) {
             changeBackgroundTint(textBgColor)
         } else {
-
             changeBackgroundColor(textBgColor)
         }
         changeDrawableTint(drawablePos)
@@ -123,7 +121,10 @@ class LMSEditText : AppCompatEditText {
     fun changeBackgroundTint(backgroundTint: Int) {
         val color = getBgColor(backgroundTint)
         if (!color.isNullOrZero()) {
-            backgroundTintList = ColorStateList.valueOf(color!!)
+            background.colorFilter = PorterDuffColorFilter(
+                color!!,
+                PorterDuff.Mode.SRC_IN
+            )
         }
     }
 

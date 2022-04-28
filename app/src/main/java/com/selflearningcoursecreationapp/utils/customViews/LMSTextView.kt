@@ -45,15 +45,11 @@ class LMSTextView : AppCompatTextView {
 
         val drawablePos =
             themeAttrs.getInt(R.styleable.LMSTextView_primaryIconTint, ThemeConstants.TYPE_NONE)
-        if (drawablePos >= 0 && drawablePos < compoundDrawablesRelative.size) {
-            compoundDrawablesRelative[drawablePos]?.let {
-                it.colorFilter =
-                    PorterDuffColorFilter(
-                        ThemeUtils.getAppColor(context),
-                        PorterDuff.Mode.SRC_IN
-                    )
-            }
-        }
+        val drawableTintType =
+            themeAttrs.getInt(R.styleable.LMSTextView_drawableTintType, ThemeConstants.TYPE_THEME)
+
+
+        setDrawableColor(drawablePos, drawableTintType)
 
         val fontType =
             themeAttrs.getInt(R.styleable.LMSTextView_fontType, ThemeConstants.FONT_REGULAR)
@@ -88,6 +84,34 @@ class LMSTextView : AppCompatTextView {
         }
 
         themeAttrs.recycle()
+    }
+
+    fun setDrawableColor(
+        drawablePos: Int,
+        drawableTintType: Int
+    ) {
+        if (drawablePos >= 0 && drawablePos < compoundDrawablesRelative.size) {
+            val drawableColor = when (drawableTintType) {
+                ThemeConstants.TYPE_THEME -> {
+                    ThemeUtils.getAppColor(context)
+                }
+                ThemeConstants.TYPE_TINT -> {
+                    ThemeUtils.getTintColor(context)
+                }
+                else -> {
+                    null
+                }
+            }
+            if (!drawableColor.isNullOrZero()) {
+                compoundDrawablesRelative[drawablePos]?.let {
+                    it.colorFilter =
+                        PorterDuffColorFilter(
+                            drawableColor!!,
+                            PorterDuff.Mode.SRC_IN
+                        )
+                }
+            }
+        }
     }
 
     fun changeTextColor(textColorType: Int) {

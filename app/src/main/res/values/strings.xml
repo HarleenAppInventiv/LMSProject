@@ -45,13 +45,14 @@
     <string name="phone_number">Enter phone number</string>
     <string name="verify_with_otp">Verify with OTP</string>
     <string name="enter_4_digit_number_that_sent_to_your_number">Enter 4 digit number that sent to your number.</string>
-    <string name="enter_the_email_mobile_number_associated_with_your_account_and_we_ll_send_an_email_with_instructions_or_a_otp_on_your_mobile_number_to_reset_your_password">Enter the email/mobile number associated with your account and we’ll send an email with instructions or a OTP on your mobile number to reset your password</string>
+    <string name="enter_4_digit_number_that_sent_to_your_email">Enter 4 digit number that sent to your email.</string>
+    <string name="forgot_pass_desc_text">Enter the email associated with your account and we’ll send an email with instructions to reset your password</string>
     <string name="reset">Reset</string>
     <string name="continues">Continue</string>
-    <string name="check_your_mail">Check your mail</string>
+    <string name="check_your_mail">Check email</string>
     <string name="i_ll_confirm_later">I’ll CONFIRM LATER</string>
     <string name="enable_visually_impaired_mode">Enable visually impaired mode</string>
-    <string name="enable_screen_reading_mode">Enable screen reading mode</string>
+    <string name="enable_screen_reading_mode">Enable screen reading view</string>
     <string name="enable_disable_screen_reading_mode">Enable/Disable screen reading mode</string>
     <string name="disable_screen_reading_mode">Disable screen reading mode</string>
     <string name="enable_screen_reading_mode_desc">Screen reading mode is currently disabled. To enable this, you need to enable the talkback on in your settings. By clicking on "Enable" button you will be redirected to the talkback settings.</string>
@@ -70,6 +71,8 @@
     <string name="please_enter_dob">Please enter DOB</string>
     <string name="please_enter_city">Please enter city</string>
     <string name="please_enter_state">Please enter state</string>
+    <string name="please_enter_bio">Please enter bio</string>
+    <string name="please_select_gender">Please select gender</string>
     <string name="search">Search</string>
 
     <integer-array name="walkthrough_icons">
@@ -110,7 +113,8 @@
     </string-array>
 
     <string name="reset_password">Reset Password</string>
-    <string name="your_password_must_include_0_9_a_z_a_z_one_special_character_also_it_should_be_6_characters_long"><![CDATA[Your password must include 0-9, A-Z, a-z & one special character. Also, It should be 6 characters long]]></string>
+    <string name="add_password">Add Password</string>
+    <string name="valid_password_instructions"><![CDATA[Your password must include 0-9, A-Z, a-z & one special character. Also, It should be 6 characters long.]]></string>
     <string name="enter_new_password">Enter new password</string>
     <string name="confirm_new_password">Confirm new password</string>
     <string name="settings">Settings</string>
@@ -122,7 +126,7 @@
     <string name="change_language">Change language</string>
     <string name="about_us">About us</string>
     <string name="support">Support</string>
-    <string name="terms_amp_condtions"><![CDATA[Terms & Condtions]]></string>
+    <string name="terms_amp_condtions"><![CDATA[Terms & Conditions]]></string>
     <string name="old_password">OLD Password</string>
     <string name="new_password">NEW Password</string>
     <string name="provide_your_old_password">Provide your old password</string>
@@ -135,10 +139,12 @@
     <string name="rewards_points">Rewards points</string>
     <string name="practise_accent">Practise accent</string>
     <string name="bookmarked_wishlist_courses">Bookmarked/wishlist courses</string>
+    <string name="bookmarked_courses">Bookmarked courses</string>
     <string name="courses">Courses</string>
     <string name="deactivate_account">Deactivate account</string>
     <string name="logout">Logout</string>
     <string name="log_out">Log out</string>
+    <string name="delete_acc">Delete</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="profile_details">Profile details</string>
     <string name="personal_details">PERSONAL DETAILS</string>
@@ -148,7 +154,7 @@
     <string name="add">Add</string>
     <string name="download">Download</string>
     <string name="hello_welcome">Hello! Welcome</string>
-    <string name="enter_phone_email">Enter phone/email</string>
+    <string name="enter_phone_email">Enter Email/Mobile Number</string>
     <string name="submit">Submit</string>
     <string name="submit_otp">submit OTP</string>
     <string name="select_all">Select All</string>
@@ -200,11 +206,11 @@
     </string-array>
     <string-array name="language_array">
         <item>@string/english_language</item>
-        <item>@string/kannada_language</item>
-        <item>@string/tamil_language</item>
-        <item>@string/telugu_language</item>
-        <item>@string/bengali_language</item>
         <item>@string/hindi_language</item>
+        <item>@string/telugu_language</item>
+        <item>@string/tamil_language</item>
+        <item>@string/kannada_language</item>
+        <item>@string/bengali_language</item>
 
     </string-array>
 
@@ -216,7 +222,7 @@
     <string name="next">Next</string>
     <string name="skip">Skip</string>
     <string name="not_received_email_resend_again">Did not receive the email?\nCheck your spam folder or TRY AGAIN</string>
-    <string name="we_have_sent_password_recovery_instructions_to_your_email">We have sent password recovery instructions to your email.</string>
+    <string name="we_have_sent_password_recovery_instructions_to_your_email">We have sent password recovery instructions by email.</string>
     <string name="plz_accept_terms_conditions">Please accept terms conditions and privacy policy</string>
     <string name="address_details">ADDRESS DETAILS</string>
     <string name="plz_enter_old_password">Please enter old password</string>
@@ -237,7 +243,7 @@
     <string name="successful">Successful</string>
     <string name="as_per_your_preference_the_current_app_theme_updated_to_blue_theme">As per your preference, the current app theme updated to “Blue theme”</string>
     <string name="are_you_sure_you_want_to_logout">Are you sure you want to Logout?</string>
-    <string name="plz_enter_phone_email">Please enter phone/email</string>
+    <string name="plz_enter_phone_email">Please enter email</string>
     <string name="change_theme">Change Theme</string>
     <string name="change_font">Change Font</string>
     <string name="buy_now">Buy Now</string>
@@ -246,14 +252,19 @@
     <string name="uploaded_assessment">Uploaded Assessment</string>
     <string name="search_courses">Search courses</string>
     <string name="created">Created</string>
+    <string name="requestes">Requests</string>
     <string name="completed">Completed</string>
     <string name="ongoing">Ongoing</string>
+    <string name="in_progress">In Progress</string>
+    <string name="todo">Todo</string>
+    <string name="done">Done</string>
     <string name="my_course">My Course</string>
     <string name="ok">OK</string>
+    <string name="okay">Okay</string>
     <string name="how_about_a_course_title">How about a Course Title?</string>
     <string name="let_s_discuss_your_course_objective">Let\'s discuss your course objective</string>
     <string name="choose_a_language">Choose a language...</string>
-    <string name="enter_description">Enter description</string>
+    <string name="enter_description">Enter course description</string>
     <string name="enter_course_title">Enter course title</string>
     <string name="choose_a_course_type">Choose a course type</string>
 
@@ -266,7 +277,7 @@
     <string name="enable">Enable</string>
     <string name="disable">Disable</string>
     <string name="update_course">Update Course</string>
-    <string name="user_image">User Image</string>
+    <string name="user_image">User Profile Image</string>
     <string name="course_image">Course Image</string>
     <string name="back_icon">Back Icon</string>
     <string name="bookmarked_icon">bookmarked icon</string>
@@ -299,7 +310,7 @@
     <string name="invoice">Invoice</string>
     <string name="remaining_wallet_balance">Remaining Wallet Balance</string>
     <string name="wallet_history">Wallet History</string>
-    <string name="total_earning">Total Earning</string>
+    <string name="total_earning">Total Earnings</string>
     <string name="total_expense">Total Expense</string>
     <string name="new_request">New Request</string>
     <string name="card_number">Card Number</string>
@@ -337,4 +348,80 @@
     <string name="you_dont_have_activity_to_perform_action">You don\'t have activity to perform this action</string>
     <string name="enter_course_fee">Enter Course Fee</string>
     <string name="add_a_link">Add a Link</string>
+    <string name="payment_received_from">Payment received from</string>
+    <string name="transaction_id">Transaction ID:</string>
+    <string name="order_id">Order ID:</string>
+    <string name="_time">Time:</string>
+    <string name="order_details">Order Details</string>
+    <string name="view">View</string>
+    <string name="enter_your_text_here">Enter your text here</string>
+    <string name="your_translation_will_appear_here">Your translation will appear here</string>
+    <string name="sign_up_to_get_started">Sign up to get started</string>
+    <string name="enter_otp">Please enter otp</string>
+    <string name="enter_valid_otp">Please enter valid otp</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="do_you_really_want_to_delete_your_account">Do you really want to delete you account?</string>
+    <string name="password_changed_successfully">Password changed successfully!!</string>
+    <string name="password_reset_successfully">Password reset successfully!!</string>
+    <string name="email_sent_successfully">Email sent successfully!!</string>
+    <string name="hey">Hey!</string>
+    <string name="course_categories">Course categories</string>
+    <string name="course_title">Course title</string>
+    <string name="course_description">Course description</string>
+    <string name="key_takeaways">Key takeaways</string>
+    <string name="enter_key_takeaways">Enter key takeaways</string>
+    <string name="course_category">Course category</string>
+    <string name="choose_a_course_category">Choose a course category</string>
+    <string name="enter_description_">Enter Description</string>
+    <string name="add_text">Add Text</string>
+    <string name="there_are_no_assessments_in_n_this_course">There are no assessments in \n this course.</string>
+    <string name="add_assessment">ADD ASSESSMENT</string>
+    <string name="submit_succesfully">Submitted Successfully</string>
+    <string name="submit_succesfully_done">"You’ve successfully submitted the course.\n \n Your course “Basics of thermodynamic” is in under review and we’ll let you know once it’s approved by our moderator.\n \n Course will get published after the approval"</string>
+    <string name="profession">Profession</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="wishlist">Wishlist</string>
+    <string name="my_courses">My Courses</string>
+    <string name="add_bio">Add Bio</string>
+    <string name="select_city">Select City</string>
+    <string name="select_state">Select State</string>
+    <string name="view_more">View More</string>
+    <string name="read_more">Read More</string>
+    <string name="read_less">Read Less</string>
+    <string name="view_less">View Less</string>
+    <string name="reject">REJECT</string>
+    <string name="accept">Accept</string>
+    <string name="enroll_now">Enroll Now</string>
+    <string name="plz_select_profession">Please select your profession</string>
+    <string name="select_profession">Select Profession</string>
+    <string name="enter_four_digit_from_mail">Enter 4 digit number that sent to your email.</string>
+    <string name="select_state_first">Please select state first</string>
+    <string name="search_city">Search City</string>
+    <string name="search_state">Search State</string>
+    <string name="select_pro">Select Profession</string>
+    <string name="course_language">Course language</string>
+    <string name="gender">Gender</string>
+    <string name="enter_phone_num">Enter phone number</string>
+    <string name="enter_email_normal">Enter email</string>
+    <string name="enable_high_contrast_view">Enable high contrast view</string>
+    <string name="filter">Filter</string>
+    <string name="filters">Filters</string>
+    <string name="audience_stats">Audience Stats</string>
+    <string name="total_user">Total Users</string>
+    <string name="total_courses">Total Courses</string>
+    <string name="total_videos">Total Videos</string>
+    <string name="total_user_enrolled">Total User Enrolled</string>
+    <string name="users_count">Users Count</string>
+    <string name="total_users_in_course">Total Users in Course</string>
+    <string name="search_category_by_name">Search category by name</string>
+    <string name="category">Category</string>
+    <string name="add_email">Add Email</string>
+    <string name="add_your_email_and_verify_it">Add your email and verify it.</string>
+    <string name="set_password">SET Password</string>
+    <string name="search_course_by_name">Search course by name</string>
+    <string name="change_email">Change Email</string>
+    <string name="request_tracker">Request Tracker</string>
+    <string name="you_have_added_pass_to_account">You have added password to your account.</string>
+    <string name="dashboard_Caps">DASHBOARD</string>
+    <string name="change_categories">Change Categories</string>
 </resources>

@@ -4,7 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-android-extensions'
     id 'androidx.navigation.safeargs.kotlin'
-    id "org.sonarqube" version "3.3"
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -17,19 +17,13 @@ android {
         }
     }
     compileSdk 32
-    sonarqube {
-        properties {
-            property "sonar.projectKey", "HarleenAppInventiv_LMSProject"
-            property "sonar.organization", "harleenappinventiv"
-            property "sonar.host.url", "https://sonarcloud.io"
-        }
-    }
+
     defaultConfig {
         applicationId "com.selflearningcoursecreationapp"
         minSdk 21
         targetSdk 32
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.3"
         vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -49,12 +43,12 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildFeatures{
-        dataBinding =true
+    buildFeatures {
+        dataBinding = true
         viewBinding true
     }
 }
-def koin_version="3.1.5"
+def koin_version = "3.1.5"
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
@@ -112,7 +106,6 @@ dependencies {
     implementation("androidx.multidex:multidex:2.0.1")
 
 
-
     //room
     implementation 'androidx.room:room-runtime:2.4.1'
 
@@ -144,7 +137,18 @@ dependencies {
 
     //media picker
     implementation 'com.github.dhaval2404:imagepicker:2.1'
-    implementation 'com.github.tarek360.RichPath:animator:0.1.1'
+//    implementation 'com.github.tarek360.RichPath:animator:0.1.1'
+    implementation 'com.google.mlkit:translate:17.0.0'
+
+
+    //google Auth
+    implementation 'com.google.android.gms:play-services-auth:20.1.0'
+
+    //ccp
+    implementation 'com.hbb20:ccp:2.4.7'
+
+    //mpchart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
 
 }

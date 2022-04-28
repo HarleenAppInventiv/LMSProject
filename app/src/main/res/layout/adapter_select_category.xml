@@ -19,13 +19,14 @@
             android:id="@+id/parentCL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_8sdp">
+          >
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_preview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_10sdp"
+                android:layout_margin="@dimen/_8sdp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_science_dummy"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -36,6 +37,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_1sdp"
                 android:background="?attr/lineColor"
+                android:layout_marginHorizontal="@dimen/_8sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_preview" />
@@ -44,11 +46,12 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_margin="@dimen/_8sdp"
                 android:paddingVertical="@dimen/_5sdp"
                 android:text="WorkSans"
                 app:textColorType="heading"
                 app:fontType="medium"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_preview" />
@@ -56,9 +59,20 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_selected"
                 android:layout_width="wrap_content"
+                android:layout_margin="@dimen/_8sdp"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/category_selected"
                 android:src="@drawable/ic_selected_category"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSRadioButton
+                android:id="@+id/rb_selected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/select_categories"
+                android:padding="0dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".ui.bottom_more.payments.details.PaymentDetailsFragment">
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:viewBackground="secondary">
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:id="@+id/iv_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_20sdp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_payment_done"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSCardView
+                android:id="@+id/infoCV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_25sdp"
+                app:cardBackground="primary"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_header">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/tv_rewards"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_15sdp"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:gravity="center_vertical"
+                        android:text="16789.56"
+                        android:textColor="@color/earning_price_color"
+                        android:textSize="@dimen/_25ssp"
+                        app:drawableStartCompat="@drawable/ic_rewards_points_xlarge"
+                        app:fontType="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_default="wrap"
+                        app:textColorType="none" />
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/tv_rec_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/payment_received_from"
+                        app:fontType="medium"
+                        app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
+                        app:layout_constraintEnd_toStartOf="@+id/iv_profile"
+                        app:layout_constraintStart_toStartOf="@+id/tv_trans_title"
+                        app:layout_constraintTop_toTopOf="@+id/iv_profile"
+                        app:textColorType="secondary" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:background="@drawable/grey_stroked_bg"
+                        android:importantForAccessibility="no"
+                        app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/iv_profile"
+                        app:layout_constraintTop_toTopOf="@+id/iv_profile" />
+
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/iv_profile"
+                        android:layout_width="@dimen/_28sdp"
+                        android:layout_height="@dimen/_28sdp"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:padding="@dimen/_5sdp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_course_dummy"
+                        app:layout_constraintEnd_toStartOf="@+id/tv_name"
+                        app:layout_constraintStart_toEndOf="@+id/tv_rec_title"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_rewards"
+                        app:shapeAppearanceOverlay="@style/circleImage" />
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="Manish Malhotra"
+                        android:textSize="@dimen/_11ssp"
+                        app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/iv_profile"
+                        app:layout_constraintTop_toTopOf="@+id/iv_profile"
+                        app:textColorType="body" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/tv_trans_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_35sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:text="@string/transaction_id"
+                        app:layout_constraintEnd_toEndOf="@+id/guideline"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/iv_profile"
+                        app:textColorType="secondary" />
+
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/tv_transId"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:text="4657DFD5868"
+                        android:textAlignment="viewEnd"
+                        app:fontType="medium"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toTopOf="@+id/tv_trans_title"
+                        app:textColorType="secondary" />
+
+                    <androidx.constraintlayout.widget.Barrier
+                        android:id="@+id/transBarrier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:barrierDirection="bottom"
+                        app:constraint_referenced_ids="tv_trans_title,tv_transId" />
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/tv_order_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:text="@string/order_id"
+                        app:layout_constraintEnd_toEndOf="@+id/guideline"
+                        app:layout_constraintStart_toStartOf="@+id/tv_trans_title"
+                        app:layout_constraintTop_toBottomOf="@+id/transBarrier"
+                        app:textColorType="secondary" />
+
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/tv_orderId"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="#A342HFTD"
+                        android:textAlignment="viewEnd"
+                        app:fontType="medium"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_transId"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toTopOf="@+id/tv_order_title"
+                        app:textColorType="secondary" />
+
+                    <androidx.constraintlayout.widget.Barrier
+                        android:id="@+id/idBarrier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:barrierDirection="bottom"
+                        app:constraint_referenced_ids="tv_order_title,tv_orderId" />
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/tv_time_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:text="@string/_time"
+                        app:layout_constraintEnd_toEndOf="@+id/guideline"
+                        app:layout_constraintStart_toStartOf="@id/tv_trans_title"
+                        app:layout_constraintTop_toBottomOf="@+id/idBarrier"
+                        app:textColorType="secondary" />
+
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="Feb 12, 2022"
+
+                        android:textAlignment="viewEnd"
+                        app:fontType="medium"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_transId"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toTopOf="@+id/tv_time_title"
+                        app:textColorType="secondary" />
+
+                    <androidx.constraintlayout.widget.Barrier
+                        android:id="@+id/timeBarrier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:barrierDirection="bottom"
+                        app:constraint_referenced_ids="tv_time,tv_time_title" />
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_1sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:background="?attr/lineColor"
+                        android:importantForAccessibility="no"
+
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/timeBarrier" />
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/tv_revenue"
+                        spanText="@{@string/payment_status}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/_15sdp"
+                        android:text="@string/payment_status"
+
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/_11ssp"
+                        app:fontType="semiBold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/tv_trans_title"
+                        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/tv_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:background="@color/price_bg_color"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:padding="@dimen/_3sdp"
+                        android:text="Success"
+                        android:textColor="@color/priceColor"
+                        android:textSize="@dimen/_10ssp"
+                        app:fontType="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_revenue"
+                        app:layout_constraintEnd_toStartOf="@+id/bt_invoice"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@+id/tv_revenue"
+                        app:layout_constraintTop_toTopOf="@+id/tv_revenue"
+                        app:textColorType="none" />
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                        android:id="@+id/bt_invoice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_15sdp"
+                        android:padding="0dp"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:text="@string/invoice"
+                        android:textSize="@dimen/_9ssp"
+                        app:icon="@drawable/ic_download_small"
+                        app:iconGravity="textStart"
+                        app:iconTint="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.selflearningcoursecreationapp.utils.customViews.LMSCardView>
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSCardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                app:cardBackground="primary"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/infoCV"
+                app:layout_constraintStart_toStartOf="@+id/infoCV"
+                app:layout_constraintTop_toBottomOf="@+id/infoCV"
+                app:layout_constraintVertical_bias="0">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content">
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/tv_detail_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:text="@string/order_details"
+                        app:fontType="semiBold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textAllCaps="true" />
+
+                    <View
+                        android:id="@+id/view1"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_1sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="?attr/lineColor"
+                        android:importantForAccessibility="no"
+
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_detail_title" />
+
+                    <include
+                        android:id="@+id/ll_course"
+                        layout="@layout/adapter_my_course"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/view1" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.selflearningcoursecreationapp.utils.customViews.LMSCardView>
+
+        </com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

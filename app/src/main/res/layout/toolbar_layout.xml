@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -16,22 +16,22 @@
             android:layout_height="wrap_content">
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                app:fontType="medium"
+                spanText="@{@string/edit_profile}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-android:drawableStart="@drawable/ic_arrow_left"
+                android:lineSpacingExtra="6sp"
+                android:paddingStart="@dimen/_10sdp"
+                android:textSize="@dimen/_14ssp"
                 android:paddingTop="@dimen/_16sdp"
                 android:paddingBottom="@dimen/_16sdp"
                 android:text="@string/edit_profile"
-                spanText="@{@string/edit_profile}"
-                android:paddingStart="@dimen/_10sdp"
+                app:drawableStartCompat="@drawable/ic_arrow_left"
+                app:fontType="medium"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:lineSpacingExtra="6sp"
-                android:textSize="@dimen/_14ssp" />
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

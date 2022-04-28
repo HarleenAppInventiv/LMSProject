@@ -8,6 +8,7 @@ import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentSelectFontBinding
 import com.selflearningcoursecreationapp.extensions.setSpanString
+import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceViewModel
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.SpanUtils
@@ -31,6 +32,24 @@ class SelectFontFragment : BaseFragment<FragmentSelectFontBinding>(), BaseAdapte
             endPos(6)
         }.getSpanString()
         binding.tvTitle.setSpanString(msg)
+
+        if (viewModel.fontListData.value.isNullOrEmpty()) {
+            val nameList = baseActivity.resources.getStringArray(R.array.font_name_array)
+            val fontArray =
+                arrayListOf(R.font.roboto_medium, R.font.ibm_medium, R.font.worksans_medium)
+            var list = ArrayList<CategoryData>()
+            for (i in 0 until nameList.size) {
+                val data = CategoryData(
+                    id = i + 1,
+                    name = nameList[i],
+                    codeId = fontArray[i],
+                    isSelected = (i + 1) == viewModel.userProfile?.font?.id
+                )
+                list.add(data)
+            }
+            viewModel.fontListData.value = list
+
+        }
 
         setAdapter()
 

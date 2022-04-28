@@ -59,7 +59,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_30sdp"
             android:letterSpacing="0.02"
-            android:text="@string/i_ll_confirm_later"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.487"

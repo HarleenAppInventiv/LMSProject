@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -11,116 +10,106 @@
 
     </data>
 
-    <ScrollView
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout5"
         android:layout_width="match_parent"
-        android:overScrollMode="never"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/fragment_profile_details_xml_constraintlayout2_scene">
 
-
-        <androidx.constraintlayout.motion.widget.MotionLayout
-            android:id="@+id/constraintLayout3"
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:id="@+id/imageView3"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutDescription="@xml/fragment_profile_details_xml_constraintlayout2_scene">
+            android:layout_height="@dimen/_200sdp"
+            android:importantForAccessibility="no"
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
-                android:id="@+id/imageView3"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_200sdp"
-                android:importantForAccessibility="no"
+            app:changeBackgroundType="background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-               app:changeBackgroundType="background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:id="@+id/imageView4"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200sdp"
+            android:importantForAccessibility="no"
+            android:scaleType="fitXY"
+            app:changeBackgroundType="tint"
+            app:layout_constraintEnd_toEndOf="parent"
 
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_half_trans_circle_bg" />
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
-                android:id="@+id/imageView4"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_200sdp"
-                android:scaleType="fitXY"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:changeBackgroundType="tint"
-                android:importantForAccessibility="no"
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_35sdp"
+            android:drawablePadding="@dimen/_5sdp"
+            android:lineSpacingExtra="6sp"
+            android:onClickListener="@{(v)->privacy.onHandleClick(v)}"
+            app:drawableStartCompat="@drawable/ic_arrow_left_white"
+            app:fontType="semiBold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.056"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_half_trans_circle_bg" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_talkback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_15sdp"
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/img_back"
-                app:fontType="semiBold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_35sdp"
-android:drawableStart="@drawable/ic_arrow_left_white"
-                android:drawablePadding="@dimen/_5sdp"
-                android:lineSpacingExtra="6sp"
-                android:onClickListener="@{(v)->privacy.onHandleClick(v)}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.056"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:importantForAccessibility="no"
+            app:layout_constraintBottom_toBottomOf="@+id/img_back"
+            app:layout_constraintEnd_toEndOf="parent"
 
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/appCompatImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-                app:layout_constraintEnd_toEndOf="@+id/imageView3"
-                android:importantForAccessibility="no"
-
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_privacy_header" />
-
-            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/appCompatTextView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:text="@string/privacy_policy"
-                android:textColor="?attr/whiteTextColor"
-                android:textSize="@dimen/_13ssp"
-                app:textColorType="none"
-               app:fontType="semiBold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
+            app:layout_constraintTop_toTopOf="@+id/img_back"
+            app:srcCompat="@drawable/ic_screen_reading_mode_white" />
 
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/tv_last_updated"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="10sp"
-                android:padding="@dimen/_16sdp"
-                android:text="Last updated on September 20, 2021"
-                app:textColorType="body"
-                android:textStyle="italic"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/appCompatImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+            app:layout_constraintEnd_toEndOf="@+id/imageView3"
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/appCompatTextView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="10sp"
-                android:padding="@dimen/_16sdp"
-                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-                app:textColorType="body"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_privacy_header" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/privacy_policy"
+            android:textColor="?attr/whiteTextColor"
+            android:textSize="@dimen/_13ssp"
+            app:fontType="semiBold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appCompatImageView"
+            app:textColorType="none" />
+
+        <WebView
+            android:id="@+id/wv_privecy_policy"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:lineSpacingExtra="10sp"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
 
-                app:layout_constraintTop_toBottomOf="@+id/tv_last_updated" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        </androidx.constraintlayout.motion.widget.MotionLayout>
-    </ScrollView>
 
 </layout>

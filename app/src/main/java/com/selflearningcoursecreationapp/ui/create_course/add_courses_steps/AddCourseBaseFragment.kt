@@ -1,22 +1,23 @@
 package com.selflearningcoursecreationapp.ui.create_course.add_courses_steps
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentAddCourseBaseBinding
-import com.selflearningcoursecreationapp.extensions.*
+import com.selflearningcoursecreationapp.extensions.visibleView
 import com.selflearningcoursecreationapp.ui.preferences.ScreenSlidePagerAdapter
 import com.selflearningcoursecreationapp.ui.splash.intro_slider.DotAdapter
 import com.selflearningcoursecreationapp.utils.Constant
 
 
 class AddCourseBaseFragment : BaseFragment<FragmentAddCourseBaseBinding>() {
-
     private var type: Int = TYPE_ALL
     private var dotList: ArrayList<Boolean> = ArrayList()
     private var dotAdapter: DotAdapter? = null
@@ -28,11 +29,17 @@ class AddCourseBaseFragment : BaseFragment<FragmentAddCourseBaseBinding>() {
     }
 
     fun init() {
+
         initViewPager()
+        setHasOptionsMenu(true)
         binding.btContinue.setOnClickListener {
             findNavController().navigate(R.id.action_addCourseBaseFragment_to_addSectionOrLectureFragment)
 
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.course_menu, menu)
     }
 
     override fun getLayoutRes() = R.layout.fragment_add_course_base
@@ -43,8 +50,6 @@ class AddCourseBaseFragment : BaseFragment<FragmentAddCourseBaseBinding>() {
             Step2Fragment(),
             Step3Fragment(),
         )
-
-
         if (type == TYPE_ALL) {
             list.addAll(fragList)
         } else {
