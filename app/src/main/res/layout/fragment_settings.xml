@@ -34,6 +34,7 @@
             android:drawablePadding="@dimen/_10sdp"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:paddingTop="@dimen/_10sdp"
+            android:text="@string/change_password"
             android:paddingBottom="@dimen/_33sdp"
             app:drawableStartCompat="@drawable/ic_key_password"
             app:primaryIconTint="start" />
@@ -45,6 +46,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line_grey"
             android:drawablePadding="@dimen/_10sdp"
+            android:text="@string/change_language"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:paddingVertical="@dimen/_30sdp"
             app:drawableStartCompat="@drawable/ic_world_language"
@@ -67,6 +69,7 @@
             android:id="@+id/tv_theme"
             spanText="@{@string/change_theme}"
             android:layout_width="match_parent"
+            android:text="@string/change_theme"
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line_grey"
             android:drawablePadding="@dimen/_10sdp"

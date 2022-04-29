@@ -188,9 +188,9 @@ class LMSMaterialButton : MaterialButton {
         setTextColor(colorValue)
     }
 
-    fun setBtnDisabled(value: Boolean) {
+    fun setBtnDisabled(enabled: Boolean) {
         if (Build.VERSION.SDK_INT < 24) {
-            if (!value) {
+            if (!enabled) {
                 ViewCompat.setBackgroundTintList(this, ColorStateList.valueOf(getDisabledColor()))
             } else {
                 if (mAttrs != null && mDefStyle != null) {

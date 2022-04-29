@@ -206,12 +206,12 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
                     dotList[index] = index == position
                 }
                 setDotAdapter()
-                if (position != 3) {
-                    setHasOptionsMenu(true)
-                } else {
-                    setHasOptionsMenu(false)
-
-                }
+//                if (position != 3) {
+//                    setHasOptionsMenu(true)
+//                } else {
+//                    setHasOptionsMenu(false)
+//
+//                }
                 setData()
 
             }
@@ -259,6 +259,8 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
         val total = viewModel.categoryListLiveData.value?.filter { it.isSelected }?.size ?: 0
         binding.tvSelectedValue.text = "${if (total <= 9) "0$total" else total}"
         binding.tvSelectedValue.changeTextColor(ThemeConstants.TYPE_THEME)
+        binding.btContinue.setBtnDisabled(total != 0)
+        binding.btContinue.isEnabled = (total != 0)
     }
 
     private fun setThemeData() {

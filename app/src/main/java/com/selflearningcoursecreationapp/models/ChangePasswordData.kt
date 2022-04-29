@@ -65,7 +65,7 @@ class ChangePasswordData : BaseObservable(), Parcelable {
 
             }
             !newPassword.isPasswordValid() -> {
-                R.string.valid_password_instructions
+                R.string.password_should_be_valid
 
             }
             confirmPassword.isEmpty() -> {

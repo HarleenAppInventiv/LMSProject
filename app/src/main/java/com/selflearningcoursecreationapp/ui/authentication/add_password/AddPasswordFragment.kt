@@ -31,7 +31,7 @@ class AddPasswordFragment : BaseFragment<FragmentAddPasswordBinding>() {
         binding.setPass = viewModel
 
         binding.textView.setSpanString(
-            SpanUtils.with(baseActivity, baseActivity.getString(R.string.set_password)).endPos(5)
+            SpanUtils.with(baseActivity, baseActivity.getString(R.string.set_password)).endPos(4)
                 .isBold().getSpanString()
 
         )

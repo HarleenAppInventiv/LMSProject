@@ -7,6 +7,7 @@ import androidx.databinding.library.baseAdapters.BR
 import com.google.gson.annotations.SerializedName
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.extensions.changeDateFormat
+import com.selflearningcoursecreationapp.extensions.isPasswordValid
 import com.selflearningcoursecreationapp.models.CategoryData
 import kotlinx.android.parcel.Parcelize
 
@@ -176,7 +177,7 @@ data class UserProfile(
     @Transient
     @get:Bindable
     var dataEntered: Boolean = false
-        get() = !email.isBlank() && !number.isEmpty() && !name.isEmpty() && !dob.isNullOrEmpty() && !stateId.isNullOrEmpty() && !cityId.isNullOrEmpty() && !professionId.isEmpty() && !bio.isNullOrEmpty()
+        get() =/* !email.isBlank() &&*/ !number.isEmpty() && !name.isEmpty() && !dob.isNullOrEmpty() && !stateId.isNullOrEmpty() && !cityId.isNullOrEmpty() && !professionId.isEmpty() && !bio.isNullOrEmpty()
                 && !genderId.isNullOrEmpty() && !countryCode.isNullOrEmpty()
 
 
@@ -203,9 +204,9 @@ data class UserProfile(
 //            password.isBlank() -> {
 //                R.string.enter_password
 //            }
-//            !password.isPasswordValid() -> {
-//                R.string.valid_password_instructions
-//            }
+            !password.isPasswordValid() -> {
+                R.string.valid_password_instructions
+            }
             professionId.isBlank() -> {
                 R.string.plz_select_profession
             }

@@ -99,6 +99,8 @@ class PathNodeArc {
             if (disc < 0.0) {
                 Log.w(LOGTAG, "Points are too far apart $dsq")
                 val adjust = (sqrt(dsq) / 1.99999).toFloat()
+                a = a * adjust
+                b = b * adjust
                 drawArc(
 //                  path, x0, y0, x1, y1, a * adjust,
 //                  b * adjust, theta, isMoreThanHalf, isPositiveArc

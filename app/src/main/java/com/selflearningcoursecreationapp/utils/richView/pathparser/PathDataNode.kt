@@ -482,15 +482,18 @@ class PathDataNode(var type: Char, val params: FloatArray) {
 //        }
 //    }
 
-        /**
-         * The current PathDataNode will be interpolated between the
-         * <code>nodeFrom</code> and <code>nodeTo</code> according to the
-         * <code>fraction</code>.
-         *
-         * @param nodeFrom The start value as a PathDataNode.
-         * @param nodeTo   The end value as a PathDataNode
-         * @param fraction The fraction to interpolate.
-         */
+
+    }
+
+    /**
+     * The current PathDataNode will be interpolated between the
+     * <code>nodeFrom</code> and <code>nodeTo</code> according to the
+     * <code>fraction</code>.
+     *
+     * @param nodeFrom The start value as a PathDataNode.
+     * @param nodeTo   The end value as a PathDataNode
+     * @param fraction The fraction to interpolate.
+     */
     fun interpolatePathDataNode(nodeFrom: PathDataNode, nodeTo: PathDataNode, fraction: Float) {
         (nodeFrom.params.indices).forEach { index ->
             params[index] =
