@@ -10,7 +10,9 @@ import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentCategoryBinding
 import com.selflearningcoursecreationapp.extensions.setSpanString
+import com.selflearningcoursecreationapp.ui.home.HomeActivity
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceViewModel
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.SpanUtils
 
@@ -33,6 +35,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>(), BaseAdapter.IV
             viewModel.getApiResponse().observe(viewLifecycleOwner, this)
             viewModel.getCategories()
         }
+
         binding.tvTitle.setSpanString(
             SpanUtils.with(baseActivity, baseActivity.getString(R.string.select_categories))
                 .endPos(6).isBold().getSpanString()
@@ -82,5 +85,15 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>(), BaseAdapter.IV
 
     }
 
+    override fun <T> onResponseSuccess(value: T, apiCode: String) {
+        super.onResponseSuccess(value, apiCode)
+        when (apiCode) {
+            ApiEndPoints.API_GET_CATEGORIES -> {
+                if (baseActivity is HomeActivity) {
+                    viewModel.getMyCategories()
+                }
 
+            }
+        }
+    }
 }

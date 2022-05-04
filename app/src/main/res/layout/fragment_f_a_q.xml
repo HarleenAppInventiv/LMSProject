@@ -21,7 +21,7 @@
         <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
             android:id="@+id/imageView3"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_200sdp"
+            android:layout_height="@dimen/_160sdp"
             android:importantForAccessibility="no"
 
             app:changeBackgroundType="background"
@@ -33,7 +33,7 @@
         <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
             android:id="@+id/imageView4"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_200sdp"
+            android:layout_height="@dimen/_160sdp"
             android:importantForAccessibility="no"
 android:src="@drawable/ic_half_trans_circle_bg"
             android:scaleType="fitXY"

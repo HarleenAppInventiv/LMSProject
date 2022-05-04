@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface PreferenceRepo {
     suspend fun savePreference(map: HashMap<String, Any>): Flow<Resource>
     suspend fun getCategory(): Flow<Resource>
-    suspend fun myCatogory(map: HashMap<String, Any>): Flow<Resource>
+    suspend fun myCategories(): Flow<Resource>
     suspend fun getThemeList(): Flow<Resource>
 }

@@ -17,8 +17,8 @@ class ChildLectureAdapter() : BaseAdapter<AdapterLectureLayoutBinding>() {
             onItemClick(Constant.CLICK_DELETE, position)
 
         }
-        binding.btUpload.setOnClickListener{
-            onItemClick(Constant.CLICK_UPLOAD,position)
+        binding.btUpload.setOnClickListener {
+            onItemClick(Constant.CLICK_UPLOAD, position)
         }
 
     }

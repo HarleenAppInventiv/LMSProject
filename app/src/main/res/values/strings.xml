@@ -18,6 +18,7 @@
     <string name="enter_email">Please enter email address</string>
     <string name="enter_valid_email">Please enter valid email address</string>
     <string name="enter_password">Please enter password</string>
+    <string name="enter_pass">Enter password</string>
     <string name="enter_valid_password">Please enter valid password</string>
     <string name="title_activity_login_singup">LoginSingupActivity</string>
     <string name="enter_name">Please enter name</string>
@@ -34,7 +35,7 @@
     <string name="via_otp">VIA OTP</string>
     <string name="or">OR</string>
     <string name="remember_me">Remember me</string>
-    <string name="forgot_password">FORGOT PASSWORD</string>
+    <string name="forgot_password">FORGOT PASSWORD?</string>
     <string name="forgot_password2">Forgot password</string>
     <string name="sign_in">Sign in</string>
     <string name="or_continue_as_a">or continue as a</string>
@@ -46,10 +47,11 @@
     <string name="verify_with_otp">Verify with OTP</string>
     <string name="enter_4_digit_number_that_sent_to_your_number">Enter 4 digit number that sent to your number.</string>
     <string name="enter_4_digit_number_that_sent_to_your_email">Enter 4 digit number that sent to your email.</string>
-    <string name="forgot_pass_desc_text">Enter the email associated with your account and we’ll send an email with instructions to reset your password</string>
+    <string name="forgot_pass_desc_text">Enter the email/mobile number associated with your account and we’ll send an email with instructions or a OTP on your mobile number to reset your password</string>
     <string name="reset">Reset</string>
     <string name="continues">Continue</string>
     <string name="check_your_mail">Check email</string>
+    <string name="check_your_mail_sms">Check mail or SMS</string>
     <string name="i_ll_confirm_later">I’ll CONFIRM LATER</string>
     <string name="enable_visually_impaired_mode">Enable visually impaired mode</string>
     <string name="enable_screen_reading_mode">Enable screen reading view</string>
@@ -103,7 +105,8 @@
         <item>Major Selected</item>
         <item>Theme Selected</item>
         <item>Font Selected</item>
-        <item>Language Selected</item>
+        <!--        <item>Language Selected</item>-->
+        <item>Selected Language</item>
     </string-array>
 
     <string-array name="walkthrough_description">
@@ -117,21 +120,22 @@
     <string name="valid_password_instructions"><![CDATA[Your password must include 0-9, A-Z, a-z & one special character. Also, It should be 6 characters long.]]></string>
     <string name="enter_new_password">Enter new password</string>
     <string name="confirm_new_password">Confirm new password</string>
+    <string name="confirm_password">Confirm password</string>
     <string name="settings">Settings</string>
     <string name="payments">Payments</string>
-    <string name="become_a_moderator">Become a moderator</string>
+    <string name="become_a_moderator">Become a Moderator</string>
     <string name="manage_payment_methods">Manage payment methods</string>
     <string name="add_a_new_card">Add a new card</string>
     <string name="change_password">Change Password</string>
     <string name="change_language">Change Language</string>
-    <string name="about_us">About us</string>
+    <string name="about_us">About Us</string>
     <string name="support">Support</string>
     <string name="terms_amp_condtions"><![CDATA[Terms & Conditions]]></string>
     <string name="old_password">OLD Password</string>
     <string name="new_password">NEW Password</string>
     <string name="provide_your_old_password">Provide your old password</string>
     <string name="enter_current_password">Enter current password</string>
-    <string name="enter_new_password_and_confirm_it">enter new password and confirm it</string>
+    <string name="enter_new_password_and_confirm_it">Enter new password and confirm it</string>
     <string name="update_password">Update Password</string>
     <string name="you_have_to_login_on_all_devices_again">You have to login on all devices again</string>
     <string name="log_me_out_from_the_all_devices">Log me out from the all devices</string>
@@ -222,6 +226,7 @@
     <string name="next">Next</string>
     <string name="skip">Skip</string>
     <string name="not_received_email_resend_again">Did not receive the email?\nCheck your spam folder or TRY AGAIN</string>
+    <string name="not_received_instructions_resend_again">Did not receive the instruction? TRY AGAIN</string>
     <string name="we_have_sent_password_recovery_instructions_to_your_email">We have sent password recovery instructions by email.</string>
     <string name="plz_accept_terms_conditions">Please accept Privacy Policy and Terms of Use</string>
     <string name="address_details">ADDRESS DETAILS</string>
@@ -229,8 +234,8 @@
     <string name="plz_enter_new_password">Please enter new password</string>
     <string name="plz_enter_confirm_password">Please enter confirm password</string>
     <string name="old_password_should_be_valid">Please enter valid old password</string>
-    <string name="password_should_be_valid">Password should be 8 characters long.</string>
-    <string name="new_confirm_paswrd_not_matched">New password and confirm password doesn\'t matched</string>
+    <string name="password_should_be_valid">Password should be minimum 8 characters long.</string>
+    <string name="new_confirm_paswrd_not_match">New password and confirm password doesn\'t match</string>
     <string name="selected_language">Selected language</string>
     <string name="apply">Apply</string>
     <string name="help">Help</string>
@@ -273,7 +278,7 @@
     <string name="language_changed_to">As per your preference, the current app language updated to </string>
     <string name="ok_close">Ok! Close</string>
     <string name="theme">Theme</string>
-    <string name="practice_accent">Practice accent</string>
+    <string name="practice_accent">Practice Accent</string>
     <string name="enable">Enable</string>
     <string name="disable">Disable</string>
     <string name="update_course">Update Course</string>
@@ -290,7 +295,7 @@
     <string name="create_course_button">Create Course Button</string>
     <string name="upload">Upload</string>
     <string name="remove_section">Remove Section</string>
-    <string name="add_lecture">Add Lecture</string>
+    <string name="add_lecture">Add Lesson</string>
     <string name="audio">Audio</string>
     <string name="video">Video</string>
     <string name="upload_logo">Upload logo</string>
@@ -394,9 +399,10 @@
     <string name="enroll_now">Enroll Now</string>
     <string name="plz_select_profession">Please select your profession</string>
     <string name="select_profession">Select Profession</string>
-    <string name="enter_four_digit_from_mail">Enter 4 digit number that sent to your email.</string>
+    <string name="enter_four_digit_from_mail">Enter 4 digit number that has been sent to your email.</string>
     <string name="select_state_first">Please select state first</string>
     <string name="search_city">Search City</string>
+    <string name="date_of_birth">Date of Birth</string>
     <string name="search_state">Search State</string>
     <string name="select_pro">Select Profession</string>
     <string name="course_language">Course language</string>
@@ -417,11 +423,36 @@
     <string name="category">Category</string>
     <string name="add_email">Add Email</string>
     <string name="add_your_email_and_verify_it">Add your email and verify it.</string>
-    <string name="set_password">SET Password</string>
     <string name="search_course_by_name">Search course by name</string>
     <string name="change_email">Change Email</string>
     <string name="request_tracker">Request Tracker</string>
     <string name="you_have_added_pass_to_account">You have added password to your account.</string>
     <string name="dashboard_Caps">DASHBOARD</string>
+    <string name="add_your_pass">Add your Password</string>
+    <string name="set_your_pass">Set your Password</string>
     <string name="change_categories">Change Categories</string>
+    <string name="set_password">SET Password</string>
+    <string name="add_section">Add Section</string>
+    <string name="there_are_no_sections_in_this_course">There are no sections in this \ncourse</string>
+    <string name="edit_section">Edit Section</string>
+    <string name="type_your_question_here">Type your question here...</string>
+    <string name="title">Title</string>
+    <string name="select_ques_type">Select Question Type</string>
+    <string name="tap_here_to_enter_option">Tap Here to enter option</string>
+    <string name="add_answer_as">Add Answer as</string>
+    <string name="text">Text</string>
+    <string name="enter_answer_here">Enter answer here</string>
+    <string name="image">Image</string>
+    <string name="upload_image_as_an_answer">Upload Image as an answer</string>
+    <string name="docs">Docs</string>
+    <string name="quiz">Quiz</string>
+    <string name="upload_lesson">Upload Lesson</string>
+    <string name="or_send_invitation_via_phone_number">Or Send Invitation via Phone Number</string>
+    <string name="invite_co_author">Invite Co-Author</string>
+    <string name="invite_other_author_to_cooperate_in_your_course_sections">Invite other author to cooperate in \n your course sections.</string>
+    <string name="add_your_new_password">Add your new password.</string>
+    <string name="location">Location</string>
+    <string name="categories_updated_successfully">Categories updated successfully!!</string>
+    <string name="check_mail_sms_instructions">We have sent password recovery instructions to your email or SMS.</string>
+    <string name="otp_sent_successfully">OTP sent successfully!!</string>
 </resources>

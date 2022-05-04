@@ -30,10 +30,10 @@ class PreferenceRepoImpl(private val apiService: ApiService) : PreferenceRepo {
         }.safeApiCall(ApiEndPoints.API_GET_CATEGORIES).flowOn(Dispatchers.IO)
     }
 
-    override suspend fun myCatogory(map: HashMap<String, Any>): Flow<Resource> {
-        return object : BaseRepo<Any>() {
-            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<Any>> {
-                return apiService.myCategories(map)
+    override suspend fun myCategories(): Flow<Resource> {
+        return object : BaseRepo<CategoryResponse>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<CategoryResponse>> {
+                return apiService.myCategories()
             }
 
         }.safeApiCall(ApiEndPoints.API_MYCATEGORIES).flowOn(Dispatchers.IO)

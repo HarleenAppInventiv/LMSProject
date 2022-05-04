@@ -110,4 +110,6 @@ abstract class BaseDialog<DB : ViewDataBinding> : DialogFragment(), LiveDataObse
     fun showToastLong(message: String) {
         baseActivity.showToastLong(message)
     }
+
+
 }

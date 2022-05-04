@@ -11,28 +11,28 @@
     <!--        android:layout_height="match_parent"-->
     <!--        android:fillViewport="true"-->
     <!--        android:overScrollMode="never"-->
-<!--        android:scrollbars="none">-->
+    <!--        android:scrollbars="none">-->
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
 
-            android:layout_height="match_parent">
+        android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/logo"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_slider1"
-                app:layout_constraintBottom_toTopOf="@+id/title"
-                app:layout_constraintHeight_percent="0.6"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias=".001" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/logo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_slider1"
+            app:layout_constraintBottom_toTopOf="@+id/title"
+            app:layout_constraintHeight_percent="0.6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias=".001" />
 
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

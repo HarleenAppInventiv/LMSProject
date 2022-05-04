@@ -36,26 +36,16 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fitsSystemWindows="true"
                     android:orientation="vertical"
+                    android:minHeight="@dimen/_120sdp"
                     android:scaleType="centerCrop"
-                    app:layout_collapseMode="pin">
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="@integer/material_motion_duration_short_1">
 
-                    <View
-                        android:id="@+id/view7"
-                        android:layout_width="match_parent"
-                        android:layout_height="140dp"
-                        android:fitsSystemWindows="true"
-                        android:scaleType="centerCrop"
-                        app:changeBackgroundType="background"
-                        app:layout_collapseMode="parallax"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
                         android:id="@+id/et_search"
@@ -89,8 +79,6 @@
                         app:srcCompat="@drawable/ic_mic_home" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
@@ -175,11 +163,11 @@
 
                 </androidx.appcompat.widget.Toolbar>
 
-
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
                 android:background="?attr/offwhiteTextColor"
                 android:elevation="@dimen/_4sdp"

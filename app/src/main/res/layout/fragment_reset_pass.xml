@@ -49,10 +49,10 @@
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/textView3"
-                spanText="@{@string/valid_password_instructions}"
+                spanText="@{@string/add_your_new_password}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/valid_password_instructions"
+                android:text="@string/add_your_new_password"
                 app:layout_constraintEnd_toEndOf="@+id/textView"
                 app:layout_constraintStart_toStartOf="@+id/textView"
                 app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -69,6 +69,7 @@
                 android:hint="@string/enter_new_password"
                 android:imeOptions="actionNext"
                 android:inputType="textPassword"
+                android:maxLength="16"
                 android:singleLine="true"
                 android:text="@={resetPass.resetData.newPassword}"
                 android:textColor="@color/black"
@@ -106,6 +107,7 @@
                 android:hint="@string/confirm_new_password"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
+                android:maxLength="16"
                 android:singleLine="true"
                 android:text="@={resetPass.resetData.confirmPassword}"
                 android:textColor="@color/black"

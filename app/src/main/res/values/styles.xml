@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="circle">
         <item name="cornerSize">50%</item>
@@ -164,5 +164,12 @@
         <item name="colorAccent">@color/purple_200</item>
     </style>
 
+    <style name="MaterialDialog" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="colorAccent">@color/google_btn_bg_color_fc6d5b</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="titleTextColor">@color/text_color_black_131414</item>
+        <item name="android:titleTextColor" tools:targetApi="m">@color/text_color_black_131414
+        </item>
+    </style>
 
 </resources>

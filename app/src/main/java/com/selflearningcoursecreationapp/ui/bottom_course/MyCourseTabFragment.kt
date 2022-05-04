@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -68,7 +69,12 @@ class MyCourseTabFragment : BaseFragment<FragmentMyCourseTabBinding>() {
         }.attach()
 
         binding.tlHeader.setSelectedTabIndicatorColor(ThemeUtils.getAppColor(baseActivity))
-
+        binding.tlHeader.setTabTextColors(
+            ContextCompat.getColor(
+                baseActivity,
+                R.color.hint_color_929292
+            ), ThemeUtils.getPrimaryTextColor(baseActivity)
+        )
         binding.tlHeader.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 (tab?.customView as TextView?)?.typeface = Typeface.DEFAULT_BOLD

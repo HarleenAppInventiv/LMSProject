@@ -35,7 +35,7 @@
                 app:title="@string/app_name"
                 app:layout_constraintStart_toStartOf="parent"
 
-
+app:subtitleTextColor="@color/heading_color_262626"
                 app:layout_constraintTop_toTopOf="parent"
                 app:navigationIcon="@drawable/ic_arrow_left"
                 app:titleMarginStart="0dp" />

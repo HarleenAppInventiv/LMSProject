@@ -1,5 +1,6 @@
 package com.selflearningcoursecreationapp.ui.authentication.forgotPass
 
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.selflearningcoursecreationapp.R
@@ -33,23 +34,23 @@ class ForgotPassViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
                     )
                 )
             }
-//            emailPhone.value!!.isDigitsOnly() -> {
-//
-//                if (emailPhone.value!!.length < 10) {
-//                    updateResponseObserver(
-//                        Resource.Error(
-//                            ToastData(R.string.enter_valid_phone_number)
-//                        )
-//                    )
-//                } else {
-//                    forgotApi(true, selectedCountryCodeWithPlus)
-//
-//                    //                    viewModel.reqOTP(OTPVerifyFragment.TYPE_FORGOT,
-//                    //                        binding.edtForgotphone.content())
-//
-//                }
-//
-//            }
+            emailPhone.value!!.isDigitsOnly() -> {
+
+                if (emailPhone.value!!.length < 5) {
+                    updateResponseObserver(
+                        Resource.Error(
+                            ToastData(R.string.enter_valid_phone_number)
+                        )
+                    )
+                } else {
+                    forgotApi(true, selectedCountryCodeWithPlus)
+
+                    //                    viewModel.reqOTP(OTPVerifyFragment.TYPE_FORGOT,
+                    //                        binding.edtForgotphone.content())
+
+                }
+
+            }
             !emailPhone.value!!.isValidEmail() -> {
                 updateResponseObserver(
                     Resource.Error(

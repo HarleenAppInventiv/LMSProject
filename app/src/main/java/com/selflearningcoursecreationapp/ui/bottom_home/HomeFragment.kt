@@ -21,16 +21,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
     private val viewModel: HomeVM by viewModel()
     private var homeList = ArrayList<String>()
 
-    //lateinit var adapterCourseType: AdapterCourseType
     var list = arrayListOf<CategoryData>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initUI()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        baseActivity.supportActionBar?.hide()
+
     }
 
     fun initUI() {
         binding.homefrag = this
-        baseActivity.supportActionBar?.hide()
         list.clear()
 
         homeList.clear()
@@ -92,6 +97,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
 
     override fun onResume() {
         super.onResume()
+
         viewModel.getUserData()
         binding.tvUserName.text = viewModel.userProfile?.name
 

@@ -55,6 +55,14 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(), HandleClick {
                         )
                     )
                 }
+                R.id.tv_category -> {
+                    findNavController().navigate(
+                        SettingsFragmentDirections.actionSettingsFragmentToPreferencesFragment(
+                            PREFERENCES.TYPE_CATEGORY,
+                            baseActivity.getString(R.string.change_categories)
+                        )
+                    )
+                }
                 R.id.tv_theme -> {
                     findNavController().navigate(
                         SettingsFragmentDirections.actionSettingsFragmentToPreferencesFragment(

@@ -34,8 +34,8 @@
             android:drawablePadding="@dimen/_10sdp"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:paddingTop="@dimen/_10sdp"
-            android:text="@string/change_password"
             android:paddingBottom="@dimen/_33sdp"
+            android:text="@string/change_password"
             app:drawableStartCompat="@drawable/ic_key_password"
             app:primaryIconTint="start" />
 
@@ -46,9 +46,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line_grey"
             android:drawablePadding="@dimen/_10sdp"
-            android:text="@string/change_language"
-            android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:paddingVertical="@dimen/_30sdp"
+            android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
+            android:text="@string/change_language"
             app:drawableStartCompat="@drawable/ic_world_language"
             app:primaryIconTint="start" />
 
@@ -69,14 +69,14 @@
             android:id="@+id/tv_theme"
             spanText="@{@string/change_theme}"
             android:layout_width="match_parent"
-            android:text="@string/change_theme"
+            android:drawablePadding="@dimen/_10sdp"
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line_grey"
-            android:drawablePadding="@dimen/_10sdp"
-            app:drawableStartCompat="@drawable/ic_change_theme"
-            app:primaryIconTint="start"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-            android:paddingVertical="@dimen/_30sdp" />
+            android:paddingVertical="@dimen/_30sdp"
+            android:text="@string/change_theme"
+            app:drawableStartCompat="@drawable/ic_change_theme"
+            app:primaryIconTint="start" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_font"
@@ -84,71 +84,72 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line_grey"
-            app:primaryIconTint="start"
-            app:drawableStartCompat="@drawable/ic_change_font"
             android:drawablePadding="@dimen/_10sdp"
-                android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-                android:paddingVertical="@dimen/_30sdp"
-                android:text="@string/change_font" />
+            android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
+            android:paddingVertical="@dimen/_30sdp"
+            android:text="@string/change_font"
+            app:drawableStartCompat="@drawable/ic_change_font"
+            app:primaryIconTint="start" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_about_us"
-            android:background="@drawable/bottom_line_grey"
             spanText="@{@string/about_us}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-            app:drawableStartCompat="@drawable/ic_info"
+            android:background="@drawable/bottom_line_grey"
             android:drawablePadding="@dimen/_10sdp"
+            android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:paddingVertical="@dimen/_30sdp"
-            android:text="@string/about_us" />
-
-            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/tv_privacy_policy"
-                spanText="@{@string/privacy_policy}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bottom_line_grey"
-                app:primaryIconTint="start"
-                app:drawableStartCompat="@drawable/ic_privacy_policy"
-                android:drawablePadding="@dimen/_10sdp"
-                android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-                android:paddingVertical="@dimen/_30sdp"
-
-                android:text="@string/privacy_policy" />
+            android:text="@string/about_us"
+            app:drawableStartCompat="@drawable/ic_info"
+            app:primaryIconTint="start" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_privacy_policy"
+            spanText="@{@string/privacy_policy}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_line_grey"
+            android:drawablePadding="@dimen/_10sdp"
+            android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
+            android:paddingVertical="@dimen/_30sdp"
+            android:text="@string/privacy_policy"
+            app:drawableStartCompat="@drawable/ic_privacy_policy"
+
+            app:primaryIconTint="start" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_support"
             spanText="@{@string/support}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_support"
-            app:primaryIconTint="start"
             android:background="@drawable/bottom_line_grey"
-            android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:drawablePadding="@dimen/_10sdp"
-            app:drawableStartCompat="@drawable/ic_support"
+            android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:paddingVertical="@dimen/_30sdp"
-            android:text="@string/support" />
+            android:text="@string/support"
+            app:drawableStartCompat="@drawable/ic_support"
+            app:primaryIconTint="start" />
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/tv_terms_and_conditions"
-                spanText="@{@string/terms_amp_condtions}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bottom_line_grey"
-                app:primaryIconTint="start"
-                app:drawableStartCompat="@drawable/ic_security"
-                android:drawablePadding="@dimen/_10sdp"
-                android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-                android:paddingVertical="@dimen/_30sdp"
-                android:text="@string/terms_amp_condtions" />
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_terms_and_conditions"
+            spanText="@{@string/terms_amp_condtions}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_line_grey"
+            android:drawablePadding="@dimen/_10sdp"
+            app:drawableStartCompat="@drawable/ic_security"
+            app:primaryIconTint="start"
+            android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
+            android:paddingVertical="@dimen/_30sdp"
+            android:text="@string/terms_amp_condtions" />
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/tv_help"
-                spanText="@{@string/help}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:primaryIconTint="start"
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_help"
+            spanText="@{@string/help}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:primaryIconTint="start"
                 app:drawableStartCompat="@drawable/ic_help"
                 android:drawablePadding="@dimen/_10sdp"
                 android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"

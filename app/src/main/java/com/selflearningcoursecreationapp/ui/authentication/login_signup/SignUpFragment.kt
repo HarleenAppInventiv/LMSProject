@@ -85,8 +85,8 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), BaseBottomSheetDia
                             countryCode = binding.countryCodePicker.selectedCountryCodeWithPlus
                         )
                     )
-                    }
                 }
+            }
 
 
         }

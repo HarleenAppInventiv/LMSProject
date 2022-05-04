@@ -6,7 +6,7 @@
     <Transition
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
-        motion:duration="1000"
+        motion:duration="500"
         motion:autoTransition="animateToEnd">
        <KeyFrameSet>
        </KeyFrameSet>
@@ -45,9 +45,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/txt_dashboard"
-            motion:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="-40dp"
             android:alpha="0"
+            android:layout_marginStart="-40dp"
+            motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toBottomOf="@+id/txt_profile_details" />
         <Constraint
             android:id="@+id/txt_tracker"

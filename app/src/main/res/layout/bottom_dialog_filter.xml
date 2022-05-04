@@ -9,7 +9,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-
+        android:background="?attr/viewBackgroundColor"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout

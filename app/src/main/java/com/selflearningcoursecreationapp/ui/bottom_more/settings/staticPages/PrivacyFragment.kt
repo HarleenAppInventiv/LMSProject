@@ -22,6 +22,7 @@ class PrivacyFragment : BaseFragment<FragmentPrivacyBinding>(), HandleClick {
     var url = ""
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showLoading()
         init()
 
     }
@@ -49,7 +50,7 @@ class PrivacyFragment : BaseFragment<FragmentPrivacyBinding>(), HandleClick {
 
                 override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                     super.onPageStarted(view, url, favicon)
-                    showLoading()
+//                    showLoading()
                 }
 
                 override fun onPageFinished(view: WebView?, url: String?) {

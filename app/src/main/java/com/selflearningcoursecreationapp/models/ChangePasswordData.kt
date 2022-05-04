@@ -74,7 +74,7 @@ class ChangePasswordData : BaseObservable(), Parcelable {
 
             }
             !confirmPassword.equals(newPassword) -> {
-                R.string.new_confirm_paswrd_not_matched
+                R.string.new_confirm_paswrd_not_match
 
             }
             else -> {
@@ -89,7 +89,7 @@ class ChangePasswordData : BaseObservable(), Parcelable {
                 R.string.please_enter_new_password
             }
             !newPassword.isPasswordValid() -> {
-                R.string.valid_password_instructions
+                R.string.password_should_be_valid
 
             }
             confirmPassword.isBlank() -> {
@@ -97,7 +97,7 @@ class ChangePasswordData : BaseObservable(), Parcelable {
 
             }
             !newPassword.equals(confirmPassword) -> {
-                R.string.both_pass_does_not_match
+                R.string.new_confirm_paswrd_not_match
 
             }
             else -> {

@@ -5,14 +5,21 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.widget.Toast
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentAddSectionOrLectureBinding
+import com.selflearningcoursecreationapp.extensions.gone
+import com.selflearningcoursecreationapp.extensions.visible
+import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.model.SectionModel
 import com.selflearningcoursecreationapp.ui.dialog.SectionMoreDialog
 import com.selflearningcoursecreationapp.ui.dialog.UploadDocOptionsDialog
 import com.selflearningcoursecreationapp.utils.Constant
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class AddSectionOrLectureFragment : BaseFragment<FragmentAddSectionOrLectureBinding>(),
@@ -26,8 +33,17 @@ class AddSectionOrLectureFragment : BaseFragment<FragmentAddSectionOrLectureBind
 
     fun init() {
 
-        setAdapter()
+
         setHasOptionsMenu(true)
+        binding.llNoSection.visible()
+
+        binding.btnAddSection.setOnClickListener {
+            binding.llNoSection.gone()
+            binding.rvSections.visible()
+
+            setAdapter()
+
+        }
 
     }
 
@@ -50,7 +66,6 @@ class AddSectionOrLectureFragment : BaseFragment<FragmentAddSectionOrLectureBind
                     showToastShort("${childPosition}delete")
                 }
                 Constant.CLICK_MORE -> {
-                    showToastShort("${adapterPosition} more")
                     SectionMoreDialog().apply {
                         setOnDialogClickListener(this@AddSectionOrLectureFragment)
                     }.show(childFragmentManager, "")
@@ -64,9 +79,31 @@ class AddSectionOrLectureFragment : BaseFragment<FragmentAddSectionOrLectureBind
 
 
     private fun setAdapter() {
+        val users = ArrayList<SectionModel>()
+        users.add(SectionModel("Section 1"))
+
+        var touchHelper = object : TouchHelper() {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder,
+            ): Boolean {
+
+                val recyclerviewAdapter = recyclerView.adapter as AddSectionAdapter
+                val fromPosition = viewHolder.adapterPosition
+                val toPosition = target.adapterPosition
+//                recyclerviewAdapter.moveItem(fromPosition, toPosition)
+                Collections.swap(users, fromPosition, toPosition)
+                recyclerviewAdapter.notifyItemMoved(fromPosition, toPosition)
+                return false
+            }
+
+        }
 
         adapter?.notifyDataSetChanged() ?: kotlin.run {
-            adapter = AddSectionAdapter()
+            var itemTouchHelper = ItemTouchHelper(touchHelper)
+            itemTouchHelper.attachToRecyclerView(binding.rvSections)
+            adapter = AddSectionAdapter(users)
             binding.rvSections.adapter = adapter
             adapter!!.setOnAdapterItemClickListener(this)
         }
@@ -75,16 +112,18 @@ class AddSectionOrLectureFragment : BaseFragment<FragmentAddSectionOrLectureBind
 
     override fun onDialogClick(vararg items: Any) {
         if (items.isNotEmpty()) {
-//            val type = items[0] as Int
-//            when (type) {
-//                Constant.CLICK_ADD -> {
-//
-//
-//                }
-//                Constant.CLICK_DELETE -> {
-//
-//                }
-//            }
+            val type = items[0] as Int
+            when (type) {
+                Constant.CLICK_ADD -> {
+                    showToastShort("add")
+                }
+                Constant.CLICK_DELETE -> {
+                    showToastShort("delete")
+                }
+                Constant.CLICK_EDIT -> {
+                    showToastShort("edit")
+                }
+            }
         }
     }
 

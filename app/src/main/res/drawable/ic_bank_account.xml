@@ -100,12 +100,11 @@
           android:fillAlpha="0.5"></path>
     </group>
     <group>
-      <clip-path
-          android:pathData="m35.367,100.61 l-6.993,-5.307 58.244,-76.727 6.99,5.308 -58.24,76.726z"/>
-      <path
-          android:pathData="m35.368,100.61 l-6.993,-5.307 58.244,-76.727 6.99,5.308 -58.24,76.726z"
-          android:strokeAlpha="0.5"
-          android:fillAlpha="0.5"></path>
+        <clip-path android:pathData="m35.367,100.61 l-6.993,-5.307 58.244,-76.727 6.99,5.308 -58.24,76.726z" />
+        <path
+            android:fillAlpha="0.5"
+            android:pathData="m35.368,100.61 l-6.993,-5.307 58.244,-76.727 6.99,5.308 -58.24,76.726z"
+            android:strokeAlpha="0.5"></path>
     </group>
   </group>
 </vector>

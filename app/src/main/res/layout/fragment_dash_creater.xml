@@ -113,7 +113,7 @@
                     android:id="@+id/cl_course"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/edt_bg"
                     android:backgroundTint="@color/course_stat_bg"
@@ -159,7 +159,7 @@
                     android:id="@+id/cl_video"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_15sdp"
                     android:background="@drawable/edt_bg"
@@ -268,6 +268,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
+                app:cardBackgroundColor="@color/white"
                 app:layout_constraintTop_toBottomOf="@+id/tv_users_heading">
 
                 <androidx.constraintlayout.widget.ConstraintLayout

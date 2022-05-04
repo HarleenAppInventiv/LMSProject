@@ -40,7 +40,7 @@ interface ApiService {
 
 
     @GET(ApiEndPoints.API_MYCATEGORIES)
-    suspend fun myCategories(@Body body: Any): Response<BaseResponse<Any>>
+    suspend fun myCategories(): Response<BaseResponse<CategoryResponse>>
 
 
     @GET(ApiEndPoints.API_GETTHEME_LIST)

@@ -25,9 +25,11 @@ class LMSRichView : com.selflearningcoursecreationapp.utils.richView.RichPathVie
     private fun initView(context: Context) {
 
         findRichPathByName("primary_path")?.fillColor = ThemeUtils.getAppColor(context)
+        findRichPathByName("primary_path1")?.fillColor = ThemeUtils.getAppColor(context)
+        findRichPathByName("primary_path2")?.fillColor = ThemeUtils.getAppColor(context)
 
         findRichPathByName("tint_path")?.fillColor = ThemeUtils.getTintColor(context)
-        findRichPathByName("tint_path")?.fillAlpha = 0.5f
+        findRichPathByName("tint_path")?.fillAlpha = 0.3f
 
         findRichPathByName("dark_path")?.fillColor = ThemeUtils.getAppColor(context)
         findRichPathByName("dark_path1")?.fillColor = ThemeUtils.getAppColor(context)

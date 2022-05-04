@@ -129,6 +129,8 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
             R.id.action_skip -> {
                 when (binding.viewpager.currentItem) {
                     0 -> {
+                        binding.btContinue.setBtnDisabled(true)
+                        binding.btContinue.isEnabled = (true)
                         viewModel.categoryListLiveData.value?.forEachIndexed { index, _ ->
                             viewModel.categoryListLiveData.value!![index].isSelected = false
                         }
@@ -259,8 +261,8 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
         val total = viewModel.categoryListLiveData.value?.filter { it.isSelected }?.size ?: 0
         binding.tvSelectedValue.text = "${if (total <= 9) "0$total" else total}"
         binding.tvSelectedValue.changeTextColor(ThemeConstants.TYPE_THEME)
-        binding.btContinue.setBtnDisabled(total != 0)
-        binding.btContinue.isEnabled = (total != 0)
+        binding.btContinue.setBtnDisabled(total >= 3)
+        binding.btContinue.isEnabled = (total >= 3)
     }
 
     private fun setThemeData() {
@@ -302,6 +304,8 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
         binding.tvSelectedValue.changeTextColor(ThemeConstants.TYPE_HEADING)
         binding.tvSelectedValue.text = ""
         binding.ivSelectedTheme.gone()
+        binding.btContinue.setBtnDisabled(true)
+        binding.btContinue.isEnabled = (true)
     }
 
 
@@ -450,6 +454,7 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
 
 
                         } else {
+                            showToastLong(baseActivity.getString(R.string.categories_updated_successfully))
                             findNavController().navigateUp()
                         }
                     }

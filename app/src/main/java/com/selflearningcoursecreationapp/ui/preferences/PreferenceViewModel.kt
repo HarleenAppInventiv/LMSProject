@@ -53,7 +53,10 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
         val map = HashMap<String, Any>().apply {
             when (currentSelection) {
                 0 -> {
-
+                    put(
+                        "categories",
+                        ""
+                    )
                     categoryListLiveData.value?.filter { it.isSelected }?.map { it.id }
                         ?.joinToString()
                         ?.let {
@@ -61,12 +64,7 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
                                 "categories",
                                 it
                             )
-                        } ?: run {
-                        put(
-                            "categories",
-                            ""
-                        )
-                    }
+                        }
 
 
                 }
@@ -160,6 +158,44 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
 
                         }
                         categoryListLiveData.postValue(list)
+                        getMyCategories()
+                    }
+
+                    updateResponseObserver(it)
+                }
+            }
+        }
+
+    }
+
+    fun getMyCategories() {
+        viewModelScope.launch(coroutineExceptionHandle) {
+            var response = repo.myCategories()
+            withContext(Dispatchers.IO) {
+                response.catch { cause ->
+                    updateResponseObserver(
+                        Resource.Failure(
+                            false,
+                            ApiEndPoints.API_MYCATEGORIES,
+                            ApiError().apply {
+                                exception = cause
+                            })
+                    )
+
+                }
+                response.collect {
+                    if (it is Resource.Success<*>) {
+
+                        val list = (it.value as BaseResponse<CategoryResponse>).resource?.list
+                            ?: ArrayList()
+                        categoryListLiveData.value?.forEach { data ->
+                            list?.forEach { selectedData ->
+                                if (data.id == selectedData.id) {
+                                    data.isSelected = true
+                                }
+                            }
+                        }
+                        categoryListLiveData.postValue(categoryListLiveData.value)
                     }
 
                     updateResponseObserver(it)

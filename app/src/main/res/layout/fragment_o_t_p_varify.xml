@@ -65,16 +65,15 @@
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_phone"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:contentDescription="@string/phone_number"
                 android:drawablePadding="@dimen/_10sdp"
+                android:layout_marginHorizontal="@dimen/_15sdp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.076"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_send_otp_text"
-                app:layout_constraintWidth_percent=".9"
                 app:textColorType="theme" />
 
 

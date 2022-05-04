@@ -26,7 +26,7 @@
             <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                 android:id="@+id/imageView3"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_200sdp"
+                android:layout_height="@dimen/_160sdp"
                 android:background="@color/white"
                 android:importantForAccessibility="no"
                 app:changeBackgroundType="background"
@@ -37,7 +37,7 @@
             <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                 android:id="@+id/imageView4"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_200sdp"
+                android:layout_height="@dimen/_160sdp"
                 android:importantForAccessibility="no"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_half_trans_circle_bg"
@@ -45,6 +45,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.28" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/img_back"
@@ -95,7 +102,6 @@
                 style="@style/textViewStyle.Heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:contentDescription="User Name"
                 android:textColor="?attr/whiteTextColor"
                 app:fontType="bold"

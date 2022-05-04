@@ -4,14 +4,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentProfileDetailsBinding
-import com.selflearningcoursecreationapp.extensions.changeDateFormat
-import com.selflearningcoursecreationapp.extensions.setTextResizable
+import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.models.user.UserProfile
 import com.selflearningcoursecreationapp.ui.dialog.UploadImageOptionsDialog
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
@@ -43,7 +43,10 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.tv_add_email -> {
-                findNavController().navigate(R.id.action_profileDetailsFragment_to_addEmailFragment)
+                findNavController().navigate(
+                    R.id.action_profileDetailsFragment_to_addEmailFragment,
+                    bundleOf("isEmailAdded" to binding.txtContactMail.content().isNotEmpty())
+                )
             }
             R.id.img_edit_profile -> {
                 val action =
@@ -120,16 +123,28 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
                 null,
                 null
             )
-
+            binding.tvEmailVerified.gone()
+            val params = binding.tvAddEmail.layoutParams as ConstraintLayout.LayoutParams
+            params.topToTop = binding.txtContactMail.id
+            params.bottomToBottom = binding.txtContactMail.id
+            params.topMargin = 0
+            binding.tvAddEmail.layoutParams = params
         } else {
             //    binding.txtContactMail.setDrawableColor(0,ThemeConstants.TYPE_THEME)
             binding.tvAddEmail.text = baseActivity.getString(R.string.change_email)
-            binding.txtContactMail.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                binding.txtContactMail.compoundDrawables[0],
-                null,
-                null,
-                ContextCompat.getDrawable(baseActivity, R.drawable.ic_check_green)
-            )
+            binding.tvEmailVerified.visible()
+
+
+            val params = binding.tvAddEmail.layoutParams as ConstraintLayout.LayoutParams
+            params.topToBottom = binding.txtContactMail.id
+            params.topMargin = baseActivity.resources.getDimensionPixelOffset(R.dimen._5sdp)
+            binding.tvAddEmail.layoutParams = params
+//            binding.txtContactMail.setCompoundDrawablesRelativeWithIntrinsicBounds(
+//                binding.txtContactMail.compoundDrawables[0],
+//                null,
+//                null,
+//                ContextCompat.getDrawable(baseActivity, R.drawable.ic_check_green)
+//            )
 
         }
     }

@@ -58,7 +58,7 @@ class AddPasswordFragment : BaseFragment<FragmentAddPasswordBinding>() {
                     .description(getString(R.string.you_have_added_pass_to_account))
                     .positiveBtnText(getString(R.string.okay))
                     .hideNegativeBtn(true)
-                    .icon(R.drawable.ic_success)
+                    .icon(R.drawable.ic_checked_logo)
                     .notCancellable()
                     .getCallback {
                         if (it) {

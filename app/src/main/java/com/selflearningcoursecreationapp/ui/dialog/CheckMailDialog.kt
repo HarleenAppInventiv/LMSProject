@@ -21,7 +21,7 @@ class CheckMailDialog : BaseDialog<DialogCheckYourMailBinding>() {
 
     @SuppressLint("ResourceType")
     override fun initUi() {
-        viewModel.getApiResponse().observe(viewLifecycleOwner, baseActivity)
+        viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         binding.tvDesc.setSpanText(baseActivity.getString(R.string.we_have_sent_password_recovery_instructions_to_your_email))
         binding.btnConfirmLater.setSpanText(baseActivity.getString(R.string.okay))
         arguments?.let {
@@ -30,18 +30,21 @@ class CheckMailDialog : BaseDialog<DialogCheckYourMailBinding>() {
             }
             if (it.containsKey("description")) {
                 binding.tvDesc.setSpanText(it.getString("description"))
-                binding.btnConfirmLater.setSpanText(baseActivity.getString(R.string.ok))
+                binding.btnConfirmLater.setSpanText(baseActivity.getString(R.string.okay))
             }
 
         }
 
         val msg = SpanUtils.with(
             baseActivity,
-            baseActivity.getString(R.string.not_received_email_resend_again)
-        ).startPos(53).isBold().themeColor().getCallback {
+            baseActivity.getString(R.string.not_received_instructions_resend_again)
+        ).startPos(33).isBold().themeColor().getCallback {
             if (arguments?.containsKey("email") == true) {
                 viewModel.emailPhone.value = arguments?.getString("email") ?: ""
-                viewModel.forgotApi(false, "")
+                viewModel.forgotApi(
+                    arguments?.getBoolean("isPhone") ?: false,
+                    arguments?.getString("countryCode") ?: ""
+                )
             }
 
         }.getSpanString()
@@ -56,7 +59,7 @@ class CheckMailDialog : BaseDialog<DialogCheckYourMailBinding>() {
         super.onResponseSuccess(value, apiCode)
         when (apiCode) {
             ApiEndPoints.API_OTP_REQ -> {
-                showToastShort(getString(R.string.email_sent_successfully))
+                showToastShort(baseActivity.getString(R.string.otp_sent_successfully))
             }
         }
     }

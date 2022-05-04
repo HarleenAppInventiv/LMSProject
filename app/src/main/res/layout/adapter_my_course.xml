@@ -75,8 +75,8 @@
                 android:layout_marginTop="@dimen/_3sdp"
                 android:contentDescription="@string/bookmarked_icon"
                 android:focusable="true"
-                android:paddingVertical="@dimen/_5sdp"
                 android:paddingHorizontal="@dimen/_3sdp"
+                android:paddingVertical="@dimen/_5sdp"
                 android:src="@drawable/ic_blue_bookmark"
                 app:layout_constraintEnd_toStartOf="@+id/iv_more"
                 app:layout_constraintTop_toTopOf="parent" />

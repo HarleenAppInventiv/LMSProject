@@ -41,10 +41,10 @@ fun TextView.showHidePassword() {
             text.isNullOrEmpty() -> null
             transformationMethod is PasswordTransformationMethod -> ContextCompat.getDrawable(
                 context,
-                R.drawable.ic_password_show
+                R.drawable.ic_password_hide
             )
 
-            else -> ContextCompat.getDrawable(context, R.drawable.ic_password_hide)
+            else -> ContextCompat.getDrawable(context, R.drawable.ic_password_show)
         }
 
         setCompoundDrawablesRelativeWithIntrinsicBounds(
@@ -74,7 +74,7 @@ fun TextView.showHidePassword() {
                 setCompoundDrawablesRelativeWithIntrinsicBounds(
                     ContextCompat.getDrawable(context, R.drawable.ic_key_password),
                     compoundDrawables.get(1),
-                    ContextCompat.getDrawable(context, R.drawable.ic_password_hide),
+                    ContextCompat.getDrawable(context, R.drawable.ic_password_show),
                     compoundDrawables.get(3)
                 )
             } else {
@@ -82,7 +82,7 @@ fun TextView.showHidePassword() {
                 setCompoundDrawablesRelativeWithIntrinsicBounds(
                     ContextCompat.getDrawable(context, R.drawable.ic_key_password),
                     compoundDrawables.get(1),
-                    ContextCompat.getDrawable(context, R.drawable.ic_password_show),
+                    ContextCompat.getDrawable(context, R.drawable.ic_password_hide),
                     compoundDrawables.get(3)
                 )
 

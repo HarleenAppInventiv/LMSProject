@@ -74,15 +74,15 @@
                 app:layout_constraintEnd_toEndOf="@+id/appCompatImageView2"
                 app:layout_constraintTop_toTopOf="@+id/appCompatImageView2" />
 
-                  <View
-                      android:layout_width="0dp"
-                      android:layout_height="0dp"
-                      android:background="@drawable/edt_white_bg"
-                      android:elevation="@dimen/_1sdp"
-                      app:layout_constraintBottom_toBottomOf="@+id/tv_newPrice"
-                      app:layout_constraintEnd_toEndOf="@+id/tv_oldPrice"
-                      app:layout_constraintStart_toStartOf="@+id/tv_newPrice"
-                      app:layout_constraintTop_toTopOf="@+id/tv_newPrice" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/edt_white_bg"
+                android:elevation="@dimen/_1sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_newPrice"
+                app:layout_constraintEnd_toEndOf="@+id/tv_oldPrice"
+                app:layout_constraintStart_toStartOf="@+id/tv_newPrice"
+                app:layout_constraintTop_toTopOf="@+id/tv_newPrice" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_newPrice"

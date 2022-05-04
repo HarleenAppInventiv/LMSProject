@@ -167,16 +167,22 @@ class DashModeartorFragment : BaseFragment<FragmentDashModeartorBinding>() {
         }.attach()
 
         binding.tlCourses.setSelectedTabIndicatorColor(ThemeUtils.getAppColor(baseActivity))
+        binding.tlCourses.setTabTextColors(
+            ContextCompat.getColor(
+                baseActivity,
+                R.color.hint_color_929292
+            ), ThemeUtils.getPrimaryTextColor(baseActivity)
+        )
 
         binding.tlCourses.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 (tab?.customView as TextView?)?.typeface = Typeface.DEFAULT_BOLD
                 (tab?.customView as TextView?)?.isAllCaps = false
-                (tab?.customView as TextView?)?.setTextColor(
-                    ThemeUtils.getPrimaryTextColor(
-                        baseActivity
-                    )
-                )
+//                (tab?.customView as TextView?)?.setTextColor(
+//                    ThemeUtils.getPrimaryTextColor(
+//                        baseActivity
+//                    )
+//                )
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {

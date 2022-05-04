@@ -27,6 +27,6 @@ data class CategoryData(
 
 @Parcelize
 data class CategoryResponse(
-    @SerializedName("categories", alternate = ["allThemes"])
+    @SerializedName("categories", alternate = ["allThemes", "myCategories"])
     var list: ArrayList<CategoryData>? = null,
 ) : Parcelable

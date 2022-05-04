@@ -18,7 +18,6 @@ import com.selflearningcoursecreationapp.extensions.showHidePassword
 import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.models.user.UserResponse
 import com.selflearningcoursecreationapp.ui.authentication.viewModel.OnBoardingViewModel
-import com.selflearningcoursecreationapp.ui.home.HomeActivity
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.OTP_TYPE
 
@@ -122,8 +121,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
                     )
 
                 } else {
-                    activity?.startActivity(Intent(requireActivity(), HomeActivity::class.java))
-                    activity?.finish()
+                   baseActivity.goToHomeActivity()
                 }
             }
 

@@ -7,7 +7,6 @@ import androidx.databinding.library.baseAdapters.BR
 import com.google.gson.annotations.SerializedName
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.extensions.changeDateFormat
-import com.selflearningcoursecreationapp.extensions.isPasswordValid
 import com.selflearningcoursecreationapp.models.CategoryData
 import kotlinx.android.parcel.Parcelize
 
@@ -204,9 +203,9 @@ data class UserProfile(
 //            password.isBlank() -> {
 //                R.string.enter_password
 //            }
-            !password.isPasswordValid() -> {
-                R.string.valid_password_instructions
-            }
+//            !password.isPasswordValid() -> {
+//                R.string.valid_password_instructions
+//            }
             professionId.isBlank() -> {
                 R.string.plz_select_profession
             }
@@ -228,22 +227,22 @@ data class UserProfile(
             name.length < 2 -> {
                 R.string.enter_valid_name
             }
-            email.isEmpty() -> {
-                R.string.enter_email
-
-            }
+//            email.isEmpty() -> {
+//                R.string.enter_email
+//
+//            }
 //            email.isValidEmail() -> {
 //                R.string.enter_valid_email
 //
 //            }
-            number.isEmpty() -> {
-                R.string.enter_phone_number
-
-            }
-            number.length < 10 -> {
-                R.string.enter_valid_phone_number
-
-            }
+//            number.isEmpty() -> {
+//                R.string.enter_phone_number
+//
+//            }
+//            number.length < 10 -> {
+//                R.string.enter_valid_phone_number
+//
+//            }
             dob.isNullOrEmpty() -> {
                 R.string.please_enter_dob
 

@@ -26,6 +26,10 @@ class SectionMoreDialog : BaseBottomSheetDialog<BottomDialogMoreOptionsBinding>(
             onDialogClick(Constant.CLICK_ADD)
             dismiss()
         }
+        binding.tvEditSection.setOnClickListener {
+            onDialogClick(Constant.CLICK_EDIT)
+            dismiss()
+        }
     }
 
 
