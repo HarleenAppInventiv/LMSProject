@@ -97,11 +97,6 @@ class ProfileThumbFragment : BaseFragment<FragmentProfileThumbBinding>(), Handle
 
                 }
 
-
-                R.id.txt_dashboard -> {
-                    findNavController().navigate(ProfileThumbFragmentDirections.actionProfileThumbFragmentToDashboardBaseFragment())
-
-                }
             }
         }
     }

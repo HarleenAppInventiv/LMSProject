@@ -120,35 +120,6 @@
 
             </LinearLayout>
 
-            <!--            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText-->
-            <!--                android:id="@+id/edt_forgotphone"-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="@dimen/_35sdp"-->
-            <!--                android:background="@drawable/edt_bg"-->
-            <!--                app:drawableStartCompat="@drawable/ic_call_forgot"-->
-            <!--                android:drawablePadding="@dimen/_18sdp"-->
-            <!--                android:hint="@string/enter_phone_email"-->
-            <!--                android:digits="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890.@_"-->
-            <!--                android:imeOptions="actionDone"-->
-            <!--                android:inputType="textEmailAddress|textNoSuggestions"-->
-            <!--                android:singleLine="true"-->
-            <!--                android:text="@={forgotPass.emailPhone}"-->
-            <!--                app:layout_constraintEnd_toEndOf="@+id/textView3"-->
-            <!--                app:layout_constraintStart_toStartOf="@+id/textView3"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/textView3"-->
-            <!--                app:primaryIconTint="start" />-->
-
-            <!--            <View-->
-            <!--                android:layout_width="@dimen/_1sdp"-->
-            <!--                android:layout_height="0dp"-->
-            <!--                android:layout_marginVertical="@dimen/_12sdp"-->
-            <!--                android:layout_marginStart="@dimen/_35sdp"-->
-            <!--                android:background="@color/et_dash_color"-->
-            <!--                android:importantForAccessibility="no"-->
-            <!--                app:layout_constraintBottom_toBottomOf="@+id/edt_forgotphone"-->
-            <!--                app:layout_constraintStart_toStartOf="@+id/edt_forgotphone"-->
-            <!--                app:layout_constraintTop_toTopOf="@+id/edt_forgotphone" />-->
 
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton

@@ -10,7 +10,7 @@ abstract class TouchHelper : ItemTouchHelper.SimpleCallback(
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
-
+//do implementation
     }
 
 //                override fun onSelectedChanged(

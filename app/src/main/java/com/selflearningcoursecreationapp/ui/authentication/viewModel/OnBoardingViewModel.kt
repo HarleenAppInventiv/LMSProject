@@ -164,20 +164,5 @@ class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewMod
     }
 
 
-    fun getProfession() = viewModelScope.launch(coroutineExceptionHandle) {
-
-        var response = repository?.professionApi()
-        withContext(Dispatchers.IO) {
-            response?.collect {
-                if (it is Resource.Success<*>) {
-                    updateResponseObserver(it)
-                } else {
-                    updateResponseObserver(it)
-                }
-            }
-
-        }
-    }
-
 
 }
