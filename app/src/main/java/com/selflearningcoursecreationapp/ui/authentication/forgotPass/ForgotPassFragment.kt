@@ -47,7 +47,7 @@ class ForgotPassFragment : BaseFragment<FragmentForgotPassBinding>(), BaseDialog
                 number = it.toString()
                 binding.countryCodePicker.visible()
 //                Log.d("varun", "initUI email is empty: ${number}")
-                limitEditText(15)
+                limitEditText(16)
             } else {
                 binding.countryCodePicker.gone()
                 limitEditText(40)

@@ -49,7 +49,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
             if (it!!.isDigitsOnly()) {
                 number = it.toString()
                 binding.countryCodePicker.visible()
-                limitEditText(15)
+                limitEditText(16)
             } else {
                 binding.countryCodePicker.gone()
                 limitEditText(40)

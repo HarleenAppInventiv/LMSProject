@@ -33,6 +33,12 @@ class ProfileThumbFragment : BaseFragment<FragmentProfileThumbBinding>(), Handle
 
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        baseActivity.supportActionBar?.hide()
+
+    }
+
     private fun setContentDesctiption() {
         binding.txtUserName.contentDescription = "user name alisi nikolson"
         binding.tvUserMail.contentDescription = "user mail @limadecell"

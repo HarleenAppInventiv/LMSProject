@@ -45,8 +45,8 @@
     <string name="login_via_otp">Login via OTP</string>
     <string name="phone_number">Enter phone number</string>
     <string name="verify_with_otp">Verify with OTP</string>
-    <string name="enter_4_digit_number_that_sent_to_your_number">Enter 4 digit number that sent to your number.</string>
-    <string name="enter_4_digit_number_that_sent_to_your_email">Enter 4 digit number that sent to your email.</string>
+    <string name="enter_4_digit_number_that_sent_to_your_number">Enter 4 digits number that sent to your number.</string>
+    <string name="enter_4_digit_number_that_sent_to_your_email">Enter 4 digits number that sent to your email.</string>
     <string name="forgot_pass_desc_text">Enter the email/mobile number associated with your account and we’ll send an email with instructions or a OTP on your mobile number to reset your password</string>
     <string name="reset">Reset</string>
     <string name="continues">Continue</string>
@@ -364,7 +364,7 @@
     <string name="enter_otp">Please enter otp</string>
     <string name="enter_valid_otp">Please enter valid otp</string>
     <string name="are_you_sure">Are you sure?</string>
-    <string name="do_you_really_want_to_delete_your_account">Do you really want to delete you account?</string>
+    <string name="do_you_really_want_to_delete_your_account">Do you really want to delete your account?</string>
     <string name="password_changed_successfully">Password changed successfully!!</string>
     <string name="password_reset_successfully">Password reset successfully!!</string>
     <string name="email_sent_successfully">Email sent successfully!!</string>
@@ -398,7 +398,7 @@
     <string name="enroll_now">Enroll Now</string>
     <string name="plz_select_profession">Please select your profession</string>
     <string name="select_profession">Select Profession</string>
-    <string name="enter_four_digit_from_mail">Enter 4 digit number that has been sent to your email.</string>
+    <string name="enter_four_digit_from_mail">Enter 4 digits number that has been sent to your email.</string>
     <string name="select_state_first">Please select state first</string>
     <string name="search_city">Search City</string>
     <string name="date_of_birth">Date of Birth</string>

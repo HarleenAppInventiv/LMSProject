@@ -25,28 +25,28 @@
             android:scaleType="fitCenter"
             android:src="@drawable/ic_slider1"
             app:layout_constraintBottom_toTopOf="@+id/title"
-            app:layout_constraintHeight_percent="0.6"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias=".001" />
 
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_25sdp"
-                android:text="Scale up your skill"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_23ssp"
-                app:textColorType="none"
-                app:fontType="bold"
-                app:layout_constraintBottom_toTopOf="@+id/desc"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/logo" />
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_25sdp"
+            android:text="Scale up your skill"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_23ssp"
+            app:fontType="bold"
+            app:layout_constraintBottom_toTopOf="@+id/desc"
+            app:textColorType="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logo" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/desc"

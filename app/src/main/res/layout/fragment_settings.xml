@@ -138,11 +138,11 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line_grey"
             android:drawablePadding="@dimen/_10sdp"
-            app:drawableStartCompat="@drawable/ic_security"
-            app:primaryIconTint="start"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:paddingVertical="@dimen/_30sdp"
-            android:text="@string/terms_amp_condtions" />
+            android:text="@string/terms_amp_condtions"
+            app:drawableStartCompat="@drawable/ic_security"
+            app:primaryIconTint="start" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_help"
@@ -150,13 +150,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:primaryIconTint="start"
-                app:drawableStartCompat="@drawable/ic_help"
-                android:drawablePadding="@dimen/_10sdp"
-                android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-                android:paddingVertical="@dimen/_30sdp"
-                android:text="@string/help" />
+            android:drawablePadding="@dimen/_10sdp"
+            android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
+            android:paddingVertical="@dimen/_30sdp"
+            android:text="@string/help"
+            app:drawableStartCompat="@drawable/ic_help" />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     </ScrollView>
 </layout>

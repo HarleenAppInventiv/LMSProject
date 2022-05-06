@@ -140,6 +140,7 @@
             android:background="@drawable/edt_bg"
             android:drawablePadding="@dimen/_18sdp"
             android:hint="@string/password"
+            android:maxLength="16"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:lineSpacingExtra="@dimen/_7ssp"

@@ -114,7 +114,7 @@
                     android:hint="@string/enter_phone_num"
                     android:imeOptions="actionDone"
                     android:inputType="phone"
-                    android:maxLength="15"
+                    android:maxLength="16"
                     android:paddingStart="@dimen/_5sdp"
                     android:singleLine="true"
                     android:text="@={signup.signUpLiveData.number}"

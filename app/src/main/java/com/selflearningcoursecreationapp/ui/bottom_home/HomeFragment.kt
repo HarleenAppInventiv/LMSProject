@@ -28,6 +28,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
         initUI()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        baseActivity.supportActionBar?.hide()
+
+    }
+
     override fun onStart() {
         super.onStart()
         baseActivity.supportActionBar?.hide()
