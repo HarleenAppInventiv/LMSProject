@@ -81,92 +81,111 @@ object FileUtils {
                 null
             }
         } else if (isDownloadsDocument(uri)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val id: String
-                var cursor: Cursor? = null
-                try {
-                    cursor = context.contentResolver.query(
-                        uri,
-                        arrayOf(MediaStore.MediaColumns.DISPLAY_NAME),
-                        null,
-                        null,
-                        null
-                    )
-                    if (cursor != null && cursor.moveToFirst()) {
-                        val fileName = cursor.getString(0)
-                        val path = Environment.getExternalStorageDirectory()
-                            .toString() + "/Download/" + fileName
-                        if (!TextUtils.isEmpty(path)) {
-                            return path
-                        }
-                    }
-                } finally {
-                    cursor?.close()
-                }
-                id = DocumentsContract.getDocumentId(uri)
-                if (!TextUtils.isEmpty(id)) {
-                    if (id.startsWith("raw:")) {
-                        return id.replaceFirst("raw:".toRegex(), "")
-                    }
-                    val contentUriPrefixesToTry = arrayOf(
-                        "content://downloads/public_downloads",
-                        "content://downloads/my_downloads"
-                    )
-                    for (contentUriPrefix in contentUriPrefixesToTry) {
-                        return try {
-                            val contentUri = ContentUris.withAppendedId(
-                                Uri.parse(contentUriPrefix),
-                                Long.valueOf(id)
-                            )
-                            getDataColumn(context, contentUri, null, null)
-                        } catch (e: NumberFormatException) {
-                            //In Android 8 and Android P the id is not a number
-                            uri.path!!.replaceFirst("^/document/raw:".toRegex(), "")
-                                .replaceFirst("^raw:".toRegex(), "")
-                        }
-                    }
-                }
-            } else {
-                val id = DocumentsContract.getDocumentId(uri)
-                if (id.startsWith("raw:")) {
-                    return id.replaceFirst("raw:".toRegex(), "")
-                }
-                try {
-                    contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"),
-                        Long.valueOf(id)
-                    )
-                } catch (e: NumberFormatException) {
-                    e.printStackTrace()
-                }
-                if (contentUri != null) {
-                    return getDataColumn(context, contentUri, null, null)
-                }
-            }
-            return null
+            return getDownloadedFilePath(context, uri)
+
         } else if (isMediaDocument(uri)) {
-            val docId = DocumentsContract.getDocumentId(uri)
-            val split = docId.split(":".toRegex()).toTypedArray()
-            val type = split[0]
-            var contentUri: Uri? = null
-            if ("image" == type) {
-                contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            } else if ("video" == type) {
-                contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-            } else if ("audio" == type) {
-                contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-            } else {
-                contentUri = MediaStore.Files.getContentUri("external");
-            }
-            selection1 = "_id=?"
-            selectionArgs1 = arrayOf(split[1])
-            return getDataColumn(
-                context, contentUri, selection1,
-                selectionArgs1
-            )
+            return getMediaFilePath(uri, selection1, selectionArgs1, context)
         } else if (isGoogleDriveUri(uri)) {
             return getDriveFilePath(uri, context)
         } else return null
+    }
+
+    private fun getMediaFilePath(
+        uri: Uri,
+        selection1: String?,
+        selectionArgs1: Array<String>?,
+        context: Context
+    ): String? {
+        var selection11 = selection1
+        var selectionArgs11 = selectionArgs1
+        val docId = DocumentsContract.getDocumentId(uri)
+        val split = docId.split(":".toRegex()).toTypedArray()
+        val type = split[0]
+        var contentUri: Uri? = null
+        if ("image" == type) {
+            contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        } else if ("video" == type) {
+            contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+        } else if ("audio" == type) {
+            contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        } else {
+            contentUri = MediaStore.Files.getContentUri("external");
+        }
+        selection11 = "_id=?"
+        selectionArgs11 = arrayOf(split[1])
+        return getDataColumn(
+            context, contentUri, selection11,
+            selectionArgs11
+        )
+    }
+
+    private fun getDownloadedFilePath(
+        context: Context,
+        uri: Uri
+    ): String? {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val id: String
+            var cursor: Cursor? = null
+            try {
+                cursor = context.contentResolver.query(
+                    uri,
+                    arrayOf(MediaStore.MediaColumns.DISPLAY_NAME),
+                    null,
+                    null,
+                    null
+                )
+                if (cursor != null && cursor.moveToFirst()) {
+                    val fileName = cursor.getString(0)
+                    val path = Environment.getExternalStorageDirectory()
+                        .toString() + "/Download/" + fileName
+                    if (!TextUtils.isEmpty(path)) {
+                        return path
+                    }
+                }
+            } finally {
+                cursor?.close()
+            }
+            id = DocumentsContract.getDocumentId(uri)
+            if (!TextUtils.isEmpty(id)) {
+                if (id.startsWith("raw:")) {
+                    return id.replaceFirst("raw:".toRegex(), "")
+                }
+                val contentUriPrefixesToTry = arrayOf(
+                    "content://downloads/public_downloads",
+                    "content://downloads/my_downloads"
+                )
+                for (contentUriPrefix in contentUriPrefixesToTry) {
+                    return try {
+                        val contentUri = ContentUris.withAppendedId(
+                            Uri.parse(contentUriPrefix),
+                            Long.valueOf(id)
+                        )
+                        getDataColumn(context, contentUri, null, null)
+                    } catch (e: NumberFormatException) {
+                        //In Android 8 and Android P the id is not a number
+                        uri.path!!.replaceFirst("^/document/raw:".toRegex(), "")
+                            .replaceFirst("^raw:".toRegex(), "")
+                    }
+                }
+            }
+        } else {
+            val id = DocumentsContract.getDocumentId(uri)
+            if (id.startsWith("raw:")) {
+                return id.replaceFirst("raw:".toRegex(), "")
+            }
+            try {
+                contentUri = ContentUris.withAppendedId(
+                    Uri.parse("content://downloads/public_downloads"),
+                    Long.valueOf(id)
+                )
+            } catch (e: NumberFormatException) {
+                e.printStackTrace()
+            }
+            if (contentUri != null) {
+                return getDataColumn(context, contentUri, null, null)
+            }
+        }
+        return null
     }
 
 
@@ -258,7 +277,6 @@ object FileUtils {
     fun getDriveFilePath(uri: Uri, context: Context): String? {
         val returnCursor = context.contentResolver.query(uri, null, null, null, null)
         val nameIndex = returnCursor!!.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-        val sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE)
         returnCursor.moveToFirst()
         val name = returnCursor.getString(nameIndex)
         val file = File(context.cacheDir, name)
@@ -287,7 +305,6 @@ object FileUtils {
     private fun getMediaFilePathForN(uri: Uri, context: Context): String? {
         val returnCursor = context.contentResolver.query(uri, null, null, null, null)
         val nameIndex = returnCursor!!.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-        val sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE)
         returnCursor.moveToFirst()
         val name = returnCursor.getString(nameIndex)
         val file = File(context.filesDir, name)

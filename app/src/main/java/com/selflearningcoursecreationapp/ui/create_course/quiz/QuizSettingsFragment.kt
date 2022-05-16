@@ -85,11 +85,11 @@ class QuizSettingsFragment : BaseFragment<FragmentQuizSettingsBinding>(),
     }
 
     override fun onStartTrackingTouch(p0: SeekBar?) {
-        //TODO: implementation
+        //implementation
     }
 
     override fun onStopTrackingTouch(p0: SeekBar?) {
-        //TODO: implementation
+        // implementation
 
     }
 
