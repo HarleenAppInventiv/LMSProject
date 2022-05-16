@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
@@ -26,6 +27,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
         super.onViewCreated(view, savedInstanceState)
 
         initUI()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        baseActivity.supportActionBar?.hide()
+
     }
 
     override fun onStart() {
@@ -100,7 +107,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
 
         viewModel.getUserData()
         binding.tvUserName.text = viewModel.userProfile?.name
-
+        Glide.with(requireActivity()).load(viewModel.userProfile?.profileUrl)
+            .placeholder(R.drawable.ic_course_dummy)
+            .into(binding.ivUserImage)
     }
 
     override fun onItemClick(vararg items: Any) {

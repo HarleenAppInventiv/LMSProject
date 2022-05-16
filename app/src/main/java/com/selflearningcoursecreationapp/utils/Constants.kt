@@ -11,7 +11,8 @@ enum class Constants {
     USER_TOKEN,
     EMAIL,
     PASSWORD,
-    COUNTYRY_CODE
+    COUNTYRY_CODE,
+    COURSE_ID
 
 }
 
@@ -41,6 +42,17 @@ object LANGUAGE_CONSTANT {
     const val HINDI = "hi"
 }
 
+
+object Lecture {
+    const val CLICK_LESSON_DOCS = 1001
+    const val CLICK_LESSON_VIDEO = 1002
+    const val CLICK_LESSON_AUDIO = 1003
+    const val CLICK_LESSON_TEXT = 1004
+    const val CLICK_LESSON_SCREEN_RECORD = 1005
+    const val CLICK_LESSON_QUIZ = 1006
+
+}
+
 object Constant {
     const val CLICK_IMAGE = 105
     const val CLICK_VIEW = 100
@@ -48,10 +60,12 @@ object Constant {
     const val CLICK_MORE = 101
     const val CLICK_DELETE = 102
     const val CLICK_UPLOAD = 103
-    const val CLICK_LOGO = 106
-    const val CLICK_BANNER = 107
     const val CLICK_EDIT = 104
     const val CLICK_ADD = 108
+    const val CLICK_SAVE = 200
+    const val CLICK_OPTION_DELETE = 300
+    const val CLICK_ADD_SECTION = 109
+    const val CLICK_SWAP = 110
 
     const val TYPE_ROUND = 1
     const val TYPE_LINE = 2
@@ -68,6 +82,17 @@ object Constant {
 
     const val DESC = 1
     const val KEY_TAKEAWAY = 2
+
+
+}
+
+object VALIDATION_CONST {
+    const val MIN_NO_LENGTH = 5
+    const val MAX_NO_LENGTH = 16
+    const val MAX_NAME_LENGTH = 30
+    const val MIN_NAME_LENGTH = 2
+    const val MAX_PASSWORD_LENGTH = 16
+    const val MIN_PASSWORD_LENGTH = 8
 }
 
 object LOGIN_CONSTANT {
@@ -106,4 +131,43 @@ object DialogType {
     const val GENDER = 6
     const val CATEGORY = 8
     const val LANGUAGE = 9
+    const val CLICK_LOGO = 10
+    const val CLICK_BANNER = 11
+    const val CLICK_QUIZ_TYPE = 12
+    const val CLICK_QUIZ_OPTION = 13
+    const val QUIZ_ANSWER = 14
+
+
+}
+
+object QUIZ {
+    const val SINGLE_CHOICE = 2
+    const val MULTIPLE_CHOICE = 1
+    const val MATCH_COLUMN = 4
+    const val DRAG_DROP = 3
+    const val IMAGE_BASED = 5
+
+
+}
+
+object MEDIA_TYPE {
+    const val VIDEO = 1
+    const val AUDIO = 2
+    const val DOC = 3
+    const val TEXT = 4
+    const val SCREEn_RECORD = 5
+    const val QUIZ = 6
+}
+
+object MEDIA {
+    const val VIDEO = 1
+    const val AUDIO = 2
+    const val DOC = 3
+    const val TEXT = 4
+    const val QUIZ = 5
+    const val QUIZ_QUES = 6
+    const val QUIZ_OPTION = 7
+    const val COURSE_BANNER = 8
+    const val COURSE_LOGO = 9
+    const val PROFILE_PIC = 10
 }

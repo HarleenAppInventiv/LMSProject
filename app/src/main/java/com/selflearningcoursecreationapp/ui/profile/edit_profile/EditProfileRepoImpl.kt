@@ -16,7 +16,7 @@ import retrofit2.Response
 
 class EditProfileRepoImpl(private val apiService: ApiService) : EditProfileRepo {
     override suspend fun updateProfile(map: HashMap<String, Any>): Flow<Resource> {
-        return object : BaseRepo<UserResponse>() {
+        return object : BaseRepo<BaseResponse<UserResponse>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<UserResponse>> {
                 return apiService.updateProfile(map)
             }
@@ -25,7 +25,7 @@ class EditProfileRepoImpl(private val apiService: ApiService) : EditProfileRepo 
     }
 
     override suspend fun stateList(): Flow<Resource> {
-        return object : BaseRepo<ArrayList<StateModel>>() {
+        return object : BaseRepo<BaseResponse<ArrayList<StateModel>>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ArrayList<StateModel>>> {
                 return apiService.stateList()
             }
@@ -33,7 +33,7 @@ class EditProfileRepoImpl(private val apiService: ApiService) : EditProfileRepo 
     }
 
     override suspend fun cityList(stateId: Int): Flow<Resource> {
-        return object : BaseRepo<ArrayList<CityModel>>() {
+        return object : BaseRepo<BaseResponse<ArrayList<CityModel>>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ArrayList<CityModel>>> {
                 return apiService.cityList(stateId)
             }
@@ -41,7 +41,7 @@ class EditProfileRepoImpl(private val apiService: ApiService) : EditProfileRepo 
     }
 
     override suspend fun professionList(): Flow<Resource> {
-        return object : BaseRepo<AllProfessions>() {
+        return object : BaseRepo<BaseResponse<AllProfessions>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<AllProfessions>> {
                 return apiService.profession()
             }

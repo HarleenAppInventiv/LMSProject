@@ -15,7 +15,7 @@ import retrofit2.Response
 
 class OnBoardingRepoImpl(private val apiService: ApiService) : OnBoardingRepo {
     override suspend fun signUpApi(map: UserProfile): Flow<Resource> {
-        return object : BaseRepo<UserProfile>() {
+        return object : BaseRepo<BaseResponse<UserProfile>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<UserProfile>> {
                 return apiService.signUp(map)
             }
@@ -23,7 +23,7 @@ class OnBoardingRepoImpl(private val apiService: ApiService) : OnBoardingRepo {
     }
 
     override suspend fun loginInApi(map: HashMap<String, Any>): Flow<Resource> {
-        return object : BaseRepo<UserResponse>() {
+        return object : BaseRepo<BaseResponse<UserResponse>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<UserResponse>> {
                 return apiService.loginUser(map)
 
@@ -32,7 +32,7 @@ class OnBoardingRepoImpl(private val apiService: ApiService) : OnBoardingRepo {
     }
 
     override suspend fun professionApi(): Flow<Resource> {
-        return object : BaseRepo<AllProfessions>() {
+        return object : BaseRepo<BaseResponse<AllProfessions>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<AllProfessions>> {
                 return apiService.profession()
             }

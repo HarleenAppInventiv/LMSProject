@@ -12,7 +12,11 @@ import com.selflearningcoursecreationapp.utils.richView.model.Vector
 import com.selflearningcoursecreationapp.utils.richView.pathparser.PathParser
 import kotlin.math.min
 
-class RichPathDrawable(private val vector: Vector?, private val scaleType: ImageView.ScaleType) :
+class RichPathDrawable(
+    private val vector: Vector?,
+    private val scaleType: ImageView.ScaleType,
+    private val isScale: Boolean = true
+) :
     Drawable() {
 
     private var width: Int = 0
@@ -49,18 +53,18 @@ class RichPathDrawable(private val vector: Vector?, private val scaleType: Image
         val widthRatio = width / vector.currentWidth
         val heightRatio = height / vector.currentHeight
 
-
-        if (scaleType == ScaleType.FIT_XY) {
-            matrix.postScale(widthRatio, heightRatio, centerX, centerY)
-        } else {
-            val ratio: Float = if (width < height) {
-                widthRatio
+        if (isScale) {
+            if (scaleType == ScaleType.FIT_XY) {
+                matrix.postScale(widthRatio, heightRatio, centerX, centerY)
             } else {
-                heightRatio
+                val ratio: Float = if (width < height) {
+                    widthRatio
+                } else {
+                    heightRatio
+                }
+                matrix.postScale(ratio, ratio, centerX, centerY)
             }
-            matrix.postScale(ratio, ratio, centerX, centerY)
         }
-
         val absWidthRatio = width / vector.viewportWidth
         val absHeightRatio = height / vector.viewportHeight
         val absRatio = min(absWidthRatio, absHeightRatio)

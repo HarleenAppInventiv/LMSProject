@@ -47,6 +47,11 @@ class LMSImageView : AppCompatImageView {
             }
             ThemeConstants.TYPE_TINT_SRC -> {
 
+                imageTintList = ColorStateList.valueOf(ThemeUtils.getTintColor(context))
+                imageTintMode = PorterDuff.Mode.SRC_IN
+            }
+            ThemeConstants.TYPE_THEME -> {
+
                 imageTintList = ColorStateList.valueOf(ThemeUtils.getAppColor(context))
                 imageTintMode = PorterDuff.Mode.SRC_IN
             }

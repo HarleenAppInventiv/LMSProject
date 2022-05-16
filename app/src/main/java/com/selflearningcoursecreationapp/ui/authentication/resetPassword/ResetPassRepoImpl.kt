@@ -12,7 +12,7 @@ import retrofit2.Response
 
 class ResetPassRepoImpl(private val apiService: ApiService) : ResetPassRepo {
     override fun resetPass(map: HashMap<String, Any>): Flow<Resource> {
-        return object : BaseRepo<Any>() {
+        return object : BaseRepo<BaseResponse<Any>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<Any>> {
                 return apiService.resetPass(map)
             }

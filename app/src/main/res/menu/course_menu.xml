@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<item
-    android:id="@+id/action_read"
-    android:title="Read"
-    app:showAsAction="always"
-    android:icon="@drawable/ic_screen_reading_mode"/>
+
+    <item
+        android:id="@+id/action_read"
+        android:icon="@drawable/ic_screen_reading_mode"
+        android:title="Read"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/add_co_author"
+        android:icon="@drawable/ic_add_author"
+        android:title="Add CoAuthor"
+        android:visible="false"
+        app:showAsAction="always" />
+
+
 </menu>

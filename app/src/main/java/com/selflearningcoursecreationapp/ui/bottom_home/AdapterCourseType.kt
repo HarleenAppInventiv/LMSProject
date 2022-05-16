@@ -91,7 +91,7 @@ class AdapterCourseType(private val list: ArrayList<String>) :
         val ctx = binding.root.context
 
         if (selectedPos == position) {
-            binding.tvCourseName.setBackgroundColor(getColor(ctx, R.color.forgotColor))
+            binding.tvCourseName.setBackgroundColor(getColor(ctx, R.color.accent_color_fc6d5b))
             binding.tvCourseName.setTextColor(getColor(ctx, R.color.white))
         } else {
             binding.tvCourseName.setBackgroundColor(getColor(ctx, R.color.white))

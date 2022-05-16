@@ -255,7 +255,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:text="₹2000"
-                android:textColor="@color/priceColor"
+                android:textColor="@color/accent_color_2FBF71"
                 android:textSize="@dimen/_14ssp"
                 app:textColorType="none"
                 app:fontType="bold"

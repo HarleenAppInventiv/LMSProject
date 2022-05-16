@@ -16,4 +16,6 @@ object HTTPCode {
     const val NOT_FOUND = 404
     const val UN_SUCESS = 400
     const val NETWORK_ISSUE = 403
+    const val FORBIDDEN = 403
+    const val CONFLICT = 409
 }

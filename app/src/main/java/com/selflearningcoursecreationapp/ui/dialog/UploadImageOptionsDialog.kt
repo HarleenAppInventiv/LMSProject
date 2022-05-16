@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.databinding.DialogUploadImageBinding
+import com.selflearningcoursecreationapp.extensions.showLog
 import com.selflearningcoursecreationapp.utils.ImagePickUtils
 import org.koin.android.ext.android.inject
 
@@ -28,6 +29,7 @@ class UploadImageOptionsDialog : BaseBottomSheetDialog<DialogUploadImageBinding>
         }
 
         binding.txtTakePhoto.setOnClickListener {
+            dismiss()
             imagePickUtils.captureImage(
                 baseActivity,
                 this,
@@ -37,6 +39,7 @@ class UploadImageOptionsDialog : BaseBottomSheetDialog<DialogUploadImageBinding>
         }
 
         binding.txtTakeFromGallary.setOnClickListener {
+            dismiss()
             imagePickUtils.openGallery(
                 baseActivity,
                 this,
@@ -47,6 +50,7 @@ class UploadImageOptionsDialog : BaseBottomSheetDialog<DialogUploadImageBinding>
     }
 
     override fun invoke(p1: String?) {
+        showLog("varun", p1.toString())
         onDialogClick(type, p1 ?: "")
         dismiss()
     }

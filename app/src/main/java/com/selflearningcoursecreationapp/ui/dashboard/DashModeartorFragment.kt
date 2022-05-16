@@ -38,7 +38,7 @@ class DashModeartorFragment : BaseFragment<FragmentDashModeartorBinding>() {
             typeAmountMap["Main"] = 100
             typeAmountMap["Less"] = 20
             val colors: ArrayList<Int> = ArrayList()
-            colors.add(ContextCompat.getColor(baseActivity, R.color.priceColor))
+            colors.add(ContextCompat.getColor(baseActivity, R.color.accent_color_2FBF71))
             colors.add(ContextCompat.getColor(baseActivity, R.color.no_earning_chart_bg))
             for (type in typeAmountMap.keys) {
                 pieEntries.add(PieEntry(typeAmountMap[type]!!.toFloat(), ""))

@@ -90,25 +90,25 @@ abstract class BaseViewModel : ViewModel() {
 
         var red = (Color.red(themeColor))
         if (red >= 100) {
-            red -= 15
+            red -= 10
         } else {
-            red += 15
+            red += 10
         }
 
 
         var green = (Color.green(themeColor))
         if (green >= 100) {
-            green -= 15
+            green -= 10
         } else {
-            green += 15
+            green += 10
         }
 
 
         var blue = (Color.blue(themeColor))
         if (blue >= 100) {
-            blue -= 15
+            blue -= 10
         } else {
-            blue += 15
+            blue += 10
         }
 
 
@@ -122,7 +122,7 @@ abstract class BaseViewModel : ViewModel() {
             "COLOR_HEX",
             String.format(
                 "#%02x%02x%02x%02x",
-                200,
+                100,
                 red,
                 green,
 
@@ -131,7 +131,7 @@ abstract class BaseViewModel : ViewModel() {
         )
         myTheme.themeTint = String.format(
             "#%02x%02x%02x%02x",
-            200,
+            100,
             red,
             green,
             blue

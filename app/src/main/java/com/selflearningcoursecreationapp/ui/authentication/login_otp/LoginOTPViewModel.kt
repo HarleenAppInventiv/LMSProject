@@ -8,6 +8,7 @@ import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.ui.authentication.otp_verify.OTPVerifyRepo
 import com.selflearningcoursecreationapp.utils.OTP_TYPE
+import com.selflearningcoursecreationapp.utils.VALIDATION_CONST
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -25,7 +26,7 @@ class LoginOTPViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
         if (phone.value.isNullOrEmpty()) {
             updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_phone_number)))
 
-        } else if (phone.value!!.length < 5) {
+        } else if (phone.value!!.length < VALIDATION_CONST.MIN_NO_LENGTH) {
             updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_valid_phone_number)))
         } else {
             reqOTP(selectedCountryCodeWithPlus)

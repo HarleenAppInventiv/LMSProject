@@ -240,3 +240,4 @@ fun TextView.setFullText(fullText: String) {
         }.getSpanString()
     setSpanString(spanText)
 }
+

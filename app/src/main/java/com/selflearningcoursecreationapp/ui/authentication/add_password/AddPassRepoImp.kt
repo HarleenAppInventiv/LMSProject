@@ -13,7 +13,7 @@ import retrofit2.Response
 
 class AddPassRepoImp(var apiService: ApiService) : AddPassRepo {
     override suspend fun addPass(map: HashMap<String, Any>): Flow<Resource> {
-        return object : BaseRepo<UserResponse>() {
+        return object : BaseRepo<BaseResponse<UserResponse>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<UserResponse>> {
                 return apiService.addPassword(map)
 

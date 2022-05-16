@@ -55,7 +55,7 @@
             android:drawablePadding="@dimen/_10sdp"
             android:hint="@string/search_courses"
             android:imeOptions="actionDone"
-            android:maxLength="30"
+
             android:maxLines="1"
             android:singleLine="true"
             android:textColor="?attr/whiteTextColor"
@@ -74,6 +74,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_search"
+            android:overScrollMode="never"
             tools:itemCount="10"
             tools:listitem="@layout/adapter_cource_categories" />
 

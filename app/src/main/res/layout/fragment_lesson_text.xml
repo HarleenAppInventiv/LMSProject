@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="textLesson"
+            type="com.selflearningcoursecreationapp.ui.create_course.docs_text.TextViewModel" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/offwhite"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/offwhite"
+            tools:context=".ui.create_course.docs_as_lecture.DocLessonFragment">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_lesson"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/lessons"
+                android:textSize="@dimen/_14ssp"
+                app:fontType="medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textColorType="heading" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/edt_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/edt_bg_white"
+                android:focusable="false"
+                android:gravity="start"
+                android:hint="@string/enter_lesson_text"
+                android:imeOptions="actionNext"
+                android:lineSpacingExtra="@dimen/_5ssp"
+                android:maxLines="8"
+                android:minLines="6"
+                android:text="@={textLesson.textLiveData.name}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_lesson" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/title"
+                android:textSize="@dimen/_14ssp"
+                app:fontType="medium"
+                app:layout_constraintEnd_toEndOf="@+id/edt_text"
+                app:layout_constraintStart_toStartOf="@id/edt_text"
+                app:layout_constraintTop_toBottomOf="@+id/edt_text"
+                app:textColorType="heading" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/edt_doc_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/edt_bg_white"
+                android:hint="@string/enter_title"
+                android:imeOptions="actionNext"
+
+                android:inputType="textCapWords"
+                android:lineSpacingExtra="@dimen/_7ssp"
+                android:text="@={textLesson.textLiveData.title}"
+                app:layout_constraintEnd_toEndOf="@+id/edt_text"
+                app:layout_constraintStart_toStartOf="@+id/edt_text"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_read_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/reading_time"
+                android:textSize="@dimen/_14ssp"
+                app:fontType="medium"
+                app:layout_constraintEnd_toEndOf="@+id/edt_text"
+                app:layout_constraintStart_toStartOf="@id/edt_text"
+                app:layout_constraintTop_toBottomOf="@+id/edt_doc_title"
+                app:textColorType="heading" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/edt_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/edt_bg_white"
+                android:hint="@string/time"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:lineSpacingExtra="@dimen/_7ssp"
+                android:singleLine="true"
+                android:text="@={textLesson.textLiveData.readingTime}"
+                app:layout_constraintEnd_toEndOf="@+id/edt_text"
+                app:layout_constraintStart_toStartOf="@+id/edt_text"
+                app:layout_constraintTop_toBottomOf="@+id/tv_read_time" />
+
+            <View
+                android:id="@+id/view_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:background="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                android:id="@+id/bt_add"
+                btnEnabled="@{}"
+                spanText="@{@string/add_lesson}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:enabled="@{textLesson.textLiveData.docLesson}"
+                android:text="@string/add_lesson"
+                app:btnEnabled="@{textLesson.textLiveData.docLesson}"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/edt_text"
+                app:layout_constraintStart_toStartOf="@id/edt_text"
+                app:layout_constraintTop_toTopOf="@+id/view_bottom"
+                app:layout_constraintWidth_percent=".9"
+                app:textAllCaps="true" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

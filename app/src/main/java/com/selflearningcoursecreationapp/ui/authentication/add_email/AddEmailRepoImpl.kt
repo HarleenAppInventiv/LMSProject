@@ -13,7 +13,7 @@ import retrofit2.Response
 class AddEmailRepoImpl(var apiService: ApiService) : AddEmailRepo {
 
     override suspend fun addEmail(map: HashMap<String, Any>): Flow<Resource> {
-        return object : BaseRepo<Any>() {
+        return object : BaseRepo<BaseResponse<Any>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<Any>> {
                 return apiService.addEmail(map)
 

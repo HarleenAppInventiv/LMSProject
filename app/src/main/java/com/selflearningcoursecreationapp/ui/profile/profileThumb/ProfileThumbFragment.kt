@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentProfileThumbBinding
@@ -30,6 +31,12 @@ class ProfileThumbFragment : BaseFragment<FragmentProfileThumbBinding>(), Handle
         binding.profileThumb = this
         setContentDesctiption()
 
+
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        baseActivity.supportActionBar?.hide()
 
     }
 
@@ -129,5 +136,8 @@ class ProfileThumbFragment : BaseFragment<FragmentProfileThumbBinding>(), Handle
         viewModel.getUserData()
         binding.txtUserName.text = viewModel.userProfile?.name
         binding.tvUserMail.text = viewModel.userProfile?.email
+        Glide.with(requireActivity()).load(viewModel.userProfile?.profileUrl)
+            .placeholder(R.drawable.ic_course_dummy)
+            .into(binding.circle)
     }
 }

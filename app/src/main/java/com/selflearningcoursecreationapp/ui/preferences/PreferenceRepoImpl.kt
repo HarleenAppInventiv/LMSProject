@@ -13,7 +13,7 @@ import retrofit2.Response
 
 class PreferenceRepoImpl(private val apiService: ApiService) : PreferenceRepo {
     override suspend fun savePreference(map: HashMap<String, Any>): Flow<Resource> {
-        return object : BaseRepo<Any>() {
+        return object : BaseRepo<BaseResponse<Any>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<Any>> {
                 return apiService.savePrefrence(map)
             }
@@ -22,7 +22,7 @@ class PreferenceRepoImpl(private val apiService: ApiService) : PreferenceRepo {
     }
 
     override suspend fun getCategory(): Flow<Resource> {
-        return object : BaseRepo<CategoryResponse>() {
+        return object : BaseRepo<BaseResponse<CategoryResponse>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<CategoryResponse>> {
                 return apiService.getCategories()
             }
@@ -31,7 +31,7 @@ class PreferenceRepoImpl(private val apiService: ApiService) : PreferenceRepo {
     }
 
     override suspend fun myCategories(): Flow<Resource> {
-        return object : BaseRepo<CategoryResponse>() {
+        return object : BaseRepo<BaseResponse<CategoryResponse>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<CategoryResponse>> {
                 return apiService.myCategories()
             }
@@ -40,7 +40,7 @@ class PreferenceRepoImpl(private val apiService: ApiService) : PreferenceRepo {
     }
 
     override suspend fun getThemeList(): Flow<Resource> {
-        return object : BaseRepo<CategoryResponse>() {
+        return object : BaseRepo<BaseResponse<CategoryResponse>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<CategoryResponse>> {
                 return apiService.getThemeList()
             }

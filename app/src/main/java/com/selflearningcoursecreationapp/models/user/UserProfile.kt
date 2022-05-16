@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.extensions.changeDateFormat
 import com.selflearningcoursecreationapp.models.CategoryData
+import com.selflearningcoursecreationapp.utils.VALIDATION_CONST
 import kotlinx.android.parcel.Parcelize
 
 
@@ -56,6 +57,7 @@ data class UserProfile(
     var validated: String? = "",
     @SerializedName("passwordUpdated")
     var passwordUpdated: Boolean? = false,
+
     @SerializedName("success")
     var success: String? = "",
 
@@ -65,7 +67,40 @@ data class UserProfile(
     @SerializedName("state")
     var state: String? = "",
 
-    ) : BaseObservable(), Parcelable {
+    @SerializedName("courseId")
+    var courseId: Int? = null,
+
+    @SerializedName("avatar")
+    var avatar: String = "",
+
+    @SerializedName("sectionId")
+    var sectionId: Int? = null,
+
+    @SerializedName("deleted")
+    var deleted: Boolean? = false,
+
+    @SerializedName("lectureId")
+    var lectureId: Int? = null,
+
+    @SerializedName("mediaType")
+    var mediaType: Int? = null,
+
+    @SerializedName("lectureTitle", alternate = ["title"])
+    var lectureTitle: String? = "",
+
+    @SerializedName("lectureContentDuration")
+    var lectureContentDuration: Int? = null,
+
+    @SerializedName("lectureContentId")
+    var lectureContentId: Int? = null,
+
+    @SerializedName("quizId")
+    var quizId: Int? = null,
+
+//    @SerializedName("fileUrl")
+//    var fileUrl: String? = "",
+
+) : BaseObservable(), Parcelable {
 
     @SerializedName("email")
     var email: String = ""
@@ -171,13 +206,15 @@ data class UserProfile(
     @Transient
     @get:Bindable
     var signUpDataEntered: Boolean = false
-        get() = /*!email.isBlank() && !password.isEmpty() &&*/ !number.isEmpty() && !name.isEmpty() && !professionId.isEmpty()
+        get() = /*!email.isBlank() && !password.isEmpty() &&*/
+            !number.isEmpty() && !name.isEmpty() && !professionId.isEmpty()
 
     @Transient
     @get:Bindable
     var dataEntered: Boolean = false
-        get() =/* !email.isBlank() &&*/ !number.isEmpty() && !name.isEmpty() && !dob.isNullOrEmpty() && !stateId.isNullOrEmpty() && !cityId.isNullOrEmpty() && !professionId.isEmpty() && !bio.isNullOrEmpty()
-                && !genderId.isNullOrEmpty() && !countryCode.isNullOrEmpty()
+        get() =/* !email.isBlank() &&*/
+            !number.isEmpty() && !name.isEmpty() && !dob.isNullOrEmpty() && !stateId.isNullOrEmpty() && !cityId.isNullOrEmpty() && !professionId.isEmpty() && !bio.isNullOrEmpty()
+                    && !genderId.isNullOrEmpty() && !countryCode.isNullOrEmpty()
 
 
     fun isSignUpValid(): Int {
@@ -185,7 +222,7 @@ data class UserProfile(
             name.isBlank() -> {
                 R.string.enter_name
             }
-            name.length < 2 -> {
+            name.length < VALIDATION_CONST.MIN_NAME_LENGTH -> {
                 R.string.enter_valid_name
             }
 //            email.isBlank() -> {
@@ -197,7 +234,7 @@ data class UserProfile(
             number.isBlank() -> {
                 R.string.enter_phone_number
             }
-            number.length < 5 -> {
+            number.length < VALIDATION_CONST.MIN_NO_LENGTH -> {
                 R.string.enter_valid_phone_number
             }
 //            password.isBlank() -> {
@@ -224,7 +261,7 @@ data class UserProfile(
             name.isBlank() -> {
                 R.string.enter_name
             }
-            name.length < 2 -> {
+            name.length < VALIDATION_CONST.MIN_NAME_LENGTH -> {
                 R.string.enter_valid_name
             }
 //            email.isEmpty() -> {

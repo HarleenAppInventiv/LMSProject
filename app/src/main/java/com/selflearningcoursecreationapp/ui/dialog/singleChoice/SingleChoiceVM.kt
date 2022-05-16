@@ -18,7 +18,7 @@ class SingleChoiceVM(private val repository: SingleChoiceRepo?) : BaseViewModel(
         withContext(Dispatchers.IO) {
             response?.collect {
 
-            updateResponseObserver(it)
+                updateResponseObserver(it)
 
             }
 

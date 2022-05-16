@@ -200,7 +200,7 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
                         SpanUtils.with(baseActivity, resendText).startPos(16).textColor(
                             ContextCompat.getColor(
                                 baseActivity,
-                                R.color.google_btn_bg_color_fc6d5b
+                                R.color.accent_color_fc6d5b
                             )
                         ).isBold().getSpanString()
                     )

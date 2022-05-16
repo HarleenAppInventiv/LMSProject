@@ -9,6 +9,10 @@
             name="resetPass"
             type="com.selflearningcoursecreationapp.ui.authentication.resetPassword.ResetViewModel" />
 
+        <import
+            alias="const"
+            type="com.selflearningcoursecreationapp.utils.VALIDATION_CONST" />
+
     </data>
 
     <ScrollView
@@ -69,7 +73,8 @@
                 android:hint="@string/enter_new_password"
                 android:imeOptions="actionNext"
                 android:inputType="textPassword"
-                android:maxLength="16"
+                android:maxLength="@{const.MAX_PASSWORD_LENGTH}"
+
                 android:singleLine="true"
                 android:text="@={resetPass.resetData.newPassword}"
                 android:textColor="@color/black"
@@ -107,7 +112,8 @@
                 android:hint="@string/confirm_new_password"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
-                android:maxLength="16"
+                android:maxLength="@{const.MAX_PASSWORD_LENGTH}"
+
                 android:singleLine="true"
                 android:text="@={resetPass.resetData.confirmPassword}"
                 android:textColor="@color/black"

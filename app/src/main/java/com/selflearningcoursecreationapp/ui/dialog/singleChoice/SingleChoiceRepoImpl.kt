@@ -15,7 +15,7 @@ class SingleChoiceRepoImpl(private val apiService: ApiService) : SingleChoiceRep
 
 
     override suspend fun professionApi(): Flow<Resource> {
-        return object : BaseRepo<SingleClickResponse>() {
+        return object : BaseRepo<BaseResponse<SingleClickResponse>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<SingleClickResponse>> {
                 return apiService.getProfession()
             }

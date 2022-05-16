@@ -11,6 +11,7 @@ import com.selflearningcoursecreationapp.extensions.isValidEmail
 import com.selflearningcoursecreationapp.ui.authentication.otp_verify.OTPVerifyRepo
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.OTP_TYPE
+import com.selflearningcoursecreationapp.utils.VALIDATION_CONST
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -36,7 +37,7 @@ class ForgotPassViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
             }
             emailPhone.value!!.isDigitsOnly() -> {
 
-                if (emailPhone.value!!.length < 5) {
+                if (emailPhone.value!!.length < VALIDATION_CONST.MIN_NO_LENGTH) {
                     updateResponseObserver(
                         Resource.Error(
                             ToastData(R.string.enter_valid_phone_number)

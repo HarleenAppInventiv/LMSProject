@@ -2,22 +2,18 @@ package com.selflearningcoursecreationapp.ui.create_course.add_courses_steps
 
 
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentStep3Binding
-import com.selflearningcoursecreationapp.extensions.gone
 import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.ui.dialog.UploadImageOptionsDialog
-import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.HandleClick
 import com.selflearningcoursecreationapp.utils.PREFERENCES
 
@@ -74,16 +70,16 @@ class Step3Fragment : BaseFragment<FragmentStep3Binding>(), BaseBottomSheetDialo
         if (items.isNotEmpty()) {
             val type = items[0] as Int
             when (type) {
-                Constant.CLICK_LOGO -> {
-                    binding.ivLogoBg.setImageURI(Uri.parse(items[1] as String))
-                    binding.ivUploadLogo.gone()
-                    binding.ivEditLogo.visible()
-
-                }
-                Constant.CLICK_BANNER -> {
-                    binding.ivBanner.setImageURI(Uri.parse(items[1] as String))
-                    binding.tvUploadImage.gone()
-                }
+//                Constant.CLICK_LOGO -> {
+//                    binding.ivLogoBg.setImageURI(Uri.parse(items[1] as String))
+//                    binding.ivUploadLogo.gone()
+//                    binding.ivEditLogo.visible()
+//
+//                }
+//                Constant.CLICK_BANNER -> {
+//                    binding.ivBanner.setImageURI(Uri.parse(items[1] as String))
+//                    binding.tvUploadImage.gone()
+//                }
             }
         }
     }
@@ -94,14 +90,14 @@ class Step3Fragment : BaseFragment<FragmentStep3Binding>(), BaseBottomSheetDialo
             when (view.id) {
                 R.id.tv_upload_image, R.id.iv_banner -> {
                     UploadImageOptionsDialog().apply {
-                        arguments = bundleOf("type" to Constant.CLICK_BANNER)
+//                        arguments = bundleOf("type" to Constant.CLICK_BANNER)
                         setOnDialogClickListener(this@Step3Fragment)
                     }.show(childFragmentManager, "")
                 }
 
                 R.id.iv_logo_bg, R.id.iv_upload_logo, R.id.iv_edit_logo -> {
                     UploadImageOptionsDialog().apply {
-                        arguments = bundleOf("type" to Constant.CLICK_LOGO)
+//                        arguments = bundleOf("type" to Constant.CLICK_LOGO)
                         setOnDialogClickListener(this@Step3Fragment)
                     }.show(childFragmentManager, "")
                 }

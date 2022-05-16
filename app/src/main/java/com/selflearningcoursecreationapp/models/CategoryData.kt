@@ -17,7 +17,7 @@ data class CategoryData(
     @SerializedName("image_Url")
     var imageUrl: String? = null,
 
-    @SerializedName("id", alternate = ["categoryId"])
+    @SerializedName("id", alternate = ["categoryId", "languageId"])
     var id: Int? = null,
     var codeId: Int? = null,
 
@@ -27,6 +27,6 @@ data class CategoryData(
 
 @Parcelize
 data class CategoryResponse(
-    @SerializedName("categories", alternate = ["allThemes", "myCategories"])
+    @SerializedName("categories", alternate = ["allThemes", "languages", "myCategories"])
     var list: ArrayList<CategoryData>? = null,
 ) : Parcelable

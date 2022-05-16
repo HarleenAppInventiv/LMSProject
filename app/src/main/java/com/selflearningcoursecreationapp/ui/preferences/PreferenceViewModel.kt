@@ -130,7 +130,7 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
         }
     }
 
-    fun getCategories() {
+    fun getCategories(showMyCategories: Boolean = true) {
         viewModelScope.launch(coroutineExceptionHandle) {
             var response = repo.getCategory()
             withContext(Dispatchers.IO) {
@@ -150,15 +150,18 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
 
                         val list = (it.value as BaseResponse<CategoryResponse>).resource?.list
                             ?: ArrayList()
-                        val selectedList = userProfile?.categoryData?.map { it.id }
-                        list.forEach { data ->
-                            if (selectedList?.contains(data.id) == true) {
-                                data.isSelected = true
+                        if (showMyCategories) {
+                            val selectedList = userProfile?.categoryData?.map { it.id }
+                            list.forEach { data ->
+                                if (selectedList?.contains(data.id) == true) {
+                                    data.isSelected = true
+                                }
+
                             }
+                            getMyCategories()
 
                         }
                         categoryListLiveData.postValue(list)
-                        getMyCategories()
                     }
 
                     updateResponseObserver(it)

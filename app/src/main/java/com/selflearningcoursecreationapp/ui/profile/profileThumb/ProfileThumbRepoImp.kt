@@ -13,7 +13,7 @@ import retrofit2.Response
 
 class ProfileThumbRepoImp(private val apiService: ApiService) : ProfileThumbRepo {
     override suspend fun logout(): Flow<Resource> {
-        return object : BaseRepo<Any>() {
+        return object : BaseRepo<BaseResponse<Any>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<Any>> {
                 return apiService.logoutUser()
             }
@@ -22,7 +22,7 @@ class ProfileThumbRepoImp(private val apiService: ApiService) : ProfileThumbRepo
     }
 
     override suspend fun deleteAccount(): Flow<Resource> {
-        return object : BaseRepo<UserResponse>() {
+        return object : BaseRepo<BaseResponse<UserResponse>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<UserResponse>> {
                 return apiService.deleteAccount()
             }

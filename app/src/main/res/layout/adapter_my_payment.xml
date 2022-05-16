@@ -140,7 +140,7 @@
                 android:drawablePadding="@dimen/_5sdp"
                 android:padding="@dimen/_3sdp"
                 android:text="Success"
-                android:textColor="@color/priceColor"
+                android:textColor="@color/accent_color_2FBF71"
                 android:textSize="@dimen/_10ssp"
                 app:fontType="bold"
                 app:textColorType="none"

@@ -7,15 +7,20 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.base.BaseFragment
+import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.databinding.FragmentProfileDetailsBinding
 import com.selflearningcoursecreationapp.extensions.*
+import com.selflearningcoursecreationapp.models.course.ImageResponse
 import com.selflearningcoursecreationapp.models.user.UserProfile
 import com.selflearningcoursecreationapp.ui.dialog.UploadImageOptionsDialog
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.File
+
 
 class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), View.OnClickListener {
     private val viewModel: ProfileDetailViewModel by viewModel()
@@ -57,7 +62,10 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
                 UploadImageOptionsDialog().apply {
                     setOnDialogClickListener(object : BaseBottomSheetDialog.IDialogClick {
                         override fun onDialogClick(vararg items: Any) {
-                            binding.imgProfileImage.setImageURI(Uri.parse(items[1] as String))
+                            val uri = items[1] as String
+                            val file = File(Uri.parse(uri).path)
+                            Log.d("varun", "onDialogClick: ${file}")
+                            viewModel.uploadImage(file)
                         }
 
                     })
@@ -73,42 +81,59 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
 
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)
-        if (apiCode == ApiEndPoints.API_VIEW_PROFILE) {
+        when (apiCode) {
+            ApiEndPoints.API_VIEW_PROFILE -> {
+                viewModel.userProfile?.let { data ->
+                    //                binding.imgProfileImage.s
 
-            viewModel.userProfile?.let { data ->
-                //                binding.imgProfileImage.s
+                    Log.d("Profile", "onResponseSuccess: $data")
 
-                Log.d("Profile", "onResponseSuccess: $data")
+                    var location =
+                        "${
+                            if (data.city.isNullOrEmpty()) {
+                                ""
+                            } else {
+                                data.city + ", "
+                            }
+                        }${
+                            if (data.state.isNullOrEmpty()) {
+                                ""
+                            } else {
+                                data.state
+                            }
+                        }"
 
-                var location =
-                    "${
-                        if (data.city.isNullOrEmpty()) {
-                            ""
-                        } else {
-                            data.city + ", "
-                        }
-                    }${
-                        if (data.state.isNullOrEmpty()) {
-                            ""
-                        } else {
-                            data.state
-                        }
-                    }"
+                    setBio(data)
+                    binding.txtAddress.text = location
+                    binding.txtUserName.text = data.name
+                    Glide.with(requireActivity()).clear(binding.imgProfileImage)
 
-                setBio(data)
-                binding.txtAddress.text = location
-                binding.txtUserName.text = data.name
-                binding.txtDob.text = data.dob?.changeDateFormat()
-                binding.txtContactMail.text = data.email
-                setEmailData(data)
-                binding.txtContactNumber.text = data.countryCode + " " + data.number
-                binding.txtProfession.text = data.profession?.name
-                binding.txtGender.text = data.genderName
+                    Glide.with(requireActivity()).load(data.profileUrl)
+                        .placeholder(R.drawable.ic_course_dummy)
+                        .into(binding.imgProfileImage)
 
+                    binding.imgProfileImage
+                    binding.txtDob.text = data.dob?.changeDateFormat()
+                    binding.txtContactMail.text = data.email
+                    setEmailData(data)
+                    binding.txtContactNumber.text = data.countryCode + " " + data.number
+                    binding.txtProfession.text = data.profession?.name
+                    binding.txtGender.text = data.genderName
+
+
+                }
+            }
+            ApiEndPoints.API_UPLOAD_IMAGE -> {
+                (value as BaseResponse<ImageResponse>)
+                viewModel.viewProfile()
+//                Glide.with(requireActivity()).load(value.resource?.fileUrl)
+//                    .placeholder(R.drawable.ic_course_dummy)
+//                    .into(binding.imgProfileImage)
 
             }
-
         }
+
+
     }
 
     private fun setEmailData(data: UserProfile) {
@@ -174,5 +199,6 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
 
         }
     }
+
 
 }

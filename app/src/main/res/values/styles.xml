@@ -60,8 +60,8 @@
 
     <style name="SWTheme" parent="Widget.Material3.CompoundButton.Switch">
         <item name="colorOnSurface">@color/white</item>
-        <item name="colorSecondary">@color/priceColor</item>
-        <item name="colorPrimary">@color/priceColor</item>
+        <item name="colorSecondary">@color/accent_color_2FBF71</item>
+        <item name="colorPrimary">@color/accent_color_2FBF71</item>
         <item name="trackColor">#85929292</item>
         <item name="trackTint">#85929292</item>
     </style>
@@ -165,11 +165,12 @@
     </style>
 
     <style name="MaterialDialog" parent="Theme.MaterialComponents.Light.Dialog">
-        <item name="colorAccent">@color/google_btn_bg_color_fc6d5b</item>
+        <item name="colorAccent">@color/accent_color_fc6d5b</item>
         <item name="colorPrimary">@color/white</item>
         <item name="titleTextColor">@color/text_color_black_131414</item>
         <item name="android:titleTextColor" tools:targetApi="m">@color/text_color_black_131414
         </item>
     </style>
+
 
 </resources>

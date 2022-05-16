@@ -19,7 +19,7 @@
         <item name="headingTextColor">@color/heading_color_262626</item>
         <item name="buttonBackgroundColor">@color/blue</item>
         <item name="introButtonBackgroundColor">@color/intro_btn_bg_color_f5f5f5</item>
-        <item name="googleButtonBackgroundColor">@color/google_btn_bg_color_fc6d5b</item>
+        <item name="googleButtonBackgroundColor">@color/accent_color_fc6d5b</item>
         <item name="buttonBackgroundTintColor">@color/blue_tint_color</item>
         <item name="otpButtonBackgroundColor">@color/otp_btn_bg_color_start_051f32</item>
         <item name="screenBackgroundColor">@color/white</item>
@@ -37,10 +37,10 @@
         <item name="fontMedium">@font/ibm_medium</item>
         <item name="whiteTextColor">@color/white</item>
         <item name="offwhiteTextColor">@color/offwhite</item>
-        <item name="forgotPassTextColor">@color/forgotColor</item>
+        <item name="forgotPassTextColor">@color/accent_color_fc6d5b</item>
         <item name="profile_mail_color">@color/profile_mail_color</item>
         <item name="divider_grey">@color/dividerGrey</item>
-        <item name="orange_text_color">@color/orange_text_color</item>
+        <item name="orange_text_color">@color/accent_color_fc6d5b</item>
         <item name="toolbarTitleColor">@color/heading_color_262626</item>
         <item name="search_color">@color/search_color</item>
 
@@ -60,6 +60,8 @@
         <item name="bgCircleTwo">@color/blue_circle_2</item>
         <item name="bgCircleThree">@color/blue_circle_3</item>
         <item name="sliderIndicatorColor">@color/blue_indicator_color</item>
+
+        <item name="android:actionButtonStyle">@style/MyActionButtonStyle</item>
     </style>
 
 
@@ -191,6 +193,12 @@
         <item name="fontSemiBold">@font/roboto_bold</item>
         <item name="fontRegular">@font/roboto_regular</item>
         <item name="fontMedium">@font/roboto_medium</item>
+    </style>
+
+
+    <style name="MyActionButtonStyle" parent="AppTheme">
+        <item name="android:minWidth">20dip</item>
+        <item name="android:padding">10dip</item>
     </style>
 
 </resources>

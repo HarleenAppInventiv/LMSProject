@@ -8,6 +8,7 @@ import androidx.databinding.library.baseAdapters.BR
 import com.google.gson.annotations.SerializedName
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.extensions.isValidEmail
+import com.selflearningcoursecreationapp.utils.VALIDATION_CONST
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -55,7 +56,7 @@ class LoginData() : BaseObservable(), Parcelable {
             email.isNullOrEmpty() -> {
                 R.string.plz_enter_phone_email
             }
-            email.isDigitsOnly() && email.length < 5 -> {
+            email.isDigitsOnly() && email.length < VALIDATION_CONST.MIN_NO_LENGTH -> {
                 R.string.enter_valid_phone_number
             }
             !email.isDigitsOnly() && !email.isValidEmail() -> {

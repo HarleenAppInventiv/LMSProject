@@ -13,7 +13,7 @@ import retrofit2.Response
 
 class OTPVerifyRepoImpl(private val apiService: ApiService) : OTPVerifyRepo {
     override suspend fun reqOtp(map: HashMap<String, Any>): Flow<Resource> {
-        return object : BaseRepo<Any>() {
+        return object : BaseRepo<BaseResponse<Any>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<Any>> {
                 return apiService.signOTPReq(map)
             }
@@ -22,7 +22,7 @@ class OTPVerifyRepoImpl(private val apiService: ApiService) : OTPVerifyRepo {
     }
 
     override suspend fun verOtp(map: HashMap<String, Any>): Flow<Resource> {
-        return object : BaseRepo<UserResponse>() {
+        return object : BaseRepo<BaseResponse<UserResponse>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<UserResponse>> {
                 return apiService.signOTPVal(map)
             }
@@ -31,7 +31,7 @@ class OTPVerifyRepoImpl(private val apiService: ApiService) : OTPVerifyRepo {
     }
 
     override suspend fun reqEmailOtp(map: HashMap<String, Any>): Flow<Resource> {
-        return object : BaseRepo<Any>() {
+        return object : BaseRepo<BaseResponse<Any>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<Any>> {
                 return apiService.requestEmailOTP(map)
             }
@@ -40,7 +40,7 @@ class OTPVerifyRepoImpl(private val apiService: ApiService) : OTPVerifyRepo {
     }
 
     override suspend fun verEmailOtp(map: HashMap<String, Any>): Flow<Resource> {
-        return object : BaseRepo<UserResponse>() {
+        return object : BaseRepo<BaseResponse<UserResponse>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<UserResponse>> {
                 return apiService.validateEmailOTP(map)
             }

@@ -2,6 +2,7 @@ package com.selflearningcoursecreationapp.extensions
 
 import android.text.TextUtils
 import androidx.core.util.PatternsCompat
+import com.selflearningcoursecreationapp.utils.VALIDATION_CONST
 
 fun String.isValidEmail(): Boolean {
     try {
@@ -12,7 +13,7 @@ fun String.isValidEmail(): Boolean {
 }
 
 fun String.isPasswordValid(): Boolean {
-    return isNotEmpty() && length >= 8
+    return isNotEmpty() && length >= VALIDATION_CONST.MIN_PASSWORD_LENGTH
 //    val expression = ("^(?=.*[0-9])"
 //            + "(?=.*[a-z])(?=.*[A-Z])"
 //            + "(?=.*[@#$%^&+=!*])"

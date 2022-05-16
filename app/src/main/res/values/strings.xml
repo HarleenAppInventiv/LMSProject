@@ -45,8 +45,8 @@
     <string name="login_via_otp">Login via OTP</string>
     <string name="phone_number">Enter phone number</string>
     <string name="verify_with_otp">Verify with OTP</string>
-    <string name="enter_4_digit_number_that_sent_to_your_number">Enter 4 digit number that sent to your number.</string>
-    <string name="enter_4_digit_number_that_sent_to_your_email">Enter 4 digit number that sent to your email.</string>
+    <string name="enter_4_digit_number_that_sent_to_your_number">Enter 4 digits number that sent to your number.</string>
+    <string name="enter_4_digit_number_that_sent_to_your_email">Enter 4 digits number that sent to your email.</string>
     <string name="forgot_pass_desc_text">Enter the email/mobile number associated with your account and we’ll send an email with instructions or a OTP on your mobile number to reset your password</string>
     <string name="reset">Reset</string>
     <string name="continues">Continue</string>
@@ -303,8 +303,8 @@
     <string name="font">Font</string>
     <string name="logo">Logo</string>
     <string name="course_link">Course link</string>
-    <string name="course_fee">Course fee</string>
-    <string name="course_type">Course type</string>
+    <string name="course_fee">Course Fee</string>
+    <string name="course_type">Course Type</string>
     <string name="upload_banner_image_for_course">Upload banner image for course</string>
     <string name="select_course_language">Select course language</string>
     <string name="what_category_best_suits_your_knowledge">What category best suits your knowledge?</string>
@@ -364,20 +364,44 @@
     <string name="enter_otp">Please enter otp</string>
     <string name="enter_valid_otp">Please enter valid otp</string>
     <string name="are_you_sure">Are you sure?</string>
-    <string name="do_you_really_want_to_delete_your_account">Do you really want to delete you account?</string>
+    <string name="do_you_really_want_to_delete_your_account">Do you really want to delete your account?</string>
     <string name="password_changed_successfully">Password changed successfully!!</string>
     <string name="password_reset_successfully">Password reset successfully!!</string>
     <string name="email_sent_successfully">Email sent successfully!!</string>
     <string name="hey">Hey!</string>
     <string name="course_categories">Course categories</string>
-    <string name="course_title">Course title</string>
-    <string name="course_description">Course description</string>
-    <string name="key_takeaways">Key takeaways</string>
+    <string name="course_title">Course Title</string>
+    <string name="course_description">Course Description</string>
+    <string name="key_takeaways">Key Takeaways</string>
     <string name="enter_key_takeaways">Enter key takeaways</string>
-    <string name="course_category">Course category</string>
+    <string name="course_category">Course Category</string>
     <string name="choose_a_course_category">Choose a course category</string>
     <string name="enter_description_">Enter Description</string>
     <string name="add_text">Add Text</string>
+    <string name="target_audience">Target Audience</string>
+    <string name="choose_target_audience">Choose target audience</string>
+    <string name="course_complexity">Course Complexity</string>
+    <string name="search_keywords">Search Keywords</string>
+    <string name="enter_keywords">Enter Keywords</string>
+    <string name="reward_points">Reward Points</string>
+    <string name="optional">(Optional)</string>
+    <string name="column_1">Column 1</string>
+    <string name="column_2">Column 2</string>
+    <string name="options">Options</string>
+    <string name="multiple_choice_questions">Multiple Choice Questions</string>
+    <string name="single_choice_questions">Single Choice Questions</string>
+    <string name="drag_and_drop">Drag and Drop</string>
+    <string name="match_the_column">Match the column</string>
+    <string name="image_based_questions">Image Based Questions</string>
+    <string name="add_answer">+ Add Answer</string>
+
+    <string-array name="quiz_option_array">
+        <item>@string/multiple_choice_questions</item>
+        <item>@string/single_choice_questions</item>
+        <item>@string/drag_and_drop</item>
+        <item>@string/match_the_column</item>
+        <item>@string/image_based_questions</item>
+    </string-array>
     <string name="there_are_no_assessments_in_n_this_course">There are no assessments in \n this course.</string>
     <string name="add_assessment">ADD ASSESSMENT</string>
     <string name="submit_succesfully">Submitted Successfully</string>
@@ -398,13 +422,13 @@
     <string name="enroll_now">Enroll Now</string>
     <string name="plz_select_profession">Please select your profession</string>
     <string name="select_profession">Select Profession</string>
-    <string name="enter_four_digit_from_mail">Enter 4 digit number that has been sent to your email.</string>
+    <string name="enter_four_digit_from_mail">Enter 4 digits number that has been sent to your email.</string>
     <string name="select_state_first">Please select state first</string>
     <string name="search_city">Search City</string>
     <string name="date_of_birth">Date of Birth</string>
     <string name="search_state">Search State</string>
     <string name="select_pro">Select Profession</string>
-    <string name="course_language">Course language</string>
+    <string name="course_language">Course Language</string>
     <string name="gender">Gender</string>
     <string name="enter_phone_num">Enter phone number</string>
     <string name="enter_email_normal">Enter email</string>
@@ -419,6 +443,7 @@
     <string name="users_count">Users Count</string>
     <string name="total_users_in_course">Total Users in Course</string>
     <string name="search_category_by_name">Search category by name</string>
+    <string name="search_category">Search category</string>
     <string name="category">Category</string>
     <string name="add_email">Add Email</string>
     <string name="add_your_email_and_verify_it">Add your email and verify it.</string>
@@ -431,12 +456,12 @@
     <string name="set_your_pass">Set your Password</string>
     <string name="change_categories">Change Categories</string>
     <string name="set_password">SET Password</string>
+    <string name="previous">Previous</string>
     <string name="add_section">Add Section</string>
     <string name="there_are_no_sections_in_this_course">There are no sections in this \ncourse</string>
     <string name="edit_section">Edit Section</string>
     <string name="type_your_question_here">Type your question here...</string>
-    <string name="title">Title</string>
-    <string name="select_ques_type">Select Question Type</string>
+
     <string name="tap_here_to_enter_option">Tap Here to enter option</string>
     <string name="add_answer_as">Add Answer as</string>
     <string name="text">Text</string>
@@ -454,4 +479,69 @@
     <string name="categories_updated_successfully">Categories updated successfully!!</string>
     <string name="check_mail_sms_instructions">We have sent password recovery instructions to your email or SMS.</string>
     <string name="otp_sent_successfully">OTP sent successfully!!</string>
+    <string name="title">Title</string>
+    <string name="select_ques_type">Select Question Type</string>
+
+    <string name="please_enter_title">Please enter title</string>
+    <string name="please_enter_desc">Please enter description</string>
+    <string name="please_select_category">Please select category</string>
+    <string name="please_select_language">Please select language</string>
+
+    <string name="please_select_course_type">Please select course type</string>
+    <string name="please_select_target_audience">Please select target audience</string>
+    <string name="please_select_course_complexity">Please select course_complexity</string>
+    <string name="please_select_search_keyword">Please select search keyword</string>
+    <string name="please_enter_course_fee">Please select course fee</string>
+    <string name="_500_words">/500 Words</string>
+    <string name="_256_char">/256 Char</string>
+    <string name="enter_title">Enter title</string>
+    <string name="time">Time</string>
+    <string name="add_lesson">Add Lesson</string>
+    <string name="lessons">Lesson</string>
+    <string name="enter_lesson_text">Enter lesson text</string>
+    <string name="reading_time">Reading Time (Min)</string>
+    <string name="question">Question %1$d</string>
+    <string name="plz_enter_question">Please enter question</string>
+    <string name="plz_enter_options">Please enter option</string>
+    <string name="plz_add_option">Please add option</string>
+    <string name="plz_add_option_column_b">Please add option for column B</string>
+    <string name="mark_answer">Mark Answer</string>
+    <string name="edit_question">Edit Question</string>
+    <string name="plz_upload_ques_image">Please upload question image</string>
+    <string name="plz_enter_option_column_B">Please enter options for Column B</string>
+    <string name="plz_add_min_2_option">Please add minimum 2 options</string>
+    <string name="yes">Yes</string>
+    <string name="answer_is">Answer is</string>
+    <string name="plz_select_ans">Please select answer</string>
+    <string name="make_quiz_mandatory">Make Quiz Mandatory</string>
+    <string name="this_will_not_allow_learner_to_complete_the_course_until_the_quiz_is_passed">This will not allow learner to complete the course until the quiz is passed</string>
+    <string name="freeze_content">Freeze Content</string>
+    <string name="freeze_content_desc">This will not allow learner to go to next lesson until the quiz is passed</string>
+    <string name="name_of_the_quiz">Name of the Quiz</string>
+    <string name="write_name_of_quiz">Write name of Quiz</string>
+    <string name="number_of_questions_to_be_displayed">Number of questions to be displayed</string>
+    <string name="marks_on_every_correct_answer">Marks on every correct answer</string>
+    <string name="passing_criteria">Passing criteria (%)</string>
+    <string name="total_quiz_time">Total quiz time</string>
+    <string name="number_of_questions_to_be_displayed_connot_be_more_than_total_questions_added">Number of questions to be displayed connot be more than total questions added</string>
+    <plurals name="question_quantity">
+        <item quantity="one">%1$d Question</item>
+        <item quantity="other">%1$d Questions</item>
+    </plurals>
+    <plurals name="section_quantity">
+        <item quantity="one">%1$d Section</item>
+        <item quantity="other">%1$d Sections</item>
+    </plurals>
+
+    <string name="select_doc_file">Please select doc first</string>
+    <string name="enter_reading_time">Please enter reading time</string>
+
+    <string name="section">Section %1$d</string>
+    <string name="lesson">Lesson %1$d</string>
+    <string name="plz_enter_course_fee">Please enter course fee</string>
+    <string name="sections_created">Sections created</string>
+    <string name="enter_section_title">Enter section title</string>
+    <string name="enter_description_here">Enter description here</string>
+    <string name="sure_delete_section">Do you really want to delete this section?</string>
+    <string name="sure_delete_lecture">Do you really want to delete this lecture?</string>
 </resources>

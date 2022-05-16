@@ -30,38 +30,55 @@ class SingleChoiceBottomDialog : BaseBottomSheetDialog<BottomDialogSingleChoiceB
         binding.ivClose.setOnClickListener {
             dismiss()
         }
+
         arguments?.let {
             type = it.getInt("type")
             if (it.containsKey("id")) {
                 selectedId = it.getInt("id")
             }
+            if (it.containsKey("list")) {
+                list.clear()
+                list.addAll(it.getParcelableArrayList<SingleChoiceData>("list") ?: ArrayList())
+                list.forEach { data ->
+                    if (data.id == selectedId) {
+                        data.isSelected = true
+                    }
+                }
+            }
             binding.tvDialogTitle.text = it.getString("title")
         }
 
         when (type) {
-            DialogType.COURSE_TYPE -> {
-                setCourseTypeData()
 
-            }
-            DialogType.COURSE_COMPLEXITY -> {
-                setCourseComplexityData()
-
-            }
 
             DialogType.PROFESSION -> {
                 viewModel.getProfession()
 //                setProfessionData()
-
-
             }
 
+            DialogType.CLICK_QUIZ_TYPE -> {
+                setQuizTypeData()
+            }
+            else -> {
+
+                setAdapter()
+            }
         }
 
     }
 
+    private fun setQuizTypeData() {
+        baseActivity?.resources.getStringArray(R.array.quiz_option_array)
+            ?.forEachIndexed { index, s ->
+                list.add(SingleChoiceData(index + 1, (index + 1) == selectedId, title = s))
+            }
+
+        setAdapter()
+    }
+
     private fun setCourseTypeData() {
-        arrayOf("Free", "Paid", "Restricted")?.forEachIndexed { index, s ->
-            list.add(SingleChoiceData(index + 1, false, s))
+        arrayOf("Free", "Paid", "Restricted", "Reward Points")?.forEachIndexed { index, s ->
+            list.add(SingleChoiceData(index + 1, false, title = s))
         }
         setAdapter()
 
@@ -69,7 +86,7 @@ class SingleChoiceBottomDialog : BaseBottomSheetDialog<BottomDialogSingleChoiceB
 
     private fun setCourseComplexityData() {
         arrayOf("Beginner", "Intermediate", "Advanced")?.forEachIndexed { index, s ->
-            list.add(SingleChoiceData(index + 1, false, s))
+            list.add(SingleChoiceData(index + 1, false, title = s))
         }
         setAdapter()
 
@@ -78,7 +95,7 @@ class SingleChoiceBottomDialog : BaseBottomSheetDialog<BottomDialogSingleChoiceB
 
     private fun setAdapter() {
         adapter?.notifyDataSetChanged() ?: kotlin.run {
-            adapter = SingleChoiceAdapter(list)
+            adapter = SingleChoiceAdapter(list, type == DialogType.CLICK_QUIZ_TYPE)
             binding.rvList.adapter = adapter
             adapter!!.setOnAdapterItemClickListener(this)
         }
@@ -88,6 +105,8 @@ class SingleChoiceBottomDialog : BaseBottomSheetDialog<BottomDialogSingleChoiceB
     override fun onItemClick(vararg items: Any) {
         if (items.isNotEmpty()) {
             val position = items[1] as Int
+            list.forEach { it.isSelected = false }
+            list[position].isSelected = true
             onDialogClick(type, list[position])
             dismiss()
         }

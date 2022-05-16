@@ -37,7 +37,7 @@
                     android:drawableTint="@color/hintColor"
                     android:hint="@string/search_course_by_name"
                     android:imeOptions="actionDone"
-                    android:maxLength="30"
+
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="?attr/whiteTextColor"

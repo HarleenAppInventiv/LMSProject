@@ -11,6 +11,10 @@
         <variable
             name="handleClick"
             type="com.selflearningcoursecreationapp.utils.HandleClick" />
+
+        <import
+            alias="const"
+            type="com.selflearningcoursecreationapp.utils.VALIDATION_CONST" />
     </data>
 
     <ScrollView
@@ -49,7 +53,8 @@
                 android:digits="qwertyuiopasdfghjklzxcvbnm QWERTYUIOPASDFGHJKLZXCVBNM"
                 android:drawablePadding="@dimen/_18sdp"
                 android:imeOptions="actionNext"
-                android:maxLength="30"
+                android:maxLength="@{const.MAX_NAME_LENGTH}"
+
                 android:paddingLeft="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_10sdp"
                 android:singleLine="true"
@@ -164,7 +169,8 @@
                     android:hint="@string/enter_phone_num"
                     android:imeOptions="actionNext"
                     android:inputType="phone"
-                    android:maxLength="15"
+                    android:maxLength="@{const.MAX_NO_LENGTH}"
+
                     android:paddingStart="@dimen/_5sdp"
                     android:enabled="false"
                     android:longClickable="false"

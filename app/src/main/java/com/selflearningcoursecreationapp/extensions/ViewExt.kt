@@ -1,7 +1,9 @@
 package com.selflearningcoursecreationapp.extensions
 
 
+import android.content.Context
 import android.view.View
+import com.selflearningcoursecreationapp.R
 
 
 fun View.visibleView(show: Boolean) {
@@ -26,6 +28,23 @@ fun Int?.isNullOrZero(): Boolean {
     return this == null || this == 0
 }
 
+fun Double?.isNullOrZero(): Boolean {
+    return this == null || this == 0.0
+}
+
+fun String.wordCount(): Int {
+    val trimmedStr = trim()
+    return if (trimmedStr.isEmpty()) {
+        0
+    } else {
+        trimmedStr.split("\\s+".toRegex()).size
+    }
+}
+
+fun Context.getQuizTypeTitle(type: Int): String {
+    val quizTypeArray = resources.getStringArray(R.array.quiz_option_array)
+    return quizTypeArray[type - 1]
+}
 
 
 

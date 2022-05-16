@@ -181,12 +181,25 @@
         <action
             android:id="@+id/action_addCourseBaseFragment_to_textEditorFragment"
             app:destination="@id/textEditorFragment" />
+        <action
+            android:id="@+id/action_addCourseBaseFragment_to_addQuizFragment"
+            app:destination="@id/addQuizFragment" />
+        <action
+            android:id="@+id/action_addCourseBaseFragment_to_docLessonFragment"
+            app:destination="@id/docLessonFragment" />
+        <action
+            android:id="@+id/action_addCourseBaseFragment_to_lessonTextFragment"
+            app:destination="@id/lessonTextFragment" />
     </fragment>
     <fragment
         android:id="@+id/addSectionOrLectureFragment"
         android:name="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.AddSectionOrLectureFragment"
         android:label="Add Section"
-        tools:layout="@layout/fragment_add_section_or_lecture" />
+        tools:layout="@layout/fragment_add_section_or_lecture">
+        <action
+            android:id="@+id/action_addSectionOrLectureFragment_to_docLessonFragment"
+            app:destination="@id/docLessonFragment" />
+    </fragment>
     <fragment
         android:id="@+id/paymentsFragment"
         android:name="com.selflearningcoursecreationapp.ui.bottom_more.payments.PaymentsFragment"
@@ -256,6 +269,18 @@
         <argument
             android:name="htmlValue"
             app:argType="string" />
+        <argument
+            android:name="from"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/addQuizFragment"
+        android:name="com.selflearningcoursecreationapp.ui.create_course.quiz.AddQuizFragment"
+        android:label="Add Quiz">
+        <action
+            android:id="@+id/action_addQuizFragment_to_quizSettingsFragment"
+            app:destination="@id/quizSettingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/assessmentFragment"
@@ -317,4 +342,47 @@
             app:destination="@id/OTPVerifyFragment2"
             app:popUpTo="@id/profileDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/docLessonFragment"
+        android:name="com.selflearningcoursecreationapp.ui.create_course.docs_as_lecture.DocLessonFragment"
+        android:label="Doc Lesson">
+        <argument
+            android:name="sectionId"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="lectureId"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="courseId"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/lessonTextFragment"
+        android:name="com.selflearningcoursecreationapp.ui.create_course.docs_text.LessonTextFragment"
+        android:label="Text Lesson">
+        <argument
+            android:name="sectionId"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="lectureId"
+            android:defaultValue="0"
+            app:argType="integer" />
+
+        <argument
+            android:name="courseId"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_lessonTextFragment_to_textEditorFragment"
+            app:destination="@id/textEditorFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/quizSettingsFragment"
+        android:name="com.selflearningcoursecreationapp.ui.create_course.quiz.QuizSettingsFragment"
+        android:label="Add Quiz" />
 </navigation>

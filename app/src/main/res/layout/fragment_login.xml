@@ -10,6 +10,10 @@
             type="com.selflearningcoursecreationapp.ui.authentication.viewModel.OnBoardingViewModel" />
 
         <import type="com.selflearningcoursecreationapp.R" />
+
+        <import
+            alias="const"
+            type="com.selflearningcoursecreationapp.utils.VALIDATION_CONST" />
     </data>
 
 
@@ -140,6 +144,7 @@
             android:background="@drawable/edt_bg"
             android:drawablePadding="@dimen/_18sdp"
             android:hint="@string/password"
+            android:maxLength="@{const.MAX_PASSWORD_LENGTH}"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:lineSpacingExtra="@dimen/_7ssp"

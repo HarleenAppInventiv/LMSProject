@@ -23,12 +23,7 @@ import kotlinx.coroutines.withContext
 
 
 class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewModel() {
-    //    var emailPhone = MutableLiveData<String>().apply {
-//        value = ""
-//    }
-//    var pass = MutableLiveData<String>().apply {
-//        value = ""
-//    }
+
     var isRememberChecked = MutableLiveData<Boolean>().apply {
         value = false
     }

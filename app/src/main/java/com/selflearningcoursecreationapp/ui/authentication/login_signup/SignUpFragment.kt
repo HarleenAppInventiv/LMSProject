@@ -40,7 +40,6 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), BaseBottomSheetDia
     }
 
     fun init() {
-//        binding.edtRegPassword.showHidePassword()
         binding.signup = viewModel
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         binding.countryCodePicker.apply {
@@ -50,10 +49,8 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), BaseBottomSheetDia
         viewModel.signUpLiveData.value?.countryCode =
             binding.countryCodePicker.selectedCountryCodeWithPlus
         setSpanString()
-//        showToastShort(binding.countryCodePicker.selectedCountryCode + "         " + binding.countryCodePicker.selectedCountryName)
         binding.evChooseProfession.setOnClickListener {
             SingleChoiceBottomDialog().apply {
-
                 arguments = bundleOf(
                     "type" to DialogType.PROFESSION,
                     "title" to this@SignUpFragment.baseActivity.getString(R.string.profession),

@@ -22,5 +22,13 @@ fun LMSMaterialButton.setBtnEnabled(value: Boolean) {
 
 }
 
+@BindingAdapter("doEnable")
+fun TextView.doEnable(isEnable: Boolean) {
+    isClickable = isEnable
+    isFocusableInTouchMode = isEnable
+    isFocusable = isEnable
+    isEnabled = isEnable
+
+}
 
 

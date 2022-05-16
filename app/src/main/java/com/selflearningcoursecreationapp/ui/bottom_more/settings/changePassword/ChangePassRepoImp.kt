@@ -12,7 +12,7 @@ import retrofit2.Response
 
 class ChangePassRepoImp(private val apiService: ApiService) : ChangePassRepo {
     override suspend fun changePass(map: HashMap<String, Any>): Flow<Resource> {
-        return object : BaseRepo<Any>() {
+        return object : BaseRepo<BaseResponse<Any>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<Any>> {
                 return apiService.changePass(map)
             }

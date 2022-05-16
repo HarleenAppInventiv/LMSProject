@@ -12,6 +12,9 @@
     <declare-styleable name="RichPathView">
         <attr name="vector" format="reference" />
     </declare-styleable>
+<declare-styleable name="RichSeekBar">
+    <attr name="vectorThumb" format="reference" />
+</declare-styleable>
 
     <declare-styleable name="LMSTextView">
         <attr name="primaryIconTint" format="enum">
@@ -133,6 +136,7 @@
             <enum name="tint" value="6" />
             <enum name="tint_src" value="8" />
             <enum name="background" value="7" />
+            <enum name="theme_src" value="3" />
             <enum name="background_tint" value="9" />
             <enum name="none" value="-1" />
         </attr>

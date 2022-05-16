@@ -49,7 +49,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
             if (it!!.isDigitsOnly()) {
                 number = it.toString()
                 binding.countryCodePicker.visible()
-                limitEditText(15)
+                limitEditText(16)
             } else {
                 binding.countryCodePicker.gone()
                 limitEditText(40)
@@ -97,11 +97,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
 
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)
-        Log.e("API_RESPONSE", "response")
         when (apiCode) {
             ApiEndPoints.API_LOGIN -> {
 
+
                 val userData = (value as BaseResponse<UserResponse>).resource
+                Log.e("API_RESPONSE", userData?.token.toString())
+
                 if (userData?.user?.phoneNumberVerified == false) {
                     findNavController().navigate(
                         LoginSignUpFragmentDirections.actionLoginSignUpFragmentToOTPVerifyFragment(

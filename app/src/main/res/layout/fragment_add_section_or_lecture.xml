@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="addSectionLecture"
+            type="com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,11 +24,14 @@
             android:orientation="vertical"
             android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/bt_addSection"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_default="wrap"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:itemCount="1"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:itemCount="2"
             tools:listitem="@layout/adapter_section_view" />
 
         <LinearLayout
@@ -77,6 +84,35 @@
                 app:strokeColor="?attr/buttonBackgroundTintColor"
                 app:strokeWidth="@dimen/_1sdp" />
         </LinearLayout>
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+            android:id="@+id/bt_addSection"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:background="@drawable/edt_bg_white"
+            android:backgroundTint="@color/white"
+            android:letterSpacing="0.02"
+            android:text="@string/add_section"
+            android:textAllCaps="true"
+            android:textSize="@dimen/_10sdp"
+            android:visibility="gone"
+            app:btnTextColor="secondary"
+            app:buttonBackground="secondary"
+            app:buttonFont="semiBold"
+            app:icon="@drawable/ic_upload_blue"
+            app:iconGravity="textStart"
+            app:iconTint="?attr/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_sections"
+            app:layout_constraintWidth_percent=".95"
+            app:strokeColor="?attr/buttonBackgroundTintColor"
+            app:strokeWidth="@dimen/_1sdp"
+            app:textAllCaps="true" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

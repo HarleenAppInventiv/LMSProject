@@ -13,7 +13,7 @@ import retrofit2.Response
 
 class SplashRepoImp(private val apiService: ApiService) : SplashRepo {
     override suspend fun profileApi(): Flow<Resource> {
-        return object : BaseRepo<UserProfile>() {
+        return object : BaseRepo<BaseResponse<UserProfile>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<UserProfile>> {
                 return apiService.viewProfile()
             }

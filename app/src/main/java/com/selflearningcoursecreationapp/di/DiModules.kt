@@ -34,9 +34,19 @@ import com.selflearningcoursecreationapp.ui.bottom_more.settings.changePassword.
 import com.selflearningcoursecreationapp.ui.bottom_more.settings.faq.FAQRepoImpl
 import com.selflearningcoursecreationapp.ui.bottom_more.settings.faq.FAQViewModel
 import com.selflearningcoursecreationapp.ui.bottom_more.settings.faq.FaqRepo
-import com.selflearningcoursecreationapp.ui.create_course.CreateCourseRepo
-import com.selflearningcoursecreationapp.ui.create_course.CreateCourseRepoImpl
+import com.selflearningcoursecreationapp.ui.create_course.AddCourseRepo
+import com.selflearningcoursecreationapp.ui.create_course.AddCourseRepoImpl
 import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseViewModel
+import com.selflearningcoursecreationapp.ui.create_course.docs_as_lecture.DocRepo
+import com.selflearningcoursecreationapp.ui.create_course.docs_as_lecture.DocRepoImp
+import com.selflearningcoursecreationapp.ui.create_course.docs_as_lecture.DocViewModel
+import com.selflearningcoursecreationapp.ui.create_course.docs_text.TextRepo
+import com.selflearningcoursecreationapp.ui.create_course.docs_text.TextRepoImp
+import com.selflearningcoursecreationapp.ui.create_course.docs_text.TextViewModel
+import com.selflearningcoursecreationapp.ui.create_course.quiz.AddQuizRepo
+import com.selflearningcoursecreationapp.ui.create_course.quiz.AddQuizRepoImpl
+import com.selflearningcoursecreationapp.ui.create_course.quiz.AddQuizVM
+import com.selflearningcoursecreationapp.ui.create_course.quiz.QuizSettingVM
 import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceRepo
 import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceRepoImpl
 import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceVM
@@ -130,6 +140,10 @@ val viewModelModule = module {
 
     viewModel { AddPassViewModel(get()) }
     viewModel { AddEmailVM(get()) }
+    viewModel { DocViewModel(get()) }
+    viewModel { AddQuizVM(get()) }
+    viewModel { QuizSettingVM(get()) }
+    viewModel { TextViewModel(get()) }
 
 }
 
@@ -138,15 +152,13 @@ val repoModule = module {
     single<ForgotPassRepo> {
         ForgotPassRepoImpl(get())
     }
-    single<OnBoardingRepo> {
-        OnBoardingRepoImpl(get())
-    }
+    single<OnBoardingRepo> { OnBoardingRepoImpl(get()) }
     single<LoginOTPRepo> { LoginOTPRepoImpl(get()) }
     single<OTPVerifyRepo> { OTPVerifyRepoImpl(get()) }
     single<ResetPassRepo> { ResetPassRepoImpl(get()) }
     single<EditProfileRepo> { EditProfileRepoImpl(get()) }
     single<FaqRepo> { FAQRepoImpl(get()) }
-    single<CreateCourseRepo> { CreateCourseRepoImpl(get()) }
+    single<AddCourseRepo> { AddCourseRepoImpl(get()) }
     single<ProfileThumbRepo> { ProfileThumbRepoImp(get()) }
     single<ProfileDetailRepo> { ProfileDetailRepoImp(get()) }
     single<ChangePassRepo> { ChangePassRepoImp(get()) }
@@ -156,4 +168,7 @@ val repoModule = module {
     single<SingleChoiceRepo> { SingleChoiceRepoImpl(get()) }
     single<AddPassRepo> { AddPassRepoImp(get()) }
     single<AddEmailRepo> { AddEmailRepoImpl(get()) }
+    single<AddQuizRepo> { AddQuizRepoImpl(get()) }
+    single<DocRepo> { DocRepoImp(get()) }
+    single<TextRepo> { TextRepoImp(get()) }
 }

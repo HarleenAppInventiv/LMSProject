@@ -308,7 +308,7 @@
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:background="@color/forgotColor"
+                        android:background="@color/accent_color_fc6d5b"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_inactive"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tv_inactive" />
@@ -332,7 +332,7 @@
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:background="@color/priceColor"
+                        android:background="@color/accent_color_2FBF71"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_completed"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tv_completed" />
@@ -356,7 +356,7 @@
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:background="@color/earning_price_color"
+                        android:background="@color/accent_color_FFB800"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_inprogress"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tv_inprogress" />

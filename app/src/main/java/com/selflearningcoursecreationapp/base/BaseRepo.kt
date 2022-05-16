@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.annotation.MainThread
 import com.google.gson.Gson
 import com.selflearningcoursecreationapp.data.network.ApiError
-import com.selflearningcoursecreationapp.data.network.HTTPCode
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.utils.isInternetAvailable
 import kotlinx.coroutines.flow.FlowCollector
@@ -18,7 +17,7 @@ import java.util.concurrent.TimeoutException
 abstract class BaseRepo<REQUEST> {
 
     @MainThread
-    protected abstract suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<REQUEST>>
+    protected abstract suspend fun fetchDataFromRemoteSource(): Response<REQUEST>
 
 
     fun safeApiCall(apiCode: String) = flow {
@@ -55,11 +54,11 @@ abstract class BaseRepo<REQUEST> {
     }
 
     private suspend fun FlowCollector<Resource>.handleSuccessResponse(
-        data: BaseResponse<REQUEST>?,
+        data: REQUEST?,
         apiCode: String,
-        response: Response<BaseResponse<REQUEST>>
+        response: Response<REQUEST>
     ) {
-        if (data != null && (data.statusCode == HTTPCode.SUCCESS || data.statusCode == HTTPCode.CREATED || data.statusCode == HTTPCode.AUTOMATIC_COMPLETE || data.statusCode == HTTPCode.UNJOIN || data.statusCode == HTTPCode.UPDATE_SUCCESS)) emit(
+        if (data != null/* && (data.statusCode == HTTPCode.SUCCESS || data.statusCode == HTTPCode.CREATED || data.statusCode == HTTPCode.AUTOMATIC_COMPLETE || data.statusCode == HTTPCode.UNJOIN || data.statusCode == HTTPCode.UPDATE_SUCCESS)*/) emit(
             Resource.Success(
                 data,
                 apiCode
@@ -67,12 +66,13 @@ abstract class BaseRepo<REQUEST> {
         ) else emit(Resource.Failure(false, apiCode, getError(response)))
     }
 
-    private fun getError(response: Response<BaseResponse<REQUEST>>): ApiError {
+    private fun getError(response: Response</*BaseResponse<*/REQUEST/*>*/>): ApiError {
         var error = ApiError()
         if (response.body() != null) {
-            error.message = response.body()!!.message
-            error.statusCode = response.body()!!.statusCode
-            error.result = response.body()!!.resource
+//            error.message = response.body()!!.message
+//            error.statusCode = response.body()!!.statusCode
+//            error.result = response.body()!!.resource
+            error = Gson().fromJson(response.body()?.toString(), ApiError::class.java)
         } else {
             error = Gson().fromJson(response.errorBody()?.string(), ApiError::class.java)
         }

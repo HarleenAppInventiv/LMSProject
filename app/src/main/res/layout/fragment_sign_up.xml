@@ -8,6 +8,10 @@
         <variable
             name="signup"
             type="com.selflearningcoursecreationapp.ui.authentication.viewModel.OnBoardingViewModel" />
+
+        <import
+            alias="const"
+            type="com.selflearningcoursecreationapp.utils.VALIDATION_CONST" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -37,7 +41,8 @@
                 android:hint="@string/name"
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName|textCapSentences"
-                android:maxLength="30"
+                android:maxLength="@{const.MAX_NAME_LENGTH}"
+
                 android:singleLine="true"
                 android:nextFocusForward="@+id/edt_reg_phone"
                 android:text="@={signup.signUpLiveData.name}"
@@ -114,7 +119,8 @@
                     android:hint="@string/enter_phone_num"
                     android:imeOptions="actionDone"
                     android:inputType="phone"
-                    android:maxLength="15"
+                    android:maxLength="@{const.MAX_NO_LENGTH}"
+
                     android:paddingStart="@dimen/_5sdp"
                     android:singleLine="true"
                     android:text="@={signup.signUpLiveData.number}"

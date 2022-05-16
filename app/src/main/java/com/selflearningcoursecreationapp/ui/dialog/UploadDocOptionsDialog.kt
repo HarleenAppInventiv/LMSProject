@@ -5,6 +5,7 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.databinding.BotttomDialogUploadVdoAdoBinding
 import com.selflearningcoursecreationapp.utils.ImagePickUtils
+import com.selflearningcoursecreationapp.utils.Lecture
 import org.koin.android.ext.android.inject
 
 class UploadDocOptionsDialog : BaseBottomSheetDialog<BotttomDialogUploadVdoAdoBinding>(),
@@ -27,13 +28,40 @@ class UploadDocOptionsDialog : BaseBottomSheetDialog<BotttomDialogUploadVdoAdoBi
             dismiss()
         }
 
-        binding.tvTakeVideo.setOnClickListener {
+        binding.clVideo.setOnClickListener {
+            onDialogClick(Lecture.CLICK_LESSON_VIDEO)
             dismiss()
         }
 
-        binding.tvTakeAudio.setOnClickListener {
+        binding.clAudio.setOnClickListener {
+            onDialogClick(Lecture.CLICK_LESSON_AUDIO)
             dismiss()
 
+        }
+        binding.tvRecordScreen.setOnClickListener {
+            onDialogClick(Lecture.CLICK_LESSON_SCREEN_RECORD)
+            dismiss()
+        }
+        binding.tvText.setOnClickListener {
+            onDialogClick(Lecture.CLICK_LESSON_TEXT)
+            dismiss()
+
+        }
+        binding.tvQuiz.setOnClickListener {
+            onDialogClick(Lecture.CLICK_LESSON_QUIZ)
+            dismiss()
+        }
+        binding.clDocs.setOnClickListener {
+            onDialogClick(Lecture.CLICK_LESSON_DOCS)
+
+//            type = Lecture.CLICK_LESSON_DOCS
+//            imagePickUtils.openDocs(
+//                baseActivity,
+//                this,
+//                registry = requireActivity().activityResultRegistry
+//            )
+//            onDialogClick(Constant.CLICK_LESSON_DOCS)
+            dismiss()
         }
     }
 

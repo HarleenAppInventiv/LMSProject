@@ -58,7 +58,7 @@ class CreatedCourseAdapter : BaseAdapter<AdapterCreatedCourseBinding>() {
                 binding.tvState.setTextColor(
                     ContextCompat.getColor(
                         context,
-                        R.color.google_btn_bg_color_fc6d5b
+                        R.color.accent_color_fc6d5b
                     )
                 )
                 binding.btCourse.text = "Update Course"
@@ -66,7 +66,7 @@ class CreatedCourseAdapter : BaseAdapter<AdapterCreatedCourseBinding>() {
 
         }
         val msg = SpanUtils.with(context, "Revenue: ₹2000").startPos(7)
-            .textColor(ContextCompat.getColor(context, R.color.priceColor))
+            .textColor(ContextCompat.getColor(context, R.color.accent_color_2FBF71))
             .getSpanString()
         binding.tvPrice.setSpanString(msg)
 

@@ -28,4 +28,29 @@ object ApiEndPoints {
     const val API_ADD_PASSWORD = "User/AddPassword"
     const val API_ADD_EMAIL = "SignUp/OtpRequestForEmailChange"
     const val API_VERIFY_EMAIL = "SignUp/ValidateOtpRequestForEmailChange"
+    const val API_UPLOAD_IMAGE = "User/ProfilePicture"
+    const val API_CRE_STEP_1 = "Course"
+    const val API_CRE_STEP_2 = "Course/Details"
+    const val API_MASTER_DATA = "Master/GetMasterData"
+    const val API_UPLOAD_BANNER = "Course/Banner"
+    const val API_UPLOAD_LOGO = "Course/Logo"
+
+    //section
+    const val API_ADD_SECTION_POST = "Course/Section"
+    const val API_ADD_SECTION_PATCH = "Course/Section"
+    const val API_SECTION_DELETE = "Course/Section"
+    const val API_SECTION_DRAG_DROP = "Course/Section/DragAndDrop"
+
+    //Lecture
+    const val API_ADD_LECTURE_POST = "Course/Section/Lecture"
+    const val API_ADD_LECTURE_PATCH = "Course/Section/Lecture"
+    const val API_LECTURE_DELETE = "Course/Section/Lecture"
+    const val API_LECTURE_DRAG_DROP = "Course/Section/Lecture/DragAndDrop"
+
+    //quiz
+    const val API_ADD_QUIZ = "Course/Section/Lecture/Quiz"
+    const val API_ADD_QUIZ_QUESTION = "Course/Section/Lecture/Quiz/Questions"
+    const val API_ADD_QUIZ_ANS = "Course/Section/Lecture/Quiz/Questions/Answeres"
+    const val API_ADD_QUIZ_IMAGE = "Course/Section/Lecture/Quiz/Image"
+    const val API_ADD_QUIZ_SAVE = "Course/Section/Lecture/SaveQuiz"
 }

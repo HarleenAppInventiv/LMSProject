@@ -57,7 +57,7 @@
                         android:drawablePadding="@dimen/_10sdp"
                         android:hint="@string/search_courses"
                         android:imeOptions="actionDone"
-                        android:maxLength="30"
+
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textColor="?attr/whiteTextColor"

@@ -187,4 +187,6 @@ abstract class RichPathView(context: Context?, attrs: AttributeSet?, defStyleAtt
         }
         return true
     }
+
+    fun getRichPath() = richPathDrawable
 }

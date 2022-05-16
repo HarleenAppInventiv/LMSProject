@@ -14,44 +14,47 @@
         android:layout_height="match_parent"
         android:background="?attr/offwhiteTextColor">
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSCardView
-            android:id="@+id/LMSCardView"
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_word_count"
             android:layout_width="0dp"
-
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:elevation="@dimen/_5sdp"
-            app:cardCornerRadius="@dimen/_5sdp"
-            app:layout_constraintBottom_toTopOf="@+id/view_options"
+            android:lineSpacingExtra="@dimen/_6sdp"
+            android:text="0"
+            android:textSize="@dimen/_13ssp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/tv_word_count_title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:textColorType="body" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_word_count_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:lineSpacingExtra="@dimen/_6sdp"
+            android:text="@string/_500_words"
+            android:textSize="@dimen/_13ssp"
+            android:visibility="visible"
+            app:fontType="semiBold"
             app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-            app:layout_constraintStart_toStartOf="@id/guidelinestart"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.selflearningcoursecreationapp.textEditor.TextEditor
-                android:id="@+id/textEditor"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/_10sdp"
-                android:background="@drawable/edt_white_bg" />
-
-        </com.selflearningcoursecreationapp.utils.customViews.LMSCardView>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:id="@+id/view_options"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_20sdp"
             android:background="@drawable/edt_white_bg"
             android:elevation="@dimen/_1sdp"
-            app:layout_constraintBottom_toTopOf="@+id/view_bottom"
             app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
             app:layout_constraintHeight_percent=".07"
             app:layout_constraintStart_toStartOf="@id/guidelinestart"
-            app:layout_constraintTop_toBottomOf="@+id/LMSCardView" />
-
+            app:layout_constraintTop_toBottomOf="@+id/tv_word_count_title" />
 
         <HorizontalScrollView
+            android:id="@+id/ll_scroll"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:elevation="@dimen/_2sdp"
@@ -73,12 +76,12 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:background="@null"
                     android:contentDescription="@null"
                     android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                     android:padding="@dimen/_5sdp"
+                    android:visibility="gone"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/undo"
+                    app:srcCompat="@drawable/undo"
                     app:tint="@color/black" />
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
@@ -92,7 +95,8 @@
                     android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                     android:padding="@dimen/_5sdp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/redo"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/redo"
                     app:tint="@color/black" />
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
@@ -104,9 +108,8 @@
                     android:background="@null"
                     android:contentDescription="@null"
                     android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-                    android:padding="@dimen/_5sdp"
-
-                    android:src="@drawable/ic_bold" />
+                    android:padding="@dimen/_8sdp"
+                    app:srcCompat="@drawable/ic_bold" />
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:id="@+id/action_italic"
@@ -118,8 +121,8 @@
                     android:background="@null"
                     android:contentDescription="@null"
                     android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-                    android:padding="@dimen/_5sdp"
-                    android:src="@drawable/ic_itallic" />
+                    android:padding="@dimen/_8sdp"
+                    app:srcCompat="@drawable/ic_itallic" />
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:id="@+id/action_underline"
@@ -131,8 +134,8 @@
                     android:background="@null"
                     android:contentDescription="@null"
                     android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-                    android:padding="@dimen/_5sdp"
-                    android:src="@drawable/ic_underline" />
+                    android:padding="@dimen/_8sdp"
+                    app:srcCompat="@drawable/ic_underline" />
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:id="@+id/action_align_left"
@@ -144,8 +147,8 @@
                     android:contentDescription="@null"
 
                     android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-                    android:padding="@dimen/_5sdp"
-                    android:src="@drawable/ic_left_align" />
+                    android:padding="@dimen/_8sdp"
+                    app:srcCompat="@drawable/ic_left_align" />
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:id="@+id/action_align_centre"
@@ -157,8 +160,8 @@
                     android:contentDescription="@null"
 
                     android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-                    android:padding="@dimen/_5sdp"
-                    android:src="@drawable/ic_center_align" />
+                    android:padding="@dimen/_8sdp"
+                    app:srcCompat="@drawable/ic_center_align" />
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:id="@+id/action_align_right"
@@ -170,8 +173,8 @@
                     android:contentDescription="@null"
 
                     android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-                    android:padding="@dimen/_5sdp"
-                    android:src="@drawable/ic_right_align" />
+                    android:padding="@dimen/_8sdp"
+                    app:srcCompat="@drawable/ic_right_align" />
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:id="@+id/action_bullet"
@@ -183,8 +186,8 @@
                     android:contentDescription="@null"
 
                     android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-                    android:padding="@dimen/_5sdp"
-                    android:src="@drawable/ic_bullets" />
+                    android:padding="@dimen/_8sdp"
+                    app:srcCompat="@drawable/ic_bullets" />
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:id="@+id/action_number_bullet"
@@ -196,11 +199,39 @@
                     android:background="@null"
                     android:contentDescription="@null"
                     android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-                    android:padding="@dimen/_5sdp"
-                    android:src="@drawable/ic_bullets" />
+                    android:padding="@dimen/_8sdp"
+                    app:srcCompat="@drawable/ic_numbering" />
 
             </LinearLayout>
         </HorizontalScrollView>
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSCardView
+            android:id="@+id/LMSCardView"
+            android:layout_width="0dp"
+
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:elevation="@dimen/_5sdp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:layout_constraintBottom_toTopOf="@+id/view_bottom"
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@id/guidelinestart"
+            app:layout_constraintTop_toBottomOf="@+id/ll_scroll">
+
+            <com.selflearningcoursecreationapp.textEditor.TextEditor
+                android:id="@+id/textEditor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_10sdp"
+                android:background="@drawable/edt_white_bg"
+
+                />
+
+            <requestFocus />
+
+        </com.selflearningcoursecreationapp.utils.customViews.LMSCardView>
 
 
         <View

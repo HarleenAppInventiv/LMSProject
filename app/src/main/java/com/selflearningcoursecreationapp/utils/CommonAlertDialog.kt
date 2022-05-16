@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.databinding.LayoutSuccessBinding
 import com.selflearningcoursecreationapp.extensions.gone
@@ -35,6 +36,8 @@ class CommonAlertDialog {
         private var theme: Int? = R.style.DialogTransparent
         private var isCancellable: Boolean = true
         private var hideNegativeBtn: Boolean = false
+        private var hideEditText: Boolean = false
+        private var textVia: String = ""
         private var onClick: (isPositive: Boolean) -> Unit = {}
 
 
@@ -88,6 +91,17 @@ class CommonAlertDialog {
             return this
         }
 
+        fun getHideEditText(): Builder {
+            this.hideEditText = hideEditText
+            return this
+        }
+
+        fun getTextVia(): Builder {
+            this.textVia = textVia
+            return this
+        }
+
+
         fun build(): AlertDialog {
             val alertDialog =
                 AlertDialog.Builder(context, R.style.DialogTransparent).create()
@@ -128,6 +142,9 @@ class CommonAlertDialog {
                     alertDialog.dismiss()
                 }
 
+                edtUserEmail.isVisible = hideEditText == true
+                tvInvite.isVisible = hideEditText == true
+
             }
 
             binding.tvMsg.apply {
@@ -144,6 +161,7 @@ class CommonAlertDialog {
                     gone()
                 }
             }
+
 
             return alertDialog
         }
