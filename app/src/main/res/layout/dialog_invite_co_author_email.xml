@@ -47,67 +47,6 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_title"
             app:textColorType="body" />
 
-        <!--        <LinearLayout-->
-        <!--            android:id="@+id/ll_phone"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="@dimen/_20sdp"-->
-        <!--            android:background="@drawable/edt_bg"-->
-        <!--            android:orientation="horizontal"-->
-        <!--            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"-->
-        <!--            app:layout_constraintStart_toStartOf="@id/guidelineStart"-->
-        <!--            app:layout_constraintTop_toBottomOf="@+id/tv_desc">-->
-
-        <!--            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_gravity="center"-->
-        <!--                android:paddingLeft="@dimen/_10sdp"-->
-        <!--                app:changeBackgroundType="tint_src"-->
-        <!--                app:srcCompat="@drawable/ic_call_forgot"-->
-
-        <!--                />-->
-
-        <!--            <View-->
-        <!--                android:id="@+id/view10"-->
-        <!--                android:layout_width="@dimen/_1sdp"-->
-        <!--                android:layout_height="match_parent"-->
-        <!--                android:layout_marginVertical="@dimen/_12sdp"-->
-        <!--                android:layout_marginStart="@dimen/_5sdp"-->
-        <!--                android:background="@color/et_dash_color"-->
-        <!--                android:importantForAccessibility="no" />-->
-
-        <!--            <com.hbb20.CountryCodePicker-->
-        <!--                android:id="@+id/country_code_picker"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="match_parent"-->
-        <!--                android:clickable="true"-->
-        <!--                android:focusable="true"-->
-        <!--                android:gravity="center"-->
-        <!--                android:visibility="gone"-->
-
-        <!--                app:ccpDialog_backgroundColor="?attr/viewBackgroundColor"-->
-        <!--                app:ccp_showFlag="false"-->
-        <!--                app:ccp_showNameCode="false"-->
-        <!--                app:ccp_textSize="@dimen/_12ssp" />-->
-
-
-        <!--            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText-->
-        <!--                android:id="@+id/edt_login_email"-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:background="@drawable/edt_bg"-->
-        <!--                android:digits="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890.@_"-->
-        <!--                android:hint="@string/enter_phone_email"-->
-        <!--                android:imeOptions="actionDone"-->
-        <!--                android:inputType="textEmailAddress|textNoSuggestions"-->
-        <!--                android:maxLength="40"-->
-        <!--                android:singleLine="true"-->
-        <!--                app:primaryIconTint="start" />-->
-
-
-        <!--        </LinearLayout>-->
-
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
             android:id="@+id/edt_user_email"

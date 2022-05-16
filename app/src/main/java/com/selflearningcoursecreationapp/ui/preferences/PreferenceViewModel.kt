@@ -134,32 +134,14 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
         viewModelScope.launch(coroutineExceptionHandle) {
             var response = repo.getCategory()
             withContext(Dispatchers.IO) {
-                response.catch { cause ->
-                    updateResponseObserver(
-                        Resource.Failure(
-                            false,
-                            ApiEndPoints.API_GET_CATEGORIES,
-                            ApiError().apply {
-                                exception = cause
-                            })
-                    )
 
-                }
                 response.collect {
                     if (it is Resource.Success<*>) {
 
                         val list = (it.value as BaseResponse<CategoryResponse>).resource?.list
                             ?: ArrayList()
                         if (showMyCategories) {
-                            val selectedList = userProfile?.categoryData?.map { it.id }
-                            list.forEach { data ->
-                                if (selectedList?.contains(data.id) == true) {
-                                    data.isSelected = true
-                                }
-
-                            }
                             getMyCategories()
-
                         }
                         categoryListLiveData.postValue(list)
                     }

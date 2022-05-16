@@ -22,9 +22,6 @@ class TextViewModel(private val repo: TextRepo) : BaseViewModel() {
 
     }
 
-    fun notifyData() {
-        courseData.value = courseData.value
-    }
 
     fun addPatchLecture(
         sectionId: Int?,

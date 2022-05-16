@@ -141,7 +141,7 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
     }
 
     fun notifyData() {
-        courseData.value = courseData.value
+//        courseData.value = courseData.value
         courseData.value?.notifyChange()
     }
 

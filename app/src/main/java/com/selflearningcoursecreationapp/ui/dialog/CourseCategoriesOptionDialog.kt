@@ -13,7 +13,6 @@ import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.Adap
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceViewModel
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.DialogType
-import com.selflearningcoursecreationapp.utils.LANGUAGE_CONSTANT
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CourseCategoriesOptionDialog() : BaseBottomSheetDialog<BottomDialogCourceCateBinding>(),
@@ -105,31 +104,6 @@ class CourseCategoriesOptionDialog() : BaseBottomSheetDialog<BottomDialogCourceC
 
     }
 
-    private fun setLanguageData() {
-        val nameList =
-            baseActivity.resources.getStringArray(R.array.language_array)
-        val codeArray = arrayListOf(
-            LANGUAGE_CONSTANT.ENGLISH,
-            LANGUAGE_CONSTANT.HINDI,
-            LANGUAGE_CONSTANT.TELUGU,
-            LANGUAGE_CONSTANT.TAMIL,
-            LANGUAGE_CONSTANT.KANNADA,
-            LANGUAGE_CONSTANT.BENGALI
-        )
-        list = ArrayList<CategoryData>()
-        for (i in nameList.indices) {
-            list.add(
-                CategoryData(
-                    nameList[i],
-                    codeArray[i],
-                    id = i + 1,
-                    isSelected = false
-                )
-            )
-        }
-
-        setAdapter(list)
-    }
 
     private fun setAdapter(list: ArrayList<CategoryData>) {
         mAdapter?.notifyDataSetChanged() ?: kotlin.run {

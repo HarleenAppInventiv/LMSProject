@@ -2,7 +2,6 @@ package com.selflearningcoursecreationapp.ui.create_course.add_courses_steps
 
 import android.os.Build
 import android.os.Bundle
-import android.text.Html
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
@@ -14,7 +13,6 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentStep1Binding
-import com.selflearningcoursecreationapp.extensions.wordCount
 import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.ui.dialog.CourseCategoriesOptionDialog
 import com.selflearningcoursecreationapp.utils.Constant
@@ -53,30 +51,30 @@ class Step1Fragment : BaseFragment<FragmentStep1Binding>(), HandleClick,
         }
     }
 
-    private fun activityResultListener() {
-        requireActivity().supportFragmentManager.setFragmentResultListener(
-            "valueHTML",
-            viewLifecycleOwner
-        ) { _, bundle ->
-            val value = bundle.getString("value")
-            val type = bundle.getInt("type")
-            if (type == Constant.DESC) {
-                descHTML = value.toString()
-                var count = (Html.fromHtml(value).toString()).wordCount()
-                viewModel.courseData.value?.courseDescription = value ?: ""
-                binding.evEnterDescription.setText(Html.fromHtml(value))
-                viewModel.notifyData()
-                binding.tvWordCount.apply {
-                    text = "${count}"
-                    if (count < 500) {
-                        setTextColor(ContextCompat.getColor(context, R.color.black))
-                    } else {
-                        setTextColor(ContextCompat.getColor(context, R.color.accent_color_fc6d5b))
-                    }
-                }
-            }
-        }
-    }
+//    private fun activityResultListener() {
+//        requireActivity().supportFragmentManager.setFragmentResultListener(
+//            "valueHTML",
+//            viewLifecycleOwner
+//        ) { _, bundle ->
+//            val value = bundle.getString("value")
+//            val type = bundle.getInt("type")
+//            if (type == Constant.DESC) {
+//                descHTML = value.toString()
+//                var count = (Html.fromHtml(value).toString()).wordCount()
+//                viewModel.courseData.value?.courseDescription = value ?: ""
+//                binding.evEnterDescription.setText(Html.fromHtml(value))
+//                viewModel.notifyData()
+//                binding.tvWordCount.apply {
+//                    text = "${count}"
+//                    if (count < 500) {
+//                        setTextColor(ContextCompat.getColor(context, R.color.black))
+//                    } else {
+//                        setTextColor(ContextCompat.getColor(context, R.color.accent_color_fc6d5b))
+//                    }
+//                }
+//            }
+//        }
+//    }
 
 
     override fun getLayoutRes() = R.layout.fragment_step1

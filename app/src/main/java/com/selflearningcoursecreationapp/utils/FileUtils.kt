@@ -17,6 +17,7 @@ import android.util.Log
 import androidx.core.content.FileProvider
 import com.selflearningcoursecreationapp.base.SelfLearningApplication
 import java.io.*
+import java.lang.Long
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,120 +35,138 @@ object FileUtils {
         // DocumentProvider
         if (isKitKatOrAbove && DocumentsContract.isDocumentUri(context, uri)) {
             // ExternalStorageProvider
-            if (isExternalStorageDocument(uri)) {
-                val docId = DocumentsContract.getDocumentId(uri)
-                val split = docId.split(":".toRegex()).toTypedArray()
-                val type = split[0]
-                val fullPath = getPathFromExtSD(split)
-                return if (fullPath !== "") {
-                    fullPath
-                } else {
-                    null
-                }
-            } else if (isDownloadsDocument(uri)) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    val id: String
-                    var cursor: Cursor? = null
-                    try {
-                        cursor = context.contentResolver.query(
-                            uri,
-                            arrayOf(MediaStore.MediaColumns.DISPLAY_NAME),
-                            null,
-                            null,
-                            null
-                        )
-                        if (cursor != null && cursor.moveToFirst()) {
-                            val fileName = cursor.getString(0)
-                            val path = Environment.getExternalStorageDirectory()
-                                .toString() + "/Download/" + fileName
-                            if (!TextUtils.isEmpty(path)) {
-                                return path
-                            }
-                        }
-                    } finally {
-                        cursor?.close()
-                    }
-                    id = DocumentsContract.getDocumentId(uri)
-                    if (!TextUtils.isEmpty(id)) {
-                        if (id.startsWith("raw:")) {
-                            return id.replaceFirst("raw:".toRegex(), "")
-                        }
-                        val contentUriPrefixesToTry = arrayOf(
-                            "content://downloads/public_downloads",
-                            "content://downloads/my_downloads"
-                        )
-                        for (contentUriPrefix in contentUriPrefixesToTry) {
-                            return try {
-                                val contentUri = ContentUris.withAppendedId(
-                                    Uri.parse(contentUriPrefix),
-                                    java.lang.Long.valueOf(id)
-                                )
-                                getDataColumn(context, contentUri, null, null)
-                            } catch (e: NumberFormatException) {
-                                //In Android 8 and Android P the id is not a number
-                                uri.path!!.replaceFirst("^/document/raw:".toRegex(), "")
-                                    .replaceFirst("^raw:".toRegex(), "")
-                            }
-                        }
-                    }
-                } else {
-                    val id = DocumentsContract.getDocumentId(uri)
-                    if (id.startsWith("raw:")) {
-                        return id.replaceFirst("raw:".toRegex(), "")
-                    }
-                    try {
-                        contentUri = ContentUris.withAppendedId(
-                            Uri.parse("content://downloads/public_downloads"),
-                            java.lang.Long.valueOf(id)
-                        )
-                    } catch (e: NumberFormatException) {
-                        e.printStackTrace()
-                    }
-                    if (contentUri != null) {
-                        return getDataColumn(context, contentUri, null, null)
-                    }
-                }
-            } else if (isMediaDocument(uri)) {
-                val docId = DocumentsContract.getDocumentId(uri)
-                val split = docId.split(":".toRegex()).toTypedArray()
-                val type = split[0]
-                var contentUri: Uri? = null
-                if ("image" == type) {
-                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                } else if ("video" == type) {
-                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-                } else if ("audio" == type) {
-                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-                } else {
-                    contentUri = MediaStore.Files.getContentUri("external");
-                }
-                selection = "_id=?"
-                selectionArgs = arrayOf(split[1])
-                return getDataColumn(
-                    context, contentUri, selection,
-                    selectionArgs
-                )
-            } else if (isGoogleDriveUri(uri)) {
-                return getDriveFilePath(uri, context)
-            }
+            dataFromExternalStorage(uri, context, selection, selectionArgs)
         } else if ("content".equals(uri.scheme, ignoreCase = true)) {
-            return if (isGooglePhotosUri(uri)) {
-                uri.lastPathSegment
-            } else if (isGoogleDriveUri(uri)) {
-                return getDriveFilePath(uri, context)
-            } else if (isDropboxUri(uri)) {
-                return null
-            } else if (isDropboxDocument(uri)) {
-                return getDriveFilePath(uri, context)
-            } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
-                getMediaFilePathForN(uri, context)
-            } else {
-                getDataColumn(context, uri, null, null)
-            }
+            return dataFromCloudDirectory(uri, context)
         } else if ("file".equals(uri.scheme, ignoreCase = true)) {
             return uri.path
         }
         return null
+    }
+
+    private fun dataFromCloudDirectory(
+        uri: Uri,
+        context: Context
+    ): String? {
+        return if (isGooglePhotosUri(uri)) {
+            uri.lastPathSegment
+        } else if (isGoogleDriveUri(uri)) {
+            getDriveFilePath(uri, context)
+        } else if (isDropboxUri(uri)) {
+            null
+        } else if (isDropboxDocument(uri)) {
+            getDriveFilePath(uri, context)
+        } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
+            getMediaFilePathForN(uri, context)
+        } else {
+            getDataColumn(context, uri, null, null)
+        }
+    }
+
+    private fun dataFromExternalStorage(
+        uri: Uri,
+        context: Context,
+        selection: String?,
+        selectionArgs: Array<String>?
+    ): String? {
+        var selection1 = selection
+        var selectionArgs1 = selectionArgs
+        if (isExternalStorageDocument(uri)) {
+            val docId = DocumentsContract.getDocumentId(uri)
+            val split = docId.split(":".toRegex()).toTypedArray()
+            val fullPath = getPathFromExtSD(split)
+            return if (fullPath !== "") {
+                fullPath
+            } else {
+                null
+            }
+        } else if (isDownloadsDocument(uri)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val id: String
+                var cursor: Cursor? = null
+                try {
+                    cursor = context.contentResolver.query(
+                        uri,
+                        arrayOf(MediaStore.MediaColumns.DISPLAY_NAME),
+                        null,
+                        null,
+                        null
+                    )
+                    if (cursor != null && cursor.moveToFirst()) {
+                        val fileName = cursor.getString(0)
+                        val path = Environment.getExternalStorageDirectory()
+                            .toString() + "/Download/" + fileName
+                        if (!TextUtils.isEmpty(path)) {
+                            return path
+                        }
+                    }
+                } finally {
+                    cursor?.close()
+                }
+                id = DocumentsContract.getDocumentId(uri)
+                if (!TextUtils.isEmpty(id)) {
+                    if (id.startsWith("raw:")) {
+                        return id.replaceFirst("raw:".toRegex(), "")
+                    }
+                    val contentUriPrefixesToTry = arrayOf(
+                        "content://downloads/public_downloads",
+                        "content://downloads/my_downloads"
+                    )
+                    for (contentUriPrefix in contentUriPrefixesToTry) {
+                        return try {
+                            val contentUri = ContentUris.withAppendedId(
+                                Uri.parse(contentUriPrefix),
+                                Long.valueOf(id)
+                            )
+                            getDataColumn(context, contentUri, null, null)
+                        } catch (e: NumberFormatException) {
+                            //In Android 8 and Android P the id is not a number
+                            uri.path!!.replaceFirst("^/document/raw:".toRegex(), "")
+                                .replaceFirst("^raw:".toRegex(), "")
+                        }
+                    }
+                }
+            } else {
+                val id = DocumentsContract.getDocumentId(uri)
+                if (id.startsWith("raw:")) {
+                    return id.replaceFirst("raw:".toRegex(), "")
+                }
+                try {
+                    contentUri = ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"),
+                        Long.valueOf(id)
+                    )
+                } catch (e: NumberFormatException) {
+                    e.printStackTrace()
+                }
+                if (contentUri != null) {
+                    return getDataColumn(context, contentUri, null, null)
+                }
+            }
+            return null
+        } else if (isMediaDocument(uri)) {
+            val docId = DocumentsContract.getDocumentId(uri)
+            val split = docId.split(":".toRegex()).toTypedArray()
+            val type = split[0]
+            var contentUri: Uri? = null
+            if ("image" == type) {
+                contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            } else if ("video" == type) {
+                contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+            } else if ("audio" == type) {
+                contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+            } else {
+                contentUri = MediaStore.Files.getContentUri("external");
+            }
+            selection1 = "_id=?"
+            selectionArgs1 = arrayOf(split[1])
+            return getDataColumn(
+                context, contentUri, selection1,
+                selectionArgs1
+            )
+        } else if (isGoogleDriveUri(uri)) {
+            return getDriveFilePath(uri, context)
+        } else return null
     }
 
 
@@ -199,9 +218,9 @@ object FileUtils {
         return try {
             val proj = arrayOf(MediaStore.Images.Media.DATA)
             cursor = context.contentResolver.query(contentUri, proj, null, null, null)
-            val column_index = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            val columnIndex = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
             cursor.moveToFirst()
-            cursor.getString(column_index)
+            cursor.getString(columnIndex)
         } catch (e: java.lang.Exception) {
             Log.e(TAG, "getRealPathFromURI Exception : $e")
             ""
@@ -242,7 +261,6 @@ object FileUtils {
         val sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE)
         returnCursor.moveToFirst()
         val name = returnCursor.getString(nameIndex)
-        val size = java.lang.Long.toString(returnCursor.getLong(sizeIndex))
         val file = File(context.cacheDir, name)
         try {
             val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
@@ -257,11 +275,9 @@ object FileUtils {
             while (inputStream.read(buffers).also { read = it } != -1) {
                 outputStream.write(buffers, 0, read)
             }
-            Log.e("File Size", "Size " + file.length())
             inputStream.close()
             outputStream.close()
-            Log.e("File Path", "Path " + file.getPath())
-            Log.e("File Size", "Size " + file.length())
+
         } catch (e: Exception) {
             e.message?.let { Log.e("Exception", it) }
         }
@@ -274,7 +290,6 @@ object FileUtils {
         val sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE)
         returnCursor.moveToFirst()
         val name = returnCursor.getString(nameIndex)
-        val size = java.lang.Long.toString(returnCursor.getLong(sizeIndex))
         val file = File(context.filesDir, name)
         try {
             val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
@@ -289,11 +304,9 @@ object FileUtils {
             while (inputStream!!.read(buffers).also { read = it } != -1) {
                 outputStream.write(buffers, 0, read)
             }
-            Log.e("File Size", "Size " + file.length())
             inputStream.close()
             outputStream.close()
-            Log.e("File Path", "Path " + file.getPath())
-            Log.e("File Size", "Size " + file.length())
+
         } catch (e: Exception) {
             e.message?.let { Log.e("Exception", it) }
         }

@@ -15,6 +15,7 @@ data class SectionModel(
     var expandedItemPos: Int? = -1,
 //    var desc: String = "",
     var lessonList: ArrayList<ChildModel> = arrayListOf<ChildModel>(),
+    var isVisible: Boolean = true
 ) : BaseObservable(), Parcelable {
 
 

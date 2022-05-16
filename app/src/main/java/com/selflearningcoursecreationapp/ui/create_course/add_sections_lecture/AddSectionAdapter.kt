@@ -10,6 +10,7 @@ import com.selflearningcoursecreationapp.databinding.AdapterSectionViewBinding
 import com.selflearningcoursecreationapp.extensions.content
 import com.selflearningcoursecreationapp.extensions.gone
 import com.selflearningcoursecreationapp.extensions.visible
+import com.selflearningcoursecreationapp.extensions.visibleView
 import com.selflearningcoursecreationapp.utils.Constant
 import java.util.*
 
@@ -34,10 +35,8 @@ class AddSectionAdapter(private val users: ArrayList<SectionModel>) :
             String.format(binding.root.context.getString(R.string.section), position + 1)
         binding.tvLectureNumber.text = users[position].lessonList.size.toString() + " Lecture"
 
-        binding.llChild.isVisible =
-            users[position].expandedItemPos != -1 && users[position].expandedItemPos == holder.adapterPosition
-
-        if (binding.llChild.isVisible) {
+        binding.llChild.visibleView(users[position].isVisible)
+        if (users[position].isVisible) {
             binding.ivVisible.setImageResource(R.drawable.ic_arrow_top)
 //            binding.tvLessonList.visible()
         } else {
@@ -46,22 +45,61 @@ class AddSectionAdapter(private val users: ArrayList<SectionModel>) :
         }
 
         binding.ivVisible.setOnClickListener {
-            if (users[position].expandedItemPos != -1) {
-                if (users[position].expandedItemPos == holder.adapterPosition) {
-                    users[position].expandedItemPos = -1
-                    notifyItemChanged(holder.adapterPosition)
+            users.forEachIndexed { index, sectionModel ->
+                if (index != position) {
+                    sectionModel.isVisible = false
                 } else {
-                    val lastExpandPos = users[position].expandedItemPos
-                    users[position].expandedItemPos = holder.adapterPosition
-                    notifyItemChanged(lastExpandPos!!)
-                    notifyItemChanged(holder.adapterPosition)
+                    sectionModel.isVisible = !sectionModel.isVisible
                 }
-            } else {
-                users[position].expandedItemPos = holder.adapterPosition
-                notifyItemChanged(holder.adapterPosition)
+            }
+            notifyDataSetChanged()
+//            if (users[position].expandedItemPos != -1) {
+//                if (users[position].expandedItemPos == holder.adapterPosition) {
+//                    users[position].expandedItemPos = -1
+//                    notifyItemChanged(holder.adapterPosition)
+//                } else {
+//                    val lastExpandPos = users[position].expandedItemPos
+//                    users[position].expandedItemPos = holder.adapterPosition
+//                    notifyItemChanged(lastExpandPos!!)
+//                    notifyItemChanged(holder.adapterPosition)
+//                }
+//            } else {
+//                users[position].expandedItemPos = holder.adapterPosition
+//                notifyItemChanged(holder.adapterPosition)
+//            }
+        }
+
+        lectureFunctionality(position, binding, holder)
+
+
+        binding.btSave.apply {
+            isVisible = users[position].lessonList.isEmpty().not()
+
+            setOnClickListener {
+                onItemClick(
+                    Constant.CLICK_SAVE,
+                    position,
+                    binding.etSectionTitle.content(),
+                    binding.etSectionDesc.content()
+                )
             }
         }
 
+
+        binding.btUpload.setOnClickListener {
+
+            onItemClick(Constant.CLICK_UPLOAD, position)
+        }
+
+        binding.executePendingBindings()
+
+    }
+
+    private fun lectureFunctionality(
+        position: Int,
+        binding: AdapterSectionViewBinding,
+        holder: BaseViewHolder
+    ) {
         if (!users[position].lessonList.isEmpty()) {
             binding.rvLecture.visible()
             val touchHelper = object : TouchHelper() {
@@ -111,29 +149,6 @@ class AddSectionAdapter(private val users: ArrayList<SectionModel>) :
             binding.rvLecture.gone()
 
         }
-
-
-        binding.btSave.apply {
-            isVisible = users[position].lessonList.isEmpty().not()
-
-            setOnClickListener {
-                onItemClick(
-                    Constant.CLICK_SAVE,
-                    position,
-                    binding.etSectionTitle.content(),
-                    binding.etSectionDesc.content()
-                )
-            }
-        }
-
-
-        binding.btUpload.setOnClickListener {
-
-            onItemClick(Constant.CLICK_UPLOAD, position)
-        }
-
-        binding.executePendingBindings()
-
     }
 
 

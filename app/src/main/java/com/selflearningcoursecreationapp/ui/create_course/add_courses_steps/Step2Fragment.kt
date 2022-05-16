@@ -96,21 +96,21 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
 //        }
 //    }
 
-    private fun activityResultListener() {
-        requireActivity().supportFragmentManager.setFragmentResultListener(
-            "valueHTML",
-            viewLifecycleOwner
-        ) { _, bundle ->
-            val value = bundle.getString("value")
-            val type = bundle.getInt("type")
-            if (type == Constant.DESC) {
-                viewModel.courseData.value?.keyTakeaways = value ?: ""
-                binding.tvKeyword.text = Html.fromHtml(value)
-                viewModel.notifyData()
-
-            }
-        }
-    }
+//    private fun activityResultListener() {
+//        requireActivity().supportFragmentManager.setFragmentResultListener(
+//            "valueHTML",
+//            viewLifecycleOwner
+//        ) { _, bundle ->
+//            val value = bundle.getString("value")
+//            val type = bundle.getInt("type")
+//            if (type == Constant.DESC) {
+//                viewModel.courseData.value?.keyTakeaways = value ?: ""
+//                binding.tvKeyword.text = Html.fromHtml(value)
+//                viewModel.notifyData()
+//
+//            }
+//        }
+//    }
 
 
     override fun onHandleClick(vararg items: Any) {

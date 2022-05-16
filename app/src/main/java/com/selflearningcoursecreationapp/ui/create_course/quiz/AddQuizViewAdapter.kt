@@ -146,11 +146,8 @@ class AddQuizViewAdapter(private var list: ArrayList<QuizQuestionData>) :
 
         list[position].optionSelected = optionType
 
-        if (list[position].optionList.size < 4 && data.isEnabled != false) {
-            binding.tvAdd.visible()
-        } else {
-            binding.tvAdd.gone()
-        }
+
+        binding.tvAdd.visibleView(list[position].optionList.size < 4 && data.isEnabled != false)
 
 
 
@@ -161,28 +158,29 @@ class AddQuizViewAdapter(private var list: ArrayList<QuizQuestionData>) :
             setOnAdapterItemClickListener(object : BaseAdapter.IViewClick {
                 override fun onItemClick(vararg items: Any) {
                     this@AddQuizViewAdapter.onItemClick(items[0] as Int, position, items[1] as Int)
-                    if (items.isNotEmpty()) {
-                        when (items[0] as Int) {
-                            Constant.CLICK_OPTION_DELETE -> {
-                                if (list[position].optionList.size ?: 0 < 4) {
-                                    binding.tvAdd.visible()
-                                }
-                            }
+                    when (items[0] as Int) {
+                        Constant.CLICK_OPTION_DELETE -> {
+
+                            binding.tvAdd.visibleView(list[position].optionList.size ?: 0 < 4)
+
                         }
                     }
+
                 }
             })
         }
 
-        binding.tvColumn1.changeTextColor(if (optionType == 0) ThemeConstants.TYPE_PRIMARY else ThemeConstants.TYPE_BODY)
-        binding.tvColumn2.changeTextColor(if (optionType == 1) ThemeConstants.TYPE_PRIMARY else ThemeConstants.TYPE_BODY)
 
         if (optionType == 0) {
             binding.tvColumn1.changeBackgroundTint(ThemeConstants.TYPE_THEME)
             binding.tvColumn2.backgroundTintList = null
+            binding.tvColumn1.changeTextColor(ThemeConstants.TYPE_PRIMARY)
+            binding.tvColumn2.changeTextColor(ThemeConstants.TYPE_BODY)
         } else {
             binding.tvColumn1.backgroundTintList = null
             binding.tvColumn2.changeBackgroundTint(ThemeConstants.TYPE_THEME)
+            binding.tvColumn1.changeTextColor(ThemeConstants.TYPE_BODY)
+            binding.tvColumn2.changeTextColor(ThemeConstants.TYPE_PRIMARY)
         }
     }
 

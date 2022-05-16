@@ -58,44 +58,25 @@ class AddSectionOrLectureFragment :
             adapter?.notifyDataSetChanged()
         }
 
-        viewModel.addSectionLiveData.observe(viewLifecycleOwner) {
-            it.getContentIfNotHandled()?.let {
-                if (it != 0) {
-                    binding.btAddSection.gone()
-                    setAdapter(it)
-                }
-            }
-        }
-        viewModel.deleteSectionLiveData.observe(viewLifecycleOwner) {
+        observeAddSection()
+        observeDeleteSection()
+        observeDeleteLecture()
+
+        observeAddLecture()
+
+        viewModel.addPatchSectionLiveData.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let {
                 if (it == true) {
-//                    viewModel.users.removeAt(adapterPosition)
-                    if (viewModel.users.size == 0) {
-                        binding.btAddSection.gone()
-                    }
-                    binding.rvSections.run {
-                        binding.rvSections.invalidate()
-                        binding.rvSections.adapter?.notifyDataSetChanged()
-
-                    }
-                    handleInitList()
+                    viewModel.users[adapterPosition].expandedItemPos = -1
+                    adapter?.notifyDataSetChanged()
+                    binding.btAddSection.visible()
                 }
+
             }
         }
-        viewModel.deleteLectureLiveData.observe(viewLifecycleOwner) {
-            it.getContentIfNotHandled()?.let {
-                if (it == true) {
-                    viewModel.users[adapterPosition].lessonList.removeAt(childPosition)
-                    binding.rvSections.run {
-                        binding.rvSections.invalidate()
-                        binding.rvSections.adapter?.notifyDataSetChanged()
+    }
 
-                    }
-                    handleInitList()
-                }
-            }
-        }
-
+    private fun observeAddLecture() {
         viewModel.addLectureLiveData.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let {
                 if (it != 0) {
@@ -119,24 +100,57 @@ class AddSectionOrLectureFragment :
                                 )
                             findNavController().navigate(action)
                         }
-                        else -> {
 
-                        }
                     }
 
 
                 }
             }
         }
+    }
 
-        viewModel.addPatchSectionLiveData.observe(viewLifecycleOwner) {
+    private fun observeDeleteLecture() {
+        viewModel.deleteLectureLiveData.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let {
                 if (it == true) {
-                    viewModel.users[adapterPosition].expandedItemPos = -1
-                    adapter?.notifyDataSetChanged()
-                    binding.btAddSection.visible()
-                }
+                    viewModel.users[adapterPosition].lessonList.removeAt(childPosition)
+                    binding.rvSections.run {
+                        binding.rvSections.invalidate()
+                        binding.rvSections.adapter?.notifyDataSetChanged()
 
+                    }
+                    handleInitList()
+                }
+            }
+        }
+    }
+
+    private fun observeDeleteSection() {
+        viewModel.deleteSectionLiveData.observe(viewLifecycleOwner) {
+            it.getContentIfNotHandled()?.let {
+                if (it == true) {
+                    //                    viewModel.users.removeAt(adapterPosition)
+                    if (viewModel.users.size == 0) {
+                        binding.btAddSection.gone()
+                    }
+                    binding.rvSections.run {
+                        binding.rvSections.invalidate()
+                        binding.rvSections.adapter?.notifyDataSetChanged()
+
+                    }
+                    handleInitList()
+                }
+            }
+        }
+    }
+
+    private fun observeAddSection() {
+        viewModel.addSectionLiveData.observe(viewLifecycleOwner) {
+            it.getContentIfNotHandled()?.let {
+                if (it != 0) {
+                    binding.btAddSection.gone()
+                    setAdapter(it)
+                }
             }
         }
     }
@@ -275,8 +289,7 @@ class AddSectionOrLectureFragment :
             adapterPosition = items[1] as Int
 
             when (type) {
-                Constant.CLICK_VIEW -> {
-                }
+
                 Constant.CLICK_MORE -> {
                     SectionMoreDialog().apply {
                         setOnDialogClickListener(this@AddSectionOrLectureFragment)

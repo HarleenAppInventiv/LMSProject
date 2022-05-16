@@ -76,21 +76,6 @@ class SingleChoiceBottomDialog : BaseBottomSheetDialog<BottomDialogSingleChoiceB
         setAdapter()
     }
 
-    private fun setCourseTypeData() {
-        arrayOf("Free", "Paid", "Restricted", "Reward Points")?.forEachIndexed { index, s ->
-            list.add(SingleChoiceData(index + 1, false, title = s))
-        }
-        setAdapter()
-
-    }
-
-    private fun setCourseComplexityData() {
-        arrayOf("Beginner", "Intermediate", "Advanced")?.forEachIndexed { index, s ->
-            list.add(SingleChoiceData(index + 1, false, title = s))
-        }
-        setAdapter()
-
-    }
 
 
     private fun setAdapter() {

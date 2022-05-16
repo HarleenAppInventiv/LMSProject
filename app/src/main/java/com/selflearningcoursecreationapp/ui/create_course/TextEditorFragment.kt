@@ -138,7 +138,7 @@ class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClic
     override fun onTextChange(text1: String?) {
 
         count = (Html.fromHtml(text1).toString()).wordCount()
-        binding.btAddText.isEnabled = if (count == 0 || count > 500) false else true
+        binding.btAddText.isEnabled = !(count == 0 || count > 500)
 
         binding.tvWordCount.apply {
             text = count.toString()

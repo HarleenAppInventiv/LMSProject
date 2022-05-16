@@ -223,7 +223,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/et_marks"
                 app:textColorType="heading" />
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSSeekBar
+            <androidx.appcompat.widget.AppCompatSeekBar
                 android:id="@+id/sb_pass"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -237,8 +237,7 @@
                 android:valueTo="100.0"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_pass"
-                app:vectorThumb="@drawable/ic_seek_thumb" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_pass" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:layout_width="wrap_content"

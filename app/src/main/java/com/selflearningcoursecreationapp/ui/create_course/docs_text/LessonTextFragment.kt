@@ -12,7 +12,6 @@ import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.databinding.FragmentLessonTextBinding
 import com.selflearningcoursecreationapp.extensions.content
-import com.selflearningcoursecreationapp.extensions.wordCount
 import com.selflearningcoursecreationapp.models.user.UserProfile
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.Constant
@@ -91,10 +90,9 @@ class LessonTextFragment : BaseFragment<FragmentLessonTextBinding>() {
             val type = bundle.getInt("type")
             if (type == Constant.DESC) {
                 descHTML = value.toString()
-                var count = (Html.fromHtml(value).toString()).wordCount()
                 viewModel.courseData.value?.courseDescription = value ?: ""
                 binding.edtText.setText(Html.fromHtml(value))
-                viewModel.notifyData()
+                viewModel.courseData.value?.notifyChange()
 //                binding.tvWordCount.apply {
 //                    text = "${count}"
 //                    if (count < 500) {

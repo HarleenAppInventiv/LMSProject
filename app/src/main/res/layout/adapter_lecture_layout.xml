@@ -4,10 +4,6 @@
 
     <data>
 
-        <!--        <variable-->
-        <!--            name="addLesson"-->
-        <!--            type="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel" />-->
-
     </data>
 
     <com.selflearningcoursecreationapp.utils.customViews.LMSCardView

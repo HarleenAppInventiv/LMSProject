@@ -138,10 +138,10 @@ interface ApiService {
         @Part file: MultipartBody.Part,
         @Part("FileName") fileName: RequestBody?,
         @Part("CourseId") courseId: RequestBody?,
-        @Part("SectionId") SectionId: RequestBody?,
-        @Part("QuizId") QuizId: RequestBody?,
-        @Part("LectureId") LectureId: RequestBody?,
-        @Part("ImageTypeId") ImageTypeId: RequestBody?,
+        @Part("SectionId") sectionId: RequestBody?,
+        @Part("QuizId") quizId: RequestBody?,
+        @Part("LectureId") lectureId: RequestBody?,
+        @Part("ImageTypeId") imageTypeId: RequestBody?,
     ): Response<BaseResponse<ImageResponse>>
 
     @POST(ApiEndPoints.API_ADD_QUIZ)

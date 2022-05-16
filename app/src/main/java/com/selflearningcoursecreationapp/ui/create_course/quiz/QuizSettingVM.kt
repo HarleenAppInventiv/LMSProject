@@ -3,7 +3,6 @@ package com.selflearningcoursecreationapp.ui.create_course.quiz
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.selflearningcoursecreationapp.base.BaseViewModel
-import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.models.course.quiz.QuizSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -20,9 +19,7 @@ class QuizSettingVM(private var repo: AddQuizRepo) : BaseViewModel() {
             val response = repo.saveQuiz(quizSettings.value)
             withContext(Dispatchers.IO) {
                 response.collect {
-                    if (it is Resource.Success<*>) {
 
-                    }
                     updateResponseObserver(it)
                 }
             }

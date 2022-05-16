@@ -51,9 +51,12 @@ class QuizSettingsFragment : BaseFragment<FragmentQuizSettingsBinding>(),
         binding.sbTime.setOnSeekBarChangeListener(this)
         binding.sbTime.getProgressDrawable()
             .setColorFilter(ThemeUtils.getAppColor(baseActivity), PorterDuff.Mode.SRC_IN);
-//        binding.sbPass.getProgressDrawable()
-//            .setColorFilter(ThemeUtils.getAppColor(baseActivity), PorterDuff.Mode.SRC_IN);
-//        binding.sbTime.getThumb().setColorFilter(ThemeUtils.getAppColor(baseActivity), PorterDuff.Mode.MULTIPLY);
+        binding.sbPass.getProgressDrawable()
+            .setColorFilter(ThemeUtils.getAppColor(baseActivity), PorterDuff.Mode.SRC_IN);
+        binding.sbTime.getThumb()
+            .setColorFilter(ThemeUtils.getAppColor(baseActivity), PorterDuff.Mode.MULTIPLY);
+        binding.sbPass.getThumb()
+            .setColorFilter(ThemeUtils.getAppColor(baseActivity), PorterDuff.Mode.MULTIPLY);
 
     }
 
@@ -82,9 +85,12 @@ class QuizSettingsFragment : BaseFragment<FragmentQuizSettingsBinding>(),
     }
 
     override fun onStartTrackingTouch(p0: SeekBar?) {
+        //TODO: implementation
     }
 
     override fun onStopTrackingTouch(p0: SeekBar?) {
+        //TODO: implementation
+
     }
 
 
