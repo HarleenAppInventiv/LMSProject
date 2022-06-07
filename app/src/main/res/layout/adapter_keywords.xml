@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/white_cornered_bg"
+        android:paddingHorizontal="@dimen/_10sdp"
+        android:paddingVertical="@dimen/_4sdp"
+        app:viewBackground="tint">
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Educational"
+            android:textSize="@dimen/_12ssp"
+            app:fontType="medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:textColorType="theme" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSRichView
+            android:id="@+id/iv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:src="@drawable/ic_circle_cross"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:vector="@drawable/ic_circle_cross" />
+
+
+    </com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout>
+</layout>

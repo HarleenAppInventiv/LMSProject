@@ -13,6 +13,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:id="@+id/parentCL"
+        android:background="?attr/viewBackgroundColor"
         android:layout_height="match_parent">
 
 
@@ -20,14 +22,11 @@
             android:id="@+id/tv_dialog_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:lineSpacingExtra="6sp"
-            android:paddingStart="@dimen/_10sdp"
-            android:paddingTop="@dimen/_16sdp"
-            android:paddingBottom="@dimen/_16sdp"
+            android:paddingHorizontal="@dimen/_16sdp"
+            android:paddingVertical="@dimen/_18sdp"
             android:textColor="?attr/whiteTextColor"
-            android:textSize="@dimen/_14ssp"
-            android:textStyle="normal"
-            app:fontType="medium"
+            android:textSize="@dimen/_16ssp"
+            app:fontType="semiBold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -40,7 +39,7 @@
             android:id="@+id/iv_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_10sdp"
+            android:padding="@dimen/_20sdp"
             android:contentDescription="@string/close"
             android:src="@drawable/ic_close"
             app:layout_constraintBottom_toBottomOf="@+id/tv_dialog_title"
@@ -57,8 +56,22 @@
             android:overScrollMode="never"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_dialog_title"
-            tools:itemCount="12"
-            tools:listitem="@layout/adapter_recycler_year_month" />
+            tools:itemCount="3"
+            tools:listitem="@layout/adapter_single_choice" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+            android:id="@+id/bt_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_16sdp"
+            android:paddingHorizontal="@dimen/_16sdp"
+            android:text="@string/done"
+            android:textSize="@dimen/_14ssp"
+            android:visibility="gone"
+            app:buttonFont="semiBold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_list" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

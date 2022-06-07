@@ -10,6 +10,8 @@ interface AddCourseRepo {
     suspend fun step1UpdateCourse(map: HashMap<String, Any>): Flow<Resource>
     suspend fun step2AddCourse(map: HashMap<String, Any>): Flow<Resource>
     suspend fun getMasterData(): Flow<Resource>
+    suspend fun getCourseDetail(courseId: Int): Flow<Resource>
+    suspend fun getCourseSections(courseId: Int): Flow<Resource>
     suspend fun uploadCourseImage(
         filePart: MultipartBody.Part,
         body: RequestBody,
@@ -29,5 +31,10 @@ interface AddCourseRepo {
     ): Flow<Resource>
 
     suspend fun dragAndDropLecture(map: HashMap<String, Any>): Flow<Resource>
+    suspend fun getAssessmentQues(assessmentId: Int): Flow<Resource>
+    suspend fun deleteAssessment(assessmentId: Int, courseID: Int, show: Boolean): Flow<Resource>
+    suspend fun publishCourse(data: HashMap<String, Any>): Flow<Resource>
+    suspend fun getKeywords(data: HashMap<String, Any>): Flow<Resource>
+    suspend fun updateCoAuthorStatus(map: HashMap<String, Any>): Flow<Resource>
 
 }

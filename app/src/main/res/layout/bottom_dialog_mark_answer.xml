@@ -31,7 +31,7 @@
             android:paddingStart="@dimen/_10sdp"
             android:paddingTop="@dimen/_16sdp"
             android:paddingBottom="@dimen/_16sdp"
-            android:text="Mark Correct Answer"
+            android:text="@string/mark_correct_answer"
             android:textColor="?attr/whiteTextColor"
             android:textSize="@dimen/_14ssp"
             android:textStyle="normal"
@@ -64,12 +64,12 @@
             android:layout_marginTop="@dimen/_25sdp"
             android:background="@color/transPrimary"
             android:paddingVertical="@dimen/_5sdp"
-            android:text="Column 1"
+            android:text="@string/column_1"
             android:textAlignment="center"
             app:layout_constraintEnd_toStartOf="@+id/tv_column2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_dialog_title"
-            app:layout_constraintWidth_percent="0.35" />
+            app:layout_constraintWidth_percent="0.33" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_column2"
@@ -77,9 +77,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_25sdp"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:background="@color/progress_bg"
+            android:background="@color/transPrimary"
             android:paddingVertical="@dimen/_5sdp"
-            android:text="Column B"
+            android:text="@string/column_2"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_column1"
@@ -89,6 +89,7 @@
             android:id="@+id/rv_column"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:overScrollMode="never"
             android:layout_marginTop="@dimen/_15sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
@@ -104,6 +105,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_15sdp"
             android:text="@string/save"
+
+            android:padding="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

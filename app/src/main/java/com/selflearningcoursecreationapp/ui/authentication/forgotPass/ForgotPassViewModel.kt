@@ -24,8 +24,6 @@ class ForgotPassViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
 
 
     fun validate(selectedCountryCodeWithPlus: String) {
-
-
         when {
             emailPhone.value.isNullOrEmpty() -> {
 
@@ -74,11 +72,11 @@ class ForgotPassViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
             val map = HashMap<String, Any>()
             if (isPhone) {
                 map["phone"] = emailPhone.value!!
+                map["countryCode"] = selectedCountryCodeWithPlus
             } else {
                 map["email"] = emailPhone.value!!
             }
             map["OtpType"] = OTP_TYPE.TYPE_FORGOT.toString()
-            map["countryCode"] = selectedCountryCodeWithPlus
 
 
             updateResponseObserver(Resource.Loading())

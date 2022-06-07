@@ -16,8 +16,8 @@
         app:cardCornerRadius="@dimen/_5sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
             android:id="@+id/parentCL"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
@@ -31,11 +31,12 @@
                 android:paddingBottom="@dimen/_30sdp"
                 android:text="LMS"
                 android:textColor="@color/white"
-                app:fontType="bold"
-                app:textColorType="none"
+                android:textSize="@dimen/_14ssp"
+                app:fontType="semiBold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:textColorType="none" />
 
             <View
                 android:layout_width="0dp"
@@ -49,9 +50,9 @@
                 android:id="@+id/iv_preview"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
-                android:contentDescription="@string/course_image"
                 android:layout_margin="@dimen/_10sdp"
                 android:alpha="0.1"
+                android:contentDescription="@string/course_image"
                 android:src="?attr/headingTextColor"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -76,8 +77,8 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_5sdp"
                 android:layout_marginHorizontal="@dimen/_15sdp"
-                android:alpha="0.1"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:alpha="0.1"
                 android:background="?attr/headingTextColor"
                 android:padding="@dimen/_5sdp"
                 android:textSize="@dimen/_13ssp"
@@ -88,10 +89,10 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_selected"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:contentDescription="@string/theme_selected"
                 android:padding="@dimen/_10sdp"
                 android:src="@drawable/ic_selected_category"
-                android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/whiteTextColor"
-        android:paddingHorizontal="@dimen/_15sdp"
-        android:paddingTop="@dimen/_15sdp">
+        android:paddingHorizontal="@dimen/_16sdp"
+        android:paddingTop="@dimen/_22sdp">
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_title"
@@ -19,7 +19,11 @@
             android:layout_height="wrap_content"
             android:paddingVertical="@dimen/_5sdp"
             android:text="01 (Jan) "
-            app:fontType="medium"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:textSize="@dimen/_14ssp"
+            app:fontType="semiBold"
+            app:layout_constraintEnd_toStartOf="@+id/rb_checked"
+            app:layout_goneMarginEnd="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,17 +31,28 @@
             android:id="@+id/rb_checked"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/_5sdp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_title"
+            app:layout_constraintEnd_toStartOf="@+id/iv_selected"
+            app:layout_constraintTop_toTopOf="@+id/tv_title" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:id="@+id/iv_selected"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_selected_category"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/tv_title"
+            app:layout_constraintTop_toTopOf="@+id/tv_title" />
 
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_1sdp"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:background="?attr/offwhiteTextColor"
+            android:layout_height="@dimen/_0.5dp"
+            android:layout_marginTop="@dimen/_22sdp"
+            android:alpha="0.5"
+            android:background="@color/hint_color_929292"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />

@@ -92,19 +92,18 @@
     <clip-path
         android:pathData="M52.724,95.178c25.1,0 45.446,-20.346 45.446,-45.445 0,-25.098 -20.347,-45.445 -45.446,-45.445 -25.098,0 -45.445,20.346 -45.445,45.445s20.347,45.445 45.445,45.445z"/>
     <group>
-      <clip-path
-          android:pathData="M18.84,85.935 L6.081,76.25 64.325,-0.473l12.76,9.686L18.84,85.935z"/>
-      <path
-          android:pathData="M18.84,85.935 L6.081,76.25 64.325,-0.473l12.76,9.686L18.84,85.935z"
-          android:strokeAlpha="0.5"
-          android:fillAlpha="0.5"></path>
+        <clip-path android:pathData="M18.84,85.935 L6.081,76.25 64.325,-0.473l12.76,9.686L18.84,85.935z" />
+        <path
+            android:fillAlpha="0.5"
+            android:pathData="M18.84,85.935 L6.081,76.25 64.325,-0.473l12.76,9.686L18.84,85.935z"
+            android:strokeAlpha="0.5" />
     </group>
     <group>
         <clip-path android:pathData="m35.367,100.61 l-6.993,-5.307 58.244,-76.727 6.99,5.308 -58.24,76.726z" />
         <path
             android:fillAlpha="0.5"
             android:pathData="m35.368,100.61 l-6.993,-5.307 58.244,-76.727 6.99,5.308 -58.24,76.726z"
-            android:strokeAlpha="0.5"></path>
+            android:strokeAlpha="0.5" />
     </group>
   </group>
 </vector>

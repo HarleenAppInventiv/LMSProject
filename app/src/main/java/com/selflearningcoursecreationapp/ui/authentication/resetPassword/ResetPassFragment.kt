@@ -13,7 +13,6 @@ import com.selflearningcoursecreationapp.utils.CommonAlertDialog
 import com.selflearningcoursecreationapp.utils.SpanUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class ResetPassFragment : BaseFragment<FragmentResetPassBinding>() {
     private val viewModel: ResetViewModel by viewModel()
     var userId = ""
@@ -47,7 +46,6 @@ class ResetPassFragment : BaseFragment<FragmentResetPassBinding>() {
         }
 
     }
-
 
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)

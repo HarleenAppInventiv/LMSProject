@@ -31,7 +31,7 @@ private fun getHttpClient(): OkHttpClient.Builder {
             val requestBuilder: Request.Builder = original.newBuilder()
                 .header("Accept", "application/json")
                 .header("Authorization", "Bearer ${SelfLearningApplication.token}")
-                .header("platform", "1")
+                .header("platform", "3")
                 .header("api_key", "1234")
                 .header("language", SelfLearningApplication.languageCode)
                 .header("offset", getOffset())

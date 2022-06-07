@@ -23,7 +23,7 @@ android {
         minSdk 21
         targetSdk 32
         versionCode 1
-        versionName "1.0.7"
+        versionName "1.0.14"
         vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -142,13 +142,26 @@ dependencies {
 
 
     //google Auth
-    implementation 'com.google.android.gms:play-services-auth:20.1.0'
+    implementation 'com.google.android.gms:play-services-auth:20.2.0'
 
     //ccp
     implementation 'com.hbb20:ccp:2.4.7'
 
     //mpchart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
+    //Exo player
+    implementation 'com.google.android.exoplayer:exoplayer:2.17.1'
+
+    //compressor
+    implementation 'com.github.AbedElazizShe:LightCompressor:1.1.1'
+
+    implementation 'com.google.firebase:firebase-messaging:23.0.5'
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+
+    //gif
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
 
 
 }

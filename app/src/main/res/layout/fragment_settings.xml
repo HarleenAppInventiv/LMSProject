@@ -35,6 +35,8 @@
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:paddingTop="@dimen/_10sdp"
             android:paddingBottom="@dimen/_33sdp"
+            android:textSize="@dimen/_14ssp"
+            app:fontType="regular"
             android:text="@string/change_password"
             app:drawableStartCompat="@drawable/ic_key_password"
             app:primaryIconTint="start" />
@@ -49,6 +51,8 @@
             android:paddingVertical="@dimen/_30sdp"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:text="@string/change_language"
+            android:textSize="@dimen/_14ssp"
+            app:fontType="regular"
             app:drawableStartCompat="@drawable/ic_world_language"
             app:primaryIconTint="start" />
 
@@ -61,6 +65,8 @@
             android:drawablePadding="@dimen/_10sdp"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:paddingVertical="@dimen/_30sdp"
+            android:textSize="@dimen/_14ssp"
+            app:fontType="regular"
             android:text="@string/change_categories"
             app:drawableStartCompat="@drawable/ic_dashboard"
             app:primaryIconTint="start" />
@@ -74,6 +80,8 @@
             android:background="@drawable/bottom_line_grey"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:paddingVertical="@dimen/_30sdp"
+            android:textSize="@dimen/_14ssp"
+            app:fontType="regular"
             android:text="@string/change_theme"
             app:drawableStartCompat="@drawable/ic_change_theme"
             app:primaryIconTint="start" />
@@ -85,6 +93,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line_grey"
             android:drawablePadding="@dimen/_10sdp"
+            android:textSize="@dimen/_14ssp"
+            app:fontType="regular"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:paddingVertical="@dimen/_30sdp"
             android:text="@string/change_font"
@@ -98,9 +108,12 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line_grey"
             android:drawablePadding="@dimen/_10sdp"
+            android:textSize="@dimen/_14ssp"
+            app:fontType="regular"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:paddingVertical="@dimen/_30sdp"
             android:text="@string/about_us"
+
             app:drawableStartCompat="@drawable/ic_info"
             app:primaryIconTint="start" />
 
@@ -115,19 +128,23 @@
             android:paddingVertical="@dimen/_30sdp"
             android:text="@string/privacy_policy"
             app:drawableStartCompat="@drawable/ic_privacy_policy"
-
+            android:textSize="@dimen/_14ssp"
+            app:fontType="regular"
             app:primaryIconTint="start" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_support"
             spanText="@{@string/support}"
             android:layout_width="match_parent"
+            android:textSize="@dimen/_14ssp"
+            app:fontType="regular"
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line_grey"
             android:drawablePadding="@dimen/_10sdp"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:paddingVertical="@dimen/_30sdp"
             android:text="@string/support"
+
             app:drawableStartCompat="@drawable/ic_support"
             app:primaryIconTint="start" />
 
@@ -141,6 +158,8 @@
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:paddingVertical="@dimen/_30sdp"
             android:text="@string/terms_amp_condtions"
+            android:textSize="@dimen/_14ssp"
+            app:fontType="regular"
             app:drawableStartCompat="@drawable/ic_security"
             app:primaryIconTint="start" />
 
@@ -149,6 +168,8 @@
             spanText="@{@string/help}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/_14ssp"
+            app:fontType="regular"
             app:primaryIconTint="start"
             android:drawablePadding="@dimen/_10sdp"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"

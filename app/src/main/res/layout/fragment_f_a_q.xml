@@ -24,7 +24,7 @@
             android:layout_height="@dimen/_160sdp"
             android:importantForAccessibility="no"
 
-            app:changeBackgroundType="background"
+            app:changeBackgroundType="bg_theme_solid"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -38,7 +38,7 @@
 android:src="@drawable/ic_half_trans_circle_bg"
             android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
-            app:changeBackgroundType="tint"
+            app:changeBackgroundType="theme_multiply"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />

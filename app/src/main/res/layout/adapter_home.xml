@@ -23,7 +23,7 @@
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_15sdp"
             android:text="Popular Courses"
-            android:textSize="@dimen/_13ssp"
+            android:textSize="@dimen/_14ssp"
             app:fontType="semiBold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -37,7 +37,7 @@
             android:drawableEnd="@drawable/ic_arrow_right_blue"
             android:drawablePadding="@dimen/_5sdp"
             android:text="See All"
-            android:textSize="@dimen/_13ssp"
+            android:textSize="@dimen/_14ssp"
             app:fontType="semiBold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

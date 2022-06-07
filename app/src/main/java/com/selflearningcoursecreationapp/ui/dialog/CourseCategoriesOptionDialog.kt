@@ -8,6 +8,7 @@ import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.databinding.BottomDialogCourceCateBinding
 import com.selflearningcoursecreationapp.extensions.gone
 import com.selflearningcoursecreationapp.extensions.visible
+import com.selflearningcoursecreationapp.extensions.visibleView
 import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AdapterCourseCategory
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceViewModel
@@ -45,6 +46,7 @@ class CourseCategoriesOptionDialog() : BaseBottomSheetDialog<BottomDialogCourceC
                 binding.etSearch.visible()
             }
             DialogType.LANGUAGE -> {
+
                 list.clear()
                 list.addAll(arguments?.getParcelableArrayList<CategoryData>("list") ?: ArrayList())
                 list.forEach {
@@ -55,6 +57,8 @@ class CourseCategoriesOptionDialog() : BaseBottomSheetDialog<BottomDialogCourceC
                 setAdapter(list)
                 binding.etSearch.gone()
                 binding.tvTitle.text = baseActivity.getString(R.string.course_language)
+                binding.parentCL.visible()
+
 //                setLanguageData()
             }
         }
@@ -75,8 +79,8 @@ class CourseCategoriesOptionDialog() : BaseBottomSheetDialog<BottomDialogCourceC
             } else {
                 val dataList = ArrayList<CategoryData>()
                 list?.forEach {
-                    if (it.name?.toLowerCase()
-                            ?.contains(text.toString().toLowerCase()) == true
+                    if (it.name?.lowercase()
+                            ?.contains(text.toString().lowercase()) == true
                     ) {
                         dataList.add(it)
                     }
@@ -99,13 +103,18 @@ class CourseCategoriesOptionDialog() : BaseBottomSheetDialog<BottomDialogCourceC
                     catData.isSelected = true
                 }
             }
-            setAdapter(list)
+            if (!list.isNullOrEmpty()) {
+                setAdapter(list)
+                binding.parentCL.visible()
+            }
         })
 
     }
 
 
     private fun setAdapter(list: ArrayList<CategoryData>) {
+        binding.recyclerCourceCategory.visibleView(!list.isNullOrEmpty())
+        binding.tvNoData.visibleView(list.isNullOrEmpty())
         mAdapter?.notifyDataSetChanged() ?: kotlin.run {
             mAdapter = AdapterCourseCategory(list)
             binding.recyclerCourceCategory.adapter = mAdapter

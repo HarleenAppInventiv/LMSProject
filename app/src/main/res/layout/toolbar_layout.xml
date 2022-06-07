@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
 
                 android:lineSpacingExtra="6sp"
-                android:paddingStart="@dimen/_10sdp"
+                android:paddingHorizontal="@dimen/_10sdp"
                 android:textSize="@dimen/_14ssp"
                 android:paddingTop="@dimen/_16sdp"
                 android:paddingBottom="@dimen/_16sdp"

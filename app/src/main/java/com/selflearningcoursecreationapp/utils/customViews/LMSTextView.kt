@@ -53,18 +53,8 @@ class LMSTextView : AppCompatTextView {
 
         val fontType =
             themeAttrs.getInt(R.styleable.LMSTextView_fontType, ThemeConstants.FONT_REGULAR)
-        if (fontType >= 0) {
-            typeface = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.resources.getFont(
-
-                    ThemeUtils.getFont(SelfLearningApplication.fontId, fontType)
-                )
-            } else {
-                ResourcesCompat.getFont(
-                    context,
-                    ThemeUtils.getFont(SelfLearningApplication.fontId, fontType)
-                )
-            }
+        if (fontType > 0) {
+            changeFontType(fontType)
         }
 
         val textColorType =
@@ -84,6 +74,20 @@ class LMSTextView : AppCompatTextView {
         }
 
         themeAttrs.recycle()
+    }
+
+    fun changeFontType(fontType: Int) {
+        typeface = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.resources.getFont(
+
+                ThemeUtils.getFont(SelfLearningApplication.fontId, fontType)
+            )
+        } else {
+            ResourcesCompat.getFont(
+                context,
+                ThemeUtils.getFont(SelfLearningApplication.fontId, fontType)
+            )
+        }
     }
 
     fun setDrawableColor(
@@ -126,6 +130,12 @@ class LMSTextView : AppCompatTextView {
             ThemeConstants.TYPE_BODY -> {
                 ContextCompat.getColor(context, R.color.hint_color_929292)
             }
+            ThemeConstants.TYPE_BLACK -> {
+                ContextCompat.getColor(context, R.color.black)
+            }
+            ThemeConstants.TYPE_WHITE -> {
+                ContextCompat.getColor(context, R.color.white)
+            }
             ThemeConstants.TYPE_THEME -> {
                 ThemeUtils.getAppColor(context)
             }
@@ -163,6 +173,10 @@ class LMSTextView : AppCompatTextView {
                 }
                 ThemeConstants.TYPE_TINT -> {
                     ThemeUtils.getTintColor(context)
+
+                }
+                ThemeConstants.TYPE_BODY -> {
+                    ContextCompat.getColor(context, R.color.intro_btn_bg_color_f5f5f5)
 
                 }
                 else -> {

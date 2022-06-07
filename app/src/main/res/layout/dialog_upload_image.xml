@@ -8,29 +8,27 @@
 
     <com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout
         android:layout_width="match_parent"
-        app:viewBackground="primary"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:viewBackground="primary">
 
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/textView8"
-            app:fontType="medium"
+            spanText="@{@string/upload_image}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:textBgColor="theme"
             android:lineSpacingExtra="6sp"
-            android:paddingStart="@dimen/_10sdp"
-
-            android:paddingTop="@dimen/_16sdp"
-            android:paddingBottom="@dimen/_16sdp"
+            android:paddingHorizontal="@dimen/_16sdp"
+            android:paddingVertical="@dimen/_18sdp"
             android:text="@string/upload_image"
-            spanText="@{@string/upload_image}"
-            app:textColorType="none"
             android:textColor="?attr/whiteTextColor"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/_16ssp"
+            app:fontType="semiBold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:textBgColor="theme"
+            app:textColorType="none"
 
             />
 
@@ -40,59 +38,60 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/close"
+            android:padding="@dimen/_20sdp"
             android:src="@drawable/ic_close"
             app:layout_constraintBottom_toBottomOf="@+id/textView8"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView8"
-            android:paddingRight="@dimen/_10sdp"
-            />
+            app:layout_constraintTop_toTopOf="@+id/textView8" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/txt_take_photo"
-            app:fontType="medium"
+            spanText="@{@string/take_photo}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:primaryIconTint="start"
-            app:drawableStartCompat="@drawable/ic_camera"
-            android:lineSpacingExtra="4sp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:drawablePadding="@dimen/_10sdp"
+            android:paddingHorizontal="@dimen/_16sdp"
+            android:paddingVertical="@dimen/_28sdp"
             android:text="@string/take_photo"
-           spanText="@{@string/take_photo}"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_14ssp"
+            app:drawableStartCompat="@drawable/ic_camera"
+            app:fontType="semiBold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8"
-            android:paddingTop="@dimen/_20sdp"
-            android:paddingBottom="@dimen/_20sdp"
-            android:paddingStart="@dimen/_10sdp"
-            android:drawablePadding="@dimen/_15sdp"
-            android:background="@drawable/bottom_line"
-            />
-
-
+            app:primaryIconTint="start" />
 
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/txt_take_from_gallary"
-            app:fontType="medium"
+            spanText="@{@string/select_from_gallery}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/_10sdp"
             android:lineSpacingExtra="4sp"
+            android:paddingHorizontal="@dimen/_16sdp"
+            android:paddingVertical="@dimen/_28sdp"
             android:text="@string/select_from_gallery"
-            spanText="@{@string/select_from_gallery}"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_14ssp"
+            app:drawableStartCompat="@drawable/ic_photo_video_library"
+            app:fontType="semiBold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_take_photo"
-            android:paddingTop="@dimen/_20sdp"
-            android:paddingBottom="@dimen/_20sdp"
-            android:paddingStart="@dimen/_10sdp"
-            android:drawablePadding="@dimen/_15sdp"
-            app:primaryIconTint="start"
-            app:drawableStartCompat="@drawable/ic_photo_video_library" />
+            app:primaryIconTint="start" />
 
-
-
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_0.5dp"
+            android:layout_marginStart="@dimen/_40sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:alpha="0.7"
+            android:background="@color/hint_color_929292"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_take_photo" />
     </com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout>
 </layout>

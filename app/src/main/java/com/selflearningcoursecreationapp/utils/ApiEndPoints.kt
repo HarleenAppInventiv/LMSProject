@@ -7,6 +7,10 @@ object ApiEndPoints {
     const val LINK_ABOUT_US = "about-us"
     const val LINK_FAQ = "faq"
 
+
+    const val VALID_DATA: String = "valid_Data"
+
+
     const val BASE_URL = "https://appinventivlearningclientapi20220314151937.azurewebsites.net/Api/"
     const val API_SIGNUP = "SignUp/SignUpRequest"
     const val API_OTP_REQ = "SignUp/OtpRequest"
@@ -29,11 +33,16 @@ object ApiEndPoints {
     const val API_ADD_EMAIL = "SignUp/OtpRequestForEmailChange"
     const val API_VERIFY_EMAIL = "SignUp/ValidateOtpRequestForEmailChange"
     const val API_UPLOAD_IMAGE = "User/ProfilePicture"
+
+    //course
     const val API_CRE_STEP_1 = "Course"
     const val API_CRE_STEP_2 = "Course/Details"
     const val API_MASTER_DATA = "Master/GetMasterData"
     const val API_UPLOAD_BANNER = "Course/Banner"
     const val API_UPLOAD_LOGO = "Course/Logo"
+    const val API_PUBLISH_COURSE = "Course/Submit"
+    const val API_GET_KEYWORDS = "Course/SearchKeyword"
+    const val API_GET_SECTIONS = "Course/AllSections"
 
     //section
     const val API_ADD_SECTION_POST = "Course/Section"
@@ -46,6 +55,7 @@ object ApiEndPoints {
     const val API_ADD_LECTURE_PATCH = "Course/Section/Lecture"
     const val API_LECTURE_DELETE = "Course/Section/Lecture"
     const val API_LECTURE_DRAG_DROP = "Course/Section/Lecture/DragAndDrop"
+    const val API_GET_LECTURE_DETAIL = "Course/Section/LectureDetail"
 
     //quiz
     const val API_ADD_QUIZ = "Course/Section/Lecture/Quiz"
@@ -53,4 +63,21 @@ object ApiEndPoints {
     const val API_ADD_QUIZ_ANS = "Course/Section/Lecture/Quiz/Questions/Answeres"
     const val API_ADD_QUIZ_IMAGE = "Course/Section/Lecture/Quiz/Image"
     const val API_ADD_QUIZ_SAVE = "Course/Section/Lecture/SaveQuiz"
+
+    //assessment
+    const val API_ADD_ASSESSMENT = "Course/Assessment"
+    const val API_ADD_ASSESSMENT_QUESTION = "Course/Assessment/Questions"
+    const val API_ADD_ASSESSMENT_ANS = "Course/Assessment/Questions/Answeres"
+    const val API_ADD_ASSESSMENT_IMAGE = "Course/Assessment/Image"
+    const val API_ADD_ASSESSMENT_SAVE = "Course/Assessment/SaveAssessment"
+
+    //Content upload
+    const val API_CONTENT_UPLOAD = "Course/Section/Lecture/UploadCourseContent"
+    const val API_THUMBNAIL_UPLOAD = "Course/Section/Lecture/UploadThumbnail"
+
+    //coAuthor
+    const val API_INVITE_COAUTHOR = "CoAuthor/AddCoAuthor"
+
+    //CoAuthor
+    const val API_COAUTHOR_INVITATION = "CoAuthor/UpdateInvitationStatus"
 }

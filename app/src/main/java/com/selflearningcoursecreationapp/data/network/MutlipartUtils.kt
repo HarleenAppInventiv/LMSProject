@@ -8,8 +8,8 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.io.File
 
-fun String?.getRequestBody(): RequestBody? {
-    return this?.toRequestBody(("text/plain").toMediaTypeOrNull())
+fun String?.getRequestBody(type: String = "text/plain"): RequestBody? {
+    return this?.toRequestBody((type).toMediaTypeOrNull())
 }
 
 fun JSONObject?.getRequestBody(): RequestBody? {

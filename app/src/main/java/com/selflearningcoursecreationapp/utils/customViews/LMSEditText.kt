@@ -57,14 +57,14 @@ class LMSEditText : AppCompatEditText {
 
         val fontType =
             themeAttrs.getInt(R.styleable.LMSTextView_fontType, ThemeConstants.FONT_REGULAR)
-        if (fontType >= 0) {
+        if (fontType > 0) {
             typeface = ResourcesCompat.getFont(
                 context,
                 ThemeUtils.getFont(SelfLearningApplication.fontId, fontType)
             )
         }
         val textColorType =
-            themeAttrs.getInt(R.styleable.LMSTextView_textColorType, ThemeConstants.TYPE_PRIMARY)
+            themeAttrs.getInt(R.styleable.LMSTextView_textColorType, ThemeConstants.TYPE_SECONDARY)
         if (textColorType >= 0)
             changeTextColor(textColorType)
 

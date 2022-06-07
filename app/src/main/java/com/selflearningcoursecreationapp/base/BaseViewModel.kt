@@ -131,7 +131,7 @@ abstract class BaseViewModel : ViewModel() {
         )
         myTheme.themeTint = String.format(
             "#%02x%02x%02x%02x",
-            100,
+            80,
             red,
             green,
             blue

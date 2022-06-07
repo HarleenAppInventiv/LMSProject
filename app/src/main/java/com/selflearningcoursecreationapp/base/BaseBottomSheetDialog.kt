@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.annotation.LayoutRes
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.databinding.DataBindingUtil
@@ -36,9 +37,11 @@ abstract class BaseBottomSheetDialog<DB : ViewDataBinding> : BottomSheetDialogFr
         inflater.cloneInContext(contextThemeWrapper)
         binding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false)
         binding.lifecycleOwner = this
+        dialog?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -70,17 +73,20 @@ abstract class BaseBottomSheetDialog<DB : ViewDataBinding> : BottomSheetDialogFr
 
     }
 
+
     override fun onException(isNetworkAvailable: Boolean, exception: ApiError, apiCode: String) {
         hideLoading()
         baseActivity.handleOnException(isNetworkAvailable, exception, apiCode)
     }
 
-    override fun onError(error: ToastData) {
+
+    override fun onError(error: ToastData, apiCode: String?) {
         hideLoading()
         baseActivity.handleOnError(error)
     }
 
-    override fun onLoading(message: String) {
+
+    override fun onLoading(message: String, apiCode: String?) {
         showLoading()
     }
 

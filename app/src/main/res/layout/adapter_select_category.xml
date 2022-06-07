@@ -18,16 +18,15 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/parentCL"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-          >
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_preview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/_10sdp"
                 android:layout_margin="@dimen/_8sdp"
                 android:importantForAccessibility="no"
+                android:padding="@dimen/_10sdp"
                 android:src="@drawable/ic_science_dummy"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -36,8 +35,8 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_1sdp"
-                android:background="?attr/lineColor"
                 android:layout_marginHorizontal="@dimen/_8sdp"
+                android:background="?attr/lineColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_preview" />
@@ -49,18 +48,18 @@
                 android:layout_margin="@dimen/_8sdp"
                 android:paddingVertical="@dimen/_5sdp"
                 android:text="WorkSans"
-                app:textColorType="heading"
+                android:textSize="@dimen/_13ssp"
                 app:fontType="medium"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_preview" />
+                app:layout_constraintTop_toBottomOf="@+id/iv_preview"
+                app:textColorType="heading" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_selected"
                 android:layout_width="wrap_content"
-                android:layout_margin="@dimen/_8sdp"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_8sdp"
                 android:contentDescription="@string/category_selected"
                 android:src="@drawable/ic_selected_category"
                 app:layout_constraintEnd_toEndOf="parent"

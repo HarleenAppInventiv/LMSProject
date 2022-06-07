@@ -1,6 +1,7 @@
 package com.selflearningcoursecreationapp.utils
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.text.SpannableString
@@ -10,10 +11,11 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
+import androidx.core.view.ViewCompat
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.databinding.LayoutSuccessBinding
 import com.selflearningcoursecreationapp.extensions.gone
+import com.selflearningcoursecreationapp.extensions.isNullOrNegative
 import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.extensions.visibleView
 
@@ -36,13 +38,24 @@ class CommonAlertDialog {
         private var theme: Int? = R.style.DialogTransparent
         private var isCancellable: Boolean = true
         private var hideNegativeBtn: Boolean = false
-        private var hideEditText: Boolean = false
         private var textVia: String = ""
+        private var type: Int? = null
+        private var positiveBgColor: Int? = null
+        private var positiveTextColor: Int? = null
+        private var positiveStrokeColor: Int? = null
+        private var negativeBgColor: Int? = null
+        private var negativeTextColor: Int? = null
+        private var negativeStrokeColor: Int? = null
         private var onClick: (isPositive: Boolean) -> Unit = {}
 
 
         fun title(title: String): Builder {
             this.title = title
+            return this
+        }
+
+        fun type(type: Int): Builder {
+            this.type = type
             return this
         }
 
@@ -86,18 +99,31 @@ class CommonAlertDialog {
             return this
         }
 
+
         fun setTheme(theme: Int): Builder {
             this.theme = theme
             return this
         }
 
-        fun getHideEditText(): Builder {
-            this.hideEditText = hideEditText
+        fun setPositiveButtonTheme(
+            bgColor: Int = -1,
+            textColor: Int = -1,
+            strokeColor: Int = -1
+        ): Builder {
+            positiveBgColor = bgColor
+            positiveTextColor = textColor
+            positiveStrokeColor = strokeColor
             return this
         }
 
-        fun getTextVia(): Builder {
-            this.textVia = textVia
+        fun setNegativeButtonTheme(
+            bgColor: Int = -1,
+            textColor: Int = -1,
+            strokeColor: Int = -1
+        ): Builder {
+            negativeBgColor = bgColor
+            negativeTextColor = textColor
+            negativeStrokeColor = strokeColor
             return this
         }
 
@@ -142,10 +168,56 @@ class CommonAlertDialog {
                     alertDialog.dismiss()
                 }
 
-                edtUserEmail.isVisible = hideEditText == true
-                tvInvite.isVisible = hideEditText == true
+            }
+
+            if (!positiveBgColor.isNullOrNegative()) {
+
+                ViewCompat.setBackgroundTintList(
+                    binding.btnPositive,
+                    ColorStateList.valueOf(ContextCompat.getColor(context, positiveBgColor!!))
+                )
 
             }
+
+            if (!positiveTextColor.isNullOrNegative()) {
+                binding.btnPositive.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        positiveTextColor!!
+                    )
+                )
+            }
+            if (!positiveStrokeColor.isNullOrNegative()) {
+                binding.btnPositive.strokeWidth =
+                    context.resources.getDimensionPixelOffset(R.dimen._1sdp)
+                binding.btnPositive.strokeColor =
+                    ColorStateList.valueOf(ContextCompat.getColor(context, positiveStrokeColor!!))
+            }
+
+            if (!negativeTextColor.isNullOrNegative()) {
+                binding.btnNegative.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        negativeTextColor!!
+                    )
+                )
+            }
+            if (!negativeStrokeColor.isNullOrNegative()) {
+                binding.btnNegative.strokeWidth =
+                    context.resources.getDimensionPixelOffset(R.dimen._1sdp)
+                binding.btnNegative.strokeColor =
+                    ColorStateList.valueOf(ContextCompat.getColor(context, negativeStrokeColor!!))
+            }
+
+            if (!negativeBgColor.isNullOrNegative()) {
+
+                ViewCompat.setBackgroundTintList(
+                    binding.btnNegative,
+                    ColorStateList.valueOf(ContextCompat.getColor(context, negativeBgColor!!))
+                )
+
+            }
+
 
             binding.tvMsg.apply {
                 visible()

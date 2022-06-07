@@ -6,7 +6,7 @@ import com.selflearningcoursecreationapp.base.BaseViewModel
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.models.course.CourseData
-import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel
+import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -14,8 +14,8 @@ import kotlinx.coroutines.withContext
 
 class TextViewModel(private val repo: TextRepo) : BaseViewModel() {
 
-    var textLiveData = MutableLiveData<SectionModel>().apply {
-        value = SectionModel()
+    var textLiveData = MutableLiveData<ChildModel>().apply {
+        value = ChildModel()
     }
     var courseData = MutableLiveData<CourseData>().apply {
         value = CourseData()
@@ -28,8 +28,11 @@ class TextViewModel(private val repo: TextRepo) : BaseViewModel() {
         mediaTypeId: Int?,
         lectureTitle: String,
         lectureId: Int,
-        courseId: Int
-    ) =
+        courseId: Int,
+        lectureContentId: String,
+        contentDuration: Long,
+
+        ) =
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
             map["courseId"] = courseId.toString()
@@ -37,35 +40,79 @@ class TextViewModel(private val repo: TextRepo) : BaseViewModel() {
             map["lectureId"] = lectureId
             map["mediaTypeId"] = mediaTypeId.toString()
             map["lectureTitle"] = lectureTitle
-//            map["lectureContentId"] = ""
-//            map["lectureThumbnailId"] = ""
-            var response = repo.addPatchLecture(map)
+            map["lectureContentId"] = lectureContentId
+            map["contentDuration"] = contentDuration
+
+            val response = repo.addPatchLecture(map)
             withContext(Dispatchers.IO) {
                 response.collect {
-//                val value = (it as BaseResponse<UserProfile>).resource?.sectionId
-//                addSectionLiveData.value = if (value != 0) true else false
-
-//                    if (it is Resource.Success<*>) {
-//
-//                        addPatchLectureLiveData.postValue((it.value as BaseResponse<UserProfile>).resource)
-//
-//                    }
-
                     updateResponseObserver(it)
                 }
             }
         }
 
-    fun textValidations(sectionId: Int, i: Int, content: String, lectureId: Int, courseId: Int) {
+    fun textValidations(
+        sectionId: Int,
+        i: Int,
+        content: String,
+        lectureId: Int,
+        courseId: Int,
+        lectureContentId: String,
+        contentDuration: Long,
+
+        ) {
         textLiveData.value?.let {
-            val errorId = it.isDocValid()
+            val errorId = it.isTextValid()
             if (errorId == 0) {
-                addPatchLecture(sectionId, i, content, lectureId, courseId)
+                addPatchLecture(
+                    sectionId,
+                    i,
+                    content,
+                    lectureId,
+                    courseId,
+                    lectureContentId,
+                    contentDuration
+                )
 
             } else {
                 updateResponseObserver(Resource.Error(ToastData(errorId)))
             }
 
+        }
+    }
+
+
+    fun getLectureDetail(lectureId: Int) = viewModelScope.launch(coroutineExceptionHandle) {
+
+        val response = repo.getLectureDetail(lectureId)
+        withContext(Dispatchers.IO) {
+            response.collect {
+                updateResponseObserver(it)
+            }
+        }
+
+    }
+
+    fun uploadContent(
+        courseId: Int?,
+        sectionId: Int?,
+        lectureId: Int,
+        uploadType: Int,
+        text: String,
+        duration: Int,
+    ) = viewModelScope.launch(coroutineExceptionHandle) {
+        val response = repo.contentUploadText(
+            courseId,
+            sectionId,
+            lectureId,
+            uploadType,
+            text,
+            duration
+        )
+        withContext(Dispatchers.IO) {
+            response.collect {
+                updateResponseObserver(it)
+            }
         }
     }
 }

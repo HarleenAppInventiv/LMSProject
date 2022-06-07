@@ -5,7 +5,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.provider.MediaStore
 import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -23,7 +25,7 @@ class ImagePickUtils {
     private var getContent: ActivityResultLauncher<Intent>? = null
     private var imageCallback: ((String?) -> Unit)? = null
     private var mActivity: Activity? = null
-
+    var type = 0
 
     fun captureImage(
         context: Activity,
@@ -32,6 +34,7 @@ class ImagePickUtils {
         doCompress: Boolean = true,
         registry: ActivityResultRegistry,
     ) {
+        type = 1
         mActivity = context
         imageCallback = callBack
         registerForCallback(registry)
@@ -52,7 +55,6 @@ class ImagePickUtils {
         }
     }
 
-
     fun openGallery(
         context: Activity,
         callBack: ((String?) -> Unit),
@@ -60,6 +62,7 @@ class ImagePickUtils {
         doCompress: Boolean = true,
         registry: ActivityResultRegistry,
     ) {
+        type = 1
         mActivity = context
         imageCallback = callBack
         registerForCallback(registry)
@@ -80,11 +83,80 @@ class ImagePickUtils {
     }
 
 
+    fun openVideoFile(
+        context: Activity,
+        callBack: ((String?) -> Unit),
+        registry: ActivityResultRegistry,
+    ) {
+        type = 4
+        mActivity = context
+        imageCallback = callBack
+        registerForCallback(registry)
+        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            type = "video/*"
+        }
+
+        getContent?.launch(intent)
+    }
+
+    fun captureVideo(
+        context: Activity,
+        callBack: ((String?) -> Unit),
+        registry: ActivityResultRegistry,
+    ) {
+        type = 2
+        mActivity = context
+        imageCallback = callBack
+        registerForCallback(registry)
+
+        val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+        if (takeVideoIntent.resolveActivity(context.getPackageManager()) != null) {
+            getContent?.launch(takeVideoIntent)
+        }
+    }
+
+    fun openAudioFile(
+        context: Activity,
+        callBack: ((String?) -> Unit),
+        registry: ActivityResultRegistry,
+    ) {
+        type = 4
+        mActivity = context
+        imageCallback = callBack
+        registerForCallback(registry)
+//        if (Build.VERSION.SDK_INT < 19) {
+//            val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+//                addCategory(Intent.CATEGORY_OPENABLE)
+//                type = "audio/*"
+//            }
+//            getContent?.launch(intent)
+//
+//        } else {
+//            val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+//                addCategory(Intent.CATEGORY_OPENABLE)
+//                type = "audio/mpeg"
+//            }
+//            getContent?.launch(intent)
+//
+//        }
+
+        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            type = "audio/*"
+        }
+        getContent?.launch(intent)
+
+
+    }
+
+
     fun openDocs(
         context: Activity,
         callBack: ((String?) -> Unit),
         registry: ActivityResultRegistry,
     ) {
+        type = 3
         val mimeTypes = arrayOf(
             "application/pdf",
             "application/msword",
@@ -106,8 +178,6 @@ class ImagePickUtils {
             }
             getContent?.launch(intent)
         }
-
-
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
@@ -134,6 +204,17 @@ class ImagePickUtils {
                 getContent?.launch(intent)
             }
         }
+//
+//        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+//            addCategory(Intent.CATEGORY_OPENABLE)
+//            type = if (mimeTypes.size == 1) mimeTypes[0] else "*/*"
+//            if (mimeTypes.isNotEmpty()) {
+//                putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+//            }
+//        }
+
+        // getContent?.launch(intent)
+
     }
 
     private fun registerForCallback(registry: ActivityResultRegistry) {
@@ -144,19 +225,51 @@ class ImagePickUtils {
             val resultCode = result.resultCode
             val data = result.data
             if (resultCode == Activity.RESULT_OK) {
-                //Image Uri will not be null for RESULT_OK
-                val fileUri = data?.data!!
-                val uri =
-                    FileUtils.getPathFromUri(SelfLearningApplication.applicationContext(), fileUri)
-                imageCallback?.invoke(uri)
+                data?.data!!.also { uri ->
+                    if (type == 1) {
+                        imageCallback?.invoke(uri.path)
+                    } else if (type == 2) {
+                        imageCallback?.invoke(
+                            FileUtils.getDriveFilePath(
+                                uri,
+                                SelfLearningApplication.applicationContext()
+                            )
+                        )
+                    } else if (type == 3) {
+                        Log.d(
+                            "varun", "registerForCallback: ${
+                                FileUtils.getDriveFilePath(
+                                    uri,
+                                    SelfLearningApplication.applicationContext()
+                                )
+                            }"
+                        )
+                        imageCallback?.invoke(
+                            FileUtils.getDriveFilePath(
+                                uri,
+                                SelfLearningApplication.applicationContext()
+                            )
+                        )
+                    } else if (type == 4) {
+                        URIPathHelper.apply {
+                            val path = getPath(SelfLearningApplication.applicationContext(), uri)
+                            imageCallback?.invoke(path)
+                        }
+                    } else {
+                        imageCallback?.invoke(uri.toString())
+                    }
 
 
-                showLog(
-                    "IMAGE",
-                    "profileUri >>> $fileUri ...... path >>>  ${fileUri.path}"
-                )
+                    showLog(
+                        "IMAGE",
+                        "profileUri >>> $uri ...... path >>>  ${uri.path}"
+                    )
+
+                }
+
+
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
-                Toast.makeText(mActivity, ImagePicker.getError(data), Toast.LENGTH_SHORT)
+                Toast.makeText(mActivity, ImagePicker.getError(data) + "fsfsd`", Toast.LENGTH_SHORT)
                     .show()
             } else {
                 Toast.makeText(mActivity, "Task Cancelled", Toast.LENGTH_SHORT).show()

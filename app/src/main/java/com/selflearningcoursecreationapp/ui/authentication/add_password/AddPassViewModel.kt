@@ -20,11 +20,11 @@ class AddPassViewModel(var repo: AddPassRepo) : BaseViewModel() {
         value = ChangePasswordData()
     }
 
-    fun onAdd(userId: String) {
+    fun onAdd(userId: String, token: String) {
         addData.value?.let {
             val errorId = it.isResetValid()
             if (errorId == 0) {
-                addPass(userId)
+                addPass(userId, token)
             } else {
                 updateResponseObserver(Resource.Error(ToastData(errorCode = errorId)))
 
@@ -33,10 +33,11 @@ class AddPassViewModel(var repo: AddPassRepo) : BaseViewModel() {
 
     }
 
-    fun addPass(userId: String) = viewModelScope.launch(coroutineExceptionHandle) {
+    fun addPass(userId: String, token: String) = viewModelScope.launch(coroutineExceptionHandle) {
         var map = HashMap<String, Any>()
         map["userId"] = userId
         map["newPassword"] = addData.value?.newPassword ?: ""
+        map["fcmDeviceToken"] = token
         updateResponseObserver(Resource.Loading())
         var response = repo.addPass(map)
         withContext(Dispatchers.IO) {

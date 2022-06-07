@@ -14,8 +14,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class UserProfile(
-    @SerializedName("userId")
-    var userId: String? = null,
+
     @SerializedName("categories")
     var categoryData: ArrayList<CategoryData>? = null,
 
@@ -31,11 +30,13 @@ data class UserProfile(
     var fontUpdated: Boolean? = null,
     @SerializedName("phoneNumberVerified")
     var phoneNumberVerified: Boolean? = null,
+    @SerializedName("isActive")
+    var isActive: Boolean? = null,
     @SerializedName("noPreferenceUpdated")
     var noPreferenceUpdated: Boolean? = null,
     @SerializedName("font")
     var font: CategoryData? = null,
-    @SerializedName("id")
+    @SerializedName("id", alternate = ["userId"])
     var id: Int? = null,
     @SerializedName("preferencesUpdatedLevel")
     var preferencesUpdatedLevel: Int? = null,
@@ -43,6 +44,10 @@ data class UserProfile(
     var language: CategoryData? = null,
     @SerializedName("profileUrl")
     var profileUrl: String? = null,
+    @SerializedName("courseLogoURL")
+    var courseLogoURL: String? = null,
+    @SerializedName("courseLogoId")
+    var courseLogoId: String? = null,
     @SerializedName("profession_name")
     var professionName: String? = null,
     @SerializedName("theme")
@@ -67,35 +72,38 @@ data class UserProfile(
     @SerializedName("state")
     var state: String? = "",
 
-    @SerializedName("courseId")
-    var courseId: Int? = null,
+    @SerializedName("updated")
+    var updated: String? = "",
 
-    @SerializedName("avatar")
-    var avatar: String = "",
+//    @SerializedName("courseId")
+//    var courseId: Int? = null,
 
-    @SerializedName("sectionId")
-    var sectionId: Int? = null,
+//    @SerializedName("avatar")
+//    var avatar: String = "",
+
+//    @SerializedName("sectionId")
+//    var sectionId: Int? = null,
 
     @SerializedName("deleted")
     var deleted: Boolean? = false,
 
-    @SerializedName("lectureId")
-    var lectureId: Int? = null,
+//    @SerializedName("lectureId")
+//    var lectureId: Int? = null,
 
-    @SerializedName("mediaType")
-    var mediaType: Int? = null,
+//    @SerializedName("mediaType")
+//    var mediaType: Int? = null,
 
-    @SerializedName("lectureTitle", alternate = ["title"])
-    var lectureTitle: String? = "",
+//    @SerializedName("lectureTitle", alternate = ["title"])
+//    var lectureTitle: String? = "",
 
-    @SerializedName("lectureContentDuration")
-    var lectureContentDuration: Int? = null,
+//    @SerializedName("lectureContentDuration")
+//    var lectureContentDuration: Int? = null,
 
-    @SerializedName("lectureContentId")
-    var lectureContentId: Int? = null,
-
-    @SerializedName("quizId")
-    var quizId: Int? = null,
+//    @SerializedName("lectureContentId")
+//    var lectureContentId: Int? = null,
+//
+//    @SerializedName("quizId")
+//    var quizId: Int? = null,
 
 //    @SerializedName("fileUrl")
 //    var fileUrl: String? = "",

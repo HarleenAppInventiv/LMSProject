@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -25,10 +26,10 @@
                 style="@style/textViewStyle.SemiBold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:lineSpacingExtra="-2dp"
-                android:text="Examine user experiences in your life"
+                tools:text="Examine user experiences in your life"
                 android:textColor="?attr/primaryTextColor"
                 android:textSize="@dimen/_14ssp"
                 app:layout_constraintEnd_toStartOf="@+id/btn_sing_in"
@@ -42,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_2sdp"
-                android:text="Multi format   .  20 mins"
+                tools:text="Multi format   .  20 mins"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="@dimen/_11ssp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +54,7 @@
                 spanText="@{@string/view}"
                 android:layout_width="@dimen/_55sdp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:text="@string/view"
                 android:textColor="?attr/whiteTextColor"
                 android:textSize="@dimen/_10ssp"

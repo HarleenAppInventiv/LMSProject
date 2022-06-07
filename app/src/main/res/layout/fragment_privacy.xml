@@ -23,7 +23,7 @@
             android:layout_height="@dimen/_160sdp"
             android:importantForAccessibility="no"
 
-            app:changeBackgroundType="background"
+            app:changeBackgroundType="bg_theme_solid"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,7 +34,7 @@
             android:layout_height="@dimen/_160sdp"
             android:importantForAccessibility="no"
             android:scaleType="fitXY"
-            app:changeBackgroundType="tint"
+            app:changeBackgroundType="theme_multiply"
             app:layout_constraintEnd_toEndOf="parent"
 
             app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +89,7 @@
             android:layout_marginTop="@dimen/_15sdp"
             android:text="@string/privacy_policy"
             android:textColor="?attr/whiteTextColor"
-            android:textSize="@dimen/_13ssp"
+            android:textSize="@dimen/_14ssp"
             app:fontType="semiBold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

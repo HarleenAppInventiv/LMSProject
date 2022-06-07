@@ -64,7 +64,7 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
                         override fun onDialogClick(vararg items: Any) {
                             val uri = items[1] as String
                             val file = File(Uri.parse(uri).path)
-                            Log.d("varun", "onDialogClick: ${file}")
+                            binding.imgProfileImage.setImageURI(Uri.parse(uri))
                             viewModel.uploadImage(file)
                         }
 
@@ -107,10 +107,13 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
                     binding.txtAddress.text = location
                     binding.txtUserName.text = data.name
                     Glide.with(requireActivity()).clear(binding.imgProfileImage)
-
-                    Glide.with(requireActivity()).load(data.profileUrl)
-                        .placeholder(R.drawable.ic_course_dummy)
-                        .into(binding.imgProfileImage)
+                    binding.imgProfileImage.loadImage(
+                        data.profileUrl,
+                        R.drawable.ic_default_user_grey
+                    )
+//                    Glide.with(requireActivity()).load(data.profileUrl)
+//                        .placeholder(R.drawable.ic_default_user_grey)
+//                        .into(binding.imgProfileImage)
 
                     binding.imgProfileImage
                     binding.txtDob.text = data.dob?.changeDateFormat()
@@ -124,12 +127,9 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
                 }
             }
             ApiEndPoints.API_UPLOAD_IMAGE -> {
-                (value as BaseResponse<ImageResponse>)
-                viewModel.viewProfile()
-//                Glide.with(requireActivity()).load(value.resource?.fileUrl)
-//                    .placeholder(R.drawable.ic_course_dummy)
-//                    .into(binding.imgProfileImage)
-
+                (value as BaseResponse<ImageResponse>)?.let {
+                    viewModel.viewProfile()
+                }
             }
         }
 

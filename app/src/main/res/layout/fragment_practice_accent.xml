@@ -34,7 +34,7 @@
                 android:layout_margin="@dimen/_10sdp"
 
                 android:background="@drawable/primary_color_outline"
-                app:changeBackgroundType="background_tint"
+                app:changeBackgroundType="bg_theme_src"
                 app:layout_constraintEnd_toEndOf="@id/guideline_start"
                 app:layout_constraintStart_toStartOf="@id/guideline_end"
                 app:layout_constraintTop_toTopOf="parent"

@@ -38,6 +38,8 @@
                     android:drawableEnd="@drawable/ic_mic_grey"
                     android:drawablePadding="@dimen/_10sdp"
                     android:hint="@string/search_category_by_name"
+                    android:textSize="@dimen/_14ssp"
+                    app:fontType="regular"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -49,6 +51,7 @@
                     android:layout_marginTop="@dimen/_15sdp"
                     android:text="Preferred Categories"
                     android:textColor="@color/adapter_header_color"
+                    android:textSize="@dimen/_14ssp"
                     app:fontType="semiBold"
                     app:layout_constraintEnd_toEndOf="@+id/et_search"
                     app:layout_constraintStart_toStartOf="@+id/et_search"
@@ -107,8 +110,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_15sdp"
             android:text="All Courses"
+            android:textSize="@dimen/_14ssp"
             app:btnTextColor="secondary"
             app:buttonBackground="secondary"
+            app:buttonFont="semiBold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

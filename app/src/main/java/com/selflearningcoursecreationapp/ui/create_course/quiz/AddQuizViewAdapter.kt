@@ -1,6 +1,6 @@
 package com.selflearningcoursecreationapp.ui.create_course.quiz
 
-import android.net.Uri
+import androidx.databinding.library.baseAdapters.BR
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
@@ -10,6 +10,7 @@ import com.selflearningcoursecreationapp.models.course.quiz.QuizOptionData
 import com.selflearningcoursecreationapp.models.course.quiz.QuizQuestionData
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.DialogType
+import com.selflearningcoursecreationapp.utils.QUIZ
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 
 class AddQuizViewAdapter(private var list: ArrayList<QuizQuestionData>) :
@@ -24,13 +25,17 @@ class AddQuizViewAdapter(private var list: ArrayList<QuizQuestionData>) :
         binding.tvQuizNumber.text =
             String.format(context.getString(R.string.question), position + 1)
         binding.quizData = data
+        binding.executePendingBindings()
+        binding.tvQuesType.text =
+            if (data.questionTypeTitle.isNullOrEmpty()) context.getQuizTypeTitle(
+                data.questionType ?: QUIZ.MULTIPLE_CHOICE
+            ) else data.questionTypeTitle
 
-        binding.tvQuesType.text = data.questionTypeTitle
 
-        data.questionImage?.let {
 
-            binding.ivHeader.setImageURI(Uri.parse(it))
-        }
+
+        binding.ivHeader.loadImage(data.questionImage, null)
+        binding.ivEditImage.visibleView(!data.questionImageId.isNullOrEmpty() && data.questionType == QUIZ.IMAGE_BASED)
 
 //        binding.etQuestion.doEnable(data.isEnabled ?: true)
 //        binding.tvQuesType.doEnable(data.isEnabled ?: true)
@@ -76,11 +81,17 @@ class AddQuizViewAdapter(private var list: ArrayList<QuizQuestionData>) :
 
         }
         binding.tvHeader.setOnClickListener {
+            if (data.questionImageId.isNullOrEmpty())
+                onItemClick(DialogType.CLICK_BANNER, position)
+
+        }
+        binding.ivEditImage.setOnClickListener {
             onItemClick(DialogType.CLICK_BANNER, position)
 
         }
         binding.ivHeader.setOnClickListener {
-            onItemClick(DialogType.CLICK_BANNER, position)
+            if (data.questionImageId.isNullOrEmpty())
+                onItemClick(DialogType.CLICK_BANNER, position)
 
         }
 
@@ -97,9 +108,9 @@ class AddQuizViewAdapter(private var list: ArrayList<QuizQuestionData>) :
                 binding.tvAdd.gone()
             }
 
-
+            list[position].notifyPropertyChanged(BR.dataEntered)
             binding.rvOptions.adapter?.notifyDataSetChanged()
-
+//            binding.rvOptions.smoothScrollToPosition((list[position].optionList.size ?: 1) - 1)
         }
 
         binding.tvColumn1.setOnClickListener {
@@ -161,7 +172,8 @@ class AddQuizViewAdapter(private var list: ArrayList<QuizQuestionData>) :
                     when (items[0] as Int) {
                         Constant.CLICK_OPTION_DELETE -> {
 
-                            binding.tvAdd.visibleView(list[position].optionList.size ?: 0 < 4)
+                            binding.tvAdd.visibleView(list[position].optionList.size < 4)
+                            list[position].notifyPropertyChanged(BR.dataEntered)
 
                         }
                     }

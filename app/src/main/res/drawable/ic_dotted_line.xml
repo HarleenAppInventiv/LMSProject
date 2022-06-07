@@ -3,8 +3,9 @@
 
     <size android:height="@dimen/_2sdp"
         android:width="@dimen/_100sdp"/>
-    <stroke android:color="?attr/hintColor"
+    <stroke
+        android:color="?attr/offwhiteTextColor"
         android:width="@dimen/_1sdp"
         android:dashGap="@dimen/_5sdp"
-        android:dashWidth="@dimen/_2sdp"/>
+        android:dashWidth="@dimen/_2sdp" />
 </shape>

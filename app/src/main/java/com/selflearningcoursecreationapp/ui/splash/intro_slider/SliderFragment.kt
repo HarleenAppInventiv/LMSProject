@@ -17,7 +17,7 @@ import com.selflearningcoursecreationapp.data.prefrence.PreferenceDataStore
 import com.selflearningcoursecreationapp.databinding.FragmentSliderBinding
 import com.selflearningcoursecreationapp.di.getAppContext
 import com.selflearningcoursecreationapp.extensions.setTransparentLightStatusBar
-import com.selflearningcoursecreationapp.models.WalkthroughData
+import com.selflearningcoursecreationapp.models.WalkThroughData
 import com.selflearningcoursecreationapp.ui.authentication.InitialActivity
 import com.selflearningcoursecreationapp.ui.dialog.ViModeDialog
 import com.selflearningcoursecreationapp.ui.splash.SplashVM
@@ -42,16 +42,16 @@ class SliderFragment : BaseFragment<FragmentSliderBinding>(), View.OnClickListen
 
     fun init() {
         onClickListners()
-        val list = ArrayList<WalkthroughData>()
+        val list = ArrayList<WalkThroughData>()
         val iconList = baseActivity.resources.obtainTypedArray(R.array.walkthrough_icons)
         val titleList = baseActivity.resources.getStringArray(R.array.walkthrough_title)
         val descList = baseActivity.resources.getStringArray(R.array.walkthrough_description)
 
         for (i in 0 until titleList.size) {
             list.add(
-                WalkthroughData(
+                WalkThroughData(
                     title = titleList[i],
-                    descrtion = descList[i],
+                    description = descList[i],
                     iconList.getResourceId(i, -1)
                 )
             )

@@ -11,12 +11,14 @@
         android:layout_height="wrap_content"
         android:background="?attr/whiteTextColor">
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_month_year_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="@dimen/_15sdp"
             android:text="01 (Jan) "
+            android:textSize="@dimen/_14ssp"
+            app:fontType="semiBold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

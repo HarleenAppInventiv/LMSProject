@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import com.selflearningcoursecreationapp.BuildConfig
+import com.selflearningcoursecreationapp.R
 
 
 fun Activity.hideKeyboard(): Boolean {
@@ -71,4 +72,36 @@ fun <T> String?.getPojoData(type: Class<T>): T? {
         return null
     } else
         return Gson().fromJson<T>(this, type)
+}
+
+
+fun Context.getTime(milliseconds: Long?, showChar: Boolean = false): String {
+    if (milliseconds.isNullOrZero()) {
+        return ""
+    }
+
+
+    val seconds = milliseconds!!.div(1000).rem(60).toInt()
+    val mins = milliseconds!!.div(1000.times(60)).rem(60).toInt()
+    val hrs = milliseconds!!.div(1000.times(60).times(60)).rem(24).toInt()
+//      val seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds!!).toInt()
+//    val mins=   TimeUnit.MILLISECONDS.toMinutes(milliseconds!!).toInt()
+//    val hrs=   TimeUnit.MILLISECONDS.toHours(milliseconds!!).toInt()
+    var time = ""
+    if (showChar) {
+        if (hrs > 0) {
+            time = getQuantityString(R.plurals.hour_quantity, hrs!!)
+        }
+        if (mins > 0) {
+            time = "$time ${getQuantityString(R.plurals.min_quantity_small, mins!!)}"
+        }
+        if (seconds > 0) {
+            time = "$time ${getQuantityString(R.plurals.sec_quantity, seconds!!)}"
+        }
+    } else {
+        time =
+            "${if (hrs > 9) hrs else "0$hrs"}:${if (mins > 9) mins else "0$mins"}:${if (seconds > 9) seconds else "0$seconds"}"
+    }
+    return if (time.startsWith(",")) time.substring(1) else time
+
 }

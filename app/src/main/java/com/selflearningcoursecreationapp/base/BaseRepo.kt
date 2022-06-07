@@ -22,7 +22,7 @@ abstract class BaseRepo<REQUEST> {
 
     fun safeApiCall(apiCode: String) = flow {
         if (isInternetAvailable()) {
-            emit(Resource.Loading())
+            emit(Resource.Loading(apiCode = apiCode))
             try {
                 val response = fetchDataFromRemoteSource()
                 val data = response.body()

@@ -11,6 +11,10 @@ object ThemeConstants {
     const val TYPE_BACKGROUND = 7
     const val TYPE_TINT_SRC = 8
     const val TYPE_BACKGROUND_TINT = 9
+    const val TYPE_BG_TINT_SRC = 10
+    const val TYPE_BLACK = 11
+    const val TYPE_WHITE = 12
+    const val TYPE_DISABLED = 13
 
     const val FONT_REGULAR = 1
     const val FONT_MEDIUM = 2

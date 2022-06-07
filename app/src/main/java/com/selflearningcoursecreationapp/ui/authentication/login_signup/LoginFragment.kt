@@ -22,8 +22,7 @@ import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.OTP_TYPE
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>(),
-    View.OnClickListener/*,GoogleSignCallback*/ {
-    //    private var mGoogleSignInAI: GoogleSignInAI? = null
+    View.OnClickListener {
     private val GOOGLE_LOGIN_REQUEST_CODE = 1001
     var number = ""
     var email = ""
@@ -44,7 +43,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
         setListners()
         initializeGoogle()
 
-
         binding.edtLoginEmail.doAfterTextChanged {
             if (it!!.isDigitsOnly()) {
                 number = it.toString()
@@ -61,7 +59,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
         }
 
         binding.btnSingIn.setOnClickListener {
-            viewModel.loginValidation(binding.countryCodePicker.selectedCountryCodeWithPlus)
+            viewModel.loginValidation(
+                binding.countryCodePicker.selectedCountryCodeWithPlus,
+                baseActivity.token
+            )
         }
 
 
@@ -123,7 +124,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
                     )
 
                 } else {
-                   baseActivity.goToHomeActivity()
+                    baseActivity.goToHomeActivity()
                 }
             }
 

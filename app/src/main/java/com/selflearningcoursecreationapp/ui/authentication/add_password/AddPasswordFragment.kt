@@ -39,7 +39,7 @@ class AddPasswordFragment : BaseFragment<FragmentAddPasswordBinding>() {
         binding.etPass.showHidePassword()
 
         binding.btnSave.setOnClickListener {
-            viewModel.onAdd(userId)
+            viewModel.onAdd(userId, baseActivity.token)
         }
 
 

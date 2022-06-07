@@ -2,6 +2,7 @@ package com.selflearningcoursecreationapp.ui.create_course.quiz
 
 import android.net.Uri
 import android.view.View
+import android.view.WindowManager
 import android.widget.CompoundButton
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
@@ -19,6 +20,8 @@ class AddQuizOptionDialog : BaseBottomSheetDialog<BottomDialogQuizOptionBinding>
 
     override fun getLayoutRes() = R.layout.bottom_dialog_quiz_option
     override fun initUi() {
+        dialog?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         binding.ivClose.setOnClickListener {
             dismiss()
         }
@@ -40,13 +43,13 @@ class AddQuizOptionDialog : BaseBottomSheetDialog<BottomDialogQuizOptionBinding>
     private fun isValid(): Boolean {
         when {
             selectedType == 0 -> {
-                showToastShort("Please select answer type")
+                showToastShort(baseActivity.getString(R.string.plz_select_answer_type))
             }
             selectedType == 1 && binding.etText.content().isEmpty() -> {
-                showToastShort("Please enter answer option")
+                showToastShort(baseActivity.getString(R.string.plz_enter_your_ans))
             }
             selectedType == 2 && selectedUri.isNullOrEmpty() -> {
-                showToastShort("Please upload image")
+                showToastShort(baseActivity.getString(R.string.plz_upload_image))
             }
             else -> return true
 

@@ -1,20 +1,29 @@
 package com.selflearningcoursecreationapp.base
 
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Color
+import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.LocaleList
 import android.provider.Settings
 import android.text.style.LocaleSpan
 import android.util.Log
+import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.data.network.ApiError
 import com.selflearningcoursecreationapp.data.network.HTTPCode
@@ -27,6 +36,7 @@ import com.selflearningcoursecreationapp.ui.authentication.InitialActivity
 import com.selflearningcoursecreationapp.ui.dialog.ProgressDialog
 import com.selflearningcoursecreationapp.ui.home.HomeActivity
 import com.selflearningcoursecreationapp.utils.*
+import kotlinx.android.synthetic.main.fragment_record_audio.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -34,14 +44,19 @@ import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 import java.util.*
 
-open class BaseActivity : AppCompatActivity(), LiveDataObserver {
+open class BaseActivity : AppCompatActivity(), LiveDataObserver, LifecycleObserver {
     private var progressDialog: ProgressDialog? = null
 
+    var localeSpan: LocaleSpan? = null
+    var languageCode: String? = null
+    var token = ""
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setTransparentLightStatusBar()
         changeAppLanguage()
+        getRefreshToken()
+        Thread.setDefaultUncaughtExceptionHandler(ExceptionHandler.getInstance(this));
     }
 
 
@@ -89,7 +104,8 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver {
     }
 
 
-    fun handleOnException(networkAvailable: Boolean, exception: ApiError, apiCode: String) {
+    fun handleOnException(networkError: Boolean, exception: ApiError, apiCode: String) {
+
         if (isDestroyed || isFinishing)
             return
         when (exception.statusCode) {
@@ -103,6 +119,7 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver {
                 startActivity(Intent(this@BaseActivity, InitialActivity::class.java))
                 finish()
             }
+
         }
         exception.message?.let {
             showLog("API_ERROR", it)
@@ -188,13 +205,11 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver {
         showToolbar: Boolean = true,
         backIcon: Int = R.drawable.ic_arrow_left,
         showBackIcon: Boolean = true,
-        subTitle: String? = ""
+        subTitle: String? = "",
     ) {
         Log.d("main", "main")
     }
 
-    var localeSpan: LocaleSpan? = null
-    var languageCode: String? = null
     fun changeAppLanguage() {
         showProgressBar()
         languageCode = runBlocking {
@@ -297,89 +312,33 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver {
 
     }
 
-//    fun getThemeFile(colorString: String): AppThemeFile {
-//        val myTheme = AppThemeFile()
-//        myTheme.themeColor = colorString
-//        myTheme.btnTextColor = colorString
-//        val themeColor = Color.parseColor(colorString)
-//
-//        var red = (Color.red(themeColor))
-//        if (red >= 100) {
-//            red -= 10
-//        } else {
-//            red += 10
-//        }
-//
-//
-//        var green = (Color.green(themeColor))
-//        if (green >= 100) {
-//            green -= 10
-//        } else {
-//            green += 10
-//        }
-//
-//
-//        var blue = (Color.blue(themeColor))
-//        if (blue >= 100) {
-//            blue -= 10
-//        } else {
-//            blue += 10
-//        }
-//
-//
-//
-//
-//        showLog(
-//            "COLOR_HEX",
-//            String.format(
-//                "#%02x%02x%02x%02x",
-//                200,
-//                red,
-//                green,
-//
-//                blue
-//            )
-//        )
-//        myTheme.themeTint = String.format(
-//            "#%02x%02x%02x%02x",
-//            200,
-//            red,
-//            green,
-//            blue
-//        )
-//        return myTheme
-//    }
-
-//    fun GetProfile(): JSONObject? {
-//        var json = ""
-//        lifecycleScope.launch {
-//            json = PreferenceDataStore.getString(Constants.USER_RESPONSE).toString()
-//        }
-//        if (json.isEmpty()) {
-//            return null
-//        } else {
-//            val response = JSONObject(json)
-//            val user = response.getJSONObject("user")
-//            return user
-//        }
-//
-//    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray,
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        PermissionUtil.onRequestPermissionResult(requestCode, permissions, grantResults)
+    }
 
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         showLog("BASE_ACTIVITY", "onResponseSuccess>>>" + apiCode)
     }
 
     override fun onException(isNetworkAvailable: Boolean, exception: ApiError, apiCode: String) {
-        showLog("BASE_ACTIVITY", "onException>>>" + apiCode)
+        hideProgressBar()
+        handleOnException(isNetworkAvailable, exception, apiCode)
     }
 
-    override fun onError(error: ToastData) {
-        showLog("BASE_ACTIVITY", "onError>>>")
+
+    override fun onError(error: ToastData, apiCode: String?) {
+        hideProgressBar()
+        handleOnError(error)
     }
 
-    override fun onLoading(message: String) {
-        showLog("BASE_ACTIVITY", "onLoading>>>")
 
+    override fun onLoading(message: String, apiCode: String?) {
+        showProgressBar()
     }
 
     fun goToHomeActivity() {
@@ -392,4 +351,76 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver {
         finish()
     }
 
+    fun permissionDenied() {
+        CommonAlertDialog.builder(this)
+            .title(getString(R.string.alert))
+            .description(getString(R.string.permission_denied))
+            .positiveBtnText(getString(R.string.okay))
+            .icon(null)
+            .getCallback {
+                if (it) {
+
+                    try {
+                        val intent = Intent()
+                        intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                        val uri: Uri = Uri.fromParts("package", packageName, null)
+                        intent.data = uri
+                        startActivity(intent)
+
+                    } catch (e: ActivityNotFoundException) {
+                        showToastLong(getString(R.string.you_dont_have_activity_to_perform_action))
+                    }
+                }
+            }.build()
+    }
+
+
+    fun getRefreshToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("varun", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            token = task.result
+
+        })
+    }
+
+
+    //hide keyboard on click outside the edittext
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        /* if (event.action == MotionEvent.ACTION_MOVE) {
+             val imm = (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+             val isKeyboardUp = imm.isAcceptingText
+             val v = currentFocus
+
+             if (isKeyboardUp) {
+                 imm.hideSoftInputFromWindow(v?.windowToken, 0)
+             }
+ //            if (v is ScrollView) {
+ //                val outRect = Rect()
+ //                v.getGlobalVisibleRect(outRect)
+ //                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+ //                    v.clearFocus()
+ //                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+ //                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+ //                }
+ //            }
+         }
+       else */ if (event.action == MotionEvent.ACTION_DOWN) {
+            val v = currentFocus
+            if (v is EditText) {
+                val outRect = Rect()
+                v.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    Log.d("focus", "touchevent")
+                    v.clearFocus()
+                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.windowToken, 0)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
+    }
 }

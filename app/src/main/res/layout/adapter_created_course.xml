@@ -52,6 +52,7 @@
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:text="UX and Web Design Course"
                 app:fontType="semiBold"
+                android:textSize="@dimen/_14ssp"
                 app:layout_constraintEnd_toStartOf="@+id/iv_more"
                 app:layout_constraintStart_toEndOf="@+id/iv_preview"
                 app:layout_constraintTop_toTopOf="@+id/iv_preview" />
@@ -135,6 +136,7 @@
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:layout_marginBottom="@dimen/_8sdp"
                 android:paddingHorizontal="@dimen/_8sdp"
+
                 android:text="@string/update_course"
                 android:textSize="@dimen/_9ssp"
                 app:cornerRadius="@dimen/_2sdp"
@@ -152,6 +154,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:drawableStartCompat="@drawable/ic_assesment"
+                android:paddingStart="0dp"
                 android:drawableEnd="@drawable/ic_arrow_right_grey"
                 android:drawablePadding="@dimen/_5sdp"
                 android:paddingVertical="@dimen/_8sdp"

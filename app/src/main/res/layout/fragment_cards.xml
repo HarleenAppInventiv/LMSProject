@@ -42,11 +42,12 @@
             android:textColor="?attr/colorPrimary"
             android:backgroundTint="@color/white"
             app:strokeWidth="@dimen/_1sdp"
+            android:textSize="@dimen/_14ssp"
+            app:fontType="semiBold"
             app:strokeColor="?attr/buttonBackgroundTintColor"
             app:layout_constraintTop_toBottomOf="@+id/rv_list"
             app:layout_constraintVertical_bias="0"
-            android:onClickListener="@{(v)->fragCard.onHandleClick(v)}"
-            />
+            android:onClickListener="@{(v)->fragCard.onHandleClick(v)}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <com.selflearningcoursecreationapp.utils.customViews.LMSCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        app:cardCornerRadius="@dimen/_5sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:id="@+id/iv_thumbnail_image"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/dummys" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:id="@+id/iv_cross"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:scaleType="fitCenter"
+                app:layout_constraintEnd_toEndOf="@+id/iv_thumbnail_image"
+                app:layout_constraintTop_toTopOf="@+id/iv_thumbnail_image"
+                app:srcCompat="@drawable/ic_circle_cross_black" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:id="@+id/iv_check"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:scaleType="fitCenter"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@+id/iv_thumbnail_image"
+                app:layout_constraintTop_toTopOf="@+id/iv_thumbnail_image"
+                app:srcCompat="@drawable/ic_check_green" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.selflearningcoursecreationapp.utils.customViews.LMSCardView>
+
+</layout>

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <item
         android:end="@dimen/_minus10sdp"
         android:start="@dimen/_minus10sdp"
-        android:top="@dimen/_minus10sdp">
+        android:top="@dimen/_minus10sdp"
+        tools:targetApi="m">
         <shape android:shape="rectangle">
             <stroke
                 android:width="@dimen/_1sdp"

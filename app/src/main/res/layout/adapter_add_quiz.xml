@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -19,7 +20,7 @@
             android:paddingVertical="@dimen/_3sdp"
             android:paddingTop="@dimen/_5sdp"
             android:paddingBottom="@dimen/_5sdp"
-            android:text="Multiple Choice Question"
+            tools:text="Multiple Choice Question"
             android:textSize="@dimen/_12sdp"
             app:drawableEndCompat="@drawable/ic_earning_down"
             app:fontType="medium"
@@ -36,7 +37,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10sdp"
-            android:text="Title"
+            android:text="@string/title"
             android:textSize="@dimen/_10sdp"
             android:textStyle="normal"
             app:fontType="medium"
@@ -119,7 +120,7 @@
             android:lineSpacingExtra="6sp"
             android:paddingHorizontal="@dimen/_10sdp"
             android:paddingVertical="@dimen/_5sdp"
-            android:text="+Add"
+            android:text="@string/_add"
             android:textSize="@dimen/_10sdp"
             android:textStyle="normal"
             app:fontType="medium"
@@ -145,7 +146,7 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_20sdp"
             android:letterSpacing="0.02"
-            android:text="Mark Answer"
+            android:text="@string/mark_answer"
             app:btnTextColor="secondary"
             app:buttonBackground="secondary"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -179,7 +180,7 @@
 
             android:layout_marginBottom="@dimen/_20sdp"
             android:letterSpacing="0.02"
-            android:text="Upload"
+            android:text="@string/upload"
             app:btnTextColor="secondary"
             app:buttonBackground="secondary"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -187,5 +188,6 @@
             app:layout_constraintStart_toEndOf="@+id/bt_save"
             app:layout_constraintTop_toBottomOf="@+id/rv_options"
             app:textAllCaps="true" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

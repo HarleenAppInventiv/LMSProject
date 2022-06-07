@@ -4,7 +4,9 @@ import com.selflearningcoursecreationapp.base.BaseRepo
 import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.data.network.ApiService
 import com.selflearningcoursecreationapp.data.network.Resource
-import com.selflearningcoursecreationapp.models.user.UserProfile
+import com.selflearningcoursecreationapp.data.network.getRequestBody
+import com.selflearningcoursecreationapp.models.course.ImageResponse
+import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -13,10 +15,41 @@ import retrofit2.Response
 
 class TextRepoImp(private val apiService: ApiService) : TextRepo {
     override suspend fun addPatchLecture(map: HashMap<String, Any>): Flow<Resource> {
-        return object : BaseRepo<BaseResponse<UserProfile>>() {
-            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<UserProfile>> {
+        return object : BaseRepo<BaseResponse<ChildModel>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ChildModel>> {
                 return apiService.addPatchLecture(map)
             }
         }.safeApiCall(ApiEndPoints.API_ADD_LECTURE_PATCH).flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun getLectureDetail(lectureId: Int): Flow<Resource> {
+        return object : BaseRepo<BaseResponse<ChildModel>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ChildModel>> {
+                return apiService.getLectureDetail(lectureId)
+            }
+        }.safeApiCall(ApiEndPoints.API_GET_LECTURE_DETAIL).flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun contentUploadText(
+        courseId: Int?,
+        sectionId: Int?,
+        lectureId: Int,
+        uploadType: Int,
+        text: String,
+        duration: Int,
+    ): Flow<Resource> {
+        return object : BaseRepo<BaseResponse<ImageResponse>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ImageResponse>> {
+                return apiService.contentUploadText(
+                    courseId.getRequestBody(),
+                    sectionId.getRequestBody(),
+                    lectureId.getRequestBody(),
+                    uploadType.getRequestBody(),
+                    text.getRequestBody(),
+                    duration.getRequestBody()
+
+                )
+            }
+        }.safeApiCall(ApiEndPoints.API_CONTENT_UPLOAD).flowOn(Dispatchers.IO)
     }
 }

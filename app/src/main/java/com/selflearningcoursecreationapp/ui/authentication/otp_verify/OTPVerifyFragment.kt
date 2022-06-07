@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
 class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
     private val viewModel: OTPVerifyViewModel by viewModel()
 
-    private var startTime: Long = 120000
+    private var startTime: Long = 60000
     private var timer: CountDownTimer? = null
     private var argBundle: OTPVerifyFragmentArgs? = null
     private var OTP_TIME = 60000L
@@ -79,7 +79,7 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
     fun onClickListners() {
         binding.btnSubmitOtp.setOnClickListener {
 
-            viewModel.otpVerify(argBundle)
+            viewModel.otpVerify(argBundle, baseActivity.token)
         }
 
         binding.tvResend.setOnClickListener {
@@ -230,7 +230,7 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
         if (maxRequest == 0) {
             startTime = OTP_TIME.times(5)
         } else {
-            startTime = OTP_TIME.times(2)
+            startTime = OTP_TIME.times(1)
         }
     }
 

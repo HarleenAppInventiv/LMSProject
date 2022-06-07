@@ -18,8 +18,8 @@
         app:cardCornerRadius="@dimen/_5sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
             android:id="@+id/parentCL"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/_10sdp">
 
@@ -29,8 +29,8 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_10sdp"
                 android:text="Aa"
-                android:textSize="@dimen/_25ssp"
-                android:textStyle="bold"
+                android:textSize="@dimen/_32ssp"
+                app:fontType="semiBold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -51,6 +51,7 @@
                 android:padding="@dimen/_5sdp"
                 android:text="WorkSans"
                 android:textSize="@dimen/_13ssp"
+                app:fontType="medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_preview" />
@@ -59,8 +60,8 @@
                 android:id="@+id/iv_selected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/_10sdp"
                 android:contentDescription="@string/font_selected"
+                android:padding="@dimen/_10sdp"
                 android:src="@drawable/ic_selected_category"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -76,6 +76,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
         binding.toolbarLayout.setBackgroundColor(color)
         binding.toolbarLayout.setStatusBarScrimColor(color)
         binding.appBar.setBackgroundColor(color)
+
+//        binding.ivNotification.setOnClickListener {
+//            InviteCoAuthorDialog().show(childFragmentManager, "")
+//        }
     }
 
 
@@ -108,7 +112,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
         viewModel.getUserData()
         binding.tvUserName.text = viewModel.userProfile?.name
         Glide.with(requireActivity()).load(viewModel.userProfile?.profileUrl)
-            .placeholder(R.drawable.ic_course_dummy)
+            .placeholder(R.drawable.ic_default_user)
             .into(binding.ivUserImage)
     }
 

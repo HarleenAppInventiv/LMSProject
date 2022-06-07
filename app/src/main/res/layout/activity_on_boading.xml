@@ -9,6 +9,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_height="match_parent"
         android:background="?attr/screenBackgroundColor"
         tools:context=".ui.authentication.InitialActivity">
@@ -24,6 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
+
             app:contentInsetStartWithNavigation="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:titleMarginStart="0dp"

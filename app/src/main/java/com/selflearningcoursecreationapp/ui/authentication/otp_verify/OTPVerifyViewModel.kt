@@ -17,10 +17,10 @@ import kotlinx.coroutines.withContext
 class OTPVerifyViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
     var otpData = OtpData()
 
-    fun otpVerify(argBundle: OTPVerifyFragmentArgs?) {
+    fun otpVerify(argBundle: OTPVerifyFragmentArgs?, token: String) {
         val errorId = otpData.isValid()
         if (errorId == 0) {
-            valOTP(argBundle)
+            valOTP(argBundle, token)
         } else {
             updateResponseObserver(Resource.Error(ToastData(errorId)))
         }
@@ -56,42 +56,44 @@ class OTPVerifyViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
 
         }
 
-    fun valOTP(args: OTPVerifyFragmentArgs?) = viewModelScope.launch(coroutineExceptionHandle) {
-        val map = HashMap<String, Any>()
-        if (args?.email.isNullOrEmpty()) {
-            map["phone"] = args?.phone.toString()
-            map["countryCode"] = args?.countryCode ?: ""
+    fun valOTP(args: OTPVerifyFragmentArgs?, token: String) =
+        viewModelScope.launch(coroutineExceptionHandle) {
+            val map = HashMap<String, Any>()
+            if (args?.email.isNullOrEmpty()) {
+                map["phone"] = args?.phone.toString()
+                map["countryCode"] = args?.countryCode ?: ""
 
-        } else {
-            map["email"] = args?.email.toString()
-        }
-        map["otpValue"] = otpData.otp ?: ""
-        map["otpType"] = args?.type.toString()
-
-        updateResponseObserver(Resource.Loading())
-
-        var response = when (args?.type) {
-            OTP_TYPE.TYPE_EMAIL -> {
-                repo.verEmailOtp(map)
+            } else {
+                map["email"] = args?.email.toString()
             }
-            else -> {
-                repo.verOtp(map)
-            }
-        }
-        withContext(Dispatchers.IO) {
-            response.collect {
-                if (it is Resource.Success<*> && (args?.type != OTP_TYPE.TYPE_FORGOT && args?.type != OTP_TYPE.TYPE_EMAIL)) {
-//                    if (args?.type != OTP_TYPE.TYPE_FORGOT) {
-                    val data = it.value as BaseResponse<UserResponse>
-                    saveUserDataInDB(data)
-                    delay(2000)
-//                    }
+            map["otpValue"] = otpData.otp ?: ""
+            map["otpType"] = args?.type.toString()
+            map["fcmDeviceToken"] = token
+
+            updateResponseObserver(Resource.Loading())
+
+            var response = when (args?.type) {
+                OTP_TYPE.TYPE_EMAIL -> {
+                    repo.verEmailOtp(map)
                 }
-
-                updateResponseObserver(it)
+                else -> {
+                    repo.verOtp(map)
+                }
             }
-        }
+            withContext(Dispatchers.IO) {
+                response.collect {
+                    if (it is Resource.Success<*> && (args?.type != OTP_TYPE.TYPE_FORGOT && args?.type != OTP_TYPE.TYPE_EMAIL)) {
+//                    if (args?.type != OTP_TYPE.TYPE_FORGOT) {
+                        val data = it.value as BaseResponse<UserResponse>
+                        saveUserDataInDB(data)
+                        delay(2000)
+//                    }
+                    }
 
-    }
+                    updateResponseObserver(it)
+                }
+            }
+
+        }
 
 }

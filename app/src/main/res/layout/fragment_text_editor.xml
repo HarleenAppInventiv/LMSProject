@@ -68,13 +68,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:orientation="horizontal">
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:id="@+id/action_undo"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
                     android:layout_gravity="center"
                     android:contentDescription="@null"
                     android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
@@ -86,10 +86,10 @@
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:id="@+id/action_redo"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
                     android:background="@null"
                     android:contentDescription="@null"
                     android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
@@ -101,10 +101,10 @@
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:id="@+id/action_bold"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
                     android:background="@null"
                     android:contentDescription="@null"
                     android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
@@ -113,11 +113,11 @@
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:id="@+id/action_italic"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
                     android:background="@null"
                     android:contentDescription="@null"
                     android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
@@ -126,11 +126,11 @@
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:id="@+id/action_underline"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
 
-                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
                     android:background="@null"
                     android:contentDescription="@null"
                     android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
@@ -139,10 +139,10 @@
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:id="@+id/action_align_left"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
                     android:background="@null"
                     android:contentDescription="@null"
 
@@ -152,10 +152,10 @@
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:id="@+id/action_align_centre"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
                     android:background="@null"
                     android:contentDescription="@null"
 
@@ -165,10 +165,10 @@
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:id="@+id/action_align_right"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
                     android:background="@null"
                     android:contentDescription="@null"
 
@@ -178,10 +178,10 @@
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:id="@+id/action_bullet"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
                     android:background="@null"
                     android:contentDescription="@null"
 
@@ -191,8 +191,8 @@
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:id="@+id/action_number_bullet"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/_5sdp"
                     android:layout_marginRight="@dimen/_5sdp"

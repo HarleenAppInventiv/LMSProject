@@ -27,7 +27,7 @@
             android:layout_margin="@dimen/_15sdp"
             android:text="@string/select_language"
             app:textColorType="heading"
-            android:textSize="@dimen/_18ssp"
+            android:textSize="@dimen/_21ssp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,6 +40,8 @@
             android:text="@string/select_language_subtext"
             spanText="@{@string/select_language_subtext}"
             app:textColorType="body"
+            android:textSize="@dimen/_14ssp"
+            app:fontType="regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />

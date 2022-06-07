@@ -19,10 +19,11 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_assignment_list"
+            android:id="@+id/rv_assessment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:visibility="gone"
+
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/view_bottom"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,15 +48,17 @@
             <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_celebration" />
+                app:srcCompat="@drawable/ic_no_doc" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 spanText="@{@string/there_are_no_assessments_in_n_this_course}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/tv_no_data"
+                android:textSize="@dimen/_16ssp"
                 android:text="@string/there_are_no_assessments_in_n_this_course"
                 android:textAlignment="center"
-                app:textColorType="primary" />
+                app:textColorType="black" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
                 android:id="@+id/btn_add_assessment"
@@ -89,6 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="?attr/whiteTextColor"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".12"
@@ -107,6 +111,7 @@
             android:padding="@dimen/_12sdp"
             android:text="@string/edit"
             android:textAlignment="center"
+            android:visibility="gone"
             android:textColor="?attr/colorPrimary"
             android:textSize="@dimen/_12ssp"
             app:btnIconColor="primary"
@@ -125,6 +130,7 @@
             spanText="@{@string/submit}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_margin="@dimen/_15sdp"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:text="@string/submit"

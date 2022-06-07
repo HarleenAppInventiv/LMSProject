@@ -3,9 +3,12 @@ package com.selflearningcoursecreationapp.ui.preferences
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -114,6 +117,12 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
             val item = menu.findItem(R.id.action_skip)
             val s = SpannableString(item.title)
             s.setSpan(ForegroundColorSpan(ThemeUtils.getAppColor(baseActivity)), 0, s.length, 0)
+            s.setSpan(
+                StyleSpan(Typeface.BOLD),
+                0,
+                s.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
             item.title = s
         } else {
 //            val item = menu.findItem(R.id.action_read)
@@ -261,8 +270,8 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
         val total = viewModel.categoryListLiveData.value?.filter { it.isSelected }?.size ?: 0
         binding.tvSelectedValue.text = "${if (total <= 9) "0$total" else total}"
         binding.tvSelectedValue.changeTextColor(ThemeConstants.TYPE_THEME)
-        binding.btContinue.setBtnDisabled(total >= 3)
-        binding.btContinue.isEnabled = (total >= 3)
+        binding.btContinue.setBtnDisabled(total >= 1)
+        binding.btContinue.isEnabled = (total >= 1)
     }
 
     private fun setThemeData() {
@@ -452,7 +461,6 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
 
                             closePopUp(msg)
 
-
                         } else {
                             showToastLong(baseActivity.getString(R.string.categories_updated_successfully))
                             findNavController().navigateUp()
@@ -492,19 +500,19 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
         if (type != PREFERENCES.TYPE_ALL) {
             findNavController().navigateUp()
         } else {
-            if (currentSelection == PreferencesFragmentArgs?.fromBundle(requireArguments())?.currentSelection) {
-                findNavController().navigateUp()
-            } else {
-                when (binding.viewpager.currentItem) {
-                    0 -> {
-                        findNavController().navigateUp()
-                    }
-                    else -> {
-                        currentSelection -= 1
-                        binding.viewpager.currentItem -= 1
-                    }
+            /* if (currentSelection == PreferencesFragmentArgs?.fromBundle(requireArguments())?.currentSelection) {
+                 findNavController().navigateUp()
+             } else {*/
+            when (binding.viewpager.currentItem) {
+                0 -> {
+                    findNavController().navigateUp()
+                }
+                else -> {
+                    currentSelection -= 1
+                    binding.viewpager.currentItem -= 1
                 }
             }
+//            }
         }
     }
 

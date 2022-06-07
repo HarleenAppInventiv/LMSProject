@@ -107,7 +107,6 @@
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-                //second
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_course"
@@ -152,8 +151,6 @@
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-                //third
-
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_video"

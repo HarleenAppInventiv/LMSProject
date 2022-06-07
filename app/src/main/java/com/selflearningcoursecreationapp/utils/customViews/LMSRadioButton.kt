@@ -61,7 +61,7 @@ class LMSRadioButton : MaterialRadioButton {
 
         val fontType =
             themeAttrs.getInt(R.styleable.LMSCheckBox_compoundFont, ThemeConstants.FONT_REGULAR)
-        if (fontType >= 0) {
+        if (fontType > 0) {
             typeface = ResourcesCompat.getFont(
                 context,
                 ThemeUtils.getFont(SelfLearningApplication.fontId, fontType)

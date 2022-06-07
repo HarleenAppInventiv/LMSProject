@@ -1,13 +1,10 @@
 package com.selflearningcoursecreationapp.ui.create_course.quiz
 
-import android.net.Uri
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterAddQuizOptionBinding
-import com.selflearningcoursecreationapp.extensions.gone
-import com.selflearningcoursecreationapp.extensions.visible
-import com.selflearningcoursecreationapp.extensions.visibleView
+import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.models.course.quiz.QuizOptionData
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.DialogType
@@ -33,13 +30,13 @@ class AddQuizOptionAdapter(
         binding.optionData = data
         binding.isEnabled = isEnabled
         binding.type = optionType
-        val letter = (position + 65).toChar()
-        binding.tvName.text = "$letter"
-        binding.etOption1.hint = "${context.getString(R.string.tap_here_to_enter_option)} $letter"
-        binding.etOption2.hint = "${context.getString(R.string.tap_here_to_enter_option)} $letter"
+        binding.tvName.text = position.getCharString()
+
 
         binding.etOption1.gone()
         binding.etOption2.gone()
+        binding.etOption2.textHelper(position + 1 == list.size)
+        binding.etOption1.textHelper(position + 1 == list.size)
 
         when (questionType) {
             QUIZ.MATCH_COLUMN -> {
@@ -49,21 +46,27 @@ class AddQuizOptionAdapter(
                     binding.etOption2.visible()
 
                 }
+                binding.etOption1.hint =
+                    "${context.getString(R.string.tap_here_to_enter_option)} ${position.getCharString()}"
+                binding.etOption2.hint =
+                    "${context.getString(R.string.tap_here_to_enter_option)} ${position.getCharString()}"
             }
             QUIZ.DRAG_DROP, QUIZ.IMAGE_BASED -> {
                 if (!data.option1.isNullOrEmpty()) {
                     binding.etOption1.visible()
                 } else if (!data.imageId.isNullOrEmpty()) {
                     binding.ivOption.visible()
-                    binding.ivOption.setImageURI(Uri.parse(data.image))
+                    binding.ivOption.loadImage(data.image, R.drawable.ic_default_banner)
                 } else {
                     binding.tvSelect.visible()
                 }
-
+                binding.tvSelect.text = binding.root.context.getString(R.string.add_answer)
 
             }
             else -> {
                 binding.etOption1.visible()
+                binding.etOption1.hint =
+                    "${context.getString(R.string.tap_here_to_enter_option)} ${position.getCharString()}"
             }
         }
 

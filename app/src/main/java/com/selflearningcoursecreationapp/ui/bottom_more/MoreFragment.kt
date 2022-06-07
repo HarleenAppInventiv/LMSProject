@@ -57,7 +57,7 @@ class MoreFragment :
 
                 }
                 R.id.tv_practice_accent -> {
-                    findNavController().navigate(R.id.action_moreFragment_to_assessmentFragment)
+//                    findNavController().navigate(R.id.action_moreFragment_to_assessmentFragment)
 
                 }
 

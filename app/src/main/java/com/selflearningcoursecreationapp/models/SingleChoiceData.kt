@@ -14,15 +14,18 @@ data class SingleChoiceData(
     @SerializedName("isPaid")
     var isPaid: Boolean? = null,
     @SerializedName(
-        "title",
-        alternate = ["professionName", "courseComplexityName", "courseTypeName"]
+        "value",
+        alternate = ["professionName", "courseComplexityName", "courseTypeName", "title", "targetAudienceName", "keyword"]
     )
     var title: String? = null
 ) : Parcelable
 
 @Parcelize
 data class SingleClickResponse(
-    @SerializedName("allProfessions", alternate = ["courseComplexities", "courseTypes"])
+    @SerializedName(
+        "allProfessions",
+        alternate = ["courseComplexities", "courseTypes", "searchKeywords"]
+    )
     var list: ArrayList<SingleChoiceData>? = null
 ) : Parcelable
 

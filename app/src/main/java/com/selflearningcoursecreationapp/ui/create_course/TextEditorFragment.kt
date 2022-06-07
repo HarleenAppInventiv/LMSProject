@@ -3,18 +3,20 @@ package com.selflearningcoursecreationapp.ui.create_course
 import android.os.Bundle
 import android.text.Html
 import android.view.View
+import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentTextEditorBinding
 import com.selflearningcoursecreationapp.extensions.gone
+import com.selflearningcoursecreationapp.extensions.showLog
 import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.extensions.wordCount
 import com.selflearningcoursecreationapp.textEditor.TextEditor
 import com.selflearningcoursecreationapp.utils.HandleClick
-import kotlinx.android.synthetic.main.fragment_text_editor.*
 
 
 class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClick,
@@ -33,10 +35,106 @@ class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClic
         binding.textEditor.setOnTextChangeListener(this)
         binding.textEditor.requestFocus()
 
+
         arguments?.let {
             type = it.getInt("type")
             htmlValue = it.getString("htmlValue").toString()
             from = it.getInt("from")
+            binding.tvWordCount.text = (Html.fromHtml(htmlValue).toString()).wordCount().toString()
+
+            if (htmlValue.endsWith("</b>")) {
+                binding.actionBold.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.orange_text_color
+                    )
+                )
+            }
+            if (htmlValue.endsWith("</i>")) {
+
+                binding.actionItalic.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.orange_text_color
+                    )
+                )
+            }
+            if (htmlValue.endsWith("</u>")) {
+                binding.actionUnderline.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.orange_text_color
+                    )
+                )
+            }
+            if (htmlValue.endsWith("</i></b>") || htmlValue.endsWith("</b></i>")) {
+                binding.actionBold.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.orange_text_color
+                    )
+                )
+                binding.actionItalic.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.orange_text_color
+                    )
+                )
+            }
+            if (htmlValue.endsWith("</i></u>") || htmlValue.endsWith("</u></i>")) {
+                binding.actionItalic.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.orange_text_color
+                    )
+                )
+                binding.actionUnderline.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.orange_text_color
+                    )
+                )
+            }
+            if (htmlValue.endsWith("</b></u>") || htmlValue.endsWith("</u></b>")) {
+                binding.actionUnderline.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.orange_text_color
+                    )
+                )
+                binding.actionBold.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.orange_text_color
+                    )
+                )
+            }
+            if (htmlValue.endsWith("</b></u></i>") || htmlValue.endsWith("</b></i></u>") || htmlValue.endsWith(
+                    "</i></b></u>"
+                )
+                || htmlValue.endsWith("</i></u></b>") || htmlValue.endsWith("</u></i></b>") || htmlValue.endsWith(
+                    "</u></b></i>"
+                )
+            ) {
+                binding.actionUnderline.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.orange_text_color
+                    )
+                )
+                binding.actionBold.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.orange_text_color
+                    )
+                )
+                binding.actionItalic.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.orange_text_color
+                    )
+                )
+            }
 
             if (from == 1) {
                 binding.tvWordCount.visible()
@@ -45,24 +143,29 @@ class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClic
                 binding.tvWordCount.gone()
                 binding.tvWordCountTitle.gone()
             }
-//            showToastShort(htmlValue)
             if (htmlValue.isEmpty()) {
                 binding.textEditor.setPlaceholder("Enter description")
                 binding.btAddText.isEnabled = false
+                binding.textEditor.focusEditor()
+
 
             } else {
-                binding.textEditor.html = htmlValue
+                binding.textEditor.html = htmlValue + ""
+                binding.textEditor.focusEditor()
+
 
             }
         }
 
         binding.btAddText.setOnClickListener {
+            showLog("RESULT_LiSTENER", "data >> ${binding.textEditor.html.toString()}")
 
-            requireActivity().supportFragmentManager.setFragmentResult(
+            setFragmentResult(
                 "valueHTML",
-                bundleOf("value" to textEditor.html.toString(), "type" to type)
+                bundleOf("value" to binding.textEditor.html.toString(), "type" to type)
             )
-            findNavController().navigateUp()
+            findNavController().popBackStack()
+
         }
 
 
@@ -138,7 +241,7 @@ class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClic
     override fun onTextChange(text1: String?) {
 
         count = (Html.fromHtml(text1).toString()).wordCount()
-        binding.btAddText.isEnabled = !(count == 0 || count > 500)
+        binding.btAddText.isEnabled = if (count == 0 || count > 500) false else true
 
         binding.tvWordCount.apply {
             text = count.toString()
@@ -150,6 +253,17 @@ class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClic
             }
         }
 
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        baseActivity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        baseActivity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
     }
 

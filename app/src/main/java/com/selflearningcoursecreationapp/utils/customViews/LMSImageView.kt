@@ -60,6 +60,11 @@ class LMSImageView : AppCompatImageView {
                 backgroundTintList = ColorStateList.valueOf(ThemeUtils.getAppColor(context))
                 backgroundTintMode = PorterDuff.Mode.SRC_IN
             }
+            ThemeConstants.TYPE_BG_TINT_SRC -> {
+
+                backgroundTintList = ColorStateList.valueOf(ThemeUtils.getTintColor(context))
+                backgroundTintMode = PorterDuff.Mode.SRC_IN
+            }
             ThemeConstants.TYPE_BACKGROUND -> {
                 setBackgroundColor(ThemeUtils.getAppColor(context))
             }

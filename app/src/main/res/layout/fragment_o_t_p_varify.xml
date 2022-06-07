@@ -44,7 +44,7 @@
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:text="@string/verify_with_otp"
-                android:textSize="@dimen/_22ssp"
+                android:textSize="@dimen/_24ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -55,7 +55,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_15sdp"
-                android:lineSpacingExtra="@dimen/_3ssp"
+                android:textSize="@dimen/_14ssp"
+                app:fontType="regular"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -67,10 +68,12 @@
                 android:id="@+id/tv_phone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:contentDescription="@string/phone_number"
                 android:drawablePadding="@dimen/_10sdp"
-                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:textSize="@dimen/_14ssp"
+                app:fontType="regular"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_send_otp_text"
@@ -79,9 +82,10 @@
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
                 android:id="@+id/et_otp1"
-                android:layout_width="@dimen/_50sdp"
+                android:layout_width="@dimen/_56sdp"
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/_15sdp"
+
                 android:layout_marginTop="@dimen/_45sdp"
                 android:background="@drawable/edt_bg"
                 android:contentDescription="@string/enter_4_digit_number_that_sent_to_your_number"
@@ -92,7 +96,9 @@
                 android:paddingVertical="@dimen/_15sdp"
                 android:text="@={otpverify.otpData.otp1}"
                 android:textAlignment="center"
+                android:padding="@dimen/_5sdp"
                 app:fontType="bold"
+                android:textSize="@dimen/_21ssp"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toStartOf="@+id/et_otp2"
                 app:layout_constraintHorizontal_bias="0"
@@ -103,12 +109,14 @@
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
                 android:id="@+id/et_otp2"
-                android:layout_width="@dimen/_50sdp"
+                android:layout_width="@dimen/_56sdp"
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_45sdp"
                 android:background="@drawable/edt_bg"
                 android:hint="-"
+                android:padding="@dimen/_5sdp"
+
                 android:inputType="number"
                 android:maxLength="1"
                 android:nextFocusLeft="@id/et_otp1"
@@ -116,6 +124,7 @@
                 android:paddingVertical="@dimen/_15sdp"
                 android:text="@={otpverify.otpData.otp2}"
                 android:textAlignment="center"
+                android:textSize="@dimen/_21ssp"
                 app:fontType="bold"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toStartOf="@+id/et_otp3"
@@ -125,7 +134,7 @@
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
                 android:id="@+id/et_otp3"
-                android:layout_width="@dimen/_50sdp"
+                android:layout_width="@dimen/_56sdp"
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_45sdp"
@@ -138,6 +147,9 @@
                 android:paddingVertical="@dimen/_15sdp"
                 android:text="@={otpverify.otpData.otp3}"
                 android:textAlignment="center"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/_21ssp"
+
 
                 app:fontType="bold"
                 app:layout_constraintDimensionRatio="1:1"
@@ -148,8 +160,10 @@
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
                 android:id="@+id/et_otp4"
-                android:layout_width="@dimen/_50sdp"
+                android:layout_width="@dimen/_56sdp"
                 android:layout_height="0dp"
+                android:padding="@dimen/_5sdp"
+
                 android:layout_marginStart="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_45sdp"
                 android:layout_marginEnd="@dimen/_15sdp"
@@ -160,6 +174,7 @@
                 android:nextFocusLeft="@id/et_otp3"
                 android:text="@={otpverify.otpData.otp4}"
                 android:textAlignment="center"
+                android:textSize="@dimen/_21ssp"
                 app:fontType="bold"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -172,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:text="@string/resend_code_in"
-
+                android:textSize="@dimen/_14ssp"
                 app:layout_constraintEnd_toEndOf="@+id/textView"
                 app:layout_constraintStart_toStartOf="@+id/textView"
                 app:layout_constraintTop_toBottomOf="@+id/et_otp1" />
@@ -187,8 +202,10 @@
                 android:layout_marginBottom="@dimen/_24sdp"
                 android:enabled="@{otpverify.otpData.dataValid}"
                 android:text="@string/submit_otp"
-
+                android:textSize="@dimen/_14ssp"
                 app:btnEnabled="@{otpverify.otpData.dataValid}"
+
+                app:buttonFont="semiBold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

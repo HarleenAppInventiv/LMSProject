@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/parentNSV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/viewSecondaryBgColor"
+        android:fillViewport="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:overScrollMode="never"
+        tools:context=".ui.create_course.review.CourseReviewFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_sections"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_16sdp"
+                android:text="3 Sections in this COURSE"
+                android:textSize="@dimen/_14ssp"
+                app:fontType="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textColorType="heading" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_sections"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_sections" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_keywords"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:text="@string/search_keywords"
+                android:textSize="@dimen/_16ssp"
+                app:fontType="semiBold"
+                app:layout_constraintEnd_toEndOf="@+id/tv_sections"
+                app:layout_constraintStart_toStartOf="@+id/tv_sections"
+                app:layout_constraintTop_toBottomOf="@+id/rv_sections" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSCardView
+                android:id="@+id/cl_suggestion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                app:cardBackgroundColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@+id/et_keywords"
+                app:layout_constraintEnd_toEndOf="@+id/et_keywords"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintStart_toStartOf="@+id/et_keywords"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_suggestions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintHeight_default="wrap"
+                    app:layout_constraintVertical_bias="1" />
+
+            </com.selflearningcoursecreationapp.utils.customViews.LMSCardView>
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/et_keywords"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/edt_white_bg"
+                android:hint="@string/enter_keywords"
+                android:imeOptions="actionGo"
+                android:paddingHorizontal="@dimen/_16sdp"
+                android:paddingVertical="@dimen/_15sdp"
+                android:singleLine="true"
+                android:textSize="@dimen/_12ssp"
+                app:fontType="medium"
+                app:layout_constraintEnd_toEndOf="@+id/tv_sections"
+                app:layout_constraintStart_toStartOf="@+id/tv_sections"
+                app:layout_constraintTop_toBottomOf="@+id/tv_keywords" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_keywords"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="@+id/tv_sections"
+                app:layout_constraintStart_toStartOf="@+id/tv_sections"
+                app:layout_constraintTop_toBottomOf="@+id/et_keywords" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

@@ -69,7 +69,7 @@ class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewMod
 
     }
 
-    private fun loginUser(selectedCountryCodeWithPlus: String) =
+    private fun loginUser(selectedCountryCodeWithPlus: String, token: String) =
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
             if (loginLiveData.value?.email?.isDigitsOnly() == true) {
@@ -80,6 +80,7 @@ class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewMod
             }
 
             map["password"] = loginLiveData.value!!.password
+            map["fcmDeviceToken"] = token
 
             var response = repository?.loginInApi(map)
             withContext(Dispatchers.IO) {
@@ -127,12 +128,12 @@ class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewMod
     }
 
 
-    fun loginValidation(selectedCountryCodeWithPlus: String) {
+    fun loginValidation(selectedCountryCodeWithPlus: String, token: String) {
 //        updateResponseObserver(Resource.)
         loginLiveData.value?.let {
             val errorId = it.isValid()
             if (errorId == 0) {
-                loginUser(selectedCountryCodeWithPlus)
+                loginUser(selectedCountryCodeWithPlus, token)
             } else {
                 updateResponseObserver(Resource.Error(ToastData(errorCode = errorId)))
             }
@@ -157,7 +158,6 @@ class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewMod
 
         }
     }
-
 
 
 }

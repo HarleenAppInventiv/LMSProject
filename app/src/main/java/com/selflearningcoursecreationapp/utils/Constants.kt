@@ -1,5 +1,9 @@
 package com.selflearningcoursecreationapp.utils
 
+
+const val ACTION_NOTIFICATION_BROADCAST = "com.skillfy.notification_broadcast"
+
+
 enum class Constants {
     IS_LOGGED_IN,
     APP_THEME,
@@ -12,7 +16,8 @@ enum class Constants {
     EMAIL,
     PASSWORD,
     COUNTYRY_CODE,
-    COURSE_ID
+    COURSE_ID,
+    FCMTOKEN
 
 }
 
@@ -53,19 +58,30 @@ object Lecture {
 
 }
 
+object Permission {
+    const val TAKE_PHOTO = 100
+    const val GALLERY = 200
+    const val DOC = 300
+    const val RECORD_AUDIO = 400
+}
+
 object Constant {
-    const val CLICK_IMAGE = 105
     const val CLICK_VIEW = 100
-    const val CLICK_SEE_ALL = 1000
     const val CLICK_MORE = 101
     const val CLICK_DELETE = 102
     const val CLICK_UPLOAD = 103
     const val CLICK_EDIT = 104
+    const val CLICK_IMAGE = 105
     const val CLICK_ADD = 108
-    const val CLICK_SAVE = 200
-    const val CLICK_OPTION_DELETE = 300
     const val CLICK_ADD_SECTION = 109
     const val CLICK_SWAP = 110
+    const val CLICK_COAUTHOR_VISIBLE = 111
+    const val CLICK_PLAY = 112
+    const val CLICK_TEXT_CHANGES = 113
+    const val CLICK_SAVE = 200
+    const val CLICK_OPTION_DELETE = 300
+    const val CLICK_DETAILS = 500
+    const val CLICK_SEE_ALL = 1000
 
     const val TYPE_ROUND = 1
     const val TYPE_LINE = 2
@@ -88,7 +104,7 @@ object Constant {
 
 object VALIDATION_CONST {
     const val MIN_NO_LENGTH = 5
-    const val MAX_NO_LENGTH = 16
+    const val MAX_NO_LENGTH = 15
     const val MAX_NAME_LENGTH = 30
     const val MIN_NAME_LENGTH = 2
     const val MAX_PASSWORD_LENGTH = 16
@@ -136,6 +152,7 @@ object DialogType {
     const val CLICK_QUIZ_TYPE = 12
     const val CLICK_QUIZ_OPTION = 13
     const val QUIZ_ANSWER = 14
+    const val CLICK_CO_AUTHOR = 15
 
 
 }
@@ -150,16 +167,8 @@ object QUIZ {
 
 }
 
-object MEDIA_TYPE {
-    const val VIDEO = 1
-    const val AUDIO = 2
-    const val DOC = 3
-    const val TEXT = 4
-    const val SCREEn_RECORD = 5
-    const val QUIZ = 6
-}
 
-object MEDIA {
+object MEDIA_TYPE {
     const val VIDEO = 1
     const val AUDIO = 2
     const val DOC = 3
@@ -170,4 +179,19 @@ object MEDIA {
     const val COURSE_BANNER = 8
     const val COURSE_LOGO = 9
     const val PROFILE_PIC = 10
+    const val ASSESSMENT_QUES = 11
+    const val ASSESSMENT_OPTION = 12
+}
+
+object MEDIA_FROM {
+    const val RECORDING = 100001
+
+}
+
+object COAUTHOR_STATUS {
+    const val ACCEPT = 1
+    const val PENDING = 2
+    const val REJECT = 3
+    const val CANCELLED = 4
+    const val SUBMITTED = 5
 }

@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
@@ -19,11 +20,13 @@ import androidx.core.text.isDigitsOnly
 import androidx.core.widget.doOnTextChanged
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
 
 
 fun TextView.content(): String = text.toString().trim()
-fun TextView.isBlank(): Boolean = text.toString().isNullOrEmpty()
+fun TextView.isBlank(): Boolean = text.toString().trim().isNullOrEmpty()
 
 
 fun TextView.showKeyBoard() {
@@ -126,7 +129,7 @@ fun EditText.otpHelper() {
                 val view = focusSearch(View.FOCUS_LEFT)
                 view?.requestFocus()
                 if (view is EditText)
-                    view?.setSelection(view.text.toString().length)
+                    view.setSelection(view.text.toString().length)
 
 
             }
@@ -169,6 +172,31 @@ fun EditText.otpHelper() {
         }
 
     })
+}
+
+
+fun EditText.textHelper(isLast: Boolean) {
+    if (isLast) {
+        imeOptions = EditorInfo.IME_ACTION_DONE
+    }
+    setOnEditorActionListener { textView, i, keyEvent ->
+
+        if (i == EditorInfo.IME_ACTION_NEXT) {
+            val view = focusSearch(View.FOCUS_LEFT)
+            view?.let {
+                requestFocus()
+                if (view is EditText) {
+                    view.setSelection(view.text.toString().length)
+                }
+            } ?: kotlin.run {
+                hideKeyboard()
+            }
+        } else if (i == EditorInfo.IME_ACTION_DONE) {
+            hideKeyboard()
+        }
+
+        return@setOnEditorActionListener false
+    }
 }
 
 private fun EditText.setOverridingText(keyEvent: KeyEvent) {
@@ -241,3 +269,95 @@ fun TextView.setFullText(fullText: String) {
     setSpanString(spanText)
 }
 
+
+fun EditText.addDecimalLimiter(maxLimit: Int = 2, beforeDecimal: Int = 4) {
+
+    this.addTextChangedListener(object : TextWatcher {
+
+        override fun afterTextChanged(s: Editable?) {
+            var str = this@addDecimalLimiter.text!!.toString()
+            if (str.isEmpty()) return
+
+            val str2 = decimalLimiter(str, maxLimit, beforeDecimal)
+
+
+
+            if (str2 != str) {
+                this@addDecimalLimiter.setText(str2)
+                val pos = this@addDecimalLimiter.text!!.length
+                this@addDecimalLimiter.setSelection(pos)
+            }
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+        }
+
+    })
+}
+
+fun EditText.decimalLimiter(string: String, MAX_DECIMAL: Int, BEFORE_DECIMAL: Int): String {
+
+    var str = string
+    if (str[0] == '.') str = "0$str"
+    val max = str.length
+
+    var rFinal = ""
+    var after = false
+    var i = 0
+    var up = 0
+    var decimal = 0
+    var t: Char
+
+    val decimalCount = str.count { ".".contains(it) }
+
+    if (decimalCount > 1)
+        return str.dropLast(1)
+    if (!str.contains(".") && str.length > 4) {
+        return str.dropLast(str.length - 4)
+
+    } else {
+        while (i < max) {
+            t = str[i]
+            if (t != '.' && !after) {
+                up++
+            } else if (t == '.') {
+                after = true
+            } else {
+                decimal++
+                if (decimal > MAX_DECIMAL)
+                    return rFinal
+            }
+            rFinal += t
+            i++
+        }
+    }
+    return rFinal
+}
+
+
+fun LMSTextView.setTextSelected(isSelected: Boolean) {
+    if (isSelected) {
+        changeTextColor(ThemeConstants.TYPE_BLACK)
+        changeFontType(ThemeConstants.FONT_MEDIUM)
+    } else {
+        changeTextColor(ThemeConstants.TYPE_BODY)
+        changeFontType(ThemeConstants.FONT_REGULAR)
+    }
+}
+
+fun LMSTextView.setStepColor(isSelected: Boolean) {
+    if (isSelected) {
+        changeTextColor(ThemeConstants.TYPE_WHITE)
+        changeFontType(ThemeConstants.FONT_SEMI_BOLD)
+        changeBackgroundTint(ThemeConstants.TYPE_THEME)
+    } else {
+        changeTextColor(ThemeConstants.TYPE_BODY)
+        changeFontType(ThemeConstants.FONT_REGULAR)
+        changeBackgroundTint(ThemeConstants.TYPE_BODY)
+    }
+}

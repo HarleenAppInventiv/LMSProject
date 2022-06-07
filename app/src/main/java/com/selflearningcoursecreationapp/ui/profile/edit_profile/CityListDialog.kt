@@ -17,7 +17,7 @@ class CityListDialog : BaseBottomSheetDialog<BottomDialogCourceCateBinding>(),
     override fun getLayoutRes() = R.layout.bottom_dialog_cource_cate
 
     override fun initUi() {
-
+binding.parentCL.visible()
         arguments?.let {
             list = it.getParcelableArrayList("data")!!
 
@@ -34,8 +34,8 @@ class CityListDialog : BaseBottomSheetDialog<BottomDialogCourceCateBinding>(),
             } else {
                 arguments?.let {
                     val dataList = it.getParcelableArrayList<CityModel>("data")?.filter {
-                        it.cityName?.toLowerCase()
-                            ?.contains(text.toString().toLowerCase()) == true
+                        it.cityName?.lowercase()
+                            ?.contains(text.toString().lowercase()) == true
                     } as ArrayList
                     setStateAdapter(dataList)
 

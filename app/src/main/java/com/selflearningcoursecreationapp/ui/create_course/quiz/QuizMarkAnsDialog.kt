@@ -4,7 +4,9 @@ import android.view.View
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
+import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.databinding.BottomDialogMarkAnswerBinding
+import com.selflearningcoursecreationapp.extensions.getCharString
 import com.selflearningcoursecreationapp.extensions.gone
 import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.models.course.quiz.QuizData
@@ -51,9 +53,11 @@ class QuizMarkAnsDialog : BaseBottomSheetDialog<BottomDialogMarkAnswerBinding>()
             QUIZ.MATCH_COLUMN -> {
                 binding.columnG.visible()
                 optionList.forEachIndexed { index, quizOptionData ->
-                    val charText = (index + 65).toChar()
                     hashmap.put(
-                        charText.toString(),
+                        String.format(
+                            baseActivity.getString(R.string.option_no),
+                            index.getCharString()
+                        ),
                         optionList.map { it.copy(isSelected = it.id == quizOptionData.ansId) } as ArrayList<QuizOptionData>
                     )
                 }
@@ -154,6 +158,7 @@ class QuizMarkAnsDialog : BaseBottomSheetDialog<BottomDialogMarkAnswerBinding>()
 
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)
+        showToastShort((value as BaseResponse<*>).message)
         onDialogClick(DialogType.QUIZ_ANSWER, hashmap)
         dismiss()
     }

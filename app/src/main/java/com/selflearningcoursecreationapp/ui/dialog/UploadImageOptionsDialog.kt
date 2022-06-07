@@ -1,11 +1,13 @@
 package com.selflearningcoursecreationapp.ui.dialog
 
+import android.Manifest
 import android.annotation.SuppressLint
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.databinding.DialogUploadImageBinding
-import com.selflearningcoursecreationapp.extensions.showLog
 import com.selflearningcoursecreationapp.utils.ImagePickUtils
+import com.selflearningcoursecreationapp.utils.Permission
+import com.selflearningcoursecreationapp.utils.PermissionUtil
 import org.koin.android.ext.android.inject
 
 class UploadImageOptionsDialog : BaseBottomSheetDialog<DialogUploadImageBinding>(),
@@ -30,27 +32,71 @@ class UploadImageOptionsDialog : BaseBottomSheetDialog<DialogUploadImageBinding>
 
         binding.txtTakePhoto.setOnClickListener {
             dismiss()
-            imagePickUtils.captureImage(
+            PermissionUtil.checkPermissions(
                 baseActivity,
-                this,
-                registry = requireActivity().activityResultRegistry
-            )
+                arrayOf(
+                    Manifest.permission.CAMERA,
+                ),
+                Permission.TAKE_PHOTO
+            ) {
+                if (it) {
+                    imagePickUtils.captureImage(
+                        baseActivity,
+                        this,
+                        registry = baseActivity.activityResultRegistry
+                    )
+
+                } else {
+
+                    if (shouldShowRequestPermissionRationale(
+                            Manifest.permission.CAMERA
+                        )
+                    ) {
+                        showToastShort(baseActivity.getString(R.string.no_permission_accepted))
+                    } else {
+                        baseActivity.permissionDenied()
+                    }
+                }
+            }
+
 
         }
 
         binding.txtTakeFromGallary.setOnClickListener {
             dismiss()
-            imagePickUtils.openGallery(
+            PermissionUtil.checkPermissions(
                 baseActivity,
-                this,
-                registry = requireActivity().activityResultRegistry
-            )
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ),
+                Permission.GALLERY
+            ) {
+                if (it) {
+                    imagePickUtils.openGallery(
+                        baseActivity,
+                        this,
+                        registry = baseActivity.activityResultRegistry
+                    )
+
+                } else {
+                    if (shouldShowRequestPermissionRationale(
+                            Manifest.permission.READ_EXTERNAL_STORAGE
+                        )
+
+                    ) {
+                        showToastShort(baseActivity.getString(R.string.no_permission_accepted))
+
+                    } else {
+                        baseActivity.permissionDenied()
+                    }
+                }
+            }
+
 
         }
     }
 
     override fun invoke(p1: String?) {
-        showLog("varun", p1.toString())
         onDialogClick(type, p1 ?: "")
         dismiss()
     }

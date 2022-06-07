@@ -42,11 +42,13 @@
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName|textCapSentences"
                 android:maxLength="@{const.MAX_NAME_LENGTH}"
-
-                android:singleLine="true"
                 android:nextFocusForward="@+id/edt_reg_phone"
+                android:paddingStart="@dimen/_12ssp"
+                android:singleLine="true"
                 android:text="@={signup.signUpLiveData.name}"
+                android:textSize="@dimen/_14ssp"
                 app:drawableStartCompat="@drawable/ic_user_profile"
+                app:fontType="regular"
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                 app:layout_constraintStart_toStartOf="@id/guidelineStart"
                 app:layout_constraintTop_toTopOf="parent"
@@ -57,13 +59,12 @@
                 android:layout_width="@dimen/_1sdp"
                 android:layout_height="0dp"
                 android:layout_marginVertical="@dimen/_12sdp"
-                android:layout_marginStart="@dimen/_35sdp"
+                android:layout_marginStart="@dimen/_40sdp"
                 android:background="@color/et_dash_color"
                 android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="@+id/edt_reg_name"
                 app:layout_constraintStart_toStartOf="@+id/edt_reg_name"
                 app:layout_constraintTop_toTopOf="@+id/edt_reg_name" />
-
 
 
             <LinearLayout
@@ -81,20 +82,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:paddingLeft="@dimen/_10sdp"
-                    app:changeBackgroundType="tint_src"
+                    android:layout_marginStart="@dimen/_13sdp"
+                    app:changeBackgroundType="theme_src"
                     app:srcCompat="@drawable/ic_call"
 
                     />
 
-                <View
-                    android:id="@+id/view10"
-                    android:layout_width="@dimen/_1sdp"
-                    android:layout_height="match_parent"
-                    android:layout_marginVertical="@dimen/_12sdp"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:background="@color/et_dash_color"
-                    android:importantForAccessibility="no" />
+
 
                 <com.hbb20.CountryCodePicker
                     android:id="@+id/country_code_picker"
@@ -103,11 +97,11 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center"
-
+                    android:layout_marginStart="@dimen/_10sdp"
                     app:ccpDialog_backgroundColor="?attr/viewBackgroundColor"
                     app:ccp_showFlag="false"
                     app:ccp_showNameCode="false"
-                    app:ccp_textSize="@dimen/_12ssp" />
+                    app:ccp_textSize="@dimen/_16ssp" />
 
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
@@ -119,17 +113,31 @@
                     android:hint="@string/enter_phone_num"
                     android:imeOptions="actionDone"
                     android:inputType="phone"
-                    android:maxLength="@{const.MAX_NO_LENGTH}"
 
+                    android:maxLength="@{const.MAX_NO_LENGTH}"
                     android:paddingStart="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_16sdp"
                     android:singleLine="true"
                     android:text="@={signup.signUpLiveData.number}"
+                    android:textSize="@dimen/_14ssp"
+                    app:fontType="regular"
 
                     app:primaryIconTint="start" />
 
 
             </LinearLayout>
 
+            <View
+                android:id="@+id/view19"
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_40sdp"
+                android:background="@color/et_dash_color"
+                android:importantForAccessibility="no"
+                app:layout_constraintBottom_toBottomOf="@+id/ll_phone"
+                app:layout_constraintStart_toStartOf="@+id/ll_phone"
+                app:layout_constraintTop_toTopOf="@+id/ll_phone" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
                 android:id="@+id/ev_choose_profession"
@@ -142,11 +150,13 @@
                 android:focusable="false"
                 android:hint="@string/profession"
                 android:imeOptions="actionNext"
-                android:lineSpacingExtra="@dimen/_6sdp"
-                android:paddingEnd="@dimen/_15sdp"
+                android:paddingStart="@dimen/_16sdp"
+                android:paddingEnd="@dimen/_16sdp"
                 android:singleLine="true"
                 android:text="@={signup.signUpLiveData.professionName}"
+                android:textSize="@dimen/_14ssp"
                 app:drawableStartCompat="@drawable/ic_award"
+                app:fontType="regular"
                 app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
                 app:layout_constraintStart_toStartOf="@+id/guidelineStart"
                 app:layout_constraintTop_toBottomOf="@+id/ll_phone"
@@ -158,7 +168,7 @@
                 android:layout_width="@dimen/_1sdp"
                 android:layout_height="0dp"
                 android:layout_marginVertical="@dimen/_12sdp"
-                android:layout_marginStart="@dimen/_35sdp"
+                android:layout_marginStart="@dimen/_40sdp"
                 android:background="@color/et_dash_color"
                 android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="@+id/ev_choose_profession"
@@ -170,10 +180,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_18sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_24sdp"
                 android:checked="@={signup.isPrivacyPolicyChecked}"
                 android:contentDescription="@string/by_registering_you_are_accepting_privacy_policy_and_terms_of_use"
-                android:lineSpacingExtra="@dimen/_7ssp"
                 android:padding="@dimen/_5sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ev_choose_profession"
@@ -185,10 +194,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                android:lineSpacingExtra="@dimen/_2ssp"
                 android:text="@string/by_registering_you_are_accepting_privacy_policy_and_terms_of_use"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="@dimen/_11ssp"
+                android:textSize="@dimen/_12ssp"
                 app:fontType="medium"
 
                 app:layout_constraintBottom_toBottomOf="@+id/chk_register"

@@ -9,6 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:overScrollMode="never"
         android:layout_height="match_parent"
         android:background="?attr/offwhiteTextColor">
 
@@ -16,6 +17,8 @@
             android:id="@+id/rv_sections"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:overScrollMode="never"
+
             android:layout_marginBottom="@dimen/_10sdp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

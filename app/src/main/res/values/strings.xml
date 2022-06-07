@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Self Learning &amp; Course Creation App</string>
+    <string name="app_name">Skillfy</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="email">Enter Email</string>
     <string name="password">Enter Password</string>
@@ -75,7 +75,10 @@
     <string name="please_enter_state">Please enter state</string>
     <string name="please_enter_bio">Please enter bio</string>
     <string name="please_select_gender">Please select gender</string>
+    <string name="permission_denied">This app needs you to allow this
+     permission in order to function.Please go to setting and allow them</string>
     <string name="search">Search</string>
+    <string name="alert">Alert</string>
 
     <integer-array name="walkthrough_icons">
         <item>@drawable/ic_slider1</item>
@@ -84,7 +87,7 @@
     </integer-array>
 
     <string-array name="walkthrough_title">
-        <item>Scale up your skill</item>
+        <item>Scale up your \nskill</item>
         <item>Find your favourite lessons</item>
         <item>Find your favourite lessons</item>
     </string-array>
@@ -149,7 +152,7 @@
     <string name="log_out">Log out</string>
     <string name="delete_acc">Delete</string>
     <string name="edit_profile">Edit Profile</string>
-    <string name="profile_details">Profile details</string>
+    <string name="profile_details">Profile Details</string>
     <string name="personal_details">PERSONAL DETAILS</string>
     <string name="save">Save</string>
     <string name="more">More</string>
@@ -245,6 +248,7 @@
     <string name="terms_amp_conditions"><![CDATA[Terms & conditions]]></string>
     <string name="question_we_ve_got_instant_answers">Question ? We’ve got instant answers</string>
     <string name="successful">Successful</string>
+    <string name="success">Success!!!</string>
     <string name="as_per_your_preference_the_current_app_theme_updated_to_blue_theme">As per your preference, the current app theme updated to “Blue theme”</string>
     <string name="are_you_sure_you_want_to_logout">Are you sure you want to Logout?</string>
     <string name="plz_enter_phone_email">Please enter email</string>
@@ -275,7 +279,7 @@
     <string name="theme_changed_to">As per your preference, the current app theme updated to </string>
     <string name="font_changed_to">As per your preference, the current app font updated to </string>
     <string name="language_changed_to">As per your preference, the current app language updated to </string>
-    <string name="ok_close">Ok! Close</string>
+    <string name="ok_close">OK! Close</string>
     <string name="theme">Theme</string>
     <string name="practice_accent">Practice Accent</string>
     <string name="enable">Enable</string>
@@ -293,6 +297,7 @@
     <string name="edit">edit</string>
     <string name="create_course_button">Create Course Button</string>
     <string name="upload">Upload</string>
+    <string name="upload_audio">Upload Audio</string>
     <string name="remove_section">Remove Section</string>
     <string name="add_lecture">Add Lesson</string>
     <string name="audio">Audio</string>
@@ -364,6 +369,8 @@
     <string name="enter_otp">Please enter otp</string>
     <string name="enter_valid_otp">Please enter valid otp</string>
     <string name="are_you_sure">Are you sure?</string>
+    <string name="delete_section">Delete Section?</string>
+    <string name="delete_lesson">Delete Lesson?</string>
     <string name="do_you_really_want_to_delete_your_account">Do you really want to delete your account?</string>
     <string name="password_changed_successfully">Password changed successfully!!</string>
     <string name="password_reset_successfully">Password reset successfully!!</string>
@@ -390,9 +397,9 @@
     <string name="options">Options</string>
     <string name="multiple_choice_questions">Multiple Choice Questions</string>
     <string name="single_choice_questions">Single Choice Questions</string>
-    <string name="drag_and_drop">Drag and Drop</string>
+    <string name="drag_and_drop">Drag and Drop Question</string>
     <string name="match_the_column">Match the column</string>
-    <string name="image_based_questions">Image Based Questions</string>
+    <string name="image_based_questions">Image Based Question</string>
     <string name="add_answer">+ Add Answer</string>
 
     <string-array name="quiz_option_array">
@@ -403,7 +410,9 @@
         <item>@string/image_based_questions</item>
     </string-array>
     <string name="there_are_no_assessments_in_n_this_course">There are no assessments in \n this course.</string>
-    <string name="add_assessment">ADD ASSESSMENT</string>
+    <string name="there_are_no_ques_in_n_this_assessment">There are no question added in \n this assessment.</string>
+    <string name="add_assessment">Add Assessment</string>
+    <string name="add_questions">Add Question</string>
     <string name="submit_succesfully">Submitted Successfully</string>
     <string name="submit_succesfully_done">"You’ve successfully submitted the course.\n \n Your course “Basics of thermodynamic” is in under review and we’ll let you know once it’s approved by our moderator.\n \n Course will get published after the approval"</string>
     <string name="profession">Profession</string>
@@ -469,11 +478,13 @@
     <string name="image">Image</string>
     <string name="upload_image_as_an_answer">Upload Image as an answer</string>
     <string name="docs">Docs</string>
+    <string name="doc">Doc</string>
     <string name="quiz">Quiz</string>
-    <string name="upload_lesson">Upload Lesson</string>
+    <string name="upload_lesson">Upload Lessons</string>
     <string name="or_send_invitation_via_phone_number">Or Send Invitation via Phone Number</string>
     <string name="invite_co_author">Invite Co-Author</string>
-    <string name="invite_other_author_to_cooperate_in_your_course_sections">Invite other author to cooperate in \n your course sections.</string>
+    <string name="co_author_invitation">Co-Author Invitation</string>
+    <string name="invite_other_author_to_cooperate_in_your_course_sections">Invite other author to cooperate in your course sections. </string>
     <string name="add_your_new_password">Add your new password.</string>
     <string name="location">Location</string>
     <string name="categories_updated_successfully">Categories updated successfully!!</string>
@@ -501,47 +512,210 @@
     <string name="enter_lesson_text">Enter lesson text</string>
     <string name="reading_time">Reading Time (Min)</string>
     <string name="question">Question %1$d</string>
-    <string name="plz_enter_question">Please enter question</string>
-    <string name="plz_enter_options">Please enter option</string>
-    <string name="plz_add_option">Please add option</string>
-    <string name="plz_add_option_column_b">Please add option for column B</string>
+    <string name="plz_enter_question">Please enter question.</string>
+    <string name="plz_enter_options">Please fill the data in option(s).</string>
+    <string name="plz_add_option">Please add options.</string>
+    <string name="plz_add_option_column_b">Please fill the data in option(s) for column 2</string>
     <string name="mark_answer">Mark Answer</string>
     <string name="edit_question">Edit Question</string>
-    <string name="plz_upload_ques_image">Please upload question image</string>
-    <string name="plz_enter_option_column_B">Please enter options for Column B</string>
-    <string name="plz_add_min_2_option">Please add minimum 2 options</string>
+    <string name="plz_upload_ques_image">Please upload question image.</string>
+    <string name="plz_enter_option_column_B">Please fill the data in option(s) for column 2</string>
+    <string name="plz_enter_option_column">Please fill the data in option(s) for all column.</string>
+    <string name="plz_add_min_2_option">Please add minimum 2 options.</string>
     <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="answer_is">Answer is</string>
-    <string name="plz_select_ans">Please select answer</string>
+    <string name="plz_select_ans">Please mark your answer(s).</string>
     <string name="make_quiz_mandatory">Make Quiz Mandatory</string>
-    <string name="this_will_not_allow_learner_to_complete_the_course_until_the_quiz_is_passed">This will not allow learner to complete the course until the quiz is passed</string>
+    <string name="make_assessment_mandatory">Make Assessment Mandatory</string>
+    <string name="quiz_mandatory_desc">This will not allow learner to complete the course until the quiz is passed.</string>
+    <string name="assessment_mandatory_desc">This will not allow learner to complete the course until the assessment is passed.</string>
     <string name="freeze_content">Freeze Content</string>
-    <string name="freeze_content_desc">This will not allow learner to go to next lesson until the quiz is passed</string>
+    <string name="freeze_content_desc">This will not allow learner to go to next lesson until the quiz is passed.</string>
+    <string name="freeze_assessment_desc">This will not allow learner to go to next lesson until the assessment is passed.</string>
     <string name="name_of_the_quiz">Name of the Quiz</string>
+    <string name="name_of_the_assessment">Name of the Assessment</string>
     <string name="write_name_of_quiz">Write name of Quiz</string>
+    <string name="write_name_of_assessment">Write name of assessment</string>
     <string name="number_of_questions_to_be_displayed">Number of questions to be displayed</string>
     <string name="marks_on_every_correct_answer">Marks on every correct answer</string>
     <string name="passing_criteria">Passing criteria (%)</string>
     <string name="total_quiz_time">Total quiz time</string>
-    <string name="number_of_questions_to_be_displayed_connot_be_more_than_total_questions_added">Number of questions to be displayed connot be more than total questions added</string>
+    <string name="total_assessment_time">Total assessment time</string>
+    <string name="number_of_questions_to_be_displayed_connot_be_more_than_total_questions_added">Number of questions to be displayed cannot be more than total questions added</string>
     <plurals name="question_quantity">
+        <item quantity="zero">%1$d Question</item>
         <item quantity="one">%1$d Question</item>
         <item quantity="other">%1$d Questions</item>
     </plurals>
     <plurals name="section_quantity">
+        <item quantity="zero">%1$d Section</item>
         <item quantity="one">%1$d Section</item>
         <item quantity="other">%1$d Sections</item>
+    </plurals>
+    <plurals name="min_quantity">
+        <item quantity="zero">%1$d Min</item>
+        <item quantity="one">%1$d Min</item>
+        <item quantity="other">%1$d Mins</item>
+    </plurals>
+    <plurals name="min_quantity_small">
+        <item quantity="zero">%1$d min</item>
+        <item quantity="one">%1$d min</item>
+        <item quantity="other">%1$d mins</item>
+    </plurals>
+    <plurals name="hour_quantity">
+        <item quantity="zero">%1$d Hr</item>
+        <item quantity="one">%1$d Hr</item>
+        <item quantity="other">%1$d Hrs</item>
+    </plurals>
+    <plurals name="sec_quantity">
+        <item quantity="zero">%1$d sec</item>
+        <item quantity="one">%1$d sec</item>
+        <item quantity="other">%1$d secs</item>
+    </plurals>
+    <plurals name="video_quantity">
+        <item quantity="zero">%1$d Video</item>
+        <item quantity="one">%1$d Video</item>
+        <item quantity="other">%1$d Videos</item>
+    </plurals>
+    <plurals name="audio_quantity">
+        <item quantity="zero">%1$d Audio</item>
+        <item quantity="one">%1$d Audio</item>
+        <item quantity="other">%1$d Audios</item>
+    </plurals>
+    <plurals name="doc_quantity">
+        <item quantity="zero">%1$d Doc</item>
+        <item quantity="one">%1$d Doc</item>
+        <item quantity="other">%1$d Docs</item>
+    </plurals>
+    <plurals name="text_quantity">
+        <item quantity="zero">%1$d Text</item>
+        <item quantity="one">%1$d Text</item>
+        <item quantity="other">%1$d Texts</item>
+    </plurals>
+    <plurals name="quiz_quantity">
+        <item quantity="zero">%1$d Quiz</item>
+        <item quantity="one">%1$d Quiz</item>
+        <item quantity="other">%1$d Quizs</item>
+    </plurals>
+    <plurals name="lecture_quantity">
+        <item quantity="zero">%1$d Lesson</item>
+        <item quantity="one">%1$d Lesson</item>
+        <item quantity="other">%1$d Lessons</item>
+    </plurals>
+    <plurals name="point_quantity">
+        <item quantity="one">%1$d Point</item>
+        <item quantity="other">%1$d Points</item>
+    </plurals>
+    <plurals name="section_course_quantity">
+        <item quantity="one">%1$d Section in this COURSE</item>
+        <item quantity="other">%1$d Sections in this COURSE</item>
     </plurals>
 
     <string name="select_doc_file">Please select doc first</string>
     <string name="enter_reading_time">Please enter reading time</string>
+    <string name="reading_time_should_be_greater_than_0">Reading time should be greater than 0.</string>
 
     <string name="section">Section %1$d</string>
+    <string name="question_no">QUESTION %1$d/%2$d</string>
+    <string name="points_no">%1$d POINTS</string>
+    <string name="option_no">Option %1$s</string>
     <string name="lesson">Lesson %1$d</string>
     <string name="plz_enter_course_fee">Please enter course fee</string>
     <string name="sections_created">Sections created</string>
     <string name="enter_section_title">Enter section title</string>
     <string name="enter_description_here">Enter description here</string>
-    <string name="sure_delete_section">Do you really want to delete this section?</string>
-    <string name="sure_delete_lecture">Do you really want to delete this lecture?</string>
+    <string name="sure_delete_section">Are you sure you want to delete this section?</string>
+    <string name="sure_delete_lecture">Are you sure you want to delete this lesson?</string>
+    <string name="send">Send</string>
+    <string name="or_send_via_email">Or Send Invitation via Email</string>
+    <string name="invitation_to_basic_themo">You have invitation for “Basics of thermodynamic”.</string>
+    <string name="you_invitation_accepted">Your invitation has been sent successfully.</string>
+    <string name="create_course">Create Course</string>
+    <string name="no_categories_found">No Categories Found</string>
+    <string name="caution">Caution</string>
+    <string name="update_passing_criteria_desc_text">If you change passing criteria here, then it will be set default for all the existing quizzes for this course.\nDo you want to continue?</string>
+    <string name="update_freeze_content_desc_text">If you change freeze content here, then it will be set default for all the existing quizzes for this course.\nDo you want to continue?</string>
+    <string name="update_quiz_mandatory_desc_text">If you change quiz mandatory here, then it will be set default for all the existing quizzes for this course.\nDo you want to continue?</string>
+    <string name="ans_saved_successfully">Answer saved successfully!!</string>
+    <string name="quiz_updated_successfully">Quiz updated successfully!!</string>
+    <string name="quiz_added_successfully">Quiz added successfully!!</string>
+    <string name="delete_question">Delete Question?</string>
+    <string name="delete_assessment">Delete Assessment?</string>
+    <string name="submitted_successfully">Submitted Successfully</string>
+    <string name="co_author_data_not_added">Are you sure you want to publish the course? The co-Author has not submitted the rest section.</string>
+    <string name="delete_ques_alert_text">Are you sure you want to delete this question?</string>
+    <string name="delete_assessment_alert_text">Are you sure you want to delete this assessment?</string>
+    <string name="course_submitted_desc_text">You’ve successfully submitted the course.\nYour course “%1$s” is in under review and we’ll let you know once it’s approved by our moderator.\n\nCourse will get published after the approval</string>
+    <string name="course_coauthor_submitted_desc_text">You’ve successfully submitted the sections to author. Your have added your sections in course “%1$s”.\n\nYou can not amend this course after submitting it. </string>
+    <string name="plz_save_question_first">Please save question first.</string>
+    <string name="plz_save_all_quiz_ques_ans">Please save all questions/answers.</string>
+    <string name="lecture_deleted_successfully">Lecture deleted successfully!!</string>
+    <string name="section_deleted_successfully">Section deleted successfully!!</string>
+    <string name="section_saved_successfully">Section saved successfully!!</string>
+    <string name="lesson_saved_successfully">Lesson saved successfully!!</string>
+    <string name="lesson_updated_successfully">Lesson updated successfully!!</string>
+    <string name="update_lesson">Update Lesson</string>
+    <string name="update_quiz">Update Quiz</string>
+    <string name="update_assessment">Update Assessment</string>
+    <string name="no_permission_accepted">No Permission Accepted</string>
+    <string name="your_invitation_sent">Your invitation has been sent successfully.</string>
+    <string name="your_answer_is">Your answer is</string>
+    <string name="mark_correct_answer">Mark Correct Answer</string>
+    <string name="max_keywords_limit">Maximum limit to add keywords are 10.</string>
+    <string name="plz_select_answer_type">Please select answer type.</string>
+    <string name="plz_enter_your_ans">Please enter your answer.</string>
+    <string name="plz_upload_image">Please upload image.</string>
+    <string name="record_audio">Record Audio</string>
+    <string name="take_from_file_manager">Take from file manager</string>
+    <string name="take_from_camera">Take from camera</string>
+    <string name="take_from_gallary">Take from gallery</string>
+    <string name="please_enter_lesson">Please enter lesson text</string>
+    <string name="add_thumbnail">Add Thumbnail</string>
+    <string name="question_deleted_successfully">Question deleted successfully.</string>
+    <string name="plz_add_sections">Please add section(s) to continue.</string>
+    <string name="plz_add_lesson">Please add lesson(s).</string>
+    <string name="plz_add_data_in_section">Please add data in all field(s) of section.</string>
+    <string name="plz_save_sections">Please save all section(s).</string>
+    <string name="plz_add_data_in_quiz">Please update quiz settings.</string>
+    <string name="plz_add_data_in_quiz_section">Please update quiz settings in all sections.</string>
+    <string name="plz_add_ques_in_quiz">Please add question in quiz.</string>
+    <string name="plz_add_ques">Please add question</string>
+    <string name="plz_mark_ans_ques_in_quiz">Please mark your answer in quiz question(s).</string>
+    <string name="plz_mark_ans_ques">Please mark correct answer to publish.</string>
+    <string name="plz_mark_ans_ques_single">Please mark correct answer.</string>
+    <string name="plz_add_ques_in_quiz_section">Please add question in all quiz to continue.</string>
+    <string name="plz_add_ques_in_assessment">Please add question in assessment to continue.</string>
+    <string name="plz_mark_ans_ques_in_assessment">Please mark you answer(s) in assessment question(s) to continue.</string>
+    <string name="plz_update_settings_in_assessment">Please update assessment settings to continue.</string>
+    <string name="course_content_review">Course Content Review</string>
+    <string name="plz_enter_title">Please enter title.</string>
+    <string name="plz_enter_description">Please enter description.</string>
+    <string name="plz_upload_lesson">Please upload lesson(s).</string>
+    <string name="camera">Camera</string>
+    <string name="gallary">Gallery</string>
+    <string name="file_manger">File Manger</string>
+    <string name="recording">Recording</string>
+    <string name="from_file">From file</string>
+    <string name="switch_to_moderator_mode">Switch to Moderator Mode</string>
+    <string name="add_new_option">+ Add new option</string>
+    <string name="verify">Verify</string>
+    <string name="add_nassessment_n">Add\nAssessment</string>
+    <string name="add_nsections_n">Add\nSections</string>
+    <string name="other_ndetails_n">Other\nDetails</string>
+    <string name="course_ninfo_n">Course\nInfo</string>
+    <string name="choose_a_course_complexity">Choose a course complexity</string>
+    <string name="record_screen">Record Screen</string>
+    <string name="document_format_should_be_pdf_docx_and_ppt">Document format should be .pdf, .docx and .ppt</string>
+    <string name="upload_video">Upload Video</string>
+    <string name="_1">1.</string>
+    <string name="_2">2.</string>
+    <string name="_3">3.</string>
+    <string name="_4">4.</string>
+    <string name="_5">5.</string>
+    <string name="faq">FAQ</string>
+    <string name="_add">+Add</string>
+    <string name="take_snapshot">TAKE SNAPSHOT</string>
+
+
 </resources>

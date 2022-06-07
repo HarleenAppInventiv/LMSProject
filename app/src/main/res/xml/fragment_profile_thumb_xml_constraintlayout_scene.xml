@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<MotionScene 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
     <Transition
+        motion:autoTransition="animateToEnd"
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
-        motion:duration="500"
-        motion:autoTransition="animateToEnd">
-       <KeyFrameSet>
-       </KeyFrameSet>
+        motion:duration="500">
+        <KeyFrameSet />
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
         <Constraint
             android:id="@+id/imageView4"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_150sdp"
+            android:layout_height="@dimen/_180sdp"
             android:layout_marginTop="-180dp"
             android:alpha="0"
             motion:layout_constraintEnd_toEndOf="parent"
@@ -32,21 +30,21 @@
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toTopOf="parent" />
         <Constraint
-            motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            motion:layout_constraintTop_toBottomOf="@+id/imageView3"
-            motion:layout_constraintStart_toStartOf="parent"
             android:id="@+id/txt_profile_details"
-            android:layout_marginStart="-40dp"
-            android:alpha="0" />
-        <Constraint
-            motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/txt_dashboard"
-            android:alpha="0"
             android:layout_marginStart="-40dp"
+            android:alpha="0"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@+id/txt_moderator_switch" />
+        <Constraint
+            android:id="@+id/txt_dashboard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-40dp"
+            android:alpha="0"
+            motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toBottomOf="@+id/txt_profile_details" />
         <Constraint
@@ -54,68 +52,85 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="-40dp"
+            android:alpha="0"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toBottomOf="@+id/txt_dashboard"
-            android:alpha="0" />
+            motion:layout_constraintTop_toBottomOf="@+id/txt_dashboard" />
         <Constraint
-            motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/txt_courses"
-            motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toBottomOf="@+id/txt_wishlist"
-            android:layout_marginStart="-40dp"
-            android:alpha="0" />
-        <Constraint
-            motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="-40dp"
+            android:alpha="0"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@+id/txt_wishlist" />
+        <Constraint
             android:id="@+id/txt_wishlist"
-            motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toBottomOf="@+id/txt_tracker"
-            android:layout_marginStart="-40dp"
-            android:alpha="0" />
-        <Constraint
-            motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="-40dp"
+            android:alpha="0"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@+id/txt_tracker" />
+        <Constraint
             android:id="@+id/txt_my_bank"
-            motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toBottomOf="@+id/txt_courses"
-            android:layout_marginStart="-40dp"
-            android:alpha="0" />
-        <Constraint
-            motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="-40dp"
+            android:alpha="0"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@+id/txt_courses" />
+        <Constraint
             android:id="@+id/txt_reward"
-            motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toBottomOf="@+id/txt_my_bank"
-            android:layout_marginStart="-40dp"
-            android:alpha="0" />
-        <Constraint
-            motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="-40dp"
+            android:alpha="0"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@+id/txt_my_bank" />
+        <Constraint
             android:id="@+id/txt_delete_account"
-            motion:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="-40dp"
-            motion:layout_constraintTop_toBottomOf="@id/txt_reward"
-            android:alpha="0" />
-        <Constraint
-            motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="-40dp"
+            android:alpha="0"
+            motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/txt_reward" />
+        <Constraint
             android:id="@+id/txt_logout"
-            motion:layout_constraintTop_toBottomOf="@+id/txt_delete_account"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-40dp"
+            android:alpha="0"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@+id/txt_delete_account" />
+
+
+        <Constraint
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+        <Constraint
+            android:id="@+id/txt_moderator_switch"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_marginStart="-40dp"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@+id/imageView3"
+            motion:layout_constraintStart_toStartOf="parent"
             android:alpha="0" />
 
 
     </ConstraintSet>
 
-    <ConstraintSet android:id="@+id/end">
-    </ConstraintSet>
+    <ConstraintSet android:id="@+id/end" />
 </MotionScene>

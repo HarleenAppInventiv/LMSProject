@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:end="@dimen/_minus10sdp"
+        android:start="@dimen/_minus10sdp">
+        <shape android:shape="rectangle">
+            <solid android:color="?attr/screenBackgroundColor" />
+            <stroke
+                android:width="@dimen/_1sdp"
+                android:color="?attr/introButtonBackgroundColor" />
+        </shape>
+    </item>
+
+</layer-list>

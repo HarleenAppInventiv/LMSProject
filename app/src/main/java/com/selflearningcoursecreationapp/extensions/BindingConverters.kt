@@ -7,7 +7,7 @@ object BindingConverters {
     @InverseMethod("stringToInt")
     @JvmStatic
     fun intToString(value: Int): String {
-        return if (value == null) "" else value.toString()
+        return if (value.isNullOrZero()) "" else value.toString()
     }
 
     @JvmStatic

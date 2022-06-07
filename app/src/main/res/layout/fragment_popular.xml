@@ -37,17 +37,19 @@
                     android:drawableTint="@color/hintColor"
                     android:hint="@string/search_course_by_name"
                     android:imeOptions="actionDone"
-
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="?attr/whiteTextColor"
-
+                    android:textSize="@dimen/_14ssp"
                     app:drawableStartCompat="@drawable/ic_grey_search"
+
+                    app:fontType="regular"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:textColorType="primary" />
+                    app:textColorType="primary"
+                    tools:targetApi="m" />
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:layout_width="wrap_content"

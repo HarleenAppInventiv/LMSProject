@@ -20,17 +20,24 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
+    <style name="DialogTransparent.95" parent="DialogTransparent">
+
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+        <item name="windowMinWidthMinor">90%</item>
+        <item name="windowMinWidthMajor">90%</item>
+
+    </style>
+
 
     <style name="textViewStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">?attr/primaryTextColor</item>
         <item name="android:textColorHint">?attr/hintColor</item>
-        <item name="android:textSize">@dimen/_12ssp</item>
-        <item name="android:lineSpacingExtra">@dimen/_5sdp</item>
+        <item name="android:textSize">@dimen/_14ssp</item>
         <item name="fontFamily">?attr/fontRegular</item>
         <item name="android:fontFamily">?attr/fontRegular</item>
 
     </style>
-
 
     <style name="textViewStyle.Heading" parent="textViewStyle">
         <item name="android:textColor">?attr/headingTextColor</item>
@@ -38,7 +45,6 @@
         <item name="android:textSize">@dimen/_18ssp</item>
         <item name="fontFamily">?attr/fontBold</item>
         <item name="android:fontFamily">?attr/fontBold</item>
-
 
     </style>
 
@@ -70,7 +76,7 @@
         <item name="fontFamily">?attr/fontSemiBold</item>
         <item name="android:fontFamily">?attr/fontSemiBold</item>
         <item name="android:textColor">?attr/toolbarTitleColor</item>
-        <item name="android:textSize">@dimen/_15ssp</item>
+        <item name="android:textSize">@dimen/_16ssp</item>
     </style>
 
     <style name="toolbarSubTitleTheme" parent="textViewStyle">
@@ -86,13 +92,17 @@
         <item name="fontFamily">?attr/fontRegular</item>
         <item name="android:fontFamily">?attr/fontRegular</item>
         <item name="android:textCursorDrawable">@null</item>
-        <item name="android:padding">@dimen/_12sdp</item>
-        <item name="android:textSize">@dimen/_12ssp</item>
+        <item name="android:paddingHorizontal" tools:targetApi="o">@dimen/_16sdp</item>
+        <item name="paddingStart">@dimen/_16sdp</item>
+        <item name="paddingEnd">@dimen/_16sdp</item>
+        <item name="android:paddingTop">@dimen/_15sdp</item>
+        <item name="android:paddingBottom">@dimen/_15sdp</item>
+        <item name="android:textSize">@dimen/_14ssp</item>
     </style>
 
     <style name="buttonViewStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">?attr/buttonTextColor</item>
-        <item name="android:textSize">@dimen/_12ssp</item>
+        <item name="android:textSize">@dimen/_14ssp</item>
         <item name="backgroundTint">@color/white</item>
         <item name="android:backgroundTint">@color/white</item>
         <item name="rippleColor">?attr/buttonBackgroundTintColor</item>

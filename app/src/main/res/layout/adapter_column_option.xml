@@ -14,21 +14,20 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/_15sdp">
+        android:paddingHorizontal="@dimen/_7sdp">
 
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_answer"
             android:layout_width="0dp"
+            android:layout_marginStart="@dimen/_8sdp"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/_15sdp"
             android:paddingVertical="@dimen/_10sdp"
-            android:text="Answer"
             app:layout_constraintBottom_toBottomOf="@+id/rv_list"
             app:layout_constraintEnd_toStartOf="@+id/rv_list"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/rv_list"
-            app:layout_constraintWidth_percent="0.38" />
+            app:layout_constraintWidth_percent="0.33" />
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -42,6 +41,7 @@
             app:layout_constraintStart_toEndOf="@+id/tv_answer"
             app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="12"
+            android:overScrollMode="never"
             tools:listitem="@layout/adapter_ans_options" />
 
         <View

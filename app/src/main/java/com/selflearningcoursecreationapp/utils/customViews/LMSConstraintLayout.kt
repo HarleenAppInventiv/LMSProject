@@ -38,6 +38,11 @@ class LMSConstraintLayout : ConstraintLayout {
                 R.styleable.LMSConstraintLayout_viewBackground,
                 ThemeConstants.TYPE_NONE
             )
+        changeBackground(changeBgType)
+        themeAttrs.recycle()
+    }
+
+    fun changeBackground(changeBgType: Int) {
         when (changeBgType) {
             ThemeConstants.TYPE_TINT -> {
 
@@ -61,7 +66,6 @@ class LMSConstraintLayout : ConstraintLayout {
 
             }
         }
-        themeAttrs.recycle()
     }
 
 

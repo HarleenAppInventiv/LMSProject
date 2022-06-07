@@ -31,6 +31,8 @@
             <enum name="theme" value="3" />
             <enum name="heading" value="4" />
             <enum name="body" value="5" />
+            <enum name="black" value="11" />
+            <enum name="white" value="12" />
             <enum name="none" value="-1" />
         </attr>
         <attr name="fontType" format="enum">
@@ -41,8 +43,7 @@
             <enum name="none" value="-1" />
         </attr>
         <attr name="textBgColor" format="enum">
-            <enum name="primary" value="1" />
-            <enum name="secondary" value="2" />
+            <enum name="grey_body" value="5" />
             <enum name="theme" value="3" />
             <enum name="tint" value="6" />
             <enum name="none" value="-1" />
@@ -70,12 +71,21 @@
         <attr name="drawableTintType" />
         <attr name="textBgMode" />
     </declare-styleable>
+    <declare-styleable name="LMSAutoCompleteTextView" parent="LMSTextView">
+        <attr name="primaryIconTint" />
+        <attr name="textColorType" />
+        <attr name="textBgColor" />
+        <attr name="fontType" />
+        <attr name="drawableTintType" />
+        <attr name="textBgMode" />
+    </declare-styleable>
     <declare-styleable name="LMSMaterialButton" parent="LMSTextView">
         <attr name="buttonBackground" format="enum">
             <enum name="primary" value="1" />
             <enum name="secondary" value="2" />
             <enum name="none" value="-1" />
             <enum name="tint" value="6" />
+            <enum name="stroked_tint" value="9" />
 
         </attr>
         <attr name="buttonFont" format="enum">
@@ -133,15 +143,19 @@
     </declare-styleable>
     <declare-styleable name="LMSImageView">
         <attr name="changeBackgroundType">
-            <enum name="tint" value="6" />
+            <enum name="theme_multiply" value="6" />
             <enum name="tint_src" value="8" />
-            <enum name="background" value="7" />
+            <enum name="bg_theme_solid" value="7" />
             <enum name="theme_src" value="3" />
-            <enum name="background_tint" value="9" />
+            <enum name="bg_theme_src" value="9" />
+            <enum name="bg_tint_src" value="10" />
             <enum name="none" value="-1" />
         </attr>
     </declare-styleable>
+    <declare-styleable name="LMSShapeAbleImageView" parent="LMSImageView">
+        <attr name="changeBackgroundType" />
 
+    </declare-styleable>
     <declare-styleable name="LMSConstraintLayout">
         <attr name="viewBackground" format="enum">
             <enum name="primary" value="1" />

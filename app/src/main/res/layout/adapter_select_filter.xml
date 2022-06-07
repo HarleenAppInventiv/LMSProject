@@ -18,9 +18,10 @@
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/_15sdp"
             android:paddingVertical="@dimen/_10sdp"
-            android:paddingStart="@dimen/_10sdp"
+            android:paddingHorizontal="@dimen/_10sdp"
             android:text="English"
             android:textColor="@color/radioTextColor"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

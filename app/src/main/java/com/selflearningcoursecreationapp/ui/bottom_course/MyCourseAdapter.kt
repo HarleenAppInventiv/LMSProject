@@ -1,5 +1,6 @@
 package com.selflearningcoursecreationapp.ui.bottom_course
 
+import android.annotation.SuppressLint
 import androidx.core.content.ContextCompat
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
@@ -20,6 +21,7 @@ class MyCourseAdapter(private var type: Int) : BaseAdapter<AdapterMyCourseBindin
         return 4
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val binding = holder.binding as AdapterMyCourseBinding
         val context = binding.root.context

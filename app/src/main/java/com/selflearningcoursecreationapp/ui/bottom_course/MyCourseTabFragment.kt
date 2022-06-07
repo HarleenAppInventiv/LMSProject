@@ -51,7 +51,7 @@ class MyCourseTabFragment : BaseFragment<FragmentMyCourseTabBinding>() {
             MyCourseFragment(),
             CompletedCourseFragment(),
             CreatedCourseFragment(),
-            RequestedFragment()
+//            RequestedFragment()
         )
         val nameArray = arrayListOf<String>(
             baseActivity.getString(R.string.ongoing),

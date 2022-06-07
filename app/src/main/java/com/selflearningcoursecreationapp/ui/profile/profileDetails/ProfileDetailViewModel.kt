@@ -48,7 +48,6 @@ class ProfileDetailViewModel(private val repo: ProfileDetailRepo) : BaseViewMode
         var response = repo.uploadImage(filePart, body)
         withContext(Dispatchers.IO) {
             response.collect {
-
 //                if (it is Resource.Success<*>) {
 //                    val data = it.value as BaseResponse<ImageResponse>
 ////                    saveUser(UserResponse().user.profileUrl)

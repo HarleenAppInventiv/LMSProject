@@ -41,15 +41,13 @@
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/textView"
-                spanText="@{@string/login_via_otp}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:text="@string/login_via_otp"
-                android:textSize="@dimen/_22ssp"
-
+                android:textSize="@dimen/_24ssp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginHorizontal="@dimen/_15sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -60,11 +58,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:lineSpacingExtra="@dimen/_3sdp"
                 android:text="@string/enter_your_phone_number_and_we_will_send_you_an_otp_to_verify"
+                android:textSize="@dimen/_14ssp"
+                app:fontType="regular"
                 app:layout_constraintEnd_toEndOf="@+id/textView"
                 app:layout_constraintStart_toStartOf="@+id/textView"
-
                 app:layout_constraintTop_toBottomOf="@+id/textView"
                 app:textColorType="body" />
 
@@ -84,8 +82,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:paddingLeft="@dimen/_10sdp"
-                    app:changeBackgroundType="tint_src"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_5sdp"
+                    app:changeBackgroundType="theme_src"
                     app:srcCompat="@drawable/ic_call"
 
                     />
@@ -95,7 +94,6 @@
                     android:layout_width="@dimen/_1sdp"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="@dimen/_12sdp"
-                    android:layout_marginStart="@dimen/_5sdp"
                     android:background="@color/et_dash_color"
                     android:importantForAccessibility="no" />
 
@@ -109,7 +107,7 @@
                     app:ccpDialog_backgroundColor="?attr/viewBackgroundColor"
                     app:ccp_showFlag="false"
                     app:ccp_showNameCode="false"
-                    app:ccp_textSize="@dimen/_12ssp" />
+                    app:ccp_textSize="@dimen/_16ssp" />
 
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
@@ -122,7 +120,8 @@
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:maxLength="@{const.MAX_NO_LENGTH}"
-
+                    android:textSize="@dimen/_14ssp"
+                    app:fontType="regular"
                     android:paddingStart="@dimen/_5sdp"
                     android:singleLine="true"
                     android:text="@={loginViaOTP.phone}"
@@ -131,7 +130,6 @@
 
 
             </LinearLayout>
-
 
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
@@ -144,6 +142,8 @@
                 app:layout_constraintStart_toStartOf="@+id/textView3"
                 app:layout_constraintTop_toBottomOf="@+id/ll_phone"
                 app:textColorType="body"
+                android:textSize="@dimen/_14ssp"
+                app:fontType="regular"
 
                 />
 
@@ -157,6 +157,8 @@
                 android:layout_marginBottom="@dimen/_24sdp"
                 android:enabled="@{!loginViaOTP.phone.empty &amp;&amp; loginViaOTP.phone.length()>=5 }"
                 android:text="@string/continues"
+                android:textSize="@dimen/_14ssp"
+                app:fontType="regular"
                 app:btnEnabled="@{!loginViaOTP.phone.empty &amp;&amp; loginViaOTP.phone.length()>=5 }"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"

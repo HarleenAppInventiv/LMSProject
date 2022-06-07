@@ -52,12 +52,14 @@ abstract class BaseFragment<DB : ViewDataBinding> : Fragment(), LiveDataObserver
         baseActivity.handleOnException(isNetworkAvailable, exception, apiCode)
     }
 
-    override fun onError(error: ToastData) {
+
+    override fun onError(error: ToastData, apiCode: String?) {
         hideLoading()
         baseActivity.handleOnError(error)
     }
 
-    override fun onLoading(message: String) {
+
+    override fun onLoading(message: String, apiCode: String?) {
         showLoading()
     }
 

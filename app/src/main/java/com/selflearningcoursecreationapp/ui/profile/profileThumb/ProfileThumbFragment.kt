@@ -137,7 +137,7 @@ class ProfileThumbFragment : BaseFragment<FragmentProfileThumbBinding>(), Handle
         binding.txtUserName.text = viewModel.userProfile?.name
         binding.tvUserMail.text = viewModel.userProfile?.email
         Glide.with(requireActivity()).load(viewModel.userProfile?.profileUrl)
-            .placeholder(R.drawable.ic_course_dummy)
+            .placeholder(R.drawable.ic_default_user)
             .into(binding.circle)
     }
 }

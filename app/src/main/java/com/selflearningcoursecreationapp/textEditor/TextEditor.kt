@@ -1,6 +1,5 @@
 package com.selflearningcoursecreationapp.textEditor
 
-import android.R
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
@@ -55,7 +54,7 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
     constructor(context: Context, attrs: AttributeSet? = null) : this(
         context,
         attrs,
-        R.attr.webViewStyle
+     android.R.attr.webViewStyle
     ) {
     }
 
@@ -97,13 +96,15 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
 
     private fun applyAttributes(context: Context, attrs: AttributeSet?) {
         val attrsArray = intArrayOf(
-            R.attr.gravity
+            android.R.attr.gravity
         )
         val ta = context.obtainStyledAttributes(attrs, attrsArray)
         val gravity = ta.getInt(0, NO_ID)
         when (gravity) {
             Gravity.LEFT -> exec("javascript:RE.setTextAlign(\"left\")")
+            Gravity.START -> exec("javascript:RE.setTextAlign(\"left\")")
             Gravity.RIGHT -> exec("javascript:RE.setTextAlign(\"right\")")
+            Gravity.END -> exec("javascript:RE.setTextAlign(\"right\")")
             Gravity.TOP -> exec("javascript:RE.setVerticalAlign(\"top\")")
             Gravity.BOTTOM -> exec("javascript:RE.setVerticalAlign(\"bottom\")")
             Gravity.CENTER_VERTICAL -> exec("javascript:RE.setVerticalAlign(\"middle\")")

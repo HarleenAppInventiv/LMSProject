@@ -46,7 +46,7 @@ object FileUtils {
 
     private fun dataFromCloudDirectory(
         uri: Uri,
-        context: Context
+        context: Context,
     ): String? {
         return if (isGooglePhotosUri(uri)) {
             uri.lastPathSegment
@@ -67,7 +67,7 @@ object FileUtils {
         uri: Uri,
         context: Context,
         selection: String?,
-        selectionArgs: Array<String>?
+        selectionArgs: Array<String>?,
     ): String? {
         var selection1 = selection
         var selectionArgs1 = selectionArgs
@@ -90,11 +90,11 @@ object FileUtils {
         } else return null
     }
 
-    private fun getMediaFilePath(
+    fun getMediaFilePath(
         uri: Uri,
         selection1: String?,
         selectionArgs1: Array<String>?,
-        context: Context
+        context: Context,
     ): String? {
         var selection11 = selection1
         var selectionArgs11 = selectionArgs1
@@ -121,7 +121,7 @@ object FileUtils {
 
     private fun getDownloadedFilePath(
         context: Context,
-        uri: Uri
+        uri: Uri,
     ): String? {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val id: String
@@ -456,4 +456,6 @@ object FileUtils {
         returnCursor?.close()
         return fileName
     }
+
+
 }

@@ -20,7 +20,7 @@ class StateListDialog() : BaseBottomSheetDialog<BottomDialogCourceCateBinding>()
     override fun getLayoutRes() = R.layout.bottom_dialog_cource_cate
 
     override fun initUi() {
-
+binding.parentCL.visible()
         arguments?.let {
             list = it.getParcelableArrayList<StateModel>("data")!!
 
@@ -36,8 +36,8 @@ class StateListDialog() : BaseBottomSheetDialog<BottomDialogCourceCateBinding>()
             } else {
                 arguments?.let {
                     val dataList = it.getParcelableArrayList<StateModel>("data")?.filter {
-                        it.stateName?.toLowerCase()
-                            ?.contains(text.toString().toLowerCase()) == true
+                        it.stateName?.lowercase()
+                            ?.contains(text.toString().lowercase()) == true
                     } as ArrayList
                     setStateAdapter(dataList)
 

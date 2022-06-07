@@ -6,6 +6,7 @@ import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.databinding.BottomDialogSingleChoiceBinding
+import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.models.SingleChoiceData
 import com.selflearningcoursecreationapp.models.SingleClickResponse
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
@@ -52,7 +53,11 @@ class SingleChoiceBottomDialog : BaseBottomSheetDialog<BottomDialogSingleChoiceB
 
 
             DialogType.PROFESSION -> {
-                viewModel.getProfession()
+                if (list.isNullOrEmpty()) {
+                    viewModel.getProfession()
+                } else {
+                    setAdapter()
+                }
 //                setProfessionData()
             }
 
@@ -79,6 +84,7 @@ class SingleChoiceBottomDialog : BaseBottomSheetDialog<BottomDialogSingleChoiceB
 
 
     private fun setAdapter() {
+        binding.parentCL.visible()
         adapter?.notifyDataSetChanged() ?: kotlin.run {
             adapter = SingleChoiceAdapter(list, type == DialogType.CLICK_QUIZ_TYPE)
             binding.rvList.adapter = adapter

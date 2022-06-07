@@ -24,6 +24,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="10"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/_35sdp"
             tools:listitem="@layout/adapter_request_courses" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

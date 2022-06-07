@@ -5,5 +5,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface TextRepo {
     suspend fun addPatchLecture(map: HashMap<String, Any>): Flow<Resource>
+    suspend fun getLectureDetail(lectureId: Int): Flow<Resource>
+    suspend fun contentUploadText(
+        courseId: Int?,
+        sectionId: Int?,
+        lectureId: Int,
+        uploadType: Int,
+        text: String,
+        duration: Int,
+    ): Flow<Resource>
 
 }

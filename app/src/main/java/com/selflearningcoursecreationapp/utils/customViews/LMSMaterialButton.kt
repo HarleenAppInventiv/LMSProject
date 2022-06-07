@@ -18,7 +18,7 @@ class LMSMaterialButton : MaterialButton {
 
     private var mAttrs: AttributeSet? = null
     private var mDefStyle: Int? = null
-
+    private var buttonType = ThemeConstants.TYPE_PRIMARY
     constructor(context: Context) : super(context) {
         initView(context)
     }
@@ -65,9 +65,9 @@ class LMSMaterialButton : MaterialButton {
         val fontType =
             themeAttrs.getInt(
                 R.styleable.LMSMaterialButton_buttonFont,
-                ThemeConstants.FONT_MEDIUM
+                ThemeConstants.FONT_SEMI_BOLD
             )
-        if (fontType >= 0) {
+        if (fontType > 0) {
             typeface = ResourcesCompat.getFont(
                 context,
                 ThemeUtils.getFont(SelfLearningApplication.fontId, fontType)
@@ -86,6 +86,8 @@ class LMSMaterialButton : MaterialButton {
 
     @SuppressLint("RestrictedApi")
     private fun changeBtnBackground(backgroundType: Int) {
+
+        buttonType = backgroundType
         var tintColor = ThemeUtils.getTintColor(context)
         var primaryColor = ThemeUtils.getAppColor(context)
 
@@ -120,6 +122,15 @@ class LMSMaterialButton : MaterialButton {
                     colors.set(0, tintColor)
 
                 }
+                ThemeConstants.TYPE_BACKGROUND_TINT -> {
+                    colors.set(0, tintColor)
+                    strokeArray.set(0, primaryColor)
+
+                    strokeColor = ColorStateList(states, strokeArray)
+                    strokeWidth = context.resources.getDimensionPixelOffset(R.dimen._1sdp)
+
+                }
+
             }
 //
 //background.setTintList(ColorStateList(states,colors))
@@ -188,31 +199,71 @@ class LMSMaterialButton : MaterialButton {
         setTextColor(colorValue)
     }
 
-    fun setBtnDisabled(enabled: Boolean) {
+    fun setBtnDisabled(enabled: Boolean, typeSecondary: Boolean = false) {
+
+        var buttonData = Pair<Int, Int>(ThemeConstants.TYPE_PRIMARY, ThemeConstants.TYPE_PRIMARY)
+        if (mAttrs != null && mDefStyle != null) {
+            val themeAttrs = context.obtainStyledAttributes(
+                mAttrs, R.styleable.LMSMaterialButton,
+                mDefStyle!!, 0
+            )
+
+            val backgroundType = themeAttrs.getInt(
+                R.styleable.LMSMaterialButton_buttonBackground,
+                ThemeConstants.TYPE_PRIMARY
+            )
+
+            val textType = themeAttrs.getInt(
+                R.styleable.LMSMaterialButton_btnTextColor,
+                ThemeConstants.TYPE_PRIMARY
+            )
+            buttonData = Pair(backgroundType, textType)
+
+
+
+            themeAttrs.recycle()
+        }
+
         if (Build.VERSION.SDK_INT < 24) {
             if (!enabled) {
-                ViewCompat.setBackgroundTintList(this, ColorStateList.valueOf(getDisabledColor()))
-            } else {
-                if (mAttrs != null && mDefStyle != null) {
-                    val themeAttrs = context.obtainStyledAttributes(
-                        mAttrs, R.styleable.LMSMaterialButton,
-                        mDefStyle!!, 0
-                    )
-
-                    val backgroundType = themeAttrs.getInt(
-                        R.styleable.LMSMaterialButton_buttonBackground,
-                        ThemeConstants.TYPE_PRIMARY
-                    )
-
-                    changeBtnBackground(backgroundType)
-                    themeAttrs.recycle()
-                } else {
-                    ViewCompat.setBackgroundTintList(
-                        this,
-                        ColorStateList.valueOf(ThemeUtils.getAppColor(context))
-                    )
-
+                ViewCompat.setBackgroundTintList(
+                    this,
+                    if (typeSecondary) ColorStateList.valueOf(
+                        ContextCompat.getColor(context, R.color.offwhite_f6f6f6)
+                    ) else ColorStateList.valueOf(getDisabledColor())
+                )
+                if (typeSecondary) {
+                    setTextColor(getDisabledColor())
                 }
+
+            } else {
+                changeBtnBackground(buttonData.first)
+                changeTextColor(buttonData.second)
+//                if (mAttrs != null && mDefStyle != null) {
+//                    val themeAttrs = context.obtainStyledAttributes(
+//                        mAttrs, R.styleable.LMSMaterialButton,
+//                        mDefStyle!!, 0
+//                    )
+//
+//                    val backgroundType = themeAttrs.getInt(
+//                        R.styleable.LMSMaterialButton_buttonBackground,
+//                        ThemeConstants.TYPE_PRIMARY
+//                    )
+//
+//                    val textType = themeAttrs.getInt(
+//                        R.styleable.LMSMaterialButton_btnTextColor,
+//                        ThemeConstants.TYPE_PRIMARY
+//                    )
+//
+//
+//                    themeAttrs.recycle()
+//                } else {
+//                    ViewCompat.setBackgroundTintList(
+//                        this,
+//                        ColorStateList.valueOf(ThemeUtils.getAppColor(context))
+//                    )
+//
+//                }
             }
         }
     }

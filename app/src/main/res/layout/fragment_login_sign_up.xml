@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:text="@string/hello_welcome"
-                android:textSize="@dimen/_24ssp"
+                android:textSize="@dimen/_28ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView"
@@ -54,8 +54,9 @@
                 spanText="@{@string/sign_in_to_continue_your_account}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="@dimen/_5ssp"
                 android:text="@string/sign_up_to_get_started"
+                android:textSize="@dimen/_14ssp"
+                app:fontType="regular"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -65,31 +66,32 @@
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/txt_sing_in"
-                android:layout_marginTop="@dimen/_25sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sign_in"
-                android:paddingBottom="@dimen/_2sdp"
-                android:textAllCaps="true"
+                android:layout_marginTop="@dimen/_25sdp"
                 android:background="@drawable/bottom_line_primary"
+                android:paddingBottom="@dimen/_2sdp"
+                android:text="@string/sign_in"
+                android:textAllCaps="true"
+                android:textSize="@dimen/_14ssp"
                 app:fontType="semiBold"
-                app:textColorType="theme"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.058"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_subHeading" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_subHeading"
+                app:textColorType="theme" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/txt_slash"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:text="/"
                 android:importantForAccessibility="no"
+                android:text="/"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_13ssp"
-                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintBottom_toBottomOf="@+id/txt_sing_in"
+                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toEndOf="@+id/txt_sing_in"
                 app:layout_constraintTop_toTopOf="@id/txt_sing_in" />
 
@@ -97,26 +99,27 @@
                 android:id="@+id/txt_sign_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:background="@drawable/bottom_line_primary"
-                android:text="@string/sign_up"
-                app:textColorType="body"
-                app:fontType="semiBold"
                 android:paddingBottom="@dimen/_2sdp"
-android:layout_marginStart="@dimen/_5sdp"
+                android:text="@string/sign_up"
+                android:textSize="@dimen/_14ssp"
+                app:fontType="semiBold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toEndOf="@+id/txt_slash"
-                app:layout_constraintTop_toTopOf="@+id/txt_sing_in" />
+                app:layout_constraintTop_toTopOf="@+id/txt_sing_in"
+                app:textColorType="body" />
 
             <FrameLayout
                 android:id="@+id/container"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_sing_in" />
+                app:layout_constraintTop_toBottomOf="@+id/txt_sing_in"
+                app:layout_constraintVertical_bias="0" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

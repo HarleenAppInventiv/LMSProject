@@ -5,6 +5,7 @@ import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.databinding.BottomDialogCourceCateBinding
 import com.selflearningcoursecreationapp.extensions.gone
+import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.models.GenderModel
 import com.selflearningcoursecreationapp.ui.profile.edit_profile.AdapterSelectGender
 import com.selflearningcoursecreationapp.utils.Constant
@@ -18,6 +19,7 @@ class ChooseGenderDialog : BaseBottomSheetDialog<BottomDialogCourceCateBinding>(
 
     override fun getLayoutRes() = R.layout.bottom_dialog_cource_cate
     override fun initUi() {
+        binding.parentCL.visible()
         binding.ivClose.setOnClickListener {
             dismiss()
         }
