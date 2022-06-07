@@ -17,6 +17,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.text.isDigitsOnly
+import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.utils.SpanUtils
@@ -272,11 +273,9 @@ fun TextView.setFullText(fullText: String) {
 
 fun EditText.addDecimalLimiter(maxLimit: Int = 2, beforeDecimal: Int = 4) {
 
-    this.addTextChangedListener(object : TextWatcher {
-
-        override fun afterTextChanged(s: Editable?) {
-            var str = this@addDecimalLimiter.text!!.toString()
-            if (str.isEmpty()) return
+    this.doAfterTextChanged {
+        var str = this@addDecimalLimiter.text!!.toString()
+        if (!str.isEmpty()) {
 
             val str2 = decimalLimiter(str, maxLimit, beforeDecimal)
 
@@ -288,30 +287,18 @@ fun EditText.addDecimalLimiter(maxLimit: Int = 2, beforeDecimal: Int = 4) {
                 this@addDecimalLimiter.setSelection(pos)
             }
         }
+    }
 
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-        }
-
-    })
 }
 
 fun EditText.decimalLimiter(string: String, MAX_DECIMAL: Int, BEFORE_DECIMAL: Int): String {
 
     var str = string
+
     if (str[0] == '.') str = "0$str"
     val max = str.length
 
-    var rFinal = ""
-    var after = false
-    var i = 0
-    var up = 0
-    var decimal = 0
-    var t: Char
 
     val decimalCount = str.count { ".".contains(it) }
 
@@ -321,24 +308,34 @@ fun EditText.decimalLimiter(string: String, MAX_DECIMAL: Int, BEFORE_DECIMAL: In
         return str.dropLast(str.length - 4)
 
     } else {
-        while (i < max) {
-            t = str[i]
-            if (t != '.' && !after) {
-                up++
-            } else if (t == '.') {
-                after = true
-            } else {
-                decimal++
-                if (decimal > MAX_DECIMAL)
-                    return rFinal
-            }
-            rFinal += t
-            i++
+        return str.limitAfterDecimal(MAX_DECIMAL, max)
+    }
+}
+
+
+fun String.limitAfterDecimal(MAX_DECIMAL: Int, max: Int): String {
+    var rFinal = ""
+    var after = false
+    var i = 0
+    var up = 0
+    var decimal = 0
+    var t: Char
+    while (i < max) {
+        t = this[i]
+        if (t != '.' && !after) {
+            up++
+        } else if (t == '.') {
+            after = true
+        } else {
+            decimal++
+            if (decimal > MAX_DECIMAL)
+                return rFinal
         }
+        rFinal += t
+        i++
     }
     return rFinal
 }
-
 
 fun LMSTextView.setTextSelected(isSelected: Boolean) {
     if (isSelected) {

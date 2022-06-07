@@ -40,7 +40,7 @@ class CourseReviewAdapter(
                 millis += it.lectureContentDuration?.toLongOrNull() ?: 0
             }
         }
-        binding.tvTotalTime.text = context.getTime(millis, false)
+        binding.tvTotalTime.text = context.getTime(millis)
         if (data.isVisible) {
             binding.ivVisible.setImageResource(R.drawable.ic_arrow_top)
             binding.llChild.visible()

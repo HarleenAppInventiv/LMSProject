@@ -44,7 +44,7 @@ object PermissionUtil {
         }
     }
 
-    fun checkPermissionss(context: Activity): Boolean {
+    fun checkPermissions(context: Activity): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             Environment.isExternalStorageManager()
         } else {

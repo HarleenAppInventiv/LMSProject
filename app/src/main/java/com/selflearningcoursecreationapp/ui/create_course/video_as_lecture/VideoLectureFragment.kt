@@ -289,7 +289,7 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
             }
             R.id.btn_take_from_gallary -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    if (!PermissionUtil.checkPermissionss(requireActivity())) {
+                    if (!PermissionUtil.checkPermissions(requireActivity())) {
                         requestPermission()
                     } else {
                         imagePickUtils.openGallery(
@@ -315,12 +315,8 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
                             )
 
                         } else {
-                            if (shouldShowRequestPermissionRationale(
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                ) ||
-                                shouldShowRequestPermissionRationale(
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                )
+                            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                                shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
                             ) {
                                 showToastShort(baseActivity.getString(R.string.no_permission_accepted))

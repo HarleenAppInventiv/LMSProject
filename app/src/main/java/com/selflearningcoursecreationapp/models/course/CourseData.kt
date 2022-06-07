@@ -315,6 +315,7 @@ data class CourseData(
     }
 
     fun isStep3CoAuthorVerified(loggedId: Int?, checkId: Boolean = true): Int {
+
         return when {
             sectionData.isNullOrEmpty() -> R.string.plz_add_sections
             sectionData!!.find {
@@ -355,6 +356,38 @@ data class CourseData(
                     it.sectionCreatedById == loggedId
                 } else true
             } != null -> R.string.plz_save_sections
+            else -> 0
+        }
+    }
+
+
+    fun isStep3Test(loggedId: Int?, checkId: Boolean = true): Int {
+        var errorId = 0
+        sectionData?.forEach {
+            val selection = if (checkId) {
+                it.sectionCreatedById == loggedId
+            } else true
+            if (selection) {
+
+                errorId = isStep3SingleTest(it)
+                if (errorId != 0) {
+                    return@forEach
+                }
+            }
+
+        }
+        return errorId
+    }
+
+    fun isStep3SingleTest(data: SectionModel): Int {
+        return when {
+            !data.uploadLesson -> R.string.plz_add_data_in_section
+            data.lessonList.isNullOrEmpty() -> R.string.plz_add_lesson
+            data.lessonList.find { it.mediaType == MEDIA_TYPE.QUIZ && it.totalQuizQues.isNullOrZero() } != null -> R.string.plz_add_ques_in_quiz_section
+            data.lessonList.find { it.mediaType == MEDIA_TYPE.QUIZ && !it.allAnsMarked } != null -> R.string.plz_mark_ans_ques_in_quiz
+            data.lessonList.find { it.mediaType == MEDIA_TYPE.QUIZ && it.lectureTitle.isNullOrEmpty() } != null -> R.string.plz_add_data_in_quiz_section
+            !data.isSaved -> R.string.plz_save_sections
+            data.changesMade -> R.string.plz_save_sections
             else -> 0
         }
     }

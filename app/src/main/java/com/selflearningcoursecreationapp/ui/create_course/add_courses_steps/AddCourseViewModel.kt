@@ -129,11 +129,10 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
         courseData.value?.let {
             val errorId =
                 /* if (isCreator.value == true) it.isStep3Verified() else*/
-                it.isStep3CoAuthorVerified(userProfile?.id)
+                it.isStep3Test(userProfile?.id)
             if (errorId == 0) {
-                if (completedStep == 2) {
-                    completedStep += 1
-                }
+
+                completeSteps(2)
                 if (isCreator.value == true)
                     updateResponseObserver(Resource.Success(true, ApiEndPoints.VALID_DATA))
                 else {
@@ -151,7 +150,7 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
     fun step3SingleValidation() {
         courseData.value?.let {
             val errorId =
-                it.isStep3CoAuthorVerified(userProfile?.id)
+                it.isStep3Test(userProfile?.id)
             if (errorId == 0) {
                 sectionUpdationData.postValue(EventObserver(Constant.CLICK_UPLOAD))
             } else {
@@ -180,9 +179,8 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
         assessmentData.value?.let {
             val errorId = it.isAssessmentValid()
             if (errorId == 0) {
-                if (completedStep == 3) {
-                    completedStep += 1
-                }
+
+                completeSteps(3)
                 getCourseSections()
                 updateResponseObserver(Resource.Success(true, ApiEndPoints.VALID_DATA))
             } else {
@@ -217,15 +215,19 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
 
                         courseData.value?.courseId = data.resource?.courseId ?: 0
                     }
-                    if (completedStep == 0) {
-                        completedStep += 1
-                    }
+                    completeSteps(0)
                 }
                 updateResponseObserver(it)
             }
         }
 
 
+    }
+
+    private fun completeSteps(i: Int) {
+        if (completedStep == i) {
+            completedStep += 1
+        }
     }
 
 
@@ -248,9 +250,9 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
         withContext(Dispatchers.IO) {
             response.collect {
                 if (it is Resource.Success<*>) {
-                    if (completedStep == 1) {
-                        completedStep += 1
-                    }
+
+
+                    completeSteps(1)
                     getCourseSections()
                 }
                 updateResponseObserver(it)
@@ -292,7 +294,7 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
                         resource.isCreator = resource.createdById == userProfile?.id
                         resource.isCoAuthor = resource.getCoAuthor(userProfile?.id ?: 0) != null
                         resource.coAuthorId = resource.getCoAuthor(userProfile?.id ?: 0)?.id ?: 0
-                        resource?.sectionData = resource.sectionData?.map {
+                        resource.sectionData = resource.sectionData?.map {
                             it.apply {
                                 isSaved = it.isDataValid(false) == 0
                             }
@@ -324,7 +326,7 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
                         data.isCoAuthor = data.getCoAuthor(userProfile?.id ?: 0) != null
                         data.coAuthorId = data.getCoAuthor(userProfile?.id ?: 0)?.id ?: 0
 
-                        data?.sectionData = resource.sectionData?.map {
+                        data.sectionData = resource.sectionData?.map {
                             it.apply {
                                 isVisible = false
                                 isSaved = it.isDataValid(false) == 0
@@ -606,7 +608,7 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
                 errorId = it.isStep2Verified()
             }
             if (errorId == 0) {
-                errorId = it.isStep3CoAuthorVerified(userProfile?.id)
+                errorId = it.isStep3Test(userProfile?.id)
             }
             if (errorId == 0) {
                 errorId = assessmentData.value?.isAssessmentValid() ?: 0
@@ -689,8 +691,6 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
         }
     }
 
-    fun checkAllSteps(step: Int) {
 
-    }
 
 }

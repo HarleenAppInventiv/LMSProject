@@ -88,7 +88,7 @@ class UploadAudioOptionsDialog : BaseBottomSheetDialog<DialogUploadAudioBinding>
 //            }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                if (!PermissionUtil.checkPermissionss(requireActivity())) {
+                if (!PermissionUtil.checkPermissions(requireActivity())) {
                     requestPermission()
                 } else {
                     imagePickUtils.openAudioFile(

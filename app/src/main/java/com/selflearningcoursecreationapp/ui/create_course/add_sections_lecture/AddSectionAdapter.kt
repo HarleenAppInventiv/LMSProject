@@ -72,7 +72,7 @@ class AddSectionAdapter(
                 millis += it.lectureContentDuration?.toLongOrNull() ?: 0
             }
         }
-        binding.tvTotalTime.text = context.getTime(millis, false)
+        binding.tvTotalTime.text = context.getTime(millis)
 //            Log.d("varun", "onBindViewHolder: ${millis}")
 
 //            val hr = TimeUnit.MILLISECONDS.toHours(millis) -

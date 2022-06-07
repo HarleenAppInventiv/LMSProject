@@ -41,7 +41,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class AddCourseBaseFragment : BaseFragment<FragmentAddCourseBaseBinding>(), View.OnClickListener,
+class AddCourseBaseFragment : BaseFragment<FragmentAddCourseBaseBinding>(),
     HandleClick {
     private var authorMenu: MenuItem? = null
     private var deleteMenu: MenuItem? = null
@@ -57,8 +57,8 @@ class AddCourseBaseFragment : BaseFragment<FragmentAddCourseBaseBinding>(), View
     }
 
     fun init() {
-        isFirstTime += 1
-        viewModel.courseData.value?.courseId = 5
+//        isFirstTime += 1
+//        viewModel.courseData.value?.courseId = 5
 
         arguments?.let {
             viewModel.courseData.value?.courseId = it.getInt("courseId")
@@ -177,9 +177,9 @@ class AddCourseBaseFragment : BaseFragment<FragmentAddCourseBaseBinding>(), View
     private fun initViewPager() {
         val list = ArrayList<Fragment>()
         val fragList = arrayListOf(
-            AddSectionOrLectureFragment(),
             Step1Fragment(),
             Step2Fragment(),
+            AddSectionOrLectureFragment(),
             AssessmentFragment(),
             CourseReviewFragment()
         )
@@ -222,9 +222,9 @@ class AddCourseBaseFragment : BaseFragment<FragmentAddCourseBaseBinding>(), View
             delay(200)
             baseActivity.runOnUiThread {
 
-                authorMenu?.isVisible = position == 2 && viewModel.isCreator.value == true
-                deleteMenu?.isVisible =
-                    position == 3 && !viewModel.courseData.value?.assessmentId.isNullOrZero()
+                authorMenu?.isVisible = false
+                deleteMenu?.isVisible = false
+
 
                 handleStepFunctionality()
 //                setDotAdapter()
@@ -246,6 +246,8 @@ class AddCourseBaseFragment : BaseFragment<FragmentAddCourseBaseBinding>(), View
 
                     }
                     2 -> {
+                        authorMenu?.isVisible = viewModel.isCreator.value == true
+
                         binding.btContinue.text =
                             if (viewModel.isCreator.value == true) baseActivity.getString(R.string.continue_text) else baseActivity.getString(
                                 R.string.submit
@@ -256,6 +258,8 @@ class AddCourseBaseFragment : BaseFragment<FragmentAddCourseBaseBinding>(), View
 
                     }
                     3 -> {
+                        deleteMenu?.isVisible =
+                            !viewModel.courseData.value?.assessmentId.isNullOrZero()
                         binding.btContinue.text = baseActivity.getString(R.string.continue_text)
                         binding.btEdit.visibleView(!viewModel.courseData.value?.assessmentId.isNullOrZero())
                         baseActivity.setToolbar(if (viewModel.courseData.value?.assessmentName.isNullOrEmpty()) viewModel.courseData.value?.courseTitle else viewModel.courseData.value?.assessmentName)
@@ -447,9 +451,6 @@ class AddCourseBaseFragment : BaseFragment<FragmentAddCourseBaseBinding>(), View
 
     }
 
-    override fun onClick(p0: View?) {
-
-    }
 
 
     private fun handleStepFunctionality() {

@@ -59,7 +59,7 @@ class UploadDocOptionsDialog : BaseBottomSheetDialog<BotttomDialogUploadVdoAdoBi
             R.id.cl_docs -> {
                 dismiss()
                 if (SDK_INT >= Build.VERSION_CODES.R) {
-                    if (!PermissionUtil.checkPermissionss(requireActivity())) {
+                    if (!PermissionUtil.checkPermissions(requireActivity())) {
                         requestPermission()
                     } else {
                         onDialogClick(Lecture.CLICK_LESSON_DOCS)
@@ -149,7 +149,7 @@ class UploadDocOptionsDialog : BaseBottomSheetDialog<BotttomDialogUploadVdoAdoBi
 
                 type = MEDIA_TYPE.VIDEO
                 if (SDK_INT >= Build.VERSION_CODES.R) {
-                    if (!PermissionUtil.checkPermissionss(requireActivity())) {
+                    if (!PermissionUtil.checkPermissions(requireActivity())) {
                         requestPermission()
                     } else {
                         imagePickUtils.openVideoFile(
@@ -251,7 +251,7 @@ class UploadDocOptionsDialog : BaseBottomSheetDialog<BotttomDialogUploadVdoAdoBi
                 type = MEDIA_TYPE.AUDIO
 
                 if (SDK_INT >= Build.VERSION_CODES.R) {
-                    if (!PermissionUtil.checkPermissionss(requireActivity())) {
+                    if (!PermissionUtil.checkPermissions(requireActivity())) {
                         requestPermission()
                     } else {
                         imagePickUtils.openAudioFile(
