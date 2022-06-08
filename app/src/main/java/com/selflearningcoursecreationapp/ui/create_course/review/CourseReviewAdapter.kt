@@ -21,10 +21,7 @@ class CourseReviewAdapter(
             data.sectionCreatedByProfileURL,
             R.drawable.ic_default_user_grey
         )
-        binding.ivUserLogo.loadImage(
-            data.sectionLogoURL,
-            R.drawable.ic_logo_default
-        )
+        binding.ivUserLogo.loadImage(data.sectionLogoURL, R.drawable.ic_logo_default)
 
         binding.logoGroup.visibleView(courseCreatorId != data.sectionCreatedById)
 
@@ -32,9 +29,7 @@ class CourseReviewAdapter(
         binding.tvDescription.text = data.sectionDescription
         var millis: Long = 0
         data.lessonList.forEach {
-            if (!it.lectureContentDuration?.toLongOrNull()
-                    .isNullOrZero() && it.mediaType != MEDIA_TYPE.QUIZ
-            ) {
+            if (it.mediaType != MEDIA_TYPE.QUIZ) {
                 millis += it.lectureContentDuration?.toLongOrNull()?.div(10000) ?: 0
             } else {
                 millis += it.lectureContentDuration?.toLongOrNull() ?: 0
@@ -44,41 +39,17 @@ class CourseReviewAdapter(
         if (data.isVisible) {
             binding.ivVisible.setImageResource(R.drawable.ic_arrow_top)
             binding.llChild.visible()
-//            binding.tvTotalTime.maxLines = 10
             binding.tvSectionNumber.isSingleLine = false
         } else {
             binding.ivVisible.setImageResource(R.drawable.ic_arrow_bottom)
             binding.llChild.gone()
-//            binding.tvTotalTime.maxLines = 1
             binding.tvSectionNumber.isSingleLine = true
 
         }
 
-        binding.tvLectureList.apply {
-
-            val lessonList = arrayListOf<String>()
-            data.lessonList.groupingBy { it.mediaType }.eachCount().forEach {
-                val stringId = when (it.key) {
-                    MEDIA_TYPE.VIDEO ->
-                        R.plurals.video_quantity
-
-                    MEDIA_TYPE.AUDIO -> R.plurals.audio_quantity
-                    MEDIA_TYPE.DOC -> R.plurals.doc_quantity
-                    MEDIA_TYPE.TEXT -> R.plurals.text_quantity
-                    MEDIA_TYPE.QUIZ -> R.plurals.quiz_quantity
-                    else -> 0
-                }
-                if (!stringId.isNullOrZero()) {
-                    lessonList.add(context.getQuantityString(stringId, it.value))
-                }
-            }
+        binding.tvLectureList.text = data.lessonList.getLessonCount(context).joinToString(", ")
 
 
-
-            text = lessonList.joinToString()
-
-
-        }
 
         binding.ivVisible.setOnClickListener {
             list.forEachIndexed { index, sectionModel ->

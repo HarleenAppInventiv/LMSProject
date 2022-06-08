@@ -219,12 +219,11 @@ data class CourseData(
                 2 -> {
                     val creatorId =
                         if (isCreator) createdById else if (isCoAuthor) coAuthorId else 0
-                    !sectionData.isNullOrEmpty() /*&& !sectionData!!.filter { it.sectionCreatedById== creatorId }.isNullOrEmpty()*/
-                            && (/*(isCreator && sectionData?.find { !it.isSaved || it.isDataValid(true) != 0 } == null) ||*/ (/*isCoAuthor &&*/ sectionData?.find {
+                    !sectionData.isNullOrEmpty() && sectionData?.find {
                         it.sectionCreatedById == coAuthorId && !it.isSaved || it.isDataValid(
                             true, creatorId ?: 0
                         ) != 0
-                    } == null))
+                    } == null
                 }
                 3 -> {
                     true
@@ -297,68 +296,68 @@ data class CourseData(
         }
     }
 
-    fun isStep3Verified(): Int {
-        return when {
-            sectionData.isNullOrEmpty() -> R.string.plz_add_sections
-            sectionData!!.find { !it.uploadLesson } != null -> R.string.plz_add_data_in_section
-            sectionData!!.find { it.lessonList.isNullOrEmpty() } != null -> R.string.plz_add_lesson
-            !sectionData!!.filter { it.lessonList.find { it.mediaType == MEDIA_TYPE.QUIZ && it.totalQuizQues.isNullOrZero() } != null }
-                .isNullOrEmpty() -> R.string.plz_add_ques_in_quiz_section
-            !sectionData!!.filter { it.lessonList.find { it.mediaType == MEDIA_TYPE.QUIZ && !it.allAnsMarked } != null }
-                .isNullOrEmpty() -> R.string.plz_mark_ans_ques_in_quiz
-            !sectionData!!.filter { it.lessonList.find { it.mediaType == MEDIA_TYPE.QUIZ && it.lectureTitle.isNullOrEmpty() } != null }
-                .isNullOrEmpty() -> R.string.plz_add_data_in_quiz_section
-            sectionData!!.find { !it.isSaved } != null -> R.string.plz_save_sections
-            sectionData!!.find { it.changesMade } != null -> R.string.plz_save_sections
-            else -> 0
-        }
-    }
-
-    fun isStep3CoAuthorVerified(loggedId: Int?, checkId: Boolean = true): Int {
-
-        return when {
-            sectionData.isNullOrEmpty() -> R.string.plz_add_sections
-            sectionData!!.find {
-                !it.uploadLesson && if (checkId) {
-                    it.sectionCreatedById == loggedId
-                } else true
-            } != null -> R.string.plz_add_data_in_section
-            sectionData!!.find {
-                it.lessonList.isNullOrEmpty() && if (checkId) {
-                    it.sectionCreatedById == loggedId
-                } else true
-            } != null -> R.string.plz_add_lesson
-            !sectionData!!.filter {
-                it.lessonList.find { it.mediaType == MEDIA_TYPE.QUIZ && it.totalQuizQues.isNullOrZero() } != null && if (checkId) {
-                    it.sectionCreatedById == loggedId
-                } else true
-            }
-                .isNullOrEmpty() -> R.string.plz_add_ques_in_quiz_section
-            !sectionData!!.filter {
-                it.lessonList.find { it.mediaType == MEDIA_TYPE.QUIZ && !it.allAnsMarked } != null && if (checkId) {
-                    it.sectionCreatedById == loggedId
-                } else true
-            }
-                .isNullOrEmpty() -> R.string.plz_mark_ans_ques_in_quiz
-            !sectionData!!.filter {
-                it.lessonList.find { it.mediaType == MEDIA_TYPE.QUIZ && it.lectureTitle.isNullOrEmpty() } != null && if (checkId) {
-                    it.sectionCreatedById == loggedId
-                } else true
-            }
-                .isNullOrEmpty() -> R.string.plz_add_data_in_quiz_section
-            sectionData!!.find {
-                !it.isSaved && if (checkId) {
-                    it.sectionCreatedById == loggedId
-                } else true
-            } != null -> R.string.plz_save_sections
-            sectionData!!.find {
-                it.changesMade && if (checkId) {
-                    it.sectionCreatedById == loggedId
-                } else true
-            } != null -> R.string.plz_save_sections
-            else -> 0
-        }
-    }
+//    fun isStep3Verified(): Int {
+//        return when {
+//            sectionData.isNullOrEmpty() -> R.string.plz_add_sections
+//            sectionData!!.find { !it.uploadLesson } != null -> R.string.plz_add_data_in_section
+//            sectionData!!.find { it.lessonList.isNullOrEmpty() } != null -> R.string.plz_add_lesson
+//            !sectionData!!.filter { it.lessonList.find { it.mediaType == MEDIA_TYPE.QUIZ && it.totalQuizQues.isNullOrZero() } != null }
+//                .isNullOrEmpty() -> R.string.plz_add_ques_in_quiz_section
+//            !sectionData!!.filter { it.lessonList.find { it.mediaType == MEDIA_TYPE.QUIZ && !it.allAnsMarked } != null }
+//                .isNullOrEmpty() -> R.string.plz_mark_ans_ques_in_quiz
+//            !sectionData!!.filter { it.lessonList.find { it.mediaType == MEDIA_TYPE.QUIZ && it.lectureTitle.isNullOrEmpty() } != null }
+//                .isNullOrEmpty() -> R.string.plz_add_data_in_quiz_section
+//            sectionData!!.find { !it.isSaved } != null -> R.string.plz_save_sections
+//            sectionData!!.find { it.changesMade } != null -> R.string.plz_save_sections
+//            else -> 0
+//        }
+//    }
+//
+//    fun isStep3CoAuthorVerified(loggedId: Int?, checkId: Boolean = true): Int {
+//
+//        return when {
+//            sectionData.isNullOrEmpty() -> R.string.plz_add_sections
+//            sectionData!!.find {
+//                !it.uploadLesson && if (checkId) {
+//                    it.sectionCreatedById == loggedId
+//                } else true
+//            } != null -> R.string.plz_add_data_in_section
+//            sectionData!!.find {
+//                it.lessonList.isNullOrEmpty() && if (checkId) {
+//                    it.sectionCreatedById == loggedId
+//                } else true
+//            } != null -> R.string.plz_add_lesson
+//            !sectionData!!.filter {
+//                it.lessonList.find { it.mediaType == MEDIA_TYPE.QUIZ && it.totalQuizQues.isNullOrZero() } != null && if (checkId) {
+//                    it.sectionCreatedById == loggedId
+//                } else true
+//            }
+//                .isNullOrEmpty() -> R.string.plz_add_ques_in_quiz_section
+//            !sectionData!!.filter {
+//                it.lessonList.find { it.mediaType == MEDIA_TYPE.QUIZ && !it.allAnsMarked } != null && if (checkId) {
+//                    it.sectionCreatedById == loggedId
+//                } else true
+//            }
+//                .isNullOrEmpty() -> R.string.plz_mark_ans_ques_in_quiz
+//            !sectionData!!.filter {
+//                it.lessonList.find { it.mediaType == MEDIA_TYPE.QUIZ && it.lectureTitle.isNullOrEmpty() } != null && if (checkId) {
+//                    it.sectionCreatedById == loggedId
+//                } else true
+//            }
+//                .isNullOrEmpty() -> R.string.plz_add_data_in_quiz_section
+//            sectionData!!.find {
+//                !it.isSaved && if (checkId) {
+//                    it.sectionCreatedById == loggedId
+//                } else true
+//            } != null -> R.string.plz_save_sections
+//            sectionData!!.find {
+//                it.changesMade && if (checkId) {
+//                    it.sectionCreatedById == loggedId
+//                } else true
+//            } != null -> R.string.plz_save_sections
+//            else -> 0
+//        }
+//    }
 
 
     fun isStep3Test(loggedId: Int?, checkId: Boolean = true): Int {

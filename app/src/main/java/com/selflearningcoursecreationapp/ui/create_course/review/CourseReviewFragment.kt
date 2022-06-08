@@ -35,11 +35,6 @@ class CourseReviewFragment : BaseFragment<FragmentCourseReviewBinding>(), BaseAd
         initUi()
     }
 
-
-    //    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-//        super.setUserVisibleHint(isVisibleToUser)
-//        viewModel.getCourseSections()
-//    }
     private fun initUi() {
         adapter?.notifyDataSetChanged()
         adapter = null
@@ -52,7 +47,7 @@ class CourseReviewFragment : BaseFragment<FragmentCourseReviewBinding>(), BaseAd
             R.plurals.section_course_quantity,
             viewModel.courseData.value?.sectionData?.size
         )
-        binding.etKeywords.setOnEditorActionListener { textView, actionId, keyEvent ->
+        binding.etKeywords.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_GO) {
                 keywordsFunctionality(binding.etKeywords.content())
 
@@ -62,7 +57,7 @@ class CourseReviewFragment : BaseFragment<FragmentCourseReviewBinding>(), BaseAd
         }
 
 
-        binding.etKeywords.doOnTextChanged { text, start, before, count ->
+        binding.etKeywords.doOnTextChanged { text, _, _, _ ->
             if (text.toString().contains(" ")) {
                 keywordsFunctionality(binding.etKeywords.content())
             } else if (text.toString().length >= 2) {
@@ -71,7 +66,6 @@ class CourseReviewFragment : BaseFragment<FragmentCourseReviewBinding>(), BaseAd
                 suggestionAdapter?.notifyDataSetChanged()
                 suggestionAdapter = null
                 binding.clSuggestion.gone()
-//                binding.etKeywords.setAdapter(null)
 
             }
         }
@@ -79,32 +73,12 @@ class CourseReviewFragment : BaseFragment<FragmentCourseReviewBinding>(), BaseAd
         setKeywordAdapter()
 
         observeKeywordData()
-        binding.etKeywords.setOnFocusChangeListener { view, b ->
-//            if (!b && !binding.rvKeywords.hasFocus()) {
-//                suggestionAdapter?.notifyDataSetChanged()
-//                suggestionAdapter = null
-//                binding.clSuggestion.gone()
-//
-//            }
-        }
+
         observeSectionData()
-
-//        binding.parentNSV.setOnTouchListener { view, motionEvent ->
-//            if (!binding.etKeywords.hasFocus()) {
-//                suggestionAdapter?.notifyDataSetChanged()
-//                suggestionAdapter = null
-//                binding.clSuggestion.gone()
-//
-//            }
-//            return@setOnTouchListener false
-//
-//        }
-
     }
 
 
     private fun observeSectionData() {
-//        viewModel.getCourseSections()
 
         viewModel.reviewUpdationData.observe(
             viewLifecycleOwner,
@@ -113,7 +87,6 @@ class CourseReviewFragment : BaseFragment<FragmentCourseReviewBinding>(), BaseAd
                     viewModel.courseData.value?.notifyPropertyChanged(BR.allDataEntered)
                     when (it) {
                         Constant.CLICK_DETAILS -> {
-//                            binding.btAddSection.gone()
                             adapter?.notifyDataSetChanged()
                             adapter = null
                             setAdapter()
@@ -180,11 +153,6 @@ class CourseReviewFragment : BaseFragment<FragmentCourseReviewBinding>(), BaseAd
     }
 
     private fun setKeywordSuggestionAdapter(arrayList: ArrayList<SingleChoiceData>) {
-        val titleList = arrayList.map { it.title + " " } as ArrayList<String>
-//     val suggestionAdapter= ArrayAdapter<String>(baseActivity,android.R.layout.simple_list_item_1,titleList.toTypedArray())
-//        binding.etKeywords.setAdapter(suggestionAdapter)
-//        suggestionAdapter.setNotifyOnChange(true)
-
         suggestionAdapter?.notifyDataSetChanged() ?: kotlin.run {
             suggestionAdapter = KeywordSuggestionAdapter(arrayList)
             binding.rvSuggestions.adapter = suggestionAdapter

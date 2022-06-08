@@ -245,22 +245,6 @@
                     app:barrierDirection="bottom"
                     app:constraint_referenced_ids="tv_column2,tv_column1,tv_options" />
 
-                <!--                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView-->
-                <!--                    android:id="@+id/tv_add"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_marginStart="@dimen/_10sdp"-->
-                <!--                    android:layout_marginTop="@dimen/_5sdp"-->
-                <!--                    android:lineSpacingExtra="6sp"-->
-                <!--                    android:paddingHorizontal="@dimen/_10sdp"-->
-                <!--                    android:paddingVertical="@dimen/_5sdp"-->
-                <!--                    android:text="+Add"-->
-                <!--                    android:textSize="@dimen/_11sdp"-->
-                <!--                    android:textStyle="normal"-->
-                <!--                    app:fontType="medium"-->
-                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-                <!--                    app:layout_constraintTop_toBottomOf="@+id/view"-->
-                <!--                    app:textColorType="theme" />-->
 
 
                 <androidx.recyclerview.widget.RecyclerView

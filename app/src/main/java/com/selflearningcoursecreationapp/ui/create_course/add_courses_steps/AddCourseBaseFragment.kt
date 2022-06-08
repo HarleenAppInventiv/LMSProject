@@ -282,22 +282,8 @@ class AddCourseBaseFragment : BaseFragment<FragmentAddCourseBaseBinding>(),
         }
     }
 
-    private fun resetDot() {
 
-        dotAdapter?.notifyDataSetChanged()
-        dotAdapter = null
-    }
 
-    private fun setDotAdapter() {
-        dotList.forEachIndexed { index, b ->
-            showLog("DOT_LIST", "position, $index >>> $b")
-
-        }
-        dotAdapter?.notifyDataSetChanged() ?: kotlin.run {
-            dotAdapter = DotAdapter(Constant.TYPE_ROUND, dotList)
-            binding.rvPagerDot.adapter = dotAdapter
-        }
-    }
 
     fun openAlert() {
         InviteCoAuthorDialog().apply {

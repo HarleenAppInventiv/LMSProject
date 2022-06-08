@@ -167,31 +167,35 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
                     }.show(childFragmentManager, "")
                 }
                 Constant.CLICK_DELETE -> {
-                    CommonAlertDialog.builder(baseActivity)
-                        .title(baseActivity.getString(R.string.delete_question))
-                        .description(baseActivity.getString(R.string.delete_ques_alert_text))
-                        .positiveBtnText(baseActivity.getString(R.string.yes))
-                        .icon(R.drawable.ic_delete_icon)
-                        .getCallback {
-                            if (it) {
-                                if (viewModel.getListData(viewModel.adapterPosition)?.questionId.isNullOrZero()) {
-                                    viewModel.quizData.list?.removeAt(viewModel.adapterPosition)
-                                    showToastShort(baseActivity.getString(R.string.question_deleted_successfully))
-                                    setAdapter()
-
-                                    if (!viewModel.isQuizTitleAdded() && viewModel.isQuizAdded() && viewModel.quizData.list.isNullOrEmpty()) {
-                                        viewModel.deleteQuizAssessment()
-                                    }
-                                } else {
-                                    viewModel.deleteQuestion(viewModel.getListData(viewModel.adapterPosition))
-                                }
-                            }
-                        }
-                        .build()
+                    deleteQuestionFunctionality()
                 }
             }
         }
 
+    }
+
+    private fun deleteQuestionFunctionality() {
+        CommonAlertDialog.builder(baseActivity)
+            .title(baseActivity.getString(R.string.delete_question))
+            .description(baseActivity.getString(R.string.delete_ques_alert_text))
+            .positiveBtnText(baseActivity.getString(R.string.yes))
+            .icon(R.drawable.ic_delete_icon)
+            .getCallback {
+                if (it) {
+                    if (viewModel.getListData(viewModel.adapterPosition)?.questionId.isNullOrZero()) {
+                        viewModel.quizData.list?.removeAt(viewModel.adapterPosition)
+                        showToastShort(baseActivity.getString(R.string.question_deleted_successfully))
+                        setAdapter()
+
+                        if (!viewModel.isQuizTitleAdded() && viewModel.isQuizAdded() && viewModel.quizData.list.isNullOrEmpty()) {
+                            viewModel.deleteQuizAssessment()
+                        }
+                    } else {
+                        viewModel.deleteQuestion(viewModel.getListData(viewModel.adapterPosition))
+                    }
+                }
+            }
+            .build()
     }
 
     override fun onDialogClick(vararg items: Any) {
@@ -218,15 +222,6 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
                     setAdapter()
                 }
                 DialogType.CLICK_QUIZ_TYPE -> {
-//                    viewModel.getListData(viewModel.adapterPosition)?.questionType =
-//                        (items[1] as SingleChoiceData).id
-//                    viewModel.getListData(viewModel.adapterPosition)?.questionTypeTitle =
-//                        baseActivity.getQuizTypeTitle(
-//                            viewModel.getListData(viewModel.adapterPosition)?.questionType ?: 1
-//                        )
-//                    viewModel.getListData(viewModel.adapterPosition)?.optionList?.forEach {
-//                        it.quizType = viewModel.getListData(viewModel.adapterPosition)?.questionType
-//                    }
                     viewModel.quizData.list?.set(viewModel.adapterPosition, QuizQuestionData(
                         true,
                         questionTypeTitle = (items[1] as SingleChoiceData).title,
@@ -238,63 +233,70 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
 
                     })
                     adapter?.notifyItemChanged(viewModel.adapterPosition)
-//                    setAdapter()
-//                    list[adapterPosition]
                 }
                 DialogType.CLICK_QUIZ_OPTION -> {
                     val selectedType = items[1] as Int
-                    if (selectedType == 1) {
-                        viewModel.getListData(viewModel.adapterPosition)?.optionList?.get(
-                            viewModel.childPosition
-                        )?.option1 = items[2] as String
-                        adapter?.notifyItemChanged(viewModel.adapterPosition)
-
-                    } else {
-                        viewModel.getListData(viewModel.adapterPosition)?.optionList?.get(
-                            viewModel.childPosition
-                        )?.image = items[2] as String
-                        if (viewModel.isQuizAdded()) {
-                            viewModel.uploadImage(
-                                File(items[2] as String),
-                                if (viewModel.isQuiz) MEDIA_TYPE.QUIZ_OPTION else MEDIA_TYPE.ASSESSMENT_OPTION,
-                                viewModel.adapterPosition,
-                                viewModel.childPosition
-                            )
-                        } else {
-                            viewModel.currentAction = 3
-                            viewModel.addQuizAssessment()
-                        }
-                    }
+                    val image = items[2] as String
+                    setImageTextOption(selectedType, image)
                 }
 
 
                 DialogType.QUIZ_ANSWER -> {
                     val hashMap = items[1] as HashMap<String, ArrayList<QuizOptionData>>
-                    viewModel.getListData(viewModel.adapterPosition)?.ansMarked = true
-                    when (viewModel.getListData(viewModel.adapterPosition)?.questionType) {
-                        QUIZ.MATCH_COLUMN -> {
-                            hashMap.keys.forEachIndexed { index, s ->
-                                hashMap[s]?.filter { it.isSelected == true }?.forEach {
-                                    viewModel.getListData(viewModel.adapterPosition)?.optionList?.get(
-                                        index
-                                    )?.ansId =
-                                        it.id
-                                }
-                            }
-                        }
-                        else -> {
-                            val key = hashMap.map { it.key }.get(0)
-                            viewModel.getListData(viewModel.adapterPosition)?.optionList?.forEach { option ->
-                                option.isSelected = !(hashMap.get(key)
-                                    ?.filter { it.isSelected == true && it.id == option.id }
-                                    ?.isNullOrEmpty() ?: true)
-                            }
-                        }
-                    }
-                    isAllAnsMarked()
-
-                    adapter?.notifyItemChanged(viewModel.adapterPosition)
+                    setQuizAns(hashMap)
                 }
+            }
+        }
+    }
+
+    private fun setQuizAns(hashMap: HashMap<String, ArrayList<QuizOptionData>>) {
+        viewModel.getListData(viewModel.adapterPosition)?.ansMarked = true
+        when (viewModel.getListData(viewModel.adapterPosition)?.questionType) {
+            QUIZ.MATCH_COLUMN -> {
+                hashMap.keys.forEachIndexed { index, s ->
+                    hashMap[s]?.filter { it.isSelected == true }?.forEach {
+                        viewModel.getListData(viewModel.adapterPosition)?.optionList?.get(
+                            index
+                        )?.ansId =
+                            it.id
+                    }
+                }
+            }
+            else -> {
+                val key = hashMap.map { it.key }.get(0)
+                viewModel.getListData(viewModel.adapterPosition)?.optionList?.forEach { option ->
+                    option.isSelected = !(hashMap.get(key)
+                        ?.filter { it.isSelected == true && it.id == option.id }
+                        ?.isNullOrEmpty() ?: true)
+                }
+            }
+        }
+        isAllAnsMarked()
+
+        adapter?.notifyItemChanged(viewModel.adapterPosition)
+    }
+
+    private fun setImageTextOption(selectedType: Int, image: String) {
+        if (selectedType == 1) {
+            viewModel.getListData(viewModel.adapterPosition)?.optionList?.get(
+                viewModel.childPosition
+            )?.option1 = image
+            adapter?.notifyItemChanged(viewModel.adapterPosition)
+
+        } else {
+            viewModel.getListData(viewModel.adapterPosition)?.optionList?.get(
+                viewModel.childPosition
+            )?.image = image
+            if (viewModel.isQuizAdded()) {
+                viewModel.uploadImage(
+                    File(image),
+                    if (viewModel.isQuiz) MEDIA_TYPE.QUIZ_OPTION else MEDIA_TYPE.ASSESSMENT_OPTION,
+                    viewModel.adapterPosition,
+                    viewModel.childPosition
+                )
+            } else {
+                viewModel.currentAction = 3
+                viewModel.addQuizAssessment()
             }
         }
     }
@@ -394,7 +396,6 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
                     if (errorId == 0) {
                         val bundle = arguments ?: Bundle()
                         bundle.putParcelable("quizData", viewModel.quizData)
-                        bundle.putInt("childPosition", sectionChildPosition)
                         findNavController().navigate(
                             R.id.action_addQuizFragment_to_quizSettingsFragment,
                             bundle

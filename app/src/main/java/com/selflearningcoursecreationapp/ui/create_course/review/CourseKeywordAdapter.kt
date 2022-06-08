@@ -13,7 +13,6 @@ class CourseKeywordAdapter(
     override fun getItemCount() = list.size
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val binding = holder.binding as AdapterKeywordsBinding
-        val context = binding.root.context
         val data = list[position]
 
         binding.tvTitle.text = data

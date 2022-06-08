@@ -15,7 +15,6 @@ class AssessmentColumnOptionAdapter(
     override fun getItemCount() = list.size
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val binding = holder.binding as AdapterAssessmentColumnOptionBinding
-        val context = binding.root.context
         val data = list[position]
         val option = position.getCharString() + if (showFirst) "1" else "2"
         binding.tvOption.text = option

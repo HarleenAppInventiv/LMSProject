@@ -41,39 +41,10 @@ class AddSectionOrLectureFragment :
     private var mOrderChanged = false
     private var fromPosition: Int = -1
     private var toPosition: Int = -1
-//    val touchHelper = object : TouchHelper() {
-//        override fun onMove(
-//            recyclerView: RecyclerView,
-//            viewHolder: RecyclerView.ViewHolder,
-//            target: RecyclerView.ViewHolder,
-//        ): Boolean {
-//
-//            val recyclerviewAdapter = recyclerView.adapter as AddSectionAdapter
-//            val fromPosition = viewHolder.adapterPosition
-//            val toPosition = target.adapterPosition
-//            Collections.swap(viewModel.getSectionList(), fromPosition, toPosition)
-//            recyclerviewAdapter.notifyItemMoved(fromPosition, toPosition)
-//
-//            Log.d("varun", "onMove: ${toPosition} ${fromPosition}")
-//
-//            val previous =
-//                if (toPosition == 0 || toPosition == viewModel.getSectionList()?.size!! - 1) 0 else viewModel.getSectionList()
-//                    ?.get(toPosition - 1)?.sectionId
-//
-//            val last =
-//                if (toPosition == viewModel.getSectionList()?.size!! - 1 || toPosition == 0) 0 else viewModel.getSectionList()
-//                    ?.get(toPosition + 1)?.sectionId
-//            viewModel.dragAndDropSection(
-//                viewModel.getSectionList()?.get(fromPosition)?.sectionId,
-//                previous,
-//                last
-//            )
-//            return false
-//        }
-//
-//    }
+    var mediaType = 0
+    private var _lectureId = -1
 
-    val touchHelper = object : TouchHelper() {
+    private val touchHelper = object : TouchHelper() {
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
@@ -120,8 +91,7 @@ class AddSectionOrLectureFragment :
         }
 
     }
-    var mediaType = 0
-    var _lectureId = -1
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -142,16 +112,6 @@ class AddSectionOrLectureFragment :
         binding.btAddSection.setOnClickListener {
 
             viewModel.step3SingleValidation()
-//            viewModel.courseData.value?.let {
-//                val errorId =
-//                    if (viewModel.isCreator.value == true) it.isStep3Verified() else it.isStep3CoAuthorVerified()
-//                if (errorId == 0) {
-//
-//                } else {
-//                    showToastShort(baseActivity.getString(errorId))
-//                }
-//            }
-
 
         }
         observeAddLecture()
@@ -162,7 +122,7 @@ class AddSectionOrLectureFragment :
     private fun observeSectionData() {
         viewModel.sectionUpdationData.observe(
             viewLifecycleOwner,
-            androidx.lifecycle.Observer { event ->
+            { event ->
                 event.getContentIfNotHandled()?.let {
                     viewModel.courseData.value?.notifyPropertyChanged(BR.allDataEntered)
                     when (it) {
@@ -173,7 +133,6 @@ class AddSectionOrLectureFragment :
                             adapter?.notifyDataSetChanged()
                         }
                         Constant.CLICK_DETAILS -> {
-//                            binding.btAddSection.gone()
                             binding.llNoSection.gone()
                             adapter?.notifyDataSetChanged()
                             adapter = null
@@ -181,7 +140,6 @@ class AddSectionOrLectureFragment :
                             viewModel.courseData.value?.notifyPropertyChanged(BR.sectionDataAdded)
                         }
                         Constant.CLICK_ADD -> {
-//                            binding.btAddSection.gone()
                             binding.llNoSection.gone()
 
                             setAdapter(true)
@@ -194,8 +152,6 @@ class AddSectionOrLectureFragment :
                             viewModel.getSectionList()?.get(adapterPosition)?.changesMade = false
                             adapter?.notifyDataSetChanged()
                             viewModel.courseData.value?.notifyPropertyChanged(BR.sectionDataAdded)
-
-//                            binding.btAddSection.visible()
                             binding.llNoSection.gone()
 
                         }
@@ -272,24 +228,7 @@ class AddSectionOrLectureFragment :
                                 findNavController().navigate(action)
                             }
                         }
-//                        Lecture.CLICK_LESSON_AUDIO -> {
-//                            val action =
-//                                AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToRecordAudioFragment(
-//                                    sendSectionModel = viewModel.getSectionList()
-//                                        ?.get(adapterPosition),
-//                                    courseId = viewModel.courseData.value?.courseId
-//                                        ?: 0,
-//                                    lectureId = lectureId!!,
-//                                    childPosition = childPosition!!,
-//                                    type = Constant.CLICK_ADD,
-//                                    from = mediaFrom
-//
-//                                )
-//                            findNavController().navigate(action)
-//                        }
                         MEDIA_TYPE.VIDEO -> {
-//                            if (mediaFrom == MEDIA_FROM.GALLARY) {
-//                                showToastShort("gallary")
                             var action =
                                 AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToVideoLectureFragment(
                                     sendSectionModel = viewModel.getSectionList()
@@ -302,11 +241,6 @@ class AddSectionOrLectureFragment :
 
                                 )
                             findNavController().navigate(action)
-//                            } else {
-//                                showToastShort("Camera")
-//
-//                            }
-
                         }
 
                     }
@@ -357,20 +291,7 @@ class AddSectionOrLectureFragment :
             val type = items[0] as Int
             when (type) {
                 Constant.CLICK_DELETE -> {
-                    CommonAlertDialog.builder(baseActivity)
-                        .title(getString(R.string.delete_section))
-                        .description(getString(R.string.sure_delete_section))
-                        .positiveBtnText(getString(R.string.yes))
-                        .icon(R.drawable.ic_delete_icon)
-                        .getCallback {
-                            if (it) {
-                                viewModel.deleteSection(
-                                    viewModel.getSectionList()?.get(adapterPosition)?.sectionId,
-                                    adapterPosition
-                                )
-
-                            }
-                        }.build()
+                    deleteSectionFunctionality()
                 }
                 Constant.CLICK_EDIT -> {
                     showToastShort("edit")
@@ -409,49 +330,14 @@ class AddSectionOrLectureFragment :
                     }
                 }
                 Lecture.CLICK_LESSON_DOCS -> {
-
-//                    PermissionUtil.checkPermissions(
-//                        baseActivity,
-//                        arrayOf(
-//                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//                            Manifest.permission.READ_EXTERNAL_STORAGE,
-//                        ),
-//                        Permission.DOC
-//                    ) {
-//                        if (it) {
                     mediaType = MEDIA_TYPE.DOC
                     viewModel.addLecture(
                         viewModel.getSectionList()?.get(adapterPosition)?.sectionId,
                         mediaType
                     )
-//                        } else {
-//                            if (shouldShowRequestPermissionRationale(
-//                                    Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
-//                                shouldShowRequestPermissionRationale(
-//                                    Manifest.permission.READ_EXTERNAL_STORAGE)
-//                            ) {
-//                                showToastShort(baseActivity.getString(R.string.no_permission_accepted))
-//                            } else {
-//                                baseActivity.permissionDenied()
-//
-//                            }
-//
-//                        }
-//                    }
-
 
                 }
                 Lecture.CLICK_LESSON_AUDIO -> {
-
-//                    PermissionUtil.checkPermissions(
-//                        baseActivity,
-//                        arrayOf(
-//                            Manifest.permission.RECORD_AUDIO,
-//
-//                            ),
-//                        Permission.DOC
-//                    ) {
-//                        if (it) {
                     mediaType = MEDIA_TYPE.AUDIO
                     mediaFrom = 1
                     viewModel.addLecture(
@@ -459,19 +345,6 @@ class AddSectionOrLectureFragment :
                             ?.get(adapterPosition)?.sectionId,
                         mediaType
                     )
-//                        } else {
-//                            if (shouldShowRequestPermissionRationale(
-////                                    Manifest.permission.WRITE_EXTERNAL_STORAGE) || shouldShowRequestPermissionRationale(
-//                                    Manifest.permission.RECORD_AUDIO)
-//                            ) {
-//                                showToastShort(baseActivity.getString(R.string.no_permission_accepted))
-//                            } else {
-//                                baseActivity.permissionDenied()
-//
-//                            }
-//
-//                        }
-//                    }
                 }
                 MEDIA_TYPE.VIDEO -> {
                     filePath = items[1] as String
@@ -512,38 +385,13 @@ class AddSectionOrLectureFragment :
                     }.show(childFragmentManager, "")
                 }
                 Constant.CLICK_DELETE -> {
-                    CommonAlertDialog.builder(baseActivity)
-                        .title(getString(R.string.delete_section))
-                        .description(getString(R.string.sure_delete_section))
-                        .positiveBtnText(getString(R.string.yes))
-                        .icon(R.drawable.ic_delete_icon)
-                        .getCallback {
-                            if (it) {
-                                viewModel.deleteSection(
-                                    viewModel.getSectionList()?.get(adapterPosition)?.sectionId,
-                                    adapterPosition
-                                )
-
-                            }
-                        }.build()
+                    deleteSectionFunctionality()
 
                 }
                 Constant.CLICK_OPTION_DELETE -> {
                     childPosition = items[2] as Int
 
-                    CommonAlertDialog.builder(baseActivity)
-                        .title(getString(R.string.delete_lesson))
-                        .description(getString(R.string.sure_delete_lecture))
-                        .positiveBtnText(getString(R.string.yes))
-                        .icon(R.drawable.ic_delete_icon)
-                        .getCallback {
-                            if (it) {
-                                viewModel.deleteLecture(
-                                    adapterPosition,
-                                    childPosition
-                                )
-                            }
-                        }.build()
+                    deleteLessonFunctionality()
 
                 }
                 Constant.CLICK_SWAP -> {
@@ -551,115 +399,148 @@ class AddSectionOrLectureFragment :
                     val toPosition = items[3] as Int
 
 
-                    val previous =
-                        if (toPosition == 0 || toPosition == viewModel.getSectionList()
-                                ?.get(adapterPosition)?.lessonList?.size!! - 1
-                        ) 0 else viewModel.getSectionList()
-                            ?.get(adapterPosition)?.lessonList?.get(toPosition - 1)?.lectureId
-                    val last =
-                        if (toPosition == viewModel.getSectionList()
-                                ?.get(adapterPosition)?.lessonList?.size!! - 1 || toPosition == 0
-                        ) 0 else viewModel.getSectionList()?.get(adapterPosition)?.lessonList?.get(
-                            toPosition + 1
-                        )?.lectureId
-
-                    viewModel.dragAndDropLecture(
-                        viewModel.getSectionList()?.get(adapterPosition)?.lessonList?.get(
-                            fromPosition
-                        )?.lectureId,
-                        previous,
-                        last
-                    )
+                    swapFunctionality(toPosition, fromPosition)
                 }
                 Constant.CLICK_SAVE -> {
-                    val title = items[2] as String
-                    val desc = items[3] as String
                     viewModel.updateSection(adapterPosition)
-//                    viewModel.addPatchSection(
-//                        viewModel.getSectionList()?.get(adapterPosition)?.sectionId,
-//                        title,
-//                        desc
-//                    )
                 }
                 Constant.CLICK_EDIT -> {
-//                    Log.d("varun", "onItemClick: ${viewModel.getSectionList()?}")
                     childPosition = items[2] as Int
 
-                    when (viewModel.getSectionList()?.get(adapterPosition)?.lessonList?.get(
-                        childPosition
-                    )?.mediaType) {
-                        MEDIA_TYPE.VIDEO -> {
-                            var action =
-                                AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToVideoLectureFragment(
-                                    sendSectionModel = viewModel.getSectionList()
-                                        ?.get(adapterPosition),
-                                    lectureId = viewModel.getSectionList()
-                                        ?.get(adapterPosition)?.lessonList?.get(childPosition)?.lectureId!!,
-                                    type = Constant.CLICK_EDIT,
-                                    childPosition = childPosition,
-                                    courseId = viewModel.courseData.value?.courseId ?: 0
-                                )
-                            findNavController().navigate(action)
-                        }
-                        MEDIA_TYPE.AUDIO -> {
-                            val action =
-                                AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToAudioLectureFragment(
-                                    sendSectionModel = viewModel.getSectionList()
-                                        ?.get(adapterPosition),
-                                    lectureId = viewModel.getSectionList()
-                                        ?.get(adapterPosition)?.lessonList?.get(childPosition)?.lectureId!!,
-                                    type = Constant.CLICK_EDIT,
-                                    childPosition = childPosition,
-                                    courseId = viewModel.courseData.value?.courseId ?: 0
-                                )
-                            findNavController().navigate(action)
-                        }
-                        MEDIA_TYPE.DOC -> {
-
-                            val action =
-                                AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToDocLessonFragment(
-                                    sendSectionModel = viewModel.getSectionList()
-                                        ?.get(adapterPosition),
-                                    lectureId = viewModel.getSectionList()
-                                        ?.get(adapterPosition)?.lessonList?.get(childPosition)?.lectureId!!,
-                                    type = Constant.CLICK_EDIT,
-                                    childPosition = childPosition,
-                                    courseId = viewModel.courseData.value?.courseId ?: 0
-                                )
-                            findNavController().navigate(action)
-                        }
-                        MEDIA_TYPE.TEXT -> {
-                            val action =
-                                AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToLessonTextFragment(
-                                    sendSectionModel = viewModel.getSectionList()
-                                        ?.get(adapterPosition),
-                                    lectureId = viewModel.getSectionList()
-                                        ?.get(adapterPosition)?.lessonList?.get(childPosition)?.lectureId!!,
-                                    type = Constant.CLICK_EDIT,
-                                    childPosition = childPosition,
-                                    courseId = viewModel.courseData.value?.courseId ?: 0
-
-                                )
-                            findNavController().navigate(action)
-                        }
-                        MEDIA_TYPE.QUIZ -> {
-                            findNavController().navigate(
-                                AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToAddQuizFragment(
-                                    viewModel.courseData.value,
-                                    true,
-                                    adapterPosition,
-                                    viewModel.getSectionList()?.toTypedArray(),
-                                    childPosition
-                                )
-                            )
-
-                        }
-
-                    }
+                    editLessonFunctionality()
 
                 }
             }
         }
+    }
+
+    private fun swapFunctionality(toPosition: Int, fromPosition: Int) {
+        val previous =
+            if (toPosition == 0 || toPosition == viewModel.getSectionList()
+                    ?.get(adapterPosition)?.lessonList?.size!! - 1
+            ) 0 else viewModel.getSectionList()
+                ?.get(adapterPosition)?.lessonList?.get(toPosition - 1)?.lectureId
+        val last =
+            if (toPosition == viewModel.getSectionList()
+                    ?.get(adapterPosition)?.lessonList?.size!! - 1 || toPosition == 0
+            ) 0 else viewModel.getSectionList()?.get(adapterPosition)?.lessonList?.get(
+                toPosition + 1
+            )?.lectureId
+
+        viewModel.dragAndDropLecture(
+            viewModel.getSectionList()?.get(adapterPosition)?.lessonList?.get(
+                fromPosition
+            )?.lectureId,
+            previous,
+            last
+        )
+    }
+
+    private fun editLessonFunctionality() {
+        when (viewModel.getSectionList()?.get(adapterPosition)?.lessonList?.get(
+            childPosition
+        )?.mediaType) {
+            MEDIA_TYPE.VIDEO -> {
+                var action =
+                    AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToVideoLectureFragment(
+                        sendSectionModel = viewModel.getSectionList()
+                            ?.get(adapterPosition),
+                        lectureId = viewModel.getSectionList()
+                            ?.get(adapterPosition)?.lessonList?.get(childPosition)?.lectureId!!,
+                        type = Constant.CLICK_EDIT,
+                        childPosition = childPosition,
+                        courseId = viewModel.courseData.value?.courseId ?: 0
+                    )
+                findNavController().navigate(action)
+            }
+            MEDIA_TYPE.AUDIO -> {
+                val action =
+                    AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToAudioLectureFragment(
+                        sendSectionModel = viewModel.getSectionList()
+                            ?.get(adapterPosition),
+                        lectureId = viewModel.getSectionList()
+                            ?.get(adapterPosition)?.lessonList?.get(childPosition)?.lectureId!!,
+                        type = Constant.CLICK_EDIT,
+                        childPosition = childPosition,
+                        courseId = viewModel.courseData.value?.courseId ?: 0
+                    )
+                findNavController().navigate(action)
+            }
+            MEDIA_TYPE.DOC -> {
+
+                val action =
+                    AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToDocLessonFragment(
+                        sendSectionModel = viewModel.getSectionList()
+                            ?.get(adapterPosition),
+                        lectureId = viewModel.getSectionList()
+                            ?.get(adapterPosition)?.lessonList?.get(childPosition)?.lectureId!!,
+                        type = Constant.CLICK_EDIT,
+                        childPosition = childPosition,
+                        courseId = viewModel.courseData.value?.courseId ?: 0
+                    )
+                findNavController().navigate(action)
+            }
+            MEDIA_TYPE.TEXT -> {
+                val action =
+                    AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToLessonTextFragment(
+                        sendSectionModel = viewModel.getSectionList()
+                            ?.get(adapterPosition),
+                        lectureId = viewModel.getSectionList()
+                            ?.get(adapterPosition)?.lessonList?.get(childPosition)?.lectureId!!,
+                        type = Constant.CLICK_EDIT,
+                        childPosition = childPosition,
+                        courseId = viewModel.courseData.value?.courseId ?: 0
+
+                    )
+                findNavController().navigate(action)
+            }
+            MEDIA_TYPE.QUIZ -> {
+                findNavController().navigate(
+                    AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToAddQuizFragment(
+                        viewModel.courseData.value,
+                        true,
+                        adapterPosition,
+                        viewModel.getSectionList()?.toTypedArray(),
+                        childPosition
+                    )
+                )
+
+            }
+
+        }
+    }
+
+    private fun deleteLessonFunctionality() {
+        CommonAlertDialog.builder(baseActivity)
+            .title(getString(R.string.delete_lesson))
+            .description(getString(R.string.sure_delete_lecture))
+            .positiveBtnText(getString(R.string.yes))
+            .icon(R.drawable.ic_delete_icon)
+            .getCallback {
+                if (it) {
+                    viewModel.deleteLecture(
+                        adapterPosition,
+                        childPosition
+                    )
+                }
+            }.build()
+    }
+
+    private fun deleteSectionFunctionality() {
+        CommonAlertDialog.builder(baseActivity)
+            .title(getString(R.string.delete_section))
+            .description(getString(R.string.sure_delete_section))
+            .positiveBtnText(getString(R.string.yes))
+            .icon(R.drawable.ic_delete_icon)
+            .getCallback {
+                if (it) {
+                    viewModel.deleteSection(
+                        viewModel.getSectionList()?.get(adapterPosition)?.sectionId,
+                        adapterPosition
+                    )
+
+                }
+            }.build()
     }
 
     fun handleInitList() {

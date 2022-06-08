@@ -78,15 +78,15 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             )
             .setLargeIcon(largeIcon)
 
-        val NotiSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        mBuilder.setSound(NotiSound)
+        val notifySound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        mBuilder.setSound(notifySound)
         val vibrate = longArrayOf(0, 100, 200, 300)
         mBuilder.setVibrate(vibrate)
         mBuilder.setAutoCancel(true);
 
         val resultIntent = Intent(context, HomeActivity::class.java)
         try {
-            val r = RingtoneManager.getRingtone(applicationContext, NotiSound)
+            val r = RingtoneManager.getRingtone(applicationContext, notifySound)
             r.play()
         } catch (e: java.lang.Exception) {
             e.printStackTrace()

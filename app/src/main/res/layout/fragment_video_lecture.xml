@@ -169,21 +169,6 @@
                     app:layout_constraintStart_toStartOf="@+id/guidelineStart"
                     app:layout_constraintTop_toBottomOf="@+id/tv_read_time" />
 
-                <!--                <androidx.recyclerview.widget.RecyclerView-->
-                <!--                    android:id="@+id/recyler_thumbnail"-->
-                <!--                    android:layout_width="0dp"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_marginTop="@dimen/_10sdp"-->
-                <!--                    android:maxLength="3"-->
-                <!--                    android:orientation="horizontal"-->
-                <!--                    android:visibility="gone"-->
-                <!--                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
-                <!--                    app:layout_constraintEnd_toEndOf="@id/guidelineEnd"-->
-                <!--                    app:layout_constraintStart_toStartOf="@id/guidelineStart"-->
-                <!--                    app:layout_constraintTop_toBottomOf="@+id/edt_title"-->
-                <!--                    app:spanCount="2"-->
-                <!--                    tools:itemCount="6"-->
-                <!--                    tools:listitem="@layout/adapter_thumbnail" />-->
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSCardView
                     android:id="@+id/card2"
@@ -249,9 +234,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/card2"
                     app:layout_constraintWidth_percent=".9"
                     app:textAllCaps="true" />
-
-                <!--        app:btnEnabled="@{videoLesson.docLiveData.audioLesson}"-->
-                <!--        android:enabled="@{videoLesson.docLiveData.audioLesson}"-->
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
                     android:id="@+id/btn_take_from_gallary"
@@ -370,5 +352,4 @@
 
 
     </com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout>
-    <!--    </ScrollView>-->
 </layout>

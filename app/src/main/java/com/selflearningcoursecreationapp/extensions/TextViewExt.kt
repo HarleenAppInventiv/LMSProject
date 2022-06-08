@@ -180,7 +180,7 @@ fun EditText.textHelper(isLast: Boolean) {
     if (isLast) {
         imeOptions = EditorInfo.IME_ACTION_DONE
     }
-    setOnEditorActionListener { textView, i, keyEvent ->
+    setOnEditorActionListener { _, i, _ ->
 
         if (i == EditorInfo.IME_ACTION_NEXT) {
             val view = focusSearch(View.FOCUS_LEFT)
@@ -292,7 +292,7 @@ fun EditText.addDecimalLimiter(maxLimit: Int = 2, beforeDecimal: Int = 4) {
 
 }
 
-fun EditText.decimalLimiter(string: String, MAX_DECIMAL: Int, BEFORE_DECIMAL: Int): String {
+fun EditText.decimalLimiter(string: String, maxDecimal: Int, beforeDecimal: Int): String {
 
     var str = string
 
@@ -304,16 +304,16 @@ fun EditText.decimalLimiter(string: String, MAX_DECIMAL: Int, BEFORE_DECIMAL: In
 
     if (decimalCount > 1)
         return str.dropLast(1)
-    if (!str.contains(".") && str.length > 4) {
-        return str.dropLast(str.length - 4)
+    if (!str.contains(".") && str.length > beforeDecimal) {
+        return str.dropLast(str.length - beforeDecimal)
 
     } else {
-        return str.limitAfterDecimal(MAX_DECIMAL, max)
+        return str.limitAfterDecimal(maxDecimal, max)
     }
 }
 
 
-fun String.limitAfterDecimal(MAX_DECIMAL: Int, max: Int): String {
+fun String.limitAfterDecimal(maxDecimal: Int, max: Int): String {
     var rFinal = ""
     var after = false
     var i = 0
@@ -328,7 +328,7 @@ fun String.limitAfterDecimal(MAX_DECIMAL: Int, max: Int): String {
             after = true
         } else {
             decimal++
-            if (decimal > MAX_DECIMAL)
+            if (decimal > maxDecimal)
                 return rFinal
         }
         rFinal += t

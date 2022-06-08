@@ -1,7 +1,6 @@
 package com.selflearningcoursecreationapp.ui.create_course.co_author
 
 import android.os.Bundle
-import android.widget.LinearLayout
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import com.selflearningcoursecreationapp.R
@@ -17,7 +16,6 @@ import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.CommonAlertDialog
 import com.selflearningcoursecreationapp.utils.SpanUtils
-import com.selflearningcoursecreationapp.utils.customViews.LMSEditText
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class InviteCoAuthorDialog : BaseDialog<LayoutEditTextDialogBinding>() {
@@ -49,23 +47,19 @@ class InviteCoAuthorDialog : BaseDialog<LayoutEditTextDialogBinding>() {
     }
 
     private fun textChangeListener() {
-        binding.edtUserPhone.doOnTextChanged { text, start, before, count ->
+        binding.edtUserPhone.doOnTextChanged { _, _, _, _ ->
             binding.tvError.gone()
             binding.llPhone.setBackgroundResource(R.drawable.edt_bg)
 
         }
-        binding.edtUserEmail.doOnTextChanged { text, start, before, count ->
+        binding.edtUserEmail.doOnTextChanged { _, _, _, _ ->
             binding.tvErrorEmail.gone()
             binding.edtUserEmail.setBackgroundResource(R.drawable.edt_bg)
         }
     }
 
-    private fun setBackgroundManuallyll(edtBgOutline: Int, ll: LinearLayout) {
-        ll.setBackgroundResource(edtBgOutline)
 
-    }
-
-    fun enablePhone() {
+    private fun enablePhone() {
         binding.edtUserPhone.hideKeyboard()
         sendVia = 1
         isEmail = true
@@ -90,7 +84,7 @@ class InviteCoAuthorDialog : BaseDialog<LayoutEditTextDialogBinding>() {
         )
     }
 
-    fun enableMail() {
+    private fun enableMail() {
         binding.edtUserEmail.hideKeyboard()
         sendVia = 2
         binding.edtUserEmail.gone()
@@ -118,12 +112,7 @@ class InviteCoAuthorDialog : BaseDialog<LayoutEditTextDialogBinding>() {
     }
 
 
-    private fun setBackgroundManually(bg: Int, editTExt: LMSEditText) {
-        editTExt.setBackgroundResource(bg)
-
-    }
-
-    fun commanAlert() {
+    private fun commonAlert() {
 
         CommonAlertDialog.builder(baseActivity)
             .title(getString(R.string.success))
@@ -142,7 +131,7 @@ class InviteCoAuthorDialog : BaseDialog<LayoutEditTextDialogBinding>() {
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)
         dismiss()
-        commanAlert()
+        commonAlert()
 
     }
 

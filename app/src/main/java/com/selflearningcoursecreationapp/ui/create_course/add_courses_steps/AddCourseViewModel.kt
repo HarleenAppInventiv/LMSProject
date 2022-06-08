@@ -37,10 +37,6 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
     var completedStep: Int = 0
     var job: Job? = null
 
-//    var addSectionLiveData = MutableLiveData<EventObserver<Int>>().apply {
-//        value = EventObserver(0)
-//    }
-
     var sectionUpdationData = MutableLiveData<EventObserver<Int>>().apply {
         value = EventObserver(0)
     }
@@ -50,12 +46,6 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
     var keywordsData = MutableLiveData<ArrayList<SingleChoiceData>>().apply {
         value = ArrayList()
     }
-
-//    var deleteSectionLiveData = MutableLiveData<EventObserver<Boolean>>().apply {
-//        value = EventObserver(false)
-//    }
-
-
     var courseData = MutableLiveData<CourseData>().apply {
         value = CourseData(createdById = userProfile?.id, isCreator = true)
 
@@ -74,15 +64,6 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
         value = courseData.value?.createdById == userProfile?.id
     }
 
-    //    var deleteLectureLiveData = MutableLiveData<EventObserver<Boolean>>().apply {
-//        value = EventObserver(false)
-//
-//    }1119
-//
-//    var addPatchSectionLiveData = MutableLiveData<EventObserver<Boolean>>().apply {
-//        value = EventObserver(false)
-//
-//    }
     var masterData = MasterDataItem()
     fun getSectionList(): ArrayList<SectionModel>? = courseData.value?.sectionData
 
@@ -128,7 +109,6 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
     fun step3Validation() {
         courseData.value?.let {
             val errorId =
-                /* if (isCreator.value == true) it.isStep3Verified() else*/
                 it.isStep3Test(userProfile?.id)
             if (errorId == 0) {
 
@@ -237,14 +217,11 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
         map["courseTypeId"] = courseData.value!!.courseTypeId!!
         map["courseBannerId"] = courseData.value!!.courseBannerId ?: ""
         map["courseLogoId"] = courseLogoId ?: ""
-//        map["courseLogoUrl"] = courseData.value!!.courseLogoUrl ?: ""
-//        map["courseLogoHash"] = courseData.value!!.courseLogoHash ?: ""
         map["targetAudienceId"] =
             courseData.value!!.targetAudiences?.map { it.id }?.joinToString(",") ?: ""
         map["courseComplexityId"] = courseData.value!!.courseComplexityId!!
         map["keyTakeaways"] = courseData.value!!.keyTakeaways ?: ""
         map["courseFee"] = courseData.value!!.courseFee ?: ""
-//        map["rewardPoints"] = checkedReward.value!!
 
         val response = repo.step2AddCourse(map)
         withContext(Dispatchers.IO) {
@@ -263,7 +240,6 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
     }
 
     fun notifyData() {
-//        courseData.value = courseData.value
         courseData.value?.notifyChange()
     }
 
@@ -366,22 +342,7 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
                 if (it is Resource.Success<*>) {
                     val data = (it.value as BaseResponse<ImageResponse>).resource
 
-                    if (isBanner) {
-                        courseData.value?.courseBannerUrl = data?.fileUrl
-                        courseData.value?.courseBannerId = data?.id
-                        courseData.value?.courseBannerHash = data?.blurHash
-                    } else {
-                        courseData.value?.courseLogoUrl = data?.fileUrl
-                        courseData.value?.courseLogoId = data?.id
-                        courseData.value?.courseLogoHash = data?.blurHash
-
-                        if (courseData.value?.isCoAuthor == true) {
-                            getCoAuthor()?.courseLogoURL = data?.fileUrl
-                            getCoAuthor()?.courseLogoId = data?.id
-                            isCreator.postValue(courseData.value?.createdById == userProfile?.id)
-                        }
-
-                    }
+                    setBannerImageData(isBanner, data)
                 }
 
                 updateResponseObserver(it)
@@ -389,29 +350,37 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
         }
     }
 
+    private fun setBannerImageData(
+        isBanner: Boolean,
+        data: ImageResponse?
+    ) {
+        if (isBanner) {
+            courseData.value?.courseBannerUrl = data?.fileUrl
+            courseData.value?.courseBannerId = data?.id
+            courseData.value?.courseBannerHash = data?.blurHash
+        } else {
+            courseData.value?.courseLogoUrl = data?.fileUrl
+            courseData.value?.courseLogoId = data?.id
+            courseData.value?.courseLogoHash = data?.blurHash
+
+            if (courseData.value?.isCoAuthor == true) {
+                getCoAuthor()?.courseLogoURL = data?.fileUrl
+                getCoAuthor()?.courseLogoId = data?.id
+                isCreator.postValue(courseData.value?.createdById == userProfile?.id)
+            }
+
+        }
+    }
+
     fun addSection() = viewModelScope.launch(coroutineExceptionHandle) {
         val map = HashMap<String, Any>()
         map["CourseId"] = courseData.value?.courseId ?: 0
-//        map["CourseId"] = "8"
+
         var response = repo.addSection(map)
         withContext(Dispatchers.IO) {
             response.collect {
                 if (it is Resource.Success<*>) {
                     getCourseSections()
-
-//                    if (getSectionList() == null) {
-//                        courseData.value?.sectionData = ArrayList()
-//                    }
-//                    courseData.value?.sectionData!!.add(
-//                        SectionModel(
-//                            sectionId = (it.value as BaseResponse<SectionModel>).resource?.sectionId,
-//                            sectionCreatedById = userProfile?.id,
-//                            sectionCreatedByProfileURL = userProfile?.profileUrl,
-//                            sectionCreatedByName = userProfile?.name,
-//                            sectionLogoURL = if (isCreator.value == true) courseData.value?.courseLogoUrl else getCoAuthor()?.courseLogoURL,
-//                            isVisible = true,
-//                        )
-//                    )
 
                     sectionUpdationData.postValue(EventObserver(Constant.CLICK_ADD))
                 }
@@ -438,7 +407,6 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
                     }
                     updateResponseObserver(it)
 
-//                    updateResponseObserver(Resource.Error(ToastData(errorString = "Section deleted ssuccessfully")))
                 }
             }
 
@@ -451,7 +419,6 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
         {
             val map = HashMap<String, Any>()
             map["courseId"] = courseData.value?.courseId ?: 0
-//            map["courseId"] = "8"
             map["firstSectionId"] = first.toString()
             map["secondSectionId"] = second.toString()
             map["finalSectionId"] = final.toString()
@@ -470,7 +437,6 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
             map["courseId"] = courseData.value?.courseId ?: 0
-//            map["courseId"] = "8"
             map["sectionId"] = sectionId.toString()
             map["mediaTypeId"] = mediaTypeId.toString()
             var response = repo.addLecture(map)
@@ -478,7 +444,6 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
                 response.collect {
                     if (it is Resource.Success<*>) {
                         addLectureLiveData.postValue(EventObserver((it.value as BaseResponse<ChildModel>).resource?.lectureId) as EventObserver<Int>?)
-//                        getCourseSections()
                     }
                     updateResponseObserver(it)
                 }
@@ -498,11 +463,8 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
                     if (it is Resource.Success<*>) {
                         getSectionList()?.get(adapterPosition)?.lessonList?.removeAt(childPosition)
                         sectionUpdationData.postValue(EventObserver(Constant.CLICK_DELETE))
-//                        getCourseSections()
                     }
                     updateResponseObserver(it)
-
-//                    updateResponseObserver(Resource.Error(ToastData(errorString = "Lecture deleted ssuccessfully")))
                 }
             }
         }
@@ -512,7 +474,6 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
             map["courseId"] = courseData.value?.courseId ?: 0
-//            map["courseId"] = "8"
             map["firstLectureId"] = first.toString()
             map["secondLectureId"] = second.toString()
             map["finalLectureId"] = final.toString()
@@ -534,7 +495,6 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
             map["courseId"] = courseData.value?.courseId ?: 0
-//            map["courseId"] = "8"
             map["sectionId"] = sectionId.toString()
             map["sectionTitle"] = sectionTitle.toString()
             map["sectionDescription"] = sectionDesc.toString()
@@ -546,7 +506,6 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
                         sectionUpdationData.postValue(EventObserver(Constant.CLICK_SAVE))
                     }
                     updateResponseObserver(it)
-//                    updateResponseObserver(Resource.Error(ToastData(errorString = "Section saved ssuccessfully")))
                 }
             }
         }

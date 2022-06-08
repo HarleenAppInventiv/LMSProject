@@ -21,7 +21,6 @@ class AddSectionAdapter(
     private var courseCreatorId: Int,
 ) :
     BaseAdapter<AdapterSectionViewBinding>() {
-    //    var expandedItemPos = -1;
     override fun getLayoutRes() = R.layout.adapter_section_view
 
     @SuppressLint("DefaultLocale")
@@ -29,8 +28,10 @@ class AddSectionAdapter(
         val binding = holder.binding as AdapterSectionViewBinding
         val context = binding.root.context
         val data = sectionData[position]
+        val doEnable = isCreator || userId == data.sectionCreatedById
         binding.lecture = sectionData[position]
-        binding.doEnable = isCreator || userId == data.sectionCreatedById
+
+        binding.doEnable = doEnable
         binding.executePendingBindings()
         binding.logoGroup.visibleView(courseCreatorId != data.sectionCreatedById)
         binding.ivUserImage.loadImage(
@@ -47,55 +48,30 @@ class AddSectionAdapter(
 
         binding.ivVisible.setImageResource(R.drawable.ic_arrow_bottom)
         binding.ivDelete.setOnClickListener {
-            if (isCreator || userId == data.sectionCreatedById) {
+            if (doEnable) {
                 onItemClick(Constant.CLICK_DELETE, position)
             }
         }
 
 
-        binding.etSectionDesc.doOnTextChanged { text, start, before, count ->
+        binding.etSectionDesc.doOnTextChanged { _, _, _, _ ->
             onItemClick(Constant.CLICK_TEXT_CHANGES, position)
         }
 
-        binding.etSectionTitle.doOnTextChanged { text, start, before, count ->
+        binding.etSectionTitle.doOnTextChanged { _, _, _, _ ->
             onItemClick(Constant.CLICK_TEXT_CHANGES, position)
         }
 
 
         var millis: Long = 0
         sectionData[position].lessonList.forEach {
-            if (!it.lectureContentDuration?.toLongOrNull()
-                    .isNullOrZero() && it.mediaType != MEDIA_TYPE.QUIZ
-            ) {
-                millis += it.lectureContentDuration?.toLongOrNull()?.div(10000) ?: 0
+            millis += if (/*!it.lectureContentDuration?.toLongOrNull().isNullOrZero() &&*/ it.mediaType != MEDIA_TYPE.QUIZ) {
+                it.lectureContentDuration?.toLongOrNull()?.div(10000) ?: 0
             } else {
-                millis += it.lectureContentDuration?.toLongOrNull() ?: 0
+                it.lectureContentDuration?.toLongOrNull() ?: 0
             }
         }
         binding.tvTotalTime.text = context.getTime(millis)
-//            Log.d("varun", "onBindViewHolder: ${millis}")
-
-//            val hr = TimeUnit.MILLISECONDS.toHours(millis) -
-//                    TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(millis))
-//            val min = TimeUnit.MILLISECONDS.toHours(millis) -
-//                    TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(millis))
-//            val sec = TimeUnit.MILLISECONDS.toSeconds(millis) -
-//                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
-//            setTimer(millis)
-
-//
-//            if (hr > 0) {
-//                val myTime = java.lang.String.format(
-//                    "%02d:%02d:%02d", hr, min, sec
-//                )
-//                binding.tvTotalTime.text = myTime + " Hr"
-//            } else {
-//                val myTime = java.lang.String.format(
-//                    "%02d:%02d", min, sec
-//                )
-//                binding.tvTotalTime.text = myTime + " Min"
-//            }
-
 
         binding.tvSectionNumber.text =
             String.format(binding.root.context.getString(R.string.section), position + 1)
@@ -106,15 +82,10 @@ class AddSectionAdapter(
             )
         binding.tvLectureNumber.text = count
 
-//
-//        binding.llChild.isVisible =
-//            sectionData[position].expandedItemPos != -1 && sectionData[position].expandedItemPos == holder.adapterPosition
-
         binding.llChild.visibleView(sectionData[position].isVisible)
         binding.group.visibleView(!sectionData[position].isVisible && !data.lessonList.isNullOrEmpty())
         binding.tvLectureNumber.visibleView(!data.lessonList.isNullOrEmpty())
 
-//        if (binding.llChild.isVisible) {
         if (sectionData[position].isVisible) {
             binding.ivVisible.setImageResource(R.drawable.ic_arrow_top)
         } else {
@@ -122,30 +93,8 @@ class AddSectionAdapter(
         }
 
 
-        binding.tvLectureList.apply {
-            val lessonList = arrayListOf<String>()
-            sectionData[position].lessonList.groupingBy { it.mediaType }.eachCount().forEach {
-                val stringId = when (it.key) {
-                    MEDIA_TYPE.VIDEO ->
-                        R.plurals.video_quantity
+        binding.tvLectureList.text = data.lessonList.getLessonCount(context).joinToString(", ")
 
-                    MEDIA_TYPE.AUDIO -> R.plurals.audio_quantity
-                    MEDIA_TYPE.DOC -> R.plurals.doc_quantity
-                    MEDIA_TYPE.TEXT -> R.plurals.text_quantity
-                    MEDIA_TYPE.QUIZ -> R.plurals.quiz_quantity
-                    else -> 0
-                }
-                if (!stringId.isNullOrZero()) {
-                    lessonList.add(context.getQuantityString(stringId, it.value))
-                }
-            }
-
-
-
-            text = lessonList.joinToString()
-
-
-        }
 
 
 

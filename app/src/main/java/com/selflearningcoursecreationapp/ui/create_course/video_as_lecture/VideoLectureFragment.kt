@@ -231,34 +231,16 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
         var view = items[0] as View
         when (view.id) {
             R.id.iv_play_video -> {
-                if (player.isPlaying) {
-
-                    binding.ivPlayVideo.setImageResource(R.drawable.ic_audio_indicaor)
-                    player.pause()
-
-                } else {
-
-                    player.play()
-                    binding.ivPlayVideo.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24)
-
-                }
+                handlePlayFunctionality()
             }
             R.id.iv_edit_video -> {
-//                findNavController().popBackStack(R.id.preVideoSelectFragment, false)
                 UploadVideoOptionsDialog().apply {
                     setOnDialogClickListener(this@VideoLectureFragment)
                 }.show(childFragmentManager, "sd")
 
             }
             R.id.btn_add_lesson -> {
-//                var a = 0
-//                thumbnailList?.forEach {
-//                    if (it.checked) {
-//                        a = 1
-//                    } else {
-//                        a = 0
-//                    }
-//                }
+
                 if (type == 0) {
                     viewModel.docValidations(
                         viewModel.videoLiveData.value?.mLectureId,
@@ -282,55 +264,70 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
             R.id.btn_add_thumbnail -> {
 
                 binding.btnAddThumbnail.gone()
-//                binding.btnTakeSnapshot.visible()
                 binding.btnTakeFromGallary.visible()
 
 
             }
             R.id.btn_take_from_gallary -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    if (!PermissionUtil.checkPermissions(requireActivity())) {
-                        requestPermission()
-                    } else {
-                        imagePickUtils.openGallery(
-                            baseActivity,
-                            this,
-                            registry = requireActivity().activityResultRegistry
-                        )
-                    }
-                } else {
-                    PermissionUtil.checkPermissions(
+                changeVideoFunctionality()
+            }
+
+        }
+    }
+
+    private fun changeVideoFunctionality() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!PermissionUtil.checkPermissions(requireActivity())) {
+                requestPermission()
+            } else {
+                imagePickUtils.openGallery(
+                    baseActivity,
+                    this,
+                    registry = requireActivity().activityResultRegistry
+                )
+            }
+        } else {
+            PermissionUtil.checkPermissions(
+                baseActivity,
+                arrayOf(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ),
+                Permission.GALLERY
+            ) {
+                if (it) {
+                    imagePickUtils.openGallery(
                         baseActivity,
-                        arrayOf(
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.READ_EXTERNAL_STORAGE
-                        ),
-                        Permission.GALLERY
+                        this,
+                        registry = baseActivity.activityResultRegistry
+                    )
+
+                } else {
+                    if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                        shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
                     ) {
-                        if (it) {
-                            imagePickUtils.openGallery(
-                                baseActivity,
-                                this,
-                                registry = baseActivity.activityResultRegistry
-                            )
+                        showToastShort(baseActivity.getString(R.string.no_permission_accepted))
 
-                        } else {
-                            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
-                                shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-
-                            ) {
-                                showToastShort(baseActivity.getString(R.string.no_permission_accepted))
-
-                            } else {
-                                baseActivity.permissionDenied()
-                            }
-                        }
+                    } else {
+                        baseActivity.permissionDenied()
                     }
                 }
             }
-            R.id.btn_take_snapshot -> {
+        }
+    }
 
-            }
+    private fun handlePlayFunctionality() {
+        if (player.isPlaying) {
+
+            binding.ivPlayVideo.setImageResource(R.drawable.ic_audio_indicaor)
+            player.pause()
+
+        } else {
+
+            player.play()
+            binding.ivPlayVideo.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24)
+
         }
     }
 
@@ -438,7 +435,7 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
                 saveAt = Environment.DIRECTORY_MOVIES,
                 listener = object : CompressionListener {
                     override fun onProgress(index: Int, percent: Float) {
-
+//TODO:ffd
                     }
 
                     override fun onStart(index: Int) {

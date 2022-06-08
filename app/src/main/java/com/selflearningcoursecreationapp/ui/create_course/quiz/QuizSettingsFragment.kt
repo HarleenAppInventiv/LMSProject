@@ -32,8 +32,8 @@ class QuizSettingsFragment : BaseFragment<FragmentQuizSettingsBinding>(),
     private val viewModel: QuizSettingVM by viewModel()
     private var bundleArgs: QuizSettingsFragmentArgs? = null
     private var basePassingCriteria = 0
-    private var baseQuizMandatory = -1
-    private var baseFreezeContent = -1
+    private var baseQuizMandatoryB = false
+    private var baseFreezeContentB = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -85,25 +85,17 @@ class QuizSettingsFragment : BaseFragment<FragmentQuizSettingsBinding>(),
             viewModel.isQuiz = bundleArgs?.isQuiz ?: true
 
             if (viewModel.isQuiz) {
-                baseFreezeContent =
-                    if (bundleArgs?.courseData?.freezeContent == null) -1 else if (bundleArgs?.courseData?.freezeContent == true) 2 else 1
-                baseQuizMandatory =
-                    if (bundleArgs?.courseData?.makeQuizMandatory == null) -1 else if (bundleArgs?.courseData?.makeQuizMandatory == true) 2 else 1
-                basePassingCriteria = bundleArgs?.courseData?.passingCriteria ?: 0
+                setBaseValueData()
                 quizData?.freezeContent = bundleArgs?.courseData?.freezeContent
                 quizData?.makeQuizMandatory = bundleArgs?.courseData?.makeQuizMandatory
                 quizData?.passingCriteria = bundleArgs?.courseData?.passingCriteria
+                if (!bundleArgs?.childPosition.isNullOrNegative()) {
+                    baseActivity.setToolbar(baseActivity.getString(R.string.update_quiz))
+
+                }
             } else {
                 quizData?.makeQuizMandatory = quizData?.makeAssessmentMandatory
                 quizData?.quizName = quizData?.assessmentName
-            }
-            viewModel.quizSettings.value = quizData
-            binding.swMandatory.isChecked = quizData?.makeQuizMandatory ?: false
-            binding.swFreeze.isChecked = quizData?.freezeContent ?: false
-            if (viewModel.isQuiz && !bundleArgs?.childPosition.isNullOrNegative()) {
-                baseActivity.setToolbar(baseActivity.getString(R.string.update_quiz))
-
-            } else if (!viewModel.isQuiz) {
                 if (!bundleArgs?.courseData?.assessmentPassingCriteria.isNullOrZero()) {
                     baseActivity.setToolbar(baseActivity.getString(R.string.update_assessment))
 
@@ -112,86 +104,88 @@ class QuizSettingsFragment : BaseFragment<FragmentQuizSettingsBinding>(),
 
                 }
             }
+            viewModel.quizSettings.value = quizData
+            binding.swMandatory.isChecked = quizData?.makeQuizMandatory ?: false
+            binding.swFreeze.isChecked = quizData?.freezeContent ?: false
+
 
             viewModel.quizSettings.value?.let { settings ->
-
-
                 settings.totalQues = quizData?.list?.size ?: 0
+                binding.sbTime.progress =
+                    TimeUnit.MILLISECONDS.toMinutes(settings.totalAssesmentTime ?: 0).toInt()
+                binding.sbPass.progress = settings.passingCriteria ?: 0
 
-                if (!settings.totalAssesmentTime.isNullOrZero()) {
-                    binding.sbTime.progress =
-                        TimeUnit.MILLISECONDS.toMinutes(settings.totalAssesmentTime!!).toInt()
-                }
-                if (!settings.passingCriteria.isNullOrZero()) {
-                    binding.sbPass.progress = settings.passingCriteria!!
-                }
             }
-            //            viewModel.quizSettings.value?.apply {
-            //                courseId = quizData?.courseId
-            //                lectureId = quizData?.lectureId
-            //                quizId = quizData?.quizId
-            //                sectionId = quizData?.sectionId
-            //                totalQues = quizData?.list?.size ?: 0
-            //            }
-
         }
+    }
+
+    private fun setBaseValueData() {
+        basePassingCriteria = bundleArgs?.courseData?.passingCriteria ?: 0
+        baseFreezeContentB = bundleArgs?.courseData?.freezeContent ?: false
+        baseQuizMandatoryB = bundleArgs?.courseData?.makeQuizMandatory ?: false
     }
 
     override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
         when (p0?.id) {
             R.id.sw_freeze -> {
-                val selected = if (p1) 2 else 1
-                if (!baseFreezeContent.isNullOrNegative() && baseFreezeContent == 2 && selected != baseFreezeContent) {
-                    CommonAlertDialog.builder(baseActivity)
-                        .title(baseActivity.getString(R.string.caution))
-                        .description(baseActivity.getString(R.string.update_freeze_content_desc_text))
-                        .positiveBtnText(baseActivity.getString(R.string.continue_text))
-                        .icon(R.drawable.ic_alert)
-                        .negativeBtnText(baseActivity.getString(R.string.cancel))
-                        .getCallback {
-                            if (it) {
-                                baseFreezeContent = -1
-                                viewModel.quizSettings.value?.freezeContent = p1
-
-                            } else {
-                                binding.swFreeze.isChecked = baseFreezeContent == 2
-                                viewModel.quizSettings.value?.freezeContent = baseFreezeContent == 2
-
-                            }
-                        }.build()
-                } else {
-                    viewModel.quizSettings.value?.freezeContent = p1
-                }
+//                val selected = if (p1) 2 else 1
+                handleFreezeContent(p1)
 
             }
             R.id.sw_mandatory -> {
-                val selected = if (p1) 2 else 1
 
-                if (!baseQuizMandatory.isNullOrNegative() && baseQuizMandatory == 2 && baseQuizMandatory != selected) {
-                    CommonAlertDialog.builder(baseActivity)
-                        .title(baseActivity.getString(R.string.caution))
-                        .description(baseActivity.getString(R.string.update_quiz_mandatory_desc_text))
-                        .positiveBtnText(baseActivity.getString(R.string.continue_text))
-                        .icon(R.drawable.ic_alert)
-                        .negativeBtnText(baseActivity.getString(R.string.cancel))
-                        .getCallback {
-                            if (it) {
-                                baseQuizMandatory = -1
-                                viewModel.quizSettings.value?.makeQuizMandatory = p1
-
-                            } else {
-                                binding.swMandatory.isChecked = baseQuizMandatory == 2
-
-                                viewModel.quizSettings.value?.makeQuizMandatory =
-                                    baseQuizMandatory == 2
-
-                            }
-                        }.build()
-                } else {
-                    viewModel.quizSettings.value?.makeQuizMandatory = p1
-                }
+                handleQuizMandatory(p1)
 
             }
+        }
+    }
+
+    private fun handleQuizMandatory(p1: Boolean) {
+        if (!baseQuizMandatoryB && !p1) {
+            CommonAlertDialog.builder(baseActivity)
+                .title(baseActivity.getString(R.string.caution))
+                .description(baseActivity.getString(R.string.update_quiz_mandatory_desc_text))
+                .positiveBtnText(baseActivity.getString(R.string.continue_text))
+                .icon(R.drawable.ic_alert)
+                .negativeBtnText(baseActivity.getString(R.string.cancel))
+                .getCallback {
+                    if (it) {
+                        baseQuizMandatoryB = false
+                        viewModel.quizSettings.value?.makeQuizMandatory = p1
+
+                    } else {
+                        binding.swMandatory.isChecked = true
+
+                        viewModel.quizSettings.value?.makeQuizMandatory = true
+
+                    }
+                }.build()
+        } else {
+            viewModel.quizSettings.value?.makeQuizMandatory = p1
+        }
+    }
+
+    private fun handleFreezeContent(p1: Boolean) {
+        if (baseFreezeContentB && !p1) {
+            CommonAlertDialog.builder(baseActivity)
+                .title(baseActivity.getString(R.string.caution))
+                .description(baseActivity.getString(R.string.update_freeze_content_desc_text))
+                .positiveBtnText(baseActivity.getString(R.string.continue_text))
+                .icon(R.drawable.ic_alert)
+                .negativeBtnText(baseActivity.getString(R.string.cancel))
+                .getCallback {
+                    if (it) {
+                        baseFreezeContentB = p1
+                        viewModel.quizSettings.value?.freezeContent = p1
+
+                    } else {
+                        binding.swFreeze.isChecked = true
+                        viewModel.quizSettings.value?.freezeContent = true
+
+                    }
+                }.build()
+        } else {
+            viewModel.quizSettings.value?.freezeContent = p1
         }
     }
 
@@ -301,7 +295,7 @@ class QuizSettingsFragment : BaseFragment<FragmentQuizSettingsBinding>(),
             ApiEndPoints.API_ADD_ASSESSMENT_SAVE -> {
                 showToastShort((value as BaseResponse<ChildModel>).message)
 
-                (value as BaseResponse<ChildModel>).resource?.let { resource ->
+                (value as BaseResponse<ChildModel>).resource?.let {
 
                     viewModel.quizSettings.value?.let { settings ->
 
