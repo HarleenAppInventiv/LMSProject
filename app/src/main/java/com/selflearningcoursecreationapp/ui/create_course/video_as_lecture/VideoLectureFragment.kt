@@ -274,7 +274,7 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
     private fun changeVideoFunctionality() {
 
         PermissionUtilClass.builder(baseActivity).requestExternalStorage()
-            .getCallBack { b, strings, i ->
+            .getCallBack { b, strings, _ ->
                 if (b) {
                     imagePickUtils.openGallery(
                         baseActivity,
@@ -285,7 +285,7 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
                 } else {
                     baseActivity.handlePermissionDenied(strings)
                 }
-            }
+            }.build()
 
 
     }

@@ -21,11 +21,11 @@ class PermissionUtilClass {
         }
 
         fun onRequestPermissionResult(
-            requestCode: Int,
+            code: Int,
             perms: Array<out String>,
             grantResult: IntArray,
         ) {
-            if (requestCode == requestCode) {
+            if (requestCode == code) {
                 val notGrantedList = grantResult.filter { it == PackageManager.PERMISSION_DENIED }
                 permCallBack?.invoke(notGrantedList.isEmpty(), permissionArray, requestCode)
             }
@@ -34,23 +34,15 @@ class PermissionUtilClass {
     }
 
     class Builder(private var context: Activity) {
-
+        private var isExternalStorage: Boolean = false
 
         fun requestExternalStorage(): Builder {
+            isExternalStorage = true
             permissionArray = arrayOf(
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             )
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                if (Environment.isExternalStorageManager()) {
-                    permCallBack?.invoke(true, permissionArray, requestCode)
 
-                } else {
-                    requestRPermissions()
-                }
-            } else {
-                checkPermissions()
-            }
 
             return this
         }
@@ -89,7 +81,18 @@ class PermissionUtilClass {
         }
 
         fun build() {
-            checkPermissions()
+            if (isExternalStorage && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (Environment.isExternalStorageManager()) {
+                    permCallBack?.invoke(true, permissionArray, requestCode)
+
+                } else {
+                    requestRPermissions()
+                }
+            } else {
+                checkPermissions()
+            }
+
+
         }
 
         private fun checkPermissions() {

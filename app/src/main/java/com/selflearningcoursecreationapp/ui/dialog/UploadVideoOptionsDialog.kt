@@ -31,39 +31,47 @@ class UploadVideoOptionsDialog : BaseBottomSheetDialog<DialogUploadVideoBinding>
         binding.txtTakeCamera.setOnClickListener {
             dismiss()
 
-            PermissionUtilClass.builder(baseActivity)
-                .requestPermissions(arrayOf(Manifest.permission.CAMERA))
-                .getCallBack { b, strings, i ->
-                    if (b) {
-                        imagePickUtils.captureVideo(
-                            baseActivity,
-                            this,
-                            registry = baseActivity.activityResultRegistry
-                        )
-                    } else {
-                        baseActivity.handlePermissionDenied(strings)
-                    }
-                }
+            captureVideo()
         }
 
         binding.txtTakeFromGallary.setOnClickListener {
             dismiss()
 
-            PermissionUtilClass.builder(baseActivity).requestExternalStorage()
-                .getCallBack { b, strings, i ->
-                    if (b) {
-                        imagePickUtils.openVideoFile(
-                            baseActivity,
-                            this,
-                            registry = baseActivity.activityResultRegistry
-                        )
-                    } else {
-                        baseActivity.handlePermissionDenied(strings)
-                    }
-                }
+            pickFromGallery()
 
 
         }
+    }
+
+    private fun pickFromGallery() {
+        PermissionUtilClass.builder(baseActivity).requestExternalStorage()
+            .getCallBack { b, strings, _ ->
+                if (b) {
+                    imagePickUtils.openVideoFile(
+                        baseActivity,
+                        this,
+                        registry = baseActivity.activityResultRegistry
+                    )
+                } else {
+                    baseActivity.handlePermissionDenied(strings)
+                }
+            }.build()
+    }
+
+    private fun captureVideo() {
+        PermissionUtilClass.builder(baseActivity)
+            .requestPermissions(arrayOf(Manifest.permission.CAMERA))
+            .getCallBack { b, strings, _ ->
+                if (b) {
+                    imagePickUtils.captureVideo(
+                        baseActivity,
+                        this,
+                        registry = baseActivity.activityResultRegistry
+                    )
+                } else {
+                    baseActivity.handlePermissionDenied(strings)
+                }
+            }
     }
 
     override fun invoke(p1: String?) {

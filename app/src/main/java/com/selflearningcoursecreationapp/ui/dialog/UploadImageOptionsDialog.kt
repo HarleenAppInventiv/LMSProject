@@ -32,74 +32,54 @@ class UploadImageOptionsDialog : BaseBottomSheetDialog<DialogUploadImageBinding>
         binding.txtTakePhoto.setOnClickListener {
             dismiss()
 
-            PermissionUtilClass.builder(baseActivity).requestPermissions(
-                arrayOf(
-                    Manifest.permission.CAMERA
-                )
-            )
-                .getCallBack { b, strings, i ->
-                    if (b) {
-                        imagePickUtils.captureImage(
-                            baseActivity,
-                            this,
-                            registry = baseActivity.activityResultRegistry
-                        )
-                    } else {
-                        baseActivity.handlePermissionDenied(strings)
-                    }
-                }.build()
-
-//            PermissionUtil.checkPermissions(
-//                baseActivity,
-//                arrayOf(
-//                    Manifest.permission.CAMERA,
-//                ),
-//                Permission.TAKE_PHOTO
-//            ) {
-//                if (it) {
-//                    imagePickUtils.captureImage(
-//                        baseActivity,
-//                        this,
-//                        registry = baseActivity.activityResultRegistry
-//                    )
-//
-//                } else {
-//
-//                    if (shouldShowRequestPermissionRationale(
-//                            Manifest.permission.CAMERA
-//                        )
-//                    ) {
-//                        showToastShort(baseActivity.getString(R.string.no_permission_accepted))
-//                    } else {
-//                        baseActivity.permissionDenied()
-//                    }
-//                }
-//            }
-
+            captureImage()
 
         }
 
         binding.txtTakeFromGallary.setOnClickListener {
             dismiss()
-            PermissionUtilClass.builder(baseActivity).requestPermissions(
-                arrayOf(
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                )
-            )
-                .getCallBack { b, strings, i ->
-                    if (b) {
-                        imagePickUtils.openGallery(
-                            baseActivity,
-                            this,
-                            registry = baseActivity.activityResultRegistry
-                        )
-                    } else {
-                        baseActivity.handlePermissionDenied(strings)
-                    }
-                }.build()
+            selectImage()
 
 
         }
+    }
+
+    private fun selectImage() {
+        PermissionUtilClass.builder(baseActivity).requestPermissions(
+            arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        )
+            .getCallBack { b, strings, _ ->
+                if (b) {
+                    imagePickUtils.openGallery(
+                        baseActivity,
+                        this,
+                        registry = baseActivity.activityResultRegistry
+                    )
+                } else {
+                    baseActivity.handlePermissionDenied(strings)
+                }
+            }.build()
+    }
+
+    private fun captureImage() {
+        PermissionUtilClass.builder(baseActivity).requestPermissions(
+            arrayOf(
+                Manifest.permission.CAMERA
+            )
+        )
+            .getCallBack { b, strings, _ ->
+                if (b) {
+                    imagePickUtils.captureImage(
+                        baseActivity,
+                        this,
+                        registry = baseActivity.activityResultRegistry
+                    )
+                } else {
+                    baseActivity.handlePermissionDenied(strings)
+                }
+            }.build()
     }
 
     override fun invoke(p1: String?) {

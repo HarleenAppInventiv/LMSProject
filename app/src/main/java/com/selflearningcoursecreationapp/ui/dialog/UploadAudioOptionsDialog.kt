@@ -45,7 +45,7 @@ class UploadAudioOptionsDialog : BaseBottomSheetDialog<DialogUploadAudioBinding>
     private fun onPickFile() {
 
         PermissionUtilClass.builder(baseActivity).requestExternalStorage()
-            .getCallBack { b, strings, i ->
+            .getCallBack { b, strings, _ ->
                 if (b) {
                     imagePickUtils.openAudioFile(
                         baseActivity,
@@ -55,7 +55,7 @@ class UploadAudioOptionsDialog : BaseBottomSheetDialog<DialogUploadAudioBinding>
                 } else {
                     baseActivity.handlePermissionDenied(strings)
                 }
-            }
+            }.build()
 
     }
 
@@ -63,7 +63,7 @@ class UploadAudioOptionsDialog : BaseBottomSheetDialog<DialogUploadAudioBinding>
 
         PermissionUtilClass.builder(baseActivity)
             .requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO))
-            .getCallBack { b, strings, i ->
+            .getCallBack { b, strings, _ ->
                 if (b) {
                     onDialogClick(MEDIA_FROM.RECORDING)
                 } else {

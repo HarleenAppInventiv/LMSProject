@@ -63,6 +63,8 @@ object Permission {
     const val GALLERY = 200
     const val DOC = 300
     const val RECORD_AUDIO = 400
+    const val CAPTURE_VIDEO = 500
+    const val FILE_MANAGER = 600
 }
 
 object Constant {

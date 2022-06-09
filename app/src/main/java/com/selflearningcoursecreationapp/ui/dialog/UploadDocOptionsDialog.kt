@@ -12,7 +12,7 @@ import org.koin.android.ext.android.inject
 
 
 class UploadDocOptionsDialog : BaseBottomSheetDialog<BotttomDialogUploadVdoAdoBinding>(),
-        (String?) -> Unit, HandleClick {
+        (String?) -> Unit, HandleClick, (Boolean, Array<String>, Int) -> Unit {
 
     private val imagePickUtils: ImagePickUtils by inject()
     private var type: Int = 0
@@ -49,16 +49,11 @@ class UploadDocOptionsDialog : BaseBottomSheetDialog<BotttomDialogUploadVdoAdoBi
                 binding.btnGallary.visible()
             }
             R.id.cl_docs -> {
-                dismiss()
-
                 PermissionUtilClass.builder(baseActivity).requestExternalStorage()
-                    .getCallBack { b, strings, i ->
-                        if (b) {
-                            onDialogClick(Lecture.CLICK_LESSON_DOCS)
-                        } else {
-                            baseActivity.handlePermissionDenied(strings)
-                        }
-                    }
+                    .requestCode(Permission.DOC)
+                    .getCallBack(this)
+                    .build()
+                dismiss()
             }
             R.id.tv_record_screen -> {
                 dismiss()
@@ -74,22 +69,15 @@ class UploadDocOptionsDialog : BaseBottomSheetDialog<BotttomDialogUploadVdoAdoBi
             }
             R.id.btn_camera -> {
                 type = MEDIA_TYPE.VIDEO
+
                 PermissionUtilClass.builder(baseActivity).requestPermissions(
                     arrayOf(
                         Manifest.permission.CAMERA
                     )
                 )
-                    .getCallBack { b, strings, i ->
-                        if (b) {
-                            imagePickUtils.openVideoFile(
-                                requireActivity(),
-                                this,
-                                requireActivity().activityResultRegistry
-                            )
-                        } else {
-                            baseActivity.handlePermissionDenied(strings)
-                        }
-                    }.build()
+                    .requestCode(Permission.CAPTURE_VIDEO)
+                    .getCallBack(this)
+                    .build()
 
 
             }
@@ -97,17 +85,9 @@ class UploadDocOptionsDialog : BaseBottomSheetDialog<BotttomDialogUploadVdoAdoBi
                 type = MEDIA_TYPE.VIDEO
 
                 PermissionUtilClass.builder(baseActivity).requestExternalStorage()
-                    .getCallBack { b, strings, i ->
-                        if (b) {
-                            imagePickUtils.openVideoFile(
-                                requireActivity(),
-                                this,
-                                requireActivity().activityResultRegistry
-                            )
-                        } else {
-                            baseActivity.handlePermissionDenied(strings)
-                        }
-                    }
+                    .requestCode(Permission.GALLERY)
+                    .getCallBack(this)
+                    .build()
 
 
             }
@@ -116,13 +96,9 @@ class UploadDocOptionsDialog : BaseBottomSheetDialog<BotttomDialogUploadVdoAdoBi
                 type = Lecture.CLICK_LESSON_AUDIO
                 PermissionUtilClass.builder(baseActivity)
                     .requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO))
-                    .getCallBack { b, strings, i ->
-                        if (b) {
-                            onDialogClick(Lecture.CLICK_LESSON_AUDIO)
-                        } else {
-                            baseActivity.handlePermissionDenied(strings)
-                        }
-                    }
+                    .requestCode(Permission.RECORD_AUDIO)
+                    .getCallBack(this)
+                    .build()
 
 
             }
@@ -130,17 +106,9 @@ class UploadDocOptionsDialog : BaseBottomSheetDialog<BotttomDialogUploadVdoAdoBi
                 type = MEDIA_TYPE.AUDIO
 
                 PermissionUtilClass.builder(baseActivity).requestExternalStorage()
-                    .getCallBack { b, strings, i ->
-                        if (b) {
-                            imagePickUtils.openAudioFile(
-                                baseActivity,
-                                this,
-                                registry = requireActivity().activityResultRegistry
-                            )
-                        } else {
-                            baseActivity.handlePermissionDenied(strings)
-                        }
-                    }
+                    .getCallBack(this)
+                    .requestCode(Permission.FILE_MANAGER)
+                    .build()
 
 
             }
@@ -155,6 +123,50 @@ class UploadDocOptionsDialog : BaseBottomSheetDialog<BotttomDialogUploadVdoAdoBi
         dismiss()
     }
 
+    //permission invoke method
+    override fun invoke(reqStatus: Boolean, perms: Array<String>, requestCode: Int) {
+        when (reqStatus) {
+            true -> {
+                when (requestCode) {
+                    Permission.DOC -> {
+                        onDialogClick(Lecture.CLICK_LESSON_DOCS)
+                    }
+                    Permission.CAPTURE_VIDEO -> {
+                        imagePickUtils.captureVideo(
+                            requireActivity(),
+                            this,
+                            requireActivity().activityResultRegistry
+                        )
+
+                    }
+                    Permission.GALLERY -> {
+                        imagePickUtils.openVideoFile(
+                            requireActivity(),
+                            this,
+                            requireActivity().activityResultRegistry
+                        )
+
+                    }
+                    Permission.RECORD_AUDIO -> {
+                        onDialogClick(Lecture.CLICK_LESSON_AUDIO)
+
+                    }
+                    Permission.FILE_MANAGER -> {
+                        imagePickUtils.openAudioFile(
+                            baseActivity,
+                            this,
+                            registry = requireActivity().activityResultRegistry
+                        )
+                    }
+                }
+
+            }
+            else -> {
+
+                baseActivity.handlePermissionDenied(perms)
+            }
+        }
+    }
 
 
 }
