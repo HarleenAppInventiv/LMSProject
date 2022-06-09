@@ -6,8 +6,7 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.databinding.DialogUploadImageBinding
 import com.selflearningcoursecreationapp.utils.ImagePickUtils
-import com.selflearningcoursecreationapp.utils.Permission
-import com.selflearningcoursecreationapp.utils.PermissionUtil
+import com.selflearningcoursecreationapp.utils.PermissionUtilClass
 import org.koin.android.ext.android.inject
 
 class UploadImageOptionsDialog : BaseBottomSheetDialog<DialogUploadImageBinding>(),
@@ -32,65 +31,72 @@ class UploadImageOptionsDialog : BaseBottomSheetDialog<DialogUploadImageBinding>
 
         binding.txtTakePhoto.setOnClickListener {
             dismiss()
-            PermissionUtil.checkPermissions(
-                baseActivity,
+
+            PermissionUtilClass.builder(baseActivity).requestPermissions(
                 arrayOf(
-                    Manifest.permission.CAMERA,
-                ),
-                Permission.TAKE_PHOTO
-            ) {
-                if (it) {
-                    imagePickUtils.captureImage(
-                        baseActivity,
-                        this,
-                        registry = baseActivity.activityResultRegistry
-                    )
-
-                } else {
-
-                    if (shouldShowRequestPermissionRationale(
-                            Manifest.permission.CAMERA
+                    Manifest.permission.CAMERA
+                )
+            )
+                .getCallBack { b, strings, i ->
+                    if (b) {
+                        imagePickUtils.captureImage(
+                            baseActivity,
+                            this,
+                            registry = baseActivity.activityResultRegistry
                         )
-                    ) {
-                        showToastShort(baseActivity.getString(R.string.no_permission_accepted))
                     } else {
-                        baseActivity.permissionDenied()
+                        baseActivity.handlePermissionDenied(strings)
                     }
-                }
-            }
+                }.build()
+
+//            PermissionUtil.checkPermissions(
+//                baseActivity,
+//                arrayOf(
+//                    Manifest.permission.CAMERA,
+//                ),
+//                Permission.TAKE_PHOTO
+//            ) {
+//                if (it) {
+//                    imagePickUtils.captureImage(
+//                        baseActivity,
+//                        this,
+//                        registry = baseActivity.activityResultRegistry
+//                    )
+//
+//                } else {
+//
+//                    if (shouldShowRequestPermissionRationale(
+//                            Manifest.permission.CAMERA
+//                        )
+//                    ) {
+//                        showToastShort(baseActivity.getString(R.string.no_permission_accepted))
+//                    } else {
+//                        baseActivity.permissionDenied()
+//                    }
+//                }
+//            }
 
 
         }
 
         binding.txtTakeFromGallary.setOnClickListener {
             dismiss()
-            PermissionUtil.checkPermissions(
-                baseActivity,
+            PermissionUtilClass.builder(baseActivity).requestPermissions(
                 arrayOf(
                     Manifest.permission.READ_EXTERNAL_STORAGE
-                ),
-                Permission.GALLERY
-            ) {
-                if (it) {
-                    imagePickUtils.openGallery(
-                        baseActivity,
-                        this,
-                        registry = baseActivity.activityResultRegistry
-                    )
-
-                } else {
-                    if (shouldShowRequestPermissionRationale(
-                            Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            )
+                .getCallBack { b, strings, i ->
+                    if (b) {
+                        imagePickUtils.openGallery(
+                            baseActivity,
+                            this,
+                            registry = baseActivity.activityResultRegistry
                         )
-
-                    ) {
-                        showToastShort(baseActivity.getString(R.string.no_permission_accepted))
-
                     } else {
-                        baseActivity.permissionDenied()
+                        baseActivity.handlePermissionDenied(strings)
                     }
-                }
-            }
+                }.build()
 
 
         }

@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 import com.selflearningcoursecreationapp.BuildConfig
+import com.selflearningcoursecreationapp.extensions.showException
 import java.util.*
 
 class ExceptionHandler private constructor(app: Activity) : Thread.UncaughtExceptionHandler {
@@ -66,6 +67,7 @@ class ExceptionHandler private constructor(app: Activity) : Thread.UncaughtExcep
                 try {
                     json = parser.toJson(JsonParser().parse(`object`.toString()))
                 } catch (ignore: Exception) {
+                    showException(ignore)
                 }
             }
             if (json.isEmpty() || json.equals("", ignoreCase = true)) json = objecttoJson(`object`)

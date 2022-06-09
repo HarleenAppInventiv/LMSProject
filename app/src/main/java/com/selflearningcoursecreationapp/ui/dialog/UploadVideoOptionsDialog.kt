@@ -7,8 +7,7 @@ import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.databinding.DialogUploadVideoBinding
 import com.selflearningcoursecreationapp.utils.ImagePickUtils
 import com.selflearningcoursecreationapp.utils.MEDIA_TYPE
-import com.selflearningcoursecreationapp.utils.Permission
-import com.selflearningcoursecreationapp.utils.PermissionUtil
+import com.selflearningcoursecreationapp.utils.PermissionUtilClass
 import org.koin.android.ext.android.inject
 
 class UploadVideoOptionsDialog : BaseBottomSheetDialog<DialogUploadVideoBinding>(),
@@ -23,9 +22,7 @@ class UploadVideoOptionsDialog : BaseBottomSheetDialog<DialogUploadVideoBinding>
 
     @SuppressLint("ResourceType")
     override fun initUi() {
-//        arguments?.let {
-//            type = it.getInt("type")
-//        }
+
 
         type = MEDIA_TYPE.VIDEO
         binding.imgClose.setOnClickListener {
@@ -33,68 +30,39 @@ class UploadVideoOptionsDialog : BaseBottomSheetDialog<DialogUploadVideoBinding>
         }
         binding.txtTakeCamera.setOnClickListener {
             dismiss()
-            PermissionUtil.checkPermissions(
-                baseActivity,
-                arrayOf(
-                    Manifest.permission.CAMERA,
-                ),
-                Permission.TAKE_PHOTO
-            ) {
-                if (it) {
-                    imagePickUtils.captureVideo(
-                        baseActivity,
-                        this,
-                        registry = baseActivity.activityResultRegistry
-                    )
 
-                } else {
-                    if (shouldShowRequestPermissionRationale(
-                            Manifest.permission.CAMERA
+            PermissionUtilClass.builder(baseActivity)
+                .requestPermissions(arrayOf(Manifest.permission.CAMERA))
+                .getCallBack { b, strings, i ->
+                    if (b) {
+                        imagePickUtils.captureVideo(
+                            baseActivity,
+                            this,
+                            registry = baseActivity.activityResultRegistry
                         )
-
-                    ) {
-                        showToastShort(baseActivity.getString(R.string.no_permission_accepted))
-
                     } else {
-                        baseActivity.permissionDenied()
+                        baseActivity.handlePermissionDenied(strings)
                     }
                 }
-            }
-
-
         }
 
         binding.txtTakeFromGallary.setOnClickListener {
             dismiss()
-//            PermissionUtil.checkPermissions(
-//                baseActivity,
-//                arrayOf(
-//                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//                    Manifest.permission.READ_EXTERNAL_STORAGE
-//                ),
-//                Permission.GALLERY
-//            ) {
-//                if (it) {
-            imagePickUtils.openVideoFile(
-                baseActivity,
-                this,
-                registry = baseActivity.activityResultRegistry
-            )
 
-//                } else {
-//                    if (shouldShowRequestPermissionRationale(
-//                            Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
-//                        shouldShowRequestPermissionRationale(
-//                            Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//
-//                    ) {
-//                        showToastShort(baseActivity.getString(R.string.no_permission_accepted))
-//
-//                    } else {
-//                        baseActivity.permissionDenied()
-//                    }
-//                }
-//            }
+            PermissionUtilClass.builder(baseActivity).requestExternalStorage()
+                .getCallBack { b, strings, i ->
+                    if (b) {
+                        imagePickUtils.openVideoFile(
+                            baseActivity,
+                            this,
+                            registry = baseActivity.activityResultRegistry
+                        )
+                    } else {
+                        baseActivity.handlePermissionDenied(strings)
+                    }
+                }
+
+
         }
     }
 

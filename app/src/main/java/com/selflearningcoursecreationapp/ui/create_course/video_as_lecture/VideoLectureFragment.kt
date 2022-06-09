@@ -1,14 +1,10 @@
 package com.selflearningcoursecreationapp.ui.create_course.video_as_lecture
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.media.MediaMetadataRetriever
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.provider.Settings
 import android.text.format.DateUtils
 import android.util.Log
 import android.view.Menu
@@ -276,26 +272,10 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
     }
 
     private fun changeVideoFunctionality() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if (!PermissionUtil.checkPermissions(requireActivity())) {
-                requestPermission()
-            } else {
-                imagePickUtils.openGallery(
-                    baseActivity,
-                    this,
-                    registry = requireActivity().activityResultRegistry
-                )
-            }
-        } else {
-            PermissionUtil.checkPermissions(
-                baseActivity,
-                arrayOf(
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                ),
-                Permission.GALLERY
-            ) {
-                if (it) {
+
+        PermissionUtilClass.builder(baseActivity).requestExternalStorage()
+            .getCallBack { b, strings, i ->
+                if (b) {
                     imagePickUtils.openGallery(
                         baseActivity,
                         this,
@@ -303,18 +283,11 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
                     )
 
                 } else {
-                    if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
-                        shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-
-                    ) {
-                        showToastShort(baseActivity.getString(R.string.no_permission_accepted))
-
-                    } else {
-                        baseActivity.permissionDenied()
-                    }
+                    baseActivity.handlePermissionDenied(strings)
                 }
             }
-        }
+
+
     }
 
     private fun handlePlayFunctionality() {
@@ -331,24 +304,7 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
         }
     }
 
-    private fun requestPermission() {
-        try {
-            val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-            intent.addCategory("android.intent.category.DEFAULT")
-            intent.data = Uri.parse(
-                String.format(
-                    "package:%s",
-                    requireContext().getApplicationContext().getPackageName()
-                )
-            )
-            startActivityForResult(intent, 100)
-        } catch (e: Exception) {
-            val intent = Intent()
-            intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
-            startActivityForResult(intent, 100)
-        }
 
-    }
 
     override fun invoke(
         p1: String?,
@@ -435,7 +391,7 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
                 saveAt = Environment.DIRECTORY_MOVIES,
                 listener = object : CompressionListener {
                     override fun onProgress(index: Int, percent: Float) {
-//TODO:ffd
+//onChangeProgress
                     }
 
                     override fun onStart(index: Int) {

@@ -56,7 +56,7 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, LifecycleObserv
         setTransparentLightStatusBar()
         changeAppLanguage()
         getRefreshToken()
-        Thread.setDefaultUncaughtExceptionHandler(ExceptionHandler.getInstance(this));
+        Thread.setDefaultUncaughtExceptionHandler(ExceptionHandler.getInstance(this))
     }
 
 
@@ -319,6 +319,7 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, LifecycleObserv
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         PermissionUtil.onRequestPermissionResult(requestCode, permissions, grantResults)
+        PermissionUtilClass.onRequestPermissionResult(requestCode, permissions, grantResults)
     }
 
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
@@ -349,6 +350,27 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, LifecycleObserv
             )
         )
         finish()
+    }
+
+    fun handlePermissionDenied(perms: Array<String>, callBack: (Boolean) -> Unit = {}) {
+        var value = true
+        perms.forEach {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                value = shouldShowRequestPermissionRationale(it)
+                if (!value) {
+                    return@forEach
+                }
+            }
+        }
+        callBack(value)
+        if (value) {
+
+            showToastShort(getString(R.string.no_permission_accepted))
+        } else {
+            permissionDenied()
+        }
+
+
     }
 
     fun permissionDenied() {

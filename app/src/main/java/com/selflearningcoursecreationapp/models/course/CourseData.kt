@@ -201,7 +201,7 @@ data class CourseData(
     @get:Bindable
     var allDataEntered: Boolean = true
         get() {
-//            return true
+
             return when (currentPage) {
                 0 -> {
                     !courseTitle.isNullOrEmpty() && getDescription().isNotEmpty() && !categoryName.isNullOrEmpty() && !languageName.isNullOrEmpty()
@@ -214,7 +214,6 @@ data class CourseData(
                             && !courseFee.isNullOrEmpty()
                             && !courseBannerUrl.isNullOrEmpty()
                             && !courseLogoUrl.isNullOrEmpty()
-//                            && !Html.fromHtml(keyTakeaways)?.trim().isNullOrEmpty()
                 }
                 2 -> {
                     val creatorId =
@@ -227,7 +226,6 @@ data class CourseData(
                 }
                 3 -> {
                     true
-//               assessmentId.isNullOrZero() ||(     !assessmentId.isNullOrZero() && !assessmentName.isNullOrEmpty())
                 }
                 else -> true
             }
@@ -240,11 +238,12 @@ data class CourseData(
             notifyPropertyChanged(BR.allDataEntered)
             val creatorId = if (isCreator) createdById else if (isCoAuthor) coAuthorId else 0
             return !sectionData.isNullOrEmpty()
-                    && (/*(isCreator && sectionData?.find { !it.isSaved || it.isDataValid(true) != 0 } == null) ||*/ (/*isCoAuthor &&*/ sectionData?.find {
+                    && sectionData?.find {
                 it.sectionCreatedById == coAuthorId && !it.isSaved || it.isDataValid(
-                    true, creatorId ?: 0
+                    true,
+                    creatorId ?: 0
                 ) != 0
-            } == null))
+            } == null
 
         }
 
@@ -282,9 +281,6 @@ data class CourseData(
             courseComplexityName.isNullOrEmpty() -> {
                 R.string.please_select_course_complexity
             }
-//            searchKeywords.isBlank() -> {
-//                R.string.please_select_search_keyword
-//            }
             courseFee.isNullOrEmpty() -> {
                 R.string.please_enter_course_fee
             }
