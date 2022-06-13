@@ -67,8 +67,17 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
 
         }
 
-        binding.noEditCL.visibleView(viewModel.courseData.value?.isCoAuthor == true && viewModel.getCoAuthor()?.courseLogoURL.isNullOrEmpty())
+        coAuthorHandling()
 
+        viewModel.isCreator.observe(viewLifecycleOwner, Observer {
+            coAuthorHandling()
+        })
+
+
+    }
+
+    private fun coAuthorHandling() {
+        binding.noEditCL.visibleView(viewModel.courseData.value?.isCoAuthor == true && viewModel.getCoAuthor()?.courseLogoURL.isNullOrEmpty())
         if (!viewModel.getCoAuthor()?.courseLogoURL.isNullOrEmpty()) {
             viewModel.courseData.value?.courseLogoId = viewModel.getCoAuthor()?.courseLogoId
             binding.ivCoauthorLogo.loadImage(
@@ -81,24 +90,6 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
             )
 
         }
-
-        viewModel.isCreator.observe(viewLifecycleOwner, Observer {
-            binding.noEditCL.visibleView(viewModel.courseData.value?.isCoAuthor == true && viewModel.getCoAuthor()?.courseLogoURL.isNullOrEmpty())
-            if (!viewModel.getCoAuthor()?.courseLogoURL.isNullOrEmpty()) {
-                viewModel.courseData.value?.courseLogoId = viewModel.getCoAuthor()?.courseLogoId
-                binding.ivCoauthorLogo.loadImage(
-                    viewModel.getCoAuthor()?.courseLogoURL,
-                    R.drawable.ic_logo_default
-                )
-                binding.ivLogo.loadImage(
-                    viewModel.getCoAuthor()?.courseLogoURL,
-                    R.drawable.ic_logo_default
-                )
-
-            }
-        })
-
-
     }
 
 //

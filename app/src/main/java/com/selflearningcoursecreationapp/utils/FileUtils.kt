@@ -62,7 +62,7 @@ object FileUtils {
                 getDriveFilePath(uri, context)
             }
             Build.VERSION.SDK_INT == Build.VERSION_CODES.N -> {
-                getMediaFilePathForN(uri, context)
+                getDriveFilePath(uri, context)
             }
             else -> {
                 getDataColumn(context, uri, null, null)
@@ -140,7 +140,7 @@ object FileUtils {
         uri: Uri,
     ): String? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getDownloadPathForLowerVersion(context, uri)
+            getDownloadPathForHigherVersion(context, uri)
 
         } else {
             getDownloadPathForLowerVersion(context, uri)
@@ -327,34 +327,7 @@ object FileUtils {
         return file.getPath()
     }
 
-    @SuppressLint("Recycle")
-    private fun getMediaFilePathForN(uri: Uri, context: Context): String? {
-        val returnCursor = context.contentResolver.query(uri, null, null, null, null)
-        val nameIndex = returnCursor!!.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-        returnCursor.moveToFirst()
-        val name = returnCursor.getString(nameIndex)
-        val file = File(context.filesDir, name)
-        try {
-            val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
-            val outputStream = FileOutputStream(file)
-            var read = 0
-            val maxBufferSize = 1 * 1024 * 1024
-            val bytesAvailable: Int = inputStream!!.available()
 
-            //int bufferSize = 1024;
-            val bufferSize = Math.min(bytesAvailable, maxBufferSize)
-            val buffers = ByteArray(bufferSize)
-            while (inputStream.read(buffers).also { read = it } != -1) {
-                outputStream.write(buffers, 0, read)
-            }
-            inputStream.close()
-            outputStream.close()
-
-        } catch (e: Exception) {
-            e.message?.let { Log.e("Exception", it) }
-        }
-        return file.getPath()
-    }
 
 
     private fun getDataColumn(

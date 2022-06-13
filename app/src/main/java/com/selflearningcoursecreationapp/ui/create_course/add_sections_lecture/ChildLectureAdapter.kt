@@ -4,6 +4,7 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterLectureLayoutBinding
+import com.selflearningcoursecreationapp.extensions.getMediaType
 import com.selflearningcoursecreationapp.extensions.getTime
 import com.selflearningcoursecreationapp.extensions.visibleView
 import com.selflearningcoursecreationapp.utils.Constant
@@ -59,40 +60,12 @@ class ChildLectureAdapter(
                 onItemClick(Constant.CLICK_EDIT, position)
             }
         }
-        var title = ""
-        title = when (lessonList[position].mediaType) {
-            1 -> {
-                loadGlide(R.drawable.ic_video_icon)
-
-                context.getString(R.string.video)
-            }
-            2 -> {
-                loadGlide(R.drawable.ic_audio_icon)
-                context.getString(R.string.audio)
-
-            }
-            3 -> {
-//                binding.ivMediaFile.setImageResource(R.drawable.ic_doc_icon)
-                loadGlide(R.drawable.ic_text_icon)
-                context.getString(R.string.doc)
-            }
-            4 -> {
-                loadGlide(R.drawable.ic_docx_icon)
-                context.getString(R.string.text)
-
-            }
-            else -> {
-
-                loadGlide(R.drawable.ic_quiz)
-                context.getString(R.string.quiz)
-
-
-            }
-        }
-        binding.tvLessonType.text = title
+        val mediaType = lessonList[position].mediaType?.getMediaType()
+        binding.tvLessonType.text = mediaType?.second?.let { context.getString(it) } ?: ""
+        binding.ivMediaFile.setImageResource(mediaType?.first ?: R.drawable.ic_docx_icon)
 
         if (lessonList[position].lectureTitle.isNullOrEmpty()) {
-            binding.tvLessonName.text = "$title ${position + 1}"
+            binding.tvLessonName.text = "${mediaType?.second} ${position + 1}"
         } else {
             binding.tvLessonName.text = lessonList[position].lectureTitle
 
@@ -107,9 +80,4 @@ class ChildLectureAdapter(
 
     override fun getItemCount() = lessonList.size
 
-    fun loadGlide(icDocIcon: Int) {
-//        Glide.with(binding.root.context).load().into
-        binding.ivMediaFile.setImageResource(icDocIcon)
-
-    }
 }

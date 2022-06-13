@@ -4,6 +4,7 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterLectureViewBinding
+import com.selflearningcoursecreationapp.extensions.getMediaType
 import com.selflearningcoursecreationapp.extensions.getTime
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
 import com.selflearningcoursecreationapp.utils.Constant
@@ -47,37 +48,10 @@ class LectureViewAdapter(
             onItemClick(Constant.CLICK_EDIT, position)
         }
 
-        var title = ""
-        title = when (lessonList[position].mediaType) {
-            1 -> {
-                loadGlide(R.drawable.ic_video_icon)
 
-                context.getString(R.string.video)
-            }
-            2 -> {
-                loadGlide(R.drawable.ic_audio_icon)
-                context.getString(R.string.audio)
-
-            }
-            3 -> {
-//                binding.ivMediaFile.setImageResource(R.drawable.ic_doc_icon)
-                loadGlide(R.drawable.ic_text_icon)
-                context.getString(R.string.doc)
-            }
-            4 -> {
-                loadGlide(R.drawable.ic_docx_icon)
-                context.getString(R.string.text)
-
-            }
-            else -> {
-
-                loadGlide(R.drawable.ic_quiz)
-                context.getString(R.string.quiz)
-
-
-            }
-        }
-        binding.tvLessonType.text = title
+        val mediaType = lessonList[position].mediaType?.getMediaType()
+        binding.tvLessonType.text = mediaType?.second?.let { context.getString(it) } ?: ""
+        binding.ivMediaFile.setImageResource(mediaType?.first ?: R.drawable.ic_docx_icon)
 //        binding.ivMediaFile.
         binding.ivEdit.setOnClickListener {
             onItemClick(Constant.CLICK_EDIT, position)
@@ -88,9 +62,4 @@ class LectureViewAdapter(
 
     override fun getItemCount() = lessonList.size
 
-    fun loadGlide(icDocIcon: Int) {
-//        Glide.with(binding.root.context).load().into
-        binding.ivMediaFile.setImageResource(icDocIcon)
-
-    }
 }

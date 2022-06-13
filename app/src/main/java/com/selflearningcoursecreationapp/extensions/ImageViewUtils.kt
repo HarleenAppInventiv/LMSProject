@@ -24,3 +24,10 @@ fun ImageView.loadImage(url: String?, placeholder: Int?) {
     }
 
 }
+
+fun ImageView.loadImage(drawable: Int?) {
+
+    drawable?.let { setImageResource(it) }
+
+
+}
