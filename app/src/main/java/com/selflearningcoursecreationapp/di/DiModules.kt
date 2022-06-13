@@ -46,17 +46,9 @@ import com.selflearningcoursecreationapp.ui.create_course.quiz.AddQuizVM
 import com.selflearningcoursecreationapp.ui.create_course.quiz.QuizSettingVM
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.UploadContentRepo
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.UploadContentRepoImpl
-import com.selflearningcoursecreationapp.ui.create_course.upload_content.audio_as_lesson.AudioLessonRepo
-import com.selflearningcoursecreationapp.ui.create_course.upload_content.audio_as_lesson.AudioLessonRepoImp
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.audio_as_lesson.AudioLessonViewModel
-import com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_as_lecture.DocRepo
-import com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_as_lecture.DocRepoImp
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_as_lecture.DocViewModel
-import com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_text.TextRepo
-import com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_text.TextRepoImp
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_text.TextViewModel
-import com.selflearningcoursecreationapp.ui.create_course.upload_content.video_as_lecture.VideoLessonRepo
-import com.selflearningcoursecreationapp.ui.create_course.upload_content.video_as_lecture.VideoLessonRepoImp
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.video_as_lecture.VideoLessonViewModel
 import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceRepo
 import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceRepoImpl
@@ -185,11 +177,7 @@ val repoModule = module {
     single<AddPassRepo> { AddPassRepoImp(get()) }
     single<AddEmailRepo> { AddEmailRepoImpl(get()) }
     single<AddQuizRepo> { AddQuizRepoImpl(get()) }
-    single<DocRepo> { DocRepoImp(get()) }
-    single<TextRepo> { TextRepoImp(get()) }
-    single<AudioLessonRepo> { AudioLessonRepoImp(get()) }
     single<UploadContentRepo> { UploadContentRepoImpl(get()) }
-    single<VideoLessonRepo> { VideoLessonRepoImp(get()) }
     single<HomeActivityRepo> {
         HomeActivityRepoImp(get())
     }
