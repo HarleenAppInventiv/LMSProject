@@ -1,4 +1,4 @@
-package com.selflearningcoursecreationapp.ui.create_course.docs_as_lecture
+package com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_as_lecture
 
 import android.net.Uri
 import android.os.Bundle
@@ -187,7 +187,7 @@ class DocLessonFragment : BaseFragment<FragmentDocLessonBinding>(),
             courseId,
             model!!.sectionId,
             lectureId!!,
-            fileName,
+
             file,
             MEDIA_TYPE.DOC,
             "",

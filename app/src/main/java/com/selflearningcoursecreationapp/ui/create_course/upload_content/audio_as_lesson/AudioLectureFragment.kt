@@ -1,4 +1,4 @@
-package com.selflearningcoursecreationapp.ui.create_course.audio_as_lesson
+package com.selflearningcoursecreationapp.ui.create_course.upload_content.audio_as_lesson
 
 import android.graphics.PorterDuff
 import android.media.AudioManager
@@ -147,12 +147,11 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
         mCountDownTimer?.cancel()
     }
 
-    fun uploadServer(fileName: String, file: File) {
+    private fun uploadServer(file: File) {
         viewModel.uploadContent(
             courseId,
             sectionId,
             lectureId!!,
-            fileName,
             file,
             MEDIA_TYPE.AUDIO,
             "",
@@ -204,12 +203,12 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
         }
     }
 
-    fun convertToFile() {
+    private fun convertToFile() {
 
         if (filePath.endsWith("mp3")) {
             val file = File(Uri.parse(filePath).path)
 
-            uploadServer(file.name, file)
+            uploadServer(file)
         } else {
             showToastShort("Not able to upload this file, please select another")
         }

@@ -1,4 +1,4 @@
-package com.selflearningcoursecreationapp.ui.create_course.audio_as_lesson
+package com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_as_lecture
 
 import com.selflearningcoursecreationapp.base.BaseRepo
 import com.selflearningcoursecreationapp.base.BaseResponse
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.flowOn
 import retrofit2.Response
 import java.io.File
 
-class AudioLessonRepoImp(private val apiService: ApiService) : AudioLessonRepo {
+class DocRepoImp(private val apiService: ApiService) : DocRepo {
     override suspend fun addPatchLecture(map: HashMap<String, Any>): Flow<Resource> {
         return object : BaseRepo<BaseResponse<ChildModel>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ChildModel>> {
@@ -58,5 +58,6 @@ class AudioLessonRepoImp(private val apiService: ApiService) : AudioLessonRepo {
             }
         }.safeApiCall(ApiEndPoints.API_CONTENT_UPLOAD).flowOn(Dispatchers.IO)
     }
+
 
 }

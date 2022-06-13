@@ -69,8 +69,8 @@ object URIPathHelper {
             cursor = context.getContentResolver()
                 .query(uri!!, projection, selection, selectionArgs, null)
             if (cursor != null && cursor.moveToFirst()) {
-                val column_index: Int = cursor.getColumnIndexOrThrow(column)
-                return cursor.getString(column_index)
+                val columnIndex: Int = cursor.getColumnIndexOrThrow(column)
+                return cursor.getString(columnIndex)
             }
         } finally {
             if (cursor != null) cursor.close()

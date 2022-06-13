@@ -7,7 +7,7 @@
 
         <variable
             name="audioLesson"
-            type="com.selflearningcoursecreationapp.ui.create_course.audio_as_lesson.AudioLessonViewModel" />
+            type="com.selflearningcoursecreationapp.ui.create_course.upload_content.audio_as_lesson.AudioLessonViewModel" />
 
         <variable
             name="handleClick"
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/offwhite"
-        tools:context=".ui.create_course.audio_as_lesson.AudioLectureFragment">
+        tools:context=".ui.create_course.upload_content.audio_as_lesson.AudioLectureFragment">
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_title"

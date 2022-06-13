@@ -1,4 +1,4 @@
-package com.selflearningcoursecreationapp.ui.create_course.video_as_lecture
+package com.selflearningcoursecreationapp.ui.create_course.upload_content.video_as_lecture
 
 import android.annotation.SuppressLint
 import android.media.MediaMetadataRetriever
@@ -77,10 +77,8 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
             viewModel.videoLiveData.value?.mLectureId!!
         )
         if (!viewModel.videoLiveData.value?.mChildPosition.isNullOrNegative()) {
-            binding.btnAddLesson.setText(
-                baseActivity.getString(
-                    R.string.update_lesson
-                )
+            binding.btnAddLesson.text = baseActivity.getString(
+                R.string.update_lesson
             )
         }
     }
@@ -111,7 +109,6 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
             viewModel.videoLiveData.value?.mCourseId,
             viewModel.videoLiveData.value?.mSectionId,
             viewModel.videoLiveData.value?.mLectureId!!,
-            fileName,
             file,
             MEDIA_TYPE.VIDEO,
             "",
@@ -199,26 +196,25 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
             }
             Player.STATE_READY -> {
                 binding.progressBar.gone()
-                mDuration = player.getDuration()
+                mDuration = player.duration
                 val totalSec =
-                    TimeUnit.SECONDS.convert(player.getDuration(), TimeUnit.MILLISECONDS)
+                    TimeUnit.SECONDS.convert(player.duration, TimeUnit.MILLISECONDS)
                 binding.tvTimer.text = DateUtils.formatElapsedTime(totalSec) + " mins"
             }
             Player.STATE_ENDED -> {
                 binding.ivPlayVideo.setImageResource(R.drawable.ic_audio_indicaor)
-                player.seekTo(0);
-                player.setPlayWhenReady(false)
+                player.seekTo(0)
+                player.playWhenReady = false
 
             }
         }
     }
 
-    fun uploadThumb(name: String, file: File) {
+    fun uploadThumb(file: File) {
         viewModel.uploadThumbnail(
             viewModel.videoLiveData.value?.mCourseId,
             viewModel.videoLiveData.value?.mSectionId,
             viewModel.videoLiveData.value?.mLectureId!!,
-            name,
             file
         )
     }
@@ -251,9 +247,9 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
                 } else {
                     type = 0
                     val file = File(Uri.parse(thumbUri).path)
-                    uploadThumb(file.name, file)
-                    binding.btnAddLesson.setText("Add Lesson")
-                    binding.btnTakeFromGallary.setText("REPLACE THUMBNAIL")
+                    uploadThumb(file)
+                    binding.btnAddLesson.text = "Add Lesson"
+                    binding.btnTakeFromGallary.text = "REPLACE THUMBNAIL"
                 }
 
             }
@@ -312,7 +308,7 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
         binding.card2.visible()
         viewModel.docLiveData.value?.thumbNailURl = p1
         binding.ivThumbnailImage.setImageURI(Uri.parse(p1))
-        binding.btnAddLesson.setText("Add Thumbnail")
+        binding.btnAddLesson.text = "Add Thumbnail"
         type = 1
         thumbUri = p1
 //        thumbnailList?.add(ThumbnailModel(Uri.parse(p1)))
@@ -351,11 +347,11 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
             : String
     ? {
 
-        var retriever = MediaMetadataRetriever();
-        retriever.setDataSource(fileUrl);
+        var retriever = MediaMetadataRetriever()
+        retriever.setDataSource(fileUrl)
         var duration =
             (retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION))
-        retriever.release();
+        retriever.release()
         mDuration = duration!!.toLong()
         val totalSec =
             TimeUnit.SECONDS.convert(duration.toLong(), TimeUnit.MILLISECONDS)

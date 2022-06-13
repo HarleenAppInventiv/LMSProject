@@ -1,4 +1,4 @@
-package com.selflearningcoursecreationapp.ui.create_course.audio_as_lesson
+package com.selflearningcoursecreationapp.ui.create_course.upload_content.audio_as_lesson
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -6,13 +6,14 @@ import com.selflearningcoursecreationapp.base.BaseViewModel
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
+import com.selflearningcoursecreationapp.ui.create_course.upload_content.UploadContentRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
-class AudioLessonViewModel(private val repo: AudioLessonRepo) : BaseViewModel() {
+class AudioLessonViewModel(private val repo: UploadContentRepo) : BaseViewModel() {
 
 
     var docLiveData = MutableLiveData<ChildModel>().apply {
@@ -83,7 +84,6 @@ class AudioLessonViewModel(private val repo: AudioLessonRepo) : BaseViewModel() 
         courseId: Int?,
         sectionId: Int?,
         lectureId: Int,
-        fileName: String,
         file: File,
         uploadType: Int,
         text: String,
@@ -94,7 +94,6 @@ class AudioLessonViewModel(private val repo: AudioLessonRepo) : BaseViewModel() 
                 courseId,
                 sectionId,
                 lectureId,
-                fileName,
                 file,
                 uploadType,
                 text,

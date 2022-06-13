@@ -37,25 +37,27 @@ import com.selflearningcoursecreationapp.ui.bottom_more.settings.faq.FaqRepo
 import com.selflearningcoursecreationapp.ui.create_course.AddCourseRepo
 import com.selflearningcoursecreationapp.ui.create_course.AddCourseRepoImpl
 import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseViewModel
-import com.selflearningcoursecreationapp.ui.create_course.audio_as_lesson.AudioLessonRepo
-import com.selflearningcoursecreationapp.ui.create_course.audio_as_lesson.AudioLessonRepoImp
-import com.selflearningcoursecreationapp.ui.create_course.audio_as_lesson.AudioLessonViewModel
 import com.selflearningcoursecreationapp.ui.create_course.co_author.CoAuthorRepo
 import com.selflearningcoursecreationapp.ui.create_course.co_author.CoAuthorRepoImpl
 import com.selflearningcoursecreationapp.ui.create_course.co_author.CoAuthorViewModel
-import com.selflearningcoursecreationapp.ui.create_course.docs_as_lecture.DocRepo
-import com.selflearningcoursecreationapp.ui.create_course.docs_as_lecture.DocRepoImp
-import com.selflearningcoursecreationapp.ui.create_course.docs_as_lecture.DocViewModel
-import com.selflearningcoursecreationapp.ui.create_course.docs_text.TextRepo
-import com.selflearningcoursecreationapp.ui.create_course.docs_text.TextRepoImp
-import com.selflearningcoursecreationapp.ui.create_course.docs_text.TextViewModel
 import com.selflearningcoursecreationapp.ui.create_course.quiz.AddQuizRepo
 import com.selflearningcoursecreationapp.ui.create_course.quiz.AddQuizRepoImpl
 import com.selflearningcoursecreationapp.ui.create_course.quiz.AddQuizVM
 import com.selflearningcoursecreationapp.ui.create_course.quiz.QuizSettingVM
-import com.selflearningcoursecreationapp.ui.create_course.video_as_lecture.VideoLessonRepo
-import com.selflearningcoursecreationapp.ui.create_course.video_as_lecture.VideoLessonRepoImp
-import com.selflearningcoursecreationapp.ui.create_course.video_as_lecture.VideoLessonViewModel
+import com.selflearningcoursecreationapp.ui.create_course.upload_content.UploadContentRepo
+import com.selflearningcoursecreationapp.ui.create_course.upload_content.UploadContentRepoImpl
+import com.selflearningcoursecreationapp.ui.create_course.upload_content.audio_as_lesson.AudioLessonRepo
+import com.selflearningcoursecreationapp.ui.create_course.upload_content.audio_as_lesson.AudioLessonRepoImp
+import com.selflearningcoursecreationapp.ui.create_course.upload_content.audio_as_lesson.AudioLessonViewModel
+import com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_as_lecture.DocRepo
+import com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_as_lecture.DocRepoImp
+import com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_as_lecture.DocViewModel
+import com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_text.TextRepo
+import com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_text.TextRepoImp
+import com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_text.TextViewModel
+import com.selflearningcoursecreationapp.ui.create_course.upload_content.video_as_lecture.VideoLessonRepo
+import com.selflearningcoursecreationapp.ui.create_course.upload_content.video_as_lecture.VideoLessonRepoImp
+import com.selflearningcoursecreationapp.ui.create_course.upload_content.video_as_lecture.VideoLessonViewModel
 import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceRepo
 import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceRepoImpl
 import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceVM
@@ -186,6 +188,7 @@ val repoModule = module {
     single<DocRepo> { DocRepoImp(get()) }
     single<TextRepo> { TextRepoImp(get()) }
     single<AudioLessonRepo> { AudioLessonRepoImp(get()) }
+    single<UploadContentRepo> { UploadContentRepoImpl(get()) }
     single<VideoLessonRepo> { VideoLessonRepoImp(get()) }
     single<HomeActivityRepo> {
         HomeActivityRepoImp(get())

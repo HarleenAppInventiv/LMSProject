@@ -7,7 +7,7 @@
 
         <variable
             name="docs"
-            type="com.selflearningcoursecreationapp.ui.create_course.docs_as_lecture.DocViewModel" />
+            type="com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_as_lecture.DocViewModel" />
 
     </data>
 
@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/offwhite"
-            tools:context=".ui.create_course.docs_as_lecture.DocLessonFragment">
+            tools:context=".ui.create_course.upload_content.docs_as_lecture.DocLessonFragment">
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_lesson"

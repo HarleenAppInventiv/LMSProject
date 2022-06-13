@@ -1,4 +1,4 @@
-package com.selflearningcoursecreationapp.ui.create_course.video_as_lecture
+package com.selflearningcoursecreationapp.ui.create_course.upload_content.video_as_lecture
 
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter

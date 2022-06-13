@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/ic_walkthrough_trans_bg"
             app:viewBackground="background_tint"
-            tools:context=".ui.create_course.audio_as_lesson.RecordAudioFragment">
+            tools:context=".ui.create_course.upload_content.audio_as_lesson.RecordAudioFragment">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_close"

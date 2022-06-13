@@ -1,4 +1,4 @@
-package com.selflearningcoursecreationapp.ui.create_course.docs_text
+package com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_text
 
 import android.os.Bundle
 import android.text.Html

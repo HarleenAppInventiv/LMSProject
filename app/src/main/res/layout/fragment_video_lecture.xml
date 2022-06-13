@@ -7,7 +7,7 @@
 
         <variable
             name="videoLesson"
-            type="com.selflearningcoursecreationapp.ui.create_course.video_as_lecture.VideoLessonViewModel" />
+            type="com.selflearningcoursecreationapp.ui.create_course.upload_content.video_as_lecture.VideoLessonViewModel" />
 
         <import type="android.view.View" />
 

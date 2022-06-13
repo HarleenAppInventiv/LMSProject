@@ -1,4 +1,4 @@
-package com.selflearningcoursecreationapp.ui.create_course.audio_as_lesson
+package com.selflearningcoursecreationapp.ui.create_course.upload_content.audio_as_lesson
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi

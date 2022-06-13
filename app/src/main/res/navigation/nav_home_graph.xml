@@ -381,7 +381,7 @@
     </fragment>
     <fragment
         android:id="@+id/docLessonFragment"
-        android:name="com.selflearningcoursecreationapp.ui.create_course.docs_as_lecture.DocLessonFragment"
+        android:name="com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_as_lecture.DocLessonFragment"
         android:label="Doc Lesson">
         <argument
             android:name="sendSectionModel"
@@ -408,7 +408,7 @@
     </fragment>
     <fragment
         android:id="@+id/lessonTextFragment"
-        android:name="com.selflearningcoursecreationapp.ui.create_course.docs_text.LessonTextFragment"
+        android:name="com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_text.LessonTextFragment"
         android:label="Text Lesson">
 
         <action
@@ -479,7 +479,7 @@
 
     <fragment
         android:id="@+id/videoLectureFragment"
-        android:name="com.selflearningcoursecreationapp.ui.create_course.video_as_lecture.VideoLectureFragment"
+        android:name="com.selflearningcoursecreationapp.ui.create_course.upload_content.video_as_lecture.VideoLectureFragment"
         android:label="Video Lesson">
         <argument
             android:name="sendSectionModel"
@@ -510,7 +510,7 @@
     </fragment>
     <fragment
         android:id="@+id/audioLectureFragment"
-        android:name="com.selflearningcoursecreationapp.ui.create_course.audio_as_lesson.AudioLectureFragment"
+        android:name="com.selflearningcoursecreationapp.ui.create_course.upload_content.audio_as_lesson.AudioLectureFragment"
         android:label="Audio Lesson"
         tools:layout="@layout/fragment_audio_lecture">
 
@@ -550,7 +550,7 @@
     </fragment>
     <fragment
         android:id="@+id/recordAudioFragment"
-        android:name="com.selflearningcoursecreationapp.ui.create_course.audio_as_lesson.RecordAudioFragment"
+        android:name="com.selflearningcoursecreationapp.ui.create_course.upload_content.audio_as_lesson.RecordAudioFragment"
         android:label="RecordAudioFragment">
         <action
             android:id="@+id/action_recordAudioFragment_to_audioLectureFragment"

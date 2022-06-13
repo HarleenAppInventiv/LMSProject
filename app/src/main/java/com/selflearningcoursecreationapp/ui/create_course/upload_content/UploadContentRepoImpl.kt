@@ -1,4 +1,4 @@
-package com.selflearningcoursecreationapp.ui.create_course.docs_as_lecture
+package com.selflearningcoursecreationapp.ui.create_course.upload_content
 
 import com.selflearningcoursecreationapp.base.BaseRepo
 import com.selflearningcoursecreationapp.base.BaseResponse
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.flowOn
 import retrofit2.Response
 import java.io.File
 
-class DocRepoImp(private val apiService: ApiService) : DocRepo {
+class UploadContentRepoImpl(private val apiService: ApiService) : UploadContentRepo {
     override suspend fun addPatchLecture(map: HashMap<String, Any>): Flow<Resource> {
         return object : BaseRepo<BaseResponse<ChildModel>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ChildModel>> {
@@ -36,11 +36,10 @@ class DocRepoImp(private val apiService: ApiService) : DocRepo {
         courseId: Int?,
         sectionId: Int?,
         lectureId: Int,
-        fileName: String,
         file: File,
         uploadType: Int,
         text: String,
-        duration: Int,
+        duration: Int
     ): Flow<Resource> {
         return object : BaseRepo<BaseResponse<ImageResponse>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ImageResponse>> {
@@ -48,7 +47,7 @@ class DocRepoImp(private val apiService: ApiService) : DocRepo {
                     courseId.getRequestBody(),
                     sectionId.getRequestBody(),
                     lectureId.getRequestBody(),
-                    fileName.getRequestBody(),
+                    file.name.getRequestBody(),
                     file.getMultiPartBody("File"),
                     uploadType.getRequestBody(),
                     text.getRequestBody(),
@@ -59,5 +58,45 @@ class DocRepoImp(private val apiService: ApiService) : DocRepo {
         }.safeApiCall(ApiEndPoints.API_CONTENT_UPLOAD).flowOn(Dispatchers.IO)
     }
 
+    override suspend fun thumbnailUpload(
+        courseId: Int?,
+        sectionId: Int?,
+        lectureId: Int,
+        file: File
+    ): Flow<Resource> {
+        return object : BaseRepo<BaseResponse<ImageResponse>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ImageResponse>> {
+                return apiService.thumbnailUpload(
+                    courseId.getRequestBody(),
+                    sectionId.getRequestBody(),
+                    lectureId.getRequestBody(),
+                    file.name.getRequestBody(),
+                    file.getMultiPartBody("File"),
+                )
+            }
+        }.safeApiCall(ApiEndPoints.API_CONTENT_UPLOAD).flowOn(Dispatchers.IO)
+    }
 
+    override suspend fun contentUploadText(
+        courseId: Int?,
+        sectionId: Int?,
+        lectureId: Int,
+        uploadType: Int,
+        text: String,
+        duration: Int,
+    ): Flow<Resource> {
+        return object : BaseRepo<BaseResponse<ImageResponse>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ImageResponse>> {
+                return apiService.contentUploadText(
+                    courseId.getRequestBody(),
+                    sectionId.getRequestBody(),
+                    lectureId.getRequestBody(),
+                    uploadType.getRequestBody(),
+                    text.getRequestBody(),
+                    duration.getRequestBody()
+
+                )
+            }
+        }.safeApiCall(ApiEndPoints.API_CONTENT_UPLOAD).flowOn(Dispatchers.IO)
+    }
 }
