@@ -15,10 +15,8 @@ import com.selflearningcoursecreationapp.databinding.FragmentLessonTextBinding
 import com.selflearningcoursecreationapp.extensions.content
 import com.selflearningcoursecreationapp.models.course.ImageResponse
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
-import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.Constant
-import com.selflearningcoursecreationapp.utils.MEDIA_TYPE
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
 
@@ -26,10 +24,8 @@ import java.util.concurrent.TimeUnit
 class LessonTextFragment : BaseFragment<FragmentLessonTextBinding>() {
 
     var descHTML = ""
-    var model: SectionModel? = null
     var childPosition: Int? = 0
-    var lectureId: Int? = null
-    var courseId: Int? = null
+
     var type: Int? = null
     var lectureContentId: String? = ""
     private val viewModel: TextViewModel by viewModel()
@@ -52,27 +48,24 @@ class LessonTextFragment : BaseFragment<FragmentLessonTextBinding>() {
             val lessonData = LessonTextFragmentArgs.fromBundle(it)
             childPosition = lessonData.childPosition
             type = lessonData.type
-            model = lessonData.sendSectionModel
-            lectureId = lessonData.lectureId
-            courseId = lessonData.courseId
+            viewModel.model = lessonData.sendSectionModel
+            viewModel.lectureId = lessonData.lectureId
+            viewModel.courseId = lessonData.courseId
 
 
         }
         activityResultListener()
 
         if (type == Constant.CLICK_EDIT) {
-            viewModel.getLectureDetail(lectureId!!.toInt())
+            viewModel.getLectureDetail()
         }
 
         binding.btAdd.setOnClickListener {
 
 
             viewModel.textValidations(
-                model?.sectionId!!,
-                MEDIA_TYPE.TEXT,
                 binding.edtDocTitle.content(),
-                lectureId ?: -1,
-                courseId!!,
+
                 lectureContentId.toString(),
                 TimeUnit.MINUTES.toMillis(
                     binding.edtTime.content().toLong()
@@ -104,15 +97,15 @@ class LessonTextFragment : BaseFragment<FragmentLessonTextBinding>() {
                 (value as BaseResponse<ChildModel>).resource?.let {
                     it.lectureContentName = binding.edtDocTitle.content()
                     if (childPosition != null && childPosition != -1) {
-                        model?.lessonList?.set(childPosition!!, it)
+                        viewModel.model?.lessonList?.set(childPosition!!, it)
 
                         showToastLong(baseActivity.getString(R.string.lesson_updated_successfully))
                     } else {
-                        model?.lessonList?.add(it)
+                        viewModel.model?.lessonList?.add(it)
                         showToastLong(baseActivity.getString(R.string.lesson_saved_successfully))
                     }
                 }
-                model?.notifyPropertyChanged(BR.uploadLesson)
+                viewModel.model?.notifyPropertyChanged(BR.uploadLesson)
 
                 findNavController().navigateUp()
             }
@@ -160,10 +153,6 @@ class LessonTextFragment : BaseFragment<FragmentLessonTextBinding>() {
 
     fun uploadServer(value: String?) {
         viewModel.uploadContent(
-            courseId,
-            model!!.sectionId,
-            lectureId!!,
-            MEDIA_TYPE.TEXT,
             value.toString(),
             0
         )

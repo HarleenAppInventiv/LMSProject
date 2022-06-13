@@ -32,13 +32,14 @@ import com.selflearningcoursecreationapp.utils.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.util.concurrent.TimeUnit
 
 
 class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (String?) -> Unit,
     Player.Listener, HandleClick, BaseBottomSheetDialog.IDialogClick {
-    private val viewModel: VideoLessonViewModel by inject()
+    private val viewModel: VideoLessonViewModel by viewModel()
     private val imagePickUtils: ImagePickUtils by inject()
     var mContentId = ""
     var mThumbId = ""
@@ -48,7 +49,6 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
     var thumbnailList: ArrayList<ThumbnailModel>? = ArrayList()
     private lateinit var player: ExoPlayer
 
-    //    var thumnailAdapter: ThumbnailAdapter? = null
     var type = 0
     var thumbUri: String? = null
 
@@ -57,9 +57,7 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
         super.onViewCreated(view, savedInstanceState)
         initUI()
         arguments?.let {
-//            (it as VideoModel)
             val value = VideoLectureFragmentArgs.fromBundle(it)
-//            viewModel.videoLiveData.value. = it
             viewModel.videoLiveData.value?.mFilePath = value.filePath
             viewModel.videoLiveData.value?.mLectureId = value.lectureId
             viewModel.videoLiveData.value?.mCourseId = value.courseId
@@ -70,10 +68,11 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
             viewModel.videoLiveData.value?.mType = value.type
         }
 
-//        Log.d("varun1", "onViewCreated: ${mFilePath}")
         setupPlayer()
 
-        if (viewModel.videoLiveData.value?.mType == Constant.CLICK_ADD) convertToFile() else viewModel.getLectureDetail(
+        if (viewModel.videoLiveData.value?.mType == Constant.CLICK_ADD) {
+            convertToFile()
+        } else viewModel.getLectureDetail(
             viewModel.videoLiveData.value?.mLectureId!!
         )
         if (!viewModel.videoLiveData.value?.mChildPosition.isNullOrNegative()) {
@@ -104,14 +103,9 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
     override fun getLayoutRes() = R.layout.fragment_video_lecture
 
 
-    fun uploadServer(fileName: String, file: File, durationFromVideo: String?) {
+    fun uploadServer(file: File, durationFromVideo: String?) {
         viewModel.uploadContent(
-            viewModel.videoLiveData.value?.mCourseId,
-            viewModel.videoLiveData.value?.mSectionId,
-            viewModel.videoLiveData.value?.mLectureId!!,
             file,
-            MEDIA_TYPE.VIDEO,
-            "",
             durationFromVideo!!.toInt()
         )
     }
@@ -142,7 +136,6 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
                     } else {
                         viewModel.videoLiveData.value?.mModel?.lessonList?.add(it)
                         showToastLong(baseActivity.getString(R.string.lesson_saved_successfully))
-//                        /findNavController().popBackStack(R.id.preVideoSelectFragment, true)
                     }
                     findNavController().popBackStack()
                 }
@@ -152,7 +145,6 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
                 (value as BaseResponse<ChildModel>).resource?.let {
                     binding.edtTitle.setText(it.lectureTitle)
                     mContentId = it.lectureContentId.toString()
-//                    mFilePath = it.lectureContentUrl.toString()
 
                     addFileToPLayer(it.lectureContentUrl.toString())
                 }
@@ -210,7 +202,7 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
         }
     }
 
-    fun uploadThumb(file: File) {
+    private fun uploadThumb(file: File) {
         viewModel.uploadThumbnail(
             viewModel.videoLiveData.value?.mCourseId,
             viewModel.videoLiveData.value?.mSectionId,
@@ -235,12 +227,9 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
 
                 if (type == 0) {
                     viewModel.docValidations(
-                        viewModel.videoLiveData.value?.mLectureId,
-                        viewModel.videoLiveData.value?.mSectionId,
-                        viewModel.videoLiveData.value?.mCourseId,
                         binding.edtTitle.content(),
                         mContentId,
-                        MEDIA_TYPE.VIDEO,
+
                         mThumbId,
                         mDuration.toString()
                     )
@@ -248,8 +237,9 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
                     type = 0
                     val file = File(Uri.parse(thumbUri).path)
                     uploadThumb(file)
-                    binding.btnAddLesson.text = "Add Lesson"
-                    binding.btnTakeFromGallary.text = "REPLACE THUMBNAIL"
+                    binding.btnAddLesson.text = baseActivity.getString(R.string.add_lecture)
+                    binding.btnTakeFromGallary.text =
+                        baseActivity.getString(R.string.replace_thumbnail)
                 }
 
             }
@@ -308,7 +298,7 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
         binding.card2.visible()
         viewModel.docLiveData.value?.thumbNailURl = p1
         binding.ivThumbnailImage.setImageURI(Uri.parse(p1))
-        binding.btnAddLesson.text = "Add Thumbnail"
+        binding.btnAddLesson.text = baseActivity.getString(R.string.add_thumbnail)
         type = 1
         thumbUri = p1
 //        thumbnailList?.add(ThumbnailModel(Uri.parse(p1)))
@@ -328,11 +318,11 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
 
     }
 
-    fun convertToFile() {
+    private fun convertToFile() {
         val file = File(Uri.parse(viewModel.videoLiveData.value?.mFilePath).path)
         uriList?.clear()
         uriList?.add(Uri.parse(viewModel.videoLiveData.value?.mFilePath))
-        uploadServer(file.name, file, "0")
+        uploadServer(file, "0")
 //    processVideo(duration)
 
 //                uploadServer (file.name, file, durationFromVideo(mFilePath))
@@ -360,12 +350,12 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
     }
 
     override fun onDialogClick(vararg items: Any) {
-        var type = items[0] as Int
+        val type = items[0] as Int
         viewModel.videoLiveData.value?.mFilePath = items[1] as String
         when (type) {
             MEDIA_TYPE.VIDEO -> {
                 if (isFileLessThan5MB(File(viewModel.videoLiveData.value?.mFilePath))) {
-                    showToastShort("File size is more than 5 MB, not able to upload. Please select another file")
+                    showToastShort(baseActivity.getString(R.string.file_limit_alert_text))
                 } else {
                     setupPlayer()
                     convertToFile()
@@ -407,7 +397,7 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
                             }"
                         )
 //                        durationFromVideo(Uri.parse(file.path).toString())
-                        uploadServer(file.name, file, duration)
+                        uploadServer(file, duration)
                     }
 
                     override fun onFailure(index: Int, failureMessage: String) {

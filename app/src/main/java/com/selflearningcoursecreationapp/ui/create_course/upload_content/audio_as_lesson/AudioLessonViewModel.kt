@@ -6,7 +6,9 @@ import com.selflearningcoursecreationapp.base.BaseViewModel
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
+import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.UploadContentRepo
+import com.selflearningcoursecreationapp.utils.MEDIA_TYPE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -14,7 +16,10 @@ import kotlinx.coroutines.withContext
 import java.io.File
 
 class AudioLessonViewModel(private val repo: UploadContentRepo) : BaseViewModel() {
-
+    var lectureId: Int? = null
+    var courseId: Int? = null
+    var model: SectionModel? = null
+    var sectionId: Int? = null
 
     var docLiveData = MutableLiveData<ChildModel>().apply {
         value = ChildModel()
@@ -23,24 +28,22 @@ class AudioLessonViewModel(private val repo: UploadContentRepo) : BaseViewModel(
 
 
     fun addPatchLecture(
-        sectionId: Int?,
-        mediaTypeId: Int?,
+
         lectureTitle: String,
-        lectureId: Int,
-        courseId: Int,
+
         id: String,
         contentDuration: Int,
     ) =
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
-            map["courseId"] = courseId
+            map["courseId"] = courseId ?: 0
             map["sectionId"] = sectionId.toString()
-            map["lectureId"] = lectureId
-            map["mediaTypeId"] = mediaTypeId.toString()
+            map["lectureId"] = lectureId ?: 0
+            map["mediaTypeId"] = MEDIA_TYPE.AUDIO.toString()
             map["lectureTitle"] = lectureTitle
             map["lectureContentId"] = id
             map["contentDuration"] = contentDuration
-            var response = repo.addPatchLecture(map)
+            val response = repo.addPatchLecture(map)
             withContext(Dispatchers.IO) {
                 response.collect {
                     updateResponseObserver(it)
@@ -54,23 +57,18 @@ class AudioLessonViewModel(private val repo: UploadContentRepo) : BaseViewModel(
     }
 
     fun docValidations(
-        lectureId: Int?,
-        sectionId: Int?,
-        courseId: Int?,
+
         text: String,
         contentId: String,
-        audio: Int,
         milliSecond: Int,
     ) {
         docLiveData.value?.let {
             val errorId = it.isAudioValid()
             if (errorId == 0) {
                 addPatchLecture(
-                    sectionId = sectionId,
-                    mediaTypeId = audio,
+
                     lectureTitle = text,
-                    lectureId = lectureId!!,
-                    courseId = courseId!!,
+
                     id = contentId,
                     contentDuration = milliSecond
                 )
@@ -81,22 +79,16 @@ class AudioLessonViewModel(private val repo: UploadContentRepo) : BaseViewModel(
     }
 
     fun uploadContent(
-        courseId: Int?,
-        sectionId: Int?,
-        lectureId: Int,
         file: File,
-        uploadType: Int,
-        text: String,
         duration: Int,
     ) =
         viewModelScope.launch(coroutineExceptionHandle) {
             val response = repo.contentUpload(
                 courseId,
                 sectionId,
-                lectureId,
+                lectureId ?: 0,
                 file,
-                uploadType,
-                text,
+                MEDIA_TYPE.AUDIO,
                 duration
             )
             withContext(Dispatchers.IO) {
@@ -107,8 +99,8 @@ class AudioLessonViewModel(private val repo: UploadContentRepo) : BaseViewModel(
         }
 
 
-    fun getLectureDetail(lectureId: Int) = viewModelScope.launch(coroutineExceptionHandle) {
-        val response = repo.getLectureDetail(lectureId)
+    fun getLectureDetail() = viewModelScope.launch(coroutineExceptionHandle) {
+        val response = repo.getLectureDetail(lectureId ?: 0)
         withContext(Dispatchers.IO) {
             response.collect {
                 updateResponseObserver(it)

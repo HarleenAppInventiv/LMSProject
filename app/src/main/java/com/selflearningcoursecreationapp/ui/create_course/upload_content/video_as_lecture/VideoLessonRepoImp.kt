@@ -52,7 +52,6 @@ class VideoLessonRepoImp(private val apiService: ApiService) : VideoLessonRepo {
                     fileName.getRequestBody(),
                     file.getMultiPartBody("File"),
                     uploadType.getRequestBody(),
-                    text.getRequestBody(),
                     duration.getRequestBody()
 
                 )

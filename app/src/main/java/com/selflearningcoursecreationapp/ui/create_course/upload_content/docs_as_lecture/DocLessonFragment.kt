@@ -16,11 +16,9 @@ import com.selflearningcoursecreationapp.extensions.content
 import com.selflearningcoursecreationapp.extensions.isNullOrNegative
 import com.selflearningcoursecreationapp.models.course.ImageResponse
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
-import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.ImagePickUtils
-import com.selflearningcoursecreationapp.utils.MEDIA_TYPE
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
@@ -33,10 +31,8 @@ class DocLessonFragment : BaseFragment<FragmentDocLessonBinding>(),
     private val imagePickUtils: ImagePickUtils by inject()
     private val viewModel: DocViewModel by viewModel()
     var uri = ""
-    var model: SectionModel? = null
     var childPosition: Int? = 0
-    var lectureId: Int? = null
-    var courseId: Int? = null
+
     var type: Int? = null
     var id: String = ""
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,22 +49,21 @@ class DocLessonFragment : BaseFragment<FragmentDocLessonBinding>(),
             val lessonData = DocLessonFragmentArgs.fromBundle(it)
             childPosition = lessonData.childPosition
             type = lessonData.type
-            model = lessonData.sendSectionModel
-            lectureId = lessonData.lectureId
-            courseId = lessonData.courseId
+            viewModel.model = lessonData.sendSectionModel
+            viewModel.lectureId = lessonData.lectureId
+            viewModel.courseId = lessonData.courseId
             uri = lessonData.filePath
         }
 
         if (type == Constant.CLICK_ADD) {
             setDataFromFile()
         } else {
-            viewModel.getLectureDetail(lectureId!!.toInt())
+            viewModel.getLectureDetail()
         }
 
 
         if (!childPosition.isNullOrNegative()) {
             binding.btnAddLesson.setText(baseActivity.getString(R.string.update_lesson))
-//            binding.edtDocTitle.setText(model?.lessonList?.get(childPosition!!)?.lectureContentName)
         }
 
         binding.ivEditPdf.setOnClickListener {
@@ -77,11 +72,8 @@ class DocLessonFragment : BaseFragment<FragmentDocLessonBinding>(),
 
         binding.btnAddLesson.setOnClickListener {
             viewModel.docValidations(
-                model?.sectionId!!,
-                MEDIA_TYPE.DOC,
+
                 binding.edtDocTitle.content(),
-                lectureId ?: -1,
-                courseId!!,
                 id,
                 TimeUnit.MINUTES.toMillis(
                     binding.edtReadTime.content().toLong()
@@ -99,17 +91,17 @@ class DocLessonFragment : BaseFragment<FragmentDocLessonBinding>(),
         inflater.inflate(R.menu.course_menu, menu)
     }
 
-    fun setDataFromFile() {
+    private fun setDataFromFile() {
         viewModel.notifyData()
         val file = File(Uri.parse(uri).path)
         viewModel.docLiveData.value?.lectureContentName = file.name
         binding.tvDocSize.text = getStringSizeLengthFile(file.length())
-        uploadServer(file.name, file)
+        uploadServer(file)
 
 
     }
 
-    fun getStringSizeLengthFile(size: Long): String? {
+    private fun getStringSizeLengthFile(size: Long): String? {
         val df = DecimalFormat("0.00")
         val sizeKb = 1024.0f
         val sizeMb = sizeKb * sizeKb
@@ -128,7 +120,7 @@ class DocLessonFragment : BaseFragment<FragmentDocLessonBinding>(),
         setDataFromFile()
     }
 
-    fun openDoc() {
+    private fun openDoc() {
 
         imagePickUtils.openDocs(
             baseActivity,
@@ -147,15 +139,15 @@ class DocLessonFragment : BaseFragment<FragmentDocLessonBinding>(),
                     it.lectureContentName = binding.edtDocTitle.content()
 
                     if (childPosition != null && childPosition != -1) {
-                        model?.lessonList?.set(childPosition!!, it)
+                        viewModel.model?.lessonList?.set(childPosition!!, it)
                         showToastLong(baseActivity.getString(R.string.lesson_updated_successfully))
 
                     } else {
-                        model?.lessonList?.add(it)
+                        viewModel.model?.lessonList?.add(it)
                         showToastLong(baseActivity.getString(R.string.lesson_saved_successfully))
                     }
                 }
-                model?.notifyPropertyChanged(BR.uploadLesson)
+                viewModel.model?.notifyPropertyChanged(BR.uploadLesson)
                 findNavController().navigateUp()
             }
             ApiEndPoints.API_CONTENT_UPLOAD -> {
@@ -182,15 +174,9 @@ class DocLessonFragment : BaseFragment<FragmentDocLessonBinding>(),
         }
     }
 
-    fun uploadServer(fileName: String, file: File) {
+    private fun uploadServer(file: File) {
         viewModel.uploadContent(
-            courseId,
-            model!!.sectionId,
-            lectureId!!,
-
             file,
-            MEDIA_TYPE.DOC,
-            "",
             0
         )
     }

@@ -7,7 +7,9 @@ import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
+import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.UploadContentRepo
+import com.selflearningcoursecreationapp.utils.MEDIA_TYPE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -22,14 +24,13 @@ class TextViewModel(private val repo: UploadContentRepo) : BaseViewModel() {
         value = CourseData()
 
     }
+    var model: SectionModel? = null
+    var lectureId: Int? = null
+    var courseId: Int? = null
 
 
     fun addPatchLecture(
-        sectionId: Int?,
-        mediaTypeId: Int?,
         lectureTitle: String,
-        lectureId: Int,
-        courseId: Int,
         lectureContentId: String,
         contentDuration: Long,
 
@@ -37,9 +38,9 @@ class TextViewModel(private val repo: UploadContentRepo) : BaseViewModel() {
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
             map["courseId"] = courseId.toString()
-            map["sectionId"] = sectionId.toString()
-            map["lectureId"] = lectureId
-            map["mediaTypeId"] = mediaTypeId.toString()
+            map["sectionId"] = model?.sectionId.toString()
+            map["lectureId"] = lectureId ?: -1
+            map["mediaTypeId"] = MEDIA_TYPE.TEXT.toString()
             map["lectureTitle"] = lectureTitle
             map["lectureContentId"] = lectureContentId
             map["contentDuration"] = contentDuration
@@ -53,11 +54,7 @@ class TextViewModel(private val repo: UploadContentRepo) : BaseViewModel() {
         }
 
     fun textValidations(
-        sectionId: Int,
-        i: Int,
         content: String,
-        lectureId: Int,
-        courseId: Int,
         lectureContentId: String,
         contentDuration: Long,
 
@@ -66,11 +63,7 @@ class TextViewModel(private val repo: UploadContentRepo) : BaseViewModel() {
             val errorId = it.isTextValid()
             if (errorId == 0) {
                 addPatchLecture(
-                    sectionId,
-                    i,
                     content,
-                    lectureId,
-                    courseId,
                     lectureContentId,
                     contentDuration
                 )
@@ -83,9 +76,9 @@ class TextViewModel(private val repo: UploadContentRepo) : BaseViewModel() {
     }
 
 
-    fun getLectureDetail(lectureId: Int) = viewModelScope.launch(coroutineExceptionHandle) {
+    fun getLectureDetail() = viewModelScope.launch(coroutineExceptionHandle) {
 
-        val response = repo.getLectureDetail(lectureId)
+        val response = repo.getLectureDetail(lectureId ?: -1)
         withContext(Dispatchers.IO) {
             response.collect {
                 updateResponseObserver(it)
@@ -95,18 +88,14 @@ class TextViewModel(private val repo: UploadContentRepo) : BaseViewModel() {
     }
 
     fun uploadContent(
-        courseId: Int?,
-        sectionId: Int?,
-        lectureId: Int,
-        uploadType: Int,
         text: String,
         duration: Int,
     ) = viewModelScope.launch(coroutineExceptionHandle) {
         val response = repo.contentUploadText(
             courseId,
-            sectionId,
-            lectureId,
-            uploadType,
+            model?.sectionId,
+            lectureId ?: -1,
+            MEDIA_TYPE.TEXT,
             text,
             duration
         )

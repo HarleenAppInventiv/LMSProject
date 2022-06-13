@@ -13,7 +13,6 @@ interface UploadContentRepo {
         lectureId: Int,
         file: File,
         uploadType: Int,
-        text: String,
         duration: Int,
     ): Flow<Resource>
 

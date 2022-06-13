@@ -275,7 +275,6 @@ interface ApiService {
         @Part("FileName") fileName: RequestBody?,
         @Part file: MultipartBody.Part,
         @Part("UploadType") uploadType: RequestBody?,
-        @Part("Text") text: RequestBody?,
         @Part("Duration") duration: RequestBody?,
     ): Response<BaseResponse<ImageResponse>>
 

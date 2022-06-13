@@ -22,7 +22,6 @@ import com.selflearningcoursecreationapp.extensions.content
 import com.selflearningcoursecreationapp.extensions.isNullOrNegative
 import com.selflearningcoursecreationapp.models.course.ImageResponse
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
-import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel
 import com.selflearningcoursecreationapp.ui.dialog.UploadAudioOptionsDialog
 import com.selflearningcoursecreationapp.utils.*
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
@@ -35,11 +34,8 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
     HandleClick, BaseBottomSheetDialog.IDialogClick {
     private val viewModel: AudioLessonViewModel by viewModel()
 
-    var lectureId: Int? = null
-    var courseId: Int? = null
-    var model: SectionModel? = null
+
     var childPosition: Int? = 0
-    var sectionId: Int? = null
     var filePath = ""
     var mediaFrom = 0
 
@@ -73,10 +69,10 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
         arguments?.let {
             val value = AudioLectureFragmentArgs.fromBundle(it)
             filePath = value.filePath
-            lectureId = value.lectureId
-            courseId = value.courseId
-            model = value.sendSectionModel
-            sectionId = model?.sectionId
+            viewModel.lectureId = value.lectureId
+            viewModel.courseId = value.courseId
+            viewModel.model = value.sendSectionModel
+            viewModel.sectionId = viewModel.model?.sectionId
             childPosition = value.childPosition
             type = value.type
             mediaFrom = value.from
@@ -86,7 +82,7 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
         if (type == Constant.CLICK_ADD) {
             convertToFile()
         } else {
-            viewModel.getLectureDetail(lectureId!!)
+            viewModel.getLectureDetail()
         }
 
         if (!childPosition.isNullOrNegative()) {
@@ -114,7 +110,7 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
 //
 //    }
 
-    fun setMediaPlayer() {
+    private fun setMediaPlayer() {
         binding.ivAudioVolume.setImageResource(R.drawable.ic_baseline_volume_up_24)
         mediaPlayer = MediaPlayer()
         mediaPlayer?.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -149,12 +145,8 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
 
     private fun uploadServer(file: File) {
         viewModel.uploadContent(
-            courseId,
-            sectionId,
-            lectureId!!,
             file,
-            MEDIA_TYPE.AUDIO,
-            "",
+
             0
         )
     }
@@ -174,11 +166,11 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
 
 
                     if (childPosition != null && childPosition != -1) {
-                        model?.lessonList?.set(childPosition!!, it)
+                        viewModel.model?.lessonList?.set(childPosition!!, it)
                         showToastLong(baseActivity.getString(R.string.lesson_updated_successfully))
 
                     } else {
-                        model?.lessonList?.add(it)
+                        viewModel.model?.lessonList?.add(it)
                         showToastLong(baseActivity.getString(R.string.lesson_saved_successfully))
                     }
 //                    if (mediaFrom == MEDIA_FROM.RECORDING) {
@@ -237,12 +229,10 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
             }
             R.id.btn_add_lesson -> {
                 viewModel.docValidations(
-                    lectureId,
-                    sectionId,
-                    courseId,
+
                     binding.edtTitle.content(),
                     contentId,
-                    MEDIA_TYPE.AUDIO,
+
                     milliSecond
                 )
 
@@ -279,9 +269,9 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
                         childPosition = childPosition!!,
                         type = type,
                         from = mediaFrom,
-                        sendSectionModel = model,
-                        courseId = courseId!!,
-                        lectureId = lectureId!!
+                        sendSectionModel = viewModel.model,
+                        courseId = viewModel.courseId!!,
+                        lectureId = viewModel.lectureId!!
                     )
                 findNavController().navigate(action)
             }

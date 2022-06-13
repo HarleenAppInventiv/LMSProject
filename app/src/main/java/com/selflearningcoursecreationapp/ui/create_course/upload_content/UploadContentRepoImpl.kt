@@ -38,7 +38,6 @@ class UploadContentRepoImpl(private val apiService: ApiService) : UploadContentR
         lectureId: Int,
         file: File,
         uploadType: Int,
-        text: String,
         duration: Int
     ): Flow<Resource> {
         return object : BaseRepo<BaseResponse<ImageResponse>>() {
@@ -49,10 +48,8 @@ class UploadContentRepoImpl(private val apiService: ApiService) : UploadContentR
                     lectureId.getRequestBody(),
                     file.name.getRequestBody(),
                     file.getMultiPartBody("File"),
-                    uploadType.getRequestBody(),
-                    text.getRequestBody(),
+                    uploadType.toString().getRequestBody(),
                     duration.getRequestBody()
-
                 )
             }
         }.safeApiCall(ApiEndPoints.API_CONTENT_UPLOAD).flowOn(Dispatchers.IO)
@@ -71,7 +68,7 @@ class UploadContentRepoImpl(private val apiService: ApiService) : UploadContentR
                     sectionId.getRequestBody(),
                     lectureId.getRequestBody(),
                     file.name.getRequestBody(),
-                    file.getMultiPartBody("File"),
+                    file.getMultiPartBody("File")
                 )
             }
         }.safeApiCall(ApiEndPoints.API_CONTENT_UPLOAD).flowOn(Dispatchers.IO)
@@ -91,10 +88,9 @@ class UploadContentRepoImpl(private val apiService: ApiService) : UploadContentR
                     courseId.getRequestBody(),
                     sectionId.getRequestBody(),
                     lectureId.getRequestBody(),
-                    uploadType.getRequestBody(),
+                    uploadType.toString().getRequestBody(),
                     text.getRequestBody(),
                     duration.getRequestBody()
-
                 )
             }
         }.safeApiCall(ApiEndPoints.API_CONTENT_UPLOAD).flowOn(Dispatchers.IO)

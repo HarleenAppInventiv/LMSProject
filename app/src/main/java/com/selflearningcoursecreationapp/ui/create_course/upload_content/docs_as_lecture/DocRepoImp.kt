@@ -51,7 +51,6 @@ class DocRepoImp(private val apiService: ApiService) : DocRepo {
                     fileName.getRequestBody(),
                     file.getMultiPartBody("File"),
                     uploadType.getRequestBody(),
-                    text.getRequestBody(),
                     duration.getRequestBody()
 
                 )

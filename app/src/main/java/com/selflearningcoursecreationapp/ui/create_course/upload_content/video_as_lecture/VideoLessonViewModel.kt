@@ -7,6 +7,7 @@ import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.UploadContentRepo
+import com.selflearningcoursecreationapp.utils.MEDIA_TYPE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -26,21 +27,19 @@ class VideoLessonViewModel(private val repo: UploadContentRepo) : BaseViewModel(
 
 
     fun addPatchLecture(
-        sectionId: Int?,
-        mediaTypeId: Int?,
+
         lectureTitle: String,
-        lectureId: Int,
-        courseId: Int,
+
         id: String,
         thumbId: String,
         duration: String,
     ) =
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
-            map["courseId"] = courseId
-            map["sectionId"] = sectionId.toString()
-            map["lectureId"] = lectureId
-            map["mediaTypeId"] = mediaTypeId.toString()
+            map["courseId"] = videoLiveData.value?.mCourseId ?: 0
+            map["sectionId"] = videoLiveData.value?.mSectionId.toString()
+            map["lectureId"] = videoLiveData.value?.mSectionId ?: 0
+            map["mediaTypeId"] = MEDIA_TYPE.VIDEO.toString()
             map["lectureTitle"] = lectureTitle
             map["lectureContentId"] = id
             map["lectureThumbnailId"] = thumbId
@@ -59,12 +58,8 @@ class VideoLessonViewModel(private val repo: UploadContentRepo) : BaseViewModel(
     }
 
     fun docValidations(
-        lectureId: Int?,
-        sectionId: Int?,
-        courseId: Int?,
         text: String,
         contentId: String,
-        audio: Int,
         thumbId: String,
         duration: String,
     ) {
@@ -72,11 +67,7 @@ class VideoLessonViewModel(private val repo: UploadContentRepo) : BaseViewModel(
             val errorId = it.isAudioValid()
             if (errorId == 0) {
                 addPatchLecture(
-                    sectionId = sectionId,
-                    mediaTypeId = audio,
                     lectureTitle = text,
-                    lectureId = lectureId!!,
-                    courseId = courseId!!,
                     id = contentId,
                     thumbId,
                     duration
@@ -88,22 +79,16 @@ class VideoLessonViewModel(private val repo: UploadContentRepo) : BaseViewModel(
     }
 
     fun uploadContent(
-        courseId: Int?,
-        sectionId: Int?,
-        lectureId: Int,
         file: File,
-        uploadType: Int,
-        text: String,
         duration: Int,
     ) =
         viewModelScope.launch(coroutineExceptionHandle) {
             val response = repo.contentUpload(
-                courseId,
-                sectionId,
-                lectureId,
+                videoLiveData.value?.mCourseId,
+                videoLiveData.value?.mSectionId,
+                videoLiveData.value?.mLectureId ?: 0,
                 file,
-                uploadType,
-                text,
+                MEDIA_TYPE.VIDEO,
                 duration
             )
             withContext(Dispatchers.IO) {

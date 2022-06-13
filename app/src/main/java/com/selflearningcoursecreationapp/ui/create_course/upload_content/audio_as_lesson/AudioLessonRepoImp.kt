@@ -51,7 +51,6 @@ class AudioLessonRepoImp(private val apiService: ApiService) : AudioLessonRepo {
                     fileName.getRequestBody(),
                     file.getMultiPartBody("File"),
                     uploadType.getRequestBody(),
-                    text.getRequestBody(),
                     duration.getRequestBody()
 
                 )

@@ -302,6 +302,7 @@
     <string name="add_lecture">Add Lesson</string>
     <string name="audio">Audio</string>
     <string name="video">Video</string>
+    <string name="replace_thumbnail">Replace Thumbnail</string>
     <string name="upload_logo">Upload logo</string>
     <string name="upload_theme">Upload theme</string>
     <string name="upload_font">Upload font</string>
@@ -675,6 +676,7 @@
     <string name="question_deleted_successfully">Question deleted successfully.</string>
     <string name="plz_add_sections">Please add section(s) to continue.</string>
     <string name="plz_add_lesson">Please add lesson(s).</string>
+    <string name="file_limit_alert_text">File size is more than 5 MB, not able to upload. Please select another file.</string>
     <string name="plz_add_data_in_section">Please add data in all field(s) of section.</string>
     <string name="plz_save_sections">Please save all section(s).</string>
     <string name="plz_add_data_in_quiz">Please update quiz settings.</string>
