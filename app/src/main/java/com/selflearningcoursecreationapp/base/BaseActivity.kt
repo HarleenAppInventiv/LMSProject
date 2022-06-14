@@ -318,7 +318,6 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, LifecycleObserv
         grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        PermissionUtil.onRequestPermissionResult(requestCode, permissions, grantResults)
         PermissionUtilClass.onRequestPermissionResult(requestCode, permissions, grantResults)
     }
 

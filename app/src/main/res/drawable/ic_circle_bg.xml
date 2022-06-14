@@ -14,13 +14,13 @@
             android:strokeAlpha="0.08" />
         <path
             android:pathData="M187,49m-235,0a235,235 0,1 1,470 0a235,235 0,1 1,-470 0"
-            android:strokeAlpha="0.12"
+            android:fillAlpha="0.12"
             android:fillColor="#000"
-            android:fillAlpha="0.12" />
+            android:strokeAlpha="0.12" />
         <path
-            android:pathData="M187,27m-189,0a189,189 0,1 1,378 0a189,189 0,1 1,-378 0"
-            android:strokeAlpha="0.16"
+            android:fillAlpha="0.16"
             android:fillColor="#000"
-            android:fillAlpha="0.16" />
+            android:pathData="M187,27m-189,0a189,189 0,1 1,378 0a189,189 0,1 1,-378 0"
+            android:strokeAlpha="0.16" />
     </group>
 </vector>

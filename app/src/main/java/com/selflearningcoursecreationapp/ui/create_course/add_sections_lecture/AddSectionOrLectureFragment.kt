@@ -80,8 +80,15 @@ class AddSectionOrLectureFragment :
                     last
                 )
                 recyclerviewAdapter.notifyItemMoved(fromPosition, toPosition)
+                recyclerviewAdapter.notifyDataSetChanged()
+//                    binding.rvSections.layoutManager.run {
+//                        binding.rvSections.adapter?.notifyItemChanged(adapterPosition)
+//                    }
                 fromPosition = -1
                 toPosition = -1
+            }
+            if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                viewHolder?.itemView?.alpha = 0.5f
             }
 
         }

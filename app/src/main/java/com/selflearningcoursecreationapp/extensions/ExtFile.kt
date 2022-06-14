@@ -111,7 +111,7 @@ fun Context.getTimeInChar(milliseconds: Long?): String {
     }
     if (seconds > 0) {
         time = "$time ${getQuantityString(R.plurals.sec_quantity, seconds!!)}"
-        }
+    }
 
     return if (time.startsWith(",")) time.substring(1) else time
 

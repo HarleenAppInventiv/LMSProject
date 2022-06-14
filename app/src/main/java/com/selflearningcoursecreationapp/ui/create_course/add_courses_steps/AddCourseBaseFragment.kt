@@ -150,7 +150,6 @@ class AddCourseBaseFragment : BaseFragment<FragmentAddCourseBaseBinding>(),
                 true
             }
             R.id.action_read -> {
-
                 true
             }
 
@@ -180,6 +179,7 @@ class AddCourseBaseFragment : BaseFragment<FragmentAddCourseBaseBinding>(),
             Step1Fragment(),
             Step2Fragment(),
             AddSectionOrLectureFragment(),
+
             AssessmentFragment(),
             CourseReviewFragment()
         )
