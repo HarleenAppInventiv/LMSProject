@@ -7,7 +7,7 @@ import com.selflearningcoursecreationapp.databinding.AdapterMyPaymentBinding
 import com.selflearningcoursecreationapp.utils.Constant
 
 
-class PurchaseAdapter() :BaseAdapter<AdapterMyPaymentBinding>() {
+class PurchaseAdapter : BaseAdapter<AdapterMyPaymentBinding>() {
     override fun getLayoutRes(): Int {
         return R.layout.adapter_my_payment
     }

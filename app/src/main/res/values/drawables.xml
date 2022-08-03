@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<resources>
+    <drawable name="ic_notification_pause">@android:drawable/ic_media_pause</drawable>
+    <drawable name="ic_notification_resume">@android:drawable/ic_media_play</drawable>
+    <drawable name="ic_notification_stop">@drawable/ic_stop</drawable>
+</resources>

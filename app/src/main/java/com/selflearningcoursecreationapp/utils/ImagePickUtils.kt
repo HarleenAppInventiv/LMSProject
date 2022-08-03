@@ -94,6 +94,7 @@ class ImagePickUtils {
         registerForCallback(registry)
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+//            putExtra(Intent.EXTRA_LOCAL_ONLY, true)
             type = "video/*"
         }
 
@@ -111,7 +112,7 @@ class ImagePickUtils {
         registerForCallback(registry)
 
         val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
-        if (takeVideoIntent.resolveActivity(context.getPackageManager()) != null) {
+        if (takeVideoIntent.resolveActivity(context.packageManager) != null) {
             getContent?.launch(takeVideoIntent)
         }
     }
@@ -162,7 +163,8 @@ class ImagePickUtils {
             "application/msword",
             "application/vnd.ms-powerpoint",
             "application/vnd.ms-excel",
-            "text/plain"
+            "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+
         )
         mActivity = context
         imageCallback = callBack
@@ -224,55 +226,69 @@ class ImagePickUtils {
         ) { result: ActivityResult ->
             val resultCode = result.resultCode
             val data = result.data
-            if (resultCode == Activity.RESULT_OK) {
-                data?.data!!.also { uri ->
-                    if (type == 1) {
-                        imageCallback?.invoke(uri.path)
-                    } else if (type == 2) {
-                        imageCallback?.invoke(
-                            FileUtils.getDriveFilePath(
-                                uri,
-                                SelfLearningApplication.applicationContext()
-                            )
-                        )
-                    } else if (type == 3) {
-                        Log.d(
-                            "varun", "registerForCallback: ${
-                                FileUtils.getDriveFilePath(
-                                    uri,
-                                    SelfLearningApplication.applicationContext()
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    data?.data!!.also { uri ->
+                        when (type) {
+                            1 -> {
+                                imageCallback?.invoke(uri.path)
+                            }
+                            2 -> {
+                                imageCallback?.invoke(
+                                    FileUtils.getDriveFilePath(
+                                        uri,
+                                        SelfLearningApplication.applicationContext()
+                                    )
                                 )
-                            }"
-                        )
-                        imageCallback?.invoke(
-                            FileUtils.getDriveFilePath(
-                                uri,
-                                SelfLearningApplication.applicationContext()
-                            )
-                        )
-                    } else if (type == 4) {
-                        URIPathHelper.apply {
-                            val path = getPath(SelfLearningApplication.applicationContext(), uri)
-                            imageCallback?.invoke(path)
+                            }
+                            3 -> {
+                                Log.d(
+                                    "varun", "registerForCallback: ${
+                                        FileUtils.getDriveFilePath(
+                                            uri,
+                                            SelfLearningApplication.applicationContext()
+                                        )
+                                    }"
+                                )
+                                imageCallback?.invoke(
+                                    FileUtils.getDriveFilePath(
+                                        uri,
+                                        SelfLearningApplication.applicationContext()
+                                    )
+                                )
+                            }
+                            4 -> {
+                                //                        URIPathHelper.apply {
+                                val path =
+                                    FileUtils.getPath(
+                                        SelfLearningApplication.applicationContext(),
+                                        uri
+                                    )
+                                imageCallback?.invoke(path)
+                                //                        }
+                            }
+                            else -> {
+                                imageCallback?.invoke(uri.toString())
+                            }
                         }
-                    } else {
-                        imageCallback?.invoke(uri.toString())
+
+
+                        showLog(
+                            "IMAGE",
+                            "profileUri >>> $uri ...... path >>>  ${uri.path}"
+                        )
+
                     }
 
 
-                    showLog(
-                        "IMAGE",
-                        "profileUri >>> $uri ...... path >>>  ${uri.path}"
-                    )
-
                 }
-
-
-            } else if (resultCode == ImagePicker.RESULT_ERROR) {
-                Toast.makeText(mActivity, ImagePicker.getError(data) + "fsfsd`", Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                Toast.makeText(mActivity, "Task Cancelled", Toast.LENGTH_SHORT).show()
+                ImagePicker.RESULT_ERROR -> {
+                    Toast.makeText(mActivity, ImagePicker.getError(data), Toast.LENGTH_SHORT)
+                        .show()
+                }
+                else -> {
+//                    Toast.makeText(mActivity, "Task Cancelled", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

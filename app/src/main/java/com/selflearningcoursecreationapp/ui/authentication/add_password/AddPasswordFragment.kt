@@ -16,16 +16,16 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddPasswordFragment : BaseFragment<FragmentAddPasswordBinding>() {
     private val viewModel: AddPassViewModel by viewModel()
-    var userId = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
     }
 
+
     private fun initUI() {
         arguments?.let {
-            userId = it.getString("user_id").toString()
+       viewModel.setUserData(it.getString("user_id").toString(), baseActivity.token)
         }
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         binding.setPass = viewModel
@@ -39,7 +39,7 @@ class AddPasswordFragment : BaseFragment<FragmentAddPasswordBinding>() {
         binding.etPass.showHidePassword()
 
         binding.btnSave.setOnClickListener {
-            viewModel.onAdd(userId, baseActivity.token)
+            viewModel.validate()
         }
 
 
@@ -69,12 +69,11 @@ class AddPasswordFragment : BaseFragment<FragmentAddPasswordBinding>() {
                     }.build()
 
 
-//                CommonAlertDialog.builder(baseActivity).notCancellable().hideNegativeBtn(true)
-//                    .description(baseActivity.getString(R.string.password_reset_successfully))
-//                    .getCallback {
-//                        findNavController().navigateUp()
-//                    }.build()
             }
         }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
     }
 }

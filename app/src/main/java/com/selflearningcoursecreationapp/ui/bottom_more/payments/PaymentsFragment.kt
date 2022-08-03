@@ -3,17 +3,17 @@ package com.selflearningcoursecreationapp.ui.bottom_more.payments
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentPaymentsBinding
-import com.selflearningcoursecreationapp.ui.bottom_more.payments.purchase.PurchaseFragment
 import com.selflearningcoursecreationapp.ui.bottom_more.payments.earnings.EarningFragment
+import com.selflearningcoursecreationapp.ui.bottom_more.payments.purchase.PurchaseFragment
 import com.selflearningcoursecreationapp.ui.preferences.ScreenSlidePagerAdapter
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
 
@@ -27,6 +27,7 @@ class PaymentsFragment : BaseFragment<FragmentPaymentsBinding>() {
         super.onViewCreated(view, savedInstanceState)
         initUi()
     }
+
 
     private fun initUi() {
 
@@ -65,6 +66,10 @@ class PaymentsFragment : BaseFragment<FragmentPaymentsBinding>() {
 
             }
         })
+    }
+
+    override fun onApiRetry(apiCode: String) {
+
     }
 
 }

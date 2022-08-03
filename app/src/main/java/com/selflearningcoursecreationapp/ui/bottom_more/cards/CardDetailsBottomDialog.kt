@@ -8,9 +8,9 @@ import com.selflearningcoursecreationapp.databinding.BottomDialogCardDetailBindi
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.HandleClick
 
-class CardDetailsBottomDialog() : BaseBottomSheetDialog<BottomDialogCardDetailBinding>(),
+class CardDetailsBottomDialog : BaseBottomSheetDialog<BottomDialogCardDetailBinding>(),
     HandleClick {
-    lateinit var yearMonthBottomDialog: YearMonthBottomDialog
+    private lateinit var yearMonthBottomDialog: YearMonthBottomDialog
     private var cardType: Int = Constant.TYPE_MONTH
     private var position: Int = 0
     override fun getLayoutRes() = R.layout.bottom_dialog_card_detail
@@ -64,6 +64,7 @@ class CardDetailsBottomDialog() : BaseBottomSheetDialog<BottomDialogCardDetailBi
         initUi()
     }
 
+
     override fun onHandleClick(vararg items: Any) {
         if (items.isNotEmpty()) {
             val view = items[0] as View
@@ -92,4 +93,6 @@ class CardDetailsBottomDialog() : BaseBottomSheetDialog<BottomDialogCardDetailBi
             }
         }
     }
+
+
 }

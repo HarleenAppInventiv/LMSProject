@@ -39,6 +39,12 @@ class LMSImageView : AppCompatImageView {
                 R.styleable.LMSImageView_changeBackgroundType,
                 ThemeConstants.TYPE_NONE
             )
+        changeBackground(changeBgType)
+
+        themeAttrs.recycle()
+    }
+
+    fun changeBackground(changeBgType: Int) {
         when (changeBgType) {
             ThemeConstants.TYPE_TINT -> {
 
@@ -70,8 +76,6 @@ class LMSImageView : AppCompatImageView {
             }
 
         }
-
-        themeAttrs.recycle()
     }
 
 }

@@ -2,6 +2,7 @@ package com.selflearningcoursecreationapp.ui.authentication.login_otp
 
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
@@ -11,7 +12,7 @@ import com.selflearningcoursecreationapp.databinding.FragmentLoginOTPBinding
 import com.selflearningcoursecreationapp.extensions.content
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
-import com.selflearningcoursecreationapp.utils.OTP_TYPE
+import com.selflearningcoursecreationapp.utils.OtpType
 import com.selflearningcoursecreationapp.utils.SpanUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -30,6 +31,7 @@ class LoginOTPFragment : BaseFragment<FragmentLoginOTPBinding>() {
         binding.imageView.invalidate()
         binding.loginViaOTP = viewModel
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
+        hideLoading()
 
         binding.textView.setSpanString(
             SpanUtils.with(baseActivity, baseActivity.getString(R.string.login_via_otp)).endPos(
@@ -53,23 +55,26 @@ class LoginOTPFragment : BaseFragment<FragmentLoginOTPBinding>() {
 
 
         binding.countryCodePicker.apply {
-            setDefaultCountryUsingNameCode("IN")
+            setAutoDetectedCountry(true)
         }
 
+
         binding.btnContinue.setOnClickListener {
-            viewModel.loginViaOTP(binding.countryCodePicker.selectedCountryCodeWithPlus)
+            viewModel.countryCode = binding.countryCodePicker.selectedCountryCodeWithPlus
+            viewModel.loginViaOTP()
         }
+
     }
 
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)
         when (apiCode) {
             ApiEndPoints.API_OTP_REQ -> {
-                var action =
+                val action =
                     LoginOTPFragmentDirections.actionLoginOTPFragmentToOTPVerifyFragment(
                         phone = binding.edtRegPhone.content(),
                         email = "",
-                        type = OTP_TYPE.TYPE_LOGIN,
+                        type = OtpType.TYPE_LOGIN,
                         countryCode = binding.countryCodePicker.selectedCountryCodeWithPlus
                     )
                 findNavController().navigate(action)
@@ -78,8 +83,16 @@ class LoginOTPFragment : BaseFragment<FragmentLoginOTPBinding>() {
         }
     }
 
-
     override fun getLayoutRes() = R.layout.fragment_login_o_t_p
+
+    override fun onResume() {
+        super.onResume()
+        baseActivity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
+    }
 
 
 }

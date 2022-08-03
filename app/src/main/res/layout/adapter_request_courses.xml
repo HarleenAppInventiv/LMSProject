@@ -29,7 +29,7 @@
 
                 android:text="UX and Web Design Course"
                 app:fontType="semiBold"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/adapterTF_14"
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                 app:layout_constraintStart_toStartOf="@id/guidelineStart"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +42,7 @@
                 android:layout_marginTop="@dimen/_3sdp"
                 android:text="BA Certification"
                 app:fontType="medium"
-                android:textSize="@dimen/_11ssp"
+                android:textSize="@dimen/adapterTextField_11"
                 app:layout_constraintStart_toStartOf="@+id/guidelineStart"
                 app:layout_constraintTop_toBottomOf="@+id/tv_name"
                 app:textColorType="body" />
@@ -67,7 +67,7 @@
                 android:layout_marginTop="@dimen/_3sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:text="English"
-                android:textSize="@dimen/_11ssp"
+                android:textSize="@dimen/adapterTextField_11"
                 app:fontType="medium"
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                 app:layout_constraintStart_toEndOf="@+id/iv_dot"
@@ -76,7 +76,7 @@
 
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/iv_creater"
+                android:id="@+id/iv_creator"
                 android:layout_width="@dimen/_24sdp"
                 android:layout_height="@dimen/_24sdp"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -91,12 +91,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:text="Allen Wen"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/adapterTextField_12"
                 app:fontType="semiBold"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_creater"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_creator"
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                app:layout_constraintStart_toEndOf="@+id/iv_creater"
-                app:layout_constraintTop_toTopOf="@+id/iv_creater" />
+                app:layout_constraintStart_toEndOf="@+id/iv_creator"
+                app:layout_constraintTop_toTopOf="@+id/iv_creator" />
 
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
@@ -109,7 +109,7 @@
                 android:text="@string/accept"
                 android:textAlignment="center"
                 android:backgroundTint="@null"
-                android:textSize="@dimen/_10sdp"
+                android:textSize="@dimen/textField_10"
                 app:btnTextColor="none"
                 app:backgroundTint="@color/accent_color_2FBF71"
                 app:buttonBackground="none"
@@ -131,7 +131,7 @@
                 android:minHeight="0dp"
                 android:text="@string/reject"
                 android:textAlignment="center"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/textField_10"
                 android:backgroundTint="@null"
                 app:backgroundTint="@color/accent_color_fc6d5b"
                 app:btnTextColor="none"

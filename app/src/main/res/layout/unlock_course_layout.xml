@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="unlockCourses"
+            type="com.selflearningcoursecreationapp.ui.dialog.unlockCourse.UnlockVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edt_white_bg"
+
+
+        >
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_24sdp"
+            android:importantForAccessibility="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_sucessful_payment" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="Unlock Course"
+            android:textAlignment="center"
+            android:textSize="@dimen/textField_21"
+            app:fontType="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_send_otp_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:text="Enter 4 digit code to unlock"
+            android:textAlignment="center"
+            android:textSize="@dimen/textField_14"
+            app:fontType="medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintWidth_percent=".9"
+            app:textColorType="body" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+            android:id="@+id/et_otp1"
+            android:layout_width="@dimen/_43sdp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_15sdp"
+
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/edt_bg"
+            android:contentDescription="@string/enter_4_digit_number_that_sent_to_your_number"
+            android:hint="-"
+            android:inputType="number"
+            android:maxLength="1"
+            android:nextFocusRight="@id/et_otp2"
+            android:padding="@dimen/_5sdp"
+
+            android:paddingVertical="@dimen/_15sdp"
+            android:text="@={unlockCourses.otpData.otp1}"
+            android:textAlignment="center"
+            android:textColorHint="?attr/hintColor"
+            android:textSize="@dimen/textField_17"
+            app:fontType="bold"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/et_otp2"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_send_otp_text" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+            android:id="@+id/et_otp2"
+            android:layout_width="@dimen/_43sdp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/edt_bg"
+            android:hint="-"
+            android:inputType="number"
+            android:maxLength="1"
+            android:nextFocusLeft="@id/et_otp1"
+            android:nextFocusRight="@id/et_otp3"
+            android:padding="@dimen/_5sdp"
+            android:paddingVertical="@dimen/_15sdp"
+            android:text="@={unlockCourses.otpData.otp2}"
+            android:textAlignment="center"
+
+            android:textColorHint="?attr/hintColor"
+            android:textSize="@dimen/textField_17"
+            app:fontType="bold"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/et_otp3"
+            app:layout_constraintStart_toEndOf="@+id/et_otp1"
+            app:layout_constraintTop_toBottomOf="@+id/tv_send_otp_text" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+            android:id="@+id/et_otp3"
+            android:layout_width="@dimen/_43sdp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/edt_bg"
+            android:hint="-"
+            android:inputType="number"
+            android:maxLength="1"
+            android:nextFocusLeft="@id/et_otp2"
+            android:nextFocusRight="@id/et_otp4"
+            android:padding="@dimen/_5sdp"
+
+            android:paddingVertical="@dimen/_15sdp"
+            android:text="@={unlockCourses.otpData.otp3}"
+            android:textAlignment="center"
+            android:textColorHint="?attr/hintColor"
+            android:textSize="@dimen/textField_17"
+
+            app:fontType="bold"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/et_otp4"
+            app:layout_constraintStart_toEndOf="@+id/et_otp2"
+            app:layout_constraintTop_toBottomOf="@+id/tv_send_otp_text" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+            android:id="@+id/et_otp4"
+            android:layout_width="@dimen/_43sdp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_15sdp"
+
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:background="@drawable/edt_bg"
+
+            android:hint="-"
+            android:inputType="number"
+            android:maxLength="1"
+            android:nextFocusLeft="@id/et_otp3"
+            android:padding="@dimen/_5sdp"
+            android:text="@={unlockCourses.otpData.otp4}"
+            android:textAlignment="center"
+            android:textColorHint="?attr/hintColor"
+            android:textSize="@dimen/textField_17"
+            app:fontType="bold"
+
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/et_otp3"
+            app:layout_constraintTop_toBottomOf="@+id/tv_send_otp_text" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+            android:id="@+id/btn_submit_otp"
+            spanText="@{@string/submit}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_24sdp"
+            android:layout_marginBottom="@dimen/_24sdp"
+            android:enabled="@{unlockCourses.otpData.dataValid}"
+            android:text="@string/submit"
+            android:textSize="@dimen/materialButton_14"
+            app:btnEnabled="@{unlockCourses.otpData.dataValid}"
+            app:buttonFont="semiBold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_otp4"
+            app:layout_constraintVertical_bias="0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

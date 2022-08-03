@@ -1,6 +1,10 @@
 package com.selflearningcoursecreationapp.data.network
 
-open class ApiError {
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+open class ApiError : Parcelable {
     var status: Boolean = false
     var message: String? = null
     var result: Any? = null

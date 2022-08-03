@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_profile_graph"
+    app:startDestination="@id/profileThumbFragment">
+    <fragment
+        android:id="@+id/acceptedRequestFragment"
+        android:name="com.selflearningcoursecreationapp.ui.profile.requestTracker.acceptRejectRequest.AcceptedRequestFragment"
+        android:label="Accepted Requests"
+        tools:layout="@layout/fragment_accepted_request" />
+    <fragment
+        android:id="@+id/coAuthorRequestFragment"
+        android:name="com.selflearningcoursecreationapp.ui.profile.requestTracker.coAuthorRequest.CoAuthorRequestFragment"
+        android:label="Co-Author Request"
+        tools:layout="@layout/fragment_co_author_request" />
+    <fragment
+        android:id="@+id/myBankFragment"
+        android:name="com.selflearningcoursecreationapp.ui.my_bank.MyBankFragment"
+        android:label="Bank Account"
+        tools:layout="@layout/fragment_my_bank" />
+    <fragment
+        android:id="@+id/addEmailFragment"
+        android:name="com.selflearningcoursecreationapp.ui.authentication.add_email.AddEmailFragment"
+        android:label="">
+        <action
+            android:id="@+id/action_addEmailFragment_to_OTPVerifyFragment2"
+            app:destination="@id/OTPVerifyFragment2"
+            app:popUpTo="@id/profileDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dashboardBaseFragment"
+        android:name="com.selflearningcoursecreationapp.ui.dashboard.DashboardBaseFragment"
+        android:label="@string/dashboard_Caps" />
+    <fragment
+        android:id="@+id/myCourseTabFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_course.MyCourseTabFragment"
+        android:label="@string/my_course"
+        tools:layout="@layout/fragment_my_course_tab">
+        <action
+            android:id="@+id/action_myCourseTabFragment_to_courseDetailsFragment"
+            app:destination="@id/course_detail_graph" />
+    </fragment>
+    <fragment
+
+        android:id="@+id/moderatorsCommentFragment"
+        android:name="com.selflearningcoursecreationapp.ui.profile.requestTracker.moderatorComments.ModeratorsCommentFragment"
+        android:label="Moderator's Comments"
+        tools:layout="@layout/fragment_moderators_comment">
+        <action
+            android:id="@+id/action_moderatorsCommentFragment_to_courseDetailsFragment"
+            app:destination="@id/course_detail_graph" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileThumbFragment"
+        android:name="com.selflearningcoursecreationapp.ui.profile.profileThumb.ProfileThumbFragment"
+        android:label=""
+        tools:layout="@layout/fragment_profile_thumb">
+        <action
+            android:id="@+id/action_profileThumbFragment_to_profileDetailsFragment"
+            app:destination="@id/profileDetailsFragment" />
+        <action
+            android:id="@+id/action_profileThumbFragment_to_myBankFragment"
+            app:destination="@id/myBankFragment" />
+        <action
+            android:id="@+id/action_profileThumbFragment_to_bookmarkedCoursesFragment"
+            app:destination="@id/bookmarkedCoursesFragment" />
+        <action
+            android:id="@+id/action_profileThumbFragment_to_myCourseTabFragment"
+            app:destination="@id/myCourseTabFragment" />
+        <action
+            android:id="@+id/action_profileThumbFragment_to_dashboardBaseFragment"
+            app:destination="@id/dashboardBaseFragment" />
+        <action
+            android:id="@+id/action_profileThumbFragment_to_requestTrackerDashboardFragment"
+            app:destination="@id/requestTrackerDashboardFragment" />
+        <action
+            android:id="@+id/action_profileThumbFragment_to_rewardFragment"
+            app:destination="@id/rewardFragment" />
+
+        <action
+            android:id="@+id/action_profileThumbFragment_to_modDashBaseFragment"
+            app:destination="@id/modDashBaseFragment" />
+        <action
+            android:id="@+id/action_profileThumbFragment_to_fragment_mode_doc"
+            app:destination="@id/fragment_mode_doc" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_mode_doc"
+        android:name="com.selflearningcoursecreationapp.ui.moderator.ModeCertificateFragment"
+        android:label="ModeDoc"
+        tools:layout="@layout/fragment_certificate" />
+    <fragment
+        android:id="@+id/bookmarkedCoursesFragment"
+        android:name="com.selflearningcoursecreationapp.ui.profile.bookmark.WishlistCoursesFragment"
+        android:label="@string/wishlist">
+        <action
+            android:id="@+id/action_bookmarkedCoursesFragment_to_courseDetailsFragment"
+            app:destination="@id/course_detail_graph" />
+    </fragment>
+    <fragment
+        android:id="@+id/rewardFragment"
+        android:name="com.selflearningcoursecreationapp.ui.profile.reward.RewardFragment"
+        android:label="@string/reward_points">
+
+        <action
+            android:id="@+id/action_reward_to_courseDetailsFragment"
+            app:destination="@id/course_detail_graph" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileDetailsFragment"
+        android:name="com.selflearningcoursecreationapp.ui.profile.profileDetails.ProfileDetailsFragment"
+        android:label=""
+        tools:layout="@layout/fragment_profile_details">
+        <action
+            android:id="@+id/action_profileDetailsFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileDetailsFragment_to_addEmailFragment"
+            app:destination="@id/addEmailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.selflearningcoursecreationapp.ui.profile.edit_profile.EditProfileFragment"
+        android:label="@string/edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/OTPVerifyFragment2"
+        android:name="com.selflearningcoursecreationapp.ui.authentication.otp_verify.OTPVerifyFragment"
+        android:label=""
+        tools:layout="@layout/fragment_o_t_p_varify">
+
+        <argument
+            android:name="countryCode"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="type"
+            android:defaultValue="0"
+            app:argType="integer" />
+
+        <argument
+            android:name="phone"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="email"
+            app:argType="string"
+            app:nullable="true" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/requestTrackerDashboardFragment"
+        android:name="com.selflearningcoursecreationapp.ui.profile.requestTracker.RequestTrackerDashboardFragment"
+        android:label="Request Tracker"
+        tools:layout="@layout/fragment_request_tracker_dashboard">
+        <action
+            android:id="@+id/action_requestTrackerDashboardFragment_to_AcceptedRequestFragment"
+            app:destination="@id/acceptedRequestFragment" />
+        <action
+            android:id="@+id/action_requestTrackerDashboardFragment_to_coAuthorRequestFragment"
+            app:destination="@id/coAuthorRequestFragment" />
+        <action
+            android:id="@+id/action_requestTrackerDashboardFragment_to_moderatorsCommentFragment"
+            app:destination="@id/moderatorsCommentFragment" />
+        <action
+            android:id="@+id/action_requestTrackerDashboardFragment_to_becomeModeratorFragment"
+            app:destination="@id/becomeModeratorFragment" />
+
+    </fragment>
+    <include app:graph="@navigation/course_detail_graph" />
+    <fragment
+        android:id="@+id/modDashBaseFragment"
+        android:name="com.selflearningcoursecreationapp.ui.moderator.moderatorDashboard.ModDashBaseFragment"
+        android:label="ModDashBaseFragment" />
+    <fragment
+        android:id="@+id/becomeModeratorFragment"
+        android:name="com.selflearningcoursecreationapp.ui.moderator.BecomeModeratorFragment"
+        android:label="@string/become_a_moderator" />
+</navigation>

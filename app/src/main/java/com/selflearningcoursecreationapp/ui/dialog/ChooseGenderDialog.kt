@@ -13,7 +13,7 @@ import com.selflearningcoursecreationapp.utils.DialogType
 
 class ChooseGenderDialog : BaseBottomSheetDialog<BottomDialogCourceCateBinding>(),
     BaseAdapter.IViewClick {
-    lateinit var adapterSelectGender: AdapterSelectGender
+    private lateinit var adapterSelectGender: AdapterSelectGender
     var list = ArrayList<GenderModel>()
     private var selectedId: Int = 0
 
@@ -35,13 +35,14 @@ class ChooseGenderDialog : BaseBottomSheetDialog<BottomDialogCourceCateBinding>(
         list.add(GenderModel(3, "Other", selectedId == 3))
 
         binding.etSearch.gone()
-        binding.tvTitle.setText(getString(R.string.gender))
+        binding.tvTitle.text = getString(R.string.gender)
 
         setProfessionalAdapter(list)
 
     }
 
-    fun setProfessionalAdapter(list: ArrayList<GenderModel>) {
+
+    private fun setProfessionalAdapter(list: ArrayList<GenderModel>) {
         binding.recyclerCourceCategory.apply {
             adapterSelectGender = AdapterSelectGender(list)
             adapter = adapterSelectGender

@@ -4,6 +4,10 @@
 
     <data>
 
+        <variable
+            name="courseData"
+            type="com.selflearningcoursecreationapp.models.course.CourseData" />
+
     </data>
 
 
@@ -12,10 +16,10 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_5sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
 
         android:checkable="true"
         android:clickable="true"
@@ -33,20 +37,20 @@
 
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/appCompatImageView2"
+                android:id="@+id/iv_banner"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_150sdp"
+                android:layout_height="@dimen/_140sdp"
                 android:layout_margin="@dimen/_5sdp"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/corneredImage5"
                 app:srcCompat="@drawable/banner" />
 
-
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/tv_cource_level"
+                android:id="@+id/tv_course_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
@@ -57,68 +61,69 @@
                 android:focusable="true"
                 android:paddingHorizontal="@dimen/_5sdp"
                 android:paddingVertical="@dimen/_3sdp"
-                android:text="Intermediate"
-                android:textSize="@dimen/_12ssp"
+                android:text="@{courseData.courseComplexityName}"
+                android:textSize="@dimen/adapterTextField_12"
                 app:fontType="medium"
-                app:layout_constraintStart_toStartOf="@+id/appCompatImageView2"
-                app:layout_constraintTop_toTopOf="@+id/appCompatImageView2"
+                app:layout_constraintStart_toStartOf="@+id/iv_banner"
+                app:layout_constraintTop_toTopOf="@+id/iv_banner"
                 app:textColorType="theme" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/appCompatImageView4"
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
+                android:id="@+id/iv_bookmark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_margin="@dimen/_5sdp"
                 android:src="@drawable/ic_bookmark"
-                app:layout_constraintEnd_toEndOf="@+id/appCompatImageView2"
-                app:layout_constraintTop_toTopOf="@+id/appCompatImageView2" />
+                app:layout_constraintEnd_toEndOf="@+id/iv_banner"
+                app:layout_constraintTop_toTopOf="@+id/iv_banner"
+                app:shapeAppearanceOverlay="@style/circleImage" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@drawable/edt_white_bg"
                 android:elevation="@dimen/_1sdp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_newPrice"
-                app:layout_constraintEnd_toEndOf="@+id/tv_oldPrice"
-                app:layout_constraintStart_toStartOf="@+id/tv_newPrice"
-                app:layout_constraintTop_toTopOf="@+id/tv_newPrice" />
+                app:layout_constraintBottom_toBottomOf="@+id/tv_rating"
+                app:layout_constraintEnd_toEndOf="@+id/tv_review_count"
+                app:layout_constraintStart_toStartOf="@+id/tv_rating"
+                app:layout_constraintTop_toTopOf="@+id/tv_rating" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/tv_newPrice"
+                android:id="@+id/tv_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:drawablePadding="@dimen/_3sdp"
                 android:elevation="@dimen/_1sdp"
                 android:focusable="true"
-                android:paddingHorizontal="@dimen/_5sdp"
                 android:paddingVertical="@dimen/_3sdp"
-                android:text="4.8"
-                android:textSize="@dimen/_14ssp"
+                android:paddingStart="@dimen/_8sdp"
+                android:text="@{courseData.averageRating}"
+                android:textSize="@dimen/textField_14"
                 android:visibility="visible"
-
                 app:drawableStartCompat="@drawable/ic_star"
                 app:fontType="semiBold"
-                app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView2"
-                app:layout_constraintEnd_toStartOf="@+id/tv_oldPrice"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView2"
+                app:layout_constraintBottom_toTopOf="@+id/textView4"
+                app:layout_constraintEnd_toStartOf="@+id/tv_review_count"
                 app:textColorType="heading" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/tv_oldPrice"
+                android:id="@+id/tv_review_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:elevation="@dimen/_1sdp"
                 android:focusable="true"
-                android:paddingEnd="@dimen/_5sdp"
+                android:paddingVertical="@dimen/_3sdp"
                 android:paddingStart="@dimen/_2sdp"
-                android:text="(26k)"
-                android:textSize="@dimen/_11ssp"
+                android:paddingEnd="@dimen/_8sdp"
+
+                android:textSize="@dimen/adapterTextField_11"
                 app:fontType="medium"
-                app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView2"
-                app:layout_constraintEnd_toEndOf="@+id/appCompatImageView2"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView2"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_rating"
+                app:layout_constraintEnd_toEndOf="@+id/iv_banner"
+                app:layout_constraintTop_toTopOf="@+id/tv_rating"
                 app:textColorType="body" />
 
 
@@ -126,74 +131,115 @@
                 android:id="@+id/textView4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginHorizontal="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:lineSpacingExtra="6sp"
-                android:text="UX and Web Design Course"
+                android:ellipsize="end"
+                android:minLines="1"
+                android:singleLine="true"
+                android:text="@{courseData.courseTitle}"
                 android:textColor="@color/adapter_header_color"
-                android:textSize="@dimen/_16ssp"
-                app:fontType="semiBold"
+                android:textSize="@dimen/homeAdapterTF_16"
+                app:fontType="medium"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView2"
+                app:layout_constraintTop_toBottomOf="@+id/iv_banner"
                 app:textColorType="none" />
 
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/appCompatTextView4"
+                android:id="@+id/tv_author_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:text="Allene Wen"
-                android:textSize="@dimen/_11ssp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{courseData.createdName}"
+                android:textSize="@dimen/adapterTextField_11"
                 app:fontType="medium"
+                app:layout_constraintEnd_toStartOf="@+id/iv_dot"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView4"
-                app:textColorType="body" />
+                app:layout_constraintWidth_default="wrap"
+                app:textColorType="heading" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_dot"
+                android:layout_width="@dimen/_4sdp"
+                android:layout_height="@dimen/_4sdp"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:src="@color/grey_c4c4c4"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_author_name"
+                app:layout_constraintEnd_toStartOf="@+id/tv_certification"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@+id/tv_author_name"
+                app:layout_constraintTop_toTopOf="@+id/tv_author_name"
+                app:shapeAppearanceOverlay="@style/circleImage" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_certification"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:text=".  Science"
-                android:textSize="@dimen/_11ssp"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:text="@{courseData.categoryName}"
+                android:textSize="@dimen/adapterTextField_11"
                 app:fontType="medium"
-                app:layout_constraintStart_toEndOf="@+id/appCompatTextView4"
+                app:layout_constraintEnd_toStartOf="@+id/iv_dot2"
+                app:layout_constraintStart_toEndOf="@+id/iv_dot"
                 app:layout_constraintTop_toBottomOf="@+id/textView4"
-                app:textColorType="body" />
+                app:layout_constraintWidth_default="wrap"
+                app:textColorType="heading" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_dot2"
+                android:layout_width="@dimen/_4sdp"
+                android:layout_height="@dimen/_4sdp"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:src="@color/grey_c4c4c4"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_certification"
+                app:layout_constraintEnd_toStartOf="@+id/tv_language"
+                app:layout_constraintStart_toEndOf="@+id/tv_certification"
+                app:layout_constraintTop_toTopOf="@+id/tv_certification"
+                app:shapeAppearanceOverlay="@style/circleImage" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_language"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:text=".  English"
-                android:textSize="@dimen/_11ssp"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:text="@{courseData.languageName}"
+                android:textSize="@dimen/adapterTextField_11"
                 app:fontType="medium"
-                app:layout_constraintStart_toEndOf="@+id/tv_certification"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_dot2"
                 app:layout_constraintTop_toBottomOf="@+id/textView4"
+                app:layout_constraintWidth_default="wrap"
                 app:textColorType="theme" />
 
             <View
                 android:id="@+id/view3"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_1sdp"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:background="?attr/offwhiteTextColor"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@color/grey_ededed"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_certification" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/appCompatTextView5"
+                android:id="@+id/tv_new_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_15sdp"
-                android:text="₹ 16789.56"
+
                 android:textColor="@color/accent_color_2FBF71"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/adapterTF_14"
                 app:fontType="semiBold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -201,35 +247,65 @@
                 app:textColorType="none" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/appCompatTextView6"
+                android:id="@+id/tv_old_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_15sdp"
                 android:text="35000.00"
-                android:textColor="@color/hintColor"
-                android:textSize="@dimen/_11ssp"
+                android:textColor="@color/hint_color_929292"
+                android:textSize="@dimen/adapterTextField_11"
+                android:visibility="gone"
                 app:fontType="medium"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/LMSMaterialButton"
-                app:layout_constraintStart_toEndOf="@+id/appCompatTextView5"
-                app:layout_constraintTop_toBottomOf="@+id/view3"
-                app:textColorType="secondary" />
+                app:layout_constraintBottom_toBottomOf="@+id/tv_new_price"
+                app:layout_constraintStart_toEndOf="@+id/tv_new_price"
+                app:layout_constraintTop_toTopOf="@+id/tv_new_price"
+                app:textColorType="body" />
 
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_coin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_12sdp"
+                android:drawablePadding="@dimen/_5sdp"
+                android:paddingHorizontal="@dimen/_5sdp"
+                android:paddingVertical="@dimen/_3sdp"
+                android:text="200"
+                android:textColor="@color/coin_stroked_color"
+                android:textSize="@dimen/adapterTextField_12"
+                android:visibility="gone"
+                app:drawableStartCompat="@drawable/ic_rewards_points"
+                app:fontType="semiBold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_enroll"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view3"
+
+                app:textColorType="none" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
-                android:id="@+id/LMSMaterialButton"
+                android:id="@+id/btn_enroll"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_25sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
+                android:padding="@dimen/_5sdp"
                 android:text="@string/enroll_now"
-                android:textSize="@dimen/_12sdp"
+                android:textSize="@dimen/homeAdapterBtn_12"
                 app:buttonFont="semiBold"
                 app:cornerRadius="@dimen/_3sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view3" />
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toEndOf="@+id/tv_old_price"
+                app:layout_constraintTop_toBottomOf="@+id/view3"
+                app:layout_constraintWidth_default="wrap" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

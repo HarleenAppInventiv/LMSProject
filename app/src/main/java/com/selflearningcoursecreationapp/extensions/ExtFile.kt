@@ -2,6 +2,7 @@ package com.selflearningcoursecreationapp.extensions
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Rect
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.util.Log
@@ -10,9 +11,11 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.Insets
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.google.gson.Gson
 import com.selflearningcoursecreationapp.BuildConfig
-import com.selflearningcoursecreationapp.R
 
 
 fun Activity.hideKeyboard(): Boolean {
@@ -68,27 +71,34 @@ fun TextView.setSpanString(spanText: SpannableString?) {
 
 fun <T> String?.getPojoData(type: Class<T>): T? {
 
-    if (this.isNullOrEmpty()) {
-        return null
+    return if (this.isNullOrEmpty()) {
+        null
     } else
-        return Gson().fromJson<T>(this, type)
+        Gson().fromJson(this, type)
 }
 
 
-fun Context.getTime(milliseconds: Long?): String {
-    if (milliseconds.isNullOrZero()) {
+fun Long?.getTime(context: Context, showHms: Boolean = true, showHrs: Boolean = true): String {
+    if (this.isNullOrZero()) {
         return ""
+    } else if (showHms) {
+        return getTimeInHMS(context, showHrs)
+    } else {
+        return context.getTimeInChar(this)
     }
 
 
-    val seconds = milliseconds!!.div(1000).rem(60).toInt()
-    val mins = milliseconds!!.div(1000.times(60)).rem(60).toInt()
-    val hrs = milliseconds!!.div(1000.times(60).times(60)).rem(24).toInt()
+}
 
-    var time =
-        "${if (hrs > 9) hrs else "0$hrs"}:${if (mins > 9) mins else "0$mins"}:${if (seconds > 9) seconds else "0$seconds"}"
+private fun Long?.getTimeInHMS(context: Context, showHrs: Boolean): String {
+    val seconds = this!!.div(1000).rem(60).toInt()
+    val mins = this.div(1000.times(60)).rem(60).toInt()
+    val hrs = this.div(1000.times(60).times(60)).rem(24).toInt()
 
-    return time
+
+
+
+    return "${if (hrs == 0 && !showHrs) "" else if (hrs > 9) hrs.toString() + ":" else "0$hrs:"}${if (mins > 9) mins else "0$mins"}:${if (seconds > 9) seconds else "0$seconds"}"
 
 }
 
@@ -99,20 +109,73 @@ fun Context.getTimeInChar(milliseconds: Long?): String {
 
 
     val seconds = milliseconds!!.div(1000).rem(60).toInt()
-    val mins = milliseconds!!.div(1000.times(60)).rem(60).toInt()
-    val hrs = milliseconds!!.div(1000.times(60).times(60)).rem(24).toInt()
-    var time = ""
+    val mins = milliseconds.div(1000.times(60)).rem(60).toInt()
+    val hrs = milliseconds.div(1000.times(60).times(60)).rem(24).toInt()
 
+    var time = ""
     if (hrs > 0) {
-        time = getQuantityString(R.plurals.hour_quantity, hrs!!)
+        time = if (hrs > 9) hrs.toString() else "0$hrs"
+
     }
     if (mins > 0) {
-        time = "$time ${getQuantityString(R.plurals.min_quantity_small, mins!!)}"
+        time = time + ".${if (mins > 9) mins else "0$mins"}"
+
     }
-    if (seconds > 0) {
-        time = "$time ${getQuantityString(R.plurals.sec_quantity, seconds!!)}"
+    if (seconds > 0 && (time.isEmpty() || time.startsWith("."))) {
+        time = time + ".${if (seconds > 9) seconds else "0$seconds"}"
     }
 
-    return if (time.startsWith(",")) time.substring(1) else time
+    val format = if (hrs > 0) {
+        "hrs"
+    } else if (mins > 0) {
+        "mins"
+    } else {
 
+        "secs"
+    }
+    return String.format("%s %s", if (time.startsWith(".")) time.substring(1) else time, format)
+
+
+}
+
+fun Activity.getRootView(): View {
+    return findViewById<View>(android.R.id.content)
+}
+
+fun Context.convertDpToPx(dp: Float): Float {
+    return TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        dp,
+        this.resources.displayMetrics
+    )
+}
+
+fun Activity.isKeyboardOpen(): Boolean {
+    val visibleBounds = Rect()
+    this.getRootView().getWindowVisibleDisplayFrame(visibleBounds)
+    val heightDiff = getRootView().height - visibleBounds.height()
+    val marginOfError = Math.round(this.convertDpToPx(50F))
+    return heightDiff > marginOfError
+}
+
+fun Activity.isKeyboardClosed(): Boolean {
+    return !this.isKeyboardOpen()
+}
+
+fun View?.fitSystemWindowsAndAdjustResize() = this?.let { view ->
+    ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+        view.fitsSystemWindows = true
+        val bottom = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+
+        WindowInsetsCompat
+            .Builder()
+            .setInsets(
+                WindowInsetsCompat.Type.systemBars(),
+                Insets.of(0, 0, 0, bottom)
+            )
+            .build()
+            .apply {
+                ViewCompat.onApplyWindowInsets(v, this)
+            }
+    }
 }

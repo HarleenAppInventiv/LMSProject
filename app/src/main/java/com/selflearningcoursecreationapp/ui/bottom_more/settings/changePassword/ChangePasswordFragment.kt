@@ -67,6 +67,7 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
         return super.onOptionsItemSelected(item)
     }
 
+
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)
         when (apiCode) {
@@ -94,6 +95,10 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
                 }
             }
         }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
     }
 
 }

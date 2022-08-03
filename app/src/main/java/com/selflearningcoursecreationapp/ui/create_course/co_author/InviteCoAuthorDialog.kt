@@ -2,7 +2,6 @@ package com.selflearningcoursecreationapp.ui.create_course.co_author
 
 import android.os.Bundle
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.DialogFragment
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseDialog
 import com.selflearningcoursecreationapp.data.network.ApiError
@@ -19,26 +18,28 @@ import com.selflearningcoursecreationapp.utils.SpanUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class InviteCoAuthorDialog : BaseDialog<LayoutEditTextDialogBinding>() {
-    var sendVia = 0
-    var isEmail = true
+    private var isEmail = true
     override fun getLayoutRes() = R.layout.layout_edit_text_dialog
     private val viewModel: CoAuthorViewModel by viewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogTransparent_95)
+        setStyle(STYLE_NO_TITLE, R.style.DialogTransparent_95)
 
     }
 
     override fun initUi() {
+        viewModel.getApiResponse().observe(viewLifecycleOwner, this)
+
         arguments?.let {
             viewModel.courseId = it.getInt("courseId")
         }
         binding.viewModel = viewModel
         enablePhone()
-        viewModel.getApiResponse().observe(viewLifecycleOwner, this)
 
         binding.btnSend.setOnClickListener {
-            viewModel.validate(binding.countryCodePicker.selectedCountryCodeWithPlus, isEmail)
+            viewModel.selectedCountryCodeWithPlus =
+                binding.countryCodePicker.selectedCountryCodeWithPlus
+            viewModel.validate(isEmail)
         }
         binding.ivCross.setOnClickListener {
             dismiss()
@@ -61,7 +62,6 @@ class InviteCoAuthorDialog : BaseDialog<LayoutEditTextDialogBinding>() {
 
     private fun enablePhone() {
         binding.edtUserPhone.hideKeyboard()
-        sendVia = 1
         isEmail = true
         binding.edtUserEmail.apply {
             visible()
@@ -86,7 +86,6 @@ class InviteCoAuthorDialog : BaseDialog<LayoutEditTextDialogBinding>() {
 
     private fun enableMail() {
         binding.edtUserEmail.hideKeyboard()
-        sendVia = 2
         binding.edtUserEmail.gone()
         binding.edtUserPhone.text?.clear()
         binding.edtUserEmail.text?.clear()
@@ -179,5 +178,10 @@ class InviteCoAuthorDialog : BaseDialog<LayoutEditTextDialogBinding>() {
             }
         }
     }
+
+    override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
+    }
+
 
 }

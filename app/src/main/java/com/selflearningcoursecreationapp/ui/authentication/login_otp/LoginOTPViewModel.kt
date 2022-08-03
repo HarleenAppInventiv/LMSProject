@@ -7,10 +7,10 @@ import com.selflearningcoursecreationapp.base.BaseViewModel
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.ui.authentication.otp_verify.OTPVerifyRepo
-import com.selflearningcoursecreationapp.utils.OTP_TYPE
-import com.selflearningcoursecreationapp.utils.VALIDATION_CONST
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.OtpType
+import com.selflearningcoursecreationapp.utils.ValidationConst
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -19,36 +19,41 @@ class LoginOTPViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
         value = ""
     }
 
+    var countryCode = ""
     var cc = ""
 
-    fun loginViaOTP(selectedCountryCodeWithPlus: String) {
 
-        if (phone.value.isNullOrEmpty()) {
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_phone_number)))
+    fun loginViaOTP() {
 
-        } else if (phone.value!!.length < VALIDATION_CONST.MIN_NO_LENGTH) {
-            updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_valid_phone_number)))
-        } else {
-            reqOTP(selectedCountryCodeWithPlus)
+        when {
+            phone.value.isNullOrEmpty() -> {
+                updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_phone_number)))
 
+            }
+            phone.value!!.length < ValidationConst.MIN_NO_LENGTH -> {
+                updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_valid_phone_number)))
+            }
+            else -> {
+                reqOTP()
+
+            }
         }
 
 
     }
 
 
-    fun reqOTP(selectedCountryCodeWithPlus: String) =
+    private fun reqOTP() =
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
 
 
             map["phone"] = phone.value!!
-//            map["unit"] = "60"
-            map["OtpType"] = "${OTP_TYPE.TYPE_LOGIN}"
-            map["countryCode"] = selectedCountryCodeWithPlus
+            map["OtpType"] = "${OtpType.TYPE_LOGIN}"
+            map["countryCode"] = countryCode
 
 
-            var response = repo.reqOtp(map)
+            val response = repo.reqOtp(map)
             withContext(Dispatchers.IO) {
                 phone
                 response.collect {
@@ -58,5 +63,15 @@ class LoginOTPViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
 
         }
 
+    override fun onApiRetry(apiCode: String) {
+        when (apiCode) {
+            ApiEndPoints.API_OTP_REQ -> {
+                loginViaOTP()
+            }
+        }
+    }
 
 }
+
+
+

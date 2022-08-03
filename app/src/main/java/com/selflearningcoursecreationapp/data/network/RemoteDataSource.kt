@@ -24,7 +24,7 @@ fun getApiService(retrofit: Retrofit): ApiService {
 }
 
 
-private fun getHttpClient(): OkHttpClient.Builder {
+fun getHttpClient(): OkHttpClient.Builder {
     return OkHttpClient.Builder()
         .addInterceptor { chain ->
             val original = chain.request()

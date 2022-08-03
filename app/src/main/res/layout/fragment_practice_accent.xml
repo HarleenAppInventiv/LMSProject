@@ -17,7 +17,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/offwhiteTextColor"
+        android:background="?attr/off_whiteTextColor"
         tools:context=".ui.practice_accent.PracticeAccentFragment">
 
 
@@ -53,7 +53,7 @@
                 android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                 android:paddingVertical="@dimen/_10sdp"
                 android:textColor="?attr/whiteTextColor"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/textField_14"
                 app:drawableTint="?attr/whiteTextColor"
                 app:layout_constraintBottom_toBottomOf="@+id/view5"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
@@ -72,7 +72,7 @@
                 android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                 android:paddingVertical="@dimen/_10sdp"
                 android:textColor="?attr/whiteTextColor"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/textField_14"
                 app:drawableTint="?attr/whiteTextColor"
                 app:layout_constraintBottom_toBottomOf="@+id/view5"
                 app:layout_constraintEnd_toEndOf="@+id/view5"
@@ -83,7 +83,7 @@
             <View
                 android:layout_width="@dimen/_1sdp"
                 android:layout_height="0dp"
-                android:background="?attr/offwhiteTextColor"
+                android:background="?attr/off_whiteTextColor"
                 app:layout_constraintBottom_toBottomOf="@+id/view5"
                 app:layout_constraintEnd_toEndOf="@+id/view5"
                 app:layout_constraintStart_toStartOf="@+id/view5"
@@ -98,7 +98,7 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:text="Your text"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/textField_14"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/view5"
@@ -117,7 +117,7 @@
                 android:imeOptions="actionDone"
                 android:textColor="?attr/primaryTextColor"
                 android:textColorHint="?attr/hintColor"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/editTextField_14"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/LMSTextView4"
@@ -140,7 +140,7 @@
                 android:minLines="6"
                 android:textColor="?attr/primaryTextColor"
                 android:textColorHint="?attr/hintColor"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/editTextField_14"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"

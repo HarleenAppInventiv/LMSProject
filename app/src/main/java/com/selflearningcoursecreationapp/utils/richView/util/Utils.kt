@@ -1,4 +1,4 @@
-package com.richpath.util
+package com.selflearningcoursecreationapp.utils.richView.util
 
 import android.content.Context
 import android.graphics.Color

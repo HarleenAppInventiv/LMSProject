@@ -18,7 +18,7 @@
  * See about document.execCommand: https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand
  */
 
-var RE = {};
+const RE = {};
 
 RE.currentSelection = {
     "startContainer": 0,

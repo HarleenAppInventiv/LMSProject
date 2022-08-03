@@ -12,10 +12,11 @@
 
     </data>
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/offwhiteTextColor">
+        android:background="?attr/off_whiteTextColor">
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -58,9 +59,10 @@
                 spanText="@{@string/there_are_no_sections_in_this_course}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/there_are_no_sections_in_this_course"
                 android:textAlignment="center"
-                android:textSize="@dimen/_16ssp"
+                android:textSize="@dimen/textField_14"
                 app:textColorType="black" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
@@ -76,7 +78,7 @@
                 android:text="@string/add_section"
                 android:textAlignment="center"
                 android:textColor="?attr/colorPrimary"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/textField_11"
                 app:btnIconColor="primary"
                 app:btnTextColor="secondary"
                 app:buttonBackground="secondary"
@@ -91,8 +93,8 @@
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
             android:id="@+id/bt_addSection"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_48sdp"
             android:layout_margin="@dimen/_15sdp"
             android:insetLeft="0dp"
             android:insetTop="0dp"

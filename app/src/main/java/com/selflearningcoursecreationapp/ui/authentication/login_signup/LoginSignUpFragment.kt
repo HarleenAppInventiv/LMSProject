@@ -25,6 +25,7 @@ class LoginSignUpFragment : BaseFragment<FragmentLoginSignUpBinding>(), View.OnC
 
     }
 
+
     fun init() {
         binding.textView.setSpanString(
             SpanUtils.with(baseActivity, baseActivity.getString(R.string.hello_welcome)).endPos(6)
@@ -70,6 +71,7 @@ class LoginSignUpFragment : BaseFragment<FragmentLoginSignUpBinding>(), View.OnC
         if (type == 0)
             binding.txtSingIn.changeBackgroundTint(ThemeConstants.TYPE_THEME)
         else binding.txtSingIn.backgroundTintList = null
+
         if (type == 1)
             binding.txtSignUp.changeBackgroundTint(ThemeConstants.TYPE_THEME)
         else binding.txtSignUp.backgroundTintList = null
@@ -102,6 +104,10 @@ class LoginSignUpFragment : BaseFragment<FragmentLoginSignUpBinding>(), View.OnC
         } else {
             baseActivity.finishAffinity()
         }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+
     }
 
 

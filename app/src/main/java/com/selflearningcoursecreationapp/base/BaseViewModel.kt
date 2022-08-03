@@ -19,13 +19,14 @@ import com.selflearningcoursecreationapp.models.user.UserProfile
 import com.selflearningcoursecreationapp.models.user.UserResponse
 import com.selflearningcoursecreationapp.utils.Constants
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 abstract class BaseViewModel : ViewModel() {
 
-    var TAG = "BaseViewModel"
+    var LogTag = "BaseViewModel"
     var userProfile: UserProfile? = null
+    abstract fun onApiRetry(apiCode: String)
 
     init {
         getUserData()
@@ -33,7 +34,7 @@ abstract class BaseViewModel : ViewModel() {
 
     fun getUserData() {
         viewModelScope.launch {
-            viewModelScope.async {
+            withContext(viewModelScope.coroutineContext) {
                 val userResponse = PreferenceDataStore.getString(Constants.USER_RESPONSE)
                 if (!userResponse.isNullOrEmpty()) {
                     val resp = Gson().fromJson(userResponse, UserResponse::class.java)
@@ -41,7 +42,7 @@ abstract class BaseViewModel : ViewModel() {
                         userProfile = resp.user
                     }
                 }
-            }.await()
+            }
         }
     }
 
@@ -49,19 +50,18 @@ abstract class BaseViewModel : ViewModel() {
 
 
     val coroutineExceptionHandle = CoroutineExceptionHandler { _, e ->
-        Log.d(TAG, "CoroutineExceptionHandler")
+        Log.d(LogTag, "CoroutineExceptionHandler")
 
         updateResponseObserver(Resource.Failure(false, "", ApiError().apply {
             exception = e
         }))
-        Log.d(TAG, "${e.message}")
+        Log.d(LogTag, "${e.message}")
     }
 
     fun getApiResponse(): LiveData<EventObserver<Resource>> = _response
 
     fun updateResponseObserver(response: Resource) {
         try {
-
             _response.postValue(EventObserver(response))
         } catch (e: Exception) {
             _response.value = EventObserver(response)
@@ -159,7 +159,7 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     suspend fun saveUserDataInDB(
-        data: BaseResponse<UserResponse>
+        data: BaseResponse<UserResponse>,
     ) {
         try {
 

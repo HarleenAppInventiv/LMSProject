@@ -15,10 +15,10 @@ class PreferenceRepoImpl(private val apiService: ApiService) : PreferenceRepo {
     override suspend fun savePreference(map: HashMap<String, Any>): Flow<Resource> {
         return object : BaseRepo<BaseResponse<Any>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<Any>> {
-                return apiService.savePrefrence(map)
+                return apiService.savePreferences(map)
             }
 
-        }.safeApiCall(ApiEndPoints.API_SAVE_PREFRENCE).flowOn(Dispatchers.IO)
+        }.safeApiCall(ApiEndPoints.API_SAVE_PREFERENCES).flowOn(Dispatchers.IO)
     }
 
     override suspend fun getCategory(): Flow<Resource> {
@@ -36,7 +36,7 @@ class PreferenceRepoImpl(private val apiService: ApiService) : PreferenceRepo {
                 return apiService.myCategories()
             }
 
-        }.safeApiCall(ApiEndPoints.API_MYCATEGORIES).flowOn(Dispatchers.IO)
+        }.safeApiCall(ApiEndPoints.API_MY_CATEGORIES).flowOn(Dispatchers.IO)
     }
 
     override suspend fun getThemeList(): Flow<Resource> {
@@ -45,7 +45,7 @@ class PreferenceRepoImpl(private val apiService: ApiService) : PreferenceRepo {
                 return apiService.getThemeList()
             }
 
-        }.safeApiCall(ApiEndPoints.API_GETTHEME_LIST).flowOn(Dispatchers.IO)
+        }.safeApiCall(ApiEndPoints.API_GET_THEME_LIST).flowOn(Dispatchers.IO)
     }
 
 }

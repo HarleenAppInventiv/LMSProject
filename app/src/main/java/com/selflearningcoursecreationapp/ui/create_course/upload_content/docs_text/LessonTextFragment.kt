@@ -13,22 +13,21 @@ import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.databinding.FragmentLessonTextBinding
 import com.selflearningcoursecreationapp.extensions.content
-import com.selflearningcoursecreationapp.models.course.ImageResponse
+import com.selflearningcoursecreationapp.extensions.disableCopyPaste
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.Constant
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.concurrent.TimeUnit
 
 
 class LessonTextFragment : BaseFragment<FragmentLessonTextBinding>() {
 
-    var descHTML = ""
-    var childPosition: Int? = 0
+    private var childPosition: Int? = 0
+    private var isFirstTime: Boolean = true
 
-    var type: Int? = null
-    var lectureContentId: String? = ""
+    private var type: Int? = null
     private val viewModel: TextViewModel by viewModel()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
@@ -40,10 +39,13 @@ class LessonTextFragment : BaseFragment<FragmentLessonTextBinding>() {
         inflater.inflate(R.menu.course_menu, menu)
     }
 
+
     private fun initUI() {
         setHasOptionsMenu(true)
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         binding.textLesson = viewModel
+//        binding.edtDocTitle.setOnTouchListener(this)
+
         arguments?.let {
             val lessonData = LessonTextFragmentArgs.fromBundle(it)
             childPosition = lessonData.childPosition
@@ -56,40 +58,42 @@ class LessonTextFragment : BaseFragment<FragmentLessonTextBinding>() {
         }
         activityResultListener()
 
-        if (type == Constant.CLICK_EDIT) {
+        if (type == Constant.CLICK_EDIT && isFirstTime) {
+
             viewModel.getLectureDetail()
+            isFirstTime = false
         }
 
         binding.btAdd.setOnClickListener {
 
 
-            viewModel.textValidations(
-                binding.edtDocTitle.content(),
-
-                lectureContentId.toString(),
-                TimeUnit.MINUTES.toMillis(
-                    binding.edtTime.content().toLong()
-                )
-            )
+            viewModel.textValidations()
 
         }
 
         if (childPosition != null && childPosition != -1) {
-            binding.btAdd.setText(baseActivity.getString(R.string.update_lesson))
+            binding.btAdd.text = baseActivity.getString(R.string.update_lesson)
 //            binding.edtDocTitle.setText(model?.lessonList?.get(childPosition!!)?.lectureContentName)
         }
 
         binding.edtText.setOnClickListener {
-            var action =
+            val actionNew =
                 LessonTextFragmentDirections.actionLessonTextFragmentToTextEditorFragment(
-                    Constant.DESC, viewModel.courseData.value?.courseDescription ?: "", 0
-                )
-            findNavController().navigate(action)
+                    Constant.DESC,
+                    viewModel.textLiveData.value?.textFileText ?: "",
+                    0,
+
+
+                    )
+
+            findNavController().navigate(actionNew)
         }
     }
 
 
     override fun getLayoutRes() = R.layout.fragment_lesson_text
+
+
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)
         when (apiCode) {
@@ -110,16 +114,17 @@ class LessonTextFragment : BaseFragment<FragmentLessonTextBinding>() {
                 findNavController().navigateUp()
             }
             ApiEndPoints.API_CONTENT_UPLOAD -> {
-                (value as BaseResponse<ImageResponse>).resource?.let {
-                    lectureContentId = it.id.toString()
-                }
+
             }
             ApiEndPoints.API_GET_LECTURE_DETAIL -> {
                 (value as BaseResponse<ChildModel>).resource?.let {
                     binding.edtText.setText(Html.fromHtml(it.textFileText))
+
+                    binding.textLesson?.textLiveData?.value?.textFileText = it.textFileText
                     binding.edtDocTitle.setText(it.lectureTitle)
-                    var min = (it.lectureContentDuration?.toLong()?.div(10000))?.div(60000)
+                    val min = it.lectureContentDuration?.div(60000) ?: 0
                     binding.edtTime.setText(min.toString())
+                    viewModel.lectureContentId = it.lectureContentId
                 }
             }
         }
@@ -133,29 +138,26 @@ class LessonTextFragment : BaseFragment<FragmentLessonTextBinding>() {
             val value = bundle.getString("value")
             val type = bundle.getInt("type")
             if (type == Constant.DESC) {
-                uploadServer(value)
-                descHTML = value.toString()
-                viewModel.courseData.value?.courseDescription = value ?: ""
-                binding.edtText.setText(Html.fromHtml(value))
-                viewModel.courseData.value?.notifyChange()
+                viewModel.textLiveData.value?.textFileText = value ?: ""
+                viewModel.textLiveData.value?.notifyChange()
+//                binding.edtDocTitle.setLimitedText(Html.fromHtml(value?:"").toString(),9)
+                uploadServer()
 
-//                binding.tvWordCount.apply {
-//                    text = "${count}"
-//                    if (count < 500) {
-//                        setTextColor(ContextCompat.getColor(context, R.color.black))
-//                    } else {
-//                        setTextColor(ContextCompat.getColor(context, R.color.accent_color_fc6d5b))
-//                    }
-//                }
             }
         }
     }
 
-    fun uploadServer(value: String?) {
-        viewModel.uploadContent(
-            value.toString(),
-            0
-        )
+    private fun uploadServer() {
+        viewModel.uploadContent()
     }
 
+    override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.edtText.disableCopyPaste()
+
+    }
 }

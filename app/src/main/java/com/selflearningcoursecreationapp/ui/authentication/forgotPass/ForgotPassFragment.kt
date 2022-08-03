@@ -18,21 +18,20 @@ import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.ui.dialog.CheckMailDialog
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.Constant
-import com.selflearningcoursecreationapp.utils.OTP_TYPE
+import com.selflearningcoursecreationapp.utils.OtpType
 import com.selflearningcoursecreationapp.utils.SpanUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class ForgotPassFragment : BaseFragment<FragmentForgotPassBinding>(), BaseDialog.IDialogClick {
-    val viewModel: ForgotPassViewModel by viewModel()
+    private val viewModel: ForgotPassViewModel by viewModel()
 
-    var number = ""
-    var email = ""
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
 
     }
+
 
     fun initUI() {
         binding.forgotPass = viewModel
@@ -44,27 +43,25 @@ class ForgotPassFragment : BaseFragment<FragmentForgotPassBinding>(), BaseDialog
 
         binding.edtForgotphone.doAfterTextChanged {
             if (it!!.isDigitsOnly()) {
-                number = it.toString()
                 binding.countryCodePicker.visible()
-//                Log.d("varun", "initUI email is empty: ${number}")
                 limitEditText(16)
             } else {
                 binding.countryCodePicker.gone()
                 limitEditText(40)
-                email = it.toString()
-//                Log.d("varun", "initUI number is empty: ${email}")
             }
-            if (it.length == 0) {
+            if (it.isEmpty()) {
                 binding.countryCodePicker.gone()
             }
         }
 
         binding.btnSubmit.setOnClickListener {
-            viewModel.validate(binding.countryCodePicker.selectedCountryCodeWithPlus)
+            viewModel.selectedCountryCodeWithPlus =
+                binding.countryCodePicker.selectedCountryCodeWithPlus
+            viewModel.validate()
         }
     }
 
-    fun limitEditText(maxLength: Int) {
+    private fun limitEditText(maxLength: Int) {
         val filters = arrayOfNulls<InputFilter>(1)
         filters[0] = InputFilter.LengthFilter(maxLength)
         binding.edtForgotphone.filters = filters
@@ -80,16 +77,7 @@ class ForgotPassFragment : BaseFragment<FragmentForgotPassBinding>(), BaseDialog
         when (apiCode) {
             ApiEndPoints.API_OTP_REQ -> {
                 val isPhone = value as Boolean
-//                if (isPhone) {
-//                    findNavController().navigate(
-//                        ForgotPassFragmentDirections.actionForgotPassFragmentToOTPVerifyFragment(
-//                            phone = binding.edtForgotphone.content(),
-//                            email = "",
-//                            type = OTP_TYPE.TYPE_FORGOT,
-//                            countryCode = binding.countryCodePicker.selectedCountryCodeWithPlus
-//                        )
-//                    )
-//                } else {
+
                 CheckMailDialog().apply {
                     arguments = bundleOf(
                         "title" to this@ForgotPassFragment.baseActivity.getString(R.string.check_your_mail_sms),
@@ -100,23 +88,13 @@ class ForgotPassFragment : BaseFragment<FragmentForgotPassBinding>(), BaseDialog
                     )
                     setOnDialogClickListener(this@ForgotPassFragment)
                 }.show(childFragmentManager, "")
-//                    findNavController().navigate(
-//                        ForgotPassFragmentDirections.actionForgotPassFragmentToOTPVerifyFragment(
-//                            phone = "",
-//                            email = binding.edtForgotphone.content(),
-//                            type = OTP_TYPE.TYPE_FORGOT,
-//                            countryCode = ""
-//                        )
-//                    )
-//                }
             }
         }
     }
 
     override fun onDialogClick(vararg items: Any) {
         if (items.isNotEmpty()) {
-            var view = items[0] as Int
-            when (view) {
+            when (items[0] as Int) {
                 Constant.CLICK_VIEW -> {
 
                     findNavController().navigate(
@@ -127,7 +105,7 @@ class ForgotPassFragment : BaseFragment<FragmentForgotPassBinding>(), BaseDialog
                             email = if (!binding.edtForgotphone.content()
                                     .isDigitsOnly()
                             ) binding.edtForgotphone.content() else "",
-                            type = OTP_TYPE.TYPE_FORGOT,
+                            type = OtpType.TYPE_FORGOT,
                             countryCode = binding.countryCodePicker.selectedCountryCodeWithPlus
                         )
                     )
@@ -135,6 +113,11 @@ class ForgotPassFragment : BaseFragment<FragmentForgotPassBinding>(), BaseDialog
 
             }
         }
+    }
+
+
+    override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
     }
 
 

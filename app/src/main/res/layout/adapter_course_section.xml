@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="sectionData"
+            type="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_leeson"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_6sdp"
+        app:cardCornerRadius="@dimen/_5sdp"
+        app:cardElevation="@dimen/_2sdp"
+
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/screenBackgroundColor"
+            android:paddingBottom="@dimen/_6sdp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_user_image"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:layout_margin="@dimen/_10sdp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/dummy_user"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/circleImage" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
+                android:id="@+id/iv_user_logo"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_margin="@dimen/_12sdp"
+                android:background="@color/white"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_logo_default"
+                android:visibility="gone"
+                app:changeBackgroundType="bg_theme_src"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/iv_user_image"
+                app:layout_constraintStart_toEndOf="@+id/iv_user_image"
+                app:layout_constraintTop_toTopOf="@+id/iv_user_image"
+                app:layout_constraintVertical_bias="0"
+                app:shapeAppearanceOverlay="@style/circleImage" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tvLessonName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_8sdp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{sectionData.sectionTitle}"
+                android:textSize="@dimen/adapterTF_14"
+                app:fontType="semiBold"
+                app:layout_constraintEnd_toStartOf="@+id/icExtend"
+                app:layout_constraintStart_toEndOf="@+id/iv_user_logo"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textColorType="heading" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_lecture_list"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_6sdp"
+
+                android:textSize="@dimen/_10ssp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/iv_dot"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="@+id/tvLessonName"
+                app:layout_constraintTop_toBottomOf="@+id/tvLessonName"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintWidth_default="wrap" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_dot"
+                android:layout_width="@dimen/_4sdp"
+                android:layout_height="@dimen/_4sdp"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:background="@color/grey_c4c4c4"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_total_time"
+                app:layout_constraintEnd_toStartOf="@+id/tv_total_time"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@+id/tv_lecture_list"
+                app:layout_constraintTop_toTopOf="@+id/tv_total_time"
+                app:shapeAppearanceOverlay="@style/circleImage" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_total_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:textSize="@dimen/_10ssp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/icExtend"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@+id/iv_dot"
+                app:layout_constraintTop_toTopOf="@+id/tv_lecture_list"
+                app:textColorType="heading" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:id="@+id/icExtend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:src="@drawable/ic_arrow_bottom"
+                app:layout_constraintBottom_toBottomOf="@+id/tvLessonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvLessonName"
+
+                />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_lesson"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/tv_lecture_list">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_1sdp"
+                    android:background="@color/opacity_50_929292"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tv_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:lineSpacingExtra="@dimen/_3sdp"
+                    android:textSize="@dimen/adapterTF_14"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:textColorType="body" />
+
+                <View
+                    android:id="@+id/desView"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/ic_dotted_line_small"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_description"
+                    app:layout_constraintStart_toStartOf="@+id/tv_description"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_description" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_lessons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/desView"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/adapter_course_lesson" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

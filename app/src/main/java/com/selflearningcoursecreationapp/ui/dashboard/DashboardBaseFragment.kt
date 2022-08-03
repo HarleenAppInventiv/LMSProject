@@ -1,7 +1,10 @@
 package com.selflearningcoursecreationapp.ui.dashboard
 
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
@@ -18,9 +21,9 @@ class DashboardBaseFragment : BaseFragment<FragmentDashboardBaseBinding>() {
 
     private fun initUI() {
 
-        var screenList = ArrayList<Fragment>()
-        screenList.add(DashModeartorFragment())
-        screenList.add(DashCreaterFragment())
+        val screenList = ArrayList<Fragment>()
+        screenList.add(DashModeratorFragment())
+        screenList.add(DashCreatorFragment())
 
         binding.vpDashboards.apply {
 
@@ -36,15 +39,15 @@ class DashboardBaseFragment : BaseFragment<FragmentDashboardBaseBinding>() {
             if (binding.svChangeDash.isChecked) {
 //                binding.tvSwitchText.text="Switch to Learner Dashboard"
                 binding.vpDashboards.setCurrentItem(
-                    binding.vpDashboards.getCurrentItem() + 1,
+                    binding.vpDashboards.currentItem + 1,
                     true
-                );
+                )
             } else {
 //                binding.tvSwitchText.text="Switch to Creator Dashboard"
                 binding.vpDashboards.setCurrentItem(
-                    binding.vpDashboards.getCurrentItem() - 1,
+                    binding.vpDashboards.currentItem - 1,
                     true
-                );
+                )
             }
 
         }
@@ -65,6 +68,10 @@ class DashboardBaseFragment : BaseFragment<FragmentDashboardBaseBinding>() {
         return super.onOptionsItemSelected(item)
     }
 
+
     override fun getLayoutRes() = R.layout.fragment_dashboard_base
+    override fun onApiRetry(apiCode: String) {
+
+    }
 
 }

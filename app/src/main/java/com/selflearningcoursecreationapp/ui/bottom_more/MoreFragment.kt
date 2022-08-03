@@ -39,6 +39,7 @@ class MoreFragment :
         return super.onOptionsItemSelected(item)
     }
 
+
     override fun onHandleClick(vararg items: Any) {
         if (items.isNotEmpty()) {
             val view = items[0] as View
@@ -53,16 +54,21 @@ class MoreFragment :
                     findNavController().navigate(R.id.action_moreFragment_to_cardsFragment)
                 }
                 R.id.tv_moderator -> {
-//                    findNavController().navigate(R.id.action_moreFragment_to_reviewTabFragment)
+                    findNavController().navigate(R.id.action_moreFragment_to_becomeModeratorFragment)
 
                 }
                 R.id.tv_practice_accent -> {
+
 //                    findNavController().navigate(R.id.action_moreFragment_to_assessmentFragment)
 
                 }
 
             }
         }
+
+    }
+
+    override fun onApiRetry(apiCode: String) {
 
     }
 

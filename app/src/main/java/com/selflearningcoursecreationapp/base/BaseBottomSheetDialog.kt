@@ -2,14 +2,16 @@ package com.selflearningcoursecreationapp.base
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.text.InputFilter
+import android.view.*
+import android.widget.EditText
 import androidx.annotation.LayoutRes
 import androidx.appcompat.view.ContextThemeWrapper
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.data.network.ApiError
@@ -22,10 +24,12 @@ abstract class BaseBottomSheetDialog<DB : ViewDataBinding> : BottomSheetDialogFr
     protected lateinit var binding: DB
     private var clickListener: IDialogClick? = null
     lateinit var baseActivity: BaseActivity
+    private var filter: InputFilter? = null
 
     @LayoutRes
     abstract fun getLayoutRes(): Int
     abstract fun initUi()
+    open fun onApiRetry(apiCode: String) {}
 
 
     override fun onCreateView(
@@ -37,7 +41,7 @@ abstract class BaseBottomSheetDialog<DB : ViewDataBinding> : BottomSheetDialogFr
         inflater.cloneInContext(contextThemeWrapper)
         binding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false)
         binding.lifecycleOwner = this
-        dialog?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
         return binding.root
     }
@@ -46,6 +50,8 @@ abstract class BaseBottomSheetDialog<DB : ViewDataBinding> : BottomSheetDialogFr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUi()
+
+        expandLayout()
     }
 
     interface IDialogClick {
@@ -85,16 +91,21 @@ abstract class BaseBottomSheetDialog<DB : ViewDataBinding> : BottomSheetDialogFr
         baseActivity.handleOnError(error)
     }
 
+    override fun onRetry(apiCode: String, networkError: Boolean, exception: ApiError) {
+        baseActivity.retryHandling(apiCode, networkError, {
+            onApiRetry(it)
+        }, exception)
+    }
 
     override fun onLoading(message: String, apiCode: String?) {
         showLoading()
     }
 
-    fun showLoading() {
+    private fun showLoading() {
         baseActivity.showProgressBar()
     }
 
-    fun hideLoading() {
+    private fun hideLoading() {
         baseActivity.hideProgressBar()
     }
 
@@ -105,5 +116,46 @@ abstract class BaseBottomSheetDialog<DB : ViewDataBinding> : BottomSheetDialogFr
 
     fun showToastLong(message: String) {
         baseActivity.showToastLong(message)
+    }
+
+    fun expandLayout() {
+        dialog?.setOnShowListener { dialog ->
+            val d = dialog as BottomSheetDialog
+            val bottomSheet = d.findViewById<View>(R.id.design_bottom_sheet)
+            // Right here!
+            if (bottomSheet != null) {
+                BottomSheetBehavior.from(bottomSheet).state = BottomSheetBehavior.STATE_EXPANDED
+            }
+        }
+    }
+
+    fun onTouch(v: View, event: MotionEvent): Boolean {
+        if (v is AppCompatEditText && v.hasFocus()) {
+            v.parent.requestDisallowInterceptTouchEvent(true)
+            when (event.action and MotionEvent.ACTION_MASK) {
+                MotionEvent.ACTION_SCROLL -> {
+                    v.parent.requestDisallowInterceptTouchEvent(false)
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dialog?.window?.clearFlags(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+    }
+
+    fun setCharLimit(et: EditText, max: Int) {
+        filter = InputFilter.LengthFilter(max)
+        et.filters = arrayOf<InputFilter>(filter as InputFilter.LengthFilter)
+    }
+
+    fun removeFilter(et: EditText) {
+        if (filter != null) {
+            et.filters = arrayOfNulls(0)
+            filter = null
+        }
     }
 }

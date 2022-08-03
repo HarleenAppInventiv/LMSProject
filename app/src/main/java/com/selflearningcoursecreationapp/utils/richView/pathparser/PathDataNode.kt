@@ -1,3 +1,5 @@
+@file:Suppress("KDocUnresolvedReference")
+
 package com.selflearningcoursecreationapp.utils.richView.pathparser
 
 import android.graphics.Path
@@ -15,7 +17,6 @@ class PathDataNode(var type: Char, val params: FloatArray) {
     constructor(n: PathDataNode) : this(n.type, copyOfRange(n.params, 0, n.params.size))
 
     companion object {
-        private const val LOGTAG = "PathDataNode"
 
         /**
          * Convert an array of PathDataNode to Path.

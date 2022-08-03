@@ -4,15 +4,14 @@ import android.app.Activity
 import android.graphics.Color
 import android.os.Build
 import android.view.View
+import android.view.Window
 import android.view.WindowInsets
 import android.view.WindowManager
-import android.view.Window
-
 import androidx.core.content.ContextCompat
 import com.selflearningcoursecreationapp.R
 
 
-fun Activity.setTransparentStatusBar(){
+fun Activity.setTransparentStatusBar() {
     window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
     window?.decorView?.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -20,28 +19,30 @@ fun Activity.setTransparentStatusBar(){
 
     window.statusBarColor = Color.TRANSPARENT
 }
-fun Activity.setTransparentLightStatusBar(){
+
+fun Activity.setTransparentLightStatusBar() {
     window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-    window?.decorView?.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        window?.decorView?.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+    }
 
     window.statusBarColor = Color.TRANSPARENT
 }
+
 fun Activity.clearLightStatusBar() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         val window: Window = window
-        window.setStatusBarColor(
-            ContextCompat
-                .getColor(this, getAttrColor(R.attr.colorPrimaryDark))
-        )
+        window.statusBarColor = ContextCompat
+            .getColor(this, getAttrColor(R.attr.colorPrimaryDark))
     }
 }
 fun Activity.setTransStatusNavigation(){
     window.setFlags(
         WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
         WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-    );
+    )
 }
 
 fun Activity.hideStatusBar(){

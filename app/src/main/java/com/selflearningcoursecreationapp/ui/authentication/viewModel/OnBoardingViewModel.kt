@@ -14,10 +14,10 @@ import com.selflearningcoursecreationapp.models.LoginData
 import com.selflearningcoursecreationapp.models.user.UserProfile
 import com.selflearningcoursecreationapp.models.user.UserResponse
 import com.selflearningcoursecreationapp.ui.authentication.login_signup.OnBoardingRepo
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -29,6 +29,8 @@ class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewMod
     }
 
     var isMovedToPrivacy = false
+    var token: String? = null
+    var countryCode: String? = null
 
     var loginLiveData = MutableLiveData<LoginData>().apply {
         value = LoginData()
@@ -55,14 +57,18 @@ class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewMod
     }
 
     init {
-        TAG = "OnBoardingViewModel"
+        LogTag = "OnBoardingViewModel"
     }
+
 
     private fun signUpApi() = viewModelScope.launch(coroutineExceptionHandle) {
 
-        val response = repository?.signUpApi(signUpLiveData.value!!)
+        val response = repository?.signUpApi(
+            signUpLiveData.value ?: UserProfile()
+        )
         withContext(Dispatchers.IO) {
             response?.collect {
+
                 updateResponseObserver(it)
             }
         }
@@ -78,11 +84,10 @@ class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewMod
             } else {
                 map["email"] = loginLiveData.value!!.email
             }
-
             map["password"] = loginLiveData.value!!.password
             map["fcmDeviceToken"] = token
 
-            var response = repository?.loginInApi(map)
+            val response = repository?.loginInApi(map)
             withContext(Dispatchers.IO) {
                 response?.collect {
                     if (it is Resource.Success<*>) {
@@ -128,12 +133,11 @@ class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewMod
     }
 
 
-    fun loginValidation(selectedCountryCodeWithPlus: String, token: String) {
-//        updateResponseObserver(Resource.)
+    fun loginValidation() {
         loginLiveData.value?.let {
             val errorId = it.isValid()
             if (errorId == 0) {
-                loginUser(selectedCountryCodeWithPlus, token)
+                loginUser(selectedCountryCodeWithPlus = countryCode ?: "", token ?: "")
             } else {
                 updateResponseObserver(Resource.Error(ToastData(errorCode = errorId)))
             }
@@ -154,6 +158,20 @@ class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewMod
 
             } else {
                 updateResponseObserver(Resource.Error(ToastData(errorId)))
+            }
+
+        }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        when (apiCode) {
+
+            ApiEndPoints.API_SIGNUP -> {
+                signupValidations()
+            }
+
+            ApiEndPoints.API_LOGIN -> {
+                loginValidation()
             }
 
         }

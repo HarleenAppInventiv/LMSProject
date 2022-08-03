@@ -9,20 +9,19 @@ import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.models.StateModel
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.DialogType
-import java.util.*
 
-class StateListDialog() : BaseBottomSheetDialog<BottomDialogCourceCateBinding>(),
+class StateListDialog : BaseBottomSheetDialog<BottomDialogCourceCateBinding>(),
     BaseAdapter.IViewClick {
-    lateinit var adapterState: AdapterState
+    private lateinit var adapterState: AdapterState
 
     //    var listStates = ArrayList<StateModel>()
     private var list = ArrayList<StateModel>()
     override fun getLayoutRes() = R.layout.bottom_dialog_cource_cate
 
     override fun initUi() {
-binding.parentCL.visible()
+        binding.parentCL.visible()
         arguments?.let {
-            list = it.getParcelableArrayList<StateModel>("data")!!
+            list = it.getParcelableArrayList("data") ?: ArrayList()
 
             binding.etSearch.visible()
             setStateAdapter(list)
@@ -35,8 +34,8 @@ binding.parentCL.visible()
 
             } else {
                 arguments?.let {
-                    val dataList = it.getParcelableArrayList<StateModel>("data")?.filter {
-                        it.stateName?.lowercase()
+                    val dataList = it.getParcelableArrayList<StateModel>("data")?.filter { state ->
+                        state.stateName?.lowercase()
                             ?.contains(text.toString().lowercase()) == true
                     } as ArrayList
                     setStateAdapter(dataList)
@@ -50,7 +49,8 @@ binding.parentCL.visible()
         }
     }
 
-    fun setStateAdapter(stateList: ArrayList<StateModel>) {
+
+    private fun setStateAdapter(stateList: ArrayList<StateModel>) {
         binding.recyclerCourceCategory.apply {
             adapterState = AdapterState(stateList)
             adapter = adapterState

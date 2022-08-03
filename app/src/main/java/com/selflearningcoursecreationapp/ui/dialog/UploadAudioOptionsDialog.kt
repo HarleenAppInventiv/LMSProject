@@ -6,8 +6,8 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.databinding.DialogUploadAudioBinding
 import com.selflearningcoursecreationapp.utils.ImagePickUtils
-import com.selflearningcoursecreationapp.utils.MEDIA_FROM
-import com.selflearningcoursecreationapp.utils.MEDIA_TYPE
+import com.selflearningcoursecreationapp.utils.MediaFrom
+import com.selflearningcoursecreationapp.utils.MediaType
 import com.selflearningcoursecreationapp.utils.PermissionUtilClass
 import org.koin.android.ext.android.inject
 
@@ -24,7 +24,7 @@ class UploadAudioOptionsDialog : BaseBottomSheetDialog<DialogUploadAudioBinding>
     @SuppressLint("ResourceType")
     override fun initUi() {
 
-        type = MEDIA_TYPE.AUDIO
+        type = MediaType.AUDIO
         binding.imgClose.setOnClickListener {
             dismiss()
         }
@@ -65,11 +65,11 @@ class UploadAudioOptionsDialog : BaseBottomSheetDialog<DialogUploadAudioBinding>
             .requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO))
             .getCallBack { b, strings, _ ->
                 if (b) {
-                    onDialogClick(MEDIA_FROM.RECORDING)
+                    onDialogClick(MediaFrom.RECORDING)
                 } else {
                     baseActivity.handlePermissionDenied(strings)
                 }
-            }
+            }.build()
 
     }
 

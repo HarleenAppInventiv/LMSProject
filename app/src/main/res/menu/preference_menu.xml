@@ -5,6 +5,8 @@
         android:id="@+id/action_skip"
         app:showAsAction="always"
         android:enabled="true"
-        android:title="@string/skip" />
+        android:title="@string/skip"
+
+        />
 
 </menu>

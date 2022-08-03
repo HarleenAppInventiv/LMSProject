@@ -9,7 +9,6 @@ import com.selflearningcoursecreationapp.extensions.getStringDate
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.HandleClick
 import java.util.*
-import kotlin.collections.ArrayList
 
 class YearMonthBottomDialog : BaseBottomSheetDialog<BottomDialogYearMonthBinding>(),
     BaseAdapter.IViewClick, HandleClick {
@@ -53,8 +52,8 @@ class YearMonthBottomDialog : BaseBottomSheetDialog<BottomDialogYearMonthBinding
 
     override fun onItemClick(vararg items: Any) {
         if (items.isNotEmpty()) {
-            var type = items[0] as Int
-            var position = items[1] as Int
+            val type = items[0] as Int
+            val position = items[1] as Int
             when (type) {
                 Constant.CLICK_VIEW -> {
 
@@ -69,7 +68,7 @@ class YearMonthBottomDialog : BaseBottomSheetDialog<BottomDialogYearMonthBinding
 
     override fun onHandleClick(vararg items: Any) {
         if (items.isNotEmpty()) {
-            var view = items[0] as View
+            val view = items[0] as View
             when (view.id) {
                 R.id.iv_close -> {
                     dismiss()

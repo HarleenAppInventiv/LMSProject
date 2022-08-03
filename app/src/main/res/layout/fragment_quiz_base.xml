@@ -1,0 +1,160 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data></data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/secondaryScreenBgColor"
+        android:orientation="vertical"
+        tools:context=".ui.course_details.quiz.QuizBaseFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_header"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_62sdp"
+            android:background="@color/white"
+            android:paddingTop="@dimen/_24sdp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_10sdp"
+                android:src="@drawable/ic_cross_grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="@dimen/toolbar_16"
+                app:fontType="semiBold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tv_time"
+                app:layout_constraintStart_toEndOf="@+id/iv_back"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_16sdp"
+                app:drawableStartCompat="@drawable/ic_timer_quiz"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:descendantFocusability="blocksDescendants">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyler_quiz"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/cl_bottom"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="?attr/screenBackgroundColor"
+                android:paddingTop="@dimen/_16sdp">
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tv_selected_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:paddingStart="@dimen/_16sdp"
+                    android:paddingEnd="@dimen/_15sdp"
+                    android:text="@string/sections_created"
+                    android:textSize="@dimen/_12ssp"
+                    android:visibility="gone"
+                    app:fontType="medium"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/bt_next"
+                    app:textColorType="body" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tv_selected_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:textSize="@dimen/_14ssp"
+                    android:visibility="gone"
+                    app:fontType="semiBold"
+                    app:layout_constraintStart_toStartOf="@+id/tv_selected_title"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_selected_title"
+                    app:layout_goneMarginStart="0dp"
+                    app:textColorType="heading" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="end"
+                    app:constraint_referenced_ids="tv_selected_title,tv_selected_value" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="tv_selected_title,tv_selected_value" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                    android:id="@+id/bt_next"
+                    spanText="@{@string/next}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:text="@string/next"
+                    android:textSize="@dimen/editTextField_14"
+                    app:buttonFont="semiBold"
+                    app:icon="@drawable/ic_arrow_right"
+                    app:iconGravity="textEnd"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toEndOf="@+id/bt_previous"
+                    app:layout_goneMarginStart="@dimen/_15sdp" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                    android:id="@+id/bt_previous"
+                    spanText="@{@string/previous}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_15sdp"
+                    android:text="@string/previous"
+                    android:textSize="@dimen/editTextField_14"
+                    app:btnTextColor="theme"
+                    app:buttonBackground="secondary"
+                    app:buttonFont="semiBold"
+                    app:icon="@drawable/ic_back_blue"
+                    app:iconGravity="textStart"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/bt_next"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toStartOf="@+id/barrier" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

@@ -4,6 +4,9 @@
 
     <data>
 
+        <import
+            alias="const"
+            type="com.selflearningcoursecreationapp.utils.ValidationConst" />
     </data>
 
     <com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout
@@ -24,7 +27,7 @@
             android:paddingBottom="@dimen/_16sdp"
             android:text="@string/add_answer_as"
             android:textColor="?attr/whiteTextColor"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/textField_14"
             app:fontType="medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,6 +58,7 @@
             android:layoutDirection="rtl"
             android:text="@string/text"
             android:textColor="@color/text_color_black_131414"
+            android:textSize="@dimen/textField_12"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />
@@ -63,12 +67,26 @@
             android:id="@+id/et_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:maxLength="@{const.MAX_QUIZ_OPTION_LENGTH}"
             android:background="@drawable/edt_bg"
             android:hint="@string/enter_answer_here"
+            android:maxLines="4"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/rb_text"
             app:layout_constraintStart_toStartOf="@+id/rb_text"
             app:layout_constraintTop_toBottomOf="@+id/rb_text" />
+
+
+        <View
+            android:id="@+id/lineV"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/opacity_15_929292"
+            app:layout_constraintBottom_toTopOf="@+id/rb_image"
+            app:layout_constraintEnd_toEndOf="@+id/rb_text"
+            app:layout_constraintStart_toStartOf="@+id/rb_text"
+
+            app:layout_constraintTop_toBottomOf="@+id/et_text" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSRadioButton
             android:id="@+id/rb_image"
@@ -77,6 +95,7 @@
             android:layout_marginTop="@dimen/_30sdp"
             android:layoutDirection="rtl"
             android:text="@string/image"
+            android:textSize="@dimen/textField_12"
             app:layout_constraintEnd_toEndOf="@+id/rb_text"
             app:layout_constraintStart_toStartOf="@+id/rb_text"
             app:layout_constraintTop_toBottomOf="@+id/et_text" />
@@ -115,8 +134,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/_20sdp"
-            android:text="@string/save"
             android:padding="@dimen/_10sdp"
+            android:text="@string/save"
+            android:textSize="@dimen/materialButton_14"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/rb_text"
             app:layout_constraintStart_toStartOf="@+id/rb_text"

@@ -3,18 +3,17 @@ package com.selflearningcoursecreationapp.utils.richView
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.view.MotionEvent
-import android.widget.ImageView
 import android.widget.ImageView.ScaleType
 import androidx.annotation.IntRange
-import com.richpath.util.PathUtils
 import com.selflearningcoursecreationapp.utils.richView.listener.OnRichPathUpdatedListener
 import com.selflearningcoursecreationapp.utils.richView.model.Vector
 import com.selflearningcoursecreationapp.utils.richView.pathparser.PathParser
+import com.selflearningcoursecreationapp.utils.richView.util.PathUtils
 import kotlin.math.min
 
 class RichPathDrawable(
     private val vector: Vector?,
-    private val scaleType: ImageView.ScaleType,
+    private val scaleType: ScaleType,
     private val isScale: Boolean = true
 ) :
     Drawable() {
@@ -37,7 +36,7 @@ class RichPathDrawable(
         }
     }
 
-    internal fun mapPaths() {
+    private fun mapPaths() {
         val vector = vector ?: return
 
         val centerX = width / 2f

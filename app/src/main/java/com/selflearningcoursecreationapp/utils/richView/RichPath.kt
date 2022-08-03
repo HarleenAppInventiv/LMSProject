@@ -3,12 +3,12 @@ package com.selflearningcoursecreationapp.utils.richView
 import android.content.Context
 import android.content.res.XmlResourceParser
 import android.graphics.*
-import com.richpath.model.Group
-import com.richpath.util.PathUtils
 import com.selflearningcoursecreationapp.utils.richView.listener.OnRichPathUpdatedListener
+import com.selflearningcoursecreationapp.utils.richView.model.Group
 import com.selflearningcoursecreationapp.utils.richView.pathparser.PathDataNode
 import com.selflearningcoursecreationapp.utils.richView.pathparser.PathParser
 import com.selflearningcoursecreationapp.utils.richView.pathparser.PathParserCompat
+import com.selflearningcoursecreationapp.utils.richView.util.PathUtils
 import com.selflearningcoursecreationapp.utils.richView.util.XmlParser
 
 class RichPath(private val src: Path) : Path(src) {
@@ -42,37 +42,37 @@ class RichPath(private val src: Path) : Path(src) {
             field = value
             onPathUpdated()
         }
-    var trimPathStart = 0f
+    private var trimPathStart = 0f
         set(value) {
             field = value
             trim()
             onPathUpdated()
         }
-    var trimPathEnd = 1f
+    private var trimPathEnd = 1f
         set(value) {
             field = value
             trim()
             onPathUpdated()
         }
-    var trimPathOffset = 0f
+    private var trimPathOffset = 0f
         set(value) {
             field = value
             trim()
             onPathUpdated()
         }
 
-    var strokeLineCap = Paint.Cap.BUTT
+    private var strokeLineCap = Paint.Cap.BUTT
         set(value) {
             field = value
             onPathUpdated()
         }
-    var strokeLineJoin = Paint.Join.MITER
+    private var strokeLineJoin = Paint.Join.MITER
         set(value) {
             field = value
             onPathUpdated()
         }
 
-    var strokeMiterLimit = 4f
+    private var strokeMiterLimit = 4f
         set(value) {
             field = value
             onPathUpdated()
@@ -147,14 +147,14 @@ class RichPath(private val src: Path) : Path(src) {
             onPathUpdated()
         }
 
-    var originalWidth = 0f
+    private var originalWidth = 0f
         private set
-    var originalHeight = 0f
+    private var originalHeight = 0f
         private set
 
-    var pivotX = 0f
-    var pivotY = 0f
-    var isPivotToCenter = false
+    private var pivotX = 0f
+    private var pivotY = 0f
+    private var isPivotToCenter = false
 
     var onRichPathUpdatedListener: OnRichPathUpdatedListener? = null
         internal set
@@ -165,7 +165,7 @@ class RichPath(private val src: Path) : Path(src) {
      * [pathDataNodes] couldn't be private.
      * It could called by @see [com.richpathanimator.AnimationBuilder.pathData]
      */
-    var pathDataNodes: Array<PathDataNode>? = null
+    private var pathDataNodes: Array<PathDataNode>? = null
         set(value) {
             value ?: return
             PathUtils.setPathDataNodes(this, value)

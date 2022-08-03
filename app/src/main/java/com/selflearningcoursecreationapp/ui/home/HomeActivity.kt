@@ -7,11 +7,13 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.WindowManager
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -20,12 +22,10 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseActivity
 import com.selflearningcoursecreationapp.databinding.ActivityHomeBinding
 import com.selflearningcoursecreationapp.extensions.*
+import com.selflearningcoursecreationapp.models.course.OrderData
 import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseBaseFragment
 import com.selflearningcoursecreationapp.ui.preferences.PreferencesFragment
-import com.selflearningcoursecreationapp.utils.ACTION_NOTIFICATION_BROADCAST
-import com.selflearningcoursecreationapp.utils.ApiEndPoints
-import com.selflearningcoursecreationapp.utils.COAUTHOR_STATUS
-import com.selflearningcoursecreationapp.utils.CommonAlertDialog
+import com.selflearningcoursecreationapp.utils.*
 import org.koin.android.ext.android.inject
 
 
@@ -58,15 +58,16 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
             .positiveBtnText(getString(R.string.accept))
             .negativeBtnText(getString(R.string.reject))
             .notCancellable()
+            .setThemeIconColor(true)
             .setPositiveButtonTheme(R.color.accent_color_2FBF71, R.color.white)
             .setNegativeButtonTheme(R.color.accent_color_fc6d5b, R.color.white)
             .icon(R.drawable.ic_co_author_icon)
             .getCallback {
                 if (it) {
-                    viewModel.manageCoAuthorInvitation(courseId, COAUTHOR_STATUS.ACCEPT)
+                    viewModel.manageCoAuthorInvitation(courseId, CoAuthorStatus.ACCEPT)
 
                 } else {
-                    viewModel.manageCoAuthorInvitation(courseId, COAUTHOR_STATUS.REJECT)
+                    viewModel.manageCoAuthorInvitation(courseId, CoAuthorStatus.REJECT)
 
                 }
             }.build()
@@ -74,7 +75,7 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
 
     override fun onStart() {
         super.onStart()
-        var intentFilter = IntentFilter(ACTION_NOTIFICATION_BROADCAST)
+        val intentFilter = IntentFilter(ACTION_NOTIFICATION_BROADCAST)
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, intentFilter)
     }
 
@@ -87,9 +88,11 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         changeAppLanguage()
         super.onCreate(savedInstanceState)
+
         setAppTheme()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         viewModel.getApiResponse().observe(this, this)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         initUi()
 
         intent.let {
@@ -99,7 +102,6 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
 
             }
         }
-
 
     }
 
@@ -114,8 +116,10 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
         setSelected(R.id.action_home)
 
         binding.fabAdd.setOnClickListener {
-            navController?.navigate(R.id.addCourseBaseFragment)
+            if (tokenFromDataStore() == "") guestUserPopUp() else navController?.navigate(R.id.addCourseBaseFragment)
         }
+
+        observeCourseData()
     }
 
     private fun setBottomBar() {
@@ -134,44 +138,57 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
     private fun setDestinationChangeListener() {
         navController?.addOnDestinationChangedListener { _, destination, args ->
             hideKeyboard()
-            val hideToolbar = arrayListOf<Int>(
+            val hideToolbar = arrayListOf(
                 R.id.profileThumbFragment,
                 R.id.profileDetailsFragment,
+                R.id.courseDetailsFragment,
                 R.id.homeFragment,
+                R.id.quizBaseFragment,
                 R.id.privacyFragment
             )
             val showCrossIcon =
-                arrayListOf<Int>(R.id.homeCategoriesFragment)
-            val subTitleArray = arrayListOf<Int>(R.id.popularFragment)
+                arrayListOf<Int>()
+            val subTitleArray = arrayListOf(R.id.popularFragment)
             val secondaryBgColor = arrayListOf(R.id.paymentDetailsFragment)
-            if (hideToolbar.contains(destination.id)) {
-                setToolbar(showToolbar = false)
-            } else if (secondaryBgColor.contains(destination.id)) {
-                setToolbar(
-                    title = destination.label.toString(),
-                    toolbarColor = R.attr.secondaryScreenBgColor,
-                    showToolbar = true
-                )
-            } else if (showCrossIcon.contains(destination.id)) {
-                setToolbar(
-                    title = destination.label.toString(),
-                    backIcon = R.drawable.ic_cross_grey,
-                    showToolbar = true
-                )
-            } else if (subTitleArray.contains(destination.id)) {
-                val subtitle =
-                    if (args?.containsKey("subTitle") == true) args.getString("subTitle") else ""
-                setToolbar(
-                    title = destination.label.toString(),
-                    showToolbar = true,
-                    subTitle = subtitle
-                )
-            } else {
-                setToolbar(title = destination.label.toString(), showToolbar = true)
+            when {
+                hideToolbar.contains(destination.id) -> {
+                    setToolbar(showToolbar = false)
+                }
+                secondaryBgColor.contains(destination.id) -> {
+                    setToolbar(
+                        title = destination.label.toString(),
+                        toolbarColor = R.attr.secondaryScreenBgColor,
+                        showToolbar = true
+                    )
+                }
+                showCrossIcon.contains(destination.id) -> {
+                    setToolbar(
+                        title = destination.label.toString(),
+                        backIcon = R.drawable.ic_cross_grey,
+                        showToolbar = true
+                    )
+                }
+                subTitleArray.contains(destination.id) -> {
+                    val subtitle =
+                        if (args?.containsKey("subTitle") == true) args.getString("subTitle") else ""
+                    val title =
+                        if (args?.containsKey("title") == true) args.getString("title") else destination.label.toString()
+                    setToolbar(
+                        title = title,
+                        showToolbar = true,
+                        subTitle = subtitle
+                    )
+                }
+                else -> {
+                    setToolbar(title = destination.label.toString(), showToolbar = true)
+                }
             }
 
+            val hideElevation = arrayListOf<Int>(R.id.addEmailFragment, R.id.paymentDetailsFragment)
+            hideTBElevation(hideElevation.contains(destination.id))
+
             val bottomBarArray =
-                arrayListOf<Int>(R.id.moreFragment, R.id.homeFragment, R.id.myCourseTabFragment)
+                arrayListOf(R.id.moreFragment, R.id.homeFragment, R.id.myCourseTabFragment)
             bottomBarVisibility(bottomBarArray.contains(destination.id))
             if (bottomBarArray.contains(destination.id)) {
 
@@ -179,10 +196,14 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
                 setToolbar(
                     title = destination.label.toString(),
                     showToolbar = true,
-                    showBackIcon = false
+                    showBackIcon = (destination.id == R.id.myCourseTabFragment)
                 )
             }
         }
+    }
+
+    private fun hideTBElevation(hideElevation: Boolean) {
+        binding.toolbar.elevation = if (hideElevation) 0f else 2f
     }
 
     @SuppressLint("ResourceType")
@@ -218,16 +239,24 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
             supportActionBar?.hide()
         }
 
-        if (!subTitle.isNullOrEmpty())
+        if (!subTitle.isNullOrEmpty()) {
             binding.toolbar.subtitle = subTitle
-        else binding.toolbar.subtitle = ""
+            binding.toolbar.layoutParams?.apply {
+                height = resources.getDimensionPixelOffset(R.dimen._50sdp)
+            }
+        } else {
+            binding.toolbar.subtitle = ""
+            binding.toolbar.layoutParams?.apply {
+                height = resources.getDimensionPixelOffset(R.dimen._40sdp)
+            }
+        }
         try {
-
-
             binding.toolbar.setBackgroundColor(
                 ContextCompat.getColor(
                     this,
-                    getAttrColor(toolbarColor ?: R.attr.toolbarColor)
+                    getAttrColor(
+                        toolbarColor ?: R.attr.toolbarColor
+                    )
                 )
             )
         } catch (e: UninitializedPropertyAccessException) {
@@ -262,18 +291,25 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
 
     override fun onBackPressed() {
         hideKeyboard()
-        val destArrayList = listOf<Int>(R.id.homeFragment)
-        val bottomArray = listOf<Int>(R.id.myCourseTabFragment, R.id.moreFragment)
-        if (destArrayList.contains(navController?.currentDestination?.id)) {
-            finishAffinity()
-        } else if (bottomArray.contains(navController?.currentDestination?.id)) {
-            setSelected(R.id.action_home)
-        } else if (navController?.currentDestination?.id == R.id.preferencesFragment) {
-            (getCurrentFragment() as PreferencesFragment).onClickBack()
-        } else if (navController?.currentDestination?.id == R.id.addCourseBaseFragment) {
-            (getCurrentFragment() as AddCourseBaseFragment).onClickBack()
-        } else {
-            navController?.popBackStack()
+        val destArrayList = listOf(R.id.homeFragment)
+        val bottomArray =
+            listOf(R.id.myCourseTabFragment, R.id.moreFragment, R.id.paymentDetailsFragment)
+        when {
+            destArrayList.contains(navController?.currentDestination?.id) -> {
+                finishAffinity()
+            }
+            bottomArray.contains(navController?.currentDestination?.id) -> {
+                setSelected(R.id.action_home)
+            }
+            navController?.currentDestination?.id == R.id.preferencesFragment -> {
+                (getCurrentFragment() as PreferencesFragment).onClickBack()
+            }
+            navController?.currentDestination?.id == R.id.addCourseBaseFragment -> {
+                (getCurrentFragment() as AddCourseBaseFragment).onClickBack()
+            }
+            else -> {
+                navController?.popBackStack()
+            }
         }
     }
 
@@ -284,63 +320,50 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_more -> {
-                navController?.navigate(R.id.moreFragment)
-                return true
+                if (tokenFromDataStore() == "") {
+                    guestUserPopUp()
+                } else {
+                    navController?.navigate(R.id.moreFragment)
+                    return true
+                }
             }
             R.id.action_course -> {
-                navController?.navigate(R.id.myCourseTabFragment)
-                return true
+                if (tokenFromDataStore() == "") {
+                    guestUserPopUp()
+                } else {
+                    navController?.navigate(R.id.myCourseTabFragment)
+                    return true
+                }
             }
 //            R.id.action_home -> {
 //                navController?.navigate(R.id.profileThumbFragment)
 //                return true
 //            }
             R.id.action_home -> {
-                navController?.navigate(R.id.homeFragment)
+                if (tokenFromDataStore() == "") {
+                } else {
+                    navController?.navigate(R.id.homeFragment)
+                }
             }
 //            R.id.action_add -> {
 //                navController?.navigate(R.id.addCourseBaseFragment)
 //
 //            }
             else -> {
-                showToastShort("not implemented")
+//                if (tokenFromDataStore() == "") {
+//                    guestUserPopUp()
+//                } else {
+//                    navController?.navigate(R.id.moderatorBaseFragment)
+//                }
                 return false
             }
         }
         return true
     }
 
-    fun getCurrentFragment(): Fragment {
+    private fun getCurrentFragment(): Fragment {
         val navFrag = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
         return navFrag!!.childFragmentManager.fragments[0]
-    }
-
-    fun commanAlert(
-        icon: Int,
-        title: String,
-        desc: String,
-        negBtn: Boolean,
-        negBtnText: String,
-        posBtnText: String,
-        courseId: String,
-    ) {
-        CommonAlertDialog.builder(this)
-            .title(title)
-            .description(desc)
-            .positiveBtnText(posBtnText)
-            .negativeBtnText(negBtnText)
-            .hideNegativeBtn(negBtn)
-            .notCancellable()
-            .icon(icon)
-            .getCallback {
-                if (it) {
-                    viewModel.manageCoAuthorInvitation(courseId, COAUTHOR_STATUS.ACCEPT)
-
-                } else {
-                    viewModel.manageCoAuthorInvitation(courseId, COAUTHOR_STATUS.REJECT)
-
-                }
-            }.build()
     }
 
 
@@ -350,7 +373,7 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
             ApiEndPoints.API_COAUTHOR_INVITATION + "/home" -> {
                 val type = value as Pair<String, Int>
                 when (type.second) {
-                    COAUTHOR_STATUS.ACCEPT -> {
+                    CoAuthorStatus.ACCEPT -> {
                         navController?.navigate(
                             R.id.addCourseBaseFragment,
                             bundleOf("courseId" to type.first.toInt())
@@ -359,5 +382,26 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
                 }
             }
         }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        super.onApiRetry(apiCode)
+        viewModel.onApiRetry(apiCode)
+    }
+
+    override fun onRazorpayCallback(isSuccess: Boolean, data: OrderData?, response: String?) {
+        super.onRazorpayCallback(isSuccess, data, response)
+        if (isSuccess) viewModel.purchaseCourse(data?.courseId, CourseType.PAID)
+
+    }
+
+    private fun observeCourseData() {
+        viewModel.purchaseCourseLiveData.observe(this, Observer { event ->
+            event.getContentIfNotHandled()?.let {
+                hideProgressBar()
+                navController?.navigate(R.id.paymentDetailsFragment, bundleOf("orderData" to it))
+            }
+
+        })
     }
 }

@@ -29,9 +29,10 @@
                 android:paddingTop="@dimen/_15sdp"
                 android:paddingEnd="@dimen/_20sdp"
                 android:paddingBottom="@dimen/_30sdp"
-                android:text="LMS"
+                android:text="@string/skillfy"
+                android:textAllCaps="true"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/textField_14"
                 app:fontType="semiBold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -48,8 +49,8 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_preview"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
+                android:layout_width="@dimen/_13sdp"
+                android:layout_height="@dimen/_13sdp"
                 android:layout_margin="@dimen/_10sdp"
                 android:alpha="0.1"
                 android:contentDescription="@string/course_image"
@@ -62,7 +63,7 @@
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_title"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_5sdp"
+                android:layout_height="@dimen/_3sdp"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:alpha="0.1"
                 android:background="?attr/headingTextColor"
@@ -75,7 +76,7 @@
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_description"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_5sdp"
+                android:layout_height="@dimen/_3sdp"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:alpha="0.1"

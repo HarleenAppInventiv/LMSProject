@@ -44,6 +44,7 @@ class UploadImageOptionsDialog : BaseBottomSheetDialog<DialogUploadImageBinding>
         }
     }
 
+
     private fun selectImage() {
         PermissionUtilClass.builder(baseActivity).requestPermissions(
             arrayOf(

@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/offwhiteTextColor">
+        android:background="?attr/off_whiteTextColor">
 
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
@@ -26,7 +26,7 @@
             android:paddingTop="@dimen/_16sdp"
             android:paddingBottom="@dimen/_16sdp"
             app:textColorType="none"
-            android:textSize="@dimen/_16ssp"
+            android:textSize="@dimen/textField_16"
             app:textBgColor="theme"
             android:text="@string/edit_card_details"
             android:textColor="?attr/whiteTextColor"
@@ -55,7 +55,7 @@
             spanText="@{@string/enter_card_details}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/textField_14"
             app:fontType="semiBold"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_20sdp"
@@ -77,7 +77,7 @@
             android:inputType="textEmailAddress"
             android:lineSpacingExtra="@dimen/_7ssp"
             android:singleLine="true"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/editTextField_14"
             app:fontType="regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -92,7 +92,7 @@
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/textField_14"
             app:fontType="semiBold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +108,7 @@
             android:background="@drawable/edt_bg_white"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/editTextField_14"
             app:fontType="regular"
             android:lineSpacingExtra="@dimen/_7ssp"
             android:singleLine="true"
@@ -125,7 +125,7 @@
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/textField_14"
             app:fontType="semiBold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ev_login_email" />
@@ -141,7 +141,7 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_5sdp"
             android:focusable="true"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/editTextField_14"
             android:background="@drawable/edt_bg_white"
             android:clickable="true"
 
@@ -161,7 +161,7 @@
             android:id="@+id/tv_expiry_year"
             spanText="@{@string/expiry_year}"
             android:layout_width="0dp"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/textField_14"
             app:fontType="semiBold"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
@@ -183,7 +183,7 @@
             android:background="@drawable/edt_bg_white"
             android:clickable="true"
             android:focusable="true"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/editTextField_14"
             android:drawableEnd="@drawable/ic_calendar"
             app:fontType="regular"
             android:imeOptions="actionNext"
@@ -207,7 +207,7 @@
             android:minHeight="0dp"
             android:onClickListener="@{(v)->cardDetail.onHandleClick(v)}"
             android:text="@string/save_card"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/materialButton_14"
             app:fontType="semiBold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -6,8 +6,11 @@ import com.selflearningcoursecreationapp.extensions.showLog
 interface LiveDataObserver : Observer<EventObserver<Resource>> {
     fun <T> onResponseSuccess(value: T, apiCode: String)
     fun onException(isNetworkAvailable: Boolean, exception: ApiError, apiCode: String)
+
     fun onError(error: ToastData, apiCode: String?)
     fun onLoading(message: String, apiCode: String?)
+    fun onRetry(apiCode: String, networkError: Boolean, exception: ApiError)
+
     override fun onChanged(event: EventObserver<Resource>) {
         showLog("API_RESPONSE", "first response")
 
@@ -30,6 +33,13 @@ interface LiveDataObserver : Observer<EventObserver<Resource>> {
                 is Resource.Loading -> {
                     onLoading(apiResponse.message ?: "", apiResponse.apiCode)
                 }
+                is Resource.Retry -> {
+//                    Log.d("BaseFragment",
+//                        "onException: ${apiResponse.exception.message}  ${apiResponse.apiCode} ")
+                    onRetry(apiResponse.apiCode, apiResponse.isNetworkError, apiResponse.exception)
+
+                }
+
             }
         }
 

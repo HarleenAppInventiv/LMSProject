@@ -8,12 +8,12 @@ import com.google.mlkit.nl.translate.TranslatorOptions
 import com.selflearningcoursecreationapp.base.BaseViewModel
 import com.selflearningcoursecreationapp.extensions.showException
 import com.selflearningcoursecreationapp.extensions.showLog
-import com.selflearningcoursecreationapp.utils.LANGUAGE_CONSTANT
+import com.selflearningcoursecreationapp.utils.LanguageConstant
 import java.util.*
 
 class PracticeAccentVM : BaseViewModel() {
 
-    private var fromLanguage: String = LANGUAGE_CONSTANT.ENGLISH
+    private var fromLanguage: String = LanguageConstant.ENGLISH
     private var toLanguage: String = ""
     private var translator: Translator? = null
     var translatedText = MutableLiveData<String>().apply {
@@ -52,7 +52,7 @@ class PracticeAccentVM : BaseViewModel() {
     }
 
     private fun downloadFiles() {
-        var conditions = DownloadConditions.Builder()
+        val conditions = DownloadConditions.Builder()
             .build()
         translator?.downloadModelIfNeeded(conditions)
             ?.addOnSuccessListener {
@@ -87,8 +87,12 @@ class PracticeAccentVM : BaseViewModel() {
 
     fun getLanguageCode(code: String?): String {
         return Locale(
-            code ?: LANGUAGE_CONSTANT.ENGLISH
-        ).getDisplayLanguage(Locale(LANGUAGE_CONSTANT.ENGLISH))
+            code ?: LanguageConstant.ENGLISH
+        ).getDisplayLanguage(Locale(LanguageConstant.ENGLISH))
+    }
+
+    override fun onApiRetry(apiCode: String) {
+
     }
 
 

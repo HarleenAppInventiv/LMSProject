@@ -8,5 +8,4 @@ interface EditProfileRepo {
     suspend fun updateProfile(map: HashMap<String, Any>): Flow<Resource>
     suspend fun stateList(): Flow<Resource>
     suspend fun cityList(stateId: Int): Flow<Resource>
-    suspend fun professionList(): Flow<Resource>
 }

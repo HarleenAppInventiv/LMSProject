@@ -1,7 +1,7 @@
 package com.selflearningcoursecreationapp.ui.dialog
 
+import android.annotation.SuppressLint
 import androidx.core.widget.doOnTextChanged
-import androidx.lifecycle.Observer
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
@@ -16,7 +16,9 @@ import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.DialogType
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CourseCategoriesOptionDialog() : BaseBottomSheetDialog<BottomDialogCourceCateBinding>(),
+@SuppressLint("NotifyDataSetChanged")
+
+class CourseCategoriesOptionDialog : BaseBottomSheetDialog<BottomDialogCourceCateBinding>(),
     BaseAdapter.IViewClick {
 
     private var list = ArrayList<CategoryData>()
@@ -33,7 +35,7 @@ class CourseCategoriesOptionDialog() : BaseBottomSheetDialog<BottomDialogCourceC
         arguments?.let {
             type = it.getInt("type")
             if (it.containsKey("selectedId")) {
-                selectedId = it.getInt("selectedId") ?: 0
+                selectedId = it.getInt("selectedId")
             }
         }
 
@@ -48,26 +50,26 @@ class CourseCategoriesOptionDialog() : BaseBottomSheetDialog<BottomDialogCourceC
             DialogType.LANGUAGE -> {
 
                 list.clear()
-                list.addAll(arguments?.getParcelableArrayList<CategoryData>("list") ?: ArrayList())
+                list.addAll(arguments?.getParcelableArrayList("list") ?: ArrayList())
                 list.forEach {
                     if (it.id == selectedId) {
                         it.isSelected = true
+                    } else {
+                        it.isSelected = false
                     }
                 }
+
                 setAdapter(list)
                 binding.etSearch.gone()
                 binding.tvTitle.text = baseActivity.getString(R.string.course_language)
                 binding.parentCL.visible()
 
-//                setLanguageData()
             }
         }
 
-//            setProfessionalAdapter(list)
-//        }
-
         searchFunctionality()
     }
+
 
     private fun searchFunctionality() {
         binding.etSearch.doOnTextChanged { text, _, _, _ ->
@@ -78,7 +80,7 @@ class CourseCategoriesOptionDialog() : BaseBottomSheetDialog<BottomDialogCourceC
 
             } else {
                 val dataList = ArrayList<CategoryData>()
-                list?.forEach {
+                list.forEach {
                     if (it.name?.lowercase()
                             ?.contains(text.toString().lowercase()) == true
                     ) {
@@ -96,7 +98,7 @@ class CourseCategoriesOptionDialog() : BaseBottomSheetDialog<BottomDialogCourceC
     }
 
     private fun observeCategoryData() {
-        viewModel.categoryListLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.categoryListLiveData.observe(viewLifecycleOwner, {
             list.addAll(it)
             list.forEach { catData ->
                 if (catData.id == selectedId) {
@@ -136,5 +138,8 @@ class CourseCategoriesOptionDialog() : BaseBottomSheetDialog<BottomDialogCourceC
         }
     }
 
-
+    override fun onApiRetry(apiCode: String) {
+        super.onApiRetry(apiCode)
+        viewModel.onApiRetry(apiCode)
+    }
 }

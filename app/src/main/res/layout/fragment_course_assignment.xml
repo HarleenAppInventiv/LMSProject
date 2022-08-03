@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/offwhiteTextColor"
+        android:background="?attr/off_whiteTextColor"
         tools:context=".ui.review.CourseAssignmentFragment">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -49,6 +49,7 @@
                 android:letterSpacing="0.02"
                 android:lineSpacingExtra="@dimen/_4ssp"
                 android:text="@string/edit"
+                android:textSize="@dimen/materialButton_14"
                 app:btnTextColor="secondary"
                 app:buttonBackground="none"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -69,6 +70,7 @@
                 android:letterSpacing="0.02"
                 android:lineSpacingExtra="@dimen/_4ssp"
                 android:text="@string/submit"
+                android:textSize="@dimen/materialButton_14"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/bt_edit"

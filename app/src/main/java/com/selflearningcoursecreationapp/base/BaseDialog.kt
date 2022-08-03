@@ -25,11 +25,12 @@ abstract class BaseDialog<DB : ViewDataBinding> : DialogFragment(), LiveDataObse
     @LayoutRes
     abstract fun getLayoutRes(): Int
     abstract fun initUi()
+    abstract fun onApiRetry(apiCode: String)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogTransparent)
+        setStyle(STYLE_NO_TITLE, R.style.DialogTransparent)
     }
 
 
@@ -96,11 +97,18 @@ abstract class BaseDialog<DB : ViewDataBinding> : DialogFragment(), LiveDataObse
         showLoading()
     }
 
-    fun showLoading() {
+
+    override fun onRetry(apiCode: String, networkError: Boolean, exception: ApiError) {
+        baseActivity.retryHandling(apiCode, networkError, {
+            onApiRetry(it)
+        }, exception)
+    }
+
+    private fun showLoading() {
         baseActivity.showProgressBar()
     }
 
-    fun hideLoading() {
+    private fun hideLoading() {
         baseActivity.hideProgressBar()
     }
 

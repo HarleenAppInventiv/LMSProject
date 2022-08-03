@@ -5,5 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface HomeActivityRepo {
     suspend fun manageCouthorInvitation(map: HashMap<String, Any>): Flow<Resource>
+    suspend fun purchaseCourse(map: HashMap<String, Int>): Flow<Resource>
 
 }

@@ -1,5 +1,6 @@
 package com.selflearningcoursecreationapp.ui.preferences.language
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.setFragmentResult
@@ -14,12 +15,13 @@ import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceViewModel
 import com.selflearningcoursecreationapp.utils.Constant
-import com.selflearningcoursecreationapp.utils.LANGUAGE_CONSTANT
+import com.selflearningcoursecreationapp.utils.LanguageConstant
 import com.selflearningcoursecreationapp.utils.SpanUtils
 
 
+@SuppressLint("NotifyDataSetChanged")
 class SelectLanguageFragment : BaseFragment<FragmentSelectLanguageBinding>(),
-    BaseAdapter.IViewClick, View.OnClickListener {
+    BaseAdapter.IViewClick {
     private var adapter: LanguageAdapter? = null
 
     private val viewModel: PreferenceViewModel by viewModels({ if (parentFragment !is NavHostFragment) requireParentFragment() else this })
@@ -41,12 +43,12 @@ class SelectLanguageFragment : BaseFragment<FragmentSelectLanguageBinding>(),
             val nameList =
                 baseActivity.resources.getStringArray(R.array.language_array)
             val codeArray = arrayListOf(
-                LANGUAGE_CONSTANT.ENGLISH,
-                LANGUAGE_CONSTANT.HINDI,
-                LANGUAGE_CONSTANT.TELUGU,
-                LANGUAGE_CONSTANT.TAMIL,
-                LANGUAGE_CONSTANT.KANNADA,
-                LANGUAGE_CONSTANT.BENGALI
+                LanguageConstant.ENGLISH,
+                LanguageConstant.HINDI,
+                LanguageConstant.TELUGU,
+                LanguageConstant.TAMIL,
+                LanguageConstant.KANNADA,
+                LanguageConstant.BENGALI
             )
             val list = ArrayList<CategoryData>()
             for (i in nameList.indices) {
@@ -113,20 +115,9 @@ class SelectLanguageFragment : BaseFragment<FragmentSelectLanguageBinding>(),
 
     }
 
-    override fun onClick(p0: View?) {
-        when (p0?.id) {
-//            R.id.btn_apply -> {
-//                if (parentFragment is NavHostFragment) {
-//                    viewModel.saveLanguage()
-//                    baseActivity.changeAppLanguage()
-////                        findNavController().navigateUp()
-//                    baseActivity.recreate()
-//                } else {
-//
-////                    viewModel.saveLanguage()
-////                    baseActivity.changeAppLanguage()
-//                }
-//            }
-        }
+    override fun onApiRetry(apiCode: String) {
+
     }
+
+
 }

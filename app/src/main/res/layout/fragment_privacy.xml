@@ -89,7 +89,7 @@
             android:layout_marginTop="@dimen/_15sdp"
             android:text="@string/privacy_policy"
             android:textColor="?attr/whiteTextColor"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/textField_14"
             app:fontType="semiBold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

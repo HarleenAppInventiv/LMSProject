@@ -16,7 +16,6 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -42,6 +41,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@SuppressLint("NotifyDataSetChanged")
 
 class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnClickListener {
     private var adapter: ScreenSlidePagerAdapter? = null
@@ -61,7 +61,7 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
                     if (args.currentSelection == -1) {
                         if (args.type == -1) 0 else args.type
                     } else args.currentSelection
-                if (!args.title.isNullOrEmpty())
+                if (args.title.isNotEmpty())
                     baseActivity.setToolbar(args.title)
             }
         }
@@ -118,16 +118,13 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
             val s = SpannableString(item.title)
             s.setSpan(ForegroundColorSpan(ThemeUtils.getAppColor(baseActivity)), 0, s.length, 0)
             s.setSpan(
-                StyleSpan(Typeface.BOLD),
+                StyleSpan(Typeface.NORMAL),
                 0,
                 s.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
+
             item.title = s
-        } else {
-//            val item = menu.findItem(R.id.action_read)
-//            item.icon.colorFilter = PorterDuffColorFilter(ThemeUtils.getAppColor(requireContext()),
-//                PorterDuff.Mode.SRC_IN)
 
         }
 
@@ -177,10 +174,11 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
         return super.onOptionsItemSelected(item)
     }
 
+
     private fun saveData() {
 //        viewModel.getApiResponse().observe(viewLifecycleOwner, this)
 
-        viewModel.savePrefernce(currentSelection)
+        viewModel.savePreference(currentSelection)
     }
 
     private fun initViewPager() {
@@ -205,7 +203,7 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
         binding.viewpager.adapter = adapter
         dotList.clear()
         dotList.addAll(list.map { false })
-        dotList.set(0, true)
+        dotList[0] = true
         binding.viewpager.isUserInputEnabled = false
         setDotAdapter()
 
@@ -232,37 +230,30 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
     }
 
     private fun observeListeners() {
-//        if (type == PREFERENCES.TYPE_ALL || type == PREFERENCES.TYPE_CATEGORY) {
-        viewModel.categoryListLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.categoryListLiveData.observe(viewLifecycleOwner, {
             if (currentSelection == PREFERENCES.TYPE_CATEGORY) {
                 resetData()
                 setCategoryData()
 
-                binding.cbSelectAll.isChecked = it.filter { !it.isSelected }.isNullOrEmpty()
+                binding.cbSelectAll.isChecked =
+                    it.filter { data -> !data.isSelected }.isNullOrEmpty()
             }
         })
-//        }
-//        if (type == PREFERENCES.TYPE_ALL || type == PREFERENCES.TYPE_THEME) {
-        viewModel.themeListLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.themeListLiveData.observe(viewLifecycleOwner, {
             if (currentSelection == PREFERENCES.TYPE_THEME) {
                 resetData()
                 setThemeData()
             }
         })
-//        }
-//        if (type == PREFERENCES.TYPE_ALL || type == PREFERENCES.TYPE_FONT) {
         viewModel.fontListData.observe(viewLifecycleOwner, {
-//                if (currentSelection==PREFERENCES.TYPE_FONT) {
             setData()
         })
-//        }
-//        if (type == PREFERENCES.TYPE_ALL || type == PREFERENCES.TYPE_LANGUAGE) {
-        viewModel.languageListLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.languageListLiveData.observe(viewLifecycleOwner, {
             if (currentSelection == PREFERENCES.TYPE_LANGUAGE) {
                 setData()
             }
         })
-//        }
+
 
     }
 
@@ -406,64 +397,67 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)
         when (apiCode) {
-            ApiEndPoints.API_SAVE_PREFRENCE -> {
+            ApiEndPoints.API_SAVE_PREFERENCES -> {
                 showLoading()
                 lifecycleScope.launch {
                     viewModel.savePrefDataInDB(type)
                     delay(2000)
                     baseActivity.runOnUiThread {
                         hideLoading()
-                        if (type == PREFERENCES.TYPE_ALL) {
-                            pagerMoveOrUpdateThemeFile()
-                        } else if (type != PREFERENCES.TYPE_CATEGORY) {
-
-                            var changedText = ""
-                            var themeText = ""
-
-                            when (type) {
-                                PREFERENCES.TYPE_LANGUAGE -> {
-                                    changedText =
-                                        baseActivity.getString(R.string.language_changed_to)
-                                    themeText =
-                                        viewModel.languageListLiveData.value?.singleOrNull { it.isSelected }
-                                            ?.let {
-                                                it.name
-                                            } ?: ""
-
-                                }
-                                PREFERENCES.TYPE_FONT -> {
-                                    changedText = baseActivity.getString(R.string.font_changed_to)
-                                    themeText =
-                                        viewModel.fontListData.value?.singleOrNull { it.isSelected }
-                                            ?.let {
-                                                it.name
-                                            } ?: ""
-                                }
-                                PREFERENCES.TYPE_THEME -> {
-                                    lifecycleScope.launch {
-                                        (getAppContext() as SelfLearningApplication).updatedThemeFile()
-                                    }
-                                    val themeData =
-                                        viewModel.themeListLiveData.value?.singleOrNull { it.isSelected }
-                                    changedText = baseActivity.getString(R.string.theme_changed_to)
-                                    themeText = "${themeData?.name} ${getString(R.string.theme)}"
-
-                                }
+                        when {
+                            type == PREFERENCES.TYPE_ALL -> {
+                                pagerMoveOrUpdateThemeFile()
                             }
+                            type != PREFERENCES.TYPE_CATEGORY -> {
 
-                            val msg =
-                                SpanUtils.with(baseActivity, "$changedText \"$themeText\"")
-                                    .apply {
-                                        isBold()
-                                        startPos(changedText.length)
-                                        themeColor()
-                                    }.getSpanString()
+                                var changedText = ""
+                                var themeText = ""
 
-                            closePopUp(msg)
+                                when (type) {
+                                    PREFERENCES.TYPE_LANGUAGE -> {
+                                        changedText =
+                                            baseActivity.getString(R.string.language_changed_to)
+                                        themeText =
+                                            viewModel.languageListLiveData.value?.singleOrNull { it.isSelected }?.name
+                                                ?: ""
 
-                        } else {
-                            showToastLong(baseActivity.getString(R.string.categories_updated_successfully))
-                            findNavController().navigateUp()
+                                    }
+                                    PREFERENCES.TYPE_FONT -> {
+                                        changedText =
+                                            baseActivity.getString(R.string.font_changed_to)
+                                        themeText =
+                                            viewModel.fontListData.value?.singleOrNull { it.isSelected }?.name
+                                                ?: ""
+                                    }
+                                    PREFERENCES.TYPE_THEME -> {
+                                        lifecycleScope.launch {
+                                            (getAppContext() as SelfLearningApplication).updatedThemeFile()
+                                        }
+                                        val themeData =
+                                            viewModel.themeListLiveData.value?.singleOrNull { it.isSelected }
+                                        changedText =
+                                            baseActivity.getString(R.string.theme_changed_to)
+                                        themeText =
+                                            "${themeData?.name} ${getString(R.string.theme)}"
+
+                                    }
+                                }
+
+                                val msg =
+                                    SpanUtils.with(baseActivity, "$changedText \"$themeText\"")
+                                        .apply {
+                                            isBold()
+                                            startPos(changedText.length)
+                                            themeColor()
+                                        }.getSpanString()
+
+                                closePopUp(msg)
+
+                            }
+                            else -> {
+                                showToastLong(baseActivity.getString(R.string.categories_updated_successfully))
+                                findNavController().navigateUp()
+                            }
                         }
                     }
                 }
@@ -516,7 +510,7 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
         }
     }
 
-    fun pagerMoveOrUpdateThemeFile() {
+    private fun pagerMoveOrUpdateThemeFile() {
         currentSelection += 1
         showLog("CURRENT_SELECTION", "$currentSelection")
         when (binding.viewpager.currentItem) {
@@ -531,6 +525,10 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
                 binding.viewpager.currentItem += 1
             }
         }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
     }
 
 

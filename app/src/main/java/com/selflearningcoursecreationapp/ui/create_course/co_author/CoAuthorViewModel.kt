@@ -7,7 +7,8 @@ import com.selflearningcoursecreationapp.base.BaseViewModel
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.extensions.isValidEmail
-import com.selflearningcoursecreationapp.utils.VALIDATION_CONST
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.ValidationConst
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -20,9 +21,11 @@ class CoAuthorViewModel(private val repo: CoAuthorRepo) : BaseViewModel() {
     var phone = MutableLiveData<String>().apply {
         value = ""
     }
-
+    var selectedCountryCodeWithPlus: String = ""
     var courseId: Int = 0
-    fun validate(selectedCountryCodeWithPlus: String, isEmail: Boolean) {
+    private var isEmail = false
+    fun validate(isEmail: Boolean) {
+        this.isEmail = isEmail
         when {
             emailPhone.value.isNullOrEmpty() && isEmail -> {
 
@@ -51,7 +54,7 @@ class CoAuthorViewModel(private val repo: CoAuthorRepo) : BaseViewModel() {
                 )
             }
 
-            phone.value!!.length < VALIDATION_CONST.MIN_NO_LENGTH && !isEmail -> {
+            phone.value!!.length < ValidationConst.MIN_NO_LENGTH && !isEmail -> {
 
                 updateResponseObserver(
                     Resource.Error(
@@ -63,13 +66,13 @@ class CoAuthorViewModel(private val repo: CoAuthorRepo) : BaseViewModel() {
             }
 
             else -> {
-                inviteCoAuthor(!isEmail, selectedCountryCodeWithPlus)
+                inviteCoAuthor(!isEmail)
 
             }
         }
     }
 
-    fun inviteCoAuthor(isPhone: Boolean, selectedCountryCodeWithPlus: String) {
+    private fun inviteCoAuthor(isPhone: Boolean) {
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
             if (isPhone) {
@@ -82,13 +85,21 @@ class CoAuthorViewModel(private val repo: CoAuthorRepo) : BaseViewModel() {
 
 
             updateResponseObserver(Resource.Loading())
-            var response = repo.inviteCoAuthor(map)
+            val response = repo.inviteCoAuthor(map)
             withContext(Dispatchers.IO) {
                 response.collect {
 
                     updateResponseObserver(it)
 
                 }
+            }
+        }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        when (apiCode) {
+            ApiEndPoints.API_INVITE_COAUTHOR -> {
+                validate(isEmail)
             }
         }
     }

@@ -13,6 +13,7 @@ import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.DialogType
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@SuppressLint("NotifyDataSetChanged")
 class SingleChoiceBottomDialog : BaseBottomSheetDialog<BottomDialogSingleChoiceBinding>(),
     BaseAdapter.IViewClick {
     private val viewModel: SingleChoiceVM by viewModel()
@@ -39,7 +40,7 @@ class SingleChoiceBottomDialog : BaseBottomSheetDialog<BottomDialogSingleChoiceB
             }
             if (it.containsKey("list")) {
                 list.clear()
-                list.addAll(it.getParcelableArrayList<SingleChoiceData>("list") ?: ArrayList())
+                list.addAll(it.getParcelableArrayList("list") ?: ArrayList())
                 list.forEach { data ->
                     if (data.id == selectedId) {
                         data.isSelected = true
@@ -73,14 +74,13 @@ class SingleChoiceBottomDialog : BaseBottomSheetDialog<BottomDialogSingleChoiceB
     }
 
     private fun setQuizTypeData() {
-        baseActivity?.resources.getStringArray(R.array.quiz_option_array)
-            ?.forEachIndexed { index, s ->
+        baseActivity.resources.getStringArray(R.array.quiz_option_array)
+            .forEachIndexed { index, s ->
                 list.add(SingleChoiceData(index + 1, (index + 1) == selectedId, title = s))
             }
 
         setAdapter()
     }
-
 
 
     private fun setAdapter() {
@@ -108,7 +108,7 @@ class SingleChoiceBottomDialog : BaseBottomSheetDialog<BottomDialogSingleChoiceB
         super.onResponseSuccess(value, apiCode)
         when (apiCode) {
             ApiEndPoints.API_PROFESSION -> {
-                list = (value as BaseResponse<SingleClickResponse>)?.resource?.list ?: ArrayList()
+                list = (value as BaseResponse<SingleClickResponse>).resource?.list ?: ArrayList()
                 list.forEach {
                     if (it.id == selectedId) {
                         it.isSelected = true
@@ -119,4 +119,8 @@ class SingleChoiceBottomDialog : BaseBottomSheetDialog<BottomDialogSingleChoiceB
         }
     }
 
+    override fun onApiRetry(apiCode: String) {
+        super.onApiRetry(apiCode)
+        viewModel.onApiRetry(apiCode)
+    }
 }

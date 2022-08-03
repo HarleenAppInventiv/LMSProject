@@ -1,9 +1,9 @@
 package com.selflearningcoursecreationapp.ui.create_course.add_assessment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
@@ -15,6 +15,7 @@ import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddC
 import com.selflearningcoursecreationapp.utils.CommonAlertDialog
 import com.selflearningcoursecreationapp.utils.HandleClick
 
+@SuppressLint("NotifyDataSetChanged")
 
 class AssessmentFragment :
     BaseFragment<com.selflearningcoursecreationapp.databinding.FragmentAssessmentBinding>(),
@@ -27,6 +28,7 @@ class AssessmentFragment :
         initUI()
 
     }
+
 
     private fun initUI() {
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
@@ -45,13 +47,11 @@ class AssessmentFragment :
 
         observeAssessmentData()
 
-//        binding.btnEdit.gone()
-
 
     }
 
     private fun observeAssessmentData() {
-        viewModel.assessmentData.observe(viewLifecycleOwner, Observer {
+        viewModel.assessmentData.observe(viewLifecycleOwner, {
             if (!it.assessmentId.isNullOrZero()) {
                 if (it.list.isNullOrEmpty() && it.assessmentName.isNullOrEmpty()) {
                     viewModel.deleteAssessment(false)
@@ -64,15 +64,12 @@ class AssessmentFragment :
                 binding.tvNoData.text =
                     baseActivity.getString(R.string.there_are_no_assessments_in_n_this_course)
                 binding.btnAddAssessment.text = baseActivity.getString(R.string.add_assessment)
-
             }
             binding.llNoAssessment.visibleView(it.list.isNullOrEmpty())
             binding.rvAssessment.visibleView(!it.list.isNullOrEmpty())
             adapter?.notifyDataSetChanged()
             adapter = null
             setAdapter()
-
-
         })
     }
 
@@ -92,29 +89,18 @@ class AssessmentFragment :
             val view = items[0] as View
             when (view.id) {
                 R.id.btn_add_assessment -> {
-//                    binding.llNoAssessment.gone()
-//                    binding.btnEdit.visible()
-//                    binding.recyclerAssignmentList.apply {
-//                        visible()
-//                        adapterAssessment = CourseAssessmentAdapter()
-//                        adapter = adapterAssessment
-//                    }
                     findNavController().navigate(
                         AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToAddQuizFragment(
                             viewModel.courseData.value,
                             false
                         )
                     )
-//                    findNavController().navigate(R.id.action_addCourseBaseFragment_to_addQuizFragment,
-//                        bundleOf("courseData" to viewModel.courseData.value,"isQuiz" to false))
-
                 }
                 R.id.btn_submit -> {
-
                     CommonAlertDialog.builder(requireContext())
                         .title(getString(R.string.submit_succesfully))
                         .description(getString(R.string.submit_succesfully_done))
-                        .positiveBtnText(getString(R.string.ok))
+                        .positiveBtnText(getString(R.string.okay))
                         .hideNegativeBtn(true)
                         .icon(R.drawable.ic_assessment_submitted)
                         .build()
@@ -122,6 +108,11 @@ class AssessmentFragment :
                 }
             }
         }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        //handled in AddCourseBaseFragment
+
     }
 
 }

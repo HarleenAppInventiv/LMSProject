@@ -4,7 +4,6 @@ import com.selflearningcoursecreationapp.base.BaseRepo
 import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.data.network.ApiService
 import com.selflearningcoursecreationapp.data.network.Resource
-import com.selflearningcoursecreationapp.models.AllProfessions
 import com.selflearningcoursecreationapp.models.CityModel
 import com.selflearningcoursecreationapp.models.StateModel
 import com.selflearningcoursecreationapp.models.user.UserResponse
@@ -40,12 +39,5 @@ class EditProfileRepoImpl(private val apiService: ApiService) : EditProfileRepo 
         }.safeApiCall(ApiEndPoints.API_GET_ALL_CITY).flowOn(Dispatchers.IO)
     }
 
-    override suspend fun professionList(): Flow<Resource> {
-        return object : BaseRepo<BaseResponse<AllProfessions>>() {
-            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<AllProfessions>> {
-                return apiService.profession()
-            }
-        }.safeApiCall(ApiEndPoints.API_PROFESSION).flowOn(Dispatchers.IO)
 
-    }
 }

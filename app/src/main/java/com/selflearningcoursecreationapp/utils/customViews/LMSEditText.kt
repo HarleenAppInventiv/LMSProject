@@ -18,6 +18,7 @@ class LMSEditText : AppCompatEditText {
         initView(context)
     }
 
+
     constructor(
         context: Context,
         attrs: AttributeSet?,
@@ -42,12 +43,12 @@ class LMSEditText : AppCompatEditText {
         )
 
         val drawablePos =
-            themeAttrs.getInt(R.styleable.LMSTextView_primaryIconTint, ThemeConstants.TYPE_NONE)
+            themeAttrs.getInt(R.styleable.LMSEditText_primaryIconTint, ThemeConstants.TYPE_NONE)
         val textBgColor =
             themeAttrs.getInt(R.styleable.LMSEditText_textBgColor, ThemeConstants.TYPE_NONE)
 
         val textBgMode =
-            themeAttrs.getInt(R.styleable.LMSTextView_textBgMode, ThemeConstants.TYPE_BACKGROUND)
+            themeAttrs.getInt(R.styleable.LMSEditText_textBgMode, ThemeConstants.TYPE_BACKGROUND)
         if (textBgMode == ThemeConstants.TYPE_TINT) {
             changeBackgroundTint(textBgColor)
         } else {
@@ -56,7 +57,7 @@ class LMSEditText : AppCompatEditText {
         changeDrawableTint(drawablePos)
 
         val fontType =
-            themeAttrs.getInt(R.styleable.LMSTextView_fontType, ThemeConstants.FONT_REGULAR)
+            themeAttrs.getInt(R.styleable.LMSEditText_fontType, ThemeConstants.FONT_REGULAR)
         if (fontType > 0) {
             typeface = ResourcesCompat.getFont(
                 context,
@@ -64,7 +65,7 @@ class LMSEditText : AppCompatEditText {
             )
         }
         val textColorType =
-            themeAttrs.getInt(R.styleable.LMSTextView_textColorType, ThemeConstants.TYPE_SECONDARY)
+            themeAttrs.getInt(R.styleable.LMSEditText_textColorType, ThemeConstants.TYPE_SECONDARY)
         if (textColorType >= 0)
             changeTextColor(textColorType)
 
@@ -111,14 +112,14 @@ class LMSEditText : AppCompatEditText {
         setTextColor(colorValue)
     }
 
-    fun changeBackgroundColor(backgroundTint: Int) {
+    private fun changeBackgroundColor(backgroundTint: Int) {
         val color = getBgColor(backgroundTint)
         if (!color.isNullOrZero()) {
             setBackgroundColor(color!!)
         }
     }
 
-    fun changeBackgroundTint(backgroundTint: Int) {
+    private fun changeBackgroundTint(backgroundTint: Int) {
         val color = getBgColor(backgroundTint)
         if (!color.isNullOrZero()) {
             background.colorFilter = PorterDuffColorFilter(

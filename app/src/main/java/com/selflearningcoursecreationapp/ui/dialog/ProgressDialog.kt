@@ -12,7 +12,7 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
 import kotlinx.android.synthetic.main.dialog_progress.*
 
-class ProgressDialog(var mContext: Context) : Dialog(mContext) {
+class ProgressDialog(private var mContext: Context) : Dialog(mContext) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)

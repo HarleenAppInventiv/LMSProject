@@ -1,33 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?attr/secondaryScreenBgColor"
-        tools:context=".ui.bottom_course.MyCourseFragment">
+        android:layout_height="wrap_content">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvCourse"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:overScrollMode="never"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/_25sdp"
-            tools:listitem="@layout/adapter_my_course" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/secondaryScreenBgColor"
+            tools:context=".ui.bottom_course.MyCourseFragment">
+
+            <LinearLayout
+                android:id="@+id/ll_no_wishlist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_no_wishlist" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tv_no_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wishlist_empty"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/textField_16"
+                    app:fontType="semiBold"
+                    app:textColorType="primary" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tv_no_data_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_30sdp"
+                    android:layout_marginEnd="@dimen/_30sdp"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/textField_12"
+                    app:fontType="regular"
+                    app:textColorType="heading" />
+
+                <!--            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton-->
+                <!--                android:id="@+id/btn_add"-->
+                <!--                spanText="@{@string/add_section}"-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_margin="@dimen/_5sdp"-->
+                <!--                android:backgroundTint="@color/white"-->
+                <!--                android:contentDescription="@string/add_section"-->
+                <!--                android:letterSpacing="0.02"-->
+                <!--                android:padding="@dimen/_12sdp"-->
+                <!--                android:text="Add Wishlist"-->
+                <!--                android:textAlignment="center"-->
+                <!--                android:textColor="?attr/colorPrimary"-->
+                <!--                android:textSize="@dimen/_12ssp"-->
+                <!--                app:btnIconColor="primary"-->
+                <!--                app:btnTextColor="secondary"-->
+                <!--                app:buttonBackground="secondary"-->
+                <!--                app:buttonFont="semiBold"-->
+                <!--                app:iconGravity="textStart"-->
+                <!--                app:iconPadding="@dimen/_10sdp"-->
+                <!--                app:iconTint="?attr/colorPrimary"-->
+                <!--                app:strokeColor="?attr/buttonBackgroundTintColor"-->
+                <!--                app:strokeWidth="@dimen/_1sdp" />-->
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCourse"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:paddingBottom="@dimen/_25sdp"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                tools:listitem="@layout/adapter_my_course" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

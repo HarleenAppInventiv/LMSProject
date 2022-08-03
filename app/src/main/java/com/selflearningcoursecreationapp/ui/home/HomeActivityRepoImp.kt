@@ -4,6 +4,7 @@ import com.selflearningcoursecreationapp.base.BaseRepo
 import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.data.network.ApiService
 import com.selflearningcoursecreationapp.data.network.Resource
+import com.selflearningcoursecreationapp.models.course.OrderData
 import com.selflearningcoursecreationapp.models.user.UserProfile
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import kotlinx.coroutines.Dispatchers
@@ -19,5 +20,13 @@ class HomeActivityRepoImp(private val apiService: ApiService) : HomeActivityRepo
             }
 
         }.safeApiCall(ApiEndPoints.API_COAUTHOR_INVITATION + "/home").flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun purchaseCourse(map: HashMap<String, Int>): Flow<Resource> {
+        return object : BaseRepo<BaseResponse<OrderData>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<OrderData>> {
+                return apiService.purchaseCourse(map)
+            }
+        }.safeApiCall(ApiEndPoints.API_PURCHASE_COURSE).flowOn(Dispatchers.IO)
     }
 }

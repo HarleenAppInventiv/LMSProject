@@ -14,6 +14,10 @@
             type="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel" />
 
         <import type="android.view.View" />
+
+        <import
+            alias="const"
+            type="com.selflearningcoursecreationapp.utils.ValidationConst" />
     </data>
 
 
@@ -33,6 +37,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
 
             >
@@ -77,13 +82,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_11sdp"
                 android:text="SECTION 1"
                 android:textAllCaps="true"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/textField_12"
                 app:fontType="semiBold"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_visible"
                 app:layout_constraintStart_toEndOf="@+id/iv_user_logo"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/iv_visible"
                 app:layout_constraintVertical_chainStyle="spread"
                 app:textAllCaps="true" />
 
@@ -93,12 +98,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:background="?attr/offwhiteTextColor"
+                android:background="?attr/off_whiteTextColor"
                 android:lineSpacingExtra="6sp"
                 android:padding="@dimen/_2sdp"
                 android:text="0 Lesson"
                 android:textColor="?attr/orange_text_color"
-                android:textSize="@dimen/_11ssp"
+                android:textSize="@dimen/textField_11"
                 app:fontType="medium"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_section_number"
                 app:layout_constraintStart_toEndOf="@+id/tv_section_number"
@@ -120,7 +125,7 @@
                 android:layout_marginTop="@dimen/_1sdp"
                 android:layout_marginBottom="@dimen/_12sdp"
                 android:text="1 Quiz, 1 Audio,1 Video, 1 Doc, 1Recording"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/textField_10"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/iv_dot"
@@ -150,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_6sdp"
                 android:text="01:12:00"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/textField_10"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="@+id/iv_delete"
                 app:layout_constraintHorizontal_bias="0"
@@ -233,7 +238,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:text="@string/title"
-                    android:textSize="@dimen/_12sdp"
+                    android:textSize="@dimen/textField_12"
                     app:fontType="medium"
                     app:layout_constraintStart_toStartOf="@id/guidelineStart"
                     app:layout_constraintTop_toBottomOf="@+id/view"
@@ -248,11 +253,11 @@
                     android:background="@drawable/edt_bg"
                     android:hint="@string/enter_section_title"
                     android:imeOptions="actionNext"
-                    android:maxLines="1"
+                    android:maxLength="@{const.MAX_COURSE_TITLE_LENGTH}"
                     android:paddingVertical="@dimen/_11sdp"
-                    android:singleLine="true"
                     android:text="@={lecture.sectionTitle}"
-                    android:textSize="@dimen/_14ssp"
+                    android:textSize="@dimen/editTextField_14"
+
                     app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                     app:layout_constraintStart_toStartOf="@id/guidelineStart"
                     app:layout_constraintTop_toBottomOf="@+id/appCompatTextView8"
@@ -264,7 +269,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:text="@string/description"
-                    android:textSize="@dimen/_12sdp"
+                    android:textSize="@dimen/textField_12"
                     app:fontType="medium"
                     app:layout_constraintStart_toStartOf="@id/guidelineStart"
                     app:layout_constraintTop_toBottomOf="@+id/et_section_title"
@@ -282,17 +287,19 @@
                     android:hint="@string/enter_description_here"
                     android:imeOptions="actionDone"
                     android:inputType="textImeMultiLine|textMultiLine|textCapSentences"
-                    android:lineSpacingExtra="@dimen/_6sdp"
+                    android:maxLength="@{const.MAX_COURSE_DESC_LENGTH}"
                     android:maxLines="7"
                     android:minLines="3"
+                    android:overScrollMode="always"
                     android:paddingVertical="@dimen/_11sdp"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbars="vertical"
                     android:text="@={lecture.sectionDescription}"
-                    android:textSize="@dimen/_14ssp"
+                    android:textSize="@dimen/editTextField_14"
                     app:drawableTint="?attr/hintColor"
                     app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                     app:layout_constraintStart_toStartOf="@id/guidelineStart"
                     app:layout_constraintTop_toBottomOf="@+id/tv_desc"
-
                     app:textColorType="heading" />
 
 
@@ -322,7 +329,7 @@
                     android:letterSpacing="0.02"
                     android:text="@string/upload_lesson"
                     android:textAllCaps="true"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/textField_12"
                     app:btnTextColor="theme"
                     app:buttonBackground="none"
                     app:buttonFont="medium"
@@ -348,7 +355,7 @@
                     android:letterSpacing="0.02"
                     android:text="@string/save"
                     android:textAllCaps="true"
-                    android:textSize="@dimen/_14ssp"
+                    android:textSize="@dimen/textField_14"
                     android:visibility="@{lecture.uploadLesson?View.VISIBLE: View.GONE }"
                     app:btnTextColor="secondary"
                     app:buttonBackground="secondary"

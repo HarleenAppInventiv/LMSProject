@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_10sdp"
         android:background="@drawable/edt_white_bg"
-        android:padding="@dimen/_15sdp">
+       >
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSRadioButton
             android:id="@+id/rb_checked"
@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:clickable="false"
             android:enabled="false"
+            android:layout_marginStart="@dimen/_15sdp"
             android:paddingVertical="@dimen/_5sdp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -32,9 +33,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:paddingVertical="@dimen/_5sdp"
-            android:textSize="@dimen/_14ssp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:textAlignment="textStart"
             app:fontType="semiBold"
+            android:textSize="@dimen/adapterTF_14"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/iv_correct"
             app:layout_constraintStart_toEndOf="@+id/rb_checked"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="01 (Jan) " />
@@ -43,14 +50,26 @@
             android:id="@+id/iv_option"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginHorizontal="@dimen/_2sdp"
             android:scaleType="centerCrop"
             android:visibility="gone"
+            android:layout_marginVertical="@dimen/_2sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@+id/rb_checked"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="wrap" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_correct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp"
+            android:src="@drawable/ic_check_green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout>

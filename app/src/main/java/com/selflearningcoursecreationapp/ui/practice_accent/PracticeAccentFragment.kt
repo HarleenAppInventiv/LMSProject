@@ -21,10 +21,10 @@ import com.selflearningcoursecreationapp.extensions.onRightDrawableClick
 import com.selflearningcoursecreationapp.extensions.showLog
 import com.selflearningcoursecreationapp.utils.Constants
 import com.selflearningcoursecreationapp.utils.HandleClick
-import com.selflearningcoursecreationapp.utils.LANGUAGE_CONSTANT
+import com.selflearningcoursecreationapp.utils.LanguageConstant
 import com.selflearningcoursecreationapp.utils.SpeechUtils
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
@@ -39,6 +39,7 @@ class PracticeAccentFragment : BaseFragment<FragmentPracticeAccentBinding>(), Ha
         super.onViewCreated(view, savedInstanceState)
         initUI()
     }
+
 
     private fun initUI() {
 
@@ -56,11 +57,11 @@ class PracticeAccentFragment : BaseFragment<FragmentPracticeAccentBinding>(), Ha
         binding.handleClick = this
         if (viewModel.getToLanguage().isEmpty()) {
             lifecycleScope.launch {
-                val code = lifecycleScope.async {
+                val code = withContext(lifecycleScope.coroutineContext) {
                     PreferenceDataStore.getString(Constants.LANGUAGE_THEME)
-                }.await()
+                }
                 viewModel.setToLanguage(
-                    code ?: LANGUAGE_CONSTANT.ENGLISH
+                    code ?: LanguageConstant.ENGLISH
                 )
 
             }
@@ -91,9 +92,8 @@ class PracticeAccentFragment : BaseFragment<FragmentPracticeAccentBinding>(), Ha
         })
 
         setFragmentResultListener("languageData") { _, bundle ->
-            val languageCode = bundle.getString("language_code") ?: LANGUAGE_CONSTANT.ENGLISH
-            val type = bundle.getInt("type")
-            when (type) {
+            val languageCode = bundle.getString("language_code") ?: LanguageConstant.ENGLISH
+            when (bundle.getInt("type")) {
                 1 -> {
                     viewModel.setFromLanguage(languageCode)
 
@@ -105,7 +105,7 @@ class PracticeAccentFragment : BaseFragment<FragmentPracticeAccentBinding>(), Ha
             }
 
             setData()
-            if (!binding.etSearch.content().isNullOrEmpty())
+            if (binding.etSearch.content().isNotEmpty())
                 viewModel.translateData(binding.etSearch.content())
 
         }
@@ -185,6 +185,10 @@ class PracticeAccentFragment : BaseFragment<FragmentPracticeAccentBinding>(), Ha
 
 //            }
         }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+
     }
 
 }

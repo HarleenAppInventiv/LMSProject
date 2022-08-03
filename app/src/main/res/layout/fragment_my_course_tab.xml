@@ -24,7 +24,7 @@
             app:tabBackground="?attr/screenBackgroundColor"
             app:tabIndicatorColor="?attr/colorPrimary"
             app:tabIndicatorHeight="@dimen/_2sdp"
-            app:tabMode="auto"
+            app:tabMode="fixed"
             app:tabSelectedTextColor="?attr/headingTextColor"
             app:tabTextAppearance="@style/MyTabTextAppearance"
             app:tabTextColor="?attr/hintColor" />

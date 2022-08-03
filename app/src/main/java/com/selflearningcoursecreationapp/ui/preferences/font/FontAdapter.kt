@@ -23,7 +23,7 @@ class FontAdapter(private var list: ArrayList<CategoryData>) :
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val binding = holder.binding as AdapterSelectFontBinding
         val data = list[position]
-        binding.tvFont.setText(data.name)
+        binding.tvFont.text = data.name
 
         binding.tvFont.typeface = ResourcesCompat.getFont(binding.root.context, data.codeId!!)
         binding.tvPreview.typeface = ResourcesCompat.getFont(binding.root.context, data.codeId!!)

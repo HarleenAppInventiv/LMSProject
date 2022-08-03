@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/setting_graph"
+    app:startDestination="@id/settingsFragment">
+
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.settings.SettingsFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_privacyFragment"
+            app:destination="@id/privacyFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_FAQFragment"
+            app:destination="@id/FAQFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_preferencesFragment"
+            app:destination="@id/preferencesFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_helpDialog"
+            app:destination="@id/helpDialog" />
+    </fragment>
+    <fragment
+        android:id="@+id/preferencesFragment"
+        android:name="com.selflearningcoursecreationapp.ui.preferences.PreferencesFragment"
+        android:label="@string/your_preferences"
+        tools:layout="@layout/fragment_preferences">
+
+        <argument
+            android:name="type"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="screenType"
+            android:defaultValue="1"
+            app:argType="integer" />
+        <argument
+            android:name="current_selection"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/privacyFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.settings.staticPages.PrivacyFragment"
+        android:label=""
+        tools:layout="@layout/fragment_privacy">
+        <argument
+            android:name="type"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.settings.changePassword.ChangePasswordFragment"
+        android:label="@string/change_password"
+        tools:layout="@layout/fragment_change_password" />
+    <dialog
+        android:id="@+id/helpDialog"
+        android:name="com.selflearningcoursecreationapp.ui.dialog.HelpDialog"
+        android:label="@string/settings">
+        <action
+            android:id="@+id/action_helpDialog_to_FAQFragment"
+            app:destination="@id/FAQFragment" />
+        <action
+            android:id="@+id/action_helpDialog_to_privacyFragment"
+            app:destination="@id/privacyFragment" />
+    </dialog>
+    <fragment
+        android:id="@+id/FAQFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.settings.faq.FAQFragment"
+        android:label="FAQFragment"
+        tools:layout="@layout/faq_list_view" />
+
+
+</navigation>

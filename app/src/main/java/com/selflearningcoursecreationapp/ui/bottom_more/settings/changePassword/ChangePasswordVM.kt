@@ -7,7 +7,6 @@ import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.models.ChangePasswordData
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -33,14 +32,14 @@ class ChangePasswordVM(private val repo: ChangePassRepo) : BaseViewModel() {
         }
     }
 
-    fun callChangePass(oldPassword: String, newPassword: String) =
+    private fun callChangePass(oldPassword: String, newPassword: String) =
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
             map["oldPassword"] = oldPassword
             map["newPassword"] = newPassword
             map["isLogout"] = isLogout.value ?: false
             updateResponseObserver(Resource.Loading())
-            var response = repo.changePass(map)
+            val response = repo.changePass(map)
             withContext(Dispatchers.IO) {
                 response.collect {
                     updateResponseObserver(it)
@@ -48,4 +47,8 @@ class ChangePasswordVM(private val repo: ChangePassRepo) : BaseViewModel() {
             }
 
         }
+
+    override fun onApiRetry(apiCode: String) {
+        isValid()
+    }
 }

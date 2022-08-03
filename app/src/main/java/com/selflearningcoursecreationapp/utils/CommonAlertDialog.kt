@@ -32,15 +32,20 @@ class CommonAlertDialog {
         private var title: String? = context.getString(R.string.successful)
         private var description: String? = ""
         private var spannedText: SpannableString? = null
-        private var positiveBtnText: String? = context.getString(R.string.ok)
+        private var positiveBtnText: String? = context.getString(R.string.okay)
         private var negativeBtnText: String? = context.getString(R.string.cancel)
-        private var icon: Int? = R.drawable.ic_success
+        private var icon: Int? = R.drawable.ic_checked_logo
         private var theme: Int? = R.style.DialogTransparent
         private var isCancellable: Boolean = true
         private var hideNegativeBtn: Boolean = false
-        private var textVia: String = ""
+        private var hidePositiveBtn: Boolean = false
+        private var isPositiveCapsOn: Boolean = true
+        private var isNegativeCapsOn: Boolean = true
+        private var themeIconColor: Boolean = false
         private var type: Int? = null
         private var positiveBgColor: Int? = null
+        private var iconMainColor: Int? = null
+        private var iconSecondaryColor: Int? = null
         private var positiveTextColor: Int? = null
         private var positiveStrokeColor: Int? = null
         private var negativeBgColor: Int? = null
@@ -84,6 +89,11 @@ class CommonAlertDialog {
             return this
         }
 
+        fun hidePositiveBtn(isHide: Boolean = false): Builder {
+            this.hidePositiveBtn = isHide
+            return this
+        }
+
         fun icon(icon: Int?): Builder {
             this.icon = icon
             return this
@@ -96,6 +106,28 @@ class CommonAlertDialog {
 
         fun getCallback(callback: (isPositive: Boolean) -> Unit): Builder {
             onClick = callback
+            return this
+        }
+
+        fun setPositiveInCaps(isCapsOn: Boolean = true): Builder {
+            isPositiveCapsOn = isCapsOn
+            return this
+        }
+
+        fun setNegativeInCaps(isCapsOn: Boolean = true): Builder {
+
+            isNegativeCapsOn = isCapsOn
+            return this
+        }
+
+        fun setVectorIconColor(mainColor: Int? = -1, secondaryColor: Int? = -1): Builder {
+            iconMainColor = mainColor
+            iconSecondaryColor = secondaryColor
+            return this
+        }
+
+        fun setThemeIconColor(themeIconColor: Boolean = false): Builder {
+            this.themeIconColor = themeIconColor
             return this
         }
 
@@ -138,6 +170,9 @@ class CommonAlertDialog {
             )
             alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             val binding = LayoutSuccessBinding.inflate(LayoutInflater.from(context), null, false)
+
+
+
             alertDialog.show()
             alertDialog.setContentView(binding.root)
             alertDialog.setCancelable(isCancellable)
@@ -145,14 +180,19 @@ class CommonAlertDialog {
             binding.apply {
                 tvTitle.text = title
                 tvTitle.visibleView(!title.isNullOrEmpty())
-                btnPositive.visibleView(!positiveBtnText.isNullOrEmpty())
+                btnPositive.visibleView(!hidePositiveBtn)
                 btnNegative.visibleView(!hideNegativeBtn)
                 btnPositive.text = positiveBtnText
                 btnNegative.text = negativeBtnText
 
 
                 icon?.let {
-                    imageView2.setImageResource(it)
+                    if (!iconMainColor.isNullOrNegative() || !iconSecondaryColor.isNullOrNegative() || themeIconColor) {
+                        imageView2.setVectorDrawable(it)
+                    } else {
+                        imageView2.setImageResource(it)
+//
+                    }
                     imageView2.visible()
 
                 } ?: kotlin.run {
@@ -216,6 +256,15 @@ class CommonAlertDialog {
                     ColorStateList.valueOf(ContextCompat.getColor(context, negativeBgColor!!))
                 )
 
+            }
+
+            binding.btnPositive.isAllCaps = isPositiveCapsOn
+            binding.btnNegative.isAllCaps = isNegativeCapsOn
+            if (!iconMainColor.isNullOrNegative()) {
+                binding.imageView2.setCustomColor(iconMainColor!!)
+            }
+            if (!iconSecondaryColor.isNullOrNegative()) {
+                binding.imageView2.setSecondaryColor(iconSecondaryColor!!)
             }
 
 

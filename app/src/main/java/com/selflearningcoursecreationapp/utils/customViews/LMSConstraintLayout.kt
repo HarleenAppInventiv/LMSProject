@@ -15,14 +15,14 @@ class LMSConstraintLayout : ConstraintLayout {
     constructor(
         context: Context,
         attrs: AttributeSet?,
-        defStyle: Int
+        defStyle: Int,
     ) : super(context, attrs, defStyle) {
         initView(context, attrs, defStyle)
     }
 
     constructor(
         context: Context,
-        attrs: AttributeSet?
+        attrs: AttributeSet?,
     ) : super(context, attrs) {
         initView(context, attrs)
     }
@@ -42,7 +42,7 @@ class LMSConstraintLayout : ConstraintLayout {
         themeAttrs.recycle()
     }
 
-    fun changeBackground(changeBgType: Int) {
+    private fun changeBackground(changeBgType: Int) {
         when (changeBgType) {
             ThemeConstants.TYPE_TINT -> {
 

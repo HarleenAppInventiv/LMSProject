@@ -1,15 +1,18 @@
 package com.selflearningcoursecreationapp.ui.create_course.upload_content.video_as_lecture
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.base.BaseViewModel
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
+import com.selflearningcoursecreationapp.models.course.ImageResponse
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.UploadContentRepo
-import com.selflearningcoursecreationapp.utils.MEDIA_TYPE
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.MediaType
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -24,27 +27,26 @@ class VideoLessonViewModel(private val repo: UploadContentRepo) : BaseViewModel(
         value = VideoModel()
 
     }
+    var mThumbId = ""
+    var mDuration = 0L
+    var thumbUri: String? = null
 
+    var mContentId = ""
 
-    fun addPatchLecture(
-
-        lectureTitle: String,
-
-        id: String,
-        thumbId: String,
-        duration: String,
-    ) =
+    private fun addPatchLecture() =
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
             map["courseId"] = videoLiveData.value?.mCourseId ?: 0
             map["sectionId"] = videoLiveData.value?.mSectionId.toString()
-            map["lectureId"] = videoLiveData.value?.mSectionId ?: 0
-            map["mediaTypeId"] = MEDIA_TYPE.VIDEO.toString()
-            map["lectureTitle"] = lectureTitle
-            map["lectureContentId"] = id
-            map["lectureThumbnailId"] = thumbId
-            map["contentDuration"] = duration
-            var response = repo.addPatchLecture(map)
+            map["lectureId"] = videoLiveData.value?.mLectureId ?: 0
+            map["mediaTypeId"] = MediaType.VIDEO.toString()
+            map["lectureTitle"] = docLiveData.value?.lectureTitle?.trim() ?: ""
+            map["lectureContentId"] = mContentId
+            map["lectureThumbnailId"] =
+                if (mThumbId.isNullOrEmpty()) docLiveData.value?.lectureThumbnailId
+                    ?: "" else mThumbId
+            map["contentDuration"] = mDuration?.toString()
+            val response = repo.addPatchLecture(map)
             withContext(Dispatchers.IO) {
                 response.collect {
                     updateResponseObserver(it)
@@ -52,44 +54,28 @@ class VideoLessonViewModel(private val repo: UploadContentRepo) : BaseViewModel(
             }
         }
 
-    fun notifyData() {
-//        courseData.value = courseData.value
-        docLiveData.value?.notifyChange()
-    }
 
-    fun docValidations(
-        text: String,
-        contentId: String,
-        thumbId: String,
-        duration: String,
-    ) {
+    fun docValidations() {
         docLiveData.value?.let {
             val errorId = it.isAudioValid()
             if (errorId == 0) {
-                addPatchLecture(
-                    lectureTitle = text,
-                    id = contentId,
-                    thumbId,
-                    duration
-                )
+                addPatchLecture()
             } else {
                 updateResponseObserver(Resource.Error(ToastData(errorId)))
             }
         }
     }
 
-    fun uploadContent(
-        file: File,
-        duration: Int,
-    ) =
+    fun uploadContent() {
+        val file = File(Uri.parse(videoLiveData.value?.mFilePath).path ?: "")
         viewModelScope.launch(coroutineExceptionHandle) {
             val response = repo.contentUpload(
                 videoLiveData.value?.mCourseId,
                 videoLiveData.value?.mSectionId,
                 videoLiveData.value?.mLectureId ?: 0,
                 file,
-                MEDIA_TYPE.VIDEO,
-                duration
+                MediaType.VIDEO,
+                mDuration
             )
             withContext(Dispatchers.IO) {
                 response.collect {
@@ -98,9 +84,10 @@ class VideoLessonViewModel(private val repo: UploadContentRepo) : BaseViewModel(
             }
         }
 
+    }
 
-    fun getLectureDetail(lectureId: Int) = viewModelScope.launch(coroutineExceptionHandle) {
-        val response = repo.getLectureDetail(lectureId)
+    fun getLectureDetail() = viewModelScope.launch(coroutineExceptionHandle) {
+        val response = repo.getLectureDetail(videoLiveData.value?.mLectureId ?: 0)
         withContext(Dispatchers.IO) {
             response.collect {
                 updateResponseObserver(it)
@@ -110,24 +97,46 @@ class VideoLessonViewModel(private val repo: UploadContentRepo) : BaseViewModel(
     }
 
 
-    fun uploadThumbnail(
-        courseId: Int?,
-        sectionId: Int?,
-        lectureId: Int,
-        file: File,
-    ) =
+    fun uploadThumbnail() {
+
+        val file = File(Uri.parse(thumbUri).path ?: "")
         viewModelScope.launch(coroutineExceptionHandle) {
             val response = repo.thumbnailUpload(
-                courseId,
-                sectionId,
-                lectureId,
+                videoLiveData.value?.mCourseId,
+                videoLiveData.value?.mSectionId,
+                videoLiveData.value?.mLectureId ?: 0,
                 file,
             )
             withContext(Dispatchers.IO) {
                 response.collect {
+                    if (it is Resource.Success<*>) {
+                        (it.value as BaseResponse<ImageResponse>).resource?.let { resource ->
+                            mThumbId = resource.id.toString()
+
+
+                        }
+                    }
                     updateResponseObserver(it)
                 }
             }
         }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        when (apiCode) {
+            ApiEndPoints.API_ADD_LECTURE_PATCH -> {
+                docValidations()
+            }
+            ApiEndPoints.API_THUMBNAIL_UPLOAD -> {
+                uploadThumbnail()
+            }
+            ApiEndPoints.API_GET_LECTURE_DETAIL -> {
+                getLectureDetail()
+            }
+            ApiEndPoints.API_CONTENT_UPLOAD -> {
+                uploadContent()
+            }
+        }
+    }
 
 }

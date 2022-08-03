@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/viewSecondaryBgColor"
+        android:fillViewport="true"
+        android:overScrollMode="never">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_test"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_16sdp"
+                app:cardBackgroundColor="?attr/viewBackgroundColor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:text="Examine user experiences in
+your life"
+                        android:textSize="@dimen/textField_14"
+                        app:fontType="semiBold"
+                        app:layout_constraintEnd_toStartOf="@+id/bt_review"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorType="heading" />
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/tv_ques_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        android:text="Multi Format"
+                        android:textSize="@dimen/textField_11"
+                        app:fontType="medium"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                        app:textColorType="body" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/iv_dot2"
+                        android:layout_width="@dimen/_4sdp"
+                        android:layout_height="@dimen/_4sdp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:src="@color/grey_c4c4c4"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_ques_count"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@+id/tv_ques_count"
+                        app:layout_constraintTop_toTopOf="@+id/tv_ques_count"
+                        app:shapeAppearanceOverlay="@style/circleImage" />
+
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/tv_ques_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        android:text="30 mins"
+                        android:textSize="@dimen/textField_11"
+                        app:fontType="medium"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/iv_dot2"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                        app:textColorType="body" />
+
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                        android:id="@+id/bt_review"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_margin="@dimen/_8sdp"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        android:padding="0dp"
+                        android:paddingStart="@dimen/_8sdp"
+                        android:paddingEnd="@dimen/_8sdp"
+                        android:text="Review Test"
+                        android:textSize="@dimen/textField_11"
+
+                        app:cornerRadius="@dimen/_2sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHeight_default="wrap"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

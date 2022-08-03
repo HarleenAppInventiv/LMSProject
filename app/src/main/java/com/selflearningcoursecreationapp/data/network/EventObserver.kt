@@ -1,7 +1,7 @@
 package com.selflearningcoursecreationapp.data.network
 
 open class EventObserver<out T>(private val content: T) {
-    var hasBeenHandled = false
+    private var hasBeenHandled = false
         private set
 
     fun getContentIfNotHandled(): T? {

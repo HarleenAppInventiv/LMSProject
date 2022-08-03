@@ -6,7 +6,8 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.databinding.DialogUploadVideoBinding
 import com.selflearningcoursecreationapp.utils.ImagePickUtils
-import com.selflearningcoursecreationapp.utils.MEDIA_TYPE
+import com.selflearningcoursecreationapp.utils.MediaType
+import com.selflearningcoursecreationapp.utils.Permission
 import com.selflearningcoursecreationapp.utils.PermissionUtilClass
 import org.koin.android.ext.android.inject
 
@@ -24,24 +25,23 @@ class UploadVideoOptionsDialog : BaseBottomSheetDialog<DialogUploadVideoBinding>
     override fun initUi() {
 
 
-        type = MEDIA_TYPE.VIDEO
+        type = MediaType.VIDEO
         binding.imgClose.setOnClickListener {
             dismiss()
         }
         binding.txtTakeCamera.setOnClickListener {
             dismiss()
-
             captureVideo()
         }
 
         binding.txtTakeFromGallary.setOnClickListener {
             dismiss()
-
             pickFromGallery()
 
 
         }
     }
+
 
     private fun pickFromGallery() {
         PermissionUtilClass.builder(baseActivity).requestExternalStorage()
@@ -59,8 +59,11 @@ class UploadVideoOptionsDialog : BaseBottomSheetDialog<DialogUploadVideoBinding>
     }
 
     private fun captureVideo() {
+
+
         PermissionUtilClass.builder(baseActivity)
             .requestPermissions(arrayOf(Manifest.permission.CAMERA))
+            .requestCode(Permission.CAPTURE_VIDEO)
             .getCallBack { b, strings, _ ->
                 if (b) {
                     imagePickUtils.captureVideo(
@@ -72,6 +75,7 @@ class UploadVideoOptionsDialog : BaseBottomSheetDialog<DialogUploadVideoBinding>
                     baseActivity.handlePermissionDenied(strings)
                 }
             }
+            .build()
     }
 
     override fun invoke(p1: String?) {

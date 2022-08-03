@@ -29,8 +29,8 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
         BOLD, ITALIC, SUBSCRIPT, SUPERSCRIPT, STRIKETHROUGH, UNDERLINE, H1, H2, H3, H4, H5, H6, ORDEREDLIST, UNORDEREDLIST, JUSTIFYCENTER, JUSTIFYFULL, JUSTIFYLEFT, JUSTIFYRIGHT
     }
 
-    val PX = "px', '"
-    val Exec_Prep_Insert = "javascript:RE.prepareInsert();"
+    val px = "px', '"
+    val execPrepInsert = "javascript:RE.prepareInsert();"
 
     interface OnTextChangeListener {
         fun onTextChange(text: String?)
@@ -55,10 +55,9 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
         context,
         attrs,
      android.R.attr.webViewStyle
-    ) {
-    }
+    )
 
-    protected fun createWebviewClient(): EditorWebViewClient {
+    private fun createWebviewClient(): EditorWebViewClient {
         return EditorWebViewClient()
     }
 
@@ -82,7 +81,7 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
     }
 
     private fun stateCheck(text: String) {
-        val state = text.replaceFirst(STATE_SCHEME.toRegex(), "").toUpperCase(Locale.ENGLISH)
+        val state = text.replaceFirst(STATE_SCHEME.toRegex(), "").uppercase(Locale.ENGLISH)
         val types: MutableList<Type> = ArrayList()
         for (type in Type.values()) {
             if (TextUtils.indexOf(state, type.name) != -1) {
@@ -94,13 +93,13 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
         }
     }
 
+    @SuppressLint("RtlHardcoded")
     private fun applyAttributes(context: Context, attrs: AttributeSet?) {
         val attrsArray = intArrayOf(
             android.R.attr.gravity
         )
         val ta = context.obtainStyledAttributes(attrs, attrsArray)
-        val gravity = ta.getInt(0, NO_ID)
-        when (gravity) {
+        when (ta.getInt(0, NO_ID)) {
             Gravity.LEFT -> exec("javascript:RE.setTextAlign(\"left\")")
             Gravity.START -> exec("javascript:RE.setTextAlign(\"left\")")
             Gravity.RIGHT -> exec("javascript:RE.setTextAlign(\"right\")")
@@ -145,7 +144,7 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
     override fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
         super.setPadding(left, top, right, bottom)
         exec(
-            "javascript:RE.setPadding('" + left + PX + top + PX + right + PX + bottom
+            "javascript:RE.setPadding('" + left + px + top + px + right + px + bottom
                     + "px');"
         )
     }
@@ -159,9 +158,7 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
         setBackgroundColor(color)
     }
 
-    override fun setBackgroundColor(color: Int) {
-        super.setBackgroundColor(color)
-    }
+
 
     override fun setBackgroundResource(resid: Int) {
         val bitmap = TextEditorUtils.decodeResource(
@@ -245,13 +242,13 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
     }
 
     fun setTextColor(color: Int) {
-        exec(Exec_Prep_Insert)
+        exec(execPrepInsert)
         val hex = convertHexColorString(color)
         exec("javascript:RE.setTextColor('$hex');")
     }
 
     fun setTextBackgroundColor(color: Int) {
-        exec(Exec_Prep_Insert)
+        exec(execPrepInsert)
         val hex = convertHexColorString(color)
         exec("javascript:RE.setTextBackgroundColor('$hex');")
     }
@@ -304,7 +301,7 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
     }
 
     fun insertImage(url: String, alt: String) {
-        exec(Exec_Prep_Insert)
+        exec(execPrepInsert)
         exec("javascript:RE.insertImage('$url', '$alt');")
     }
 
@@ -316,7 +313,7 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
      * @param width
      */
     fun insertImage(url: String, alt: String, width: Int) {
-        exec(Exec_Prep_Insert)
+        exec(execPrepInsert)
         exec("javascript:RE.insertImageW('$url', '$alt','$width');")
     }
 
@@ -330,52 +327,52 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
      * @param height
      */
     fun insertImage(url: String, alt: String, width: Int, height: Int) {
-        exec(Exec_Prep_Insert)
+        exec(execPrepInsert)
         exec("javascript:RE.insertImageWH('$url', '$alt','$width', '$height');")
     }
 
     fun insertVideo(url: String) {
-        exec(Exec_Prep_Insert)
+        exec(execPrepInsert)
         exec("javascript:RE.insertVideo('$url');")
     }
 
     fun insertVideo(url: String, width: Int) {
-        exec(Exec_Prep_Insert)
+        exec(execPrepInsert)
         exec("javascript:RE.insertVideoW('$url', '$width');")
     }
 
     fun insertVideo(url: String, width: Int, height: Int) {
-        exec(Exec_Prep_Insert)
+        exec(execPrepInsert)
         exec("javascript:RE.insertVideoWH('$url', '$width', '$height');")
     }
 
     fun insertAudio(url: String) {
-        exec(Exec_Prep_Insert)
+        exec(execPrepInsert)
         exec("javascript:RE.insertAudio('$url');")
     }
 
     fun insertYoutubeVideo(url: String) {
-        exec(Exec_Prep_Insert)
+        exec(execPrepInsert)
         exec("javascript:RE.insertYoutubeVideo('$url');")
     }
 
     fun insertYoutubeVideo(url: String, width: Int) {
-        exec(Exec_Prep_Insert)
+        exec(execPrepInsert)
         exec("javascript:RE.insertYoutubeVideoW('$url', '$width');")
     }
 
     fun insertYoutubeVideo(url: String, width: Int, height: Int) {
-        exec(Exec_Prep_Insert)
+        exec(execPrepInsert)
         exec("javascript:RE.insertYoutubeVideoWH('$url', '$width', '$height');")
     }
 
     fun insertLink(href: String, title: String) {
-        exec(Exec_Prep_Insert)
+        exec(execPrepInsert)
         exec("javascript:RE.insertLink('$href', '$title');")
     }
 
     fun insertTodo() {
-        exec(Exec_Prep_Insert)
+        exec(execPrepInsert)
         exec("javascript:RE.setTodo('" + TextEditorUtils.currentTime + "');")
     }
 
@@ -392,7 +389,7 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
         return String.format("#%06X", 0xFFFFFF and color)
     }
 
-    protected fun exec(trigger: String) {
+    private fun exec(trigger: String) {
         if (isReady) {
             load(trigger)
         } else {
@@ -401,14 +398,14 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
     }
 
     private fun load(trigger: String) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            evaluateJavascript(trigger, null)
-        } else {
-            loadUrl(trigger)
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        evaluateJavascript(trigger, null)
+//        } else {
+//            loadUrl(trigger)
+//        }
     }
 
-    protected inner class EditorWebViewClient : WebViewClient() {
+    private inner class EditorWebViewClient : WebViewClient() {
         override fun onPageFinished(view: WebView, url: String) {
             isReady = url.equals(SETUP_HTML, ignoreCase = true)
             if (mLoadListener != null) {

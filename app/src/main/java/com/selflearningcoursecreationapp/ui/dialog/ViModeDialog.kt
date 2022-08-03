@@ -19,12 +19,34 @@ class ViModeDialog : BaseDialog<DialogViLayoutBinding>() {
         var colorString = ThemeUtils.getAppColor(baseActivity)
         arguments?.let {
             colorString =
-                Color.parseColor(it.getString("colorString", baseActivity.getString(R.color.blue)))
+                Color.parseColor(
+                    it.getString(
+                        "colorString",
+                        baseActivity.getString(R.color.primaryColor)
+                    )
+                )
         }
 
 //        binding.btnClose.backgroundTintList = null
+        binding.imageView2.setCustomColor(colorString)
+        binding.imageView2.setSecondaryColor(
+            Color.parseColor(
+                String.format(
+                    "#%02x%02x%02x%02x",
+                    80,
+                    Color.red(colorString),
+                    Color.green(colorString),
+                    Color.blue(colorString)
+                )
+            )
+        )
+
         binding.btnClose.backgroundTintList = ColorStateList.valueOf(colorString)
         binding.btnClose.setOnClickListener { dismiss() }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+
     }
 
 

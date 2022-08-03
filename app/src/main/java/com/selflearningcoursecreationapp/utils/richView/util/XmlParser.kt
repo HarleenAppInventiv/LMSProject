@@ -6,9 +6,8 @@ import android.content.res.XmlResourceParser
 import android.graphics.Paint
 import android.graphics.Path
 import androidx.core.content.ContextCompat
-import com.richpath.model.Group
-import com.richpath.util.Utils
 import com.selflearningcoursecreationapp.utils.richView.RichPath
+import com.selflearningcoursecreationapp.utils.richView.model.Group
 import com.selflearningcoursecreationapp.utils.richView.model.Vector
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
@@ -130,11 +129,11 @@ object XmlParser {
     ): Int {
         val resourceId = getAttributeResourceValue(xpp, attributeName)
         if (resourceId != -1) {
-            try {
+            return try {
 
-                return ContextCompat.getColor(context, resourceId)
+                ContextCompat.getColor(context, resourceId)
             } catch (e: Exception) {
-                return 0
+                0
             }
         }
         return getAttributeValue(xpp, attributeName)?.let { Utils.getColorFromString(it) }
@@ -149,11 +148,11 @@ object XmlParser {
     ): Pair<Int, ColorStateList?> {
         val resourceId = getAttributeResourceValue(xpp, attributeName)
         if (resourceId != -1) {
-            try {
+            return try {
 
-                return Pair(ContextCompat.getColor(context, resourceId), null)
+                Pair(ContextCompat.getColor(context, resourceId), null)
             } catch (e: Exception) {
-                return Pair(0, ColorStateList.valueOf(resourceId))
+                Pair(0, ColorStateList.valueOf(resourceId))
             }
         }
         return getAttributeValue(xpp, attributeName)?.let {

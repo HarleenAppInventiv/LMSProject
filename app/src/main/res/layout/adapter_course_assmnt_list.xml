@@ -32,9 +32,8 @@
                 android:drawablePadding="@dimen/_10sdp"
                 android:lineSpacingExtra="@dimen/_4sdp"
                 android:padding="@dimen/_10sdp"
-                android:text="Visual Elements of User Interface Design"
                 android:textColor="?attr/colorPrimary"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/textField_14"
                 android:textStyle="normal"
 
                 />

@@ -12,7 +12,7 @@ import com.selflearningcoursecreationapp.utils.QUIZ
 
 class AssessmentDetailAdapter(
     private var list: ArrayList<QuizQuestionData>,
-    private var points: Int
+    private var points: Int,
 ) : BaseAdapter<AdapterAssessmentQuesBinding>() {
     override fun getLayoutRes() = R.layout.adapter_assessment_ques
     override fun getItemCount() = list.size
@@ -20,9 +20,9 @@ class AssessmentDetailAdapter(
         val binding = holder.binding as AdapterAssessmentQuesBinding
         val context = binding.root.context
         val data = list[position]
-        binding.tvQuesNo.text =
+        binding.tvQuesNum.text =
             String.format(context.getString(R.string.question_no), position + 1, list.size)
-        binding.tvPoints.text = context.getQuantityString(R.plurals.point_quantity, points)
+        binding.tvSelectedValue.text = context.getQuantityString(R.plurals.point_quantity, points)
         binding.tvQuesTitle.text = data.title
         binding.ivHeader.visibleView(!data.questionImage.isNullOrEmpty())
         binding.ivHeader.loadImage(data.questionImage, R.drawable.ic_default_banner)
@@ -34,12 +34,13 @@ class AssessmentDetailAdapter(
                 binding.tvOption1.text = context.getString(R.string.column_1)
                 binding.rvOptions.adapter = AssessmentColumnOptionAdapter(data.optionList, true)
                 binding.rvOption2.adapter = AssessmentColumnOptionAdapter(data.optionList, false)
-                var hashmap = HashMap<String, ArrayList<QuizOptionData>>()
+                val hashmap = HashMap<String, ArrayList<QuizOptionData>>()
                 data.optionList.forEachIndexed { index, quizOptionData ->
-                    hashmap.put(
-                        String.format(context.getString(R.string.option_no), index.getCharString()),
+                    hashmap[String.format(
+                        context.getString(R.string.option_no),
+                        index.getCharString()
+                    )] =
                         data.optionList.map { it.copy(isSelected = it.id == quizOptionData.ansId) } as ArrayList<QuizOptionData>
-                    )
                 }
                 binding.rvColumnAns.adapter = MarkColumnOptionAdapter(
                     hashmap,
@@ -48,7 +49,7 @@ class AssessmentDetailAdapter(
             }
             else -> {
                 binding.columnG.gone()
-                binding.rvOptions.adapter = AssessmentOptionAdapter(data.optionList)
+                binding.rvOptions.adapter = AssessmentOptionAdapter(data.optionList, false)
 
                 binding.tvOption1.text = context.getString(R.string.your_answer_is)
 

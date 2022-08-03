@@ -1,5 +1,7 @@
 package com.selflearningcoursecreationapp.ui.create_course.quiz
 
+import android.annotation.SuppressLint
+import android.view.View
 import androidx.databinding.library.baseAdapters.BR
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
@@ -14,10 +16,11 @@ import com.selflearningcoursecreationapp.utils.QUIZ
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 
 class AddQuizViewAdapter(private var list: ArrayList<QuizQuestionData>) :
-    BaseAdapter<AdapterAddQuizViewBinding>() {
+    BaseAdapter<AdapterAddQuizViewBinding>(), View.OnTouchListener {
 
     override fun getLayoutRes() = R.layout.adapter_add_quiz_view
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val binding = holder.binding as AdapterAddQuizViewBinding
         val context = binding.root.context
@@ -50,16 +53,11 @@ class AddQuizViewAdapter(private var list: ArrayList<QuizQuestionData>) :
             binding.tvQuesType.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
 
         }
-//        binding.btAnswer.visibleView(!(data.isEnabled ?: true))
-//        binding.tvAdd.visibleView(data.isEnabled ?: true)
-//        binding.btSave.visibleView(data.isEnabled ?: true)
-//        binding.btEdit.visibleView(!(data.isEnabled ?: true))
         setOptionAdapter(position, binding, data, list[position].optionSelected)
         binding.tvExpand.setOnClickListener {
             list[position].isExpanded = !(list[position].isExpanded ?: false)
             notifyDataSetChanged()
         }
-//        binding.clQuiz.visibleView(list[position].isExpanded ?: true)
         if (list[position].isExpanded != false) {
             binding.tvExpand.setImageResource(R.drawable.ic_arrow_top)
         } else {
@@ -110,7 +108,6 @@ class AddQuizViewAdapter(private var list: ArrayList<QuizQuestionData>) :
 
             list[position].notifyPropertyChanged(BR.dataEntered)
             binding.rvOptions.adapter?.notifyDataSetChanged()
-//            binding.rvOptions.smoothScrollToPosition((list[position].optionList.size ?: 1) - 1)
         }
 
         binding.tvColumn1.setOnClickListener {
@@ -128,19 +125,8 @@ class AddQuizViewAdapter(private var list: ArrayList<QuizQuestionData>) :
         binding.tvQuesType.setOnClickListener {
             onItemClick(DialogType.CLICK_QUIZ_TYPE, position)
         }
-//        when (data.questionType) {
-//            QUIZ.MATCH_COLUMN -> {
-//                binding.columnG.visible()
-//                binding.tvOptions.gone()
-//            }
-//            else -> {
-//
-//                binding.columnG.gone()
-//                binding.tvOptions.visible()
-//            }
-//        }
 
-
+        binding.etQuestion.setOnTouchListener(this)
     }
 
     private fun setOptionAdapter(
@@ -151,7 +137,7 @@ class AddQuizViewAdapter(private var list: ArrayList<QuizQuestionData>) :
     ) {
 
         if (list[position].optionList.isNullOrEmpty()) {
-            list[position].optionList = ArrayList<QuizOptionData>()
+            list[position].optionList = ArrayList()
         }
 
 
@@ -166,7 +152,7 @@ class AddQuizViewAdapter(private var list: ArrayList<QuizQuestionData>) :
             list[position].optionList,
             data.isEnabled ?: false, data.questionType, optionType
         ).apply {
-            setOnAdapterItemClickListener(object : BaseAdapter.IViewClick {
+            setOnAdapterItemClickListener(object : IViewClick {
                 override fun onItemClick(vararg items: Any) {
                     this@AddQuizViewAdapter.onItemClick(items[0] as Int, position, items[1] as Int)
                     when (items[0] as Int) {

@@ -5,7 +5,6 @@ import android.view.View
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentMyCourseBinding
-import com.selflearningcoursecreationapp.utils.Constant
 
 
 class CompletedCourseFragment : BaseFragment<FragmentMyCourseBinding>() {
@@ -18,9 +17,21 @@ class CompletedCourseFragment : BaseFragment<FragmentMyCourseBinding>() {
         initUi()
     }
 
-    private fun initUi() {
 
-        binding.rvCourse.adapter = MyCourseAdapter(Constant.COURSE_COMPLETED)
+    private fun initUi() {
+        binding.tvNoData.text = "No complete course yet"
+        binding.tvNoDataDesc.text =
+            "You do not have any courses in your complete list yet. Enroll and complete your courses to add in the list."
+//        binding.tvNoData.setOnClickListener {
+//            binding.llNoWishlist.gone()
+//            binding.rvCourse.visible()
+//            binding.rvCourse.adapter = MyCourseAdapter(Constant.COURSE_COMPLETED)
+//
+//        }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+
     }
 
 }

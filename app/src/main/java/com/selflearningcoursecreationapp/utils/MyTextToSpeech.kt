@@ -6,7 +6,7 @@ import com.selflearningcoursecreationapp.di.getAppContext
 import java.util.*
 
 class SpeechUtils : TextToSpeech.OnInitListener {
-    var tts: TextToSpeech? = null
+    private var tts: TextToSpeech? = null
 
     init {
 

@@ -7,12 +7,13 @@ import com.google.gson.Gson
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.SelfLearningApplication
 import com.selflearningcoursecreationapp.extensions.showException
+import com.selflearningcoursecreationapp.extensions.showLog
 import com.selflearningcoursecreationapp.models.AppThemeFile
-import com.selflearningcoursecreationapp.utils.FONT_CONSTANT
+import com.selflearningcoursecreationapp.utils.FontConstant
 
 object ThemeUtils {
 
-    var appThemeData: AppThemeFile? = null
+    private var appThemeData: AppThemeFile? = null
 
     init {
         try {
@@ -26,20 +27,20 @@ object ThemeUtils {
 
     }
 
-    fun getAppThemeFile(): AppThemeFile? {
-        try {
+    private fun getAppThemeFile(): AppThemeFile? {
+        return try {
 
-            return Gson().fromJson(SelfLearningApplication.themeFile, AppThemeFile::class.java)
+            Gson().fromJson(SelfLearningApplication.themeFile, AppThemeFile::class.java)
         } catch (e: Exception) {
             showException(e)
-            return null
+            null
         }
     }
 
     fun getAppColor(context: Context): Int {
         return if (!getAppThemeFile()?.themeColor.isNullOrEmpty())
             Color.parseColor(getAppThemeFile()?.themeColor)
-        else ContextCompat.getColor(context, R.color.blue)
+        else ContextCompat.getColor(context, R.color.primaryColor)
     }
 
     fun getPrimaryBgColor(context: Context): Int {
@@ -57,13 +58,13 @@ object ThemeUtils {
     fun getBtnTextColor(context: Context): Int {
         return if (!getAppThemeFile()?.btnTextColor.isNullOrEmpty())
             Color.parseColor(getAppThemeFile()?.btnTextColor)
-        else ContextCompat.getColor(context, R.color.blue)
+        else ContextCompat.getColor(context, R.color.primaryColor)
     }
 
     fun getTintColor(context: Context): Int {
         return if (!getAppThemeFile()?.themeTint.isNullOrEmpty())
             Color.parseColor(getAppThemeFile()?.themeTint)
-        else ContextCompat.getColor(context, R.color.blue_tint_color)
+        else ContextCompat.getColor(context, R.color.primaryTintColor)
     }
 
     fun getPrimaryTextColor(context: Context): Int {
@@ -76,7 +77,7 @@ object ThemeUtils {
     fun getFont(fontId: Int, styleType: Int): Int {
         return when (fontId) {
 
-            FONT_CONSTANT.WORK_SANS -> {
+            FontConstant.WORK_SANS -> {
                 when (styleType) {
                     ThemeConstants.FONT_MEDIUM -> {
                         R.font.worksans_medium
@@ -92,7 +93,7 @@ object ThemeUtils {
                     }
                 }
             }
-            FONT_CONSTANT.ROBOTO -> {
+            FontConstant.ROBOTO -> {
                 val fontArray = listOf(
                     R.font.roboto_regular,
                     R.font.roboto_medium,
@@ -112,6 +113,82 @@ object ThemeUtils {
                 fontArray[styleType - 1]
             }
         }
+
+    }
+
+    fun getFontName(fontId: Int): Pair<String, String> {
+
+        return when (fontId) {
+
+            FontConstant.WORK_SANS -> {
+                Pair(
+                    "worksans_regular",
+                    "worksans_regular.ttf"
+                )
+
+            }
+            FontConstant.ROBOTO -> {
+                Pair("roboto_regular", "roboto_regular.ttf")
+            }
+
+            else -> {
+                Pair("ibm_regular", "ibm_regular.ttf")
+
+
+            }
+        }
+
+    }
+
+
+    fun getDarkColor(colorString: Int): Int {
+
+
+        var red = (Color.red(colorString))
+//        if (red >= 100) {
+//            red -= 10
+//        } else {
+//            red += 10
+//        }
+
+
+        var green = (Color.green(colorString))
+        if (green >= 150) {
+            green -= 20
+        } else {
+            green += 20
+        }
+
+
+        var blue = (Color.blue(colorString))
+        if (blue <= 235)
+            blue += 20
+        else blue -= 20
+
+
+
+
+
+        showLog(
+            "COLOR_HEX",
+            String.format(
+                "#%02x%02x%02x%02x",
+                255,
+                red,
+                green,
+
+                blue
+            )
+        )
+        return Color.parseColor(
+            String.format(
+                "#%02x%02x%02x%02x",
+                255,
+                red,
+                green,
+                blue
+            )
+        )
 
     }
 }

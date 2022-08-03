@@ -1,9 +1,9 @@
 package com.selflearningcoursecreationapp.ui.preferences.category
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
@@ -16,7 +16,7 @@ import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.SpanUtils
 
-
+@SuppressLint("NotifyDataSetChanged")
 class CategoryFragment : BaseFragment<FragmentCategoryBinding>(), BaseAdapter.IViewClick {
     private val viewModel: PreferenceViewModel by viewModels({ if (parentFragment !is NavHostFragment) requireParentFragment() else this })
     private var adapter: CategoryAdapter? = null
@@ -28,6 +28,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>(), BaseAdapter.IV
         super.onViewCreated(view, savedInstanceState)
         initUi()
     }
+
 
     private fun initUi() {
         if (viewModel.categoryListLiveData.value.isNullOrEmpty()) {
@@ -42,7 +43,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>(), BaseAdapter.IV
 
         )
 
-        viewModel.categoryListLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.categoryListLiveData.observe(viewLifecycleOwner, {
 
             adapter?.notifyDataSetChanged()
             adapter = null
@@ -95,5 +96,9 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>(), BaseAdapter.IV
 
             }
         }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+
     }
 }

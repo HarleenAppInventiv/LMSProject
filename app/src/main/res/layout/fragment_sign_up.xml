@@ -11,7 +11,7 @@
 
         <import
             alias="const"
-            type="com.selflearningcoursecreationapp.utils.VALIDATION_CONST" />
+            type="com.selflearningcoursecreationapp.utils.ValidationConst" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -45,8 +45,8 @@
                 android:nextFocusForward="@+id/edt_reg_phone"
                 android:paddingStart="@dimen/_12ssp"
                 android:singleLine="true"
+                android:paddingEnd="@dimen/_12sdp"
                 android:text="@={signup.signUpLiveData.name}"
-                android:textSize="@dimen/_14ssp"
                 app:drawableStartCompat="@drawable/ic_user_profile"
                 app:fontType="regular"
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
@@ -82,12 +82,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/_13sdp"
+                    android:paddingHorizontal="@dimen/_10sdp"
+                    android:paddingVertical="@dimen/_12sdp"
                     app:changeBackgroundType="theme_src"
                     app:srcCompat="@drawable/ic_call"
 
                     />
-
 
 
                 <com.hbb20.CountryCodePicker
@@ -97,11 +97,13 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center"
-                    android:layout_marginStart="@dimen/_10sdp"
+                    android:textSize="@dimen/editTextField_14"
+                    app:ccp_areaCodeDetectedCountry="true"
+                    app:ccp_autoDetectCountry="true"
                     app:ccpDialog_backgroundColor="?attr/viewBackgroundColor"
                     app:ccp_showFlag="false"
                     app:ccp_showNameCode="false"
-                    app:ccp_textSize="@dimen/_16ssp" />
+                    app:ccp_textSize="@dimen/textField_14" />
 
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
@@ -119,7 +121,7 @@
                     android:paddingEnd="@dimen/_16sdp"
                     android:singleLine="true"
                     android:text="@={signup.signUpLiveData.number}"
-                    android:textSize="@dimen/_14ssp"
+                    android:textSize="@dimen/editTextField_14"
                     app:fontType="regular"
 
                     app:primaryIconTint="start" />
@@ -150,11 +152,11 @@
                 android:focusable="false"
                 android:hint="@string/profession"
                 android:imeOptions="actionNext"
-                android:paddingStart="@dimen/_16sdp"
+                android:paddingStart="@dimen/_12ssp"
                 android:paddingEnd="@dimen/_16sdp"
                 android:singleLine="true"
                 android:text="@={signup.signUpLiveData.professionName}"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/editTextField_14"
                 app:drawableStartCompat="@drawable/ic_award"
                 app:fontType="regular"
                 app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
@@ -196,7 +198,7 @@
                 android:checked="false"
                 android:text="@string/by_registering_you_are_accepting_privacy_policy_and_terms_of_use"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/textField_12"
                 app:fontType="medium"
 
                 app:layout_constraintBottom_toBottomOf="@+id/chk_register"
@@ -221,6 +223,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_terms"
                 app:layout_constraintVertical_bias="0"
                 app:layout_constraintWidth_percent=".9"
+                android:textSize="@dimen/materialButton_14"
                 app:textAllCaps="true" />
 
             <androidx.constraintlayout.widget.Guideline

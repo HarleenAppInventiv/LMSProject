@@ -1,3 +1,4 @@
+@file:Suppress("SuspiciousVarProperty")
 package com.selflearningcoursecreationapp.models.course.quiz
 
 
@@ -17,6 +18,8 @@ data class QuizOptionData(
     var ansId: Int? = null,
     @SerializedName("correctAns")
     var isSelected: Boolean? = null,
+    @SerializedName("isCorrectAns")
+    var isCorrectAns: Boolean? = null,
     @SerializedName("option2")
     var option2: String? = null,
 

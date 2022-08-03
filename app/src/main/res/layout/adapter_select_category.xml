@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
         app:cardBackgroundColor="?attr/viewBackgroundColor"
         app:cardCornerRadius="@dimen/_5sdp">
 
@@ -27,7 +27,7 @@
                 android:layout_margin="@dimen/_8sdp"
                 android:importantForAccessibility="no"
                 android:padding="@dimen/_10sdp"
-                android:src="@drawable/ic_science_dummy"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -45,10 +45,9 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_8sdp"
-                android:paddingVertical="@dimen/_5sdp"
+                android:paddingVertical="@dimen/_8sdp"
                 android:text="WorkSans"
-                android:textSize="@dimen/_13ssp"
+                android:textSize="@dimen/homeAdapterTF_13"
                 app:fontType="medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -10,8 +10,8 @@ import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.extensions.isValidEmail
 import com.selflearningcoursecreationapp.ui.authentication.otp_verify.OTPVerifyRepo
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
-import com.selflearningcoursecreationapp.utils.OTP_TYPE
-import com.selflearningcoursecreationapp.utils.VALIDATION_CONST
+import com.selflearningcoursecreationapp.utils.OtpType
+import com.selflearningcoursecreationapp.utils.ValidationConst
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -21,9 +21,10 @@ class ForgotPassViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
     var emailPhone = MutableLiveData<String>().apply {
         value = ""
     }
+    var selectedCountryCodeWithPlus: String? = null
 
 
-    fun validate(selectedCountryCodeWithPlus: String) {
+    fun validate() {
         when {
             emailPhone.value.isNullOrEmpty() -> {
 
@@ -35,18 +36,14 @@ class ForgotPassViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
             }
             emailPhone.value!!.isDigitsOnly() -> {
 
-                if (emailPhone.value!!.length < VALIDATION_CONST.MIN_NO_LENGTH) {
+                if (emailPhone.value!!.length < ValidationConst.MIN_NO_LENGTH) {
                     updateResponseObserver(
                         Resource.Error(
                             ToastData(R.string.enter_valid_phone_number)
                         )
                     )
                 } else {
-                    forgotApi(true, selectedCountryCodeWithPlus)
-
-                    //                    viewModel.reqOTP(OTPVerifyFragment.TYPE_FORGOT,
-                    //                        binding.edtForgotphone.content())
-
+                    forgotApi(true)
                 }
 
             }
@@ -61,26 +58,26 @@ class ForgotPassViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
 
             }
             else -> {
-                forgotApi(false, selectedCountryCodeWithPlus)
+                forgotApi(false)
 
             }
         }
     }
 
-    fun forgotApi(isPhone: Boolean, selectedCountryCodeWithPlus: String) {
+    fun forgotApi(isPhone: Boolean) {
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
             if (isPhone) {
                 map["phone"] = emailPhone.value!!
-                map["countryCode"] = selectedCountryCodeWithPlus
+                map["countryCode"] = selectedCountryCodeWithPlus ?: ""
             } else {
                 map["email"] = emailPhone.value!!
             }
-            map["OtpType"] = OTP_TYPE.TYPE_FORGOT.toString()
+            map["OtpType"] = OtpType.TYPE_FORGOT.toString()
 
 
             updateResponseObserver(Resource.Loading())
-            var response = repo.reqOtp(map)
+            val response = repo.reqOtp(map)
             withContext(Dispatchers.IO) {
                 response.collect {
                     if (it is Resource.Success<*>) {
@@ -89,6 +86,14 @@ class ForgotPassViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
                         updateResponseObserver(it)
                     }
                 }
+            }
+        }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        when (apiCode) {
+            ApiEndPoints.API_OTP_REQ -> {
+                validate()
             }
         }
     }

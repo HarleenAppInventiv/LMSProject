@@ -99,8 +99,8 @@ class PathNodeArc {
             if (disc < 0.0) {
                 Log.w(LOGTAG, "Points are too far apart $dsq")
                 val adjust = (sqrt(dsq) / 1.99999).toFloat()
-                a = a * adjust
-                b = b * adjust
+                a *= adjust
+                b *= adjust
                 drawArc(
 //                  path, x0, y0, x1, y1, a * adjust,
 //                  b * adjust, theta, isMoreThanHalf, isPositiveArc
@@ -198,8 +198,8 @@ class PathNodeArc {
                 val q2y = e2y - alpha * ep2y
 
                 // Adding this no-op call to workaround a proguard related issue.
-                path?.rLineTo(0f, 0f)
-                path?.cubicTo(
+                path.rLineTo(0f, 0f)
+                path.cubicTo(
                     q1x.toFloat(),
                     q1y.toFloat(),
                     q2x.toFloat(),

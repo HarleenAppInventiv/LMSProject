@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/_10sdp"
             android:text="Switch to Creator Dashboard"
-            android:textSize="@dimen/_16sdp"
+            android:textSize="@dimen/textField_16"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:fontType="semiBold"

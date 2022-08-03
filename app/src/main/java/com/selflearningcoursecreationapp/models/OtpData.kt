@@ -1,3 +1,4 @@
+@file:Suppress("SuspiciousVarProperty")
 package com.selflearningcoursecreationapp.models
 
 
@@ -10,9 +11,7 @@ import com.selflearningcoursecreationapp.R
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class OtpData(
-
-) : BaseObservable(), Parcelable {
+class OtpData : BaseObservable(), Parcelable {
 
     @SerializedName("otp1")
     var otp1: String? = ""

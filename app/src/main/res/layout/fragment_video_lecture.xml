@@ -15,13 +15,17 @@
             name="clickHandler"
             type="com.selflearningcoursecreationapp.utils.HandleClick" />
 
+        <import
+            alias="const"
+            type="com.selflearningcoursecreationapp.utils.ValidationConst" />
+
     </data>
 
 
     <com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/offwhite"
+        android:background="@color/offWhite"
         tools:context=".ui.create_course.audio_as_lesson.VideoLectureFragment">
 
         <ScrollView
@@ -40,9 +44,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
-                    android:text="@string/lessons"
+                    android:text="@string/lesson"
                     android:textColor="@color/black_242424"
-                    android:textSize="@dimen/_14ssp"
+                    android:textSize="@dimen/textField_14"
                     app:fontType="medium"
                     app:layout_constraintStart_toStartOf="@id/guidelineStart"
                     app:layout_constraintTop_toTopOf="parent"
@@ -61,7 +65,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-                        <com.google.android.exoplayer2.ui.PlayerView
+                        <androidx.media3.ui.PlayerView
                             android:id="@+id/video_view"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
@@ -71,7 +75,9 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:resize_mode="fit"
-                            app:use_controller="false">
+                            app:use_controller="false"
+
+                            >
 
                             <ProgressBar
                                 android:id="@+id/progressBar"
@@ -83,7 +89,7 @@
                                 app:layout_constraintBottom_toBottomOf="parent" />
 
 
-                        </com.google.android.exoplayer2.ui.PlayerView>
+                        </androidx.media3.ui.PlayerView>
 
                         <View
 
@@ -148,7 +154,7 @@
                     android:layout_marginTop="@dimen/_16sdp"
                     android:text="@string/title"
                     android:textColor="@color/black_242424"
-                    android:textSize="@dimen/_14ssp"
+                    android:textSize="@dimen/textField_14"
                     app:fontType="medium"
                     app:layout_constraintStart_toStartOf="@id/guidelineStart"
                     app:layout_constraintTop_toBottomOf="@+id/card"
@@ -164,7 +170,10 @@
                     android:hint="@string/enter_title"
                     android:imeOptions="actionDone"
                     android:inputType="text"
+                    android:maxLength="@{const.MAX_QUIZ_TITLE}"
+                    android:maxLines="3"
                     android:text="@={videoLesson.docLiveData.lectureTitle}"
+                    android:textSize="@dimen/editTextField_14"
                     app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
                     app:layout_constraintStart_toStartOf="@+id/guidelineStart"
                     app:layout_constraintTop_toBottomOf="@+id/tv_read_time" />
@@ -200,6 +209,7 @@
                             android:layout_width="@dimen/_15sdp"
                             android:layout_height="@dimen/_15sdp"
                             android:scaleType="fitCenter"
+                            android:visibility="gone"
                             app:layout_constraintEnd_toEndOf="@+id/iv_thumbnail_image"
                             app:layout_constraintTop_toTopOf="@+id/iv_thumbnail_image"
                             app:srcCompat="@drawable/ic_circle_cross_black" />
@@ -225,14 +235,19 @@
                     android:layout_marginTop="@dimen/_10sdp"
 
                     android:onClick="@{(v)->clickHandler.onHandleClick(v)}"
-                    android:text="@string/add_thumbnail"
+                    android:text="@string/take_from_gallary"
                     android:textAllCaps="true"
 
                     android:visibility="@{videoLesson.docLiveData.audioLesson ? View.VISIBLE : View.GONE}"
+                    app:btnTextColor="theme"
+                    app:buttonBackground="secondary"
+                    app:buttonFont="semiBold"
                     app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                     app:layout_constraintStart_toStartOf="@id/guidelineStart"
                     app:layout_constraintTop_toBottomOf="@+id/card2"
                     app:layout_constraintWidth_percent=".9"
+                    app:strokeColor="?attr/buttonBackgroundTintColor"
+                    app:strokeWidth="@dimen/_1sdp"
                     app:textAllCaps="true" />
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
@@ -243,7 +258,6 @@
                     android:onClick="@{(v)->clickHandler.onHandleClick(v)}"
                     android:text="@string/take_from_gallary"
                     android:textAllCaps="true"
-                    android:textSize="@dimen/_14ssp"
                     android:visibility="gone"
                     app:btnTextColor="theme"
                     app:buttonBackground="secondary"

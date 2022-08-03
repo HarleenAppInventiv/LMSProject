@@ -1,12 +1,12 @@
 package com.selflearningcoursecreationapp.ui.create_course.review
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.*
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -20,6 +20,7 @@ import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddC
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.Constant
 
+@SuppressLint("NotifyDataSetChanged")
 
 class CourseReviewFragment : BaseFragment<FragmentCourseReviewBinding>(), BaseAdapter.IViewClick {
     private val viewModel: AddCourseViewModel by viewModels({ requireParentFragment() })
@@ -34,6 +35,7 @@ class CourseReviewFragment : BaseFragment<FragmentCourseReviewBinding>(), BaseAd
         super.onViewCreated(view, savedInstanceState)
         initUi()
     }
+
 
     private fun initUi() {
         adapter?.notifyDataSetChanged()
@@ -58,15 +60,19 @@ class CourseReviewFragment : BaseFragment<FragmentCourseReviewBinding>(), BaseAd
 
 
         binding.etKeywords.doOnTextChanged { text, _, _, _ ->
-            if (text.toString().contains(" ")) {
-                keywordsFunctionality(binding.etKeywords.content())
-            } else if (text.toString().length >= 2) {
-                viewModel.getKeywords(text.toString())
-            } else if (text.toString().isNullOrEmpty()) {
-                suggestionAdapter?.notifyDataSetChanged()
-                suggestionAdapter = null
-                binding.clSuggestion.gone()
+            when {
+                text.toString().contains(" ") -> {
+                    keywordsFunctionality(binding.etKeywords.content())
+                }
+                text.toString().length >= 2 -> {
+                    viewModel.getKeywords(text.toString())
+                }
+                text.toString().isEmpty() -> {
+                    suggestionAdapter?.notifyDataSetChanged()
+                    suggestionAdapter = null
+                    binding.clSuggestion.gone()
 
+                }
             }
         }
         setAdapter()
@@ -80,7 +86,7 @@ class CourseReviewFragment : BaseFragment<FragmentCourseReviewBinding>(), BaseAd
 
     private fun observeSectionData() {
 
-        viewModel.reviewUpdationData.observe(
+        viewModel.reviewUpdateData.observe(
             viewLifecycleOwner,
             { event ->
                 event.getContentIfNotHandled()?.let {
@@ -100,7 +106,7 @@ class CourseReviewFragment : BaseFragment<FragmentCourseReviewBinding>(), BaseAd
     }
 
     private fun keywordsFunctionality(keyword: String) {
-        if (!keyword.isBlank() && viewModel.courseData.value?.keywords?.size ?: 0 < 10) {
+        if (keyword.isNotBlank() && viewModel.courseData.value?.keywords?.size ?: 0 < 10) {
             if (viewModel.courseData.value?.keywords.isNullOrEmpty()) {
                 viewModel.courseData.value?.keywords = ArrayList()
             }
@@ -108,7 +114,7 @@ class CourseReviewFragment : BaseFragment<FragmentCourseReviewBinding>(), BaseAd
             binding.etKeywords.text?.clear()
 
             setKeywordAdapter()
-        } else if (!keyword.isBlank()) {
+        } else if (keyword.isNotBlank()) {
             showToastShort(baseActivity.getString(R.string.max_keywords_limit))
         }
     }
@@ -138,7 +144,7 @@ class CourseReviewFragment : BaseFragment<FragmentCourseReviewBinding>(), BaseAd
     }
 
     private fun observeKeywordData() {
-        viewModel.keywordsData.observe(viewLifecycleOwner, Observer {
+        viewModel.keywordsData.observe(viewLifecycleOwner, {
 
             binding.rvSuggestions.adapter?.notifyDataSetChanged()
             suggestionAdapter?.notifyDataSetChanged()
@@ -162,8 +168,7 @@ class CourseReviewFragment : BaseFragment<FragmentCourseReviewBinding>(), BaseAd
 
     override fun onItemClick(vararg items: Any) {
         if (items.isNotEmpty()) {
-            val type = items[0] as Int
-            when (type) {
+            when (items[0] as Int) {
                 Constant.CLICK_VIEW -> {
                     val data = items[1] as SingleChoiceData
                     keywordsFunctionality(data.title ?: "")
@@ -180,6 +185,10 @@ class CourseReviewFragment : BaseFragment<FragmentCourseReviewBinding>(), BaseAd
     override fun onLoading(message: String, apiCode: String?) {
         if (!apiCode.equals(ApiEndPoints.API_GET_KEYWORDS))
             super.onLoading(message, apiCode)
+    }
+
+    override fun onApiRetry(apiCode: String) {
+
     }
 
 }

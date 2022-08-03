@@ -20,7 +20,7 @@
             android:id="@+id/tv_dialog_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/_16ssp"
+            android:textSize="@dimen/textField_16"
             app:textBgColor="theme"
             app:textColorType="none"
             android:lineSpacingExtra="6sp"

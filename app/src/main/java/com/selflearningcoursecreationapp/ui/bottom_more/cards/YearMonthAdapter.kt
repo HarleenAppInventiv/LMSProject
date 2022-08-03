@@ -14,7 +14,7 @@ class YearMonthAdapter(private val list: List<String>, private val tag: String?)
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         val binding = holder.binding as AdapterRecyclerYearMonthBinding
-        binding.tvMonthYearName.setText(list[position])
+        binding.tvMonthYearName.text = list[position]
         binding.tvMonthYearName.setOnClickListener {
             onItemClick(Constant.CLICK_VIEW, position)
 

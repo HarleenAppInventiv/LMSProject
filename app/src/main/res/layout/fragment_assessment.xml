@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/offwhiteTextColor"
+        android:background="?attr/off_whiteTextColor"
         tools:context=".ui.create_course.add_assessment.AssessmentFragment">
 
 
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_no_data"
-                android:textSize="@dimen/_16ssp"
+                android:textSize="@dimen/textField_14"
                 android:text="@string/there_are_no_assessments_in_n_this_course"
                 android:textAlignment="center"
                 app:textColorType="black" />
@@ -74,7 +74,7 @@
                 android:text="@string/add_assessment"
                 android:textAlignment="center"
                 android:textColor="?attr/colorPrimary"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/textField_12"
                 app:btnIconColor="primary"
                 app:btnTextColor="secondary"
                 app:buttonBackground="secondary"
@@ -113,7 +113,7 @@
             android:textAlignment="center"
             android:visibility="gone"
             android:textColor="?attr/colorPrimary"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/materialButton_14"
             app:btnIconColor="primary"
             app:btnTextColor="secondary"
             app:buttonBackground="secondary"
@@ -134,6 +134,7 @@
             android:layout_margin="@dimen/_15sdp"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:text="@string/submit"
+            android:textSize="@dimen/materialButton_14"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btn_edit"

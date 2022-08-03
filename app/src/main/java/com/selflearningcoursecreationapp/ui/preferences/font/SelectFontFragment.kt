@@ -1,5 +1,6 @@
 package com.selflearningcoursecreationapp.ui.preferences.font
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -13,6 +14,7 @@ import com.selflearningcoursecreationapp.ui.preferences.PreferenceViewModel
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.SpanUtils
 
+@SuppressLint("NotifyDataSetChanged")
 class SelectFontFragment : BaseFragment<FragmentSelectFontBinding>(), BaseAdapter.IViewClick {
     private val viewModel: PreferenceViewModel by viewModels({ if (parentFragment != null) requireParentFragment() else this })
 
@@ -26,6 +28,7 @@ class SelectFontFragment : BaseFragment<FragmentSelectFontBinding>(), BaseAdapte
         initUi()
     }
 
+
     private fun initUi() {
         val msg = SpanUtils.with(baseActivity, baseActivity.getString(R.string.select_font)).apply {
             isBold()
@@ -37,8 +40,8 @@ class SelectFontFragment : BaseFragment<FragmentSelectFontBinding>(), BaseAdapte
             val nameList = baseActivity.resources.getStringArray(R.array.font_name_array)
             val fontArray =
                 arrayListOf(R.font.roboto_medium, R.font.ibm_medium, R.font.worksans_medium)
-            var list = ArrayList<CategoryData>()
-            for (i in 0 until nameList.size) {
+            val list = ArrayList<CategoryData>()
+            for (i in nameList.indices) {
                 val data = CategoryData(
                     id = i + 1,
                     name = nameList[i],
@@ -79,6 +82,10 @@ class SelectFontFragment : BaseFragment<FragmentSelectFontBinding>(), BaseAdapte
                 }
             }
         }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+
     }
 
 

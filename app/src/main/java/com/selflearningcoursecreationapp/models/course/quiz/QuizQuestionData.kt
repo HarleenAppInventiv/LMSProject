@@ -1,3 +1,5 @@
+@file:Suppress("SuspiciousVarProperty")
+
 package com.selflearningcoursecreationapp.models.course.quiz
 
 
@@ -40,11 +42,14 @@ data class QuizQuestionData(
     @SerializedName("quizId")
     var quizId: Int? = null,
 
+    @SerializedName("markAnsweres")
+    var markAnsList: ArrayList<MarkAnswer>? = null,
+
     @Transient
-    var optionIds: String? = null
+    var optionIds: String? = null,
 
 
-) : BaseObservable(), Parcelable {
+    ) : BaseObservable(), Parcelable {
 
     @SerializedName("questionTitle")
     var title: String? = null
@@ -90,6 +95,7 @@ data class QuizQuestionData(
     fun isDataValid(): Int {
         return when {
             title.isNullOrEmpty() -> R.string.plz_enter_question
+            title!!.isBlank() -> R.string.plz_enter_question
             questionType == QUIZ.IMAGE_BASED && questionImageId.isNullOrEmpty() -> R.string.plz_upload_ques_image
             optionList.isNullOrEmpty() -> R.string.plz_add_option
             optionList.size == 1 -> R.string.plz_add_min_2_option
@@ -101,7 +107,9 @@ data class QuizQuestionData(
         optionList.forEach {
             if (questionType == QUIZ.MATCH_COLUMN && (it.option2.isNullOrEmpty() || it.option1.isNullOrEmpty())) {
                 return R.string.plz_enter_option_column
-            } else if (it.option1.isNullOrEmpty() && it.imageId.isNullOrEmpty()) {
+            } else if (questionType == QUIZ.MATCH_COLUMN && (it.option2.isNullOrBlank() || it.option1.isNullOrBlank())) {
+                return R.string.plz_enter_option_column
+            } else if ((it.option1.isNullOrEmpty() || it.option1.isNullOrBlank()) && it.imageId.isNullOrEmpty()) {
                 return R.string.plz_enter_options
             }
 
@@ -109,15 +117,6 @@ data class QuizQuestionData(
         }
 
         return 0
-    }
-
-    fun getAddQuizQuestionData(): QuizQuestionData {
-        return QuizQuestionData(
-            questionId = questionId,
-            courseId = courseId,
-            sectionId = sectionId,
-            lectureId = lectureId
-        )
     }
 
     fun getAddAssessmentQuestionData(quizData: QuizData): QuizQuestionData {
@@ -132,18 +131,18 @@ data class QuizQuestionData(
             assessmentQues.sectionId = quizData.sectionId
             assessmentQues.lectureId = quizData.lectureId
             assessmentQues.quizId = quizData.quizId
-            assessmentQues.title = title
+            assessmentQues.title = title?.trim()
 
 
             assessmentQues.optionList = optionList.map { option ->
                 QuizOptionData().also { optionData ->
                     optionData.id = option.id
                     optionData.option2 =
-                        if (questionType == QUIZ.MATCH_COLUMN) option.option2 else null
+                        if (questionType == QUIZ.MATCH_COLUMN) option.option2?.trim() else null
                     if (!option.imageId.isNullOrEmpty()) {
                         optionData.imageId = option.imageId
                     } else {
-                        optionData.option1 = option.option1
+                        optionData.option1 = option.option1?.trim()
                     }
                 }
             } as ArrayList<QuizOptionData>

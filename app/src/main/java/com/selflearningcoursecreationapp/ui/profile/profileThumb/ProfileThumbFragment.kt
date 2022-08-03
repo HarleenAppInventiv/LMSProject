@@ -1,18 +1,20 @@
 package com.selflearningcoursecreationapp.ui.profile.profileThumb
 
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentProfileThumbBinding
-import com.selflearningcoursecreationapp.ui.authentication.InitialActivity
+import com.selflearningcoursecreationapp.extensions.loadImage
+import com.selflearningcoursecreationapp.extensions.visibleView
 import com.selflearningcoursecreationapp.ui.home.HomeActivity
+import com.selflearningcoursecreationapp.ui.moderator.ModeratorActivity
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.CommonAlertDialog
 import com.selflearningcoursecreationapp.utils.HandleClick
+import com.selflearningcoursecreationapp.utils.SpanUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -26,13 +28,41 @@ class ProfileThumbFragment : BaseFragment<FragmentProfileThumbBinding>(), Handle
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     fun init() {
-        viewModel.getApiResponse().observe(viewLifecycleOwner, this)
+
+
+        binding.testOne.constraintLayout.visibleView(baseActivity is ModeratorActivity)
+        binding.constraintLayout.visibleView(baseActivity !is ModeratorActivity)
+        binding.profileThumbVM = viewModel
         binding.profileThumb = this
-        setContentDesctiption()
+        viewModel.checkedLiveData.value = baseActivity is ModeratorActivity
+
+
+
+
+
+        viewModel.getApiResponse().observe(viewLifecycleOwner, this)
+
+        setContentDescription()
+
+//        binding.svModerator.setOnTouchListener { _, motionEvent ->
+//            if (motionEvent?.action == MotionEvent.ACTION_DOWN) {
+//                if (binding.svModerator.isChecked) {
+//                    if (baseActivity is ModeratorActivity) {
+//                        baseActivity.goToHomeActivity()
+//                    }
+//                } else {
+//                    openPopUP()
+//                }
+//
+//            }
+//            false
+//        }
 
 
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +70,7 @@ class ProfileThumbFragment : BaseFragment<FragmentProfileThumbBinding>(), Handle
 
     }
 
-    private fun setContentDesctiption() {
+    private fun setContentDescription() {
         binding.txtUserName.contentDescription = "user name alisi nikolson"
         binding.tvUserMail.contentDescription = "user mail @limadecell"
     }
@@ -58,16 +88,34 @@ class ProfileThumbFragment : BaseFragment<FragmentProfileThumbBinding>(), Handle
 
                     findNavController().navigate(R.id.action_profileThumbFragment_to_profileDetailsFragment)
                 }
+
+                R.id.txt_tracker -> {
+
+                    findNavController().navigate(R.id.action_profileThumbFragment_to_requestTrackerDashboardFragment)
+                }
                 R.id.txt_wishlist -> {
 
                     findNavController().navigate(R.id.action_profileThumbFragment_to_bookmarkedCoursesFragment)
                 }
                 R.id.txt_dashboard -> {
 
-                    findNavController().navigate(R.id.action_profileThumbFragment_to_dashboardBaseFragment)
+                    if (baseActivity is HomeActivity) {
+                        findNavController().navigate(R.id.action_profileThumbFragment_to_dashboardBaseFragment)
+
+                    } else {
+                        findNavController().navigate(R.id.action_profileThumbFragment_to_modDashBaseFragment)
+
+                    }
                 }
                 R.id.txt_courses -> {
                     (baseActivity as HomeActivity).setSelected(R.id.action_course)
+                }
+                R.id.txt_reward -> {
+                    findNavController().navigate(R.id.action_profileThumbFragment_to_rewardFragment)
+                }
+
+                R.id.txt_my_qualifications -> {
+                    findNavController().navigate(R.id.action_profileThumbFragment_to_fragment_mode_doc)
                 }
                 R.id.txt_logout -> {
 
@@ -112,23 +160,14 @@ class ProfileThumbFragment : BaseFragment<FragmentProfileThumbBinding>(), Handle
         super.onResponseSuccess(value, apiCode)
         when (apiCode) {
             ApiEndPoints.API_LOGOUT -> {
-                commanLoginIntent()
+                baseActivity.goToInitialActivity()
             }
             ApiEndPoints.API_DELETE_ACCOUNT -> {
-                commanLoginIntent()
+                baseActivity.goToInitialActivity()
             }
         }
     }
 
-    fun commanLoginIntent() {
-        baseActivity.startActivity(
-            Intent(
-                baseActivity,
-                InitialActivity::class.java
-            )
-        )
-        baseActivity.finish()
-    }
 
     override fun onResume() {
         super.onResume()
@@ -136,8 +175,35 @@ class ProfileThumbFragment : BaseFragment<FragmentProfileThumbBinding>(), Handle
         viewModel.getUserData()
         binding.txtUserName.text = viewModel.userProfile?.name
         binding.tvUserMail.text = viewModel.userProfile?.email
-        Glide.with(requireActivity()).load(viewModel.userProfile?.profileUrl)
-            .placeholder(R.drawable.ic_default_user)
-            .into(binding.circle)
+
+
+        binding.circle.loadImage(
+            viewModel.userProfile?.profileUrl,
+            R.drawable.ic_default_user_grey,
+            viewModel.userProfile?.profileBlurHash
+        )
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
+    }
+
+    private fun openPopUP() {
+        CommonAlertDialog.builder(baseActivity)
+            .title(baseActivity.getString(R.string.moderator_mode))
+            .spannedText(
+                SpanUtils.with(
+                    baseActivity,
+                    baseActivity.getString(R.string.become_moderator_desc_text)
+                ).startPos(60).isBold().getSpanString()
+            )
+            .positiveBtnText(baseActivity.getString(R.string.okay))
+            .hideNegativeBtn(true)
+            .icon(R.drawable.ic_become_moderator_alert)
+            .getCallback {
+                if (it) {
+                    findNavController().navigate(R.id.action_profileThumbFragment_to_requestTrackerDashboardFragment)
+                }
+            }.build()
     }
 }

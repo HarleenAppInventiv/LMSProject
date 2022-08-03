@@ -14,13 +14,13 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
         android:background="?attr/screenBackgroundColor"
+        android:fillViewport="true"
         tools:context=".ui.authentication.OnBoardingActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
 
 
             >
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/forgot_password2"
                 android:textAllCaps="false"
-                android:textSize="@dimen/_24ssp"
+                android:textSize="@dimen/loginOtpTitle_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/guidelineStart"
                 app:layout_constraintTop_toBottomOf="@+id/imageView"
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:text="@string/forgot_pass_desc_text"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/textField_14"
                 app:fontType="regular"
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                 app:layout_constraintStart_toStartOf="@id/guidelineStart"
@@ -103,10 +103,11 @@
                     android:textSize="@dimen/_16ssp"
                     android:visibility="gone"
                     app:ccpDialog_backgroundColor="?attr/viewBackgroundColor"
+                    app:ccp_areaCodeDetectedCountry="true"
+                    app:ccp_autoDetectCountry="true"
                     app:ccp_showFlag="false"
                     app:ccp_showNameCode="false"
-
-                    app:ccp_textSize="@dimen/_16ssp"
+                    app:ccp_textSize="@dimen/textField_14"
                     app:fontType="regular" />
 
 
@@ -121,7 +122,7 @@
                     android:inputType="textEmailAddress"
                     android:singleLine="true"
                     android:text="@={forgotPass.emailPhone}"
-                    android:textSize="@dimen/_14ssp"
+                    android:textSize="@dimen/editTextField_14"
                     app:fontType="regular"
                     app:primaryIconTint="start" />
 
@@ -138,7 +139,7 @@
                 android:layout_marginBottom="@dimen/_24sdp"
                 android:enabled="@{forgotPass.emailPhone!=null &amp;&amp; !forgotPass.emailPhone.empty}"
                 android:text="@string/submit"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/materialButton_14"
                 app:btnEnabled="@{forgotPass.emailPhone!=null &amp;&amp; !forgotPass.emailPhone.empty}"
                 app:fontType="semiBold"
                 app:layout_constraintBottom_toBottomOf="parent"

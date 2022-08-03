@@ -2,18 +2,18 @@ package com.selflearningcoursecreationapp.extensions
 
 import android.text.TextUtils
 import androidx.core.util.PatternsCompat
-import com.selflearningcoursecreationapp.utils.VALIDATION_CONST
+import com.selflearningcoursecreationapp.utils.ValidationConst
 
 fun String.isValidEmail(): Boolean {
-    try {
-        return !TextUtils.isEmpty(this) && PatternsCompat.EMAIL_ADDRESS.matcher(this).matches()
+    return try {
+        !TextUtils.isEmpty(this) && PatternsCompat.EMAIL_ADDRESS.matcher(this).matches()
     } catch (ex: NullPointerException) {
-        return false
+        false
     }
 }
 
 fun String.isPasswordValid(): Boolean {
-    return isNotEmpty() && length >= VALIDATION_CONST.MIN_PASSWORD_LENGTH
+    return isNotEmpty() && length >= ValidationConst.MIN_PASSWORD_LENGTH
 //    val expression = ("^(?=.*[0-9])"
 //            + "(?=.*[a-z])(?=.*[A-Z])"
 //            + "(?=.*[@#$%^&+=!*])"

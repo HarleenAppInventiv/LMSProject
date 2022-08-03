@@ -11,7 +11,7 @@
 
         <import
             alias="const"
-            type="com.selflearningcoursecreationapp.utils.VALIDATION_CONST" />
+            type="com.selflearningcoursecreationapp.utils.ValidationConst" />
 
     </data>
 
@@ -33,10 +33,10 @@
                 android:layout_marginStart="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_24sdp"
                 android:importantForAccessibility="no"
-                android:src="@drawable/ic_reset_password"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:vector="@drawable/ic_reset_password" />
+                app:srcCompat="@drawable/ic_reset_password_n"
+                app:vector="@drawable/ic_reset_password_n" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/textView"
@@ -45,7 +45,7 @@
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:text="@string/reset_password"
-                android:textSize="@dimen/_24ssp"
+                android:textSize="@dimen/loginOtpTitle_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -57,7 +57,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/add_your_new_password"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/textField_14"
                 app:fontType="regular"
                 app:layout_constraintEnd_toEndOf="@+id/textView"
                 app:layout_constraintStart_toStartOf="@+id/textView"
@@ -80,7 +80,7 @@
                 android:text="@={resetPass.resetData.newPassword}"
                 android:textColor="@color/black"
                 android:textColorHint="@color/hintColor"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/editTextField_14"
                 app:drawableStartCompat="@drawable/ic_key_password"
                 app:fontType="regular"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -119,7 +119,7 @@
                 android:text="@={resetPass.resetData.confirmPassword}"
                 android:textColor="@color/black"
                 android:textColorHint="@color/hintColor"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/editTextField_14"
                 app:drawableStartCompat="@drawable/ic_key_password"
                 app:fontType="regular"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -152,7 +152,7 @@
                 android:layout_marginVertical="@dimen/_20sdp"
                 android:enabled="@{resetPass.resetData.resetValid}"
                 android:text="@string/reset"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/materialButton_14"
                 app:btnEnabled="@{resetPass.resetData.resetValid}"
                 app:fontType="semiBold"
                 app:layout_constraintBottom_toBottomOf="parent"

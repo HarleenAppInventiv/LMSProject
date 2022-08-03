@@ -1,5 +1,6 @@
 package com.selflearningcoursecreationapp.ui.dashboard.filter
 
+import android.annotation.SuppressLint
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
@@ -7,6 +8,7 @@ import com.selflearningcoursecreationapp.databinding.BottomDialogFilterBinding
 import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.utils.Constant
 
+@SuppressLint("NotifyDataSetChanged")
 class DashboardFilterDialog : BaseBottomSheetDialog<BottomDialogFilterBinding>(),
     BaseAdapter.IViewClick {
 
@@ -45,6 +47,7 @@ class DashboardFilterDialog : BaseBottomSheetDialog<BottomDialogFilterBinding>()
         }
 
     }
+
 
     private fun setProfessionAdapter() {
         professionAdapter?.notifyDataSetChanged() ?: kotlin.run {

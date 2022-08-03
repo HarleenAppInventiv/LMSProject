@@ -37,8 +37,8 @@ class LMSRadioButton : MaterialRadioButton {
         )
 //
 //        val btnTint = themeAttrs.getInt(R.styleable.LMSCheckBox_btnTint, ThemeConstants.TYPE_PRIMARY)
-        var primaryColor = ThemeUtils.getAppColor(context)
-        var tintColor = ThemeUtils.getTintColor(context)
+        val primaryColor = ThemeUtils.getAppColor(context)
+        val tintColor = ThemeUtils.getTintColor(context)
         val states = arrayOf(
             intArrayOf(android.R.attr.state_pressed),
             intArrayOf(android.R.attr.state_checked),
@@ -61,12 +61,8 @@ class LMSRadioButton : MaterialRadioButton {
 
         val fontType =
             themeAttrs.getInt(R.styleable.LMSCheckBox_compoundFont, ThemeConstants.FONT_REGULAR)
-        if (fontType > 0) {
-            typeface = ResourcesCompat.getFont(
-                context,
-                ThemeUtils.getFont(SelfLearningApplication.fontId, fontType)
-            )
-        }
+        changeFontType(fontType)
+
         val textColorType =
             themeAttrs.getInt(
                 R.styleable.LMSCheckBox_compoundTextColor,
@@ -78,7 +74,16 @@ class LMSRadioButton : MaterialRadioButton {
         themeAttrs.recycle()
     }
 
-    private fun changeTextColor(textColorType: Int) {
+    fun changeFontType(fontType: Int) {
+        if (fontType > 0) {
+            typeface = ResourcesCompat.getFont(
+                context,
+                ThemeUtils.getFont(SelfLearningApplication.fontId, fontType)
+            )
+        }
+    }
+
+    fun changeTextColor(textColorType: Int) {
         val colorValue = when (textColorType) {
 
             ThemeConstants.TYPE_SECONDARY -> {

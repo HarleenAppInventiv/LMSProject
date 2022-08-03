@@ -38,7 +38,7 @@ class UploadContentRepoImpl(private val apiService: ApiService) : UploadContentR
         lectureId: Int,
         file: File,
         uploadType: Int,
-        duration: Int
+        duration: Long
     ): Flow<Resource> {
         return object : BaseRepo<BaseResponse<ImageResponse>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ImageResponse>> {
@@ -71,7 +71,7 @@ class UploadContentRepoImpl(private val apiService: ApiService) : UploadContentR
                     file.getMultiPartBody("File")
                 )
             }
-        }.safeApiCall(ApiEndPoints.API_CONTENT_UPLOAD).flowOn(Dispatchers.IO)
+        }.safeApiCall(ApiEndPoints.API_THUMBNAIL_UPLOAD).flowOn(Dispatchers.IO)
     }
 
     override suspend fun contentUploadText(

@@ -5,6 +5,18 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="AboutCategory">
+        <item name="android:gravity">start</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:paddingStart">72dp</item>
+        <item name="android:paddingEnd">?android:attr/listPreferredItemPaddingEnd</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:textAppearance">?textAppearanceBody2</item>
+        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
     <style name="DialogTransparent" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@null</item>
@@ -20,6 +32,7 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
+
     <style name="DialogTransparent.95" parent="DialogTransparent">
 
         <item name="android:windowMinWidthMajor">90%</item>
@@ -33,7 +46,7 @@
     <style name="textViewStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">?attr/primaryTextColor</item>
         <item name="android:textColorHint">?attr/hintColor</item>
-        <item name="android:textSize">@dimen/_14ssp</item>
+        <item name="android:textSize">@dimen/textField_14</item>
         <item name="fontFamily">?attr/fontRegular</item>
         <item name="android:fontFamily">?attr/fontRegular</item>
 
@@ -74,16 +87,18 @@
 
     <style name="toolbarTheme" parent="textViewStyle">
         <item name="fontFamily">?attr/fontSemiBold</item>
-        <item name="android:fontFamily">?attr/fontSemiBold</item>
+        <item name="android:fontFamily">?attr/fontRegular</item>
+        <item name="android:gravity">center_vertical</item>
         <item name="android:textColor">?attr/toolbarTitleColor</item>
-        <item name="android:textSize">@dimen/_16ssp</item>
+        <item name="android:textSize">@dimen/textField_16</item>
     </style>
 
     <style name="toolbarSubTitleTheme" parent="textViewStyle">
         <item name="fontFamily">?attr/fontRegular</item>
         <item name="android:fontFamily">?attr/fontRegular</item>
+        <item name="android:padding">0dp</item>
         <item name="android:textColor">?attr/toolbarTitleColor</item>
-        <item name="android:textSize">@dimen/_10ssp</item>
+        <item name="android:textSize">@dimen/textField_11</item>
     </style>
 
     <style name="editTextTheme" parent="Widget.AppCompat.EditText">
@@ -95,14 +110,14 @@
         <item name="android:paddingHorizontal" tools:targetApi="o">@dimen/_16sdp</item>
         <item name="paddingStart">@dimen/_16sdp</item>
         <item name="paddingEnd">@dimen/_16sdp</item>
-        <item name="android:paddingTop">@dimen/_15sdp</item>
-        <item name="android:paddingBottom">@dimen/_15sdp</item>
-        <item name="android:textSize">@dimen/_14ssp</item>
+        <item name="android:paddingTop">@dimen/_12sdp</item>
+        <item name="android:paddingBottom">@dimen/_12sdp</item>
+        <item name="android:textSize">@dimen/editTextField_14</item>
     </style>
 
     <style name="buttonViewStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">?attr/buttonTextColor</item>
-        <item name="android:textSize">@dimen/_14ssp</item>
+        <item name="android:textSize">@dimen/materialButton_14</item>
         <item name="backgroundTint">@color/white</item>
         <item name="android:backgroundTint">@color/white</item>
         <item name="rippleColor">?attr/buttonBackgroundTintColor</item>
@@ -130,7 +145,7 @@
     </style>
 
     <style name="MyTabTextAppearance" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">@dimen/_12ssp</item>
+        <item name="android:textSize">@dimen/textField_14</item>
         <item name="textAllCaps">false</item>
         <item name="android:textColor">?attr/hintColor</item>
         <item name="fontFamily">?attr/fontRegular</item>
@@ -169,9 +184,7 @@
     </style>
 
     <style name="MyBottomSheetStyle" parent="@style/Theme.MaterialComponents.Light.BottomSheetDialog">
-        <item name="colorPrimary">@color/purple_200</item>
         <item name="colorPrimaryDark">@color/purple_700</item>
-        <item name="colorAccent">@color/purple_200</item>
     </style>
 
     <style name="MaterialDialog" parent="Theme.MaterialComponents.Light.Dialog">
@@ -182,5 +195,66 @@
         </item>
     </style>
 
+    <dimen name="toolbar_16">@dimen/_13ssp</dimen>
+    <dimen name="toolbar_14">@dimen/_11ssp</dimen>
 
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/hintColor</item>
+        <item name="colorControlActivated">@color/coin_stroked_color</item>
+    </style>
+
+    <dimen name="adapterTextField_11">@dimen/_9ssp</dimen>
+    <dimen name="adapterTextField_12">@dimen/_10ssp</dimen>
+    <dimen name="adapterTextField_17">@dimen/_15ssp</dimen>
+    <dimen name="adapterTextField_10">@dimen/_8ssp</dimen>
+    <dimen name="homeAdapterTF_16">@dimen/_14ssp</dimen>
+    <dimen name="homeAdapterBtn_12">@dimen/_8ssp</dimen>
+    <dimen name="adapterTF_14">@dimen/_11ssp</dimen>
+    <dimen name="homeAdapterTF_13">@dimen/_10ssp</dimen>
+    <dimen name="adapterFontTitle_32">@dimen/_29ssp</dimen>
+
+    <dimen name="textField_9">@dimen/_7ssp</dimen>
+    <dimen name="textField_10">@dimen/_8ssp</dimen>
+    <dimen name="textField_11">@dimen/_9ssp</dimen>
+    <dimen name="textField_12">@dimen/_10ssp</dimen>
+    <dimen name="textField_14">@dimen/_11ssp</dimen>
+    <dimen name="textField_15">@dimen/_13ssp</dimen>
+    <dimen name="textField_16">@dimen/_14ssp</dimen>
+    <dimen name="textField_17">@dimen/_15ssp</dimen>
+    <dimen name="textField_24">@dimen/_19ssp</dimen>
+    <dimen name="textField_28">@dimen/_24ssp</dimen>
+    <dimen name="textField_46">@dimen/_42ssp</dimen>
+    <dimen name="textField_21">@dimen/_18ssp</dimen>
+    <dimen name="textField_20">@dimen/_19ssp</dimen>
+
+    <style name="CustomRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ratingbar</item>
+    </style>
+
+    <style name="CustomRatingBar.Small" parent="Widget.AppCompat.RatingBar.Small">
+        <item name="android:progressDrawable">@drawable/ratingbar_small</item>
+    </style>
+
+    <style name="MyRatingBar" parent="Theme.AppCompat">
+        <item name="android:minHeight">15dp</item>
+        <item name="android:maxHeight">15dp</item>
+        <item name="colorControlNormal">@color/hintColor</item>
+        <item name="colorControlActivated">@color/coin_stroked_color</item>
+    </style>
+
+    <dimen name="editTextField_14">@dimen/_11ssp</dimen>
+    <dimen name="editTextField_16">@dimen/_14ssp</dimen>
+    <dimen name="editTextFieldOtp_21">@dimen/_18ssp</dimen>
+    <dimen name="editTextField_12">@dimen/_10ssp</dimen>
+
+    <dimen name="countryCode_16">@dimen/_12ssp</dimen>
+    <dimen name="titleUserName_17">@dimen/_15ssp</dimen>
+
+
+    <dimen name="loginTitle_28">@dimen/_22sdp</dimen>
+    <dimen name="loginOtpTitle_24">@dimen/_20sdp</dimen>
+    <dimen name="materialButton_14">@dimen/_11ssp</dimen>
+    <dimen name="bottomSheetTitle_16">@dimen/_13ssp</dimen>
+
+    <dimen name="settingOptionVerticalPadding">@dimen/_16sdp</dimen>
 </resources>

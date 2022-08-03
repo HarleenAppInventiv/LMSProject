@@ -5,8 +5,8 @@ import android.text.Html
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.base.BaseFragment
@@ -26,7 +26,7 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
     BaseBottomSheetDialog.IDialogClick {
 
     private val viewModel: AddCourseViewModel by viewModels({ requireParentFragment() })
-
+    private var dialogFragment: BottomSheetDialogFragment? = null
 
     override fun getLayoutRes(): Int {
         return R.layout.fragment_step2
@@ -37,12 +37,11 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
         initUi()
     }
 
+
     private fun initUi() {
         binding.handleClick = this
         binding.step2 = viewModel
         binding.tvFee.addDecimalLimiter()
-//        activityResultListener()
-//        SwRewardsFunctionality()
         if (!viewModel.courseData.value?.keyTakeaways.isNullOrEmpty()) {
             binding.tvKeywordTitle.text = Html.fromHtml(viewModel.courseData.value?.keyTakeaways)
         }
@@ -69,45 +68,44 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
 
         coAuthorHandling()
 
-        viewModel.isCreator.observe(viewLifecycleOwner, Observer {
+        viewModel.isCreator.observe(viewLifecycleOwner) {
             coAuthorHandling()
-        })
+        }
 
 
     }
 
     private fun coAuthorHandling() {
-        binding.noEditCL.visibleView(viewModel.courseData.value?.isCoAuthor == true && viewModel.getCoAuthor()?.courseLogoURL.isNullOrEmpty())
-        if (!viewModel.getCoAuthor()?.courseLogoURL.isNullOrEmpty()) {
-            viewModel.courseData.value?.courseLogoId = viewModel.getCoAuthor()?.courseLogoId
-            binding.ivCoauthorLogo.loadImage(
-                viewModel.getCoAuthor()?.courseLogoURL,
-                R.drawable.ic_logo_default
-            )
-            binding.ivLogo.loadImage(
-                viewModel.getCoAuthor()?.courseLogoURL,
-                R.drawable.ic_logo_default
-            )
+        viewModel.getCoAuthor()?.let {
+            binding.noEditCL.visibleView(it.courseLogoURL.isNullOrEmpty())
+            if (!viewModel.getCoAuthor()?.courseLogoURL.isNullOrEmpty()) {
+                viewModel.courseData.value?.courseLogoId = viewModel.getCoAuthor()?.courseLogoId
+                binding.ivCoauthorLogo.loadImage(
+                    viewModel.getCoAuthor()?.courseLogoURL,
+                    R.drawable.ic_logo_default
+                )
+                binding.ivLogo.loadImage(
+                    viewModel.getCoAuthor()?.courseLogoURL,
+                    R.drawable.ic_logo_default
+                )
 
+            }
         }
-    }
 
+//        binding.noEditCL.visibleView(viewModel.courseData.value?.isCoAuthor == true && viewModel.getCoAuthor()?.courseLogoURL.isNullOrEmpty())
+//        if (!viewModel.getCoAuthor()?.courseLogoURL.isNullOrEmpty()) {
+//            viewModel.courseData.value?.courseLogoId = viewModel.getCoAuthor()?.courseLogoId
+//            binding.ivCoauthorLogo.loadImage(
+//                viewModel.getCoAuthor()?.courseLogoURL,
+//                R.drawable.ic_logo_default
+//            )
+//            binding.ivLogo.loadImage(
+//                viewModel.getCoAuthor()?.courseLogoURL,
+//                R.drawable.ic_logo_default
+//            )
 //
-//    private fun activityResultListener() {
-//        requireActivity().supportFragmentManager.setFragmentResultListener(
-//            "valueHTML",
-//            viewLifecycleOwner
-//        ) { _, bundle ->
-//            val value = bundle.getString("value")
-//            val type = bundle.getInt("type")
-//            if (type == Constant.KEY_TAKEAWAY) {
-//                viewModel.courseData.value?.keyTakeaways = value ?: ""
-//                binding.tvKeyword.text = Html.fromHtml(value)
-//                viewModel.notifyData()
-//
-//            }
 //        }
-//    }
+    }
 
 
     override fun onHandleClick(vararg items: Any) {
@@ -116,33 +114,50 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
             when (view.id) {
                 R.id.iv_header, R.id.tv_header -> {
                     if (viewModel.courseData.value?.courseBannerUrl.isNullOrEmpty()) {
-                        UploadImageOptionsDialog().apply {
+                        if (dialogFragment?.isVisible == true) {
+                            dialogFragment?.dismiss()
+                        }
+                        dialogFragment = UploadImageOptionsDialog().apply {
                             arguments = bundleOf("type" to DialogType.CLICK_BANNER)
 
                             setOnDialogClickListener(this@Step2Fragment)
-                        }.show(childFragmentManager, "")
+                        }
+                        dialogFragment?.show(childFragmentManager, "")
+
                     }
                 }
                 R.id.iv_edit_banner -> {
-                    UploadImageOptionsDialog().apply {
+                    if (dialogFragment?.isVisible == true) {
+                        dialogFragment?.dismiss()
+                    }
+                    dialogFragment = UploadImageOptionsDialog().apply {
                         arguments = bundleOf("type" to DialogType.CLICK_BANNER)
 
                         setOnDialogClickListener(this@Step2Fragment)
-                    }.show(childFragmentManager, "")
+                    }
+                    dialogFragment?.show(childFragmentManager, "")
                 }
                 R.id.iv_logo, R.id.tv_logo -> {
                     if (viewModel.courseData.value?.courseLogoUrl.isNullOrEmpty()) {
-                        UploadImageOptionsDialog().apply {
+                        if (dialogFragment?.isVisible == true) {
+                            dialogFragment?.dismiss()
+                        }
+                        dialogFragment = UploadImageOptionsDialog().apply {
                             arguments = bundleOf("type" to DialogType.CLICK_LOGO)
                             setOnDialogClickListener(this@Step2Fragment)
-                        }.show(childFragmentManager, "")
+                        }
+                        dialogFragment?.show(childFragmentManager, "")
                     }
                 }
                 R.id.iv_coauthor_edit_logo -> {
-                    UploadImageOptionsDialog().apply {
+                    if (dialogFragment?.isVisible == true) {
+                        dialogFragment?.dismiss()
+                    }
+                    dialogFragment = UploadImageOptionsDialog().apply {
                         arguments = bundleOf("type" to DialogType.CLICK_CO_AUTHOR)
                         setOnDialogClickListener(this@Step2Fragment)
-                    }.show(childFragmentManager, "")
+                    }
+                    dialogFragment?.show(childFragmentManager, "")
 
                 }
                 R.id.iv_edit_logo -> {
@@ -152,13 +167,20 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
                         DialogType.CLICK_LOGO
 
                     }
-                    UploadImageOptionsDialog().apply {
+                    if (dialogFragment?.isVisible == true) {
+                        dialogFragment?.dismiss()
+                    }
+                    dialogFragment = UploadImageOptionsDialog().apply {
                         arguments = bundleOf("type" to imageType)
                         setOnDialogClickListener(this@Step2Fragment)
-                    }.show(childFragmentManager, "")
+                    }
+                    dialogFragment?.show(childFragmentManager, "")
                 }
                 R.id.tv_type -> {
-                    SingleChoiceBottomDialog().apply {
+                    if (dialogFragment?.isVisible == true) {
+                        dialogFragment?.dismiss()
+                    }
+                    dialogFragment = SingleChoiceBottomDialog().apply {
                         arguments = bundleOf(
                             "type" to DialogType.COURSE_TYPE,
                             "title" to this@Step2Fragment.baseActivity.getString(R.string.course_type),
@@ -166,11 +188,15 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
                             "id" to viewModel.courseData.value?.courseTypeId
                         )
                         setOnDialogClickListener(this@Step2Fragment)
-                    }.show(childFragmentManager, "")
+                    }
+                    dialogFragment?.show(childFragmentManager, "")
                 }
                 R.id.tv_audience -> {
 
-                    MultipleChoiceBottomDialog().apply {
+                    if (dialogFragment?.isVisible == true) {
+                        dialogFragment?.dismiss()
+                    }
+                    dialogFragment = MultipleChoiceBottomDialog().apply {
                         arguments = bundleOf(
                             "type" to DialogType.PROFESSION,
                             "title" to this@Step2Fragment.baseActivity.getString(R.string.target_audience),
@@ -178,11 +204,15 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
                             "selectedIds" to viewModel.courseData.value?.targetAudiences
                         )
                         setOnDialogClickListener(this@Step2Fragment)
-                    }.show(childFragmentManager, "")
+                    }
+                    dialogFragment?.show(childFragmentManager, "")
                 }
                 R.id.tv_complexity -> {
 
-                    SingleChoiceBottomDialog().apply {
+                    if (dialogFragment?.isVisible == true) {
+                        dialogFragment?.dismiss()
+                    }
+                    dialogFragment = SingleChoiceBottomDialog().apply {
                         arguments = bundleOf(
                             "type" to DialogType.COURSE_COMPLEXITY,
                             "title" to this@Step2Fragment.baseActivity.getString(R.string.course_complexity),
@@ -190,10 +220,11 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
                             "id" to viewModel.courseData.value?.courseComplexityId
                         )
                         setOnDialogClickListener(this@Step2Fragment)
-                    }.show(childFragmentManager, "")
+                    }
+                    dialogFragment?.show(childFragmentManager, "")
                 }
                 R.id.tv_keyword -> {
-                    var action =
+                    val action =
                         AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToTextEditorFragment(
                             Constant.KEY_TAKEAWAY, viewModel.courseData.value?.keyTakeaways ?: ""
                         )
@@ -207,8 +238,7 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
 
     override fun onDialogClick(vararg items: Any) {
         if (items.isNotEmpty()) {
-            val type = items[0] as Int
-            when (type) {
+            when (items[0] as Int) {
                 DialogType.COURSE_COMPLEXITY -> {
                     val value = items[1] as SingleChoiceData
                     binding.tvComplexity.text = value.title
@@ -237,10 +267,8 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
 
                 }
                 DialogType.CLICK_BANNER -> {
-                    viewModel.uploadImage(File(items[1] as String), true)
-//                    viewModel.upl
                     viewModel.courseData.value?.courseBannerUrl = items[1] as String
-//                    binding.ivHeader.setImageURI(Uri.parse(items[1] as String))
+                    viewModel.uploadImage(File(items[1] as String), true)
                     binding.ivHeader.loadImage(items[1] as String, R.drawable.ic_default_banner)
                     binding.tvHeader.gone()
                     binding.ivEditBanner.visible()
@@ -252,7 +280,7 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
                     binding.ivLogo.loadImage(
                         items[1] as String,
                         R.drawable.ic_logo_default
-                    )/*setImageURI(Uri.parse(items[1] as String))*/
+                    )
                     binding.tvLogo.gone()
                     binding.ivEditLogo.visible()
                 }
@@ -266,15 +294,15 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
                     binding.ivCoauthorLogo.loadImage(
                         items[1] as String,
                         R.drawable.ic_logo_default
-                    )/*setImageURI(Uri.parse(items[1] as String))*/
+                    )
 
                 }
             }
         }
     }
 
-    override fun <T> onResponseSuccess(value: T, apiCode: String) {
-//        super.onResponseSuccess(value, apiCode)
-        showLog("CHILD", "apiSuccess")
+    override fun onApiRetry(apiCode: String) {
+        //handled in AddCourseBaseFragment
     }
+
 }

@@ -17,28 +17,28 @@ enum class Constants {
     PASSWORD,
     COUNTYRY_CODE,
     COURSE_ID,
-    FCMTOKEN
+    FCM_TOKEN
 
 }
 
-object REQUEST_CODE {
+object RequestCode {
     const val ACCESSIBILITY = 11
 }
 
-object THEME_CONSTANT {
+object ThemeConstant {
     const val BLUE = 1
     const val WINE = 2
     const val BLACK = 3
     const val SEA = 4
 }
 
-object FONT_CONSTANT {
+object FontConstant {
     const val ROBOTO = 1
     const val IBM = 2
     const val WORK_SANS = 3
 }
 
-object LANGUAGE_CONSTANT {
+object LanguageConstant {
     const val ENGLISH = "en"
     const val KANNADA = "kn"
     const val TAMIL = "ta"
@@ -84,14 +84,31 @@ object Constant {
     const val CLICK_OPTION_DELETE = 300
     const val CLICK_DETAILS = 500
     const val CLICK_SEE_ALL = 1000
+    const val CLICK_BOOKMARK = 1500
+    const val CLICK_BUYBUTTON = 2000
+    const val CLICK_CAT = 201
+    const val CLICK_CAT_OPTIONS = 402
+    const val CLICK_ACCEPT = 114
+    const val CLICK_REJECT = 115
+    const val CLICK_ASSESSMENT = 116
+    const val CLICK_LESSON = 117
+
 
     const val TYPE_ROUND = 1
     const val TYPE_LINE = 2
     const val TYPE_MONTH = 3
     const val TYPE_YEAR = 4
 
+    const val TYPE_CATEGORY = 0
+    const val TYPE_REQUEST_DATE = 1
+    const val TYPE_FEE_RANGE = 2
+    const val TYPE_CREATOR_NAME = 3
+
+
     const val COURSE_COMPLETED = 1
+    const val COURSE_COMPLETED_REWARD = 4
     const val COURSE_IN_PROGRESS = 2
+    const val MYCOURSES = 5
     const val COURSE_BOOKMARKED = 3
 
     const val COURSE = 1
@@ -100,20 +117,29 @@ object Constant {
 
     const val DESC = 1
     const val KEY_TAKEAWAY = 2
+    const val TEXT_AS_LESSON = 2
 
 
 }
 
-object VALIDATION_CONST {
+object ValidationConst {
     const val MIN_NO_LENGTH = 5
     const val MAX_NO_LENGTH = 15
     const val MAX_NAME_LENGTH = 30
     const val MIN_NAME_LENGTH = 2
     const val MAX_PASSWORD_LENGTH = 16
     const val MIN_PASSWORD_LENGTH = 8
+    const val OTP_TIME = 60000L
+    const val OTP_TIME_REQUEST = 5
+    const val MAX_COURSE_TITLE_LENGTH = 500
+    const val MAX_COURSE_TITLE_LENGTH_SHOW = 256
+    const val MAX_COURSE_DESC_LENGTH = 4000
+    const val MAX_COURSE_DESC_LENGTH_SHOW = 500
+    const val MAX_QUIZ_TITLE = 1000
+    const val MAX_QUIZ_OPTION_LENGTH = 1000
 }
 
-object LOGIN_CONSTANT {
+object LoginConstant {
     const val IS_LOGIN = 0
 }
 
@@ -133,7 +159,7 @@ object PREFERENCES {
 
 }
 
-object OTP_TYPE {
+object OtpType {
     const val TYPE_SIGNUP = 1
     const val TYPE_LOGIN = 2
     const val TYPE_FORGOT = 3
@@ -155,6 +181,9 @@ object DialogType {
     const val CLICK_QUIZ_OPTION = 13
     const val QUIZ_ANSWER = 14
     const val CLICK_CO_AUTHOR = 15
+    const val HOME_FILTER = 16
+    const val RATE_COURSE = 17
+    const val CLICK_DRAG_OPTION = 18
 
 
 }
@@ -170,7 +199,7 @@ object QUIZ {
 }
 
 
-object MEDIA_TYPE {
+object MediaType {
     const val VIDEO = 1
     const val AUDIO = 2
     const val DOC = 3
@@ -185,15 +214,87 @@ object MEDIA_TYPE {
     const val ASSESSMENT_OPTION = 12
 }
 
-object MEDIA_FROM {
+object MediaFrom {
     const val RECORDING = 100001
 
 }
 
-object COAUTHOR_STATUS {
+
+object LectureStatus {
+    const val IN_PROCESS = 2
+    const val COMPLETED = 1
+}
+
+object CoAuthorStatus {
     const val ACCEPT = 1
     const val PENDING = 2
     const val REJECT = 3
     const val CANCELLED = 4
     const val SUBMITTED = 5
+}
+
+object CourseScreenType {
+    const val ALL_COURSES = 1
+    const val ONGOINGCOURSES = 6
+    const val MYCOURSES = 8
+}
+
+
+object CourseType {
+    const val FREE = 1
+    const val PAID = 2
+    const val RESTRICTED = 3
+    const val REWARD_POINTS = 4
+    const val REWARD_POINTS_EARNED_COURSES = 9
+    const val REWARD_POINTS_PURCHASED_COURSES = 10
+
+}
+
+object ComplexityLevel {
+    const val BEGINNER = 1
+    const val INTERMEDIATE = 2
+    const val ADVANCED = 3
+}
+
+object ModeratorListType {
+    const val REQUESTED = 1
+    const val APPROVED = 2
+    const val REJECTED = 3
+
+}
+
+object PaymentStatus {
+    const val NOT_DONE = 0
+    const val INITIATED = 1
+    const val IN_PROGRESS = 2
+    const val SUCCESS = 4
+    const val FAILED = 16
+    const val REFUNDED = 8
+    const val AUTHORIZED = 2
+
+}
+
+object CourseStatus {
+    const val ENROLLED = 1
+    const val NOT_ENROLLED = 0
+    const val REWARD_POINTS_EARNED_COURSES = 9
+}
+
+object BundleConst {
+    const val IMAGE = "bundle_image"
+}
+
+object CommonPayload {
+    val PUBLISHED_DATE = "publishedDate"
+    val OPERATOR_TYPE_6 = 6
+    val OPERATOR_TYPE_7 = 7
+
+}
+
+object STATIC_PAGES_TYPE {
+    const val PRIVACY = 1
+    const val TERMS = 2
+    const val HELP = 3
+    const val ABOUT_US = 4
+
 }

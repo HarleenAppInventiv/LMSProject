@@ -46,6 +46,7 @@ class MyCourseTabFragment : BaseFragment<FragmentMyCourseTabBinding>() {
     }
 
 
+
     private fun initUi() {
         val list = arrayListOf<Fragment>(
             MyCourseFragment(),
@@ -53,7 +54,7 @@ class MyCourseTabFragment : BaseFragment<FragmentMyCourseTabBinding>() {
             CreatedCourseFragment(),
 //            RequestedFragment()
         )
-        val nameArray = arrayListOf<String>(
+        val nameArray = arrayListOf(
             baseActivity.getString(R.string.ongoing),
             baseActivity.getString(R.string.completed),
             baseActivity.getString(R.string.created),
@@ -90,5 +91,9 @@ class MyCourseTabFragment : BaseFragment<FragmentMyCourseTabBinding>() {
 
             }
         })
+    }
+
+    override fun onApiRetry(apiCode: String) {
+
     }
 }

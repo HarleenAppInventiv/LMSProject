@@ -12,14 +12,14 @@ import com.selflearningcoursecreationapp.utils.DialogType
 
 class CityListDialog : BaseBottomSheetDialog<BottomDialogCourceCateBinding>(),
     BaseAdapter.IViewClick {
-    lateinit var adapterCity: AdapterCity
+    private lateinit var adapterCity: AdapterCity
     private var list = ArrayList<CityModel>()
     override fun getLayoutRes() = R.layout.bottom_dialog_cource_cate
 
     override fun initUi() {
 binding.parentCL.visible()
         arguments?.let {
-            list = it.getParcelableArrayList("data")!!
+            list = it.getParcelableArrayList("data") ?: ArrayList()
 
             binding.etSearch.visible()
             setStateAdapter(list)
@@ -33,8 +33,8 @@ binding.parentCL.visible()
 
             } else {
                 arguments?.let {
-                    val dataList = it.getParcelableArrayList<CityModel>("data")?.filter {
-                        it.cityName?.lowercase()
+                    val dataList = it.getParcelableArrayList<CityModel>("data")?.filter { city ->
+                        city.cityName?.lowercase()
                             ?.contains(text.toString().lowercase()) == true
                     } as ArrayList
                     setStateAdapter(dataList)
@@ -50,7 +50,8 @@ binding.parentCL.visible()
         }
     }
 
-    fun setStateAdapter(cityList: ArrayList<CityModel>) {
+
+    private fun setStateAdapter(cityList: ArrayList<CityModel>) {
         binding.recyclerCourceCategory.apply {
             adapterCity = AdapterCity(cityList)
             adapter = adapterCity
@@ -72,4 +73,8 @@ binding.parentCL.visible()
         }
     }
 
+    override fun onApiRetry(apiCode: String) {
+        super.onApiRetry(apiCode)
+
+    }
 }

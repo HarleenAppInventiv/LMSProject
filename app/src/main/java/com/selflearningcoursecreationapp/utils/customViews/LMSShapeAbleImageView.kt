@@ -39,6 +39,12 @@ class LMSShapeAbleImageView : ShapeableImageView {
                 R.styleable.LMSShapeAbleImageView_changeBackgroundType,
                 ThemeConstants.TYPE_NONE
             )
+        changeBgColor(changeBgType)
+
+        themeAttrs.recycle()
+    }
+
+    fun changeBgColor(changeBgType: Int) {
         when (changeBgType) {
             ThemeConstants.TYPE_TINT -> {
 
@@ -70,8 +76,6 @@ class LMSShapeAbleImageView : ShapeableImageView {
             }
 
         }
-
-        themeAttrs.recycle()
     }
 
 }

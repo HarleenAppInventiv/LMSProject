@@ -1,4 +1,4 @@
-package com.richpath.model
+package com.selflearningcoursecreationapp.utils.richView.model
 
 import android.content.Context
 import android.content.res.XmlResourceParser
@@ -10,19 +10,19 @@ class Group(context: Context, xpp: XmlResourceParser) {
         const val TAG_NAME = "group"
     }
 
-    var rotation = 0f
+    private var rotation = 0f
         private set
     var pivotX = 0f
         private set
     var pivotY = 0f
         private set
-    var scaleX = 1f
+    private var scaleX = 1f
         private set
-    var scaleY = 1f
+    private var scaleY = 1f
         private set
-    var translateX = 0f
+    private var translateX = 0f
         private set
-    var translateY = 0f
+    private var translateY = 0f
         private set
     var name: String? = null
         private set
@@ -52,7 +52,7 @@ class Group(context: Context, xpp: XmlResourceParser) {
     }
 
     fun matrix(): Matrix {
-        val matrix = this.matrix?.let { it } ?: run {
+        val matrix = this.matrix ?: run {
             Matrix().apply {
                 postTranslate(-pivotX, -pivotY)
                 postScale(scaleX, scaleY)

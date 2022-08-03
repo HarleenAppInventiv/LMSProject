@@ -3,23 +3,29 @@ package com.selflearningcoursecreationapp.utils
 object ApiEndPoints {
     const val BASE_URL_INTERNAL = "https://selflearndevweb.appskeeper.in/info/"
     const val LINK_TERM_COND = "terms-&-conditions"
-    const val LINK_PRIVECY_POL = "privacy-policy"
+    const val LINK_PRIVACY_POL = "privacy-policy"
     const val LINK_ABOUT_US = "about-us"
     const val LINK_FAQ = "faq"
 
 
     const val VALID_DATA: String = "valid_Data"
+    const val GUEST_LOGIN: String = "guest_login"
 
 
-    const val BASE_URL = "https://appinventivlearningclientapi20220314151937.azurewebsites.net/Api/"
+    //    const val BASE_URL = "https://appinventivlearningclientapi20220314151937.azurewebsites.net/Api/" //dev server
+//    const val BASE_URL = "https://appinventivlearningclientapiqa.azurewebsites.net/Api/" //qa server
+//    const val BASE_URL = "http://20.197.6.132/api/" //qa server
+    const val BASE_URL = "https://skillfy.in/Api/" //qa server
+
+    //    const val BASE_URL = "https://e4be-122-179-201-74.in.ngrok.io/Api/" //qa server
     const val API_SIGNUP = "SignUp/SignUpRequest"
     const val API_OTP_REQ = "SignUp/OtpRequest"
     const val API_OTP_VAL = "SignUp/ValidateOtpRequest"
     const val API_LOGIN = "Login"
     const val API_GET_CATEGORIES = "Category/GetCategoryList"
-    const val API_MYCATEGORIES = "Category/MyCategories"
-    const val API_SAVE_PREFRENCE = "Preferences/SavePreferences"
-    const val API_GETTHEME_LIST = "Themes/GetThemesList"
+    const val API_MY_CATEGORIES = "Category/MyCategories"
+    const val API_SAVE_PREFERENCES = "Preferences/SavePreferences"
+    const val API_GET_THEME_LIST = "Themes/GetThemesList"
     const val API_VIEW_PROFILE = "User/ViewProfile"
     const val API_CHANGE_PASS = "User/ChangePasswordRequest"
     const val API_RESET_PASS = "User/ResetPassword"
@@ -45,10 +51,9 @@ object ApiEndPoints {
     const val API_GET_SECTIONS = "Course/AllSections"
 
     //section
-    const val API_ADD_SECTION_POST = "Course/Section"
-    const val API_ADD_SECTION_PATCH = "Course/Section"
-    const val API_SECTION_DELETE = "Course/Section"
+    const val API_ADD_SECTION = "Course/Section"
     const val API_SECTION_DRAG_DROP = "Course/Section/DragAndDrop"
+    const val API_REWARDS_POINTS = "Rewards/Courses"
 
     //Lecture
     const val API_ADD_LECTURE_POST = "Course/Section/Lecture"
@@ -58,10 +63,10 @@ object ApiEndPoints {
     const val API_GET_LECTURE_DETAIL = "Course/Section/LectureDetail"
 
     //quiz
-    const val API_ADD_QUIZ = "Course/Section/Lecture/Quiz"
-    const val API_ADD_QUIZ_QUESTION = "Course/Section/Lecture/Quiz/Questions"
-    const val API_ADD_QUIZ_ANS = "Course/Section/Lecture/Quiz/Questions/Answeres"
-    const val API_ADD_QUIZ_IMAGE = "Course/Section/Lecture/Quiz/Image"
+    const val API_ADD_QUIZ = "Course/Section/Lecture/quiz"
+    const val API_ADD_QUIZ_QUESTION = "Course/Section/Lecture/quiz/Questions"
+    const val API_ADD_QUIZ_ANS = "Course/Section/Lecture/quiz/Questions/Answeres"
+    const val API_ADD_QUIZ_IMAGE = "Course/Section/Lecture/quiz/Image"
     const val API_ADD_QUIZ_SAVE = "Course/Section/Lecture/SaveQuiz"
 
     //assessment
@@ -80,4 +85,49 @@ object ApiEndPoints {
 
     //CoAuthor
     const val API_COAUTHOR_INVITATION = "CoAuthor/UpdateInvitationStatus"
+
+
+    // Guest home
+    const val API_HOME_GUESTCOURSES = "HomeScreen/GuestCourses"
+    const val API_HOME_COURSES = "HomeScreen/Courses"
+    const val API_HOME_TAB_CATE = "HomeScreen/TabCategories"
+
+
+    const val API_HOME_ALL_CATEGORIES = "HomeScreen/AllCategories"
+
+    const val API_HOME_WISHLIST = "Wishlist/WishlistedCourses"
+    const val API_HOME_FILTERS = "HomeScreen/Filters"
+    const val API_ALL_COURSES = "HomeScreen/AllCourses"
+    const val API_GUEST_ALL_COURSES = "HomeScreen/AllGuestCourses"
+
+    //course details
+    const val API_COURSE_DETAILS = "CourseContent/Details"
+    const val API_COURSE_QUIZ = "CourseContent/Quiz"
+    const val API_SUBMIT_COURSE_QUIZ = "CourseContent/SubmitQuiz"
+    const val API_COURSE_SECTIONS = "CourseContent/SectionAndLectures"
+
+    //Wishlist
+    const val API_WISHLIST = "Wishlist/WishlistCourses"
+
+    //Purchase course
+    const val API_PURCHASE_COURSE = "PurchaseCourse"
+    const val API_RAZORPAY_COURSE = "Payment"
+
+    //Reviews
+    const val API_ADD_REVIEW = "Review/Add"
+    const val API_GET_REVIEW = "Review"
+    const val API_REVIEW_FILTERS = "Review/Filters"
+
+    //certificates
+    const val API_CERTIFICATE = "CourseContent/CourseCertificate"
+
+    // certificate api
+    const val API_ASSESSMENT_DETAIL = "CourseContent/AssessmentTotalQuestionAndDuration"
+    const val API_ASSESSMENT = "CourseContent/Assessment"
+    const val API_ASSESSMENT_SUBMIT = "CourseContent/SubmitAssessment"
+
+    //assessment report
+    const val API_ASSESSMENT_REPORT = "CourseContent/AssessmentReport"
+    const val API_ASSESSMENT_REPORT_STATUS = "CourseContent/AttemptedAssessmentReport"
+
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
@@ -13,20 +14,26 @@ import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.databinding.FragmentEditProfileBinding
 import com.selflearningcoursecreationapp.extensions.getStringDate
+import com.selflearningcoursecreationapp.extensions.isNullOrZero
 import com.selflearningcoursecreationapp.extensions.openDatePickerDialog
 import com.selflearningcoursecreationapp.extensions.setSpanString
-import com.selflearningcoursecreationapp.models.*
+import com.selflearningcoursecreationapp.models.CityModel
+import com.selflearningcoursecreationapp.models.GenderModel
+import com.selflearningcoursecreationapp.models.SingleChoiceData
+import com.selflearningcoursecreationapp.models.StateModel
 import com.selflearningcoursecreationapp.ui.dialog.ChooseGenderDialog
 import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceBottomDialog
-import com.selflearningcoursecreationapp.utils.*
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.DialogType
+import com.selflearningcoursecreationapp.utils.HandleClick
+import com.selflearningcoursecreationapp.utils.SpanUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
 
 class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnClickListener,
-    BaseBottomSheetDialog.IDialogClick, HandleClick {
+    BaseBottomSheetDialog.IDialogClick, HandleClick, View.OnTouchListener {
     private val viewModel: EditProfileViewModel by viewModel()
-    var stateId = 0
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
@@ -35,6 +42,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
     }
 
     fun init() {
+        binding.evBio.setOnTouchListener(this)
         binding.editProfile = viewModel
         binding.handleClick = this
         binding.evChooseProfession.setText(viewModel.userData.value?.profession?.name)
@@ -62,15 +70,17 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
         )
 
         binding.btnSave.setOnClickListener {
-            viewModel.saveEditProfile(binding.countryCodePicker.selectedCountryCodeWithPlus)
+            viewModel.selectedCountryCodeWithPlus =
+                binding.countryCodePicker.selectedCountryCodeWithPlus
+            viewModel.saveEditProfile()
         }
 
         binding.countryCodePicker.apply {
 
             setCountryForPhoneCode(
-                viewModel.userData?.value?.countryCode?.subSequence(
+                viewModel.userData.value?.countryCode?.subSequence(
                     1,
-                    viewModel.userData?.value?.countryCode?.length ?: 0
+                    viewModel.userData.value?.countryCode?.length ?: 0
                 )?.toString()?.toInt() ?: 91
             )
         }
@@ -80,6 +90,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.course_menu, menu)
     }
+
 
 
     override fun getLayoutRes() = R.layout.fragment_edit_profile
@@ -122,7 +133,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
 
             }
             ApiEndPoints.API_GET_ALL_CITY -> {
-                var result = response?.resource as? ArrayList<CityModel>
+                val result = response?.resource as? ArrayList<CityModel>
                 result?.let {
                     CityListDialog().apply {
                         arguments = bundleOf(
@@ -144,7 +155,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
     override fun onDialogClick(vararg items: Any) {
         if (items.isNotEmpty()) {
             val type = items[0] as Int
-            var value = items[1]
+            val value = items[1]
 
             when (type) {
                 DialogType.PROFESSION -> {
@@ -155,13 +166,13 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
                 }
                 DialogType.STATE -> {
                     value as StateModel
-                    stateId = value.stateId!!
+
                     binding.edtChooseState.setText(value.stateName)
-                    if (!value.stateId?.toString().equals(viewModel.userData.value?.stateId)) {
+                    if (value.stateId != viewModel.userData.value?.stateId) {
                         binding.edtChooseCity.text?.clear()
                         viewModel.userData.value?.cityId = ""
                     }
-                    viewModel.userData.value?.stateId = value.stateId.toString()
+                    viewModel.userData.value?.stateId = value.stateId
 
                 }
                 DialogType.CITY -> {
@@ -192,7 +203,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
                             "type" to DialogType.PROFESSION,
                             "title" to this@EditProfileFragment.baseActivity.getString(R.string.select_profession),
                             "id" to if (!viewModel.userData.value?.professionId.isNullOrEmpty()) {
-                                viewModel.userData.value?.professionId!!.toInt()
+                                viewModel.userData.value?.professionId?.toInt()
                             } else 0
                         )
                         setOnDialogClickListener(this@EditProfileFragment)
@@ -203,9 +214,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
 
                 }
                 R.id.edt_choose_city -> {
-                    if (stateId == 0) showToastShort(getString(R.string.select_state_first)) else viewModel.getCityList(
-                        stateId
-                    )
+                    if (viewModel.userData.value?.stateId.isNullOrZero()) showToastShort(getString(R.string.select_state_first)) else viewModel.getCityList()
                 }
                 R.id.ev_choose_gender -> {
                     ChooseGenderDialog().apply {
@@ -214,7 +223,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
                             )
                         ) {
                             arguments =
-                                bundleOf("id" to viewModel.userData.value?.genderId!!.toInt())
+                                bundleOf("id" to viewModel.userData.value?.genderId?.toInt())
                         }
                         setOnDialogClickListener(this@EditProfileFragment)
                     }.show(childFragmentManager, "")
@@ -225,5 +234,13 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
         }
     }
 
+    override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        baseActivity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+    }
 
 }

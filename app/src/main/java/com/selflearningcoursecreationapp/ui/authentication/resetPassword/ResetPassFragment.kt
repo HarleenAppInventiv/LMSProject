@@ -15,7 +15,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ResetPassFragment : BaseFragment<FragmentResetPassBinding>() {
     private val viewModel: ResetViewModel by viewModel()
-    var userId = ""
 
     override fun getLayoutRes() = R.layout.fragment_reset_pass
 
@@ -24,9 +23,10 @@ class ResetPassFragment : BaseFragment<FragmentResetPassBinding>() {
         initUi()
     }
 
+
     private fun initUi() {
         arguments?.let {
-            userId = it.getString("user_id").toString()
+            viewModel.userId = it.getString("user_id").toString()
         }
 
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
@@ -41,8 +41,7 @@ class ResetPassFragment : BaseFragment<FragmentResetPassBinding>() {
         binding.etNewPass.showHidePassword()
 
         binding.btnReset.setOnClickListener {
-            viewModel.onReset(userId)
-//            Toast.makeText(requireContext(), "${user_id}", Toast.LENGTH_SHORT).show()
+            viewModel.onReset()
         }
 
     }
@@ -53,12 +52,17 @@ class ResetPassFragment : BaseFragment<FragmentResetPassBinding>() {
             ApiEndPoints.API_RESET_PASS -> {
                 CommonAlertDialog.builder(baseActivity).notCancellable().hideNegativeBtn(true)
                     .description(baseActivity.getString(R.string.password_reset_successfully))
+                    .icon(R.drawable.ic_checked_logo)
                     .getCallback {
                         findNavController().navigateUp()
                     }.build()
             }
         }
 
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
     }
 
 

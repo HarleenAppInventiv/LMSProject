@@ -7,7 +7,7 @@ import com.selflearningcoursecreationapp.databinding.AdapterSavedCardBinding
 import com.selflearningcoursecreationapp.utils.Constant
 
 
-class CardsAdapter() : BaseAdapter<AdapterSavedCardBinding>() {
+class CardsAdapter : BaseAdapter<AdapterSavedCardBinding>() {
     override fun getLayoutRes(): Int {
         return R.layout.adapter_saved_card
     }

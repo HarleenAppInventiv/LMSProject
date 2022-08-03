@@ -41,9 +41,9 @@ class CheckMailDialog : BaseDialog<DialogCheckYourMailBinding>() {
         ).startPos(33).isBold().themeColor().getCallback {
             if (arguments?.containsKey("email") == true) {
                 viewModel.emailPhone.value = arguments?.getString("email") ?: ""
+                viewModel.selectedCountryCodeWithPlus = arguments?.getString("countryCode") ?: ""
                 viewModel.forgotApi(
-                    arguments?.getBoolean("isPhone") ?: false,
-                    arguments?.getString("countryCode") ?: ""
+                    arguments?.getBoolean("isPhone") ?: false
                 )
             }
 
@@ -62,6 +62,10 @@ class CheckMailDialog : BaseDialog<DialogCheckYourMailBinding>() {
                 showToastShort(baseActivity.getString(R.string.otp_sent_successfully))
             }
         }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
     }
 
 

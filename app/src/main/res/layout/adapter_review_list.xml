@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
+            android:id="@+id/iv_user_logo"
+            android:layout_width="@dimen/_42sdp"
+            android:layout_height="@dimen/_42sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@color/white"
+            android:scaleType="centerCrop"
+            android:src="@drawable/dummys"
+            app:changeBackgroundType="bg_theme_src"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/circleImage" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:ellipsize="end"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:singleLine="false"
+            android:text="Alline Sharma"
+            android:textSize="@dimen/textField_14"
+            app:fontType="semiBold"
+            app:layout_constraintEnd_toStartOf="@+id/tv_date"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toEndOf="@+id/iv_user_logo"
+            app:layout_constraintTop_toTopOf="@+id/iv_user_logo"
+            app:textColorType="black" />
+
+        <RatingBar
+            android:id="@+id/rating"
+            style="@style/CustomRatingBar.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:isIndicator="true"
+            android:numStars="5"
+
+            android:rating="4"
+            android:stepSize="1"
+            app:layout_constraintStart_toStartOf="@+id/tv_user_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_user_name" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:text="Nice lounge with very cooperative staff!!"
+            android:textSize="@dimen/textField_12"
+            app:fontType="regular"
+            app:layout_constraintEnd_toEndOf="@+id/tv_date"
+            app:layout_constraintStart_toEndOf="@+id/iv_user_logo"
+            app:layout_constraintTop_toBottomOf="@+id/rating"
+            app:textColorType="body" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:text="30 mins ago"
+            android:textSize="@dimen/textField_12"
+            app:fontType="regular"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_user_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_user_name"
+            app:layout_constraintTop_toTopOf="@+id/tv_user_name"
+            app:textColorType="body" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:id="@+id/iv_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:padding="@dimen/_5sdp"
+            app:layout_constraintStart_toStartOf="@+id/tv_description"
+            app:layout_constraintTop_toBottomOf="@+id/tv_description"
+            app:srcCompat="@drawable/ic_like" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_like_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:textSize="@dimen/textField_12"
+            app:fontType="regular"
+            app:layout_constraintEnd_toEndOf="@+id/iv_like"
+            app:layout_constraintStart_toStartOf="@+id/iv_like"
+            app:layout_constraintTop_toBottomOf="@+id/iv_like"
+            app:textColorType="black" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:id="@+id/iv_dislike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:padding="@dimen/_5sdp"
+            app:layout_constraintStart_toEndOf="@+id/iv_like"
+            app:layout_constraintTop_toBottomOf="@+id/tv_description"
+            app:srcCompat="@drawable/ic_dislike" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_dislike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4"
+            android:textSize="@dimen/textField_12"
+            app:fontType="regular"
+            app:layout_constraintEnd_toEndOf="@+id/iv_dislike"
+            app:layout_constraintStart_toStartOf="@+id/iv_dislike"
+            app:layout_constraintTop_toBottomOf="@+id/iv_dislike"
+            app:textColorType="black" />
+
+        <View
+            android:id="@+id/view12"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:background="?attr/divider_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_user_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_like_count" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

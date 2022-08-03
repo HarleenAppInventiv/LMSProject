@@ -13,6 +13,10 @@
         <import
             alias="quizConst"
             type="com.selflearningcoursecreationapp.utils.QUIZ" />
+
+        <import
+            alias="const"
+            type="com.selflearningcoursecreationapp.utils.ValidationConst" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -37,7 +41,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:lineSpacingExtra="6sp"
                 android:text="@string/question"
-                android:textSize="@dimen/_12sdp"
+                android:textSize="@dimen/textField_12"
                 android:layout_marginTop="@dimen/_12sdp"
                 android:layout_marginBottom="@dimen/_12sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -89,7 +93,7 @@
                     android:paddingVertical="@dimen/_6sdp"
                     android:paddingTop="@dimen/_5sdp"
                     android:paddingBottom="@dimen/_5sdp"
-                    android:textSize="@dimen/_12sdp"
+                    android:textSize="@dimen/textField_12"
                     app:drawableTint="@color/black"
                     app:fontType="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_10sdp"
                     android:text="@string/title"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/textField_12"
                     android:textStyle="normal"
                     app:fontType="medium"
                     app:textColorType="heading"
@@ -121,11 +125,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_4sdp"
-                    android:background="?attr/offwhiteTextColor"
+                    android:background="?attr/off_whiteTextColor"
+                    android:longClickable="true"
                     android:hint="@string/type_your_question_here"
                     android:imeOptions="actionNext"
-                    android:lineSpacingExtra="@dimen/_6sdp"
+                    android:maxLength="@{const.MAX_QUIZ_TITLE}"
                     android:text="@={quizData.title}"
+                    android:maxLines="5"
+                    android:textSize="@dimen/editTextField_14"
                     app:layout_constraintEnd_toEndOf="@+id/tv_title"
                     app:layout_constraintStart_toStartOf="@+id/tv_title"
                     app:layout_constraintTop_toBottomOf="@+id/tv_title" />
@@ -151,6 +158,7 @@
                     android:gravity="center"
                     android:padding="@dimen/_15sdp"
                     android:text="@string/upload_image"
+                    android:textSize="@dimen/textField_14"
                     android:visibility="@{quizData.questionType==quizConst.IMAGE_BASED &amp;&amp; (quizData.questionImage==null || quizData.questionImageId.empty )? View.VISIBLE : View.GONE}"
                     app:drawableTintType="theme"
                     app:drawableTopCompat="@drawable/ic_upload_blue"
@@ -187,7 +195,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:text="@string/options"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/textField_12"
 
                     android:textStyle="normal"
                     android:visibility="@{quizData.questionType== quizConst.MATCH_COLUMN ? View.GONE : View.VISIBLE}"
@@ -208,11 +216,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:background="@drawable/bottom_line_primary"
-
                     android:paddingHorizontal="@dimen/_15sdp"
                     android:paddingBottom="@dimen/_5sdp"
                     android:text="@string/column_1"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/textField_12"
                     android:textStyle="normal"
                     app:fontType="medium"
                     app:layout_constraintStart_toStartOf="@+id/tv_title"
@@ -228,7 +235,7 @@
                     android:paddingBottom="@dimen/_5sdp"
                     android:text="@string/column_2"
 
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/textField_12"
                     android:textStyle="normal"
                     app:fontType="medium"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -268,7 +275,7 @@
                     android:letterSpacing="0.02"
 
                     android:text="@string/add_new_option"
-                    android:textSize="@dimen/_14ssp"
+                    android:textSize="@dimen/materialButton_14"
                     android:visibility="@{quizData.isEnabled() ? View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="@+id/rv_options"
                     app:layout_constraintStart_toStartOf="@+id/tv_title"
@@ -286,7 +293,7 @@
                     android:text="@string/mark_answer"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:enabled="@{!quizData.isEnabled()}"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/textField_12"
                     app:btnTextColor="secondary"
                     app:buttonBackground="secondary"
                     app:buttonFont="medium"
@@ -305,7 +312,7 @@
                     android:layout_marginBottom="@dimen/_20sdp"
                     android:enabled="@{quizData.dataEntered}"
                     android:text="@string/save"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/textField_12"
                     android:visibility="@{quizData.isEnabled() ? View.VISIBLE : View.GONE}"
                     app:btnEnabled="@{quizData.dataEntered}"
                     app:buttonFont="medium"
@@ -326,7 +333,7 @@
                     android:layout_marginBottom="@dimen/_20sdp"
                     android:letterSpacing="0.02"
                     android:text="@string/edit_question"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/textField_12"
                     app:buttonFont="medium"
                     android:visibility="@{quizData.isEnabled() ? View.GONE : View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"

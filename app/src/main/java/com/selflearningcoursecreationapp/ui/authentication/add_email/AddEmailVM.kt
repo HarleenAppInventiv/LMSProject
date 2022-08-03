@@ -7,9 +7,9 @@ import com.selflearningcoursecreationapp.base.BaseViewModel
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.extensions.isValidEmail
-import com.selflearningcoursecreationapp.utils.OTP_TYPE
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.OtpType
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -18,6 +18,14 @@ class AddEmailVM(private val repo: AddEmailRepo) : BaseViewModel() {
         value = ""
     }
 
+    override fun onApiRetry(apiCode: String) {
+        when (apiCode) {
+            ApiEndPoints.API_ADD_EMAIL -> {
+                validate()
+
+            }
+        }
+    }
 
     fun validate() {
 
@@ -48,16 +56,16 @@ class AddEmailVM(private val repo: AddEmailRepo) : BaseViewModel() {
         }
     }
 
-    fun addEmail() {
+    private fun addEmail() {
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
 
             map["email"] = email.value!!
-            map["otpType"] = OTP_TYPE.TYPE_EMAIL.toString()
+            map["otpType"] = OtpType.TYPE_EMAIL.toString()
 
 
             updateResponseObserver(Resource.Loading())
-            var response = repo.addEmail(map)
+            val response = repo.addEmail(map)
             withContext(Dispatchers.IO) {
                 response.collect {
 

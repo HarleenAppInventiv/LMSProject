@@ -3,7 +3,6 @@ package com.selflearningcoursecreationapp.ui.bottom_more.cards
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
-
 import android.view.View
 import android.widget.Toast
 import androidx.core.os.bundleOf
@@ -18,7 +17,7 @@ import com.selflearningcoursecreationapp.utils.HandleClick
 
 class CardsFragment : BaseFragment<FragmentCardsBinding>(), HandleClick, BaseAdapter.IViewClick,
     BaseBottomSheetDialog.IDialogClick {
-    lateinit var cardDetailsBottomSheet: CardDetailsBottomDialog
+    private lateinit var cardDetailsBottomSheet: CardDetailsBottomDialog
 
     lateinit var adapter: CardsAdapter
     override fun getLayoutRes(): Int {
@@ -34,6 +33,7 @@ class CardsFragment : BaseFragment<FragmentCardsBinding>(), HandleClick, BaseAda
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.course_menu, menu)
     }
+
 
     private fun initUi() {
         binding.fragCard = this
@@ -100,6 +100,10 @@ class CardsFragment : BaseFragment<FragmentCardsBinding>(), HandleClick, BaseAda
                 }
             }
         }
+
+    }
+
+    override fun onApiRetry(apiCode: String) {
 
     }
 

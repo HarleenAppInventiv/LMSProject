@@ -6,8 +6,8 @@ import com.selflearningcoursecreationapp.base.BaseViewModel
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.models.ChangePasswordData
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -16,12 +16,13 @@ class ResetViewModel(private val repo: ResetPassRepo) : BaseViewModel() {
     var resetData = MutableLiveData<ChangePasswordData>().apply {
         value = ChangePasswordData()
     }
+    var userId = ""
 
-    fun onReset(userId: String) {
+    fun onReset() {
         resetData.value?.let {
             val errorId = it.isResetValid()
             if (errorId == 0) {
-                resetPass(userId)
+                resetPass()
             } else {
                 updateResponseObserver(Resource.Error(ToastData(errorCode = errorId)))
 
@@ -30,12 +31,12 @@ class ResetViewModel(private val repo: ResetPassRepo) : BaseViewModel() {
 
     }
 
-    fun resetPass(userId: String) = viewModelScope.launch(coroutineExceptionHandle) {
-        var map = HashMap<String, Any>()
+    fun resetPass() = viewModelScope.launch(coroutineExceptionHandle) {
+        val map = HashMap<String, Any>()
         map["userId"] = userId
         map["newPassword"] = resetData.value?.newPassword ?: ""
         updateResponseObserver(Resource.Loading())
-        var response = repo.resetPass(map)
+        val response = repo.resetPass(map)
         withContext(Dispatchers.IO) {
             response.collect {
 
@@ -43,5 +44,13 @@ class ResetViewModel(private val repo: ResetPassRepo) : BaseViewModel() {
             }
         }
 
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        when (apiCode) {
+            ApiEndPoints.API_RESET_PASS -> {
+                onReset()
+            }
+        }
     }
 }

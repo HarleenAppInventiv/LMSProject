@@ -7,27 +7,30 @@ import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.models.OtpData
 import com.selflearningcoursecreationapp.models.user.UserResponse
-import com.selflearningcoursecreationapp.utils.OTP_TYPE
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.OtpType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class OTPVerifyViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
     var otpData = OtpData()
+    var argBundle: OTPVerifyFragmentArgs? = null
+    var token: String? = null
 
-    fun otpVerify(argBundle: OTPVerifyFragmentArgs?, token: String) {
+
+    fun otpVerify() {
         val errorId = otpData.isValid()
         if (errorId == 0) {
-            valOTP(argBundle, token)
+            valOTP(argBundle, token ?: "")
         } else {
             updateResponseObserver(Resource.Error(ToastData(errorId)))
         }
     }
 
 
-    fun reqOTP(argBundle: OTPVerifyFragmentArgs?) =
+    fun reqOTP() =
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
             if (argBundle?.email.isNullOrEmpty()) {
@@ -40,8 +43,8 @@ class OTPVerifyViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
             map["OtpType"] = argBundle?.type.toString()
 
 
-            var response = when (argBundle?.type) {
-                OTP_TYPE.TYPE_EMAIL -> {
+            val response = when (argBundle?.type) {
+                OtpType.TYPE_EMAIL -> {
                     repo.reqEmailOtp(map)
                 }
                 else -> {
@@ -56,7 +59,7 @@ class OTPVerifyViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
 
         }
 
-    fun valOTP(args: OTPVerifyFragmentArgs?, token: String) =
+    private fun valOTP(args: OTPVerifyFragmentArgs?, token: String) =
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
             if (args?.email.isNullOrEmpty()) {
@@ -72,8 +75,8 @@ class OTPVerifyViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
 
             updateResponseObserver(Resource.Loading())
 
-            var response = when (args?.type) {
-                OTP_TYPE.TYPE_EMAIL -> {
+            val response = when (args?.type) {
+                OtpType.TYPE_EMAIL -> {
                     repo.verEmailOtp(map)
                 }
                 else -> {
@@ -82,12 +85,10 @@ class OTPVerifyViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
             }
             withContext(Dispatchers.IO) {
                 response.collect {
-                    if (it is Resource.Success<*> && (args?.type != OTP_TYPE.TYPE_FORGOT && args?.type != OTP_TYPE.TYPE_EMAIL)) {
-//                    if (args?.type != OTP_TYPE.TYPE_FORGOT) {
+                    if (it is Resource.Success<*> && (args?.type != OtpType.TYPE_FORGOT && args?.type != OtpType.TYPE_EMAIL)) {
                         val data = it.value as BaseResponse<UserResponse>
                         saveUserDataInDB(data)
                         delay(2000)
-//                    }
                     }
 
                     updateResponseObserver(it)
@@ -95,5 +96,17 @@ class OTPVerifyViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
             }
 
         }
+
+    override fun onApiRetry(apiCode: String) {
+        when (apiCode) {
+            ApiEndPoints.API_OTP_VAL, ApiEndPoints.API_VERIFY_EMAIL -> {
+                otpVerify()
+            }
+            ApiEndPoints.API_ADD_EMAIL, ApiEndPoints.API_OTP_REQ -> {
+                reqOTP()
+            }
+
+        }
+    }
 
 }

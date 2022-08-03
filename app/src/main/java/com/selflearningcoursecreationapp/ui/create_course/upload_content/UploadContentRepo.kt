@@ -13,7 +13,7 @@ interface UploadContentRepo {
         lectureId: Int,
         file: File,
         uploadType: Int,
-        duration: Int,
+        duration: Long,
     ): Flow<Resource>
 
     suspend fun thumbnailUpload(

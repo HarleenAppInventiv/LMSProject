@@ -23,6 +23,7 @@
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:text="JAN 2022"
                 app:fontType="medium"
+                android:textSize="@dimen/textField_12"
                 android:layout_marginBottom="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

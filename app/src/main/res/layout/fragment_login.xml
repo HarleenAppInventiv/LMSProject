@@ -13,7 +13,7 @@
 
         <import
             alias="const"
-            type="com.selflearningcoursecreationapp.utils.VALIDATION_CONST" />
+            type="com.selflearningcoursecreationapp.utils.ValidationConst" />
     </data>
 
 
@@ -34,7 +34,7 @@
             android:backgroundTint="?attr/googleButtonBackgroundColor"
             android:padding="@dimen/_12sdp"
             android:text="@string/google"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/materialButton_14"
             app:buttonBackground="none"
             app:buttonFont="medium"
             app:icon="@drawable/ic_google"
@@ -60,7 +60,7 @@
             android:text="@string/via_otp"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/materialButton_14"
             app:backgroundTint="@null"
             app:buttonBackground="none"
             app:buttonFont="medium"
@@ -90,12 +90,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="@dimen/_16sdp"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_12sdp"
                 app:changeBackgroundType="theme_src"
                 app:srcCompat="@drawable/ic_call_forgot"
 
                 />
-
 
 
             <com.hbb20.CountryCodePicker
@@ -106,26 +106,29 @@
                 android:focusable="true"
                 android:gravity="center"
                 android:visibility="gone"
-                android:layout_marginStart="@dimen/_10sdp"
                 app:ccpDialog_backgroundColor="?attr/viewBackgroundColor"
+                app:ccp_areaCodeDetectedCountry="true"
+                app:ccp_autoDetectCountry="true"
                 app:ccp_showFlag="false"
                 app:ccp_showNameCode="false"
-                app:ccp_textSize="@dimen/_16ssp" />
+                app:ccp_textSize="@dimen/textField_14" />
 
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
                 android:id="@+id/edt_login_email"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@drawable/edt_bg"
                 android:digits="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890.@_"
                 android:hint="@string/enter_phone_email"
                 android:imeOptions="actionNext"
-                android:paddingStart="@dimen/_12ssp"
                 android:inputType="textEmailAddress|textNoSuggestions"
                 android:maxLength="40"
+                android:paddingStart="@dimen/_6sdp"
+                android:paddingEnd="@dimen/_12sdp"
                 android:singleLine="true"
                 android:text="@={login.loginLiveData.email}"
+                android:textSize="@dimen/editTextField_14"
                 app:fontType="regular"
                 app:primaryIconTint="start" />
 
@@ -135,7 +138,7 @@
         <View
             android:layout_width="@dimen/_1sdp"
             android:layout_height="0dp"
-            android:layout_marginVertical="@dimen/_12sdp"
+            android:layout_marginVertical="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_40sdp"
             android:background="@color/et_dash_color"
             android:importantForAccessibility="no"
@@ -154,9 +157,10 @@
             android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:maxLength="@{const.MAX_PASSWORD_LENGTH}"
+            android:paddingStart="@dimen/_12ssp"
             android:singleLine="true"
             android:text="@={login.loginLiveData.password}"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/editTextField_14"
             app:drawableStartCompat="@drawable/ic_key_password"
             app:fontType="regular"
             app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
@@ -189,7 +193,7 @@
             android:minHeight="0dp"
             android:padding="0dp"
             android:text="@string/remember_me"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/textField_14"
 
             app:compoundFont="regular"
             app:compoundTextColor="body"
@@ -208,7 +212,7 @@
             android:text="@string/forgot_password"
             android:textAlignment="textEnd"
             android:textColor="?attr/googleButtonBackgroundColor"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/textField_14"
             app:fontType="semiBold"
             app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
             app:layout_constraintHorizontal_bias="0.0"
@@ -221,10 +225,10 @@
             spanText="@{@string/sign_in}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_20sdp"
             android:enabled="@{login.loginLiveData.dataEntered}"
             android:text="@string/sign_in"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/materialButton_14"
             app:btnEnabled="@{login.loginLiveData.dataEntered}"
             app:buttonFont="semiBold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -238,40 +242,38 @@
 
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-            android:id="@+id/guest_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:layout_marginBottom="@dimen/_15sdp"
-            android:importantForAccessibility="no"
-            android:text="@string/or_continue_as_a"
-            android:textAlignment="textEnd"
-            android:textSize="@dimen/_14ssp"
-            app:fontType="regular"
-            app:layout_constraintEnd_toStartOf="@+id/tv_guest"
-            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-            app:layout_constraintTop_toBottomOf="@+id/btn_sing_in"
-            app:layout_constraintVertical_bias="0"
-            app:textColorType="body" />
-
-        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_guest"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_6ssp"
             android:layout_marginTop="@dimen/_15sdp"
-            android:layout_marginBottom="@dimen/_15sdp"
-            android:contentDescription="@string/or_continue_as_a_guest"
-            android:text="@string/guest_user"
-            android:textSize="@dimen/_14ssp"
-            app:fontType="semiBold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
-            app:layout_constraintStart_toEndOf="@+id/guest_text"
+            android:importantForAccessibility="no"
+
+            android:text="@string/or_continue_as_a_guest"
+            android:textAlignment="center"
+            android:textSize="@dimen/textField_14"
+            app:fontType="regular"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
             app:layout_constraintTop_toBottomOf="@+id/btn_sing_in"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintWidth_percent=".45"
-            app:textColorType="theme" />
+            app:textColorType="body" />
+
+        <!--        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView-->
+        <!--            android:id="@+id/tv_guest"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="@dimen/_15sdp"-->
+        <!--            android:layout_marginBottom="@dimen/_15sdp"-->
+        <!--            android:contentDescription="@string/or_continue_as_a_guest"-->
+        <!--            android:text="@string/guest_user"-->
+        <!--            android:textSize="@dimen/textField_14"-->
+        <!--            app:fontType="semiBold"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"-->
+        <!--            app:layout_constraintStart_toEndOf="@+id/guest_text"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/btn_sing_in"-->
+        <!--            app:layout_constraintVertical_bias="0"-->
+        <!--            app:layout_constraintWidth_percent=".45"-->
+        <!--            app:textColorType="theme" />-->
 
 
         <View
@@ -305,11 +307,11 @@
             android:importantForAccessibility="no"
             android:padding="@dimen/_2sdp"
             android:text="@string/or"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/textField_14"
             app:fontType="regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/guest_text"
+            app:layout_constraintTop_toBottomOf="@+id/tv_guest"
             app:textColorType="body" />
 
         <androidx.constraintlayout.widget.Guideline

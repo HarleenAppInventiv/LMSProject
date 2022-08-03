@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-android-extensions'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -23,7 +24,7 @@ android {
         minSdk 21
         targetSdk 32
         versionCode 1
-        versionName "1.0.14"
+        versionName "1.0.26"
         vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -47,18 +48,27 @@ android {
         dataBinding = true
         viewBinding true
     }
+    lintOptions {
+        checkReleaseBuilds false
+    }
 }
 def koin_version = "3.1.5"
 dependencies {
+    def mediaVersion = "1.0.0-alpha03"
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.annotation:annotation:1.2.0'
+    implementation 'androidx.annotation:annotation:1.4.0'
     testImplementation 'junit:junit:4.+'
 //    implementation project(path: ':googleSignIn')
+    implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
+
+
+
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -76,11 +86,11 @@ dependencies {
 
 
     //Navigation Architecture
-    implementation "androidx.navigation:navigation-fragment-ktx:2.4.1"
-    implementation "androidx.navigation:navigation-ui-ktx:2.4.1"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.4.2"
+    implementation "androidx.navigation:navigation-ui-ktx:2.4.2"
 
     //coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
 
 
     // interceptor
@@ -107,10 +117,10 @@ dependencies {
 
 
     //room
-    implementation 'androidx.room:room-runtime:2.4.1'
+    implementation 'androidx.room:room-runtime:2.4.2'
 
     //splash Api
-    implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
+    implementation 'androidx.core:core-splashscreen:1.0.0-rc01'
 
     //prefrence datastore
     implementation "androidx.datastore:datastore-preferences:1.0.0"
@@ -120,9 +130,9 @@ dependencies {
     implementation "io.insert-koin:koin-android:$koin_version"
 // No more koin-android-viewmodel, koin-android-scope, koin-android-fragment
 
-// Java Compatibility
+//    Java Compatibility
 //    implementation "io.insert-koin:koin-android-compat:$koin_version"
-// Jetpack WorkManager
+//    Jetpack WorkManager
 //    implementation "io.insert-koin:koin-androidx-workmanager:$koin_version"
 // Navigation Graph
     implementation "io.insert-koin:koin-androidx-navigation:$koin_version"
@@ -151,17 +161,61 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
-    //Exo player
-    implementation 'com.google.android.exoplayer:exoplayer:2.17.1'
+//    //Exo player
+//    implementation 'com.google.android.exoplayer:exoplayer:2.17.1'
 
     //compressor
     implementation 'com.github.AbedElazizShe:LightCompressor:1.1.1'
 
-    implementation 'com.google.firebase:firebase-messaging:23.0.5'
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
 
     //gif
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
+    //screenrecording
+    implementation 'androidx.browser:browser:1.4.0'
+    implementation 'com.karumi:dexter:6.2.3'
+
+    //signalR
+    implementation 'com.microsoft.signalr:signalr:3.0.0'
+
+
+    implementation 'org.slf4j:slf4j-jdk14:1.7.25'
+
+    //exo
+    implementation "androidx.media3:media3-exoplayer:$mediaVersion"
+    implementation "androidx.media3:media3-ui:$mediaVersion"
+    implementation "androidx.media3:media3-exoplayer-dash:$mediaVersion"
+
+    def paging_version = "3.1.1"
+
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+    implementation 'com.squareup.okhttp3:mockwebserver:3.12.1'
+
+    implementation 'com.razorpay:checkout:1.6.23'
+    implementation 'com.github.everhad:AndroidRatingStar:v1.0.4'
+
+//    implementation(name: 'razorpay-amazonpay-1.3.0', ext: 'aar')
+//    implementation(name: 'PayWithAmazon', ext: 'aar')
+
+    //crash analytics
+    implementation platform('com.google.firebase:firebase-bom:30.3.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+
+    def camerax_version = "1.1.0-beta01"
+    implementation "androidx.camera:camera-core:${camerax_version}"
+    implementation "androidx.camera:camera-camera2:${camerax_version}"
+    implementation "androidx.camera:camera-lifecycle:${camerax_version}"
+
+    implementation "androidx.camera:camera-view:${camerax_version}"
+
+    implementation("org.greenrobot:eventbus:3.3.1")
+
+    // pdfview
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+
+
 
 
 }

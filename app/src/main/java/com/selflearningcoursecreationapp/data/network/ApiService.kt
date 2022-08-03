@@ -2,13 +2,17 @@ package com.selflearningcoursecreationapp.data.network
 
 import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.models.*
-import com.selflearningcoursecreationapp.models.course.CourseData
-import com.selflearningcoursecreationapp.models.course.ImageResponse
+import com.selflearningcoursecreationapp.models.course.*
 import com.selflearningcoursecreationapp.models.course.quiz.QuizData
 import com.selflearningcoursecreationapp.models.course.quiz.QuizQuestionData
+import com.selflearningcoursecreationapp.models.course.quiz.QuizReportData
 import com.selflearningcoursecreationapp.models.masterData.MasterDataItem
+import com.selflearningcoursecreationapp.models.rewardPoints.RewardPointResponse
 import com.selflearningcoursecreationapp.models.user.UserProfile
 import com.selflearningcoursecreationapp.models.user.UserResponse
+import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.FilterResponse
+import com.selflearningcoursecreationapp.ui.course_details.model.AddReviewRequestModel
+import com.selflearningcoursecreationapp.ui.course_details.ratings.model.GetReviewsRequestModel
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
@@ -41,19 +45,19 @@ interface ApiService {
     @POST(ApiEndPoints.API_LOGIN)
     suspend fun loginUser(@Body body: Any): Response<BaseResponse<UserResponse>>
 
-    @POST(ApiEndPoints.API_SAVE_PREFRENCE)
-    suspend fun savePrefrence(@Body body: Any): Response<BaseResponse<Any>>
+    @POST(ApiEndPoints.API_SAVE_PREFERENCES)
+    suspend fun savePreferences(@Body body: Any): Response<BaseResponse<Any>>
 
 
     @GET(ApiEndPoints.API_GET_CATEGORIES)
     suspend fun getCategories(): Response<BaseResponse<CategoryResponse>>
 
 
-    @GET(ApiEndPoints.API_MYCATEGORIES)
+    @GET(ApiEndPoints.API_MY_CATEGORIES)
     suspend fun myCategories(): Response<BaseResponse<CategoryResponse>>
 
 
-    @GET(ApiEndPoints.API_GETTHEME_LIST)
+    @GET(ApiEndPoints.API_GET_THEME_LIST)
     suspend fun getThemeList(): Response<BaseResponse<CategoryResponse>>
 
 
@@ -198,7 +202,7 @@ interface ApiService {
     suspend fun deleteAssessmentQues(
         @Query("courseId") courseId: Int?,
         @Query("AssessmentId") sectionId: Int?,
-        @Query("questionId") questionId: Int?
+        @Query("questionId") questionId: Int?,
     ): Response<BaseResponse<Any>>
 
     @GET(ApiEndPoints.API_ADD_QUIZ)
@@ -210,14 +214,14 @@ interface ApiService {
     @GET(ApiEndPoints.API_ADD_ASSESSMENT)
     suspend fun getAssessmentQues(
 
-        @Query("AssessmentId") quizId: Int?
+        @Query("AssessmentId") quizId: Int?,
     ): Response<BaseResponse<QuizData>>
 
     @DELETE(ApiEndPoints.API_ADD_ASSESSMENT)
     suspend fun deleteAssessment(
 
         @Query("AssessmentId") assessmentId: Int?,
-        @Query("CourseId") courseId: Int?
+        @Query("CourseId") courseId: Int?,
     ): Response<BaseResponse<QuizData>>
 
 
@@ -229,13 +233,13 @@ interface ApiService {
     suspend fun saveAssessmentAns(@Body body: RequestBody?): Response<BaseResponse<Any>>
 
 
-    @POST(ApiEndPoints.API_ADD_SECTION_POST)
+    @POST(ApiEndPoints.API_ADD_SECTION)
     suspend fun addSection(@Body body: Any): Response<BaseResponse<SectionModel>>
 
-    @PATCH(ApiEndPoints.API_ADD_SECTION_PATCH)
+    @PATCH(ApiEndPoints.API_ADD_SECTION)
     suspend fun addPatchSection(@Body body: Any): Response<BaseResponse<SectionModel>>
 
-    @DELETE(ApiEndPoints.API_SECTION_DELETE)
+    @DELETE(ApiEndPoints.API_ADD_SECTION)
     suspend fun deleteSection(
         @Query("CourseId") courseId: String,
         @Query("SectionId") sectionId: String,
@@ -316,6 +320,95 @@ interface ApiService {
     @POST(ApiEndPoints.API_COAUTHOR_INVITATION)
     suspend fun manageCoAuthorInvitation(@Body body: Any): Response<BaseResponse<UserProfile>>
 
+    @GET(ApiEndPoints.API_HOME_ALL_CATEGORIES)
+    suspend fun getHomeAllCategories(): Response<BaseResponse<HomeAllCategoryResponse>>
 
+    @GET(ApiEndPoints.API_HOME_FILTERS)
+    suspend fun getHomeFilters(): Response<BaseResponse<FilterResponse>>
+
+    @POST(ApiEndPoints.API_ALL_COURSES)
+    suspend fun getAllCourses(
+        @Body search: RequestBody?,
+    ): Response<BaseResponse<AllCoursesResponse>>
+
+    @POST(ApiEndPoints.API_GUEST_ALL_COURSES)
+    suspend fun getAllGuestCourses(
+        @Body search: RequestBody?,
+    ): Response<BaseResponse<AllCoursesResponse>>
+
+    @POST(ApiEndPoints.API_HOME_COURSES)
+    suspend fun homeCourses(@Body body: RequestBody?): Response<BaseResponse<ArrayList<CourseTypeModel>>>
+
+    @POST(ApiEndPoints.API_HOME_GUESTCOURSES)
+    suspend fun guestHomeCourses(@Body body: RequestBody?): Response<BaseResponse<ArrayList<CourseTypeModel>>>
+
+    @GET(ApiEndPoints.API_HOME_TAB_CATE)
+    suspend fun homeTabCate(): Response<BaseResponse<ArrayList<CategoryData>>>
+
+    @POST(ApiEndPoints.API_WISHLIST)
+    suspend fun addWishlist(@Body body: Any): Response<BaseResponse<UserProfile>>
+
+    @GET(ApiEndPoints.API_COURSE_DETAILS)
+    suspend fun getCourseDetails(@Query("CourseId") courseId: Int?): Response<BaseResponse<CourseData>>
+
+    @GET(ApiEndPoints.API_HOME_WISHLIST)
+    suspend fun getWishListData(@QueryMap map: HashMap<String, Any>): Response<BaseResponse<WishListResponse>>
+
+    @GET(ApiEndPoints.API_COURSE_QUIZ)
+    suspend fun getQuizData(@Query("QuizId") quizId: Int?): Response<BaseResponse<QuizData>>
+
+
+    @GET(ApiEndPoints.API_COURSE_SECTIONS)
+    suspend fun getViewCourseSections(@Query("CourseId") courseId: Int?): Response<BaseResponse<ArrayList<SectionModel>>>
+
+
+    @POST(ApiEndPoints.API_PURCHASE_COURSE)
+    suspend fun purchaseCourse(@Body body: Any): Response<BaseResponse<OrderData>>
+
+
+    @POST(ApiEndPoints.API_RAZORPAY_COURSE)
+    suspend fun buyRazorPayCourse(@Body body: Any): Response<BaseResponse<OrderData>>
+
+
+    @POST(ApiEndPoints.API_ALL_COURSES)
+    suspend fun getOnGoingCourses(
+        @Body body: Any?,
+    ): Response<BaseResponse<AllCoursesResponse>>
+
+    @POST(ApiEndPoints.API_ADD_REVIEW)
+    suspend fun getAddReview(@Body data: AddReviewRequestModel): Response<BaseResponse<Any>>
+
+    @POST(ApiEndPoints.API_GET_REVIEW)
+    suspend fun getReviewList(@Body data: GetReviewsRequestModel): Response<BaseResponse<WishListResponse>>
+
+    @POST(ApiEndPoints.API_REWARDS_POINTS)
+    suspend fun getRewardList(@Body data: GetReviewsRequestModel): Response<BaseResponse<RewardPointResponse>>
+
+    @POST(ApiEndPoints.API_SUBMIT_COURSE_QUIZ)
+    suspend fun submitTestQuiz(
+        @Body data: RequestBody?,
+    ): Response<BaseResponse<QuizReportData>>
+
+
+    @GET(ApiEndPoints.API_REVIEW_FILTERS)
+    suspend fun getReviewFilters(@Query("courseId") courseId: String): Response<BaseResponse<FilterResponse>>
+
+    @GET(ApiEndPoints.API_CERTIFICATE)
+    suspend fun getCertificate(@Query("courseId") courseId: String): Response<BaseResponse<UserProfile>>
+
+    @GET(ApiEndPoints.API_ASSESSMENT_DETAIL)
+    suspend fun assessmentdetail(@Query("courseId") courseId: String): Response<BaseResponse<ContentAssessmentData>>
+
+    @GET(ApiEndPoints.API_ASSESSMENT)
+    suspend fun assessmentList(@Query("courseId") courseId: String): Response<BaseResponse<QuizData>>
+
+    @POST(ApiEndPoints.API_ASSESSMENT_SUBMIT)
+    suspend fun assessmentListSubmit(@Body data: RequestBody?): Response<BaseResponse<QuizReportData>>
+
+    @GET(ApiEndPoints.API_ASSESSMENT_REPORT)
+    suspend fun assessmentReport(@Query("attemptedId") attemptedId: String): Response<BaseResponse<AssessmentReportData>>
+
+    @GET(ApiEndPoints.API_ASSESSMENT_REPORT_STATUS)
+    suspend fun assessmentReportStatus(@QueryMap map: HashMap<String, Any>): Response<BaseResponse<QuizData>>
 }
 

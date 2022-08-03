@@ -22,8 +22,10 @@
             <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                 android:id="@+id/iv_header"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_120sdp"
+                android:maxHeight="@dimen/_120sdp"
                 android:layout_margin="@dimen/_20sdp"
+                app:layout_constraintHeight_default="wrap"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_payment_done"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -54,9 +56,8 @@
                         android:drawablePadding="@dimen/_5sdp"
                         android:gravity="center_vertical"
                         android:text="16789.56"
-                        android:textColor="@color/accent_color_FFB800"
-                        android:textSize="@dimen/_28ssp"
-                        app:drawableStartCompat="@drawable/ic_rewards_points_xlarge"
+                        android:textColor="@color/accent_color_fc6d5b"
+                        android:textSize="@dimen/textField_28"
                         app:fontType="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -70,7 +71,9 @@
                         android:layout_height="wrap_content"
                         android:text="@string/payment_received_from"
                         app:fontType="medium"
-                        android:textSize="@dimen/_12ssp"
+                        android:textSize="@dimen/textField_12"
+                        android:visibility="gone"
+
                         app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
                         app:layout_constraintEnd_toStartOf="@+id/iv_profile"
                         app:layout_constraintStart_toStartOf="@+id/tv_trans_title"
@@ -83,7 +86,7 @@
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:background="@drawable/grey_stroked_bg"
                         android:importantForAccessibility="no"
-
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/iv_profile"
@@ -92,28 +95,30 @@
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/iv_profile"
-                        android:layout_width="@dimen/_28sdp"
-                        android:layout_height="@dimen/_28sdp"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:padding="@dimen/_5sdp"
+                        android:src="@drawable/ic_bank_icon"
                         android:scaleType="fitXY"
-                        android:src="@drawable/ic_course_dummy"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toStartOf="@+id/tv_name"
                         app:layout_constraintStart_toEndOf="@+id/tv_rec_title"
                         app:layout_constraintTop_toBottomOf="@+id/tv_rewards"
                         app:shapeAppearanceOverlay="@style/circleImage" />
 
                     <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:textSize="@dimen/textField_12"
                         android:id="@+id/tv_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_15sdp"
                         android:ellipsize="end"
                         android:singleLine="true"
+                        android:visibility="gone"
                         android:text="Manish Malhotra"
-                        android:textSize="@dimen/_12ssp"
+                        tools:ignore="DuplicateIncludedIds"
                         app:fontType="medium"
                         app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -121,12 +126,25 @@
                         app:layout_constraintTop_toTopOf="@+id/iv_profile"
                         app:textColorType="body" />
 
+                    <View
+                        android:id="@+id/view2"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_1sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:background="?attr/lineColor"
+                        android:importantForAccessibility="no"
+
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/guideline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.5" />
+                        app:layout_constraintGuide_percent="0.4" />
 
 
                     <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
@@ -134,13 +152,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_15sdp"
-                        android:layout_marginTop="@dimen/_35sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:text="@string/transaction_id"
                         app:layout_constraintEnd_toEndOf="@+id/guideline"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/iv_profile"
-                        android:textSize="@dimen/_14ssp"
+                        android:textSize="@dimen/textField_14"
+                        app:layout_constraintTop_toBottomOf="@+id/view2"
                         app:fontType="regular"
                         app:textColorType="secondary" />
 
@@ -152,7 +170,7 @@
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_15sdp"
                         android:text="4657DFD5868"
-                        android:textSize="@dimen/_14ssp"
+                        android:textSize="@dimen/textField_14"
                         android:textAlignment="viewEnd"
                         app:fontType="medium"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -174,10 +192,12 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:text="@string/order_id"
-                        android:textSize="@dimen/_14ssp"
+                        android:layout_marginStart="@dimen/_15sdp"
                         app:fontType="regular"
+                        android:textSize="@dimen/textField_14"
+
                         app:layout_constraintEnd_toEndOf="@+id/guideline"
-                        app:layout_constraintStart_toStartOf="@+id/tv_trans_title"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/transBarrier"
                         app:textColorType="secondary" />
 
@@ -190,8 +210,10 @@
                         android:text="#A342HFTD"
                         android:textAlignment="viewEnd"
                         app:fontType="medium"
-                        android:textSize="@dimen/_14ssp"
-                        app:layout_constraintEnd_toEndOf="@+id/tv_transId"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:textSize="@dimen/textField_14"
+
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/guideline"
                         app:layout_constraintTop_toTopOf="@+id/tv_order_title"
                         app:textColorType="secondary" />
@@ -210,10 +232,10 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:text="@string/_time"
-                        android:textSize="@dimen/_14ssp"
+                        android:textSize="@dimen/textField_14"
                         app:fontType="regular"
                         app:layout_constraintEnd_toEndOf="@+id/guideline"
-                        app:layout_constraintStart_toStartOf="@id/tv_trans_title"
+                        app:layout_constraintStart_toStartOf="@id/tv_order_title"
                         app:layout_constraintTop_toBottomOf="@+id/idBarrier"
                         app:textColorType="secondary" />
 
@@ -224,10 +246,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:text="Feb 12, 2022"
-                        android:textSize="@dimen/_14ssp"
+                        android:textSize="@dimen/textField_14"
                         android:textAlignment="viewEnd"
                         app:fontType="medium"
-                        app:layout_constraintEnd_toEndOf="@+id/tv_transId"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_orderId"
                         app:layout_constraintStart_toStartOf="@+id/guideline"
                         app:layout_constraintTop_toTopOf="@+id/tv_time_title"
                         app:textColorType="secondary" />
@@ -260,23 +282,24 @@
                         android:text="@string/payment_status"
 
                         android:textAllCaps="true"
-                        android:textSize="@dimen/_12ssp"
+                        android:layout_marginStart="@dimen/_8sdp"
                         app:fontType="semiBold"
+                        android:textSize="@dimen/textField_12"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/tv_trans_title"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/view" />
 
                     <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                         android:id="@+id/tv_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:background="@color/price_bg_color"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:background="@drawable/rounded_corner_white_80"
                         android:drawablePadding="@dimen/_5sdp"
                         android:padding="@dimen/_3sdp"
                         android:text="Success"
                         android:textColor="@color/accent_color_2FBF71"
-                        android:textSize="@dimen/_10ssp"
+                        android:textSize="@dimen/adapterTextField_10"
                         app:fontType="medium"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_revenue"
                         app:layout_constraintEnd_toStartOf="@+id/bt_invoice"
@@ -291,13 +314,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_15sdp"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_15sdp"
+                        android:layout_marginBottom="@dimen/_8sdp"
                         android:padding="0dp"
                         android:paddingHorizontal="@dimen/_10sdp"
                         android:paddingStart="@dimen/_10sdp"
                         android:paddingEnd="@dimen/_10sdp"
                         android:text="@string/invoice"
-                        android:textSize="@dimen/_10ssp"
+                        android:textSize="@dimen/adapterTextField_10"
                         app:fontType="bold"
                         app:icon="@drawable/ic_download_small"
                         app:iconGravity="textStart"
@@ -336,6 +359,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/_12sdp"
                         android:text="@string/order_details"
+                        android:textSize="@dimen/textField_12"
                         app:fontType="semiBold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

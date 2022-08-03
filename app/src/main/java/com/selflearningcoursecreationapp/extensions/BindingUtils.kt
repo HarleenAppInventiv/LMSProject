@@ -5,6 +5,7 @@ import android.text.style.LocaleSpan
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.BindingAdapter
 import com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
 import java.util.*
@@ -19,8 +20,13 @@ fun TextView.setSpanText(txt: String?) {
 
 @BindingAdapter(value = ["btnEnabled", "typeSecondary"], requireAll = false)
 fun LMSMaterialButton.setBtnEnabled(value: Boolean, typeSecondary: Boolean = false) {
-    showLog("BUTTTON_DISABLED", "${text} >> ${typeSecondary}")
-    setBtnDisabled(value, typeSecondary)
+    showLog("BUTTON_DISABLED", "$text >> $typeSecondary .... value >> $value")
+    if (typeSecondary) {
+        setSecondaryBtnDisabled(value)
+
+    } else {
+        setBtnDisabled(value, typeSecondary)
+    }
 }
 
 @BindingAdapter("doEnable")
@@ -50,4 +56,61 @@ fun EditText.doEnable(isEnable: Boolean) {
 
 }
 
+@BindingAdapter(value = ["htmlString", "count"], requireAll = false)
+fun TextView.setLimitedText(data: String?, lines: Int? = 9) {
+    if (data.isNullOrEmpty()) {
+        text = ""
+    } else {
+        setSpanString(SpannableString(data))
+
+        var textCount = lineCount
+        if (textCount > lines ?: 9) {
+            textCount = lines ?: 9
+
+
+            val linesList: ArrayList<CharSequence> = ArrayList()
+
+            for (i in 0 until textCount) {
+                val start = getLayout().getLineStart(i)
+                val end = getLayout().getLineEnd(i)
+                val substring: CharSequence = getText().subSequence(start, end)
+                linesList.add(substring.toString())
+            }
+            linesList.add("...")
+            text = linesList.joinToString(" ")
+        }
+    }
+
+
+}
+
+@BindingAdapter(value = ["wordLimit"], requireAll = false)
+fun EditText.setWordLimit(limit: Int = 100) {
+
+
+    doOnTextChanged { input, start, before, count ->
+        if (!input.isNullOrEmpty()) {
+            val list = input.toString().split(" ")
+            var count = 0
+//            for (i in 0 until list.size)
+//            {
+//                if (i<100)
+//                {
+//                    count+=list[i].length
+//                    count+=1
+//                }else{
+//                    break
+//                }
+//            }
+            if (list.size > limit) {
+                setText(list.dropLast(list.size - limit).joinToString(" ").toString())
+                setSelection(text.length)
+            }
+//            val newText= data?.substring(0,count)
+
+        }
+    }
+
+
+}
 

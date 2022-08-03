@@ -22,7 +22,7 @@
 
                 android:lineSpacingExtra="6sp"
                 android:paddingHorizontal="@dimen/_10sdp"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/toolbar_16"
                 android:paddingTop="@dimen/_16sdp"
                 android:paddingBottom="@dimen/_16sdp"
                 android:text="@string/edit_profile"

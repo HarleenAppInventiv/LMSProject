@@ -1,6 +1,7 @@
 package com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture
 
 import android.annotation.SuppressLint
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -11,7 +12,7 @@ import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterSectionViewBinding
 import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.utils.Constant
-import com.selflearningcoursecreationapp.utils.MEDIA_TYPE
+import com.selflearningcoursecreationapp.utils.MediaType
 import java.util.*
 
 class AddSectionAdapter(
@@ -20,19 +21,21 @@ class AddSectionAdapter(
     private var isCreator: Boolean,
     private var courseCreatorId: Int,
 ) :
-    BaseAdapter<AdapterSectionViewBinding>() {
+    BaseAdapter<AdapterSectionViewBinding>(), View.OnTouchListener {
     override fun getLayoutRes() = R.layout.adapter_section_view
 
-    @SuppressLint("DefaultLocale")
+    @SuppressLint("DefaultLocale", "NotifyDataSetChanged")
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val binding = holder.binding as AdapterSectionViewBinding
         val context = binding.root.context
         val data = sectionData[position]
         val doEnable = isCreator || userId == data.sectionCreatedById
-        binding.lecture = sectionData[position]
 
+        binding.lecture = sectionData[position]
         binding.doEnable = doEnable
         binding.executePendingBindings()
+        binding.etSectionDesc.setOnTouchListener(this)
+        binding.etSectionTitle.setOnTouchListener(this)
         binding.logoGroup.visibleView(courseCreatorId != data.sectionCreatedById)
         binding.ivUserImage.loadImage(
             data.sectionCreatedByProfileURL,
@@ -61,26 +64,25 @@ class AddSectionAdapter(
         binding.etSectionTitle.doOnTextChanged { _, _, _, _ ->
             onItemClick(Constant.CLICK_TEXT_CHANGES, position)
         }
-
+//var millis= sectionData.get()
 
         var millis: Long = 0
         sectionData[position].lessonList.forEach {
-            millis += if (/*!it.lectureContentDuration?.toLongOrNull().isNullOrZero() &&*/ it.mediaType != MEDIA_TYPE.QUIZ) {
-                it.lectureContentDuration?.toLongOrNull()?.div(10000) ?: 0
+            millis += if (it.mediaType != MediaType.QUIZ) {
+                it.lectureContentDuration ?: 0
             } else {
-                it.lectureContentDuration?.toLongOrNull() ?: 0
+                it.lectureContentDuration ?: 0
             }
         }
-        binding.tvTotalTime.text = context.getTime(millis)
+        binding.tvTotalTime.text = millis.getTime(context, true, true)
 
         binding.tvSectionNumber.text =
             String.format(binding.root.context.getString(R.string.section), position + 1)
-        val count: String =
-            context.getQuantityString(
-                R.plurals.lecture_quantity,
-                sectionData[position].lessonList.size
-            )
-        binding.tvLectureNumber.text = count
+
+        binding.tvLectureNumber.text = context.getQuantityString(
+            R.plurals.lecture_quantity,
+            sectionData[position].lessonList.size
+        )
 
         binding.llChild.visibleView(sectionData[position].isVisible)
         binding.group.visibleView(!sectionData[position].isVisible && !data.lessonList.isNullOrEmpty())
@@ -117,19 +119,20 @@ class AddSectionAdapter(
             isVisible = sectionData[position].lessonList.isEmpty()
                 .not() && sectionData[position].uploadLesson
 
-            setOnClickListener {
-                notifyDataSetChanged()
+
+        }
+
+        binding.btSave
+            .setOnClickListener {
+//            notifyDataSetChanged()
 
                 onItemClick(
-
                     Constant.CLICK_SAVE,
                     position,
                     binding.etSectionTitle.content(),
                     binding.etSectionDesc.content()
                 )
             }
-        }
-
 
         binding.btUpload.setOnClickListener {
 
@@ -141,13 +144,13 @@ class AddSectionAdapter(
 
     }
 
-    fun lectureFunctionality(
+    private fun lectureFunctionality(
         position: Int,
         binding: AdapterSectionViewBinding,
         holder: BaseViewHolder,
         data: SectionModel
     ) {
-        if (!sectionData[position].lessonList.isEmpty()) {
+        if (sectionData[position].lessonList.isNotEmpty()) {
             binding.rvLecture.visible()
             val touchHelper = object : TouchHelper() {
                 override fun onMove(
@@ -204,16 +207,4 @@ class AddSectionAdapter(
 
     override fun getItemCount() = sectionData.size
 
-    fun setTimer(milliSeconds: Long) {
-        val s: Long = milliSeconds / 1000 % 60
-        val m: Long = milliSeconds / (1000 * 60) % 60
-        val h: Long = milliSeconds / (1000 * 60 * 60) % 24
-        if (h > 0) {
-            val myTime = String.format("%02d:%02d:%02d", h, m, s)
-            binding.tvTotalTime.text = myTime + " Hr"
-        } else {
-            val myTime = String.format("%02d:%02d", m, s)
-            binding.tvTotalTime.text = myTime + " Min"
-        }
-    }
 }

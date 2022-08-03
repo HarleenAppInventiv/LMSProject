@@ -28,4 +28,8 @@ class WalletFragment : BaseFragment<FragmentEarningBinding>() {
         binding.rvList.adapter = WalletAdapter()
     }
 
+    override fun onApiRetry(apiCode: String) {
+
+    }
+
 }

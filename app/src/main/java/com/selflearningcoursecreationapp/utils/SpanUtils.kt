@@ -9,6 +9,7 @@ import android.text.Spanned
 import android.text.TextPaint
 import android.text.style.ClickableSpan
 import android.text.style.LocaleSpan
+import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.util.TypedValue
 import android.view.View
@@ -34,6 +35,7 @@ class SpanUtils {
         private var startPos: Int = 0
         private var isUnderline: Boolean = false
         private var endPos: Int = message.length
+        private var size: Float = 1f
         private var onClick: () -> Unit = {}
 
         fun isBold(): Builder {
@@ -41,13 +43,13 @@ class SpanUtils {
             return this
         }
 
-        fun isUnderline(): Builder {
-            isUnderline = true
+        fun setSpannedTextSize(size: Float = 1f): Builder {
+            this.size = size
             return this
         }
 
-        fun attrColor(color: Int): Builder {
-            attrColor = color
+        fun isUnderline(): Builder {
+            isUnderline = true
             return this
         }
 
@@ -113,6 +115,7 @@ class SpanUtils {
                 )
             }
             ss.setSpan(LocaleSpan(Locale.getDefault()), 0, ss.length, 0)
+            ss.setSpan(RelativeSizeSpan(size), startPos, endPos, 0)
 
             ss.setSpan(clickableSpan, startPos, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             return ss

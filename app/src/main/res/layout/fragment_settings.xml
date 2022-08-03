@@ -8,6 +8,10 @@
         <variable
             name="handleClick"
             type="com.selflearningcoursecreationapp.utils.HandleClick" />
+
+        <variable
+            name="setting"
+            type="com.selflearningcoursecreationapp.ui.bottom_more.settings.SettingsFragment" />
     </data>
 
     <ScrollView
@@ -21,7 +25,7 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="@dimen/_15sdp">
 
@@ -34,8 +38,8 @@
             android:drawablePadding="@dimen/_10sdp"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:paddingTop="@dimen/_10sdp"
-            android:paddingBottom="@dimen/_33sdp"
-            android:textSize="@dimen/_14ssp"
+            android:paddingBottom="@dimen/settingOptionVerticalPadding"
+            android:textSize="@dimen/textField_14"
             app:fontType="regular"
             android:text="@string/change_password"
             app:drawableStartCompat="@drawable/ic_key_password"
@@ -48,10 +52,10 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line_grey"
             android:drawablePadding="@dimen/_10sdp"
-            android:paddingVertical="@dimen/_30sdp"
+            android:paddingVertical="@dimen/settingOptionVerticalPadding"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
             android:text="@string/change_language"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/textField_14"
             app:fontType="regular"
             app:drawableStartCompat="@drawable/ic_world_language"
             app:primaryIconTint="start" />
@@ -64,9 +68,10 @@
             android:background="@drawable/bottom_line_grey"
             android:drawablePadding="@dimen/_10sdp"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-            android:paddingVertical="@dimen/_30sdp"
-            android:textSize="@dimen/_14ssp"
+            android:paddingVertical="@dimen/settingOptionVerticalPadding"
+            android:textSize="@dimen/textField_14"
             app:fontType="regular"
+
             android:text="@string/change_categories"
             app:drawableStartCompat="@drawable/ic_dashboard"
             app:primaryIconTint="start" />
@@ -79,8 +84,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line_grey"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-            android:paddingVertical="@dimen/_30sdp"
-            android:textSize="@dimen/_14ssp"
+            android:paddingVertical="@dimen/settingOptionVerticalPadding"
+            android:textSize="@dimen/textField_14"
             app:fontType="regular"
             android:text="@string/change_theme"
             app:drawableStartCompat="@drawable/ic_change_theme"
@@ -93,10 +98,10 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line_grey"
             android:drawablePadding="@dimen/_10sdp"
-            android:textSize="@dimen/_14ssp"
+            android:paddingVertical="@dimen/settingOptionVerticalPadding"
             app:fontType="regular"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-            android:paddingVertical="@dimen/_30sdp"
+            android:textSize="@dimen/textField_14"
             android:text="@string/change_font"
             app:drawableStartCompat="@drawable/ic_change_font"
             app:primaryIconTint="start" />
@@ -108,13 +113,13 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line_grey"
             android:drawablePadding="@dimen/_10sdp"
-            android:textSize="@dimen/_14ssp"
+            android:paddingVertical="@dimen/settingOptionVerticalPadding"
             app:fontType="regular"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-            android:paddingVertical="@dimen/_30sdp"
+            android:textSize="@dimen/textField_14"
             android:text="@string/about_us"
 
-            app:drawableStartCompat="@drawable/ic_info"
+            app:drawableStartCompat="@drawable/ic_info_white"
             app:primaryIconTint="start" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
@@ -125,10 +130,10 @@
             android:background="@drawable/bottom_line_grey"
             android:drawablePadding="@dimen/_10sdp"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-            android:paddingVertical="@dimen/_30sdp"
+            android:paddingVertical="@dimen/settingOptionVerticalPadding"
             android:text="@string/privacy_policy"
             app:drawableStartCompat="@drawable/ic_privacy_policy"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/textField_14"
             app:fontType="regular"
             app:primaryIconTint="start" />
 
@@ -136,13 +141,13 @@
             android:id="@+id/tv_support"
             spanText="@{@string/support}"
             android:layout_width="match_parent"
-            android:textSize="@dimen/_14ssp"
+            android:paddingVertical="@dimen/settingOptionVerticalPadding"
             app:fontType="regular"
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_line_grey"
             android:drawablePadding="@dimen/_10sdp"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-            android:paddingVertical="@dimen/_30sdp"
+            android:textSize="@dimen/textField_14"
             android:text="@string/support"
 
             app:drawableStartCompat="@drawable/ic_support"
@@ -156,9 +161,9 @@
             android:background="@drawable/bottom_line_grey"
             android:drawablePadding="@dimen/_10sdp"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-            android:paddingVertical="@dimen/_30sdp"
+            android:paddingVertical="@dimen/settingOptionVerticalPadding"
             android:text="@string/terms_amp_condtions"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/textField_14"
             app:fontType="regular"
             app:drawableStartCompat="@drawable/ic_security"
             app:primaryIconTint="start" />
@@ -168,12 +173,12 @@
             spanText="@{@string/help}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/_14ssp"
+            android:paddingVertical="@dimen/settingOptionVerticalPadding"
             app:fontType="regular"
             app:primaryIconTint="start"
             android:drawablePadding="@dimen/_10sdp"
             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-            android:paddingVertical="@dimen/_30sdp"
+            android:textSize="@dimen/textField_14"
             android:text="@string/help"
             app:drawableStartCompat="@drawable/ic_help" />
 

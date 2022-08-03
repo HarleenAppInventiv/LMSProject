@@ -26,7 +26,8 @@ import com.selflearningcoursecreationapp.ui.authentication.viewModel.OnBoardingV
 import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceBottomDialog
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.DialogType
-import com.selflearningcoursecreationapp.utils.OTP_TYPE
+import com.selflearningcoursecreationapp.utils.OtpType
+import com.selflearningcoursecreationapp.utils.STATIC_PAGES_TYPE
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
 
 class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), BaseBottomSheetDialog.IDialogClick,
@@ -37,13 +38,13 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), BaseBottomSheetDia
         super.onViewCreated(view, savedInstanceState)
 
         init()
+
     }
 
     fun init() {
         binding.signup = viewModel
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         binding.countryCodePicker.apply {
-            setCountryForNameCode("IN")
             setOnCountryChangeListener(this@SignUpFragment)
         }
         viewModel.signUpLiveData.value?.countryCode =
@@ -72,20 +73,18 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), BaseBottomSheetDia
         response?.let {
 
             if (apiCode == ApiEndPoints.API_SIGNUP) {
-                val result = response?.resource as? UserProfile
+                val result = response.resource as? UserProfile
                 result?.let {
                     findNavController().navigate(
                         LoginSignUpFragmentDirections.actionLoginSignUpFragmentToOTPVerifyFragment(
                             phone = binding.edtRegPhone.content(),
                             email = "",
-                            type = OTP_TYPE.TYPE_SIGNUP,
+                            type = OtpType.TYPE_SIGNUP,
                             countryCode = binding.countryCodePicker.selectedCountryCodeWithPlus
                         )
                     )
                 }
             }
-
-
         }
     }
 
@@ -96,10 +95,11 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), BaseBottomSheetDia
         val privacySpan = object : ClickableSpan() {
             override fun onClick(p0: View) {
                 viewModel.isMovedToPrivacy = true
-                var action =
+                val action =
                     LoginSignUpFragmentDirections.actionLoginSignUpFragmentToPrivacyFragment(
-                        baseActivity.getString(R.string.privacy_policy),
-                        ApiEndPoints.LINK_PRIVECY_POL
+//                        baseActivity.getString(R.string.privacy_policy),
+//                        ApiEndPoints.LINK_PRIVACY_POL
+                        STATIC_PAGES_TYPE.PRIVACY
                     )
                 findNavController().navigate(action)
 
@@ -116,10 +116,11 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), BaseBottomSheetDia
         val termsSpan = object : ClickableSpan() {
             override fun onClick(p0: View) {
                 viewModel.isMovedToPrivacy = true
-                var action =
+                val action =
                     LoginSignUpFragmentDirections.actionLoginSignUpFragmentToPrivacyFragment(
-                        baseActivity.getString(R.string.terms_amp_conditions),
-                        ApiEndPoints.LINK_TERM_COND
+//                        baseActivity.getString(R.string.terms_amp_conditions),
+//                        ApiEndPoints.LINK_TERM_COND
+                        STATIC_PAGES_TYPE.TERMS
                     )
                 findNavController().navigate(action)
 
@@ -150,8 +151,9 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), BaseBottomSheetDia
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("signup", "onDestroy: sdfs")
+        Log.d("signup", "onDestroy: ")
     }
+
 
     override fun onDialogClick(vararg items: Any) {
         if (items.isNotEmpty()) {
@@ -171,6 +173,10 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), BaseBottomSheetDia
     override fun onCountrySelected() {
         viewModel.signUpLiveData.value?.countryCode =
             binding.countryCodePicker.selectedCountryCodeWithPlus
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
     }
 
 

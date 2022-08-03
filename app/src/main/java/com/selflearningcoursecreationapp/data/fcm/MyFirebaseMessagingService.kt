@@ -11,6 +11,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.media.RingtoneManager
+import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.util.Log
@@ -32,9 +33,6 @@ import java.net.URL
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     var token = ""
-    private val TAG = "FireBaseMessagingService"
-    var NOTIFICATION_CHANNEL_ID = "SLCCnotification"
-    val NOTIFICATION_ID = 100
 
     @SuppressLint("WrongThread")
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
@@ -45,9 +43,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             bundle.putString(key, value)
 
         }
-        Log.d("varun", "onMessageReceived: ${remoteMessage.data.get("title")}")
+        Log.d("varun", "onMessageReceived: ${remoteMessage.data["title"]}")
 
-        if (ProcessLifecycleOwner.get().getLifecycle().getCurrentState()
+        if (ProcessLifecycleOwner.get().lifecycle.currentState
                 .isAtLeast(Lifecycle.State.STARTED)
         ) {
 
@@ -55,7 +53,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val intent = Intent(ACTION_NOTIFICATION_BROADCAST)
             intent.putExtras(bundle)
             LocalBroadcastManager.getInstance(SelfLearningApplication.applicationContext())
-                .sendBroadcast(intent);
+                .sendBroadcast(intent)
         } else {
             Log.d("varun", "onMessageReceived:false")
             generateNotification(applicationContext, bundle)
@@ -64,7 +62,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
 
-    @SuppressLint("InvalidWakeLockTag")
+    @SuppressLint("InvalidWakeLockTag", "UnspecifiedImmutableFlag")
     fun generateNotification(context: Context, extra: Bundle) {
         val message = extra.get("body") as String?
 
@@ -82,7 +80,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         mBuilder.setSound(notifySound)
         val vibrate = longArrayOf(0, 100, 200, 300)
         mBuilder.setVibrate(vibrate)
-        mBuilder.setAutoCancel(true);
+        mBuilder.setAutoCancel(true)
 
         val resultIntent = Intent(context, HomeActivity::class.java)
         try {
@@ -104,12 +102,21 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 //            PendingIntent.FLAG_UPDATE_CURRENT
 //        }
 
-        val resultPendingIntent = PendingIntent.getActivity(
-            this,
-            0,
-            resultIntent,
-            PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
+        val resultPendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getActivity(
+                this,
+                0,
+                resultIntent,
+                PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
+        } else {
+            PendingIntent.getActivity(
+                this,
+                0,
+                resultIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
+        }
 
         mBuilder.setWhen(System.currentTimeMillis())
         mBuilder.setContentIntent(resultPendingIntent)
@@ -124,7 +131,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         wl?.acquire(1000)
         val mNotificationManager = context
             .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             @SuppressLint("WrongConstant") val chan1 = NotificationChannel(
                 NOTIFICATION_CHANNEL_ID,
                 "notification_channel_default", NotificationManager.IMPORTANCE_DEFAULT
@@ -136,7 +143,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
 
         if (extra.containsKey("image-url")) {
-            val bitmap: Bitmap? = getBitmapfromUrl(extra.get("image-url") as String?)
+            val bitmap: Bitmap? = getBitmapFromUrl(extra.get("image-url") as String?)
             mBuilder.setStyle(
                 NotificationCompat.BigPictureStyle()
                     .bigPicture(bitmap)
@@ -147,7 +154,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         mNotificationManager.notify(0, mBuilder.build())
     }
 
-    fun getBitmapfromUrl(imageUrl: String?): Bitmap? {
+    private fun getBitmapFromUrl(imageUrl: String?): Bitmap? {
         return try {
             val url = URL(imageUrl)
             val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
@@ -160,6 +167,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 Log.e("awesome", "Error in getting notification image: " + e.localizedMessage)
             null
         }
+    }
+
+
+    companion object {
+        private const val NOTIFICATION_CHANNEL_ID = "SLCC_notification"
+        private const val TAG = "FireBaseMessagingService"
+
     }
 
 }

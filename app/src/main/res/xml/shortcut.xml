@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_record"
+        android:shortcutDisabledMessage="@string/shortcut_disabled_message"
+        android:shortcutId="record"
+        android:shortcutLongLabel="@string/shortcut_long_label"
+        android:shortcutShortLabel="@string/shortcut_short_label"
+        tools:targetApi="n_mr1">
+        <intent
+            android:action="com.ibashkimi.screenrecorder.TOGGLE_RECORDING"
+            android:targetClass="com.selflearningcoursecreationapp.utils.screenRecorder.MainActivity"
+            android:targetPackage="com.ibashkimi.screenrecorder" />
+    </shortcut>
+    <!-- Specify more shortcuts here. -->
+</shortcuts>

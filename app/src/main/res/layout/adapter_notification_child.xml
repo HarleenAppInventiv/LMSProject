@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/appCompatImageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginBottom="@dimen/_16sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_notification_mod_icon" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_bank_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:text="New course for audit"
+            android:textSize="@dimen/textField_14"
+            app:fontType="semiBold"
+            app:layout_constraintBottom_toTopOf="@+id/tv_bank_number"
+            app:layout_constraintStart_toEndOf="@+id/appCompatImageView3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:textColorType="black" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_bank_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Course: Basics of Algorithms and ..."
+            android:textSize="@dimen/textField_11"
+            app:fontType="medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_bank_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_bank_name"
+            app:textColorType="body" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/offWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_bank_number" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/_5sdp"
+            android:padding="@dimen/_3sdp"
+            android:text="2h ago"
+            android:textSize="@dimen/textField_10"
+            app:fontType="medium"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_bank_name"
+            app:layout_constraintEnd_toStartOf="@+id/iv_cross"
+            app:layout_constraintTop_toTopOf="@+id/tv_bank_name"
+            app:textColorType="heading" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:id="@+id/iv_cross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_15sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_status"
+            app:srcCompat="@drawable/ic_cross_grey" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

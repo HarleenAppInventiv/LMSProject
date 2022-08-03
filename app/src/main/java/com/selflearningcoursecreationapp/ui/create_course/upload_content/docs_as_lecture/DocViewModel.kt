@@ -1,5 +1,6 @@
 package com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_as_lecture
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.selflearningcoursecreationapp.base.BaseViewModel
@@ -8,9 +9,9 @@ import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.UploadContentRepo
-import com.selflearningcoursecreationapp.utils.MEDIA_TYPE
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.MediaType
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -23,24 +24,20 @@ class DocViewModel(private val repo: UploadContentRepo) : BaseViewModel() {
     var lectureId: Int? = null
     var courseId: Int? = null
     var model: SectionModel? = null
+    var contentId: String = ""
+    var uri = ""
 
-    fun addPatchLecture(
-
-        lectureTitle: String,
-        id: String,
-        contentDuration: Long,
-
-        ) =
+    private fun addPatchLecture() =
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
             map["courseId"] = courseId ?: 0
             map["sectionId"] = model?.sectionId.toString()
             map["lectureId"] = lectureId ?: -1
-            map["mediaTypeId"] = MEDIA_TYPE.DOC.toString()
-            map["lectureTitle"] = lectureTitle
-            map["lectureContentId"] = id
-            map["contentDuration"] = contentDuration
-            var response = repo.addPatchLecture(map)
+            map["mediaTypeId"] = MediaType.DOC.toString()
+            map["lectureTitle"] = docLiveData.value?.lectureTitle?.trim() ?: ""
+            map["lectureContentId"] = contentId
+            map["contentDuration"] = docLiveData.value?.lectureContentDuration ?: 0L
+            val response = repo.addPatchLecture(map)
             withContext(Dispatchers.IO) {
                 response.collect {
                     updateResponseObserver(it)
@@ -49,37 +46,30 @@ class DocViewModel(private val repo: UploadContentRepo) : BaseViewModel() {
         }
 
     fun notifyData() {
-//        courseData.value = courseData.value
         docLiveData.value?.notifyChange()
     }
 
-    fun docValidations(
-        content: String,
-        id: String,
-        contentDuration: Long,
-    ) {
+    fun docValidations() {
         docLiveData.value?.let {
             val errorId = it.isDocValid()
             if (errorId == 0) {
-                addPatchLecture(content, id, contentDuration)
+                addPatchLecture()
             } else {
                 updateResponseObserver(Resource.Error(ToastData(errorId)))
             }
         }
     }
 
-    fun uploadContent(
-        file: File,
-        duration: Int,
-    ) =
+    fun uploadContent() {
+        val file = File(Uri.parse(uri).path ?: "")
         viewModelScope.launch(coroutineExceptionHandle) {
             val response = repo.contentUpload(
                 courseId,
                 model?.sectionId,
                 lectureId ?: -1,
                 file,
-                MEDIA_TYPE.DOC,
-                duration
+                MediaType.DOC,
+                0L
             )
             withContext(Dispatchers.IO) {
                 response.collect {
@@ -87,7 +77,7 @@ class DocViewModel(private val repo: UploadContentRepo) : BaseViewModel() {
                 }
             }
         }
-
+    }
 
     fun getLectureDetail() = viewModelScope.launch(coroutineExceptionHandle) {
 
@@ -98,5 +88,19 @@ class DocViewModel(private val repo: UploadContentRepo) : BaseViewModel() {
             }
         }
 
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        when (apiCode) {
+            ApiEndPoints.API_GET_LECTURE_DETAIL -> {
+                getLectureDetail()
+            }
+            ApiEndPoints.API_CONTENT_UPLOAD -> {
+                uploadContent()
+            }
+            ApiEndPoints.API_ADD_LECTURE_PATCH -> {
+                docValidations()
+            }
+        }
     }
 }

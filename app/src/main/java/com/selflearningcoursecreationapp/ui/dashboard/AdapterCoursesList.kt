@@ -80,7 +80,7 @@ class AdapterCoursesList : BaseAdapter<AdapterMyCourseBinding>() {
 
 
         val msg =
-            SpanUtils.with(context, "10m left in lesson").endPos(8).themeColor().getSpanString()
+            SpanUtils.with(context, "10m left in lesson_no").endPos(8).themeColor().getSpanString()
 
         binding.tvDuration.setSpanString(msg)
 

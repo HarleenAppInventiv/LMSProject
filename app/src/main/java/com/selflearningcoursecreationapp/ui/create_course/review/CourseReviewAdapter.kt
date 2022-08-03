@@ -1,13 +1,14 @@
 package com.selflearningcoursecreationapp.ui.create_course.review
 
+import android.annotation.SuppressLint
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterSectionReviewBinding
 import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel
-import com.selflearningcoursecreationapp.utils.MEDIA_TYPE
 
+@SuppressLint("NotifyDataSetChanged")
 class CourseReviewAdapter(
     private var list: ArrayList<SectionModel>, private var courseCreatorId: Int
 ) : BaseAdapter<AdapterSectionReviewBinding>() {
@@ -29,13 +30,13 @@ class CourseReviewAdapter(
         binding.tvDescription.text = data.sectionDescription
         var millis: Long = 0
         data.lessonList.forEach {
-            if (it.mediaType != MEDIA_TYPE.QUIZ) {
-                millis += it.lectureContentDuration?.toLongOrNull()?.div(10000) ?: 0
-            } else {
-                millis += it.lectureContentDuration?.toLongOrNull() ?: 0
-            }
+//            millis += if (it.mediaType != MediaType.QUIZ) {
+//                it.lectureContentDuration?.div(10000) ?: 0
+//            } else {
+            millis += it.lectureContentDuration ?: 0
+//            }
         }
-        binding.tvTotalTime.text = context.getTime(millis)
+        binding.tvTotalTime.text = millis.getTime(context)
         if (data.isVisible) {
             binding.ivVisible.setImageResource(R.drawable.ic_arrow_top)
             binding.llChild.visible()
@@ -63,7 +64,7 @@ class CourseReviewAdapter(
 
         }
 
-        binding.rvLecture.adapter = LectureViewAdapter(data.lessonList, false).apply {
+        binding.rvLecture.adapter = LectureViewAdapter(data.lessonList).apply {
             setOnAdapterItemClickListener(object : IViewClick {
                 override fun onItemClick(vararg items: Any) {
                     if (items.isNotEmpty()) {

@@ -53,7 +53,7 @@ object PathParserCompat {
         return path
     }
 
-    fun createPathFromPathData(path: Path, pathData: String?) {
+    private fun createPathFromPathData(path: Path, pathData: String?) {
         createNodesFromPathData(pathData)?.let { nodes ->
             try {
                 PathDataNode.nodesToPath(nodes, path)

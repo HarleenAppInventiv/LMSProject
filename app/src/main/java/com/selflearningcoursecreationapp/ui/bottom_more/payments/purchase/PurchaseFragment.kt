@@ -36,4 +36,9 @@ class PurchaseFragment : BaseFragment<FragmentEarningBinding>(), BaseAdapter.IVi
     }
 
 
+    override fun onApiRetry(apiCode: String) {
+
+    }
+
+
 }

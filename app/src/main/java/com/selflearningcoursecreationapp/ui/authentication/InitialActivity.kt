@@ -6,7 +6,6 @@ import android.view.MenuItem
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseActivity
@@ -48,28 +47,19 @@ class InitialActivity : BaseActivity() {
     }
 
     private fun setDestinationChangeListener() {
-        navController?.addOnDestinationChangedListener(object :
-            NavController.OnDestinationChangedListener {
-            override fun onDestinationChanged(
-                controller: NavController,
-                destination: NavDestination,
-                arguments: Bundle?
-            ) {
-
-                hideKeyboard()
-                val hideToolbar = arrayListOf<Int>(
-                    R.id.sliderFragment,
-                    R.id.privacyFragment,
-                    R.id.loginSignUpFragment
-                )
-                if (hideToolbar.contains(destination.id)) {
-                    setToolbar(showToolbar = false)
-                } else {
-                    setToolbar(title = destination.label?.toString(), showToolbar = true)
-                }
-
+        navController?.addOnDestinationChangedListener { _, destination, _ ->
+            hideKeyboard()
+            val hideToolbar = arrayListOf(
+                R.id.sliderFragment,
+                R.id.privacyFragment,
+                R.id.loginSignUpFragment
+            )
+            if (hideToolbar.contains(destination.id)) {
+                setToolbar(showToolbar = false)
+            } else {
+                setToolbar(title = destination.label?.toString(), showToolbar = true)
             }
-        })
+        }
     }
 
     override fun setToolbar(
@@ -115,19 +105,24 @@ class InitialActivity : BaseActivity() {
 
     override fun onBackPressed() {
         hideKeyboard()
-        val destArrayList = listOf<Int>(R.id.sliderFragment)
-        if (destArrayList.contains(navController?.currentDestination?.id)) {
-            finishAffinity()
-        } else if (navController?.currentDestination?.id == R.id.loginSignUpFragment) {
-            (getCurrentFragment() as LoginSignUpFragment).onClickBack()
-        } else if (navController?.currentDestination?.id == R.id.preferencesFragment) {
-            (getCurrentFragment() as PreferencesFragment).onClickBack()
-        } else {
-            navController?.popBackStack()
+        val destArrayList = listOf(R.id.sliderFragment)
+        when {
+            destArrayList.contains(navController?.currentDestination?.id) -> {
+                finishAffinity()
+            }
+            navController?.currentDestination?.id == R.id.loginSignUpFragment -> {
+                (getCurrentFragment() as LoginSignUpFragment).onClickBack()
+            }
+            navController?.currentDestination?.id == R.id.preferencesFragment -> {
+                (getCurrentFragment() as PreferencesFragment).onClickBack()
+            }
+            else -> {
+                navController?.popBackStack()
+            }
         }
     }
 
-    fun getCurrentFragment(): Fragment {
+    private fun getCurrentFragment(): Fragment {
         val navFrag = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
         return navFrag!!.childFragmentManager.fragments[0]
     }

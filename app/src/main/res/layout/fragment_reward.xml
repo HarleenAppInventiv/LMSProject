@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/secondaryScreenBgColor"
+        tools:context=".ui.profile.reward.RewardFragment">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_popular_course"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_16sdp"
+
+            android:checkable="true"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="?attr/viewBackgroundColor"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardElevation="@dimen/_2sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_12sdp"
+                app:viewBackground="theme">
+
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
+                    android:id="@+id/iv_user_logo"
+                    android:layout_width="@dimen/_70sdp"
+                    android:layout_height="@dimen/_70sdp"
+                    android:background="@color/white"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/circleImage" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Alisi Nikolson"
+                    android:textSize="@dimen/textField_15"
+                    app:fontType="semiBold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/iv_user_logo"
+                    app:layout_constraintTop_toTopOf="@+id/iv_user_logo"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:textColorType="white" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tv_total_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:background="@drawable/coins_stroked_bg"
+                    android:drawableStart="@drawable/ic_coin_black"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:paddingHorizontal="@dimen/_6sdp"
+                    android:paddingVertical="@dimen/_4sdp"
+                    android:textColor="@color/coin_stroked_color"
+                    android:textSize="@dimen/adapterTextField_12"
+                    app:drawableStartCompat="@drawable/ic_rewards_points"
+                    app:fontType="semiBold"
+                    app:layout_constraintEnd_toStartOf="@+id/bt_buy"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="@+id/tv_name"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_name"
+                    app:textColorType="none" />
+
+
+            </com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cv_popular_course">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tl_header"
+                android:layout_width="0dp"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="?attr/secondaryScreenBgColor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tabBackground="?attr/secondaryScreenBgColor"
+                app:tabIndicatorColor="?attr/colorPrimary"
+                app:tabIndicatorHeight="@dimen/_2sdp"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="?attr/headingTextColor"
+                app:tabTextAppearance="@style/MyTabTextAppearance"
+                app:tabTextColor="?attr/hintColor" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/opacity_15_929292"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tl_header" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:overScrollMode="never"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tl_header" />
+
+            <!--                <androidx.viewpager2.widget.ViewPager2-->
+            <!--                    android:id="@+id/tb_course"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="@dimen/_10sdp"-->
+            <!--                    android:overScrollMode="never"-->
+            <!--                    android:paddingVertical="@dimen/_15sdp"-->
+
+            <!--                    app:layout_constraintBottom_toTopOf="@+id/recyler_complete_course"-->
+            <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                    app:layout_constraintStart_toStartOf="parent"-->
+            <!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

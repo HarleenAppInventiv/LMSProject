@@ -7,12 +7,13 @@ import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentRequestedBinding
 
 class RequestedFragment : BaseFragment<FragmentRequestedBinding>() {
-    lateinit var adapterRequestCourse: AdapterRequestCourse
+    private lateinit var adapterRequestCourse: AdapterRequestCourse
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
     }
+
 
     private fun initUI() {
         adapterRequestCourse = AdapterRequestCourse()
@@ -23,6 +24,9 @@ class RequestedFragment : BaseFragment<FragmentRequestedBinding>() {
     }
 
     override fun getLayoutRes() = R.layout.fragment_requested
+    override fun onApiRetry(apiCode: String) {
+
+    }
 
 
 }

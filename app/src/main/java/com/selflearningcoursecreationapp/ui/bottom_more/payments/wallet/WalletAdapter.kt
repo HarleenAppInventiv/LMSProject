@@ -6,7 +6,7 @@ import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterMyWalletBinding
 
 
-class WalletAdapter() :BaseAdapter<AdapterMyWalletBinding>() {
+class WalletAdapter : BaseAdapter<AdapterMyWalletBinding>() {
     override fun getLayoutRes(): Int {
         return R.layout.adapter_my_wallet
     }
@@ -16,7 +16,7 @@ class WalletAdapter() :BaseAdapter<AdapterMyWalletBinding>() {
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        val binding= holder.binding as AdapterMyWalletBinding
+        val binding = holder.binding as AdapterMyWalletBinding
 binding.rvWallet.adapter=WalletSpendAdapter()
     }
 

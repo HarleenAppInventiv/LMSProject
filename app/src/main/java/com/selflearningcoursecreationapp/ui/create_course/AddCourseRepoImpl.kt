@@ -93,7 +93,7 @@ class AddCourseRepoImpl(private val apiService: ApiService) : AddCourseRepo {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<SectionModel>> {
                 return apiService.addSection(map)
             }
-        }.safeApiCall(ApiEndPoints.API_ADD_SECTION_POST).flowOn(Dispatchers.IO)
+        }.safeApiCall(ApiEndPoints.API_ADD_SECTION).flowOn(Dispatchers.IO)
     }
 
     override suspend fun deleteSection(courseId: String, sectionId: String): Flow<Resource> {
@@ -101,7 +101,7 @@ class AddCourseRepoImpl(private val apiService: ApiService) : AddCourseRepo {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<SectionModel>> {
                 return apiService.deleteSection(courseId, sectionId)
             }
-        }.safeApiCall(ApiEndPoints.API_SECTION_DELETE).flowOn(Dispatchers.IO)
+        }.safeApiCall(ApiEndPoints.API_ADD_SECTION + "/delete").flowOn(Dispatchers.IO)
     }
 
     override suspend fun dragAndDropSection(map: HashMap<String, Any>): Flow<Resource> {
@@ -187,7 +187,7 @@ class AddCourseRepoImpl(private val apiService: ApiService) : AddCourseRepo {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<SectionModel>> {
                 return apiService.addPatchSection(map)
             }
-        }.safeApiCall(ApiEndPoints.API_ADD_SECTION_PATCH).flowOn(Dispatchers.IO)
+        }.safeApiCall(ApiEndPoints.API_ADD_SECTION + "/patch").flowOn(Dispatchers.IO)
     }
 
 

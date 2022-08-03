@@ -21,18 +21,20 @@ import com.selflearningcoursecreationapp.models.WalkThroughData
 import com.selflearningcoursecreationapp.ui.authentication.InitialActivity
 import com.selflearningcoursecreationapp.ui.dialog.ViModeDialog
 import com.selflearningcoursecreationapp.ui.splash.SplashVM
+import com.selflearningcoursecreationapp.utils.CommonAlertDialog
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.Constants
-import com.selflearningcoursecreationapp.utils.THEME_CONSTANT
-import kotlinx.coroutines.async
+import com.selflearningcoursecreationapp.utils.ThemeConstant
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
+@SuppressLint("NotifyDataSetChanged")
 class SliderFragment : BaseFragment<FragmentSliderBinding>(), View.OnClickListener {
     var adapter: SlideViewPagerAdapter? = null
-    var dotAdapter: DotAdapter? = null
+    private var dotAdapter: DotAdapter? = null
     var dotList: ArrayList<Boolean> = ArrayList()
     private val viewModel: SplashVM by viewModel()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,13 +43,13 @@ class SliderFragment : BaseFragment<FragmentSliderBinding>(), View.OnClickListen
     }
 
     fun init() {
-        onClickListners()
+        onClickListeners()
         val list = ArrayList<WalkThroughData>()
         val iconList = baseActivity.resources.obtainTypedArray(R.array.walkthrough_icons)
         val titleList = baseActivity.resources.getStringArray(R.array.walkthrough_title)
         val descList = baseActivity.resources.getStringArray(R.array.walkthrough_description)
 
-        for (i in 0 until titleList.size) {
+        for (i in titleList.indices) {
             list.add(
                 WalkThroughData(
                     title = titleList[i],
@@ -58,7 +60,7 @@ class SliderFragment : BaseFragment<FragmentSliderBinding>(), View.OnClickListen
         }
         dotList.clear()
         dotList.addAll(list.map { false })
-        dotList.set(0, true)
+        dotList[0] = true
         adapter = SlideViewPagerAdapter(list)
         binding.viewpager.adapter = adapter
         iconList.recycle()
@@ -66,9 +68,13 @@ class SliderFragment : BaseFragment<FragmentSliderBinding>(), View.OnClickListen
 
         lifecycleScope.launch {
             val value =
-                lifecycleScope.async { PreferenceDataStore.getInt(Constants.APP_THEME) }.await()
+                withContext(lifecycleScope.coroutineContext) {
+                    PreferenceDataStore.getInt(
+                        Constants.APP_THEME
+                    )
+                }
             baseActivity.runOnUiThread {
-                binding.svVisualImpared.isChecked = value == THEME_CONSTANT.BLACK
+                binding.svVisualImpared.isChecked = value == ThemeConstant.BLACK
             }
         }
         setDotAdapter()
@@ -84,10 +90,11 @@ class SliderFragment : BaseFragment<FragmentSliderBinding>(), View.OnClickListen
 
     }
 
-    private fun onClickListners() {
+    private fun onClickListeners() {
         binding.btnGetStarted.setOnClickListener(this)
         binding.svVisualImpared.setOnClickListener(this)
         binding.ivInfo.setOnClickListener(this)
+        binding.ivInfoReadingMode.setOnClickListener(this)
     }
 
     private fun setDotAdapter() {
@@ -101,24 +108,18 @@ class SliderFragment : BaseFragment<FragmentSliderBinding>(), View.OnClickListen
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.btnGetStarted -> {
-//                context.navigationOnly(LoginSingupActivity())
                 showLoading()
-                baseActivity.saveTheme(if (binding.svVisualImpared.isChecked) THEME_CONSTANT.BLACK else THEME_CONSTANT.BLUE)
+                baseActivity.saveTheme(if (binding.svVisualImpared.isChecked) ThemeConstant.BLACK else ThemeConstant.BLUE)
 
-                val colorString =
-                    if (binding.svVisualImpared.isChecked) getString(R.color.black_theme) else getString(
-                        R.color.blue
-                    )
+
 
                 lifecycleScope.launch {
 
-                    lifecycleScope.async {
-//                        viewModel.saveThemeFile(baseActivity.getThemeFile(colorString))
-                        viewModel.saveThemeFile(viewModel.getThemeFile(colorString))
+                    withContext(lifecycleScope.coroutineContext) {
+                        viewModel.saveThemeFile(viewModel.getThemeFile(getColor()))
                         (getAppContext() as SelfLearningApplication).updatedThemeFile()
                         PreferenceDataStore.saveBoolean(Constants.WALKTHROUGH_DONE, true)
                     }
-                        .await()
                     delay(2000)
                     baseActivity.runOnUiThread {
                         hideLoading()
@@ -135,54 +136,47 @@ class SliderFragment : BaseFragment<FragmentSliderBinding>(), View.OnClickListen
 
             }
             R.id.iv_info -> {
-                val colorString =
-                    if (binding.svVisualImpared.isChecked) getString(R.color.black_theme) else getString(
-                        R.color.blue
-                    )
+
                 ViModeDialog().apply {
-                    arguments= bundleOf("colorString" to colorString)
+                    arguments = bundleOf("colorString" to getColor())
                 }.show(childFragmentManager, "")
 
             }
             R.id.sv_visual_impared -> {
 
-                val colorString =
-                    if (binding.svVisualImpared.isChecked) getString(R.color.black_theme) else getString(
-                        R.color.blue
-                    )
 
                 binding.parentCL.backgroundTintList = null
 
                 binding.parentCL.backgroundTintList =
-                    ColorStateList.valueOf(Color.parseColor(colorString))
+                    ColorStateList.valueOf(Color.parseColor(getColor()))
                 binding.parentCL.backgroundTintMode = PorterDuff.Mode.MULTIPLY
-                binding.btnGetStarted.setTextColor(Color.parseColor(colorString))
+                binding.btnGetStarted.setTextColor(Color.parseColor(getColor()))
 
 
-//                lifecycleScope.launch {
-//                    lifecycleScope.async {
-//                        PreferenceDataStore.saveInt(Constants.APP_THEME,
-//                            if (binding.svVisualImpared.isChecked) THEME_CONSTANT.BLACK else THEME_CONSTANT.BLUE)
-//                    }.await()
-//                    delay(1000)
-//                    lifecycleScope.async {
-//                        baseActivity.setAppTheme()
-//                    }.await()
-//                    delay(1000)
-//                    baseActivity.runOnUiThread {
-//                        hideLoading()
-//                        findNavController().navigate(R.id.action_sliderFragment_self)
-//
-//                    }
-//
-//
-//                }
-
-//                baseActivity.saveTheme(if (binding.cbVisual.isChecked) THEME_CONSTANT.BLACK else THEME_CONSTANT.BLUE)
-//                lifecycleScope.launch {
-//                    delay(1000)
-//
-//                }
+            }
+            R.id.iv_info_reading_mode -> {
+                val color =
+                    if (binding.svVisualImpared.isChecked) R.color.black_theme else R.color.primaryColor
+                val iconColor = Color.parseColor(getColor())
+                val secondaryColor = Color.parseColor(
+                    String.format(
+                        "#%02x%02x%02x%02x",
+                        80,
+                        Color.red(iconColor),
+                        Color.green(iconColor),
+                        Color.blue(iconColor)
+                    )
+                )
+                CommonAlertDialog.builder(requireContext())
+                    .icon(R.drawable.ic_visually_impaired)
+                    .title(getString(R.string.screen_reading_mode))
+                    .description(getString(R.string.on_screen_read_mode))
+                    .positiveBtnText(getString(R.string.close))
+                    .hideNegativeBtn(true)
+                    .setPositiveInCaps(false)
+                    .setPositiveButtonTheme(bgColor = color)
+                    .setVectorIconColor(iconColor, secondaryColor)
+                    .build()
             }
         }
     }
@@ -196,6 +190,16 @@ class SliderFragment : BaseFragment<FragmentSliderBinding>(), View.OnClickListen
     }
 
 
+    override fun onApiRetry(apiCode: String) {
+
+    }
+
+    @SuppressLint("ResourceType")
+    fun getColor(): String {
+        return if (binding.svVisualImpared.isChecked) getString(R.color.black_theme) else getString(
+            R.color.primaryColor
+        )
+    }
 
 
 }

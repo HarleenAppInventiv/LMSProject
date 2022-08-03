@@ -13,13 +13,16 @@ import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentPrivacyBinding
+import com.selflearningcoursecreationapp.extensions.loadImage
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.HandleClick
+import com.selflearningcoursecreationapp.utils.STATIC_PAGES_TYPE
 
 
 class PrivacyFragment : BaseFragment<FragmentPrivacyBinding>(), HandleClick {
-    var title = ""
-    var url = ""
+    //        var type = 0
+//    private var url = ""
+    var finalUrl = ""
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showLoading()
@@ -31,14 +34,69 @@ class PrivacyFragment : BaseFragment<FragmentPrivacyBinding>(), HandleClick {
     fun init() {
         binding.privacy = this
         arguments?.let {
-            title = it.getString("title").toString()
-            url = it.getString("url").toString()
-            Log.d("pp", "init: ${ApiEndPoints.BASE_URL_INTERNAL + url}")
+            initView(it.getInt("type"))
         }
 
-        val finalUrl = ApiEndPoints.BASE_URL_INTERNAL + "" + url
-        binding.tvTitle.text = title
+
+    }
+
+
+    override fun getLayoutRes() = R.layout.fragment_privacy
+    override fun onHandleClick(vararg items: Any) {
+        if (items.isNotEmpty()) {
+            val view = items[0] as View
+            when (view.id) {
+                R.id.img_back -> {
+                    findNavController().popBackStack()
+//                    activity?.startActivity(Intent(activity!!, InitialActivity::class.java))
+//                    activity?.finish()
+
+
+                }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("signup", "onDestroy: privacy")
+    }
+
+
+    override fun onApiRetry(apiCode: String) {
+
+    }
+
+    fun initView(type: Int) {
+        when (type) {
+            STATIC_PAGES_TYPE.PRIVACY -> {
+                binding.tvTitle.text = getString(R.string.privacy_policy)
+                binding.appCompatImageView.loadImage(R.drawable.ic_privacy_header)
+                finalUrl = ApiEndPoints.BASE_URL_INTERNAL + "" + ApiEndPoints.LINK_PRIVACY_POL
+            }
+            STATIC_PAGES_TYPE.TERMS -> {
+                binding.tvTitle.text = getString(R.string.terms_amp_conditions)
+                binding.appCompatImageView.loadImage(R.drawable.ic_terms_header)
+                finalUrl = ApiEndPoints.BASE_URL_INTERNAL + "" + ApiEndPoints.LINK_TERM_COND
+            }
+            STATIC_PAGES_TYPE.HELP -> {
+                binding.tvTitle.text = getString(R.string.question_we_ve_got_instant_answers)
+                binding.appCompatImageView.loadImage(R.drawable.ic_help_header)
+                finalUrl = ApiEndPoints.BASE_URL_INTERNAL + "" + ApiEndPoints.LINK_FAQ
+            }
+            STATIC_PAGES_TYPE.ABOUT_US -> {
+                binding.tvTitle.text = getString(R.string.about_us)
+                binding.appCompatImageView.loadImage(R.drawable.ic_privacy_header)
+                finalUrl = ApiEndPoints.BASE_URL_INTERNAL + "" + ApiEndPoints.LINK_ABOUT_US
+            }
+        }
+        loadWebView()
+    }
+
+    fun loadWebView() {
         binding.wvPrivecyPolicy.apply {
+
+
             settings.javaScriptEnabled = true
             loadUrl(finalUrl)
 
@@ -72,28 +130,6 @@ class PrivacyFragment : BaseFragment<FragmentPrivacyBinding>(), HandleClick {
                 return@OnKeyListener false
             })
         }
-    }
-
-
-    override fun getLayoutRes() = R.layout.fragment_privacy
-    override fun onHandleClick(vararg items: Any) {
-        if (items.isNotEmpty()) {
-            var view = items[0] as View
-            when (view.id) {
-                R.id.img_back -> {
-                    findNavController().popBackStack()
-//                    activity?.startActivity(Intent(activity!!, InitialActivity::class.java))
-//                    activity?.finish()
-
-
-                }
-            }
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("signup", "onDestroy: privacy")
     }
 
 }

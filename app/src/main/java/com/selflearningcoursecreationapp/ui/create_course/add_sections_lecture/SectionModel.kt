@@ -1,3 +1,4 @@
+@file:Suppress("SuspiciousVarProperty")
 package com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture
 
 import android.os.Parcelable
@@ -7,7 +8,7 @@ import androidx.databinding.library.baseAdapters.BR
 import com.google.gson.annotations.SerializedName
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.extensions.isNullOrZero
-import com.selflearningcoursecreationapp.utils.MEDIA_TYPE
+import com.selflearningcoursecreationapp.utils.MediaType
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -27,6 +28,7 @@ data class SectionModel(
     var expandedItemPos: Int = -1,
     @SerializedName("sectionDuration")
     var sectionDuration: Long = 0L,
+
     var locked: Boolean = false,
     var isSaved: Boolean = false,
     var isVisible: Boolean = true,
@@ -44,7 +46,7 @@ data class SectionModel(
         }
 
     @SerializedName("lectures")
-    var lessonList: ArrayList<ChildModel> = arrayListOf<ChildModel>()
+    var lessonList: ArrayList<ChildModel> = arrayListOf()
         set(value) {
             field = value
             notifyPropertyChanged(BR.uploadLesson)
@@ -76,12 +78,16 @@ data class SectionModel(
         return when {
             !ignoreId && currentId != sectionCreatedById -> 0
             sectionTitle.isNullOrEmpty() -> R.string.plz_enter_title
+            sectionTitle!!.isBlank() -> R.string.plz_enter_title
             sectionDescription.isNullOrEmpty() -> R.string.plz_enter_description
+            sectionDescription!!.isBlank() -> R.string.plz_enter_description
             lessonList.isNullOrEmpty() -> R.string.plz_upload_lesson
-            lessonList.find { it.mediaType == MEDIA_TYPE.QUIZ && it.totalQuizQues.isNullOrZero() } != null -> R.string.plz_add_ques_in_quiz
-            lessonList.find { it.mediaType == MEDIA_TYPE.QUIZ && !it.allAnsMarked } != null -> R.string.plz_mark_ans_ques_in_quiz
-            lessonList.find { it.mediaType == MEDIA_TYPE.QUIZ && it.lectureTitle.isNullOrEmpty() } != null -> R.string.plz_add_data_in_quiz
-            checkChanges && changesMade -> R.string.plz_save_sections
+            lessonList.find { it.mediaType == MediaType.QUIZ && it.totalQuizQues.isNullOrZero() } != null -> R.string.plz_add_ques_in_quiz
+            lessonList.find { it.mediaType == MediaType.QUIZ && !it.allAnsMarked } != null -> R.string.plz_mark_ans_ques_in_quiz
+            lessonList.find { it.mediaType == MediaType.QUIZ && it.lectureTitle.isNullOrEmpty() } != null -> R.string.plz_add_data_in_quiz
+//            !isSaved -> R.string.plz_save_sections
+
+//            checkChanges && changesMade -> R.string.plz_save_sections
             else -> 0
         }
     }

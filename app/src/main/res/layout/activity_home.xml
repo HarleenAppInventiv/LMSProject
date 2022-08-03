@@ -26,20 +26,25 @@
                 android:id="@+id/toolbar"
                 android:layout_marginTop="@dimen/_25sdp"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="@dimen/_40sdp"
                 app:titleTextAppearance="@style/toolbarTheme"
+                android:layout_marginStart="0dp"
                 android:background="?attr/toolbarColor"
                 app:titleTextColor="?attr/toolbarTitleColor"
                 android:elevation="@dimen/_1sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:contentInsetLeft="0dp"
                 app:contentInsetStart="0dp"
+                android:gravity="center_vertical"
+
                 app:contentInsetStartWithNavigation="0dp"
                 app:title="@string/app_name"
-                app:layout_constraintStart_toStartOf="parent"
 
-app:subtitleTextColor="@color/heading_color_262626"
+                app:layout_constraintStart_toStartOf="parent"
+                app:subtitleTextAppearance="@style/toolbarSubTitleTheme"
+                app:subtitleTextColor="@color/heading_color_262626"
                 app:layout_constraintTop_toTopOf="parent"
+
                 app:navigationIcon="@drawable/ic_arrow_left"
                 app:titleMarginStart="0dp" />
 
@@ -81,13 +86,21 @@ app:subtitleTextColor="@color/heading_color_262626"
 
         </com.google.android.material.bottomappbar.BottomAppBar>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/fab_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/create_course_button"
-            app:fabCustomSize="@dimen/_58sdp"
+            android:elevation="0dp"
             app:layout_anchor="@id/bottomAppBar"
+            android:shadowRadius="0"
+            app:collapsedSize="@dimen/_48sdp"
+            app:elevation="0dp"
+            app:fabCustomSize="@dimen/_48sdp"
+            app:icon="@drawable/ic_fab_add"
+            app:iconTint="@color/white"
+            app:strokeColor="@color/white"
+            app:strokeWidth="@dimen/_2sdp"
             app:srcCompat="@drawable/ic_fab_add"
             app:tint="@color/white" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

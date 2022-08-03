@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.Settings
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
@@ -47,6 +48,7 @@ class PermissionUtilClass {
             return this
         }
 
+        @RequiresApi(Build.VERSION_CODES.R)
         private fun requestRPermissions() {
             try {
                 val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)

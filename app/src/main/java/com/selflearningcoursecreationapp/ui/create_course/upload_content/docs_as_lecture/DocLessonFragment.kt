@@ -2,7 +2,6 @@ package com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_a
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -23,18 +22,15 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.text.DecimalFormat
-import java.util.concurrent.TimeUnit
 
 
 class DocLessonFragment : BaseFragment<FragmentDocLessonBinding>(),
-        (String??) -> Unit {
+        (String?) -> Unit, View.OnTouchListener {
     private val imagePickUtils: ImagePickUtils by inject()
     private val viewModel: DocViewModel by viewModel()
-    var uri = ""
-    var childPosition: Int? = 0
+    private var childPosition: Int? = 0
 
-    var type: Int? = null
-    var id: String = ""
+    private var type: Int? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
@@ -44,6 +40,7 @@ class DocLessonFragment : BaseFragment<FragmentDocLessonBinding>(),
         setHasOptionsMenu(true)
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         binding.docs = viewModel
+        binding.edtDocTitle.setOnTouchListener(this)
 
         arguments?.let {
             val lessonData = DocLessonFragmentArgs.fromBundle(it)
@@ -52,7 +49,7 @@ class DocLessonFragment : BaseFragment<FragmentDocLessonBinding>(),
             viewModel.model = lessonData.sendSectionModel
             viewModel.lectureId = lessonData.lectureId
             viewModel.courseId = lessonData.courseId
-            uri = lessonData.filePath
+            viewModel.uri = lessonData.filePath
         }
 
         if (type == Constant.CLICK_ADD) {
@@ -63,7 +60,7 @@ class DocLessonFragment : BaseFragment<FragmentDocLessonBinding>(),
 
 
         if (!childPosition.isNullOrNegative()) {
-            binding.btnAddLesson.setText(baseActivity.getString(R.string.update_lesson))
+            binding.btnAddLesson.text = baseActivity.getString(R.string.update_lesson)
         }
 
         binding.ivEditPdf.setOnClickListener {
@@ -71,14 +68,7 @@ class DocLessonFragment : BaseFragment<FragmentDocLessonBinding>(),
         }
 
         binding.btnAddLesson.setOnClickListener {
-            viewModel.docValidations(
-
-                binding.edtDocTitle.content(),
-                id,
-                TimeUnit.MINUTES.toMillis(
-                    binding.edtReadTime.content().toLong()
-                )
-            )
+            viewModel.docValidations()
         }
 
     }
@@ -91,32 +81,34 @@ class DocLessonFragment : BaseFragment<FragmentDocLessonBinding>(),
         inflater.inflate(R.menu.course_menu, menu)
     }
 
+
     private fun setDataFromFile() {
         viewModel.notifyData()
-        val file = File(Uri.parse(uri).path)
+        val file = File(Uri.parse(viewModel.uri).path ?: "")
         viewModel.docLiveData.value?.lectureContentName = file.name
         binding.tvDocSize.text = getStringSizeLengthFile(file.length())
-        uploadServer(file)
-
-
+        uploadServer()
     }
 
-    private fun getStringSizeLengthFile(size: Long): String? {
+    private fun getStringSizeLengthFile(size: Long): String {
         val df = DecimalFormat("0.00")
         val sizeKb = 1024.0f
         val sizeMb = sizeKb * sizeKb
         val sizeGb = sizeMb * sizeKb
         val sizeTerra = sizeGb * sizeKb
-        if (size < sizeMb) return df.format(size / sizeKb)
-            .toString() + " Kb" else if (size < sizeGb) return df.format(size / sizeMb)
-            .toString() + " Mb" else if (size < sizeTerra) return df.format(size / sizeGb)
-            .toString() + " Gb"
-        return ""
+        return when {
+            size < sizeMb -> df.format(size / sizeKb)
+                .toString() + " Kb"
+            size < sizeGb -> df.format(size / sizeMb)
+                .toString() + " Mb"
+            size < sizeTerra -> df.format(size / sizeGb)
+                .toString() + " Gb"
+            else -> ""
+        }
     }
 
     override fun invoke(p1: String?) {
-        uri = p1.toString()
-        Log.d("varun", "invoke: ${p1}")
+        viewModel.uri = p1.toString()
         setDataFromFile()
     }
 
@@ -152,33 +144,32 @@ class DocLessonFragment : BaseFragment<FragmentDocLessonBinding>(),
             }
             ApiEndPoints.API_CONTENT_UPLOAD -> {
                 (value as BaseResponse<ImageResponse>).resource?.let {
-                    id = it.id.toString()
+                    viewModel.contentId = it.id.toString()
                 }
             }
             ApiEndPoints.API_GET_LECTURE_DETAIL -> {
                 (value as BaseResponse<ChildModel>).resource?.let {
-                    id = it.lectureContentId.toString()
+                    viewModel.contentId = it.lectureContentId.toString()
 
                     binding.tvDocName.text = it.lectureContentName
                     binding.edtDocTitle.setText(it.lectureTitle)
-                    var min = (it.lectureContentDuration?.toLong()?.div(10000))?.div(60000)
+                    val min = (it.lectureContentDuration)?.div(60000)
                     binding.edtReadTime.setText(min.toString())
-                    binding.tvDocSize.setText(
-                        android.text.format.Formatter.formatFileSize(
-                            requireActivity(),
-                            it.lectureContentSize!!
-                        )
+                    binding.tvDocSize.text = android.text.format.Formatter.formatFileSize(
+                        requireActivity(),
+                        it.lectureContentSize!!
                     )
                 }
             }
         }
     }
 
-    private fun uploadServer(file: File) {
-        viewModel.uploadContent(
-            file,
-            0
-        )
+    private fun uploadServer() {
+        viewModel.uploadContent()
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
     }
 }
 

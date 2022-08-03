@@ -88,10 +88,10 @@ class LMSMaterialButton : MaterialButton {
     private fun changeBtnBackground(backgroundType: Int) {
 
         buttonType = backgroundType
-        var tintColor = ThemeUtils.getTintColor(context)
-        var primaryColor = ThemeUtils.getAppColor(context)
+        val tintColor = ThemeUtils.getTintColor(context)
+        val primaryColor = ThemeUtils.getAppColor(context)
 
-        var disabledColor = getDisabledColor()
+        val disabledColor = getDisabledColor()
 
         if (backgroundType != ThemeConstants.TYPE_NONE) {
             val strokeArray = intArrayOf(
@@ -114,17 +114,17 @@ class LMSMaterialButton : MaterialButton {
             )
             when (backgroundType) {
                 ThemeConstants.TYPE_SECONDARY -> {
-                    colors.set(0, ContextCompat.getColor(context, R.color.white))
+                    colors[0] = ContextCompat.getColor(context, R.color.white)
                     strokeColor = ColorStateList(states, strokeArray)
                     strokeWidth = context.resources.getDimensionPixelOffset(R.dimen._1sdp)
                 }
                 ThemeConstants.TYPE_TINT -> {
-                    colors.set(0, tintColor)
+                    colors[0] = tintColor
 
                 }
                 ThemeConstants.TYPE_BACKGROUND_TINT -> {
-                    colors.set(0, tintColor)
-                    strokeArray.set(0, primaryColor)
+                    colors[0] = tintColor
+                    strokeArray[0] = primaryColor
 
                     strokeColor = ColorStateList(states, strokeArray)
                     strokeWidth = context.resources.getDimensionPixelOffset(R.dimen._1sdp)
@@ -151,14 +151,14 @@ class LMSMaterialButton : MaterialButton {
 
     private fun getDisabledColor(): Int {
         val tintColor = ThemeUtils.getTintColor(context)
-        var red = (Color.red(tintColor))
-        var green = (Color.green(tintColor))
+        val red = (Color.red(tintColor))
+        val green = (Color.green(tintColor))
 
 
-        var blue = (Color.blue(tintColor))
+        val blue = (Color.blue(tintColor))
 
 
-        var disabledColor = Color.parseColor(
+        return Color.parseColor(
             String.format(
                 "#%02x%02x%02x%02x",
                 100,
@@ -167,7 +167,6 @@ class LMSMaterialButton : MaterialButton {
                 blue
             )
         )
-        return disabledColor
     }
 
     private fun changeTextColor(textColorType: Int) {
@@ -199,9 +198,27 @@ class LMSMaterialButton : MaterialButton {
         setTextColor(colorValue)
     }
 
+    fun setSecondaryBtnDisabled(enabled: Boolean) {
+        if (enabled) {
+            changeBtnBackground(ThemeConstants.TYPE_SECONDARY)
+            changeTextColor(ThemeConstants.TYPE_SECONDARY)
+
+        } else {
+            ViewCompat.setBackgroundTintList(
+                this,
+                ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white))
+            )
+            setTextColor(ContextCompat.getColor(context, R.color.progress_bg))
+            strokeColor =
+                ColorStateList.valueOf(ContextCompat.getColor(context, R.color.progress_bg))
+            iconTint =
+                ColorStateList.valueOf(ContextCompat.getColor(context, R.color.progress_bg))
+        }
+    }
+
     fun setBtnDisabled(enabled: Boolean, typeSecondary: Boolean = false) {
 
-        var buttonData = Pair<Int, Int>(ThemeConstants.TYPE_PRIMARY, ThemeConstants.TYPE_PRIMARY)
+        var buttonData = Pair(ThemeConstants.TYPE_PRIMARY, ThemeConstants.TYPE_PRIMARY)
         if (mAttrs != null && mDefStyle != null) {
             val themeAttrs = context.obtainStyledAttributes(
                 mAttrs, R.styleable.LMSMaterialButton,
@@ -228,13 +245,13 @@ class LMSMaterialButton : MaterialButton {
             if (!enabled) {
                 ViewCompat.setBackgroundTintList(
                     this,
-                    if (typeSecondary) ColorStateList.valueOf(
-                        ContextCompat.getColor(context, R.color.offwhite_f6f6f6)
-                    ) else ColorStateList.valueOf(getDisabledColor())
+                    /*if (typeSecondary) ColorStateList.valueOf(
+                        ContextCompat.getColor(context, R.color.offWhite_f6f6f6)
+                    ) else*/ ColorStateList.valueOf(getDisabledColor())
                 )
-                if (typeSecondary) {
+                /*if (typeSecondary) {
                     setTextColor(getDisabledColor())
-                }
+                }*/
 
             } else {
                 changeBtnBackground(buttonData.first)

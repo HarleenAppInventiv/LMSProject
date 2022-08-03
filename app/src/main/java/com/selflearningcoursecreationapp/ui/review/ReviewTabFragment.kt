@@ -22,9 +22,10 @@ class ReviewTabFragment : BaseFragment<FragmentReviewParentBinding>() {
 
     }
 
+
     fun init() {
-        var nameArray = arrayListOf<String>("Course Content", "Course Assignment")
-        var fragList = arrayListOf<Fragment>(CourseContentFragment(), CourseAssignmentFragment())
+        val nameArray = arrayListOf("Course Content", "Course Assignment")
+        val fragList = arrayListOf<Fragment>(CourseContentFragment(), CourseAssignmentFragment())
         binding.vpCoursesType.adapter =
             ScreenSlidePagerAdapter(childFragmentManager, fragList, this.lifecycle)
 
@@ -34,6 +35,10 @@ class ReviewTabFragment : BaseFragment<FragmentReviewParentBinding>() {
 
         }.attach()
         binding.tlCourseType.setSelectedTabIndicatorColor(ThemeUtils.getAppColor(baseActivity))
+
+    }
+
+    override fun onApiRetry(apiCode: String) {
 
     }
 

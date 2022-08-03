@@ -24,26 +24,41 @@ import com.selflearningcoursecreationapp.ui.authentication.resetPassword.ResetPa
 import com.selflearningcoursecreationapp.ui.authentication.resetPassword.ResetPassRepoImpl
 import com.selflearningcoursecreationapp.ui.authentication.resetPassword.ResetViewModel
 import com.selflearningcoursecreationapp.ui.authentication.viewModel.OnBoardingViewModel
-import com.selflearningcoursecreationapp.ui.authentication.viewModel.SplashViewModel
+import com.selflearningcoursecreationapp.ui.bottom_course.MyCourseVM
+import com.selflearningcoursecreationapp.ui.bottom_course.MyCoursesRepo
+import com.selflearningcoursecreationapp.ui.bottom_course.MyCoursesRepoImp
 import com.selflearningcoursecreationapp.ui.bottom_home.HomeRepo
 import com.selflearningcoursecreationapp.ui.bottom_home.HomeRepoImp
 import com.selflearningcoursecreationapp.ui.bottom_home.HomeVM
+import com.selflearningcoursecreationapp.ui.bottom_home.categories.HomeCategoriesVM
+import com.selflearningcoursecreationapp.ui.bottom_home.categories.HomeCategoryRepo
+import com.selflearningcoursecreationapp.ui.bottom_home.categories.HomeCategoryRepoImpl
+import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.AllCoursesRepo
+import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.AllCoursesRepoImpl
+import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.AllCoursesVM
+import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.HomeFilterRepo
+import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.HomeFilterRepoImpl
+import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.HomeFilterVM
+import com.selflearningcoursecreationapp.ui.bottom_more.payments.details.PaymentDetailVM
 import com.selflearningcoursecreationapp.ui.bottom_more.settings.changePassword.ChangePassRepo
 import com.selflearningcoursecreationapp.ui.bottom_more.settings.changePassword.ChangePassRepoImp
 import com.selflearningcoursecreationapp.ui.bottom_more.settings.changePassword.ChangePasswordVM
 import com.selflearningcoursecreationapp.ui.bottom_more.settings.faq.FAQRepoImpl
 import com.selflearningcoursecreationapp.ui.bottom_more.settings.faq.FAQViewModel
 import com.selflearningcoursecreationapp.ui.bottom_more.settings.faq.FaqRepo
+import com.selflearningcoursecreationapp.ui.course_details.CourseDetailRepo
+import com.selflearningcoursecreationapp.ui.course_details.CourseDetailRepoImpl
+import com.selflearningcoursecreationapp.ui.course_details.CourseDetailVM
+import com.selflearningcoursecreationapp.ui.course_details.quiz.TakeQuizRepo
+import com.selflearningcoursecreationapp.ui.course_details.quiz.TakeQuizRepoImpl
+import com.selflearningcoursecreationapp.ui.course_details.quiz.TakeQuizVM
 import com.selflearningcoursecreationapp.ui.create_course.AddCourseRepo
 import com.selflearningcoursecreationapp.ui.create_course.AddCourseRepoImpl
 import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseViewModel
 import com.selflearningcoursecreationapp.ui.create_course.co_author.CoAuthorRepo
 import com.selflearningcoursecreationapp.ui.create_course.co_author.CoAuthorRepoImpl
 import com.selflearningcoursecreationapp.ui.create_course.co_author.CoAuthorViewModel
-import com.selflearningcoursecreationapp.ui.create_course.quiz.AddQuizRepo
-import com.selflearningcoursecreationapp.ui.create_course.quiz.AddQuizRepoImpl
-import com.selflearningcoursecreationapp.ui.create_course.quiz.AddQuizVM
-import com.selflearningcoursecreationapp.ui.create_course.quiz.QuizSettingVM
+import com.selflearningcoursecreationapp.ui.create_course.quiz.*
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.UploadContentRepo
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.UploadContentRepoImpl
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.audio_as_lesson.AudioLessonViewModel
@@ -53,13 +68,21 @@ import com.selflearningcoursecreationapp.ui.create_course.upload_content.video_a
 import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceRepo
 import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceRepoImpl
 import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceVM
+import com.selflearningcoursecreationapp.ui.dialog.unlockCourse.UnlockRepo
+import com.selflearningcoursecreationapp.ui.dialog.unlockCourse.UnlockRepoImp
+import com.selflearningcoursecreationapp.ui.dialog.unlockCourse.UnlockVM
 import com.selflearningcoursecreationapp.ui.home.HomeActivityRepo
 import com.selflearningcoursecreationapp.ui.home.HomeActivityRepoImp
 import com.selflearningcoursecreationapp.ui.home.HomeActivityViewModel
+import com.selflearningcoursecreationapp.ui.moderator.courseDetails.ModCourseDetailVM
 import com.selflearningcoursecreationapp.ui.practice_accent.PracticeAccentVM
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceRepo
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceRepoImpl
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceViewModel
+import com.selflearningcoursecreationapp.ui.profile.bookmark.PagingDataSource
+import com.selflearningcoursecreationapp.ui.profile.bookmark.WishListRepository
+import com.selflearningcoursecreationapp.ui.profile.bookmark.WishListRepositoryImpl
+import com.selflearningcoursecreationapp.ui.profile.bookmark.WishListViewModel
 import com.selflearningcoursecreationapp.ui.profile.edit_profile.EditProfileRepo
 import com.selflearningcoursecreationapp.ui.profile.edit_profile.EditProfileRepoImpl
 import com.selflearningcoursecreationapp.ui.profile.edit_profile.EditProfileViewModel
@@ -69,9 +92,13 @@ import com.selflearningcoursecreationapp.ui.profile.profileDetails.ProfileDetail
 import com.selflearningcoursecreationapp.ui.profile.profileThumb.ProfileThumbRepo
 import com.selflearningcoursecreationapp.ui.profile.profileThumb.ProfileThumbRepoImp
 import com.selflearningcoursecreationapp.ui.profile.profileThumb.ProfileThumbViewModel
+import com.selflearningcoursecreationapp.ui.profile.reward.RewardsRepository
+import com.selflearningcoursecreationapp.ui.profile.reward.RewardsRepositoryImpl
+import com.selflearningcoursecreationapp.ui.profile.reward.viewModel.RewardViewModel
 import com.selflearningcoursecreationapp.ui.splash.SplashRepo
 import com.selflearningcoursecreationapp.ui.splash.SplashRepoImp
 import com.selflearningcoursecreationapp.ui.splash.SplashVM
+import com.selflearningcoursecreationapp.utils.ExceptionHandler
 import com.selflearningcoursecreationapp.utils.ImagePickUtils
 import com.selflearningcoursecreationapp.utils.SpeechUtils
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -90,6 +117,9 @@ val networkingModule = module {
     single {
         ImagePickUtils()
     }
+    single {
+        ExceptionHandler()
+    }
 }
 
 fun getAppContext() = SelfLearningApplication.applicationContext()
@@ -100,11 +130,16 @@ val viewModelModule = module {
     viewModel {
         OnBoardingViewModel(get())
     }
-    viewModel {
-        SplashViewModel()
-    }
+
     viewModel {
         LoginOTPViewModel(get())
+    }
+
+    viewModel {
+        WishListViewModel(get())
+    }
+    viewModel {
+        RewardViewModel(get())
     }
     viewModel {
         PreferenceViewModel(get())
@@ -152,6 +187,16 @@ val viewModelModule = module {
     viewModel { VideoLessonViewModel(get()) }
     viewModel { CoAuthorViewModel(get()) }
     viewModel { HomeActivityViewModel(get()) }
+    viewModel { AddQuizAnsVM(get()) }
+    viewModel { HomeCategoriesVM(get()) }
+    viewModel { HomeFilterVM(get()) }
+    viewModel { AllCoursesVM(get()) }
+    viewModel { CourseDetailVM(get()) }
+    viewModel { TakeQuizVM(get()) }
+    viewModel { MyCourseVM(get()) }
+    viewModel { PaymentDetailVM() }
+    viewModel { ModCourseDetailVM() }
+    viewModel { UnlockVM(get()) }
 
 }
 
@@ -178,8 +223,19 @@ val repoModule = module {
     single<AddEmailRepo> { AddEmailRepoImpl(get()) }
     single<AddQuizRepo> { AddQuizRepoImpl(get()) }
     single<UploadContentRepo> { UploadContentRepoImpl(get()) }
+    single { PagingDataSource(get()) }
+    single<WishListRepository> { WishListRepositoryImpl(get()) }
+    single<RewardsRepository> { RewardsRepositoryImpl(get()) }
+
     single<HomeActivityRepo> {
         HomeActivityRepoImp(get())
     }
     single<CoAuthorRepo> { CoAuthorRepoImpl(get()) }
+    single<HomeCategoryRepo> { HomeCategoryRepoImpl(get()) }
+    single<HomeFilterRepo> { HomeFilterRepoImpl(get()) }
+    single<AllCoursesRepo> { AllCoursesRepoImpl(get()) }
+    single<CourseDetailRepo> { CourseDetailRepoImpl(get()) }
+    single<TakeQuizRepo> { TakeQuizRepoImpl(get()) }
+    single<MyCoursesRepo> { MyCoursesRepoImp(get()) }
+    single<UnlockRepo> { UnlockRepoImp(get()) }
 }

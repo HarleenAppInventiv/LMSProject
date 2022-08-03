@@ -1,8 +1,8 @@
 package com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -27,21 +27,16 @@ import org.koin.android.ext.android.inject
 import java.io.File
 import java.util.*
 
-
+@SuppressLint("NotifyDataSetChanged")
 class AddSectionOrLectureFragment :
     BaseFragment<com.selflearningcoursecreationapp.databinding.FragmentAddSectionOrLectureBinding>(),
     BaseAdapter.IViewClick, BaseBottomSheetDialog.IDialogClick, (String?) -> Unit {
     private var adapter: AddSectionAdapter? = null
-    private var adapterPosition: Int = -1
-    private var childPosition: Int = -1
     private val imagePickUtils: ImagePickUtils by inject()
     private val viewModel: AddCourseViewModel by viewModels({ requireParentFragment() })
     private var mediaFrom = 0
     private var filePath = ""
     private var mOrderChanged = false
-    private var fromPosition: Int = -1
-    private var toPosition: Int = -1
-    var mediaType = 0
     private var _lectureId = -1
 
     private val touchHelper = object : TouchHelper() {
@@ -51,8 +46,8 @@ class AddSectionOrLectureFragment :
             target: RecyclerView.ViewHolder,
         ): Boolean {
 
-            fromPosition = viewHolder.adapterPosition
-            toPosition = target.adapterPosition
+            viewModel.fromPosition = viewHolder.adapterPosition
+            viewModel.toPosition = target.adapterPosition
             mOrderChanged = true
 
             return false
@@ -63,33 +58,32 @@ class AddSectionOrLectureFragment :
             if (actionState == ItemTouchHelper.ACTION_STATE_IDLE && mOrderChanged) {
                 mOrderChanged = false
                 val recyclerviewAdapter = binding.rvSections.adapter as AddSectionAdapter
-                Collections.swap(viewModel.getSectionList(), toPosition, fromPosition)
+                Collections.swap(
+                    viewModel.getSectionList(),
+                    viewModel.toPosition,
+                    viewModel.fromPosition
+                )
 
-                Log.d("varun", "onMove: ${toPosition} ${fromPosition}")
 
                 val previous =
-                    if (toPosition == 0 || toPosition == viewModel.getSectionList()?.size!! - 1) 0 else viewModel.getSectionList()
-                        ?.get(toPosition - 1)?.sectionId
+                    if (viewModel.toPosition == 0 || viewModel.toPosition == viewModel.getSectionList()?.size!! - 1) 0 else viewModel.getSectionList()
+                        ?.get(viewModel.toPosition - 1)?.sectionId
 
                 val last =
-                    if (toPosition == viewModel.getSectionList()?.size!! - 1 || toPosition == 0) 0 else viewModel.getSectionList()
-                        ?.get(toPosition + 1)?.sectionId
+                    if (viewModel.toPosition == viewModel.getSectionList()?.size!! - 1 || viewModel.toPosition == 0) 0 else viewModel.getSectionList()
+                        ?.get(viewModel.toPosition + 1)?.sectionId
                 viewModel.dragAndDropSection(
-                    viewModel.getSectionList()?.get(fromPosition)?.sectionId,
                     previous,
                     last
                 )
-                recyclerviewAdapter.notifyItemMoved(fromPosition, toPosition)
+                recyclerviewAdapter.notifyItemMoved(viewModel.fromPosition, viewModel.toPosition)
                 recyclerviewAdapter.notifyDataSetChanged()
-//                    binding.rvSections.layoutManager.run {
-//                        binding.rvSections.adapter?.notifyItemChanged(adapterPosition)
-//                    }
-                fromPosition = -1
-                toPosition = -1
+                viewModel.fromPosition = -1
+                viewModel.toPosition = -1
             }
-            if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
-                viewHolder?.itemView?.alpha = 0.5f
-            }
+//                if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+//                    viewHolder?.itemView?.alpha = 0.5f
+//                }
 
         }
 
@@ -127,63 +121,68 @@ class AddSectionOrLectureFragment :
     }
 
     private fun observeSectionData() {
-        viewModel.sectionUpdationData.observe(
-            viewLifecycleOwner,
-            { event ->
-                event.getContentIfNotHandled()?.let {
-                    viewModel.courseData.value?.notifyPropertyChanged(BR.allDataEntered)
-                    when (it) {
-                        Constant.CLICK_UPLOAD -> {
-                            viewModel.courseData.value?.notifyPropertyChanged(BR.sectionDataAdded)
-                            viewModel.addSection()
-                            viewModel.getSectionList()?.forEach { it.isVisible = false }
-                            adapter?.notifyDataSetChanged()
-                        }
-                        Constant.CLICK_DETAILS -> {
-                            binding.llNoSection.gone()
-                            adapter?.notifyDataSetChanged()
+        viewModel.sectionUpdateData.observe(
+            viewLifecycleOwner
+        ) { event ->
+            event.getContentIfNotHandled()?.let {
+                viewModel.courseData.value?.notifyPropertyChanged(BR.allDataEntered)
+                when (it) {
+                    Constant.CLICK_UPLOAD -> {
+                        viewModel.courseData.value?.notifyPropertyChanged(BR.sectionDataAdded)
+                        viewModel.addSection()
+                        viewModel.getSectionList()
+                            ?.forEach { section -> section.isVisible = false }
+                        adapter?.notifyDataSetChanged()
+                    }
+                    Constant.CLICK_DETAILS -> {
+                        binding.llNoSection.gone()
+                        adapter?.notifyDataSetChanged()
+                        adapter = null
+                        setAdapter()
+                        viewModel.courseData.value?.notifyPropertyChanged(BR.sectionDataAdded)
+                    }
+                    Constant.CLICK_ADD -> {
+                        binding.llNoSection.gone()
+
+                        setAdapter(true)
+                        viewModel.courseData.value?.notifyPropertyChanged(BR.sectionDataAdded)
+                    }
+
+                    Constant.CLICK_SAVE -> {
+                        viewModel.getSectionList()
+                            ?.get(viewModel.sectionAdapterPosition)?.isVisible = false
+                        viewModel.getSectionList()
+                            ?.get(viewModel.sectionAdapterPosition)?.isSaved = true
+                        viewModel.getSectionList()
+                            ?.get(viewModel.sectionAdapterPosition)?.changesMade = false
+                        adapter?.notifyDataSetChanged()
+                        viewModel.courseData.value?.notifyPropertyChanged(BR.sectionDataAdded)
+                        binding.llNoSection.gone()
+
+                    }
+
+                    else -> {
+                        viewModel.courseData.value?.notifyPropertyChanged(BR.sectionDataAdded)
+                        setAdapter()
+                        if (viewModel.getSectionList().isNullOrEmpty()) {
                             adapter = null
-                            setAdapter()
-                            viewModel.courseData.value?.notifyPropertyChanged(BR.sectionDataAdded)
-                        }
-                        Constant.CLICK_ADD -> {
-                            binding.llNoSection.gone()
-
-                            setAdapter(true)
-                            viewModel.courseData.value?.notifyPropertyChanged(BR.sectionDataAdded)
-                        }
-
-                        Constant.CLICK_SAVE -> {
-                            viewModel.getSectionList()?.get(adapterPosition)?.isVisible = false
-                            viewModel.getSectionList()?.get(adapterPosition)?.isSaved = true
-                            viewModel.getSectionList()?.get(adapterPosition)?.changesMade = false
-                            adapter?.notifyDataSetChanged()
-                            viewModel.courseData.value?.notifyPropertyChanged(BR.sectionDataAdded)
-                            binding.llNoSection.gone()
-
-                        }
-
-                        else -> {
-                            viewModel.courseData.value?.notifyPropertyChanged(BR.sectionDataAdded)
-                            setAdapter()
-                            if (viewModel.getSectionList().isNullOrEmpty()) {
-                                adapter = null
-                            }
                         }
                     }
                 }
+            }
 
-            })
+        }
     }
 
     private fun observeAddLecture() {
         viewModel.addLectureLiveData.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let { lectureId ->
+                baseActivity.hideProgressBar()
                 if (lectureId != 0) {
                     _lectureId = lectureId
-                    when (mediaType) {
+                    when (viewModel.mediaType) {
 
-                        MEDIA_TYPE.DOC -> {
+                        MediaType.DOC -> {
 
                             imagePickUtils.openDocs(
                                 baseActivity,
@@ -192,11 +191,11 @@ class AddSectionOrLectureFragment :
                             )
                         }
 
-                        MEDIA_TYPE.TEXT -> {
+                        MediaType.TEXT -> {
                             val action =
                                 AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToLessonTextFragment(
                                     sendSectionModel = viewModel.getSectionList()
-                                        ?.get(adapterPosition),
+                                        ?.get(viewModel.sectionAdapterPosition),
                                     lectureId = lectureId,
                                     type = Constant.CLICK_ADD,
                                     childPosition = -1,
@@ -205,26 +204,26 @@ class AddSectionOrLectureFragment :
                                 )
                             findNavController().navigate(action)
                         }
-                        MEDIA_TYPE.AUDIO -> {
+                        MediaType.AUDIO -> {
                             if (mediaFrom == 1) {
                                 val action =
                                     AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToRecordAudioFragment(
                                         sendSectionModel = viewModel.getSectionList()
-                                            ?.get(adapterPosition),
+                                            ?.get(viewModel.sectionAdapterPosition),
                                         courseId = viewModel.courseData.value?.courseId
                                             ?: 0,
-                                        lectureId = lectureId!!,
-                                        childPosition = childPosition!!,
+                                        lectureId = lectureId,
+                                        childPosition = viewModel.sectionChildPosition,
                                         type = Constant.CLICK_ADD,
                                         from = mediaFrom
 
                                     )
                                 findNavController().navigate(action)
                             } else {
-                                var action =
+                                val action =
                                     AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToAudioLectureFragment(
                                         sendSectionModel = viewModel.getSectionList()
-                                            ?.get(adapterPosition),
+                                            ?.get(viewModel.sectionAdapterPosition),
                                         lectureId = lectureId,
                                         type = Constant.CLICK_ADD,
                                         childPosition = -1,
@@ -235,11 +234,11 @@ class AddSectionOrLectureFragment :
                                 findNavController().navigate(action)
                             }
                         }
-                        MEDIA_TYPE.VIDEO -> {
-                            var action =
+                        MediaType.VIDEO -> {
+                            val action =
                                 AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToVideoLectureFragment(
                                     sendSectionModel = viewModel.getSectionList()
-                                        ?.get(adapterPosition),
+                                        ?.get(viewModel.sectionAdapterPosition),
                                     lectureId = lectureId,
                                     type = Constant.CLICK_ADD,
                                     childPosition = -1,
@@ -276,13 +275,13 @@ class AddSectionOrLectureFragment :
                 val itemTouchHelper = ItemTouchHelper(touchHelper)
                 itemTouchHelper.attachToRecyclerView(binding.rvSections)
                 adapter = AddSectionAdapter(
-                    viewModel.getSectionList()!!,
+                    viewModel.getSectionList() ?: ArrayList(),
                     viewModel.userProfile?.id ?: 0,
                     viewModel.isCreator.value == true,
-                    viewModel.courseData?.value?.createdById ?: 0
+                    viewModel.courseData.value?.createdById ?: 0
                 )
                 binding.rvSections.adapter = adapter
-                adapter!!.setOnAdapterItemClickListener(this)
+                adapter?.setOnAdapterItemClickListener(this)
             }
         }
         if (scrollTo && !viewModel.getSectionList().isNullOrEmpty()) {
@@ -295,8 +294,7 @@ class AddSectionOrLectureFragment :
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onDialogClick(vararg items: Any) {
         if (items.isNotEmpty()) {
-            val type = items[0] as Int
-            when (type) {
+            when (items[0] as Int) {
                 Constant.CLICK_DELETE -> {
                     deleteSectionFunctionality()
                 }
@@ -304,67 +302,49 @@ class AddSectionOrLectureFragment :
                     showToastShort("edit")
                 }
                 Lecture.CLICK_LESSON_TEXT -> {
-                    mediaType = MEDIA_TYPE.TEXT
-                    viewModel.addLecture(
-                        viewModel.getSectionList()?.get(adapterPosition)?.sectionId,
-                        mediaType
-                    )
+                    viewModel.mediaType = MediaType.TEXT
+                    viewModel.addLecture()
                 }
                 Lecture.CLICK_LESSON_QUIZ -> {
-                    mediaType = MEDIA_TYPE.QUIZ
+                    viewModel.mediaType = MediaType.QUIZ
                     findNavController().navigate(
                         AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToAddQuizFragment(
                             viewModel.courseData.value,
                             true,
-                            adapterPosition,
+                            viewModel.sectionAdapterPosition,
                             viewModel.getSectionList()?.toTypedArray()
                         )
                     )
                 }
-                MEDIA_TYPE.AUDIO -> {
+                MediaType.AUDIO -> {
                     filePath = items[1] as String
                     if (isFileLessThan5MB(File(filePath))) {
-                        showToastShort("File size is more than 5 MB, not able to upload. Please select another file")
+                        showToastShort(baseActivity.getString(R.string.file_limit_alert_text))
                     } else {
-                        mediaType = MEDIA_TYPE.AUDIO
+                        viewModel.mediaType = MediaType.AUDIO
                         mediaFrom = 2
 
-                        viewModel.addLecture(
-                            viewModel.getSectionList()
-                                ?.get(adapterPosition)?.sectionId,
-                            mediaType
-                        )
+                        viewModel.addLecture()
                     }
                 }
                 Lecture.CLICK_LESSON_DOCS -> {
-                    mediaType = MEDIA_TYPE.DOC
-                    viewModel.addLecture(
-                        viewModel.getSectionList()?.get(adapterPosition)?.sectionId,
-                        mediaType
-                    )
+                    viewModel.mediaType = MediaType.DOC
+                    viewModel.addLecture()
 
                 }
                 Lecture.CLICK_LESSON_AUDIO -> {
-                    mediaType = MEDIA_TYPE.AUDIO
+                    viewModel.mediaType = MediaType.AUDIO
                     mediaFrom = 1
-                    viewModel.addLecture(
-                        viewModel.getSectionList()
-                            ?.get(adapterPosition)?.sectionId,
-                        mediaType
-                    )
+                    viewModel.addLecture()
                 }
-                MEDIA_TYPE.VIDEO -> {
+                MediaType.VIDEO -> {
                     filePath = items[1] as String
 
                     if (isFileLessThan5MB(File(filePath))) {
-                        showToastShort("File size is more than 5 MB, not able to upload. Please select another file")
+                        showToastShort(baseActivity.getString(R.string.file_limit_alert_text))
                     } else {
-                        mediaType = MEDIA_TYPE.VIDEO
-                        viewModel.addLecture(
-                            viewModel.getSectionList()
-                                ?.get(adapterPosition)?.sectionId,
-                            mediaType
-                        )
+                        viewModel.mediaType = MediaType.VIDEO
+                        viewModel.addLecture()
 
                     }
                 }
@@ -375,7 +355,7 @@ class AddSectionOrLectureFragment :
     override fun onItemClick(vararg items: Any) {
         if (items.isNotEmpty()) {
             val type = items[0] as Int
-            adapterPosition = items[1] as Int
+            viewModel.sectionAdapterPosition = items[1] as Int
 
             when (type) {
                 Constant.CLICK_TEXT_CHANGES -> {
@@ -396,7 +376,7 @@ class AddSectionOrLectureFragment :
 
                 }
                 Constant.CLICK_OPTION_DELETE -> {
-                    childPosition = items[2] as Int
+                    viewModel.sectionChildPosition = items[2] as Int
 
                     deleteLessonFunctionality()
 
@@ -409,10 +389,10 @@ class AddSectionOrLectureFragment :
                     swapFunctionality(toPosition, fromPosition)
                 }
                 Constant.CLICK_SAVE -> {
-                    viewModel.updateSection(adapterPosition)
+                    viewModel.updateSection()
                 }
                 Constant.CLICK_EDIT -> {
-                    childPosition = items[2] as Int
+                    viewModel.sectionChildPosition = items[2] as Int
 
                     editLessonFunctionality()
 
@@ -424,18 +404,19 @@ class AddSectionOrLectureFragment :
     private fun swapFunctionality(toPosition: Int, fromPosition: Int) {
         val previous =
             if (toPosition == 0 || toPosition == viewModel.getSectionList()
-                    ?.get(adapterPosition)?.lessonList?.size!! - 1
+                    ?.get(viewModel.sectionAdapterPosition)?.lessonList?.size!! - 1
             ) 0 else viewModel.getSectionList()
-                ?.get(adapterPosition)?.lessonList?.get(toPosition - 1)?.lectureId
+                ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(toPosition - 1)?.lectureId
         val last =
             if (toPosition == viewModel.getSectionList()
-                    ?.get(adapterPosition)?.lessonList?.size!! - 1 || toPosition == 0
-            ) 0 else viewModel.getSectionList()?.get(adapterPosition)?.lessonList?.get(
-                toPosition + 1
-            )?.lectureId
+                    ?.get(viewModel.sectionAdapterPosition)?.lessonList?.size!! - 1 || toPosition == 0
+            ) 0 else viewModel.getSectionList()
+                ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(
+                    toPosition + 1
+                )?.lectureId
 
         viewModel.dragAndDropLecture(
-            viewModel.getSectionList()?.get(adapterPosition)?.lessonList?.get(
+            viewModel.getSectionList()?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(
                 fromPosition
             )?.lectureId,
             previous,
@@ -444,71 +425,75 @@ class AddSectionOrLectureFragment :
     }
 
     private fun editLessonFunctionality() {
-        when (viewModel.getSectionList()?.get(adapterPosition)?.lessonList?.get(
-            childPosition
+        when (viewModel.getSectionList()?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(
+            viewModel.sectionChildPosition
         )?.mediaType) {
-            MEDIA_TYPE.VIDEO -> {
-                var action =
+            MediaType.VIDEO -> {
+                val action =
                     AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToVideoLectureFragment(
                         sendSectionModel = viewModel.getSectionList()
-                            ?.get(adapterPosition),
+                            ?.get(viewModel.sectionAdapterPosition),
                         lectureId = viewModel.getSectionList()
-                            ?.get(adapterPosition)?.lessonList?.get(childPosition)?.lectureId!!,
+                            ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(viewModel.sectionChildPosition)?.lectureId
+                            ?: 0,
                         type = Constant.CLICK_EDIT,
-                        childPosition = childPosition,
+                        childPosition = viewModel.sectionChildPosition,
                         courseId = viewModel.courseData.value?.courseId ?: 0
                     )
                 findNavController().navigate(action)
             }
-            MEDIA_TYPE.AUDIO -> {
+            MediaType.AUDIO -> {
                 val action =
                     AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToAudioLectureFragment(
                         sendSectionModel = viewModel.getSectionList()
-                            ?.get(adapterPosition),
+                            ?.get(viewModel.sectionAdapterPosition),
                         lectureId = viewModel.getSectionList()
-                            ?.get(adapterPosition)?.lessonList?.get(childPosition)?.lectureId!!,
+                            ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(viewModel.sectionChildPosition)?.lectureId
+                            ?: 0,
                         type = Constant.CLICK_EDIT,
-                        childPosition = childPosition,
+                        childPosition = viewModel.sectionChildPosition,
                         courseId = viewModel.courseData.value?.courseId ?: 0
                     )
                 findNavController().navigate(action)
             }
-            MEDIA_TYPE.DOC -> {
+            MediaType.DOC -> {
 
                 val action =
                     AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToDocLessonFragment(
                         sendSectionModel = viewModel.getSectionList()
-                            ?.get(adapterPosition),
+                            ?.get(viewModel.sectionAdapterPosition),
                         lectureId = viewModel.getSectionList()
-                            ?.get(adapterPosition)?.lessonList?.get(childPosition)?.lectureId!!,
+                            ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(viewModel.sectionChildPosition)?.lectureId
+                            ?: 0,
                         type = Constant.CLICK_EDIT,
-                        childPosition = childPosition,
+                        childPosition = viewModel.sectionChildPosition,
                         courseId = viewModel.courseData.value?.courseId ?: 0
                     )
                 findNavController().navigate(action)
             }
-            MEDIA_TYPE.TEXT -> {
+            MediaType.TEXT -> {
                 val action =
                     AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToLessonTextFragment(
                         sendSectionModel = viewModel.getSectionList()
-                            ?.get(adapterPosition),
+                            ?.get(viewModel.sectionAdapterPosition),
                         lectureId = viewModel.getSectionList()
-                            ?.get(adapterPosition)?.lessonList?.get(childPosition)?.lectureId!!,
+                            ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(viewModel.sectionChildPosition)?.lectureId
+                            ?: 0,
                         type = Constant.CLICK_EDIT,
-                        childPosition = childPosition,
+                        childPosition = viewModel.sectionChildPosition,
                         courseId = viewModel.courseData.value?.courseId ?: 0
 
                     )
                 findNavController().navigate(action)
             }
-            MEDIA_TYPE.QUIZ -> {
+            MediaType.QUIZ -> {
                 findNavController().navigate(
                     AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToAddQuizFragment(
                         viewModel.courseData.value,
                         true,
-                        adapterPosition,
+                        viewModel.sectionAdapterPosition,
                         viewModel.getSectionList()?.toTypedArray(),
-                        childPosition
+                        viewModel.sectionChildPosition
                     )
                 )
 
@@ -525,10 +510,7 @@ class AddSectionOrLectureFragment :
             .icon(R.drawable.ic_delete_icon)
             .getCallback {
                 if (it) {
-                    viewModel.deleteLecture(
-                        adapterPosition,
-                        childPosition
-                    )
+                    viewModel.deleteLecture()
                 }
             }.build()
     }
@@ -541,16 +523,13 @@ class AddSectionOrLectureFragment :
             .icon(R.drawable.ic_delete_icon)
             .getCallback {
                 if (it) {
-                    viewModel.deleteSection(
-                        viewModel.getSectionList()?.get(adapterPosition)?.sectionId,
-                        adapterPosition
-                    )
+                    viewModel.deleteSection()
 
                 }
             }.build()
     }
 
-    fun handleInitList() {
+    private fun handleInitList() {
         adapter?.notifyDataSetChanged()
         adapter = null
         setAdapter()
@@ -558,12 +537,12 @@ class AddSectionOrLectureFragment :
     }
 
     override fun invoke(p1: String?) {
-        when (mediaType) {
-            MEDIA_TYPE.DOC -> {
-                Log.d("varun", "invoke: ${p1}")
+        when (viewModel.mediaType) {
+            MediaType.DOC -> {
                 val action =
                     AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToDocLessonFragment(
-                        sendSectionModel = viewModel.getSectionList()?.get(adapterPosition),
+                        sendSectionModel = viewModel.getSectionList()
+                            ?.get(viewModel.sectionAdapterPosition),
                         lectureId = _lectureId,
                         type = Constant.CLICK_ADD,
                         childPosition = -1,
@@ -589,5 +568,7 @@ class AddSectionOrLectureFragment :
 
     }
 
-
+    override fun onApiRetry(apiCode: String) {
+        //handled in AddCourseBaseFragment
+    }
 }

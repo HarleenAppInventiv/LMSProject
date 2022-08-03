@@ -14,6 +14,7 @@ import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.DialogType
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@SuppressLint("NotifyDataSetChanged")
 class MultipleChoiceBottomDialog : BaseBottomSheetDialog<BottomDialogSingleChoiceBinding>(),
     BaseAdapter.IViewClick {
     private val viewModel: SingleChoiceVM by viewModel()
@@ -46,12 +47,12 @@ class MultipleChoiceBottomDialog : BaseBottomSheetDialog<BottomDialogSingleChoic
             type = it.getInt("type")
             if (it.containsKey("selectedIds")) {
                 selectedList =
-                    it.getParcelableArrayList<SingleChoiceData>("selectedIds") ?: ArrayList()
+                    it.getParcelableArrayList("selectedIds") ?: ArrayList()
             }
             if (it.containsKey("list")) {
                 list.clear()
-                list.addAll(it.getParcelableArrayList<SingleChoiceData>("list") ?: ArrayList())
-                list.forEach { it.isSelected = false }
+                list.addAll(it.getParcelableArrayList("list") ?: ArrayList())
+                list.forEach { data -> data.isSelected = false }
                 updateSelectedData()
             }
             binding.tvDialogTitle.text = it.getString("title")
@@ -85,7 +86,7 @@ class MultipleChoiceBottomDialog : BaseBottomSheetDialog<BottomDialogSingleChoic
 
     private fun setAdapter() {
         adapter?.notifyDataSetChanged() ?: kotlin.run {
-            adapter = MultipleChoiceAdapter(list)
+            adapter = MultipleChoiceAdapter(list, true)
             binding.rvList.adapter = adapter
             adapter!!.setOnAdapterItemClickListener(this)
         }
@@ -105,11 +106,16 @@ class MultipleChoiceBottomDialog : BaseBottomSheetDialog<BottomDialogSingleChoic
         super.onResponseSuccess(value, apiCode)
         when (apiCode) {
             ApiEndPoints.API_PROFESSION -> {
-                list = (value as BaseResponse<SingleClickResponse>)?.resource?.list ?: ArrayList()
+                list = (value as BaseResponse<SingleClickResponse>).resource?.list ?: ArrayList()
                 updateSelectedData()
                 setAdapter()
             }
         }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        super.onApiRetry(apiCode)
+        viewModel.onApiRetry(apiCode)
     }
 
 }

@@ -3,6 +3,7 @@ package com.selflearningcoursecreationapp.extensions
 
 import android.content.Context
 import android.view.View
+import androidx.constraintlayout.motion.widget.MotionLayout
 import com.selflearningcoursecreationapp.R
 
 
@@ -10,6 +11,14 @@ fun View.visibleView(show: Boolean) {
     visibility = if (show) {
         View.VISIBLE
     } else View.GONE
+}
+
+fun sad(view: View, motionLayout: MotionLayout) {
+    motionLayout.getConstraintSet(R.id.mode)
+        .getConstraint(view.id).propertySet.mVisibilityMode =
+        1 // 1 - ignore or 0 - normal
+
+    view.visibility = View.GONE
 }
 
 fun View.inVisibleView(isShow: Boolean) {
@@ -73,6 +82,8 @@ fun Context.getQuantityString(resId: Int, quantity: Int?): String {
         quantity ?: 0
     )
 }
+
+
 
 
 

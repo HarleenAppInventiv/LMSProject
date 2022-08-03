@@ -2,9 +2,7 @@ package com.selflearningcoursecreationapp.utils.customViews
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.PorterDuff
 import android.util.AttributeSet
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.card.MaterialCardView
 import com.selflearningcoursecreationapp.R
 

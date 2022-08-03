@@ -17,9 +17,9 @@ class AdapterSelectGender(private val list: ArrayList<GenderModel>) :
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         binding.tvRemoveSection.apply {
-            changeTextColor(if (list[position].isSelected == true) ThemeConstants.TYPE_THEME else ThemeConstants.TYPE_PRIMARY)
+            changeTextColor(if (list[position].isSelected) ThemeConstants.TYPE_THEME else ThemeConstants.TYPE_PRIMARY)
             typeface =
-                if (list[position].isSelected == true) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
+                if (list[position].isSelected) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
             text = list[position].genderName
             setOnClickListener {
                 onItemClick(Constant.CLICK_VIEW, list[position])

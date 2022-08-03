@@ -1,6 +1,5 @@
 package com.selflearningcoursecreationapp.ui.dialog.singleChoice
 
-import android.graphics.Typeface
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
@@ -21,12 +20,13 @@ class SingleChoiceAdapter(
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         val binding = holder.binding as AdapterSingleChoiceBinding
-        binding.tvTitle.setText(list[position].title)
+        binding.tvTitle.text = list[position].title
         binding.rbChecked.visibleView(showRadio)
         binding.rbChecked.isChecked = list[position].isSelected == true
         binding.tvTitle.changeTextColor(if (list[position].isSelected == true) ThemeConstants.TYPE_THEME else ThemeConstants.TYPE_PRIMARY)
-        binding.tvTitle.typeface =
-            if (list[position].isSelected == true) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
+        binding.tvTitle.changeFontType(
+            if (list[position].isSelected == true) ThemeConstants.FONT_SEMI_BOLD else ThemeConstants.FONT_REGULAR
+        )
         binding.root.setOnClickListener {
             onItemClick(Constant.CLICK_VIEW, position)
         }

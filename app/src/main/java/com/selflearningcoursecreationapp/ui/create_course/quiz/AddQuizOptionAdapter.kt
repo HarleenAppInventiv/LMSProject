@@ -1,5 +1,7 @@
 package com.selflearningcoursecreationapp.ui.create_course.quiz
 
+import android.annotation.SuppressLint
+import android.view.View
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
@@ -9,18 +11,19 @@ import com.selflearningcoursecreationapp.models.course.quiz.QuizOptionData
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.DialogType
 import com.selflearningcoursecreationapp.utils.QUIZ
-import java.util.*
 
 class AddQuizOptionAdapter(
     private var list: ArrayList<QuizOptionData>,
     private var isEnabled: Boolean,
     private var questionType: Int?,
-    private var optionType: Int
+    private var optionType: Int,
 ) :
-    BaseAdapter<AdapterAddQuizOptionBinding>() {
+    BaseAdapter<AdapterAddQuizOptionBinding>(), View.OnTouchListener {
+
 
     override fun getLayoutRes() = R.layout.adapter_add_quiz_option
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val binding = holder.binding as AdapterAddQuizOptionBinding
         val context = binding.root.context
@@ -33,10 +36,16 @@ class AddQuizOptionAdapter(
         binding.tvName.text = position.getCharString()
 
 
+
         binding.etOption1.gone()
         binding.etOption2.gone()
         binding.etOption2.textHelper(position + 1 == list.size)
         binding.etOption1.textHelper(position + 1 == list.size)
+        binding.etOption1.setOnTouchListener(this)
+        binding.etOption2.setOnTouchListener(this)
+//        binding.etOption1.setWordLimit()
+//        binding.etOption2.setWordLimit()
+
 
         when (questionType) {
             QUIZ.MATCH_COLUMN -> {

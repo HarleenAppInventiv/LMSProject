@@ -20,6 +20,7 @@ object PreferenceDataStore {
         }
     }
 
+
     suspend fun saveInt(key: Constants, value: Int) {
         getAppContext().dataStore.edit {
             it[intPreferencesKey(key.toString())] = value

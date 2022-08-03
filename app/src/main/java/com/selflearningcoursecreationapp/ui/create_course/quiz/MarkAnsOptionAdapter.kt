@@ -10,9 +10,8 @@ import com.selflearningcoursecreationapp.extensions.getCharString
 import com.selflearningcoursecreationapp.models.course.quiz.QuizOptionData
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
-import java.util.*
 
-class MarkAnsOptionAdapter(private var list: ArrayList<QuizOptionData>, private var type: Int) :
+class MarkAnsOptionAdapter(private var list: ArrayList<QuizOptionData>) :
     BaseAdapter<AdapterAnsOptionsBinding>() {
 
     override fun getLayoutRes() = R.layout.adapter_ans_options

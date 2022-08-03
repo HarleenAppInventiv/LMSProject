@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -17,11 +15,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/_15sdp"
-            android:paddingVertical="@dimen/_10sdp"
+            android:paddingVertical="@dimen/_5sdp"
             android:paddingHorizontal="@dimen/_10sdp"
-            android:text="English"
             android:textColor="@color/radioTextColor"
-
+            app:compoundFont="medium"
+            app:compoundTextColor="none"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

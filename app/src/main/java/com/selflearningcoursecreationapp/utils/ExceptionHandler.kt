@@ -5,11 +5,18 @@ import android.content.Intent
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
-import com.selflearningcoursecreationapp.BuildConfig
 import com.selflearningcoursecreationapp.extensions.showException
-import java.util.*
 
-class ExceptionHandler private constructor(app: Activity) : Thread.UncaughtExceptionHandler {
+class ExceptionHandler : Thread.UncaughtExceptionHandler {
+    private var app: Activity? = null
+
+    private var defaultUEH: Thread.UncaughtExceptionHandler =
+        Thread.getDefaultUncaughtExceptionHandler()
+
+    fun initialize(app: Activity) {
+        this.app = app
+    }
+
     override fun uncaughtException(t: Thread, e: Throwable) {
         var arr = e.stackTrace
         val report = StringBuilder(
@@ -41,7 +48,7 @@ class ExceptionHandler private constructor(app: Activity) : Thread.UncaughtExcep
         val map = HashMap<String, String>()
         //        HomeUtil.addDefaultParams(map);
         val sendIntent = Intent(Intent.ACTION_SEND)
-        val subject = "Crash Report Skillyfy"
+        val subject = "Crash Report Skillfy"
         val body = """
             Crash Logs: 
             ${prettyJson(map)}
@@ -57,9 +64,9 @@ class ExceptionHandler private constructor(app: Activity) : Thread.UncaughtExcep
         defaultUEH.uncaughtException(t, e)
     }
 
-    fun prettyJson(`object`: Any?): String {
+    private fun prettyJson(`object`: Any?): String {
         var json = ""
-        if (BuildConfig.DEBUG && `object` != null) {
+        if (/*BuildConfig.DEBUG &&*/ `object` != null) {
             val parser = GsonBuilder().setPrettyPrinting().create()
             try {
                 json = parser.toJson(JsonParser().parse(objecttoJson(`object`)))
@@ -74,23 +81,22 @@ class ExceptionHandler private constructor(app: Activity) : Thread.UncaughtExcep
         }
         return json
     }
+//    @SuppressLint("StaticFieldLeak")
+//    companion object {
+//        private lateinit var defaultUEH: Thread.UncaughtExceptionHandler
+//        private var exceptionHandler: ExceptionHandler? = null
+//        fun getInstance(activity: Activity): ExceptionHandler? {
+//            if (exceptionHandler == null) exceptionHandler = ExceptionHandler(activity)
+//            return exceptionHandler
+//        }
+//
+//        private fun objecttoJson(`object`: Any): String {
+//            return Gson().toJson(`object`).replace("\\", "")
+//        }
+//    }
 
-    companion object {
-        private lateinit var defaultUEH: Thread.UncaughtExceptionHandler
-        private var app: Activity? = null
-        private var exceptionHandler: ExceptionHandler? = null
-        fun getInstance(activity: Activity): ExceptionHandler? {
-            if (exceptionHandler == null) exceptionHandler = ExceptionHandler(activity)
-            return exceptionHandler
-        }
 
-        private fun objecttoJson(`object`: Any): String {
-            return Gson().toJson(`object`).replace("\\", "")
-        }
-    }
-
-    init {
-        defaultUEH = Thread.getDefaultUncaughtExceptionHandler()
-        Companion.app = app
+    private fun objecttoJson(`object`: Any): String {
+        return Gson().toJson(`object`).replace("\\", "")
     }
 }

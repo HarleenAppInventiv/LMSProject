@@ -13,6 +13,10 @@
             name="isEnabled"
             type="Boolean" />
 
+        <import
+            alias="const"
+            type="com.selflearningcoursecreationapp.utils.ValidationConst" />
+
         <variable
             name="type"
             type="Integer" />
@@ -40,7 +44,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/offwhite_f6f6f6"
+            android:background="@color/offWhite_f6f6f6"
             android:padding="@dimen/_5sdp">
 
 
@@ -57,12 +61,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:maxLength="@{const.MAX_QUIZ_OPTION_LENGTH}"
+                android:maxLines="3"
                 android:padding="@dimen/_8sdp"
                 android:text="@={optionData.option1}"
-                android:maxLines="1"
-                android:textSize="@dimen/_12ssp"
-                android:singleLine="true"
-
+                android:textSize="@dimen/editTextField_12"
                 android:visibility="@{!optionData.noDataEntered &amp;&amp; (optionData.imageId==null || optionData.imageId.empty) &amp;&amp; type==0? View.VISIBLE: View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/endBarrier"
@@ -75,24 +78,24 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:maxLines="1"
+                android:maxLength="@{const.MAX_QUIZ_OPTION_LENGTH}"
+                android:maxLines="3"
                 android:padding="@dimen/_8sdp"
-                android:singleLine="true"
                 android:text="@={optionData.option2}"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/editTextField_12"
                 android:visibility="@{ type==1? View.VISIBLE: View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/endBarrier"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_select"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:padding="@dimen/_8sdp"
-                android:singleLine="true"
-                android:textSize="@dimen/_11ssp"
+                android:textSize="@dimen/textField_12"
                 android:visibility="@{optionData.noDataEntered? View.VISIBLE: View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/endBarrier"

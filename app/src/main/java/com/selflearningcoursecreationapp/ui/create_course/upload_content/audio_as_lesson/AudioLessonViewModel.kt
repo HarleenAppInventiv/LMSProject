@@ -8,9 +8,9 @@ import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.UploadContentRepo
-import com.selflearningcoursecreationapp.utils.MEDIA_TYPE
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.MediaType
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -20,6 +20,9 @@ class AudioLessonViewModel(private val repo: UploadContentRepo) : BaseViewModel(
     var courseId: Int? = null
     var model: SectionModel? = null
     var sectionId: Int? = null
+    var contentId = ""
+    var milliSecond = 0L
+    private var uploadFile: File? = null
 
     var docLiveData = MutableLiveData<ChildModel>().apply {
         value = ChildModel()
@@ -27,22 +30,16 @@ class AudioLessonViewModel(private val repo: UploadContentRepo) : BaseViewModel(
     }
 
 
-    fun addPatchLecture(
-
-        lectureTitle: String,
-
-        id: String,
-        contentDuration: Int,
-    ) =
+    private fun addPatchLecture() =
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
             map["courseId"] = courseId ?: 0
             map["sectionId"] = sectionId.toString()
             map["lectureId"] = lectureId ?: 0
-            map["mediaTypeId"] = MEDIA_TYPE.AUDIO.toString()
-            map["lectureTitle"] = lectureTitle
-            map["lectureContentId"] = id
-            map["contentDuration"] = contentDuration
+            map["mediaTypeId"] = MediaType.AUDIO.toString()
+            map["lectureTitle"] = docLiveData.value?.lectureTitle?.trim() ?: ""
+            map["lectureContentId"] = contentId
+            map["contentDuration"] = milliSecond
             val response = repo.addPatchLecture(map)
             withContext(Dispatchers.IO) {
                 response.collect {
@@ -51,27 +48,12 @@ class AudioLessonViewModel(private val repo: UploadContentRepo) : BaseViewModel(
             }
         }
 
-    fun notifyData() {
-//        courseData.value = courseData.value
-        docLiveData.value?.notifyChange()
-    }
 
-    fun docValidations(
-
-        text: String,
-        contentId: String,
-        milliSecond: Int,
-    ) {
+    fun docValidations() {
         docLiveData.value?.let {
             val errorId = it.isAudioValid()
             if (errorId == 0) {
-                addPatchLecture(
-
-                    lectureTitle = text,
-
-                    id = contentId,
-                    contentDuration = milliSecond
-                )
+                addPatchLecture()
             } else {
                 updateResponseObserver(Resource.Error(ToastData(errorId)))
             }
@@ -80,24 +62,28 @@ class AudioLessonViewModel(private val repo: UploadContentRepo) : BaseViewModel(
 
     fun uploadContent(
         file: File,
-        duration: Int,
-    ) =
+        duration: Long,
+    ) {
+        milliSecond = duration
+        uploadFile = file
         viewModelScope.launch(coroutineExceptionHandle) {
             val response = repo.contentUpload(
                 courseId,
                 sectionId,
                 lectureId ?: 0,
                 file,
-                MEDIA_TYPE.AUDIO,
+                MediaType.AUDIO,
                 duration
             )
             withContext(Dispatchers.IO) {
                 response.collect {
+
                     updateResponseObserver(it)
                 }
             }
         }
 
+    }
 
     fun getLectureDetail() = viewModelScope.launch(coroutineExceptionHandle) {
         val response = repo.getLectureDetail(lectureId ?: 0)
@@ -107,5 +93,19 @@ class AudioLessonViewModel(private val repo: UploadContentRepo) : BaseViewModel(
             }
         }
 
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        when (apiCode) {
+            ApiEndPoints.API_ADD_LECTURE_PATCH -> {
+                docValidations()
+            }
+            ApiEndPoints.API_CONTENT_UPLOAD -> {
+                uploadFile?.let { uploadContent(it, milliSecond) }
+            }
+            ApiEndPoints.API_GET_LECTURE_DETAIL -> {
+                getLectureDetail()
+            }
+        }
     }
 }

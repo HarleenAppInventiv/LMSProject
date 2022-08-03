@@ -5,71 +5,79 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.AllCoursesVM" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/offwhiteTextColor"
-            android:orientation="vertical">
+            android:background="?attr/off_whiteTextColor"
+            tools:context=".ui.bottom_home.popular_courses.AllCoursesFragment">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/et_search"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="?attr/offwhiteTextColor"
-                tools:context=".ui.bottom_home.popular_courses.PopularFragment">
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:background="@drawable/edt_bg_white"
+                android:drawablePadding="@dimen/_10sdp"
+                android:drawableTint="@color/hintColor"
+                android:hint="@string/search_course_by_name"
+                android:imeOptions="actionSearch"
+                android:maxLines="1"
+                android:padding="@dimen/_8sdp"
+                android:singleLine="true"
+                android:text="@={viewModel.searchLiveData}"
+                android:textColor="?attr/whiteTextColor"
+                android:textSize="@dimen/textField_14"
+                app:drawableStartCompat="@drawable/ic_grey_search"
+                app:fontType="regular"
+                app:layout_constraintEnd_toStartOf="@+id/filter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textColorType="primary"
+                tools:targetApi="m" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:id="@+id/iv_mic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/et_search"
+                app:layout_constraintEnd_toEndOf="@+id/et_search"
+                app:layout_constraintTop_toTopOf="@+id/et_search"
+                app:srcCompat="@drawable/ic_mic_home"
+                app:tint="@color/hintColor" />
 
 
-                <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
-                    android:id="@+id/et_search"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    android:background="@drawable/edt_bg_white"
-                    android:drawablePadding="@dimen/_10sdp"
-                    android:drawableTint="@color/hintColor"
-                    android:hint="@string/search_course_by_name"
-                    android:imeOptions="actionDone"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="?attr/whiteTextColor"
-                    android:textSize="@dimen/_14ssp"
-                    app:drawableStartCompat="@drawable/ic_grey_search"
-
-                    app:fontType="regular"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:textColorType="primary"
-                    tools:targetApi="m" />
-
-                <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    app:layout_constraintBottom_toBottomOf="@+id/et_search"
-                    app:layout_constraintEnd_toEndOf="@+id/et_search"
-                    app:layout_constraintTop_toTopOf="@+id/et_search"
-                    app:srcCompat="@drawable/ic_mic_home"
-                    app:tint="@color/hintColor" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:id="@+id/filter"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/et_search"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/et_search"
+                app:layout_constraintTop_toTopOf="@+id/et_search"
+                app:srcCompat="@drawable/ic_filter_field" />
 
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_courses_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_8sdp"
 
 
                 android:orientation="vertical"
@@ -82,8 +90,26 @@
                 tools:listitem="@layout/adapter_courses_layout" />
 
 
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/noDataTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_20sdp"
+                android:drawableTop="@drawable/ic_no_doc"
+                android:drawablePadding="@dimen/_15sdp"
+                android:text="@string/didn_t_found_any_result"
+                android:textAlignment="center"
+                android:textSize="@dimen/_16ssp"
+                android:visibility="gone"
+                app:fontType="semiBold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textColorType="black" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 </layout>

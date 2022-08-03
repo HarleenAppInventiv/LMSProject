@@ -1,3 +1,5 @@
+@file:Suppress("SuspiciousVarProperty")
+
 package com.selflearningcoursecreationapp.models
 
 import android.os.Parcelable
@@ -39,14 +41,14 @@ class ChangePasswordData : BaseObservable(), Parcelable {
     @get:Bindable
     var resetValid: Boolean = false
         get() {
-            return !newPassword.isEmpty() && !confirmPassword.isEmpty()
+            return newPassword.isNotEmpty() && confirmPassword.isNotEmpty()
         }
 
     @Transient
     @get:Bindable
     var changeValid: Boolean = false
         get() {
-            return !newPassword.isEmpty() && !confirmPassword.isEmpty() && !oldPassword.isEmpty()
+            return newPassword.isNotEmpty() && confirmPassword.isNotEmpty() && oldPassword.isNotEmpty()
 
         }
 
@@ -96,7 +98,7 @@ class ChangePasswordData : BaseObservable(), Parcelable {
                 R.string.please_enter_confirm_password
 
             }
-            !newPassword.equals(confirmPassword) -> {
+            newPassword != confirmPassword -> {
                 R.string.new_confirm_paswrd_not_match
 
             }

@@ -2,7 +2,6 @@ package com.selflearningcoursecreationapp.ui.profile.profileDetails
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
@@ -16,32 +15,40 @@ import com.selflearningcoursecreationapp.databinding.FragmentProfileDetailsBindi
 import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.models.course.ImageResponse
 import com.selflearningcoursecreationapp.models.user.UserProfile
+import com.selflearningcoursecreationapp.ui.dialog.ImagePreviewDialog
 import com.selflearningcoursecreationapp.ui.dialog.UploadImageOptionsDialog
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.ResizeableUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 
 
 class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), View.OnClickListener {
     private val viewModel: ProfileDetailViewModel by viewModel()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
     }
 
+
     fun init() {
+
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
-        onClickListners()
+        onClickListeners()
 
         viewModel.viewProfile()
+        binding.profileDetail = viewModel
+
 
     }
 
-    fun onClickListners() {
+    private fun onClickListeners() {
         binding.imgEditProfile.setOnClickListener(this)
         binding.imgEditProfileImage.setOnClickListener(this)
         binding.imgBack.setOnClickListener(this)
         binding.tvAddEmail.setOnClickListener(this)
+//        binding.imgProfileImage.setOnClickListener(this)
     }
 
     override fun getLayoutRes() = R.layout.fragment_profile_details
@@ -58,12 +65,20 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
                     ProfileDetailsFragmentDirections.actionProfileDetailsFragmentToEditProfileFragment()
                 findNavController().navigate(action)
             }
+            R.id.img_profile_image -> {
+                val bundle =
+
+                    ImagePreviewDialog().show(childFragmentManager, "")
+//                val action =
+//                    ProfileDetailsFragmentDirections.actionProfileDetailsFragmentToEditProfileFragment()
+//                findNavController().navigate(action)
+            }
             R.id.img_edit_profile_image -> {
                 UploadImageOptionsDialog().apply {
                     setOnDialogClickListener(object : BaseBottomSheetDialog.IDialogClick {
                         override fun onDialogClick(vararg items: Any) {
                             val uri = items[1] as String
-                            val file = File(Uri.parse(uri).path)
+                            val file = File(Uri.parse(uri).path ?: "")
                             binding.imgProfileImage.setImageURI(Uri.parse(uri))
                             viewModel.uploadImage(file)
                         }
@@ -84,11 +99,8 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
         when (apiCode) {
             ApiEndPoints.API_VIEW_PROFILE -> {
                 viewModel.userProfile?.let { data ->
-                    //                binding.imgProfileImage.s
 
-                    Log.d("Profile", "onResponseSuccess: $data")
-
-                    var location =
+                    val location =
                         "${
                             if (data.city.isNullOrEmpty()) {
                                 ""
@@ -109,7 +121,8 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
                     Glide.with(requireActivity()).clear(binding.imgProfileImage)
                     binding.imgProfileImage.loadImage(
                         data.profileUrl,
-                        R.drawable.ic_default_user_grey
+                        R.drawable.ic_default_user_grey,
+                        data.profileBlurHash
                     )
 //                    Glide.with(requireActivity()).load(data.profileUrl)
 //                        .placeholder(R.drawable.ic_default_user_grey)
@@ -118,8 +131,10 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
                     binding.imgProfileImage
                     binding.txtDob.text = data.dob?.changeDateFormat()
                     binding.txtContactMail.text = data.email
+                    viewModel.txtEmail.value = data.email
                     setEmailData(data)
-                    binding.txtContactNumber.text = data.countryCode + " " + data.number
+                    binding.txtContactNumber.text =
+                        String.format("%s %s", data.countryCode, data.number)
                     binding.txtProfession.text = data.profession?.name
                     binding.txtGender.text = data.genderName
 
@@ -127,7 +142,7 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
                 }
             }
             ApiEndPoints.API_UPLOAD_IMAGE -> {
-                (value as BaseResponse<ImageResponse>)?.let {
+                (value as BaseResponse<ImageResponse>).let {
                     viewModel.viewProfile()
                 }
             }
@@ -137,10 +152,9 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
     }
 
     private fun setEmailData(data: UserProfile) {
-        binding.txtContactMail.isEnabled = !data.email.isNullOrEmpty()
+        binding.txtContactMail.isEnabled = data.email.isNotEmpty()
 
-        if (data.email.isNullOrEmpty()) {
-            //    binding.txtContactMail.setDrawableColor(0,ThemeConstants.TYPE_TINT)
+        if (data.email.isEmpty()) {
             binding.tvAddEmail.text = baseActivity.getString(R.string.add_email)
             binding.txtContactMail.setCompoundDrawablesRelativeWithIntrinsicBounds(
                 binding.txtContactMail.compoundDrawables[0],
@@ -155,7 +169,6 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
             params.topMargin = 0
             binding.tvAddEmail.layoutParams = params
         } else {
-            //    binding.txtContactMail.setDrawableColor(0,ThemeConstants.TYPE_THEME)
             binding.tvAddEmail.text = baseActivity.getString(R.string.change_email)
             binding.tvEmailVerified.visible()
 
@@ -164,19 +177,13 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
             params.topToBottom = binding.txtContactMail.id
             params.topMargin = baseActivity.resources.getDimensionPixelOffset(R.dimen._5sdp)
             binding.tvAddEmail.layoutParams = params
-//            binding.txtContactMail.setCompoundDrawablesRelativeWithIntrinsicBounds(
-//                binding.txtContactMail.compoundDrawables[0],
-//                null,
-//                null,
-//                ContextCompat.getDrawable(baseActivity, R.drawable.ic_check_green)
-//            )
-
         }
     }
 
     private fun setBio(data: UserProfile) {
         if (!data.bio.isNullOrEmpty()) {
-            binding.tvUserBio.setTextResizable(data.bio)
+            ResizeableUtils.builder(binding.tvUserBio).setFullText(data.bio).isUnderline(false)
+                .isBold(false).build()
             binding.tvUserBio.setCompoundDrawablesRelativeWithIntrinsicBounds(
                 null,
                 null,
@@ -198,6 +205,10 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
             )
 
         }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
     }
 
 

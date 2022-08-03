@@ -17,18 +17,26 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_16sdp"
-            android:background="@drawable/light_bottom_line"
             android:paddingTop="@dimen/_22sdp"
             android:paddingBottom="@dimen/_22sdp"
             android:text="@string/remove_section"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/adapterTF_14"
             app:fontType="regular"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:primaryIconTint="start"
             tools:ignore="RtlSymmetry" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:background="?attr/off_whiteTextColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_remove_section" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

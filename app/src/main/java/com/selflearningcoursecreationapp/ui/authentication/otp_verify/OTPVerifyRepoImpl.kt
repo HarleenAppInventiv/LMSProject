@@ -36,7 +36,7 @@ class OTPVerifyRepoImpl(private val apiService: ApiService) : OTPVerifyRepo {
                 return apiService.requestEmailOTP(map)
             }
 
-        }.safeApiCall(ApiEndPoints.API_OTP_REQ).flowOn(Dispatchers.IO)
+        }.safeApiCall(ApiEndPoints.API_ADD_EMAIL).flowOn(Dispatchers.IO)
     }
 
     override suspend fun verEmailOtp(map: HashMap<String, Any>): Flow<Resource> {
@@ -45,6 +45,6 @@ class OTPVerifyRepoImpl(private val apiService: ApiService) : OTPVerifyRepo {
                 return apiService.validateEmailOTP(map)
             }
 
-        }.safeApiCall(ApiEndPoints.API_OTP_VAL).flowOn(Dispatchers.IO)
+        }.safeApiCall(ApiEndPoints.API_VERIFY_EMAIL).flowOn(Dispatchers.IO)
     }
 }

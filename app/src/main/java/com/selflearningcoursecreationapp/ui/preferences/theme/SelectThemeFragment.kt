@@ -1,9 +1,9 @@
 package com.selflearningcoursecreationapp.ui.preferences.theme
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
@@ -15,6 +15,7 @@ import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.SpanUtils
 
 
+@SuppressLint("NotifyDataSetChanged")
 class SelectThemeFragment : BaseFragment<FragmentSelectThemeBinding>(), BaseAdapter.IViewClick {
 
     private var adapter: ThemeAdapter? = null
@@ -28,6 +29,7 @@ class SelectThemeFragment : BaseFragment<FragmentSelectThemeBinding>(), BaseAdap
         super.onViewCreated(view, savedInstanceState)
         initUi()
     }
+
 
     private fun initUi() {
         if (viewModel.themeListLiveData.value.isNullOrEmpty()) {
@@ -43,7 +45,7 @@ class SelectThemeFragment : BaseFragment<FragmentSelectThemeBinding>(), BaseAdap
                 .isBold().getSpanString()
 
         )
-        viewModel.themeListLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.themeListLiveData.observe(viewLifecycleOwner, {
             adapter?.notifyDataSetChanged()
             adapter = null
             setAdapter()
@@ -77,6 +79,10 @@ class SelectThemeFragment : BaseFragment<FragmentSelectThemeBinding>(), BaseAdap
                 }
             }
         }
+
+    }
+
+    override fun onApiRetry(apiCode: String) {
 
     }
 

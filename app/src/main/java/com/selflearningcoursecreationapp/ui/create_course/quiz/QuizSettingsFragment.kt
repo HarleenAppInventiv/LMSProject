@@ -1,5 +1,6 @@
 package com.selflearningcoursecreationapp.ui.create_course.quiz
 
+import android.annotation.SuppressLint
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
@@ -17,6 +18,7 @@ import com.selflearningcoursecreationapp.extensions.visibleView
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.CommonAlertDialog
+import com.selflearningcoursecreationapp.utils.LectureStatus
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
@@ -40,9 +42,11 @@ class QuizSettingsFragment : BaseFragment<FragmentQuizSettingsBinding>(),
         initUi()
     }
 
+
     private fun initUi() {
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         binding.viewModel = viewModel
+        binding.sbTime.max = 120
         binding.sbPass.setOnSeekBarChangeListener(this)
         binding.sbTime.setOnSeekBarChangeListener(this)
         getBundleData()
@@ -60,21 +64,7 @@ class QuizSettingsFragment : BaseFragment<FragmentQuizSettingsBinding>(),
             .setColorFilter(ThemeUtils.getAppColor(baseActivity), PorterDuff.Mode.MULTIPLY)
 
         binding.btNext.setOnClickListener {
-//            if (!bundleArgs?.courseData?.passingCriteria.isNullOrZero() && bundleArgs?.courseData?.passingCriteria != viewModel.quizSettings.value?.passingCriteria && viewModel.isQuiz) {
-//                CommonAlertDialog.builder(baseActivity)
-//                    .title(baseActivity.getString(R.string.caution))
-//                    .description(baseActivity.getString(R.string.update_passing_criteria_desc_text))
-//                    .positiveBtnText(baseActivity.getString(R.string.continue_text))
-//                    .icon(R.drawable.ic_alert)
-//                    .negativeBtnText(baseActivity.getString(R.string.cancel))
-//                    .getCallback {
-//                        if (it) {
-//                            viewModel.saveSettings()
-//                        }
-//                    }.build()
-//            } else {
             viewModel.saveSettings()
-//            }
         }
     }
 
@@ -112,7 +102,7 @@ class QuizSettingsFragment : BaseFragment<FragmentQuizSettingsBinding>(),
             viewModel.quizSettings.value?.let { settings ->
                 settings.totalQues = quizData?.list?.size ?: 0
                 binding.sbTime.progress =
-                    TimeUnit.MILLISECONDS.toMinutes(settings.totalAssesmentTime ?: 0).toInt()
+                    TimeUnit.MILLISECONDS.toMinutes(settings.totalAssessmentTime ?: 0).toInt()
                 binding.sbPass.progress = settings.passingCriteria ?: 0
 
             }
@@ -128,7 +118,6 @@ class QuizSettingsFragment : BaseFragment<FragmentQuizSettingsBinding>(),
     override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
         when (p0?.id) {
             R.id.sw_freeze -> {
-//                val selected = if (p1) 2 else 1
                 handleFreezeContent(p1)
 
             }
@@ -146,7 +135,7 @@ class QuizSettingsFragment : BaseFragment<FragmentQuizSettingsBinding>(),
                 .title(baseActivity.getString(R.string.caution))
                 .description(baseActivity.getString(R.string.update_quiz_mandatory_desc_text))
                 .positiveBtnText(baseActivity.getString(R.string.continue_text))
-                .icon(R.drawable.ic_alert)
+                .icon(R.drawable.ic_alert_title)
                 .negativeBtnText(baseActivity.getString(R.string.cancel))
                 .getCallback {
                     if (it) {
@@ -171,7 +160,7 @@ class QuizSettingsFragment : BaseFragment<FragmentQuizSettingsBinding>(),
                 .title(baseActivity.getString(R.string.caution))
                 .description(baseActivity.getString(R.string.update_freeze_content_desc_text))
                 .positiveBtnText(baseActivity.getString(R.string.continue_text))
-                .icon(R.drawable.ic_alert)
+                .icon(R.drawable.ic_alert_title)
                 .negativeBtnText(baseActivity.getString(R.string.cancel))
                 .getCallback {
                     if (it) {
@@ -189,6 +178,7 @@ class QuizSettingsFragment : BaseFragment<FragmentQuizSettingsBinding>(),
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
         when (p0?.id) {
             R.id.sb_pass -> {
@@ -197,7 +187,7 @@ class QuizSettingsFragment : BaseFragment<FragmentQuizSettingsBinding>(),
                         .title(baseActivity.getString(R.string.caution))
                         .description(baseActivity.getString(R.string.update_passing_criteria_desc_text))
                         .positiveBtnText(baseActivity.getString(R.string.continue_text))
-                        .icon(R.drawable.ic_alert)
+                        .icon(R.drawable.ic_alert_title)
                         .negativeBtnText(baseActivity.getString(R.string.cancel))
                         .getCallback {
                             if (it) {
@@ -217,7 +207,7 @@ class QuizSettingsFragment : BaseFragment<FragmentQuizSettingsBinding>(),
                 }
             }
             R.id.sb_time -> {
-                viewModel.quizSettings.value?.totalAssesmentTime =
+                viewModel.quizSettings.value?.totalAssessmentTime =
                     TimeUnit.MINUTES.toMillis(p1.toLong())
                 binding.tvTimeValue.visibleView(p1 != 0)
                 val count: String =
@@ -251,6 +241,7 @@ class QuizSettingsFragment : BaseFragment<FragmentQuizSettingsBinding>(),
                     viewModel.quizSettings.value?.let { settings ->
                         resource.totalQuizQues = settings.totalQues
                         resource.allAnsMarked = true
+                        resource.lectureStatusId = LectureStatus.COMPLETED
 
 
                         bundleArgs?.courseData?.freezeContent = settings.freezeContent
@@ -273,22 +264,12 @@ class QuizSettingsFragment : BaseFragment<FragmentQuizSettingsBinding>(),
                                     bundleArgs?.adapterPosition ?: 0
                                 )?.lessonList!!.size - 1, resource
                             )
-
-//                            bundleArgs?.sectionData?.get(
-//                                bundleArgs?.adapterPosition ?: 0
-//                            )?.lessonList?.add(resource)
-
                         }
 
 
                     }
                 }
 
-
-//                    requireActivity().supportFragmentManager.setFragmentResult(
-//                        "response",
-//                        bundleOf("value" to value.resource)
-//                    )
                 findNavController().popBackStack(R.id.addCourseBaseFragment, false)
             }
 
@@ -309,14 +290,13 @@ class QuizSettingsFragment : BaseFragment<FragmentQuizSettingsBinding>(),
                     }
                 }
 
-
-//                    requireActivity().supportFragmentManager.setFragmentResult(
-//                        "response",
-//                        bundleOf("value" to value.resource)
-//                    )
                 findNavController().popBackStack(R.id.addCourseBaseFragment, false)
             }
         }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
     }
 }
 

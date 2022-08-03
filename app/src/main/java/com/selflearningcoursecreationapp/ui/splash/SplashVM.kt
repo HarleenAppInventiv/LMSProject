@@ -27,4 +27,8 @@ class SplashVM(private val repo: SplashRepo) : BaseViewModel() {
         }
     }
 
+    override fun onApiRetry(apiCode: String) {
+        viewProfile()
+    }
+
 }

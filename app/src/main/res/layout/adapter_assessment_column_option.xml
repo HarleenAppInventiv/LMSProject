@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="@dimen/_15sdp">
+        android:paddingHorizontal="@dimen/_15sdp"
+        android:paddingVertical="@dimen/_8sdp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_bg"
@@ -31,8 +32,9 @@
             android:gravity="center"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/textField_12"
             app:fontType="medium"
+
             app:layout_constraintBottom_toBottomOf="@+id/iv_bg"
             app:layout_constraintEnd_toEndOf="@+id/iv_bg"
             app:layout_constraintStart_toStartOf="@+id/iv_bg"
@@ -46,8 +48,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
             android:paddingVertical="@dimen/_5sdp"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/textField_14"
             app:fontType="semiBold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_bg"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="01 (Jan) " />

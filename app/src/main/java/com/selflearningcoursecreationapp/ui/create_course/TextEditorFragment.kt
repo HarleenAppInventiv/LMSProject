@@ -3,7 +3,6 @@ package com.selflearningcoursecreationapp.ui.create_course
 import android.os.Bundle
 import android.text.Html
 import android.view.View
-import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
@@ -11,29 +10,38 @@ import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentTextEditorBinding
-import com.selflearningcoursecreationapp.extensions.gone
-import com.selflearningcoursecreationapp.extensions.showLog
-import com.selflearningcoursecreationapp.extensions.visible
-import com.selflearningcoursecreationapp.extensions.wordCount
+import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.textEditor.TextEditor
 import com.selflearningcoursecreationapp.utils.HandleClick
+import com.selflearningcoursecreationapp.utils.ValidationConst
 
 
 class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClick,
     TextEditor.OnTextChangeListener {
-    var type = 0
-    var htmlValue = ""
-    var from = 0
-    var count = -1
+    private var type = 0
+    private var htmlValue = ""
+    private var from = 0
+    private var count = -1
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE )
         initUI()
+
     }
+
 
     private fun initUI() {
         binding.handleClick = this
         binding.textEditor.setOnTextChangeListener(this)
         binding.textEditor.requestFocus()
+        binding.root.fitSystemWindowsAndAdjustResize()
+
+
+//
+//        binding.rootView.setPadding(binding.rootView.getPaddingLeft(),
+//            -getStatusBarHeight(),
+//            binding.rootView.getPaddingRight(),
+//            binding.rootView.getPaddingBottom() + 500);
 
 
         arguments?.let {
@@ -42,9 +50,9 @@ class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClic
             from = it.getInt("from")
             binding.tvWordCount.text = (Html.fromHtml(htmlValue).toString()).wordCount().toString()
 
-            singleValueEditor()
-            doubleValueEditor()
-            tripleValueEditor()
+//            singleValueEditor()
+//            doubleValueEditor()
+//            tripleValueEditor()
 
             if (from == 1) {
                 binding.tvWordCount.visible()
@@ -57,7 +65,6 @@ class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClic
                 binding.textEditor.setPlaceholder("Enter description")
                 binding.btAddText.isEnabled = false
                 binding.textEditor.focusEditor()
-
 
             } else {
                 binding.textEditor.html = htmlValue + ""
@@ -82,107 +89,107 @@ class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClic
     }
 
 
-    private fun tripleValueEditor() {
-        if (htmlValue.endsWith("</b></u></i>") || htmlValue.endsWith("</b></i></u>") || htmlValue.endsWith(
-                "</i></b></u>"
-            )
-            || htmlValue.endsWith("</i></u></b>") || htmlValue.endsWith("</u></i></b>") || htmlValue.endsWith(
-                "</u></b></i>"
-            )
-        ) {
-            binding.actionUnderline.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.orange_text_color
-                )
-            )
-            binding.actionBold.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.orange_text_color
-                )
-            )
-            binding.actionItalic.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.orange_text_color
-                )
-            )
-        }
-    }
-
-    private fun doubleValueEditor() {
-        if (htmlValue.endsWith("</i></b>") || htmlValue.endsWith("</b></i>")) {
-            binding.actionBold.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.orange_text_color
-                )
-            )
-            binding.actionItalic.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.orange_text_color
-                )
-            )
-        }
-        if (htmlValue.endsWith("</i></u>") || htmlValue.endsWith("</u></i>")) {
-            binding.actionItalic.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.orange_text_color
-                )
-            )
-            binding.actionUnderline.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.orange_text_color
-                )
-            )
-        }
-        if (htmlValue.endsWith("</b></u>") || htmlValue.endsWith("</u></b>")) {
-            binding.actionUnderline.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.orange_text_color
-                )
-            )
-            binding.actionBold.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.orange_text_color
-                )
-            )
-        }
-    }
-
-    private fun singleValueEditor() {
-        if (htmlValue.endsWith("</b>")) {
-            binding.actionBold.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.orange_text_color
-                )
-            )
-        }
-        if (htmlValue.endsWith("</i>")) {
-
-            binding.actionItalic.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.orange_text_color
-                )
-            )
-        }
-        if (htmlValue.endsWith("</u>")) {
-            binding.actionUnderline.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.orange_text_color
-                )
-            )
-        }
-    }
+//    private fun tripleValueEditor() {
+//        if (htmlValue.endsWith("</b></u></i>") || htmlValue.endsWith("</b></i></u>") || htmlValue.endsWith(
+//                "</i></b></u>"
+//            )
+//            || htmlValue.endsWith("</i></u></b>") || htmlValue.endsWith("</u></i></b>") || htmlValue.endsWith(
+//                "</u></b></i>"
+//            )
+//        ) {
+//            binding.actionUnderline.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.orange_text_color
+//                )
+//            )
+//            binding.actionBold.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.orange_text_color
+//                )
+//            )
+//            binding.actionItalic.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.orange_text_color
+//                )
+//            )
+//        }
+//    }
+//
+//    private fun doubleValueEditor() {
+//        if (htmlValue.endsWith("</i></b>") || htmlValue.endsWith("</b></i>")) {
+//            binding.actionBold.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.orange_text_color
+//                )
+//            )
+//            binding.actionItalic.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.orange_text_color
+//                )
+//            )
+//        }
+//        if (htmlValue.endsWith("</i></u>") || htmlValue.endsWith("</u></i>")) {
+//            binding.actionItalic.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.orange_text_color
+//                )
+//            )
+//            binding.actionUnderline.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.orange_text_color
+//                )
+//            )
+//        }
+//        if (htmlValue.endsWith("</b></u>") || htmlValue.endsWith("</u></b>")) {
+//            binding.actionUnderline.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.orange_text_color
+//                )
+//            )
+//            binding.actionBold.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.orange_text_color
+//                )
+//            )
+//        }
+//    }
+//
+//    private fun singleValueEditor() {
+//        if (htmlValue.endsWith("</b>")) {
+//            binding.actionBold.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.orange_text_color
+//                )
+//            )
+//        }
+//        if (htmlValue.endsWith("</i>")) {
+//
+//            binding.actionItalic.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.orange_text_color
+//                )
+//            )
+//        }
+//        if (htmlValue.endsWith("</u>")) {
+//            binding.actionUnderline.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.orange_text_color
+//                )
+//            )
+//        }
+//    }
 
     override fun getLayoutRes() = R.layout.fragment_text_editor
     override fun onHandleClick(vararg items: Any) {
@@ -254,29 +261,21 @@ class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClic
     override fun onTextChange(text1: String?) {
 
         count = (Html.fromHtml(text1).toString()).wordCount()
-        binding.btAddText.isEnabled = !(count == 0 || count > 500)
+        binding.btAddText.isEnabled =
+            !(count == 0 || count > ValidationConst.MAX_COURSE_DESC_LENGTH_SHOW)
 
         binding.tvWordCount.apply {
             text = count.toString()
-            if (count < 500) {
+            if (count < ValidationConst.MAX_COURSE_DESC_LENGTH_SHOW) {
                 setTextColor(ContextCompat.getColor(context, R.color.black))
             } else {
                 showToastShort("Reached max limit")
                 setTextColor(ContextCompat.getColor(context, R.color.accent_color_fc6d5b))
             }
         }
-
-
     }
 
-    override fun onResume() {
-        super.onResume()
-        baseActivity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        baseActivity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+    override fun onApiRetry(apiCode: String) {
 
     }
 

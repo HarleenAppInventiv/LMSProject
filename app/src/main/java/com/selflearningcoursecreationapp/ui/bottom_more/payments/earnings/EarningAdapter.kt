@@ -4,7 +4,7 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.databinding.AdapterMyEarningBinding
 
-class EarningAdapter() :BaseAdapter<AdapterMyEarningBinding>() {
+class EarningAdapter : BaseAdapter<AdapterMyEarningBinding>() {
     override fun getLayoutRes(): Int {
         return R.layout.adapter_my_earning
     }

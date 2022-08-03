@@ -46,22 +46,18 @@ class MyBankFragment : BaseFragment<FragmentMyBankBinding>(), HandleClick, BaseD
         return super.onOptionsItemSelected(item)
     }
 
+
     override fun getLayoutRes() = R.layout.fragment_my_bank
     override fun onHandleClick(vararg items: Any) {
         if (items.isNotEmpty()) {
             val view = items[0] as View
             when (view.id) {
                 R.id.btn_add_bank_acc -> {
-                    val bundle = bundleOf(
-                        "description" to baseActivity.getString(
-                            R.string.send_razorpay_link
-                        )
-                    )
+                    val bundle =
+                        bundleOf("description" to baseActivity.getString(R.string.send_razorpay_link))
                     CheckMailDialog().apply {
                         arguments = bundle
-
                         setOnDialogClickListener(this@MyBankFragment)
-
                     }.show(childFragmentManager, "")
                 }
             }
@@ -72,6 +68,10 @@ class MyBankFragment : BaseFragment<FragmentMyBankBinding>(), HandleClick, BaseD
     override fun onDialogClick(vararg items: Any) {
         binding.cvAddBank.gone()
         binding.recyclerBankDetail.visible()
+    }
+
+    override fun onApiRetry(apiCode: String) {
+
     }
 
 

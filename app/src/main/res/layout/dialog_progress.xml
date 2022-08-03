@@ -2,18 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transblack"
+    android:background="@color/transBlack"
     android:gravity="center"
     android:orientation="vertical">
 
     <ProgressBar
-        android:layout_width="wrap_content"
         android:id="@+id/pb_loading"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
     <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
         android:layout_width="wrap_content"
-        android:text="Loading..."
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
-        android:layout_height="wrap_content"/>
+        android:text="@string/loading"
+        android:visibility="gone" />
 
 </LinearLayout>

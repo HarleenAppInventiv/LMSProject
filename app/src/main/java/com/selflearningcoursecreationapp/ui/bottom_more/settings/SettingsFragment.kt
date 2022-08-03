@@ -3,15 +3,17 @@ package com.selflearningcoursecreationapp.ui.bottom_more.settings
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentSettingsBinding
-import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.extensions.gone
+import com.selflearningcoursecreationapp.extensions.visible
+import com.selflearningcoursecreationapp.ui.home.HomeActivity
 import com.selflearningcoursecreationapp.utils.HandleClick
 import com.selflearningcoursecreationapp.utils.PREFERENCES
+import com.selflearningcoursecreationapp.utils.STATIC_PAGES_TYPE
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(), HandleClick {
 
@@ -29,16 +31,40 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(), HandleClick {
     private fun initUi() {
         binding.handleClick = this
 
+        initViewVisibility()
+
+    }
+
+    private fun initViewVisibility() {
+        if (baseActivity is HomeActivity) {
+//            binding.tvChangePassword.visible()
+//            binding.tvLanguage.visible()
+//            binding.tvCategory.visible()
+//            binding.tvTheme.visible()
+//            binding.tvTheme.visible()
+//            binding.tvFont.visible()
+//            binding.tvAboutUs.visible()
+//            binding.tvPrivacyPolicy.visible()
+//            binding.tvSupport.visible()
+//            binding.tvTermsAndConditions.visible()
+//            binding.tvHelp.visible()
+            binding.tvCategory.visible()
+            binding.tvTheme.visible()
+            binding.tvFont.visible()
+        } else {
+//            binding.tvChangePassword.visible()
+//            binding.tvLanguage.visible()
+            binding.tvCategory.gone()
+            binding.tvTheme.gone()
+            binding.tvFont.gone()
+
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.course_menu, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return super.onOptionsItemSelected(item)
-
-    }
 
     override fun onHandleClick(vararg items: Any) {
         if (items.isNotEmpty()) {
@@ -88,33 +114,42 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(), HandleClick {
 //                    )
                 }
                 R.id.tv_privacy_policy -> {
-                    var action = SettingsFragmentDirections.actionSettingsFragmentToPrivacyFragment(
-                        baseActivity.getString(R.string.privacy_policy),
-                        ApiEndPoints.LINK_PRIVECY_POL
+                    val action = SettingsFragmentDirections.actionSettingsFragmentToPrivacyFragment(
+                        STATIC_PAGES_TYPE.PRIVACY
+//                        ,
+//                        ApiEndPoints.LINK_PRIVACY_POL
                     )
                     findNavController().navigate(action)
+//                    baseActivity.getString(R.string.privacy_policy),
                 }
                 R.id.tv_terms_and_conditions -> {
-                    var action = SettingsFragmentDirections.actionSettingsFragmentToPrivacyFragment(
-                        baseActivity.getString(R.string.terms_amp_conditions),
-                        ApiEndPoints.LINK_TERM_COND
+                    val action = SettingsFragmentDirections.actionSettingsFragmentToPrivacyFragment(
+                        STATIC_PAGES_TYPE.TERMS
+//                        ApiEndPoints.LINK_TERM_COND
                     )
                     findNavController().navigate(action)
+//                    baseActivity.getString(R.string.terms_amp_conditions),
 
                 }
                 R.id.tv_help -> {
                     findNavController().navigate(R.id.action_settingsFragment_to_helpDialog)
                 }
                 R.id.tv_about_us -> {
-                    var action = SettingsFragmentDirections.actionSettingsFragmentToPrivacyFragment(
-                        baseActivity.getString(R.string.about_us),
-                        ApiEndPoints.LINK_ABOUT_US
+                    val action = SettingsFragmentDirections.actionSettingsFragmentToPrivacyFragment(
+                        STATIC_PAGES_TYPE.ABOUT_US
+//                        ApiEndPoints.LINK_ABOUT_US
                     )
                     findNavController().navigate(action)
+//                    baseActivity.getString(R.string.about_us),
+
                 }
 
             }
         }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+
     }
 
 

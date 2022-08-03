@@ -2,13 +2,13 @@ package com.selflearningcoursecreationapp.ui.create_course.upload_content.audio_
 
 import android.graphics.PorterDuff
 import android.media.AudioManager
+import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.SystemClock
 import android.text.format.DateUtils
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -20,6 +20,7 @@ import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.databinding.FragmentAudioLectureBinding
 import com.selflearningcoursecreationapp.extensions.content
 import com.selflearningcoursecreationapp.extensions.isNullOrNegative
+import com.selflearningcoursecreationapp.extensions.showException
 import com.selflearningcoursecreationapp.models.course.ImageResponse
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
 import com.selflearningcoursecreationapp.ui.dialog.UploadAudioOptionsDialog
@@ -31,24 +32,23 @@ import java.util.concurrent.TimeUnit
 
 
 class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
-    HandleClick, BaseBottomSheetDialog.IDialogClick {
+    HandleClick, BaseBottomSheetDialog.IDialogClick, View.OnTouchListener {
     private val viewModel: AudioLessonViewModel by viewModel()
 
 
-    var childPosition: Int? = 0
-    var filePath = ""
-    var mediaFrom = 0
+    private var childPosition: Int? = 0
+    private var filePath = ""
+    private var mediaFrom = 0
 
-    var mediaPlayer: MediaPlayer? = null
+    private var mediaPlayer: MediaPlayer? = null
 
-    var mCountDownTimer: CountDownTimer? = null
-    var type: Int? = null
+    private var mCountDownTimer: CountDownTimer? = null
+    private var type: Int? = null
     private var timerRunning = false
-    var milliSecond = 0
-    var contentId = ""
 
-    var mLastStopTime = 0L
-    var mute = false
+    private var mLastStopTime = 0L
+    private var countTime = 0L
+    private var mute = false
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
@@ -63,9 +63,27 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
             PorterDuff.Mode.SRC_IN
         )
 
+
         binding.audioLesson = viewModel
         binding.handleClick = this
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
+        getBundleData()
+
+        if (type == Constant.CLICK_ADD) {
+            duration()
+        } else {
+            viewModel.getLectureDetail()
+        }
+
+        if (!childPosition.isNullOrNegative()) {
+            binding.btnAddLesson.text = baseActivity.getString(R.string.update_lesson)
+        }
+        binding.edtTitle.setOnTouchListener(this)
+
+
+    }
+
+    private fun getBundleData() {
         arguments?.let {
             val value = AudioLectureFragmentArgs.fromBundle(it)
             filePath = value.filePath
@@ -77,19 +95,6 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
             type = value.type
             mediaFrom = value.from
         }
-//      /  Log.d("varun", "initUI: ${FileUtils.getDriveFilePath(Uri.parse(filePath),requireContext())}")
-
-        if (type == Constant.CLICK_ADD) {
-            convertToFile()
-        } else {
-            viewModel.getLectureDetail()
-        }
-
-        if (!childPosition.isNullOrNegative()) {
-            binding.btnAddLesson.setText(baseActivity.getString(R.string.update_lesson))
-        }
-
-
     }
 
 
@@ -99,6 +104,7 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.course_menu, menu)
     }
+
 
 //    override fun invoke(p1: String?) {
 //        if (mediaPlayer != null) {
@@ -113,21 +119,22 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
     private fun setMediaPlayer() {
         binding.ivAudioVolume.setImageResource(R.drawable.ic_baseline_volume_up_24)
         mediaPlayer = MediaPlayer()
-        mediaPlayer?.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer?.setAudioStreamType(AudioManager.STREAM_MUSIC)
 
         try {
             mediaPlayer?.setDataSource(requireContext(), Uri.parse(filePath))
             mediaPlayer?.prepare()
             val millis = mediaPlayer?.duration
             val totalSec = TimeUnit.SECONDS.convert(millis!!.toLong(), TimeUnit.MILLISECONDS)
-            milliSecond = mediaPlayer?.duration!!
-            binding.tvTimerMax.text = "/" + DateUtils.formatElapsedTime(totalSec)
+            viewModel.milliSecond = millis?.toLong()
+            countTime = millis?.toLong()
+            binding.tvTimerMax.text = String.format("/%s", DateUtils.formatElapsedTime(totalSec))
             binding.seekbar.apply {
-                max = millis ?: 0
+                max = millis
                 progress = 0
             }
         } catch (e: Exception) {
-            Log.d("varun", "initUI: ${e.message}")
+            showException(e)
         }
 
     }
@@ -138,16 +145,17 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
 
     override fun onDestroyView() {
         super.onDestroyView()
+        mediaPlayer?.reset()
         mediaPlayer?.release()
         mediaPlayer = null
         mCountDownTimer?.cancel()
+        mCountDownTimer = null
     }
 
-    private fun uploadServer(file: File) {
+    private fun uploadServer(file: File, millisecond: Long) {
         viewModel.uploadContent(
             file,
-
-            0
+            millisecond
         )
     }
 
@@ -157,7 +165,7 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
             ApiEndPoints.API_CONTENT_UPLOAD -> {
                 (value as BaseResponse<ImageResponse>).resource?.let {
                     setMediaPlayer()
-                    contentId = it.id.toString()
+                    viewModel.contentId = it.id.toString()
                 }
             }
             ApiEndPoints.API_ADD_LECTURE_PATCH -> {
@@ -187,7 +195,7 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
             ApiEndPoints.API_GET_LECTURE_DETAIL -> {
                 (value as BaseResponse<ChildModel>).resource?.let {
                     binding.edtTitle.setText(it.lectureTitle)
-                    contentId = it.lectureContentId.toString()
+                    viewModel.contentId = it.lectureContentId.toString()
                     filePath = it.lectureContentUrl.toString()
                     setMediaPlayer()
                 }
@@ -195,20 +203,20 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
         }
     }
 
-    private fun convertToFile() {
+    private fun convertToFile(millisecond: Long) {
 
         if (filePath.endsWith("mp3")) {
-            val file = File(Uri.parse(filePath).path)
+            val file = File(Uri.parse(filePath).path ?: "")
 
-            uploadServer(file)
+            uploadServer(file, millisecond)
         } else {
-            showToastShort("Not able to upload this file, please select another")
+            showToastShort(baseActivity.getString(R.string.please_upload_file_of_mp3_extension))
         }
 
     }
 
     override fun onHandleClick(vararg items: Any) {
-        var view = items[0] as View
+        val view = items[0] as View
         when (view.id) {
             R.id.iv_audio_edit -> {
                 resetTimer()
@@ -228,13 +236,7 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
                 }
             }
             R.id.btn_add_lesson -> {
-                viewModel.docValidations(
-
-                    binding.edtTitle.content(),
-                    contentId,
-
-                    milliSecond
-                )
+                viewModel.docValidations()
 
             }
             R.id.iv_audio_play -> {
@@ -249,22 +251,20 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
     }
 
     override fun onDialogClick(vararg items: Any) {
-        var type = items[0] as Int
-        when (type) {
-            MEDIA_TYPE.AUDIO -> {
+        when (val type = items[0] as Int) {
+            MediaType.AUDIO -> {
                 filePath = items[1] as String
-                Log.d("varun", "initUI: ${filePath}")
 
                 if (isFileLessThan5MB(File(filePath))) {
-                    showToastShort("File size is more than 5 MB, not able to upload. Please select another file")
+                    showToastShort(baseActivity.getString(R.string.file_limit_alert_text))
                 } else {
-                    convertToFile()
+                    duration()
                 }
 
 
             }
-            MEDIA_FROM.RECORDING -> {
-                var action =
+            MediaFrom.RECORDING -> {
+                val action =
                     AudioLectureFragmentDirections.actionAudioLectureFragmentToRecordAudioFragment(
                         childPosition = childPosition!!,
                         type = type,
@@ -281,11 +281,11 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
 
     private fun startTimer() {
         binding.tvTimer.apply {
-            if (mLastStopTime == 0L) {
-                base = SystemClock.elapsedRealtime()
+            base = if (mLastStopTime == 0L) {
+                SystemClock.elapsedRealtime()
             } else {
                 val intervalOnPause = SystemClock.elapsedRealtime() - mLastStopTime
-                base = base + intervalOnPause
+                base + intervalOnPause
             }
             start()
         }
@@ -294,13 +294,13 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
         binding.ivAudioPlay.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24)
 
         if (mCountDownTimer != null) {
-            mCountDownTimer?.cancel();
+            mCountDownTimer?.cancel()
         }
-        mCountDownTimer = object : CountDownTimer(milliSecond.toLong(), 1000) {
+        mCountDownTimer = object : CountDownTimer(countTime, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 if (isAdded && isVisible) {
                     binding.seekbar.progress = mediaPlayer?.currentPosition ?: 0
-                    milliSecond = millisUntilFinished.toInt()
+                    countTime = millisUntilFinished
                 }
             }
 
@@ -349,6 +349,17 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
         val fileSize = l.toString()
         val finalFileSize = fileSize.toInt()
         return finalFileSize >= maxFileSize
+    }
+
+    fun duration() {
+        val mmr = MediaMetadataRetriever()
+        mmr.setDataSource(requireContext(), Uri.parse(filePath))
+        val durationStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+        convertToFile(durationStr?.toLongOrNull() ?: 0)
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
     }
 
 

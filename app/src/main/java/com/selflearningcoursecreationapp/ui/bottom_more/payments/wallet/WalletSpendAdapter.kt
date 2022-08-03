@@ -5,7 +5,7 @@ import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.databinding.AdapterMyWalletSpendBinding
 
 
-class WalletSpendAdapter() :BaseAdapter<AdapterMyWalletSpendBinding>() {
+class WalletSpendAdapter : BaseAdapter<AdapterMyWalletSpendBinding>() {
     override fun getLayoutRes(): Int {
         return R.layout.adapter_my_wallet_spend
     }

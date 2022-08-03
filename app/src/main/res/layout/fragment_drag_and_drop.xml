@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:overScrollMode="never">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/_8sdp">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_quiz_num"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:textColor="@color/accent_color_fc6d5b"
+                android:textSize="@dimen/textField_12"
+                app:fontType="medium"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textColorType="none" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_Selected_Value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/points_outline_green"
+                android:paddingHorizontal="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_3sdp"
+                android:textAllCaps="true"
+                android:textColor="@color/accent_color_2FBF71"
+                android:textSize="@dimen/textField_11"
+                app:fontType="medium"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_quiz_num"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintTop_toTopOf="@+id/tv_quiz_num"
+                app:textColorType="none" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:textSize="@dimen/textField_16"
+                app:fontType="medium"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@+id/tv_Selected_Value"
+                app:textColorType="heading" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+
+                android:id="@+id/label_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:drawablePadding="@dimen/_5sdp"
+                android:gravity="center_vertical|left"
+                android:text="@string/drag_n_drop_the_option_into_answer_box"
+                android:textSize="@dimen/textField_11"
+                app:drawableStartCompat="@drawable/eye_icon"
+                app:drawableTint="?attr/hintColor"
+                app:fontType="medium"
+                app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                app:textColorType="body" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+
+                android:id="@+id/rv_questions"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
+                app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@+id/label_info"
+                tools:itemCount="4"
+                tools:listitem="@layout/adapter_drag_questions" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/label_your_answer_is"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:text="Your answer is"
+                android:textSize="@dimen/editTextField_14"
+                app:layout_constraintStart_toStartOf="@+id/drop_container"
+                app:layout_constraintTop_toBottomOf="@+id/rv_questions"
+                app:textColorType="heading" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/drop_container"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_110sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/ic_dotted_square"
+                android:padding="@dimen/_5sdp"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@+id/label_your_answer_is">
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                    android:id="@+id/iv_ans"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tv_set_here"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:hint="@string/drag_n_drop_here"
+                    android:textColorHint="@color/opacity_50_929292"
+                    android:textSize="@dimen/editTextField_14"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:textColorType="body" />
+
+                <ImageView
+                    android:id="@+id/img_reset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_corner"
+                    android:src="@drawable/ic_close"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/black" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/_16sdp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/_16sdp" />
+
+
+            <androidx.legacy.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_60sdp"
+                app:layout_constraintTop_toBottomOf="@+id/drop_container" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>
+
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:id="@+id/container"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:background="?attr/secondaryScreenBgColor"-->
+    <!--        android:orientation="vertical">-->
+
+
+    <!--        <androidx.recyclerview.widget.RecyclerView-->
+    <!--            android:id="@+id/rv_colors"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:orientation="vertical"-->
+    <!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent"-->
+    <!--            tools:itemCount="4">-->
+
+    <!--        </androidx.recyclerview.widget.RecyclerView>-->
+
+    <!--        <TextView-->
+
+    <!--            android:id="@+id/label_your_answer_is"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="@dimen/_28sdp"-->
+    <!--            android:text="Your answer is"-->
+    <!--            android:textSize="@dimen/editTextField_14"-->
+    <!--            app:layout_constraintStart_toStartOf="@+id/drop_contanior"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/rv_colors" />-->
+
+    <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--            android:id="@+id/drop_contanior"-->
+    <!--            android:layout_width="match_parent"-->
+
+
+    <!--            android:layout_height="@dimen/_110sdp"-->
+    <!--            android:layout_marginStart="@dimen/_20sdp"-->
+    <!--            android:layout_marginTop="@dimen/_5sdp"-->
+    <!--            android:layout_marginEnd="@dimen/_20sdp"-->
+    <!--            android:background="@drawable/ic_dotted_square"-->
+    <!--            android:padding="@dimen/_5sdp"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/label_your_answer_is">-->
+
+    <!--            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView-->
+    <!--                android:id="@+id/tv_set_here"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:gravity="center"-->
+    <!--                android:text="DRAG N DROP HERE"-->
+    <!--                android:textSize="@dimen/editTextField_14"-->
+    <!--                app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                app:layout_constraintStart_toStartOf="parent"-->
+    <!--                app:layout_constraintTop_toTopOf="parent"-->
+    <!--                app:textColorType="body" />-->
+
+    <!--            <ImageView-->
+
+    <!--                android:id="@+id/img_reset"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:src="@drawable/ic_close"-->
+    <!--                app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--    </layout>-->

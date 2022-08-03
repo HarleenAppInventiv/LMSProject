@@ -36,8 +36,8 @@ class LMSCheckBox : MaterialCheckBox {
             defStyle!!, 0
         )
 
-        var primaryColor = ThemeUtils.getAppColor(context)
-        var tintColor = ThemeUtils.getTintColor(context)
+        val primaryColor = ThemeUtils.getAppColor(context)
+        val tintColor = ThemeUtils.getTintColor(context)
         val states = arrayOf(
             intArrayOf(android.R.attr.state_pressed),
             intArrayOf(android.R.attr.state_checked),

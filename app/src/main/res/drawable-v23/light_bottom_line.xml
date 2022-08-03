@@ -10,7 +10,7 @@
         <shape android:shape="rectangle">
             <stroke
                 android:width="@dimen/_1sdp"
-                android:color="?attr/offwhiteTextColor" />
+                android:color="?attr/off_whiteTextColor" />
         </shape>
     </item>
 

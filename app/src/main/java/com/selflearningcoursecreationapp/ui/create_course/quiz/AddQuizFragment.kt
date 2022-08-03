@@ -1,5 +1,6 @@
 package com.selflearningcoursecreationapp.ui.create_course.quiz
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -24,7 +25,7 @@ import com.selflearningcoursecreationapp.utils.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 
-
+@SuppressLint("NotifyDataSetChanged")
 class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IViewClick,
     BaseBottomSheetDialog.IDialogClick, View.OnClickListener {
     private var adapter: AddQuizViewAdapter? = null
@@ -47,10 +48,8 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         if (viewModel.quizData.quizId.isNullOrZero() && viewModel.isQuiz) {
             addQuestion()
-//            viewModel.addQuiz()
         } else if (!viewModel.isQuiz) {
             addQuestion()
-//            viewModel.addAssessment()
         } else setAdapter()
 
 
@@ -137,10 +136,18 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
 
                 DialogType.CLICK_QUIZ_OPTION -> {
                     viewModel.childPosition = items[2] as Int
+//                    if (viewModel.getListData(viewModel.adapterPosition)?.questionType == QUIZ.DRAG_DROP) {
+//                        UploadImageOptionsDialog().apply {
+//                            arguments = bundleOf("type" to DialogType.CLICK_DRAG_OPTION)
+//
+//                            setOnDialogClickListener(this@AddQuizFragment)
+//                        }.show(childFragmentManager, "")
+//                    } else {
                     AddQuizOptionDialog().apply {
 
                         setOnDialogClickListener(this@AddQuizFragment)
                     }.show(childFragmentManager, "")
+//                    }
                 }
                 DialogType.QUIZ_ANSWER -> {
                     QuizMarkAnsDialog().apply {
@@ -157,7 +164,7 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
                 Constant.CLICK_SAVE -> {
 
 
-                    viewModel.saveQuestionValidation(viewModel.adapterPosition)
+                    viewModel.saveQuestionValidation()
                 }
 
                 DialogType.CLICK_BANNER -> {
@@ -191,7 +198,7 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
                             viewModel.deleteQuizAssessment()
                         }
                     } else {
-                        viewModel.deleteQuestion(viewModel.getListData(viewModel.adapterPosition))
+                        viewModel.deleteQuestion()
                     }
                 }
             }
@@ -200,8 +207,7 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
 
     override fun onDialogClick(vararg items: Any) {
         if (items.isNotEmpty()) {
-            val type = items[0] as Int
-            when (type) {
+            when (items[0] as Int) {
                 DialogType.CLICK_BANNER -> {
 
                     viewModel.getListData(viewModel.adapterPosition)?.questionImage =
@@ -211,7 +217,7 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
 
                         viewModel.uploadImage(
                             File(items[1] as String),
-                            if (viewModel.isQuiz) MEDIA_TYPE.QUIZ_QUES else MEDIA_TYPE.ASSESSMENT_QUES,
+                            if (viewModel.isQuiz) MediaType.QUIZ_QUES else MediaType.ASSESSMENT_QUES,
                             viewModel.adapterPosition,
                             0
                         )
@@ -221,17 +227,35 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
                     }
                     setAdapter()
                 }
+                DialogType.CLICK_DRAG_OPTION -> {
+                    val image = items[1] as String
+                    viewModel.getListData(viewModel.adapterPosition)?.optionList?.get(
+                        viewModel.childPosition
+                    )?.image = image
+                    if (viewModel.isQuizAdded()) {
+                        viewModel.uploadImage(
+                            File(image),
+                            if (viewModel.isQuiz) MediaType.QUIZ_OPTION else MediaType.ASSESSMENT_OPTION,
+                            viewModel.adapterPosition,
+                            viewModel.childPosition
+                        )
+                    } else {
+                        viewModel.currentAction = 3
+                        viewModel.addQuizAssessment()
+                    }
+                }
                 DialogType.CLICK_QUIZ_TYPE -> {
-                    viewModel.quizData.list?.set(viewModel.adapterPosition, QuizQuestionData(
-                        true,
-                        questionTypeTitle = (items[1] as SingleChoiceData).title,
-                        isEnabled = true
-                    ).apply {
-                        title = ""
-                        optionList = ArrayList<QuizOptionData>()
-                        questionType = (items[1] as SingleChoiceData).id
+                    viewModel.quizData.list?.set(
+                        viewModel.adapterPosition, QuizQuestionData(
+                            true,
+                            questionTypeTitle = (items[1] as SingleChoiceData).title,
+                            isEnabled = true
+                        ).apply {
+                            title = ""
+                            optionList = ArrayList()
+                            questionType = (items[1] as SingleChoiceData).id
 
-                    })
+                        })
                     adapter?.notifyItemChanged(viewModel.adapterPosition)
                 }
                 DialogType.CLICK_QUIZ_OPTION -> {
@@ -263,9 +287,9 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
                 }
             }
             else -> {
-                val key = hashMap.map { it.key }.get(0)
+                val key = hashMap.map { it.key }[0]
                 viewModel.getListData(viewModel.adapterPosition)?.optionList?.forEach { option ->
-                    option.isSelected = !(hashMap.get(key)
+                    option.isSelected = !(hashMap[key]
                         ?.filter { it.isSelected == true && it.id == option.id }
                         ?.isNullOrEmpty() ?: true)
                 }
@@ -290,7 +314,7 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
             if (viewModel.isQuizAdded()) {
                 viewModel.uploadImage(
                     File(image),
-                    if (viewModel.isQuiz) MEDIA_TYPE.QUIZ_OPTION else MEDIA_TYPE.ASSESSMENT_OPTION,
+                    if (viewModel.isQuiz) MediaType.QUIZ_OPTION else MediaType.ASSESSMENT_OPTION,
                     viewModel.adapterPosition,
                     viewModel.childPosition
                 )
@@ -305,7 +329,7 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)
         when (apiCode) {
-            ApiEndPoints.API_ADD_QUIZ, ApiEndPoints.API_ADD_ASSESSMENT -> {
+            "${ApiEndPoints.API_ADD_QUIZ}/get", "${ApiEndPoints.API_ADD_ASSESSMENT}/get" -> {
                 adapter?.notifyDataSetChanged()
                 adapter = null
                 setAdapter()
@@ -314,8 +338,9 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
                 bundleArgs?.sectionData?.get(bundleArgs?.adapterPosition ?: 0)?.lessonList?.add(
                     ChildModel(
                         viewModel.quizData.lectureId,
-                        mediaType = MEDIA_TYPE.QUIZ,
-                        quizId = viewModel.quizData.quizId
+                        mediaType = MediaType.QUIZ,
+                        quizId = viewModel.quizData.quizId,
+                        lectureStatusId = LectureStatus.IN_PROCESS
                     )
                 )
                 bundleArgs?.sectionData?.get(bundleArgs?.adapterPosition ?: 0)
@@ -325,9 +350,6 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
                 sectionChildPosition = (bundleArgs?.sectionData?.get(
                     bundleArgs?.adapterPosition ?: 0
                 )?.lessonList?.size ?: 0) - 1
-//                sectionChildPosition =
-//                    bundleArgs?.sectionData?.get(bundleArgs?.adapterPosition ?: 0)?.lessonList?.size
-//                        ?: -1
 
                 adapter?.notifyDataSetChanged()
                 adapter = null
@@ -343,7 +365,7 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
             ApiEndPoints.API_ADD_QUIZ_IMAGE, ApiEndPoints.API_ADD_ASSESSMENT_IMAGE -> {
                 adapter?.notifyItemChanged(viewModel.adapterPosition)
             }
-            ApiEndPoints.API_ADD_QUIZ_QUESTION, ApiEndPoints.API_ADD_ASSESSMENT_QUESTION -> {
+            "${ApiEndPoints.API_ADD_QUIZ_QUESTION}/add", "${ApiEndPoints.API_ADD_ASSESSMENT_QUESTION}/add" -> {
 
                 if (viewModel.isQuiz) {
                     isAllAnsMarked()
@@ -352,27 +374,61 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
                 setAdapter()
                 binding.btAdd.visible()
             }
-            ApiEndPoints.API_LECTURE_DELETE + "/delete" -> {
-                if (!sectionChildPosition.isNullOrNegative()) {
-                    bundleArgs?.sectionData?.get(
-                        bundleArgs?.adapterPosition ?: 0
-                    )?.lessonList?.removeAt(sectionChildPosition)
+            "${ApiEndPoints.API_ADD_QUIZ_QUESTION}/delete" -> {
+                if (viewModel.quizData.list.isNullOrEmpty()) {
+                    deleteQuizLecture()
+                    findNavController().navigateUp()
                 } else {
-                    bundleArgs?.sectionData
-                        ?.get(bundleArgs?.adapterPosition ?: 0)
-                        ?.lessonList?.removeAt(
-                            bundleArgs?.sectionData?.get(
-                                bundleArgs?.adapterPosition ?: 0
-                            )?.lessonList?.size ?: 0
-                        )
+                    if (viewModel.isQuiz) {
+                        isAllAnsMarked()
+                    }
+                    showToastShort((value as BaseResponse<QuizData>).message)
+                    setAdapter()
+                    binding.btAdd.visible()
                 }
             }
-            ApiEndPoints.API_ADD_ASSESSMENT + "/delete" -> {
-                bundleArgs?.courseData?.assessmentId = null
-                bundleArgs?.courseData?.assessmentFreezeContent = false
-                bundleArgs?.courseData?.assessmentMandatory = false
-                bundleArgs?.courseData?.assessmentName = ""
+            "${ApiEndPoints.API_ADD_ASSESSMENT_QUESTION}/delete" -> {
+                if (viewModel.quizData.list.isNullOrEmpty()) {
+                    deleteAssessment()
+                    findNavController().navigateUp()
+                } else {
+                    if (viewModel.isQuiz) {
+                        isAllAnsMarked()
+                    }
+                    showToastShort((value as BaseResponse<QuizData>).message)
+                    setAdapter()
+                    binding.btAdd.visible()
+                }
             }
+            ApiEndPoints.API_LECTURE_DELETE + "/delete" -> {
+                deleteQuizLecture()
+            }
+            ApiEndPoints.API_ADD_ASSESSMENT + "/delete" -> {
+                deleteAssessment()
+            }
+        }
+    }
+
+    private fun deleteAssessment() {
+        bundleArgs?.courseData?.assessmentId = null
+        bundleArgs?.courseData?.assessmentFreezeContent = false
+        bundleArgs?.courseData?.assessmentMandatory = false
+        bundleArgs?.courseData?.assessmentName = ""
+    }
+
+    private fun deleteQuizLecture() {
+        if (!sectionChildPosition.isNullOrNegative()) {
+            bundleArgs?.sectionData?.get(
+                bundleArgs?.adapterPosition ?: 0
+            )?.lessonList?.removeAt(sectionChildPosition)
+        } else {
+            bundleArgs?.sectionData
+                ?.get(bundleArgs?.adapterPosition ?: 0)
+                ?.lessonList?.removeAt(
+                    bundleArgs?.sectionData?.get(
+                        bundleArgs?.adapterPosition ?: 0
+                    )?.lessonList?.size ?: 0
+                )
         }
     }
 
@@ -423,7 +479,7 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
                 isEnabled = true
             ).apply {
                 title = ""
-                optionList = ArrayList<QuizOptionData>()
+                optionList = ArrayList()
                 questionType = QUIZ.MULTIPLE_CHOICE
 
             }
@@ -438,6 +494,7 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
         baseActivity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
     }
 
+
     private fun isAllAnsMarked() {
         bundleArgs?.sectionData?.get(bundleArgs?.adapterPosition ?: 0)?.lessonList?.apply {
             val pos = if (bundleArgs?.childPosition.isNullOrNegative()) {
@@ -450,5 +507,9 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
             get(pos).allAnsMarked =
                 viewModel.quizData.list?.filter { !it.isAnsMarked() }.isNullOrEmpty()
         }
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
     }
 }

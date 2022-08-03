@@ -6,11 +6,10 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentTodoBinding
 import com.selflearningcoursecreationapp.ui.bottom_course.MyCourseAdapter
-import com.selflearningcoursecreationapp.utils.Constant
 
 
 class TodoFragment : BaseFragment<FragmentTodoBinding>() {
-    lateinit var adapterCoursesList: MyCourseAdapter
+    private lateinit var adapterCoursesList: MyCourseAdapter
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -20,14 +19,19 @@ class TodoFragment : BaseFragment<FragmentTodoBinding>() {
 
     }
 
+
     private fun initUI() {
-        binding.recyclerCourses.apply {
-            adapterCoursesList = MyCourseAdapter(Constant.COURSE_IN_PROGRESS)
-            adapter = adapterCoursesList
-        }
+//        binding.recyclerCourses.apply {
+//            adapterCoursesList = MyCourseAdapter(Constant.COURSE_IN_PROGRESS,
+//                viewModel.courseLiveData.value!!)
+//            adapter = adapterCoursesList
+//        }
     }
 
     override fun getLayoutRes() = R.layout.fragment_todo
+    override fun onApiRetry(apiCode: String) {
+
+    }
 
 
 }

@@ -1,4 +1,4 @@
-package com.richpath.util
+package com.selflearningcoursecreationapp.utils.richView.util
 
 import android.graphics.Matrix
 import android.graphics.Path

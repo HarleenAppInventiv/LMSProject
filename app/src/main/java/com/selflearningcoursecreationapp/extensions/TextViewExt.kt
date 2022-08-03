@@ -4,13 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.text.*
+import android.text.Editable
+import android.text.InputFilter
+import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
-import android.view.KeyEvent
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -20,14 +20,13 @@ import androidx.core.text.isDigitsOnly
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import com.selflearningcoursecreationapp.R
-import com.selflearningcoursecreationapp.utils.SpanUtils
 import com.selflearningcoursecreationapp.utils.customViews.LMSTextView
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
 
 
 fun TextView.content(): String = text.toString().trim()
-fun TextView.isBlank(): Boolean = text.toString().trim().isNullOrEmpty()
+fun TextView.isBlank(): Boolean = text.toString().trim().isEmpty()
 
 
 fun TextView.showKeyBoard() {
@@ -53,9 +52,9 @@ fun TextView.showHidePassword() {
 
         setCompoundDrawablesRelativeWithIntrinsicBounds(
             ContextCompat.getDrawable(context, R.drawable.ic_key_password),
-            compoundDrawables.get(1),
+            compoundDrawables[1],
             drawableRight,
-            compoundDrawables.get(3)
+            compoundDrawables[3]
         )
         compoundDrawablesRelative[0]?.let {
 
@@ -69,25 +68,23 @@ fun TextView.showHidePassword() {
 
 
     setOnTouchListener { _, motionEvent ->
-        if (motionEvent.action == MotionEvent.ACTION_UP && compoundDrawables[2] != null && motionEvent.rawX >= this.right - (compoundDrawables.get(
-                2
-            ).bounds.width() + paddingRight)
+        if (motionEvent.action == MotionEvent.ACTION_UP && compoundDrawables[2] != null && motionEvent.rawX >= this.right - (compoundDrawables[2].bounds.width() + paddingRight)
         )
             if (transformationMethod is PasswordTransformationMethod) {
                 transformationMethod = HideReturnsTransformationMethod()
                 setCompoundDrawablesRelativeWithIntrinsicBounds(
                     ContextCompat.getDrawable(context, R.drawable.ic_key_password),
-                    compoundDrawables.get(1),
+                    compoundDrawables[1],
                     ContextCompat.getDrawable(context, R.drawable.ic_password_show),
-                    compoundDrawables.get(3)
+                    compoundDrawables[3]
                 )
             } else {
                 transformationMethod = PasswordTransformationMethod()
                 setCompoundDrawablesRelativeWithIntrinsicBounds(
                     ContextCompat.getDrawable(context, R.drawable.ic_key_password),
-                    compoundDrawables.get(1),
+                    compoundDrawables[1],
                     ContextCompat.getDrawable(context, R.drawable.ic_password_hide),
-                    compoundDrawables.get(3)
+                    compoundDrawables[3]
                 )
 
             }
@@ -109,9 +106,7 @@ fun TextView.showHidePassword() {
 fun TextView.onRightDrawableClick(onClick: () -> Unit) {
 
     setOnTouchListener { _, motionEvent ->
-        if (motionEvent.action == MotionEvent.ACTION_UP && compoundDrawables[2] != null && motionEvent.rawX >= this.right - (compoundDrawables.get(
-                2
-            ).bounds.width() + paddingRight)
+        if (motionEvent.action == MotionEvent.ACTION_UP && compoundDrawables[2] != null && motionEvent.rawX >= this.right - (compoundDrawables[2].bounds.width() + paddingRight)
         )
             onClick()
         return@setOnTouchListener false
@@ -162,7 +157,7 @@ fun EditText.otpHelper() {
             if (p0.toString().length == 1 && p3 == 1) {
 
                 val view = focusSearch(View.FOCUS_RIGHT)
-                view?.let { it.requestFocus() } ?: kotlin.run {
+                view?.requestFocus() ?: kotlin.run {
                     this@otpHelper.hideKeyboard()
                 }
             }
@@ -203,12 +198,12 @@ fun EditText.textHelper(isLast: Boolean) {
 private fun EditText.setOverridingText(keyEvent: KeyEvent) {
     val m = keyEvent.getUnicodeChar(keyEvent.metaState).toChar().toString()
     if (m.isDigitsOnly()) {
-        showLog("OTP", "charrr>> >> ${m}")
+        showLog("OTP", "charrr>> >> $m")
         val view = focusSearch(View.FOCUS_RIGHT)
 
         view?.let {
 
-            if (view is EditText && view.text.toString().isNullOrEmpty()) {
+            if (view is EditText && view.text.toString().isEmpty()) {
 
                 view.setText(m)
                 view.requestFocus()
@@ -236,46 +231,12 @@ fun TextView.setNoSpaceFilter() {
 }
 
 
-fun TextView.setTextResizable(fullText: String?) {
-    if (fullText.isNullOrEmpty()) {
-        text = ""
-    } else if (fullText.length <= 100) {
-        text = fullText
-    } else {
-        setLessText(fullText)
-
-    }
-}
-
-fun TextView.setLessText(fullText: String) {
-    var lessText = "${fullText.subSequence(0, 100)}  ${context.getString(R.string.read_more)}"
-    val spanText = SpanUtils.with(context, lessText).startPos(102)
-        .textColor(ThemeUtils.getAppColor(context))
-        .isUnderline()
-        .isBold().getCallback {
-            setFullText(fullText)
-        }.getSpanString()
-
-    setSpanString(spanText)
-}
-
-fun TextView.setFullText(fullText: String) {
-    var completeText = "${fullText}  ${context.getString(R.string.read_less)}"
-    val spanText = SpanUtils.with(context, completeText).startPos(fullText.length + 2)
-        .textColor(ThemeUtils.getAppColor(context))
-        .isUnderline()
-        .isBold().getCallback {
-            setLessText(fullText)
-        }.getSpanString()
-    setSpanString(spanText)
-}
-
 
 fun EditText.addDecimalLimiter(maxLimit: Int = 2, beforeDecimal: Int = 4) {
 
     this.doAfterTextChanged {
-        var str = this@addDecimalLimiter.text!!.toString()
-        if (!str.isEmpty()) {
+        val str = this@addDecimalLimiter.text!!.toString()
+        if (str.isNotEmpty()) {
 
             val str2 = decimalLimiter(str, maxLimit, beforeDecimal)
 
@@ -292,7 +253,7 @@ fun EditText.addDecimalLimiter(maxLimit: Int = 2, beforeDecimal: Int = 4) {
 
 }
 
-fun EditText.decimalLimiter(string: String, maxDecimal: Int, beforeDecimal: Int): String {
+fun decimalLimiter(string: String, maxDecimal: Int, beforeDecimal: Int): String {
 
     var str = string
 
@@ -304,11 +265,11 @@ fun EditText.decimalLimiter(string: String, maxDecimal: Int, beforeDecimal: Int)
 
     if (decimalCount > 1)
         return str.dropLast(1)
-    if (!str.contains(".") && str.length > beforeDecimal) {
-        return str.dropLast(str.length - beforeDecimal)
+    return if (!str.contains(".") && str.length > beforeDecimal) {
+        str.dropLast(str.length - beforeDecimal)
 
     } else {
-        return str.limitAfterDecimal(maxDecimal, max)
+        str.limitAfterDecimal(maxDecimal, max)
     }
 }
 
@@ -356,5 +317,25 @@ fun LMSTextView.setStepColor(isSelected: Boolean) {
         changeTextColor(ThemeConstants.TYPE_BODY)
         changeFontType(ThemeConstants.FONT_REGULAR)
         changeBackgroundTint(ThemeConstants.TYPE_BODY)
+    }
+}
+
+fun TextView.disableCopyPaste() {
+    isLongClickable = false
+    setTextIsSelectable(false)
+    customSelectionActionModeCallback = object : ActionMode.Callback {
+        override fun onCreateActionMode(mode: ActionMode?, menu: Menu): Boolean {
+            return false
+        }
+
+        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu): Boolean {
+            return false
+        }
+
+        override fun onActionItemClicked(mode: ActionMode?, item: MenuItem): Boolean {
+            return false
+        }
+
+        override fun onDestroyActionMode(mode: ActionMode?) {}
     }
 }

@@ -9,19 +9,19 @@ import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.databinding.BottomDialogQuizOptionBinding
 import com.selflearningcoursecreationapp.extensions.content
 import com.selflearningcoursecreationapp.extensions.gone
+import com.selflearningcoursecreationapp.extensions.isBlank
 import com.selflearningcoursecreationapp.extensions.visibleView
 import com.selflearningcoursecreationapp.ui.dialog.UploadImageOptionsDialog
 import com.selflearningcoursecreationapp.utils.DialogType
 
 class AddQuizOptionDialog : BaseBottomSheetDialog<BottomDialogQuizOptionBinding>(),
-    CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+    CompoundButton.OnCheckedChangeListener, View.OnClickListener, View.OnTouchListener {
     private var selectedUri: String? = null
     private var selectedType: Int = 0
 
     override fun getLayoutRes() = R.layout.bottom_dialog_quiz_option
     override fun initUi() {
-        dialog?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         binding.ivClose.setOnClickListener {
             dismiss()
         }
@@ -33,6 +33,8 @@ class AddQuizOptionDialog : BaseBottomSheetDialog<BottomDialogQuizOptionBinding>
 
         }
 
+        binding.etText.setOnTouchListener(this)
+//        binding.etText.setWordLimit(100)
         binding.rbImage.setOnCheckedChangeListener(this)
         binding.rbText.setOnCheckedChangeListener(this)
         binding.btSave.setOnClickListener(this)
@@ -40,12 +42,13 @@ class AddQuizOptionDialog : BaseBottomSheetDialog<BottomDialogQuizOptionBinding>
         binding.tvHeader.setOnClickListener(this)
     }
 
+
     private fun isValid(): Boolean {
         when {
             selectedType == 0 -> {
                 showToastShort(baseActivity.getString(R.string.plz_select_answer_type))
             }
-            selectedType == 1 && binding.etText.content().isEmpty() -> {
+            selectedType == 1 && binding.etText.isBlank() -> {
                 showToastShort(baseActivity.getString(R.string.plz_enter_your_ans))
             }
             selectedType == 2 && selectedUri.isNullOrEmpty() -> {
@@ -91,7 +94,7 @@ class AddQuizOptionDialog : BaseBottomSheetDialog<BottomDialogQuizOptionBinding>
             }
             R.id.iv_header, R.id.tv_header -> {
                 UploadImageOptionsDialog().apply {
-                    setOnDialogClickListener(object : BaseBottomSheetDialog.IDialogClick {
+                    setOnDialogClickListener(object : IDialogClick {
                         override fun onDialogClick(vararg items: Any) {
                             selectedUri = items[1] as String
                             binding.ivHeader.setImageURI(Uri.parse(items[1] as String))
@@ -104,4 +107,5 @@ class AddQuizOptionDialog : BaseBottomSheetDialog<BottomDialogQuizOptionBinding>
             }
         }
     }
+
 }

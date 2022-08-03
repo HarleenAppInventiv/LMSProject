@@ -18,26 +18,24 @@
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
             android:id="@+id/iv_media_file"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_video_file"
-
-            />
+            android:scaleType="centerCrop" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_lesson_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_10sdp"
-            android:text="Video Lesson 1Video Lesson 1Video Lesson 1"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/adapterTextField_12"
             app:fontType="semiBold"
             app:layout_constraintEnd_toStartOf="@+id/iv_play"
             app:layout_constraintStart_toEndOf="@+id/iv_media_file"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_media_file"
             app:layout_constraintVertical_chainStyle="spread"
             app:textColorType="heading" />
 
@@ -46,8 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
-            android:text="Video"
-            android:textSize="@dimen/_11ssp"
+            android:textSize="@dimen/adapterTextField_11"
             app:fontType="medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_lesson_name"
@@ -73,8 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_4sdp"
-            android:text="20 mins"
-            android:textSize="@dimen/_11ssp"
+            android:textSize="@dimen/adapterTextField_11"
             app:fontType="medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_dot"
@@ -90,7 +86,7 @@
             android:layout_margin="@dimen/_10sdp"
 
 
-            android:src="@drawable/ic_play_file"
+            android:src="@drawable/ic_play_content_filled"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/iv_edit"

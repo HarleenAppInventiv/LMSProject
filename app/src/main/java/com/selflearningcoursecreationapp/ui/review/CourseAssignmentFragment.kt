@@ -16,9 +16,14 @@ class CourseAssignmentFragment : BaseFragment<FragmentCourseAssignmentBinding>()
 
     }
 
+
     fun init() {
         adapter = AdapterAssignmentList()
         binding.recyclerAssignmentList.adapter = adapter
+    }
+
+    override fun onApiRetry(apiCode: String) {
+
     }
 
 

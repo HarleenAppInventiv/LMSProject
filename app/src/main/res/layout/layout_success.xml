@@ -12,7 +12,7 @@
         android:layout_marginHorizontal="@dimen/_15sdp"
         android:background="@drawable/edt_white_bg">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <com.selflearningcoursecreationapp.utils.customViews.LMSRichView
             android:id="@+id/imageView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -22,6 +22,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:vector="@drawable/ic_success"
             app:srcCompat="@drawable/ic_success" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
@@ -32,7 +33,7 @@
             android:layout_marginTop="@dimen/_15sdp"
             android:text="@string/successful"
             android:textAlignment="center"
-            android:textSize="@dimen/_21ssp"
+            android:textSize="@dimen/textField_21"
             app:fontType="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +47,7 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:text="@string/as_per_your_preference_the_current_app_theme_updated_to_blue_theme"
             android:textAlignment="center"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/textField_14"
             app:fontType="regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +66,7 @@
             android:padding="@dimen/_12sdp"
             android:text="@string/ok"
             android:textAlignment="center"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/textField_12"
             app:buttonFont="semiBold"
             app:fontType="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -87,7 +88,7 @@
             android:padding="@dimen/_12sdp"
             android:text="@string/cancel"
             android:textAlignment="center"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/textField_12"
             app:btnTextColor="secondary"
             app:buttonBackground="none"
             app:buttonFont="semiBold"

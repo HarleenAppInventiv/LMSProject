@@ -3,6 +3,7 @@ package com.selflearningcoursecreationapp.base
 import android.util.Log
 import androidx.annotation.MainThread
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.selflearningcoursecreationapp.data.network.ApiError
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.utils.isInternetAvailable
@@ -21,6 +22,7 @@ abstract class BaseRepo<REQUEST> {
 
 
     fun safeApiCall(apiCode: String) = flow {
+
         if (isInternetAvailable()) {
             emit(Resource.Loading(apiCode = apiCode))
             try {
@@ -28,7 +30,6 @@ abstract class BaseRepo<REQUEST> {
                 val data = response.body()
                 when {
                     response.isSuccessful -> {
-
                         handleSuccessResponse(data, apiCode, response)
 
                     }
@@ -46,10 +47,15 @@ abstract class BaseRepo<REQUEST> {
                 }
             } catch (e: Exception) {
                 val error = handleException(e)
-                emit(Resource.Failure(false, apiCode, error))
+
+//               emit(Resource.Failure(false, apiCode, error))
+                emit(Resource.Retry(false, apiCode, error))
+
             }
         } else {
-            emit(Resource.Failure(true, apiCode, setApiError(false) ?: ApiError()))
+//            emit(Resource.Retry(false, apiCode))
+//            emit(Resource.Failure(true, apiCode, setApiError(false) ?: ApiError()))
+            emit(Resource.Retry(true, apiCode, setApiError(false) ?: ApiError()))
         }
     }
 
@@ -68,19 +74,19 @@ abstract class BaseRepo<REQUEST> {
 
     private fun getError(response: Response</*BaseResponse<*/REQUEST/*>*/>): ApiError {
         var error = ApiError()
-        if (response.body() != null) {
-//            error.message = response.body()!!.message
-//            error.statusCode = response.body()!!.statusCode
-//            error.result = response.body()!!.resource
-            error = Gson().fromJson(response.body()?.toString(), ApiError::class.java)
+        error = if (response.body() != null) {
+            //            error.message = response.body()!!.message
+            //            error.statusCode = response.body()!!.statusCode
+            //            error.result = response.body()!!.resource
+            Gson().fromJson(response.body()?.toString(), ApiError::class.java)
         } else {
-            error = Gson().fromJson(response.errorBody()?.string(), ApiError::class.java)
+            Gson().fromJson(response.errorBody()?.string(), ApiError::class.java)
         }
         return error
     }
 
 
-    private fun setApiError(isInternetOn: Boolean): ApiError? {
+    private fun setApiError(isInternetOn: Boolean): ApiError {
         val apiError = ApiError()
         if (isInternetOn)
             apiError.message = "Request failed. Please retry"
@@ -91,12 +97,15 @@ abstract class BaseRepo<REQUEST> {
 
     }
 
-    fun handleException(e: Exception): ApiError {
+    private fun handleException(e: Exception): ApiError {
         val apiError = setApiError(true) ?: ApiError()
         apiError.exception = e
         when (e) {
             is SocketTimeoutException, is TimeoutException, is IOException -> {
                 Log.d("main", "")
+            }
+            is JsonSyntaxException, is IllegalArgumentException -> {
+                apiError.message = e.message ?: "json parsing exception"
             }
             else -> {
                 apiError.message = e.message ?: ""

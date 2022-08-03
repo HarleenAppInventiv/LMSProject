@@ -1,26 +1,19 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Skillfy</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="email">Enter Email</string>
     <string name="password">Enter Password</string>
-    <string name="login">Login</string>
-    <string name="phone">Phone</string>
-    <string name="loading">Loading...</string>
+    <string name="not_stable_internet_text">It seems like you are not connected with a stable internet connection.</string>
+    <string name="error_on_screen_text">There is error on this page. Please try again.</string>
+    <string name="request_failed_retry">Request failed. Please retry..</string>
+    <string name="no_internet">No Internet!!!</string>
+    <string name="oops">Oops!!!</string>
+    <string name="oh_snap">Oh snap!!!</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
     <string name="enter_email">Please enter email address</string>
     <string name="enter_valid_email">Please enter valid email address</string>
     <string name="enter_password">Please enter password</string>
     <string name="enter_pass">Enter password</string>
-    <string name="enter_valid_password">Please enter valid password</string>
-    <string name="title_activity_login_singup">LoginSingupActivity</string>
     <string name="enter_name">Please enter name</string>
     <string name="enter_valid_name">Please enter valid name</string>
     <string name="enter_phone_number">Please enter phone number</string>
@@ -29,7 +22,6 @@
     <string name="select_category_subheading_text">Tap on categories you want to select and you will get the relative contents according to your choice.</string>
     <string name="continue_text">Continue</string>
     <string name="major_selected">Major Selected</string>
-    <string name="categories">Categories</string>
     <string name="don_t_have_an_account_sign_up">Don’t have an account? SIGN UP</string>
     <string name="google">Google</string>
     <string name="via_otp">VIA OTP</string>
@@ -39,20 +31,18 @@
     <string name="forgot_password2">Forgot password</string>
     <string name="sign_in">Sign in</string>
     <string name="or_continue_as_a">or continue as a</string>
-    <string name="or_continue_as_a_guest">or continue as a GUEST USER</string>
+    <string name="or_continue_as_a_guest">Or continue as a GUEST USER</string>
     <string name="guest_user">GUEST USER</string>
     <string name="enter_your_phone_number_and_we_will_send_you_an_otp_to_verify">Enter your phone number and we will send you an OTP to verify.</string>
     <string name="login_via_otp">Login via OTP</string>
     <string name="phone_number">Enter phone number</string>
     <string name="verify_with_otp">Verify with OTP</string>
-    <string name="enter_4_digit_number_that_sent_to_your_number">Enter 4 digits number that sent to your number.</string>
-    <string name="enter_4_digit_number_that_sent_to_your_email">Enter 4 digits number that sent to your email.</string>
+    <string name="enter_4_digit_number_that_sent_to_your_number">Enter 4 digits number that is sent to your number.</string>
     <string name="forgot_pass_desc_text">Enter the email/mobile number associated with your account and we’ll send an email with instructions or a OTP on your mobile number to reset your password</string>
     <string name="reset">Reset</string>
     <string name="continues">Continue</string>
     <string name="check_your_mail">Check email</string>
     <string name="check_your_mail_sms">Check mail or SMS</string>
-    <string name="i_ll_confirm_later">I’ll CONFIRM LATER</string>
     <string name="enable_visually_impaired_mode">Enable visually impaired mode</string>
     <string name="enable_screen_reading_mode">Enable screen reading view</string>
     <string name="enable_disable_screen_reading_mode">Enable/Disable screen reading mode</string>
@@ -65,11 +55,7 @@
     <string name="please_enter_otp">Please enter OTP</string>
     <string name="please_enter_valid_otp">Please enter valid OTP</string>
     <string name="please_enter_new_password">Please enter new password</string>
-    <string name="please_enter_valid_new_password">Please enter valid new password</string>
     <string name="please_enter_confirm_password">Please enter confirm password</string>
-    <string name="please_enter_valid_confirm_password">Please enter valid confirm password</string>
-    <string name="both_pass_does_not_match">Entered passwords do not match</string>
-    <string name="please_enter_phone_email">Please enter phone/email</string>
     <string name="please_enter_dob">Please enter DOB</string>
     <string name="please_enter_city">Please enter city</string>
     <string name="please_enter_state">Please enter state</string>
@@ -77,33 +63,24 @@
     <string name="please_select_gender">Please select gender</string>
     <string name="permission_denied">This app needs you to allow this
      permission in order to function.Please go to setting and allow them</string>
-    <string name="search">Search</string>
+    <string name="login">Login</string>
     <string name="alert">Alert</string>
+    <string name="hey_guest">Hey! Guest</string>
+    <string name="you_need_to_login_first">"You don't have permission to view this feature. To proceed login or signup."</string>
 
     <integer-array name="walkthrough_icons">
         <item>@drawable/ic_slider1</item>
         <item>@drawable/ic_slider2</item>
-        <item>@drawable/ic_slider2</item>
+        <item>@drawable/ic_slider3</item>
     </integer-array>
 
     <string-array name="walkthrough_title">
-        <item>Scale up your \nskill</item>
+        <item>Scale up your skill</item>
         <item>Find your favourite lessons</item>
-        <item>Find your favourite lessons</item>
-    </string-array>
-    <string-array name="preference_option">
-        <item>Categories</item>
-        <item>Theme</item>
-        <item>Font</item>
-        <item>Language</item>
+        <item>Get certifications for courses</item>
     </string-array>
 
-    <string-array name="preference_option_description">
-        <item>Tap on categories you want to select and you will get the relative contents according to your choice.  </item>
-        <item>Tap on a color theme you want to select and whole app colour will be updated accordingly</item>
-        <item>Tap on a font type you want to select and whole app text will be updated accordingly</item>
-        <item>Set whole app language as per your preferred language</item>
-    </string-array>
+
     <string-array name="preference_selected_title">
         <item>Major Selected</item>
         <item>Theme Selected</item>
@@ -114,19 +91,16 @@
     <string-array name="walkthrough_description">
         <item>Anyone can join the millions of members in our platform to learn cutting edge skills</item>
         <item>Anyone can join the millions of members in our platform to learn cutting edge skills</item>
-        <item>Anyone can join the millions of members in our platform to learn cutting edge skills</item>
+        <item>You can get certification for the courses and can download your certificate.</item>
     </string-array>
 
     <string name="reset_password">Reset Password</string>
-    <string name="add_password">Add Password</string>
-    <string name="valid_password_instructions"><![CDATA[Your password must include 0-9, A-Z, a-z & one special character. Also, It should be 6 characters long.]]></string>
     <string name="enter_new_password">Enter new password</string>
     <string name="confirm_new_password">Confirm new password</string>
     <string name="confirm_password">Confirm password</string>
     <string name="settings">Settings</string>
     <string name="payments">Payments</string>
     <string name="become_a_moderator">Become a Moderator</string>
-    <string name="manage_payment_methods">Manage payment methods</string>
     <string name="add_a_new_card">Add a new card</string>
     <string name="change_password">Change Password</string>
     <string name="change_language">Change Language</string>
@@ -143,11 +117,7 @@
     <string name="log_me_out_from_the_all_devices">Log me out from the all devices</string>
     <string name="name">Name</string>
     <string name="rewards_points">Rewards points</string>
-    <string name="practise_accent">Practise accent</string>
-    <string name="bookmarked_wishlist_courses">Bookmarked/wishlist courses</string>
-    <string name="bookmarked_courses">Bookmarked courses</string>
     <string name="courses">Courses</string>
-    <string name="deactivate_account">Deactivate account</string>
     <string name="logout">Logout</string>
     <string name="log_out">Log out</string>
     <string name="delete_acc">Delete</string>
@@ -176,11 +146,6 @@
     <string name="select_language">Select Language</string>
     <string name="select_language_subtext">Set whole app language as per your preferred language</string>
     <string name="your_preferences">Your Preferences</string>
-    <string name="blue_theme">Blue</string>
-    <string name="wine_theme">Wine</string>
-    <string name="black_theme">Black</string>
-    <string name="sea_theme">Sea</string>
-    <string name="hindi_code">hi</string>
     <string name="roboto_font">Roboto Sans</string>
     <string name="ibm_font">IBM Plex Sans</string>
     <string name="worksans_font">Work Sans</string>
@@ -190,20 +155,8 @@
     <string name="telugu_language">తెలుగు (Telugu)</string>
     <string name="bengali_language">বাংলা (Bengali)</string>
     <string name="hindi_language">हिंदी (Hindi)</string>
-    <string-array name="theme_name_array">
-        <item>@string/blue_theme</item>
-        <item>@string/wine_theme</item>
-        <item>@string/black_theme</item>
-        <item>@string/sea_theme</item>
 
-    </string-array>
 
-    <integer-array name="theme_color_array">
-        <item>@color/blue</item>
-        <item>@color/wine_red</item>
-        <item>@color/heading_color_262626</item>
-        <item>@color/sea</item>
-    </integer-array>
     <string-array name="font_name_array">
         <item>@string/roboto_font</item>
         <item>@string/ibm_font</item>
@@ -222,8 +175,9 @@
 
     <string name="come_back_soon">Come back soon!</string>
     <string name="cancel">Cancel</string>
-    <string name="on_vi_mode_the_user_interface_of_this_app_will_set_to_visually_impaired_mode_the_colors_text_sizes_of_the_interface_gets_updated_as_per_the_government_guidelines"><![CDATA[On VI mode, the User interface of this app will set to visually impaired mode, the colors & text sizes of the interface gets updated as per the government guidelines]]></string>
+    <string name="on_vi_mode_the_user_interface_of_this_app_will_set_to_visually_impaired_mode_the_colors_text_sizes_of_the_interface_gets_updated_as_per_the_government_guidelines"><![CDATA[On VI mode, the User interface of this app will set to visually impaired mode, the colors  of the interface gets updated as per the government guidelines]]></string>
     <string name="close">Close</string>
+    <string name="close_cap">CLOSE</string>
     <string name="in_vi_mode_the_current_theme_gets_updated_into_the_black_theme">In VI mode, The current theme gets updated into the black theme</string>
     <string name="next">Next</string>
     <string name="skip">Skip</string>
@@ -237,8 +191,7 @@
     <string name="plz_enter_confirm_password">Please enter confirm password</string>
     <string name="old_password_should_be_valid">Please enter valid old password</string>
     <string name="password_should_be_valid">Password should be minimum 8 characters long.</string>
-    <string name="new_confirm_paswrd_not_match">New password and confirm password doesn\'t match</string>
-    <string name="selected_language">Selected language</string>
+    <string name="new_confirm_paswrd_not_match">New password and Confirm password doesn\'t match</string>
     <string name="apply">Apply</string>
     <string name="help">Help</string>
     <string name="upload_image">Upload Image</string>
@@ -255,7 +208,6 @@
     <string name="change_theme">Change Theme</string>
     <string name="change_font">Change Font</string>
     <string name="buy_now">Buy Now</string>
-    <string name="certificate">Certificate</string>
     <string name="resume">Resume</string>
     <string name="uploaded_assessment">Uploaded Assessment</string>
     <string name="search_courses">Search courses</string>
@@ -269,9 +221,7 @@
     <string name="my_course">My Course</string>
     <string name="ok">OK</string>
     <string name="okay">Okay</string>
-    <string name="how_about_a_course_title">How about a Course Title?</string>
-    <string name="let_s_discuss_your_course_objective">Let\'s discuss your course objective</string>
-    <string name="choose_a_language">Choose a language...</string>
+    <string name="choose_a_language" tools:ignore="TypographyEllipsis">Choose a language...</string>
     <string name="enter_description">Enter course description</string>
     <string name="enter_course_title">Enter course title</string>
     <string name="choose_a_course_type">Choose a course type</string>
@@ -293,7 +243,6 @@
     <string name="category_selected">Category Selected</string>
     <string name="font_selected">Font Selected</string>
     <string name="theme_selected">Theme Selected</string>
-    <string name="know_more_about_visual_impaired_mode">Know more about visual impaired mode</string>
     <string name="edit">edit</string>
     <string name="create_course_button">Create Course Button</string>
     <string name="upload">Upload</string>
@@ -303,18 +252,10 @@
     <string name="audio">Audio</string>
     <string name="video">Video</string>
     <string name="replace_thumbnail">Replace Thumbnail</string>
-    <string name="upload_logo">Upload logo</string>
-    <string name="upload_theme">Upload theme</string>
-    <string name="upload_font">Upload font</string>
-    <string name="font">Font</string>
-    <string name="logo">Logo</string>
-    <string name="course_link">Course link</string>
+    <string name="upload_logo">Upload Logo</string>
     <string name="course_fee">Course Fee</string>
     <string name="course_type">Course Type</string>
     <string name="upload_banner_image_for_course">Upload banner image for course</string>
-    <string name="select_course_language">Select course language</string>
-    <string name="what_category_best_suits_your_knowledge">What category best suits your knowledge?</string>
-    <string name="select_course_banner">Select course banner</string>
     <string name="revenue">Revenue :</string>
     <string name="payment_status">Payment Status :</string>
     <string name="invoice">Invoice</string>
@@ -324,11 +265,12 @@
     <string name="total_expense">Total Expense</string>
     <string name="new_request">New Request</string>
     <string name="card_number">Card Number</string>
-    <string name="name_on_card">NAME ON CARD</string>
+    <string name="name_on_card">Name On Card</string>
     <string name="expiry_on">EXPIRY ON</string>
     <string name="delete">Delete</string>
     <string name="add_new_card">Add New Card</string>
     <string name="enter_card_details">Enter card details</string>
+    <string name="from">From</string>
     <string name="enter_your_name">Enter your name</string>
     <string name="expiry_month">Expiry month</string>
     <string name="expiry_year">Expiry year</string>
@@ -353,11 +295,8 @@
     <string name="expand_collapse_icon">Expand/Collapse Icon</string>
     <string name="wallet_info">Wallet Info</string>
     <string name="update_logo">Update Logo</string>
-    <string name="update_course_theme">Update Course Theme</string>
-    <string name="update_course_font">Update Course Font</string>
     <string name="you_dont_have_activity_to_perform_action">You don\'t have activity to perform this action</string>
     <string name="enter_course_fee">Enter Course Fee</string>
-    <string name="add_a_link">Add a Link</string>
     <string name="payment_received_from">Payment received from</string>
     <string name="transaction_id">Transaction ID:</string>
     <string name="order_id">Order ID:</string>
@@ -367,15 +306,12 @@
     <string name="enter_your_text_here">Enter your text here</string>
     <string name="your_translation_will_appear_here">Your translation will appear here</string>
     <string name="sign_up_to_get_started">Sign up to get started</string>
-    <string name="enter_otp">Please enter otp</string>
-    <string name="enter_valid_otp">Please enter valid otp</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="delete_section">Delete Section?</string>
     <string name="delete_lesson">Delete Lesson?</string>
     <string name="do_you_really_want_to_delete_your_account">Do you really want to delete your account?</string>
     <string name="password_changed_successfully">Password changed successfully!!</string>
     <string name="password_reset_successfully">Password reset successfully!!</string>
-    <string name="email_sent_successfully">Email sent successfully!!</string>
     <string name="hey">Hey!</string>
     <string name="course_categories">Course categories</string>
     <string name="course_title">Course Title</string>
@@ -384,7 +320,6 @@
     <string name="enter_key_takeaways">Enter key takeaways</string>
     <string name="course_category">Course Category</string>
     <string name="choose_a_course_category">Choose a course category</string>
-    <string name="enter_description_">Enter Description</string>
     <string name="add_text">Add Text</string>
     <string name="target_audience">Target Audience</string>
     <string name="choose_target_audience">Choose target audience</string>
@@ -392,7 +327,7 @@
     <string name="search_keywords">Search Keywords</string>
     <string name="enter_keywords">Enter Keywords</string>
     <string name="reward_points">Reward Points</string>
-    <string name="optional">(Optional)</string>
+    <string name="enter_reward_points">Enter Reward Points</string>
     <string name="column_1">Column 1</string>
     <string name="column_2">Column 2</string>
     <string name="options">Options</string>
@@ -423,16 +358,17 @@
     <string name="add_bio">Add Bio</string>
     <string name="select_city">Select City</string>
     <string name="select_state">Select State</string>
-    <string name="view_more">View More</string>
     <string name="read_more">Read More</string>
+    <string name="read_more_arrow">Read More> </string>
     <string name="read_less">Read Less</string>
-    <string name="view_less">View Less</string>
-    <string name="reject">REJECT</string>
+    <string name="read_less_arrow">&lt;Read Less </string>
+    <string name="reject">Reject</string>
+    <string name="rejected">Rejected</string>
     <string name="accept">Accept</string>
     <string name="enroll_now">Enroll Now</string>
     <string name="plz_select_profession">Please select your profession</string>
     <string name="select_profession">Select Profession</string>
-    <string name="enter_four_digit_from_mail">Enter 4 digits number that has been sent to your email.</string>
+    <string name="enter_four_digit_from_mail">Enter 4 digits number that is sent to your email.</string>
     <string name="select_state_first">Please select state first</string>
     <string name="search_city">Search City</string>
     <string name="date_of_birth">Date of Birth</string>
@@ -441,7 +377,6 @@
     <string name="course_language">Course Language</string>
     <string name="gender">Gender</string>
     <string name="enter_phone_num">Enter phone number</string>
-    <string name="enter_email_normal">Enter email</string>
     <string name="enable_high_contrast_view">Enable high contrast view</string>
     <string name="filter">Filter</string>
     <string name="filters">Filters</string>
@@ -455,6 +390,7 @@
     <string name="search_category_by_name">Search category by name</string>
     <string name="search_category">Search category</string>
     <string name="category">Category</string>
+    <string name="categories">Categories</string>
     <string name="add_email">Add Email</string>
     <string name="add_your_email_and_verify_it">Add your email and verify it.</string>
     <string name="search_course_by_name">Search course by name</string>
@@ -462,15 +398,14 @@
     <string name="request_tracker">Request Tracker</string>
     <string name="you_have_added_pass_to_account">You have added password to your account.</string>
     <string name="dashboard_Caps">DASHBOARD</string>
-    <string name="add_your_pass">Add your Password</string>
-    <string name="set_your_pass">Set your Password</string>
+    <string name="add_your_pass">Add your password</string>
     <string name="change_categories">Change Categories</string>
     <string name="set_password">SET Password</string>
     <string name="previous">Previous</string>
     <string name="add_section">Add Section</string>
     <string name="there_are_no_sections_in_this_course">There are no sections in this \ncourse</string>
     <string name="edit_section">Edit Section</string>
-    <string name="type_your_question_here">Type your question here...</string>
+    <string name="type_your_question_here">Type your question here…</string>
 
     <string name="tap_here_to_enter_option">Tap Here to enter option</string>
     <string name="add_answer_as">Add Answer as</string>
@@ -491,6 +426,39 @@
     <string name="categories_updated_successfully">Categories updated successfully!!</string>
     <string name="check_mail_sms_instructions">We have sent password recovery instructions to your email or SMS.</string>
     <string name="otp_sent_successfully">OTP sent successfully!!</string>
+    <string name="follow_the_process_to_become_moderator">Follow the process to become Moderator.</string>
+    <string name="become_moderator">Become Moderator</string>
+    <string name="request_form">Request Form</string>
+    <string name="request_sent">Request Sent</string>
+    <string name="verification">Verification</string>
+    <string name="check_your_co_author_data_here">Check your co-author data here.</string>
+    <string name="course_requests">Course Requests</string>
+    <string name="_10">10</string>
+    <string name="co_author_request">Co-Author Request</string>
+    <string name="accepted_requests">Accepted Requests</string>
+    <string name="rejected_requests">Rejected Requests</string>
+    <string name="moderator_comments">Moderator Comments</string>
+    <string name="rejected_courses">Rejected Courses</string>
+    <string name="sent_requests">Sent Requests</string>
+    <string name="ba_certification">BA Certification</string>
+    <string name="xyz_course">XYZ Course</string>
+    <string name="allen_wen">Allen Wen</string>
+    <string name="accepted">Accepted</string>
+    <string name="_4_5">4.5</string>
+    <string name="ui_ux_design_specialization">UI/UX Design Specialization</string>
+    <string name="_4_5_25k">4.5 (25k)</string>
+    <string name="_25k">(25K)</string>
+    <string name="edit_course">EDIT COURSE</string>
+    <string name="_35000">35000</string>
+    <string name="_17000">Rs 17000</string>
+    <string name="course_price">Course Price</string>
+    <string name="info">Info</string>
+    <string name="certificate">Certificate</string>
+    <string name="_4_sections_13_05_hrs">4 Sections , 13.05 hrs</string>
+    <string name="intermediate">Intermediate</string>
+    <string name="the_ui_ux_design_specialization_brings_a_design_centric_approach_to_user_interface_and_user_experience_design">The UI/UX Design Specialization brings a design-centric approach to user interface and user experience design…</string>
+    <string name="_1_videos_1_audio_2_docs_2_quiz_2hrs">1 Videos, 1 Audio, 2 Docs, 2 Quiz 2hrs</string>
+    <string name="moderator_s_comment_lorem_ipsum_dolor_sit_amet_consecte_tur_adipiscing_elit_sed_do_eiusmod_tempor_incididunt_ut_labore_et_dolore_magna_aliqua"><b>Moderator’s Comment : </b>Lorem ipsum dolor sit amet, consecte tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="title">Title</string>
     <string name="select_ques_type">Select Question Type</string>
 
@@ -502,25 +470,22 @@
     <string name="please_select_course_type">Please select course type</string>
     <string name="please_select_target_audience">Please select target audience</string>
     <string name="please_select_course_complexity">Please select course_complexity</string>
-    <string name="please_select_search_keyword">Please select search keyword</string>
     <string name="please_enter_course_fee">Please select course fee</string>
-    <string name="_500_words">/500 Words</string>
-    <string name="_256_char">/256 Char</string>
+    <string name="word_count" tools:ignore="PluralsCandidate">/%1$d Words</string>
+    <string name="title_count" tools:ignore="PluralsCandidate">/%1$d Char</string>
     <string name="enter_title">Enter title</string>
     <string name="time">Time</string>
     <string name="add_lesson">Add Lesson</string>
-    <string name="lessons">Lesson</string>
+    <string name="lesson">Lesson</string>
     <string name="enter_lesson_text">Enter lesson text</string>
     <string name="reading_time">Reading Time (Min)</string>
     <string name="question">Question %1$d</string>
     <string name="plz_enter_question">Please enter question.</string>
     <string name="plz_enter_options">Please fill the data in option(s).</string>
     <string name="plz_add_option">Please add options.</string>
-    <string name="plz_add_option_column_b">Please fill the data in option(s) for column 2</string>
     <string name="mark_answer">Mark Answer</string>
     <string name="edit_question">Edit Question</string>
     <string name="plz_upload_ques_image">Please upload question image.</string>
-    <string name="plz_enter_option_column_B">Please fill the data in option(s) for column 2</string>
     <string name="plz_enter_option_column">Please fill the data in option(s) for all column.</string>
     <string name="plz_add_min_2_option">Please add minimum 2 options.</string>
     <string name="yes">Yes</string>
@@ -545,68 +510,60 @@
     <string name="total_assessment_time">Total assessment time</string>
     <string name="number_of_questions_to_be_displayed_connot_be_more_than_total_questions_added">Number of questions to be displayed cannot be more than total questions added</string>
     <plurals name="question_quantity">
-        <item quantity="zero">%1$d Question</item>
         <item quantity="one">%1$d Question</item>
         <item quantity="other">%1$d Questions</item>
     </plurals>
     <plurals name="section_quantity">
-        <item quantity="zero">%1$d Section</item>
         <item quantity="one">%1$d Section</item>
         <item quantity="other">%1$d Sections</item>
     </plurals>
     <plurals name="min_quantity">
-        <item quantity="zero">%1$d Min</item>
         <item quantity="one">%1$d Min</item>
         <item quantity="other">%1$d Mins</item>
     </plurals>
     <plurals name="min_quantity_small">
-        <item quantity="zero">%1$d min</item>
         <item quantity="one">%1$d min</item>
         <item quantity="other">%1$d mins</item>
     </plurals>
     <plurals name="hour_quantity">
-        <item quantity="zero">%1$d Hr</item>
         <item quantity="one">%1$d Hr</item>
         <item quantity="other">%1$d Hrs</item>
     </plurals>
     <plurals name="sec_quantity">
-        <item quantity="zero">%1$d sec</item>
         <item quantity="one">%1$d sec</item>
         <item quantity="other">%1$d secs</item>
     </plurals>
     <plurals name="video_quantity">
-        <item quantity="zero">%1$d Video</item>
         <item quantity="one">%1$d Video</item>
         <item quantity="other">%1$d Videos</item>
     </plurals>
     <plurals name="audio_quantity">
-        <item quantity="zero">%1$d Audio</item>
         <item quantity="one">%1$d Audio</item>
         <item quantity="other">%1$d Audios</item>
     </plurals>
     <plurals name="doc_quantity">
-        <item quantity="zero">%1$d Doc</item>
         <item quantity="one">%1$d Doc</item>
         <item quantity="other">%1$d Docs</item>
     </plurals>
     <plurals name="text_quantity">
-        <item quantity="zero">%1$d Text</item>
         <item quantity="one">%1$d Text</item>
         <item quantity="other">%1$d Texts</item>
     </plurals>
     <plurals name="quiz_quantity">
-        <item quantity="zero">%1$d Quiz</item>
         <item quantity="one">%1$d Quiz</item>
-        <item quantity="other">%1$d Quizs</item>
+        <item quantity="other">%1$d Quizzes</item>
     </plurals>
     <plurals name="lecture_quantity">
-        <item quantity="zero">%1$d Lesson</item>
         <item quantity="one">%1$d Lesson</item>
         <item quantity="other">%1$d Lessons</item>
     </plurals>
     <plurals name="point_quantity">
         <item quantity="one">%1$d Point</item>
         <item quantity="other">%1$d Points</item>
+    </plurals>
+    <plurals name="review_quantity">
+        <item quantity="one">Review (%1$d)</item>
+        <item quantity="other">Reviews (%1$d)</item>
     </plurals>
     <plurals name="section_course_quantity">
         <item quantity="one">%1$d Section in this COURSE</item>
@@ -616,13 +573,16 @@
     <string name="select_doc_file">Please select doc first</string>
     <string name="enter_reading_time">Please enter reading time</string>
     <string name="reading_time_should_be_greater_than_0">Reading time should be greater than 0.</string>
+    <string name="lessons">Lessons</string>
 
     <string name="section">Section %1$d</string>
     <string name="question_no">QUESTION %1$d/%2$d</string>
-    <string name="points_no">%1$d POINTS</string>
     <string name="option_no">Option %1$s</string>
-    <string name="lesson">Lesson %1$d</string>
+    <string name="course_fee_symbol">₹ %1$s</string>
+    <string name="lesson_no">Lesson %1$d</string>
     <string name="plz_enter_course_fee">Please enter course fee</string>
+    <string name="plz_enter_reward_points">Please enter reward points</string>
+    <string name="reward_points_cant_be_zero">The value of reward points should be more than 0.</string>
     <string name="sections_created">Sections created</string>
     <string name="enter_section_title">Enter section title</string>
     <string name="enter_description_here">Enter description here</string>
@@ -641,6 +601,8 @@
     <string name="ans_saved_successfully">Answer saved successfully!!</string>
     <string name="quiz_updated_successfully">Quiz updated successfully!!</string>
     <string name="quiz_added_successfully">Quiz added successfully!!</string>
+    <string name="quiz_passed_desc_text">You have passed the quiz with %1$d%2$s marks in your quiz.</string>
+    <string name="assessment_passed_desc_text">You have score %1$d%2$s marks in your assessment.</string>
     <string name="delete_question">Delete Question?</string>
     <string name="delete_assessment">Delete Assessment?</string>
     <string name="submitted_successfully">Submitted Successfully</string>
@@ -691,14 +653,16 @@
     <string name="plz_mark_ans_ques_in_assessment">Please mark you answer(s) in assessment question(s) to continue.</string>
     <string name="plz_update_settings_in_assessment">Please update assessment settings to continue.</string>
     <string name="course_content_review">Course Content Review</string>
+    <string name="course_content">Course Content</string>
     <string name="plz_enter_title">Please enter title.</string>
     <string name="plz_enter_description">Please enter description.</string>
     <string name="plz_upload_lesson">Please upload lesson(s).</string>
     <string name="camera">Camera</string>
-    <string name="gallary">Gallery</string>
+    <string name="gallery">Gallery</string>
     <string name="file_manger">File Manger</string>
     <string name="recording">Recording</string>
     <string name="from_file">From file</string>
+    <string name="to">T0</string>
     <string name="switch_to_moderator_mode">Switch to Moderator Mode</string>
     <string name="add_new_option">+ Add new option</string>
     <string name="verify">Verify</string>
@@ -718,6 +682,218 @@
     <string name="faq">FAQ</string>
     <string name="_add">+Add</string>
     <string name="take_snapshot">TAKE SNAPSHOT</string>
+    <string name="aa">Aa</string>
+    <string name="lms">LMS</string>
+    <string name="add_coauthor">Add CoAuthor</string>
+    <string name="video_length_limit_text">Length of video should not be more than xx:xx mins</string>
+    <string name="audio_length_limit_text">Length of audio should not be more than xx:xx mins</string>
+    <string name="read_aloud">Read Aloud</string>
+    <string name="loading" tools:ignore="TypographyEllipsis">Loading...</string>
+    <string name="retry">Retry</string>
+    <string name="vi_mode">VI Mode</string>
+    <string name="questions_added">Questions Added</string>
+    <string name="slash">/</string>
+    <string name="dash">-</string>
+    <string name="_0">0</string>
+    <string name="_20">20</string>
+    <string name="share">Share</string>
+
+    <string name="home_no_recordings_message">No recordings</string>
+    <string name="privacy_policy_title">Privacy Policy</string>
+    <string name="home_recordings_title">Recordings</string>
+    <string name="home_more_settings">More settings</string>
+    <string name="home_fab_record_hint">Start recording</string>
+
+    <string name="_40">40</string>
+    <string name="_60">60</string>
+    <string name="_80">80</string>
+    <string name="_0_nmins">0 \nmins</string>
+    <string name="_30_nmins">30 \nmins</string>
+    <string name="_1_nhr">1\nhr</string>
+    <string name="_1_5_nhrs">1.5\nhrs</string>
+    <string name="_2_nhrs">2\nhrs</string>
+    <string name="_100">100</string>
+    <string name="you_can_replace_the_logo_with_your_logo">You can replace the logo with your logo.</string>
+    <string name="please_upload_file_of_mp3_extension">Please upload file of .mp3 extension</string>
+    <string name="recording__" tools:ignore="TypographyEllipsis">Recording...</string>
+    <string name="start_recording">Start Recording</string>
+    <string name="recording_stopped">Recording Stopped</string>
+    <string name="try_again">Try Again</string>
+    <string name="new_file_name_hint">New name</string>
+    <string name="recording_thumbnail_description">Thumbnail</string>
+    <string name="action_sort_by_name">Name</string>
+    <string name="action_sort_by_date">Date</string>
+    <string name="action_sort_by_size">Size</string>
+    <string name="action_sort_by">Sort by</string>
+    <string name="action_order_by">Order by</string>
+    <string name="action_ascending">Ascending</string>
+    <string name="action_descending">Descending</string>
+    <string name="pref_category_appearance">Appearance</string>
+    <string name="pref_dark_theme_title">Dark theme</string>
+    <string name="pref_key_save_location">save_location</string>
+    <string name="pref_key_save_location_type">save_location_type</string>
+    <string name="pref_save_location_title">Folder</string>
+    <string name="reset_save_location">Reset</string>
+    <string name="change_save_location">Change</string>
+    <string name="pref_save_location_dialog_title">Save location</string>
+    <string name="pref_save_location_dialog_message">Recordings are saved in %s</string>
+    <string name="pref_save_location_summary_location_not_set">Click to choose where to save the recordings</string>
+    <string name="choose_location_dialog_title">Choose where to save recordings</string>
+    <string name="choose_location_action">Select Directory</string>
+    <string name="dialog_delete_file_msg">Delete this file?</string>
+    <string name="dialog_delete_all_msg">Delete all selected recordings?</string>
+    <string name="dialog_title_rename">Insert new name</string>
+
+    <string name="pref_category_video">Video</string>
+    <string name="pref_video_resolution_title">Resolution</string>
+    <string name="pref_video_fps_title">Frames per second</string>
+    <string name="pref_video_bitrate_title">Bit rate</string>
+    <string name="pref_video_encoder">Encoder</string>
+
+    <string name="pref_category_audio">Audio</string>
+    <string name="pref_audio_record_title">Record audio</string>
+    <string name="pref_audio_record_summary">Records audio from mic along with screen video</string>
+    <string name="pref_audio_sampling_rate">Sampling rate</string>
+    <string name="pref_audio_bitrate">Bitrate</string>
+
+    <string name="prefs_category_output">Output</string>
+    <string name="pref_filename_format_title">Format</string>
+    <string name="pref_filename_prefix_title">Prefix</string>
+    <string name="pref_key_audio" translatable="false">record_audio</string>
+    <string name="pref_key_resolution" translatable="false">video_resolution</string>
+    <string name="pref_key_fps" translatable="false">fps</string>
+    <string name="pref_key_video_bitrate" translatable="false">video_bitrate</string>
+    <string name="pref_key_filename" translatable="false">filename</string>
+    <string name="pref_key_file_prefix" translatable="false">file_prefix</string>
+    <string name="pref_key_video_encoder" translatable="false">video_encoder</string>
+    <string name="pref_key_audio_sampling_rate" translatable="false">audio_sampling_rate</string>
+    <string name="pref_key_audio_encoder" translatable="false">audio_encoder</string>
+    <string name="pref_key_audio_bit_rate" translatable="false">audio_encoder_bitrate</string>
+    <string name="pref_key_orientation" translatable="false">orientation</string>
+
+    <string name="free">Free</string>
+    <string name="no_course_in_wishlist">No Course in Wishlist</string>
+    <string name="no_course_in_rewards">No Course in Rewards</string>
+    <string name="wishlist_empty">Your wishlist is Empty!</string>
+    <string name="you_do_not_have_any_courses_in_your_wishlist_yet_add_your_favourite_courses_to_the_list">You do not have any courses in your wishlist yet. Add your favourite courses to the list.</string>
+    <string name="course_list_empty">Your course list is empty!</string>
+    <string name="no_course_data_yet">You do not have any courses in your ongoing list yet. Enroll courses to add in the list.</string>
+    <string name="rate_this_course">Rate this course</string>
+    <string name="rate_the_course">Rate The Course</string>
+    <string name="provide_your_rating">Provide Your Rating</string>
+    <string name="reviews">Reviews</string>
+    <string name="reviewed">Reviewed</string>
+    <string name="pending">Pending</string>
+    <string name="course_list">Course List</string>
+    <string name="about_header_help">Help</string>
+    <string name="about_send_feedback">Send feedback</string>
+    <string name="about_header_legal">Legal</string>
+    <string name="about_title">About</string>
+
+    <string name="shortcut_short_label">Toggle</string>
+    <string name="shortcut_long_label">Toggle recording</string>
+    <string name="shortcut_disabled_message">Toggle disabled</string>
+
+    <string name="pref_key_dark_theme" translatable="false">dark_theme</string>
+    <string name="notification_title">Screen recording</string>
+    <string name="notification_summary_recording">Recording</string>
+    <string name="notification_action_stop">Stop</string>
+    <string name="notification_action_pause">Pause</string>
+    <string name="notification_action_resume">Resume</string>
+    <string name="notification_action_delete">Delete</string>
+    <string name="notification_channel_recording">While recording</string>
+    <string name="notification_channel_finish">Recording finished</string>
+    <string name="notification_finish_title">Video saved</string>
+    <string name="notification_finish_summary">Open the recorded videos</string>
+    <string name="recording_error_message">Recording error</string>
+    <string name="recording_paused_message">Recording paused</string>
+
+
+    <string name="audio_permission_need">Permission to record audio is needed</string>
+    <string name="dialog_ask_again">Ask again</string>
+    <string name="dialog_open_app_settings">Open settings</string>
+
+
+    <string name="addedComments">Added Comments</string>
+    <string name="write_something_about_your_experience">Write something about your experience</string>
+    <string name="start_writing_here">Start writing here</string>
+    <string name="drag_n_drop_the_option_into_answer_box">Drag n drop the option into answer box</string>
+    <string name="total_marks_obtained">Total marks obtained</string>
+    <string name="unlock_now">Unlock Now</string>
+    <string name="unlock_the_now">UNLOCK THE COURSE</string>
+    <string name="transcript">Transcript</string>
+    <string name="sign_language">Sign Language</string>
+    <string name="media_url_dash">https://storage.googleapis.com/exoplayer-test-media-0/BigBuckBunny_320x180.mp4</string>
+    <string name="didn_t_found_any_result">Didn\'t found any result!!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="drag_n_drop_here">DRAG N DROP HERE</string>
+    <string name="you_passed">You Passed!!</string>
+    <string name="quiz_failed_desc_text">You have failed the quiz with %1$d%2$s marks in your quiz.\nDon’t Give Up! Work hard to achieve your goal.</string>
+    <string name="assessment_failed_desc_text">You have failed the assessment with %1$d%2$s marks in your quiz.\nDon’t Give Up! Work hard to achieve your goal.</string>
+    <string name="failed">Failed!!</string>
+    <string name="all_courses">All Courses</string>
+    <string name="no_lectures_added">No Lectures Added!!</string>
+    <string name="no_reviews_found">No Reviews Added!!</string>
+    <string name="enter_date">Enter  Date</string>
+    <string name="enter_name_of_creator">Enter Name of Creator</string>
+    <string name="reason_for_rejection">Reason For Rejection</string>
+    <string name="add_comment">Add Comment</string>
+    <string name="enter_your_comment_here">Enter your comment here</string>
+    <string name="course_assessment">Course Assessment</string>
+    <string name="approved">Approved</string>
+    <string name="approve">Approve</string>
+    <string name="course_category_you_specialized_in">Course category you specialized in</string>
+    <string name="choose_category">"Choose a category... "</string>
+    <string name="language_you_specilized_in">Language you specilized in</string>
+    <string name="qualification_documents">Qualification documents</string>
+    <string name="author_biography">Author Biography</string>
+    <string name="other_courses">Other Courses</string>
+    <string name="provide_all_information_s_to_be_a_moderator">Provide all information\'s to be a moderator</string>
+    <string name="become_na_moderator">Become\nA Moderator</string>
+    <string name="certification_of_completion">Certification Of Completion</string>
+    <string name="you_have_completed_this_course">You have completed this course</string>
+    <string name="check_your_report_card_details">Check your report card details</string>
+    <string name="assessment_report">Assessment Report</string>
+    <string name="moderator_mode">Moderator Mode</string>
+    <string name="become_moderator_desc_text"><![CDATA[To switch to moderator mode, Create your Moderator account. \n\nProfile > Request Tracker > Become Moderator]]></string>
+    <string name="retake_assessment">RE-TAKE ASSESSMENT</string>
+    <string name="points">Points :</string>
+    <string name="no_certificate_error_Text">No Certificate to download.\nEnroll and Complete Course to acquire the certificate.</string>
+    <string name="see_all">See All</string>
+    <string name="screen_reading_mode">Screen Reading Mode</string>
+    <string name="on_screen_read_mode">On screen Reading mode, the User can hear the functions of app and the courses.</string>
+    <string name="my_qualification_docs">My Qualification Docs</string>
+    <string name="hurray">Hurray!!!</string>
+    <string name="source_code"><u>Source code</u></string>
+    <string name="re_take_assessment">Are you not happy with your current score ? RE-TAKE ASSESSMENT</string>
+
+
+    <string name="feedback_subject">Screen Kap feedback</string>
+    <string name="feedback_chooser_title">Send email…</string>
+    <string name="author_email" translatable="false">er.shubugarg@gmail.com</string>
+    <string name="version">Version %s</string>
+
+    <string name="licences_title">Licenses</string>
+    <string name="about_lib_intro">This app uses the following open source libraries.</string>
+    <string name="about_privacy_policy">Privacy Policy</string>
+    <string name="app_description">This app is open source and is licensed under Apache 2.0.</string>
+    <string name="app_source_code" translatable="false">https://github.com/indritbashkimi/ScreenKap</string>
+    <string name="open_privacy_policy_website">Open website</string>
+    <string name="privacy_policy_website">https://screen-kap.web.app/</string>
+    <string name="skillfy">Skillfy</string>
+    <string name="pay_by_reward">Pay By Reward Points</string>
+    <string name="to_buy_this_course">To buy this course you have to pay %1$s reward points.  </string>
+
+    <string name="courses_list_for">Courses list for</string>
+    <string name="complete_quiz">Complete Quiz</string>
+    <string name="in_complete_quiz">Incomplete Quiz</string>
+    <string name="test_your_knowledge">Test Your Knowledge</string>
+    <string name="not_mandatory">(Not Mandatory)</string>
+    <string name="mandatory">(Mandatory)</string>
+    <string name="attempts_left">" Attempts remaining"</string>
+    <string name="plz_enter_quiz_name">Please enter quiz name</string>
+    <string name="plz_enter_assessment_name">Please enter assessment name</string>
 
 
 </resources>

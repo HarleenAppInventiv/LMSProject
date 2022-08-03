@@ -1,3 +1,4 @@
+@file:Suppress("SuspiciousVarProperty")
 package com.selflearningcoursecreationapp.models.course.quiz
 
 
@@ -68,7 +69,7 @@ data class QuizData(
         }
 
     @SerializedName("totalAssesmentTime", alternate = ["totalDuration"])
-    var totalAssesmentTime: Long? = null
+    var totalAssessmentTime: Long? = null
         set(value) {
             field = value
             notifyPropertyChanged(BR.dataEntered)
@@ -86,7 +87,7 @@ data class QuizData(
     var dataEntered: Boolean = false
         get() {
             return !quizName.isNullOrEmpty() && quesCountValid && !markOfCorrectAns.isNullOrZero() && !numberOfQuesToDisplay.isNullOrZero()
-                    && !totalAssesmentTime.isNullOrZero() && !passingCriteria.isNullOrZero()
+                    && !totalAssessmentTime.isNullOrZero() && !passingCriteria.isNullOrZero()
         }
 
     fun getQuizSettings(): QuizData {
@@ -101,13 +102,13 @@ data class QuizData(
             quiz.markOfCorrectAns = markOfCorrectAns
             quiz.numberOfQuesToDisplay = numberOfQuesToDisplay
             quiz.passingCriteria = passingCriteria
-            quiz.totalAssesmentTime = totalAssesmentTime
+            quiz.totalAssessmentTime = totalAssessmentTime
             if (assessmentId.isNullOrZero()) {
                 quiz.makeQuizMandatory = makeQuizMandatory
-                quiz.quizName = quizName
+                quiz.quizName = quizName?.trim()
             } else {
                 quiz.makeAssessmentMandatory = makeQuizMandatory
-                quiz.assessmentName = quizName
+                quiz.assessmentName = quizName?.trim()
             }
         }
     }
@@ -120,6 +121,16 @@ data class QuizData(
             !list!!.filter { !it.isAnsMarked() }
                 .isNullOrEmpty() -> R.string.plz_mark_ans_ques_in_assessment
             assessmentName.isNullOrEmpty() -> R.string.plz_update_settings_in_assessment
+            else -> 0
+        }
+    }
+
+    fun isSettingsValid(isQuiz: Boolean): Int {
+        return when {
+            isQuiz && quizName.isNullOrEmpty() -> R.string.plz_enter_quiz_name
+            isQuiz && quizName!!.isBlank() -> R.string.plz_enter_quiz_name
+            !isQuiz && quizName.isNullOrEmpty() -> R.string.plz_enter_assessment_name
+            !isQuiz && quizName!!.isBlank() -> R.string.plz_enter_assessment_name
             else -> 0
         }
     }

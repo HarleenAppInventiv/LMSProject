@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/offwhiteTextColor"
+        android:background="?attr/off_whiteTextColor"
         tools:context=".ui.review.CourseAssignmentFragment">
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
@@ -20,8 +20,7 @@
             android:layout_height="wrap_content"
 
             android:layout_margin="@dimen/_10sdp"
-            android:text="4 Sections in this COURSE"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/textField_14"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,6 +72,7 @@
                 android:letterSpacing="0.02"
                 android:lineSpacingExtra="@dimen/_4ssp"
                 android:text="@string/edit"
+                android:textSize="@dimen/materialButton_14"
                 app:btnTextColor="secondary"
                 app:buttonBackground="none"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -97,6 +97,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/bt_edit"
                 app:layout_constraintTop_toTopOf="parent"
+                android:textSize="@dimen/materialButton_14"
                 app:textAllCaps="true" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

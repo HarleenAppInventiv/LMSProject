@@ -6,6 +6,7 @@ import android.view.View
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.databinding.BotttomDialogUploadVdoAdoBinding
+import com.selflearningcoursecreationapp.extensions.gone
 import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.utils.*
 import org.koin.android.ext.android.inject
@@ -16,7 +17,6 @@ class UploadDocOptionsDialog : BaseBottomSheetDialog<BotttomDialogUploadVdoAdoBi
 
     private val imagePickUtils: ImagePickUtils by inject()
     private var type: Int = 0
-    private var from: Int = 0
 
     override fun getLayoutRes(): Int {
         return R.layout.botttom_dialog_upload_vdo_ado
@@ -40,11 +40,13 @@ class UploadDocOptionsDialog : BaseBottomSheetDialog<BotttomDialogUploadVdoAdoBi
             R.id.cl_audio -> {
                 binding.btnRecordAudio.visible()
                 binding.btnFromFileManager.visible()
-
+                binding.btnCamera.gone()
+                binding.btnGallary.gone()
             }
             R.id.cl_video -> {
 
-
+                binding.btnRecordAudio.gone()
+                binding.btnFromFileManager.gone()
                 binding.btnCamera.visible()
                 binding.btnGallary.visible()
             }
@@ -68,7 +70,7 @@ class UploadDocOptionsDialog : BaseBottomSheetDialog<BotttomDialogUploadVdoAdoBi
                 onDialogClick(Lecture.CLICK_LESSON_QUIZ)
             }
             R.id.btn_camera -> {
-                type = MEDIA_TYPE.VIDEO
+                type = MediaType.VIDEO
 
                 PermissionUtilClass.builder(baseActivity).requestPermissions(
                     arrayOf(
@@ -82,7 +84,7 @@ class UploadDocOptionsDialog : BaseBottomSheetDialog<BotttomDialogUploadVdoAdoBi
 
             }
             R.id.btn_gallary -> {
-                type = MEDIA_TYPE.VIDEO
+                type = MediaType.VIDEO
 
                 PermissionUtilClass.builder(baseActivity).requestExternalStorage()
                     .requestCode(Permission.GALLERY)
@@ -103,7 +105,7 @@ class UploadDocOptionsDialog : BaseBottomSheetDialog<BotttomDialogUploadVdoAdoBi
 
             }
             R.id.btn_from_file_manager -> {
-                type = MEDIA_TYPE.AUDIO
+                type = MediaType.AUDIO
 
                 PermissionUtilClass.builder(baseActivity).requestExternalStorage()
                     .getCallBack(this)

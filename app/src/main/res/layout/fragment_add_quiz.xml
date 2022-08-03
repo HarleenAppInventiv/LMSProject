@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:overScrollMode="never"
         android:layout_height="match_parent"
-        android:background="?attr/offwhiteTextColor">
+        android:background="?attr/off_whiteTextColor">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_sections"
@@ -32,8 +32,8 @@
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
             android:id="@+id/bt_add"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_48sdp"
             android:layout_margin="@dimen/_15sdp"
             android:insetLeft="0dp"
             android:insetTop="0dp"
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:text="Questions Added"
+            android:text="@string/questions_added"
             app:layout_constraintEnd_toStartOf="@+id/bt_continue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/bt_continue"
@@ -87,13 +87,13 @@
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_selected_value"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_Selected_Value"
             app:layout_constraintStart_toStartOf="@+id/tv_selected_title"
-            app:layout_constraintTop_toTopOf="@+id/tv_selected_value"
+            app:layout_constraintTop_toTopOf="@+id/tv_Selected_Value"
             app:shapeAppearanceOverlay="@style/circleImage" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-            android:id="@+id/tv_selected_value"
+            android:id="@+id/tv_Selected_Value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"

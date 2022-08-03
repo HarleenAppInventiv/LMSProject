@@ -20,12 +20,15 @@ fun Int?.getRequestBody(): RequestBody? {
     return this?.toString()?.toRequestBody(("text/plain").toMediaTypeOrNull())
 }
 
+fun Long?.getRequestBody(): RequestBody? {
+    return this?.toString()?.toRequestBody(("text/plain").toMediaTypeOrNull())
+}
+
 fun File.getMultiPartBody(param: String): MultipartBody.Part {
-    val requestFile = this?.asRequestBody("image/*".toMediaTypeOrNull())
-    val filePart = MultipartBody.Part.createFormData(
+    val requestFile = this.asRequestBody("image/*".toMediaTypeOrNull())
+    return MultipartBody.Part.createFormData(
         param,
-        this?.name,
+        name,
         requestFile
     )
-    return filePart
 }

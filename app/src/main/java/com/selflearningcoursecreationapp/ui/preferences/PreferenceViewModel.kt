@@ -11,8 +11,8 @@ import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.models.CategoryResponse
 import com.selflearningcoursecreationapp.models.user.UserResponse
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
-import com.selflearningcoursecreationapp.utils.FONT_CONSTANT
-import com.selflearningcoursecreationapp.utils.LANGUAGE_CONSTANT
+import com.selflearningcoursecreationapp.utils.FontConstant
+import com.selflearningcoursecreationapp.utils.LanguageConstant
 import com.selflearningcoursecreationapp.utils.PREFERENCES
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -36,6 +36,8 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
     var fontListData = MutableLiveData<ArrayList<CategoryData>>().apply {
         value = ArrayList()
     }
+    private var currentSelection = 0
+    private var showCategories = false
 
     init {
         getUserData()
@@ -49,63 +51,66 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
 
     }
 
-    fun savePrefernce(currentSelection: Int) = viewModelScope.launch(coroutineExceptionHandle) {
-        val map = HashMap<String, Any>().apply {
-            when (currentSelection) {
-                0 -> {
-                    put(
-                        "categories",
-                        ""
-                    )
-                    categoryListLiveData.value?.filter { it.isSelected }?.map { it.id }
-                        ?.joinToString()
-                        ?.let {
+    fun savePreference(currentSelection: Int) {
+        this.currentSelection = currentSelection
+        viewModelScope.launch(coroutineExceptionHandle) {
+            val map = HashMap<String, Any>().apply {
+                when (currentSelection) {
+                    0 -> {
+                        put(
+                            "categories",
+                            ""
+                        )
+                        categoryListLiveData.value?.filter { it.isSelected }?.map { it.id }
+                            ?.joinToString()
+                            ?.let {
+                                put(
+                                    "categories",
+                                    it
+                                )
+                            }
+
+
+                    }
+                    1 -> {
+                        themeListLiveData.value?.singleOrNull { it.isSelected }?.id?.let {
                             put(
-                                "categories",
+                                "themeId",
                                 it
                             )
                         }
+                    }
+                    2 -> {
+                        fontListData.value?.singleOrNull { it.isSelected }?.id?.let {
+                            put(
+                                "fontId",
+                                it
+                            )
+                        }
+                    }
+                    3 -> {
+                        languageListLiveData.value?.singleOrNull { it.isSelected }?.id?.let {
+                            put(
+                                "languageId",
+                                it
+                            )
+                        }
+                    }
+                }
 
-
-                }
-                1 -> {
-                    themeListLiveData.value?.singleOrNull { it.isSelected }?.id?.let {
-                        put(
-                            "themeId",
-                            it
-                        )
-                    }
-                }
-                2 -> {
-                    fontListData.value?.singleOrNull { it.isSelected }?.id?.let {
-                        put(
-                            "fontId",
-                            it
-                        )
-                    }
-                }
-                3 -> {
-                    languageListLiveData.value?.singleOrNull { it.isSelected }?.id?.let {
-                        put(
-                            "languageId",
-                            it
-                        )
-                    }
-                }
             }
-
-        }
-        var response = repo.savePreference(map)
-        withContext(Dispatchers.IO) {
-            response.collect {
-                updateResponseObserver(it)
+            val response = repo.savePreference(map)
+            withContext(Dispatchers.IO) {
+                response.collect {
+                    updateResponseObserver(it)
+                }
             }
         }
     }
 
 
     fun getThemeData() = viewModelScope.launch(coroutineExceptionHandle) {
-        var response = repo.getThemeList()
+        val response = repo.getThemeList()
         withContext(Dispatchers.IO) {
             response.collect {
                 if (it is Resource.Success<*>) {
@@ -121,7 +126,7 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
 
 
                     themeListLiveData.postValue(
-                        list ?: ArrayList()
+                        list
                     )
                 }
 
@@ -131,8 +136,9 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
     }
 
     fun getCategories(showMyCategories: Boolean = true) {
+        showCategories = showMyCategories
         viewModelScope.launch(coroutineExceptionHandle) {
-            var response = repo.getCategory()
+            val response = repo.getCategory()
             withContext(Dispatchers.IO) {
 
                 response.collect {
@@ -155,13 +161,13 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
 
     fun getMyCategories() {
         viewModelScope.launch(coroutineExceptionHandle) {
-            var response = repo.myCategories()
+            val response = repo.myCategories()
             withContext(Dispatchers.IO) {
                 response.catch { cause ->
                     updateResponseObserver(
                         Resource.Failure(
                             false,
-                            ApiEndPoints.API_MYCATEGORIES,
+                            ApiEndPoints.API_MY_CATEGORIES,
                             ApiError().apply {
                                 exception = cause
                             })
@@ -198,13 +204,11 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
             themeListLiveData.value?.singleOrNull { it.isSelected }?.let { themeData ->
                 userProfile?.theme = themeData
 
-                themeData.let {
-                    saveThemeFile(
-                        getThemeFile(
-                            it.code ?: ""
-                        )
+                saveThemeFile(
+                    getThemeFile(
+                        themeData.code ?: ""
                     )
-                }
+                )
             }
 
 
@@ -212,7 +216,7 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
         if (type == PREFERENCES.TYPE_ALL || type == PREFERENCES.TYPE_FONT) {
             fontListData.value?.singleOrNull { it.isSelected }?.let {
                 userProfile?.font = it
-                saveFont(it.id ?: FONT_CONSTANT.IBM)
+                saveFont(it.id ?: FontConstant.IBM)
             }
 
 
@@ -220,10 +224,27 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
         if (type == PREFERENCES.TYPE_ALL || type == PREFERENCES.TYPE_LANGUAGE) {
             languageListLiveData.value?.singleOrNull { it.isSelected }?.let {
                 userProfile?.language = it
-                saveLanguage(it.code ?: LANGUAGE_CONSTANT.ENGLISH)
+                saveLanguage(it.code ?: LanguageConstant.ENGLISH)
             }
 
         }
         saveUser(UserResponse(user = userProfile))
+    }
+
+    override fun onApiRetry(apiCode: String) {
+        when (apiCode) {
+            ApiEndPoints.API_SAVE_PREFERENCES -> {
+                savePreference(currentSelection)
+            }
+            ApiEndPoints.API_GET_CATEGORIES -> {
+                getCategories(showCategories)
+            }
+            ApiEndPoints.API_MY_CATEGORIES -> {
+                getMyCategories()
+            }
+            ApiEndPoints.API_GET_THEME_LIST -> {
+                getThemeData()
+            }
+        }
     }
 }

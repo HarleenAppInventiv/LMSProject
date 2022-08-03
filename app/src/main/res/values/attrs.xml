@@ -24,7 +24,8 @@
             <enum name="bottom" value="3" />
             <enum name="none" value="-1" />
         </attr>
-
+        <attr name="appBarStyle" format="reference" />
+        <attr name="toolbarStyle" format="reference" />
         <attr name="textColorType" format="enum">
             <enum name="primary" value="1" />
             <enum name="secondary" value="2" />
@@ -197,7 +198,7 @@
     <attr name="fontSelectionBgColor" format="reference" />
     <attr name="lineColor" format="reference" />
     <attr name="whiteTextColor" format="reference" />
-    <attr name="offwhiteTextColor" format="reference" />
+    <attr name="off_whiteTextColor" format="reference" />
     <attr name="forgotPassTextColor" format="reference" />
     <attr name="otpViewStyle" format="reference" />
     <attr name="profile_mail_color" format="reference" />

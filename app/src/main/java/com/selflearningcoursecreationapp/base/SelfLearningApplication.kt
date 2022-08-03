@@ -2,22 +2,20 @@ package com.selflearningcoursecreationapp.base
 
 import android.app.Application
 import android.content.Context
-import android.text.style.LocaleSpan
 import androidx.lifecycle.LifecycleObserver
 import com.selflearningcoursecreationapp.data.prefrence.PreferenceDataStore
 import com.selflearningcoursecreationapp.di.networkingModule
 import com.selflearningcoursecreationapp.di.repoModule
 import com.selflearningcoursecreationapp.di.viewModelModule
 import com.selflearningcoursecreationapp.utils.Constants
-import com.selflearningcoursecreationapp.utils.FONT_CONSTANT
-import com.selflearningcoursecreationapp.utils.LANGUAGE_CONSTANT
+import com.selflearningcoursecreationapp.utils.FontConstant
+import com.selflearningcoursecreationapp.utils.LanguageConstant
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
-import java.util.*
 
 class SelfLearningApplication : Application(), LifecycleObserver {
 
@@ -29,11 +27,10 @@ class SelfLearningApplication : Application(), LifecycleObserver {
     companion object {
         private var instance: SelfLearningApplication? = null
         var themeFile: String? = null
-        var fontId: Int = FONT_CONSTANT.IBM
-        var languageCode: String = LANGUAGE_CONSTANT.ENGLISH
+        var fontId: Int = FontConstant.IBM
+        var languageCode: String = LanguageConstant.ENGLISH
 
         var token: String? = null
-        private var localeSpan: LocaleSpan? = null
         fun applicationContext(): Context {
             return instance!!.applicationContext
         }
@@ -57,9 +54,9 @@ class SelfLearningApplication : Application(), LifecycleObserver {
     suspend fun updatedThemeFile() {
 
         themeFile = PreferenceDataStore.getString(Constants.THEME_FILE)
-        fontId = PreferenceDataStore.getInt(Constants.FONT_THEME) ?: FONT_CONSTANT.IBM
+        fontId = PreferenceDataStore.getInt(Constants.FONT_THEME) ?: FontConstant.IBM
         languageCode =
-            PreferenceDataStore.getString(Constants.LANGUAGE_THEME) ?: LANGUAGE_CONSTANT.ENGLISH
+            PreferenceDataStore.getString(Constants.LANGUAGE_THEME) ?: LanguageConstant.ENGLISH
 
     }
 

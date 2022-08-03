@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/moderator_graph"
+    app:startDestination="@id/moderatorBaseFragment">
+
+
+    <fragment
+        android:id="@+id/modCourseDetailsFragment"
+        android:name="com.selflearningcoursecreationapp.ui.moderator.courseDetails.ModCourseDetailsFragment"
+        android:label="ModCourseDetailsFragment" />
+    <include app:graph="@navigation/setting_graph" />
+    <include app:graph="@navigation/nav_profile_graph" />
+    <fragment
+        android:id="@+id/moderatorBaseFragment"
+        android:name="com.selflearningcoursecreationapp.ui.moderator.moderatorHome.ModeratorBaseFragment"
+        android:label="ModeratorBaseFragment">
+        <action
+            android:id="@+id/action_moderatorBaseFragment_to_nav_profile_graph"
+            app:destination="@id/nav_profile_graph" />
+        <action
+            android:id="@+id/action_moderatorBaseFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_moderatorBaseFragment_to_modCourseDetailsFragment"
+            app:destination="@id/modCourseDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.selflearningcoursecreationapp.ui.notification.NotificationFragment"
+        android:label="Notification" />
+
+</navigation>

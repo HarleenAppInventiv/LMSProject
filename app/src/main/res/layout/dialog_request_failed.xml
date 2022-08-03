@@ -26,21 +26,17 @@
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tvErrorHeading"
-                style="@style/textViewStyle.Heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="No Internet!!!"
                 app:fontType="bold" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tvErrorSubHeading"
-                style="@style/textViewStyle.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_6sdp"
                 android:lineSpacingExtra="0.5dp"
-                android:text="It seems like you are not connected with a stable internet connection."
                 android:textAlignment="center"
                 android:textSize="@dimen/_10sdp"
                 app:fontType="regular" />
@@ -52,7 +48,8 @@
                 android:layout_margin="@dimen/_10sdp"
                 android:letterSpacing="0.02"
                 android:paddingHorizontal="@dimen/_30sdp"
-                android:text="Retry"
+                android:text="@string/retry"
+                android:textSize="@dimen/materialButton_14"
                 android:textAllCaps="true"
                 app:btnTextColor="primary"
                 app:buttonBackground="primary" />

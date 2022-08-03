@@ -24,7 +24,7 @@ abstract class RichPathView(context: Context?, attrs: AttributeSet?, defStyleAtt
 
     private lateinit var vector: Vector
     private var richPathDrawable: RichPathDrawable? = null
-    var onPathClickListener: RichPath.OnPathClickListener? = null
+    private var onPathClickListener: RichPath.OnPathClickListener? = null
 
     init {
         init()
@@ -60,7 +60,7 @@ abstract class RichPathView(context: Context?, attrs: AttributeSet?, defStyleAtt
      * @param resId the resource ID for VectorDrawableCompat object.
      */
     @SuppressLint("ResourceType")
-    fun setVectorDrawable(@DrawableRes resId: Int) {
+    open fun setVectorDrawable(@DrawableRes resId: Int) {
         val xpp = context.resources.getXml(resId)
         vector = Vector()
         try {
@@ -75,7 +75,7 @@ abstract class RichPathView(context: Context?, attrs: AttributeSet?, defStyleAtt
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val vector = vector ?: return
+        val vector = vector
         val desiredWidth = vector.width
         val desiredHeight = vector.height
 

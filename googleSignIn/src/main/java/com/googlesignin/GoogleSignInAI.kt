@@ -14,7 +14,7 @@ import com.googlesignin.interfaces.GoogleSignCallback
 class GoogleSignInAI {
     private var mActivity: Activity? = null
     private var mGoogleSignInOptions: GoogleSignInOptions? = null
-    private var GOOGLE_SIGN_IN_REQUEST_CODE = 0
+    private var GoogleSignInRequestCode = 0
     private var mGoogleSignCallback: GoogleSignCallback? = null
     private var mGoogleSignInClient: GoogleSignInClient? = null
 
@@ -36,7 +36,7 @@ class GoogleSignInAI {
     *  Initialize Google request code
     */
     fun setRequestCode(requestCode: Int) {
-        this.GOOGLE_SIGN_IN_REQUEST_CODE = requestCode
+        this.GoogleSignInRequestCode = requestCode
     }
 
     /*
@@ -56,16 +56,20 @@ class GoogleSignInAI {
 
     fun doSignIn() {
         val account = GoogleSignIn.getLastSignedInAccount(mActivity!!)
-        if (account != null) {
-            mGoogleSignCallback!!.googleSignInSuccessResult(account)
-        } else if (mGoogleSignInClient != null) {
-            val signInIntent = mGoogleSignInClient!!.signInIntent
-            mActivity!!.startActivityForResult(signInIntent, GOOGLE_SIGN_IN_REQUEST_CODE)
-        } else Toast.makeText(
-            mActivity,
-            "Google SignIn Client is not connected",
-            Toast.LENGTH_SHORT
-        ).show()
+        when {
+            account != null -> {
+                mGoogleSignCallback!!.googleSignInSuccessResult(account)
+            }
+            mGoogleSignInClient != null -> {
+                val signInIntent = mGoogleSignInClient!!.signInIntent
+                mActivity!!.startActivityForResult(signInIntent, GoogleSignInRequestCode)
+            }
+            else -> Toast.makeText(
+                mActivity,
+                "Google SignIn Client is not connected",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     fun onActivityResult(data: Intent?) {

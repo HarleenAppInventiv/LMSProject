@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:id="@+id/parentCL"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_height="match_parent"
         android:background="?attr/viewBackgroundColor">
 
@@ -22,7 +22,7 @@
             android:paddingVertical="@dimen/_18sdp"
             android:paddingStart="@dimen/_16sdp"
             android:textColor="?attr/whiteTextColor"
-            android:textSize="@dimen/_16ssp"
+            android:textSize="@dimen/textField_15"
             app:fontType="semiBold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +50,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginBottom="@dimen/_14sdp"
             android:background="@drawable/ic_bg_search_course"
             android:drawablePadding="@dimen/_10sdp"
             android:hint="@string/search_courses"
@@ -59,9 +58,8 @@
             android:singleLine="true"
             android:textColor="?attr/whiteTextColor"
             android:textColorHint="?attr/hintColor"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/editTextField_14"
             app:fontType="regular"
-            app:layout_constraintBottom_toTopOf="@+id/recycler_cource_category"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
@@ -70,12 +68,15 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_cource_category"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_14sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_search"
             android:overScrollMode="never"
+            app:layout_constraintHeight_default="wrap"
             tools:itemCount="10"
             tools:listitem="@layout/adapter_cource_categories" />
 
@@ -88,7 +89,7 @@
             android:drawablePadding="@dimen/_20sdp"
             android:paddingVertical="@dimen/_40sdp"
             android:text="@string/no_categories_found"
-            android:textSize="@dimen/_16ssp"
+            android:textSize="@dimen/textField_16"
             android:visibility="gone"
             app:drawableTopCompat="@drawable/ic_no_doc"
             app:fontType="regular"

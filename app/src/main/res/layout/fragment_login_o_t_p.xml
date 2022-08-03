@@ -11,19 +11,19 @@
 
         <import
             alias="const"
-            type="com.selflearningcoursecreationapp.utils.VALIDATION_CONST" />
+            type="com.selflearningcoursecreationapp.utils.ValidationConst" />
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
+        android:fillViewport="true"
         tools:context=".ui.authentication.OnBoardingActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
 
             >
 
@@ -46,7 +46,7 @@
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:text="@string/login_via_otp"
-                android:textSize="@dimen/_24ssp"
+                android:textSize="@dimen/loginOtpTitle_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:text="@string/enter_your_phone_number_and_we_will_send_you_an_otp_to_verify"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/textField_14"
                 app:fontType="regular"
                 app:layout_constraintEnd_toEndOf="@+id/textView"
                 app:layout_constraintStart_toStartOf="@+id/textView"
@@ -103,11 +103,14 @@
                     android:layout_height="match_parent"
                     android:clickable="true"
                     android:focusable="true"
+                    app:ccp_areaCodeDetectedCountry="true"
+                    app:ccp_autoDetectCountry="true"
+
                     android:gravity="center"
                     app:ccpDialog_backgroundColor="?attr/viewBackgroundColor"
                     app:ccp_showFlag="false"
                     app:ccp_showNameCode="false"
-                    app:ccp_textSize="@dimen/_16ssp" />
+                    app:ccp_textSize="@dimen/textField_14" />
 
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
@@ -120,12 +123,11 @@
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:maxLength="@{const.MAX_NO_LENGTH}"
-                    android:textSize="@dimen/_14ssp"
                     app:fontType="regular"
                     android:paddingStart="@dimen/_5sdp"
                     android:singleLine="true"
                     android:text="@={loginViaOTP.phone}"
-
+                    android:paddingEnd="@dimen/_10sdp"
                     app:primaryIconTint="start" />
 
 
@@ -142,7 +144,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textView3"
                 app:layout_constraintTop_toBottomOf="@+id/ll_phone"
                 app:textColorType="body"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/textField_14"
                 app:fontType="regular"
 
                 />
@@ -153,11 +155,12 @@
                 spanText="@{@string/continues}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_60sdp"
+                android:layout_marginTop="@dimen/_40sdp"
                 android:layout_marginBottom="@dimen/_24sdp"
                 android:enabled="@{!loginViaOTP.phone.empty &amp;&amp; loginViaOTP.phone.length()>=5 }"
                 android:text="@string/continues"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/materialButton_14"
+                app:layout_constraintVertical_bias="0"
                 app:fontType="regular"
                 app:btnEnabled="@{!loginViaOTP.phone.empty &amp;&amp; loginViaOTP.phone.length()>=5 }"
                 app:layout_constraintBottom_toBottomOf="parent"

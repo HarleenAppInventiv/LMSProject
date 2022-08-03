@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.base.BaseResponse
+import com.selflearningcoursecreationapp.data.network.ApiError
 import com.selflearningcoursecreationapp.data.prefrence.PreferenceDataStore
 import com.selflearningcoursecreationapp.databinding.FragmentSplashBinding
 import com.selflearningcoursecreationapp.models.user.UserProfile
@@ -21,14 +22,12 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SplashFragment : BaseFragment<FragmentSplashBinding>() {
     private val viewModel: SplashVM by viewModel()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
     }
+
 
     fun initUI() {
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
@@ -36,7 +35,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
         lifecycleScope.launch {
             delay(2000)
             if (PreferenceDataStore.getString(Constants.USER_TOKEN).isNullOrEmpty()) {
-                if (PreferenceDataStore.getBoolean(Constants.WALKTHROUGH_DONE) ?: false) {
+                if (PreferenceDataStore.getBoolean(Constants.WALKTHROUGH_DONE) == true) {
                     baseActivity.startActivity(Intent(baseActivity, InitialActivity::class.java))
 
                     baseActivity.finish()
@@ -79,5 +78,12 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
 
 
     override fun getLayoutRes() = R.layout.fragment_splash
+    override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
+    }
 
+    override fun onRetry(apiCode: String, networkError: Boolean, exception: ApiError) {
+        baseActivity.goToHomeActivity()
+
+    }
 }

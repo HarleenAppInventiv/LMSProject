@@ -45,7 +45,7 @@ class AddQuizRepoImpl(private var apiService: ApiService) : AddQuizRepo {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<QuizData>> {
                 return apiService.getQuizQues(quizId)
             }
-        }.safeApiCall(ApiEndPoints.API_ADD_QUIZ).flowOn(Dispatchers.IO)
+        }.safeApiCall(ApiEndPoints.API_ADD_QUIZ + "/get").flowOn(Dispatchers.IO)
     }
 
     override suspend fun getAssessmentQues(assessmentId: Int): Flow<Resource> {
@@ -53,7 +53,7 @@ class AddQuizRepoImpl(private var apiService: ApiService) : AddQuizRepo {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<QuizData>> {
                 return apiService.getAssessmentQues(assessmentId)
             }
-        }.safeApiCall(ApiEndPoints.API_ADD_ASSESSMENT).flowOn(Dispatchers.IO)
+        }.safeApiCall(ApiEndPoints.API_ADD_ASSESSMENT + "/get").flowOn(Dispatchers.IO)
     }
 
     override suspend fun addQuizQues(data: QuizQuestionData?): Flow<Resource> {
@@ -63,7 +63,7 @@ class AddQuizRepoImpl(private var apiService: ApiService) : AddQuizRepo {
                     data
                 )
             }
-        }.safeApiCall(ApiEndPoints.API_ADD_QUIZ_QUESTION).flowOn(Dispatchers.IO)
+        }.safeApiCall(ApiEndPoints.API_ADD_QUIZ_QUESTION + "/add").flowOn(Dispatchers.IO)
     }
 
     override suspend fun addAssessmentQues(data: QuizQuestionData?): Flow<Resource> {
@@ -73,7 +73,7 @@ class AddQuizRepoImpl(private var apiService: ApiService) : AddQuizRepo {
                     data
                 )
             }
-        }.safeApiCall(ApiEndPoints.API_ADD_ASSESSMENT_QUESTION).flowOn(Dispatchers.IO)
+        }.safeApiCall(ApiEndPoints.API_ADD_ASSESSMENT_QUESTION + "/add").flowOn(Dispatchers.IO)
     }
 
     override suspend fun saveQuizAns(data: RequestBody?): Flow<Resource> {
@@ -103,7 +103,7 @@ class AddQuizRepoImpl(private var apiService: ApiService) : AddQuizRepo {
                     questionId
                 )
             }
-        }.safeApiCall(ApiEndPoints.API_ADD_QUIZ_QUESTION).flowOn(Dispatchers.IO)
+        }.safeApiCall(ApiEndPoints.API_ADD_QUIZ_QUESTION + "/delete").flowOn(Dispatchers.IO)
     }
 
     override suspend fun deleteAssessmentQues(data: QuizData, questionId: Int?): Flow<Resource> {
@@ -115,7 +115,7 @@ class AddQuizRepoImpl(private var apiService: ApiService) : AddQuizRepo {
                     questionId
                 )
             }
-        }.safeApiCall(ApiEndPoints.API_ADD_ASSESSMENT_QUESTION).flowOn(Dispatchers.IO)
+        }.safeApiCall(ApiEndPoints.API_ADD_ASSESSMENT_QUESTION + "/delete").flowOn(Dispatchers.IO)
     }
 
     override suspend fun saveQuiz(data: QuizData?): Flow<Resource> {
@@ -127,11 +127,12 @@ class AddQuizRepoImpl(private var apiService: ApiService) : AddQuizRepo {
     }
 
     override suspend fun saveAssessment(data: QuizData?): Flow<Resource> {
-        return object : BaseRepo<BaseResponse<ChildModel>>() {
+        var call = object : BaseRepo<BaseResponse<ChildModel>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ChildModel>> {
                 return apiService.saveAssessment(data)
             }
-        }.safeApiCall(ApiEndPoints.API_ADD_ASSESSMENT_SAVE).flowOn(Dispatchers.IO)
+        }
+        return call.safeApiCall(ApiEndPoints.API_ADD_ASSESSMENT_SAVE).flowOn(Dispatchers.IO)
     }
 
     override suspend fun uploadQuizImage(data: QuizData, file: File, type: Int): Flow<Resource> {

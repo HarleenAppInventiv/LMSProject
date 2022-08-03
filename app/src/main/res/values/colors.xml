@@ -1,34 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#0056d2</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#0056D2</color>
+    <color name="purple_700">#8900F2</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="grey_ededed">#EDEDED</color>
     <color name="whiteTrans15">#1D151414</color>
-    <color name="offwhite">#f5f5f5</color>
-    <color name="offwhite_f6f6f6">#F6F6F6</color>
+    <color name="offWhite">#f5f5f5</color>
+    <color name="offWhite_f6f6f6">#F6F6F6</color>
     <color name="lightBlueColor">#e1ebf8</color>
     <color name="no_earning_chart_bg">#D1D4D9</color>
+    <color name="screen_background">#FBFBFB</color>
 
-
+    <color name="primaryColor">#8900F2</color>
+    <color name="primaryTintColor">#647f0ae8</color>
     <color name="accent_color_fc6d5b">#fc6d5b</color>
     <color name="accent_color_FFB800">#ffb800</color>
     <color name="accent_color_2FBF71">#2fbf71</color>
+    <color name="test">#7F7F7F</color>
 
 
-    //onboarding
-    <color name="colorAccent">#03DAC5</color>
+    //onBoarding
     <color name="transPrimary">#40262626</color>
-    <color name="colorPrimary">#FAC110</color>
-    <color name="colorPrimaryDark">#FAC110</color>
-    <color name="colorWhite">#ffff</color>
-    <color name="colorBlack">#121111</color>
     <color name="colorGrey">#676060</color>
-    <color name="transblack">#75000000</color>
-    <color name="transblack_010F22">#99010F22</color>
+    <color name="transBlack">#75000000</color>
+    <color name="transBlack_010F22">#99010F22</color>
 
     <color name="dividerGrey">#F5F5F5</color>
     <color name="hintColor">#929292</color>
@@ -36,25 +33,26 @@
     <color name="coin_stroked_color">#f9b810</color>
     <color name="coin_stroked_bg_color">#fffce7</color>
     <color name="radioTextColor">#756F86</color>
+    <color name="radioSelectedTextColor">#231E1E</color>
 
 
     <color name="intro_btn_bg_color_f5f5f5">#f5f5f5</color>
     <color name="hint_color_929292">#929292</color>
     <color name="opacity_50_929292">#80929292</color>
+    <color name="opacity_20_929292">#33929292</color>
+    <color name="opacity_15_929292">#26929292</color>
     <color name="progress_bg">#30929292</color>
-    <color name="google_btn_bg_color_fc6d5b">#fc6d5b</color>
     <color name="otp_btn_bg_color_start_051f32">#051f32</color>
     <color name="grey_c4c4c4">#c4c4c4</color>
     <color name="heading_color_262626">#262626</color>
     <color name="text_color_black_131414">#131414</color>
-    <color name="otp_text_color_1_e_263_c">#1e263c</color>
     <color name="light_blue_grey">#e1ebf8</color>
     <color name="adapter_header_color">#322f2e</color>
     <color name="error_red">#D22B16</color>
     <color name="grey_trans">#14121F66</color>
 
 
-    <color name="transblue_05">#0c0056d2</color>
+    <color name="transBlue_05">#0c0056d2</color>
     <color name="line_color_cfd9e9">#f5f5f5</color>
     <color name="theme_selection_bg_color">#f8f8f8</color>
     <color name="pager_unselected_dot_color">#d6d5d5</color>
@@ -96,9 +94,6 @@
 
     <color name="et_dash_color">#D0D0D0</color>
 
-    <color name="test">#262626</color>
-    <color name="test1">#3A3A4E</color>
-
 
     <color name="user_stat_bg">#E3EDB1</color>
     <color name="course_stat_bg">#C1FDE4</color>
@@ -106,5 +101,17 @@
 
     <color name="black_1D1E2C">#1D1E2C</color>
     <color name="black_242424">#242424</color>
+    <color name="sky_blue_light">#E6FAFE</color>
+    <color name="red_light">#FFECF2</color>
+    <color name="violet_light">#EEECFE</color>
+    <color name="yellow_light">#FFF7EB</color>
+    <color name="green_light">#DEF9E5</color>
 
+    <color name="white80">#FFFFFFCC</color>
+    <color name="red_transparent">#1AFC6D5B</color>
+    <color name="rejected_background">#FFF3F2</color>
+    <color name="color_green">#2FBF71</color>
+    <color name="color_report">#322F40</color>
+    <color name="color_view">#FAFAFA</color>
+    <color name="filter_stroke_view">#E2E2E2</color>
 </resources>

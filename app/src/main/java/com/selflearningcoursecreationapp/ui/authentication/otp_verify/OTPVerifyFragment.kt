@@ -14,8 +14,9 @@ import com.selflearningcoursecreationapp.extensions.otpHelper
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.models.user.UserResponse
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
-import com.selflearningcoursecreationapp.utils.OTP_TYPE
+import com.selflearningcoursecreationapp.utils.OtpType
 import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.ValidationConst
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
@@ -24,11 +25,11 @@ import java.util.concurrent.TimeUnit
 class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
     private val viewModel: OTPVerifyViewModel by viewModel()
 
-    private var startTime: Long = 60000
+    private var startTime: Long = ValidationConst.OTP_TIME
     private var timer: CountDownTimer? = null
     private var argBundle: OTPVerifyFragmentArgs? = null
-    private var OTP_TIME = 60000L
-    private var maxRequest = 5
+    private var maxRequest = ValidationConst.OTP_TIME_REQUEST
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         argBundle = arguments?.let {
@@ -51,6 +52,8 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
                 .isBold().getSpanString()
         )
         binding.otpverify = viewModel
+        viewModel.argBundle = argBundle
+        viewModel.token = baseActivity.token
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
 
         argBundle?.let {
@@ -60,31 +63,30 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
                 binding.tvSendOtpText.text = getString(R.string.enter_four_digit_from_mail)
 
             } else {
-                binding.tvPhone.text = "${it.countryCode} ${it.phone}"
+                binding.tvPhone.text = String.format("%s %s", it.countryCode, it.phone)
                 binding.tvSendOtpText.text =
                     getString(R.string.enter_4_digit_number_that_sent_to_your_number)
             }
         }
 
-        if (argBundle?.type == OTP_TYPE.TYPE_SIGNUP) {
-            viewModel.reqOTP(argBundle)
+        if (argBundle?.type == OtpType.TYPE_SIGNUP) {
+            viewModel.reqOTP()
         } else {
             startTimer()
 
         }
 
-        onClickListners()
+        onClickListeners()
     }
 
-    fun onClickListners() {
+    private fun onClickListeners() {
         binding.btnSubmitOtp.setOnClickListener {
-
-            viewModel.otpVerify(argBundle, baseActivity.token)
+            viewModel.otpVerify()
         }
 
         binding.tvResend.setOnClickListener {
 
-            viewModel.reqOTP(argBundle)
+            viewModel.reqOTP()
         }
     }
 
@@ -94,43 +96,39 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)
         when (apiCode) {
-            ApiEndPoints.API_OTP_REQ -> {
+            ApiEndPoints.API_OTP_REQ, ApiEndPoints.API_ADD_EMAIL -> {
                 binding.tvResend.typeface = Typeface.DEFAULT
                 binding.tvResend.changeTextColor(ThemeConstants.TYPE_PRIMARY)
                 startTimer()
                 binding.tvResend.isEnabled = false
             }
-            ApiEndPoints.API_OTP_VAL -> {
-                (value as BaseResponse<UserResponse>)
-
+            ApiEndPoints.API_OTP_VAL, ApiEndPoints.API_VERIFY_EMAIL -> {
+                val userData = (value as? BaseResponse<UserResponse>)?.resource
                 when (argBundle?.type) {
-                    OTP_TYPE.TYPE_FORGOT -> {
-                        var userId = value.resource?.user?.id.toString()
-                        var action =
+                    OtpType.TYPE_FORGOT -> {
+                        val userId = userData?.user?.id.toString()
+                        val action =
                             OTPVerifyFragmentDirections.actionOTPVerifyFragmentToResetPassFragment(
                                 userId
                             )
                         findNavController().navigate(action)
                     }
-                    OTP_TYPE.TYPE_LOGIN -> {
-                        val userData = (value as BaseResponse<UserResponse>).resource
+                    OtpType.TYPE_LOGIN -> {
                         handleLoginResponse(userData)
 
 
-//                        }
-
                     }
-                    OTP_TYPE.TYPE_SIGNUP -> {
+                    OtpType.TYPE_SIGNUP -> {
 
 
-                        var action =
+                        val action =
                             OTPVerifyFragmentDirections.actionOTPVerifyFragmentToAddPasswordFragment(
-                                value.resource?.user?.id.toString()
+                                userData?.user?.id.toString()
                             )
                         findNavController().navigate(action)
 
                     }
-                    OTP_TYPE.TYPE_EMAIL -> {
+                    OtpType.TYPE_EMAIL -> {
                         findNavController().navigateUp()
                     }
                 }
@@ -142,25 +140,27 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
     private fun handleLoginResponse(
         userData: UserResponse?
     ) {
-        if (userData?.user?.passwordUpdated == false) {
-            var action =
-                OTPVerifyFragmentDirections.actionOTPVerifyFragmentToAddPasswordFragment(
-                    userData?.user?.id.toString()
+        when {
+            userData?.user?.passwordUpdated == false -> {
+                val action =
+                    OTPVerifyFragmentDirections.actionOTPVerifyFragmentToAddPasswordFragment(
+                        userData.user?.id.toString()
+                    )
+                findNavController().navigate(action)
+            }
+            userData?.user?.getPreferenceValue() != 4 -> {
+
+                findNavController().navigate(
+                    OTPVerifyFragmentDirections.actionOTPVerifyFragmentToPreferencesFragment(
+                        currentSelection = userData?.user?.getPreferenceValue() ?: 0
+                    )
                 )
-            findNavController().navigate(action)
-        }
-        //
-        else if (userData?.user?.getPreferenceValue() != 4) {
-
-            findNavController().navigate(
-                OTPVerifyFragmentDirections.actionOTPVerifyFragmentToPreferencesFragment(
-                    currentSelection = userData?.user?.getPreferenceValue() ?: 0
-                )
-            )
 
 
-        } else {
-            baseActivity.goToHomeActivity()
+            }
+            else -> {
+                baseActivity.goToHomeActivity()
+            }
         }
     }
 
@@ -172,12 +172,9 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
             override fun onTick(millisUntilFinished: Long) {
                 if (isVisible) {
 
-                    var min = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
-//                    if (min.length == 1) {
-//                        min = "0$min"
-//                    }
+                    val min = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
 
-                    var sec = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
+                    val sec = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
                         .minus(
                             TimeUnit.MINUTES.toSeconds(
                                 TimeUnit.MILLISECONDS.toMinutes(
@@ -185,17 +182,12 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
                                 )
                             )
                         )
-//                    if (sec.length == 1) {
-//                        sec = "0$sec"
-//                    }
-
                     val resendText = String.format(
                         "%s %02d : %02d",
                         baseActivity.getString(R.string.resend_code_in),
                         min,
                         sec
                     )
-//                        baseActivity.getString(R.string.resend_code_in) + " $min : $sec"
                     binding.tvResend.setSpanString(
                         SpanUtils.with(baseActivity, resendText).startPos(16).textColor(
                             ContextCompat.getColor(
@@ -211,7 +203,7 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
             override fun onFinish() {
                 if (isVisible) {
                     if (maxRequest == 0) {
-                        maxRequest = 5
+                        maxRequest = ValidationConst.OTP_TIME_REQUEST
                     } else {
                         maxRequest -= 1
                     }
@@ -227,10 +219,10 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
     }
 
     private fun setStartTime() {
-        if (maxRequest == 0) {
-            startTime = OTP_TIME.times(5)
+        startTime = if (maxRequest == 0) {
+            ValidationConst.OTP_TIME.times(5)
         } else {
-            startTime = OTP_TIME.times(1)
+            ValidationConst.OTP_TIME.times(1)
         }
     }
 
@@ -239,6 +231,11 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
         super.onDestroyView()
         timer?.cancel()
         timer = null
+    }
+
+
+    override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
     }
 
 
