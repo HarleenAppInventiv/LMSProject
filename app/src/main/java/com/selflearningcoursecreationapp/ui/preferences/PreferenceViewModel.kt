@@ -9,6 +9,7 @@ import com.selflearningcoursecreationapp.data.network.ApiError
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.models.CategoryResponse
+import com.selflearningcoursecreationapp.models.user.PreferenceData
 import com.selflearningcoursecreationapp.models.user.UserResponse
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.FontConstant
@@ -16,17 +17,17 @@ import com.selflearningcoursecreationapp.utils.LanguageConstant
 import com.selflearningcoursecreationapp.utils.PREFERENCES
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
 
-
+    var preferenceArgData = PreferenceData()
     var categoryListLiveData = MutableLiveData<ArrayList<CategoryData>>().apply {
         value = ArrayList()
     }
-
+    var type: Int = PREFERENCES.TYPE_ALL
+    var screenType: Int = PREFERENCES.SCREEN_APP
     var themeListLiveData = MutableLiveData<ArrayList<CategoryData>>().apply {
         value = ArrayList()
     }
@@ -38,6 +39,8 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
     }
     private var currentSelection = 0
     private var showCategories = false
+    var languageSingleSelection = true
+    var categorySingleSelection = false
 
     init {
         getUserData()
@@ -148,6 +151,15 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
                             ?: ArrayList()
                         if (showMyCategories) {
                             getMyCategories()
+                        } else {
+                            preferenceArgData.selectedValues?.forEach { selectedId ->
+                                list.forEach { categoryData ->
+                                    if (categoryData.id == selectedId) {
+                                        categoryData.isSelected = true
+                                    }
+
+                                }
+                            }
                         }
                         categoryListLiveData.postValue(list)
                     }

@@ -24,17 +24,20 @@ import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.base.SelfLearningApplication
 import com.selflearningcoursecreationapp.databinding.FragmentPreferencesBinding
 import com.selflearningcoursecreationapp.di.getAppContext
-import com.selflearningcoursecreationapp.extensions.gone
-import com.selflearningcoursecreationapp.extensions.showLog
-import com.selflearningcoursecreationapp.extensions.visible
-import com.selflearningcoursecreationapp.extensions.visibleView
+import com.selflearningcoursecreationapp.extensions.*
+import com.selflearningcoursecreationapp.models.user.PreferenceData
 import com.selflearningcoursecreationapp.ui.home.HomeActivity
+import com.selflearningcoursecreationapp.ui.moderator.ModeratorActivity
 import com.selflearningcoursecreationapp.ui.preferences.category.CategoryFragment
 import com.selflearningcoursecreationapp.ui.preferences.font.SelectFontFragment
 import com.selflearningcoursecreationapp.ui.preferences.language.SelectLanguageFragment
 import com.selflearningcoursecreationapp.ui.preferences.theme.SelectThemeFragment
 import com.selflearningcoursecreationapp.ui.splash.intro_slider.DotAdapter
-import com.selflearningcoursecreationapp.utils.*
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.utils.PREFERENCES
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
 import kotlinx.coroutines.delay
@@ -48,21 +51,30 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
     private val viewModel: PreferenceViewModel by viewModel()
     private var dotAdapter: DotAdapter? = null
     private var dotList: ArrayList<Boolean> = ArrayList()
-    private var type: Int = PREFERENCES.TYPE_ALL
+
     private var currentSelection: Int = 0
-    private var screenType: Int = PREFERENCES.SCREEN_APP
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             PreferencesFragmentArgs.fromBundle(it).let { args ->
-                type = args.type
-                screenType = args.screenType
+                viewModel.preferenceArgData = args.preferenceData ?: PreferenceData()
+                viewModel.type = viewModel.preferenceArgData.type
+                viewModel.screenType = viewModel.preferenceArgData.screenType
+                viewModel.languageSingleSelection =
+                    viewModel.preferenceArgData.languageSingleSelection
+                viewModel.categorySingleSelection =
+                    viewModel.preferenceArgData.categorySingleSelection
                 currentSelection =
-                    if (args.currentSelection == -1) {
-                        if (args.type == -1) 0 else args.type
-                    } else args.currentSelection
-                if (args.title.isNotEmpty())
-                    baseActivity.setToolbar(args.title)
+                    if (viewModel.preferenceArgData?.currentSelection.isNullOrNegative()) {
+                        if (viewModel.type == -1) 0 else viewModel.type
+                    } else viewModel.preferenceArgData?.currentSelection
+                if (!viewModel.preferenceArgData?.title.isNullOrEmpty()) {
+
+                    baseActivity.setToolbar(
+                        viewModel.preferenceArgData?.title,
+                        backIcon = if (viewModel.screenType == PREFERENCES.SCREEN_SELECT) R.drawable.ic_cross_grey else R.drawable.ic_arrow_left
+                    )
+                }
             }
         }
     }
@@ -86,7 +98,7 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
 
         initViewPager()
         observeListeners()
-        if (screenType == PREFERENCES.SCREEN_APP && type == PREFERENCES.TYPE_ALL) {
+        if (viewModel.screenType == PREFERENCES.SCREEN_APP && viewModel.type == PREFERENCES.TYPE_ALL) {
             lifecycleScope.launch {
                 delay(500)
                 binding.viewpager.currentItem = currentSelection
@@ -103,7 +115,7 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        if (type == PREFERENCES.TYPE_ALL) {
+        if (viewModel.type == PREFERENCES.TYPE_ALL) {
             inflater.inflate(R.menu.preference_menu, menu)
 
         } else {
@@ -113,7 +125,7 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        if (type == PREFERENCES.TYPE_ALL) {
+        if (viewModel.type == PREFERENCES.TYPE_ALL) {
             val item = menu.findItem(R.id.action_skip)
             val s = SpannableString(item.title)
             s.setSpan(ForegroundColorSpan(ThemeUtils.getAppColor(baseActivity)), 0, s.length, 0)
@@ -191,12 +203,12 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
         )
 
 
-        if (type == PREFERENCES.TYPE_ALL) {
+        if (viewModel.type == PREFERENCES.TYPE_ALL) {
             list.addAll(fragList)
         } else {
-            list.add(fragList[type])
+            list.add(fragList[viewModel.type])
         }
-        binding.rvPagerDot.visibleView(type == PREFERENCES.TYPE_ALL)
+        binding.rvPagerDot.visibleView(viewModel.type == PREFERENCES.TYPE_ALL)
         setData()
 
         adapter = ScreenSlidePagerAdapter(childFragmentManager, list, this.lifecycle)
@@ -230,7 +242,7 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
     }
 
     private fun observeListeners() {
-        viewModel.categoryListLiveData.observe(viewLifecycleOwner, {
+        viewModel.categoryListLiveData.observe(viewLifecycleOwner) {
             if (currentSelection == PREFERENCES.TYPE_CATEGORY) {
                 resetData()
                 setCategoryData()
@@ -238,21 +250,21 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
                 binding.cbSelectAll.isChecked =
                     it.filter { data -> !data.isSelected }.isNullOrEmpty()
             }
-        })
-        viewModel.themeListLiveData.observe(viewLifecycleOwner, {
+        }
+        viewModel.themeListLiveData.observe(viewLifecycleOwner) {
             if (currentSelection == PREFERENCES.TYPE_THEME) {
                 resetData()
                 setThemeData()
             }
-        })
-        viewModel.fontListData.observe(viewLifecycleOwner, {
+        }
+        viewModel.fontListData.observe(viewLifecycleOwner) {
             setData()
-        })
-        viewModel.languageListLiveData.observe(viewLifecycleOwner, {
+        }
+        viewModel.languageListLiveData.observe(viewLifecycleOwner) {
             if (currentSelection == PREFERENCES.TYPE_LANGUAGE) {
                 setData()
             }
-        })
+        }
 
 
     }
@@ -270,9 +282,14 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
         themeData?.let { theme ->
             binding.tvSelectedValue.text = theme.name
             binding.ivSelectedTheme.visible()
-            binding.ivSelectedTheme.setBackgroundColor(
-                Color.parseColor(theme.code)
-            )
+            try {
+                binding.ivSelectedTheme.setBackgroundColor(
+                    Color.parseColor(theme.code)
+                )
+            } catch (e: Exception) {
+                showException(e)
+            }
+
         }
     }
 
@@ -293,10 +310,18 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
 
     private fun setLanguageData() {
         showLog("PREFERENCES", "language")
-        val themeData = viewModel.languageListLiveData.value?.singleOrNull { it.isSelected }
-        themeData?.let { theme ->
-            binding.tvSelectedValue.text = theme.name
+        val themeData = viewModel.languageListLiveData.value?.filter { it.isSelected }
+//        themeData?.let { theme ->
+//            binding.tvSelectedValue.text = theme.name
+//        }
+        val name = themeData?.map { it.name }?.joinToString(",")?.toString()?.let {
+            if (it.endsWith(",")) {
+                it.dropLast(it.length - 1).toString()
+            } else {
+                it
+            }
         }
+        binding.tvSelectedValue.text = name
     }
 
     private fun resetData() {
@@ -310,7 +335,8 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
 
 
     private fun setData() {
-        val position = if (type == PREFERENCES.TYPE_ALL) binding.viewpager.currentItem else type
+        val position =
+            if (viewModel.type == PREFERENCES.TYPE_ALL) binding.viewpager.currentItem else viewModel.type
         val selectedTitleList =
             baseActivity.resources.getStringArray(R.array.preference_selected_title)
         binding.tvSelectedTitle.text = selectedTitleList[position]
@@ -320,7 +346,7 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
 
         when (position) {
             0 -> {
-                binding.cbSelectAll.visible()
+                binding.cbSelectAll.visibleView(!viewModel.categorySingleSelection)
                 setCategoryData()
             }
             1 -> {
@@ -336,10 +362,10 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
         }
 
 
-        if (type != PREFERENCES.TYPE_ALL) {
-            if (screenType == PREFERENCES.SCREEN_APP)
+        if (viewModel.type != PREFERENCES.TYPE_ALL) {
+            if (viewModel.screenType == PREFERENCES.SCREEN_APP)
                 binding.btContinue.text = baseActivity.getString(R.string.apply)
-            else binding.btContinue.text = baseActivity.getString(R.string.select)
+            else binding.btContinue.text = baseActivity.getString(R.string.done)
 
         }
     }
@@ -363,7 +389,7 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
                 }
             }
             R.id.bt_continue -> {
-                if (screenType == PREFERENCES.SCREEN_APP)
+                if (viewModel.screenType == PREFERENCES.SCREEN_APP)
                     saveData()
                 else sendSelectedData()
 
@@ -372,7 +398,7 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
     }
 
     private fun sendSelectedData() {
-        val list = when (type) {
+        val list = when (viewModel.type) {
             PREFERENCES.TYPE_LANGUAGE -> {
                 viewModel.languageListLiveData.value
             }
@@ -388,7 +414,7 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
             }
         }?.filter { it.isSelected }
 
-        setFragmentResult("preferenceData", bundleOf("type" to type, "data" to list))
+        setFragmentResult("preferenceData", bundleOf("type" to viewModel.type, "data" to list))
         findNavController().navigateUp()
     }
 
@@ -400,20 +426,20 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
             ApiEndPoints.API_SAVE_PREFERENCES -> {
                 showLoading()
                 lifecycleScope.launch {
-                    viewModel.savePrefDataInDB(type)
+                    viewModel.savePrefDataInDB(viewModel.type)
                     delay(2000)
                     baseActivity.runOnUiThread {
                         hideLoading()
                         when {
-                            type == PREFERENCES.TYPE_ALL -> {
+                            viewModel.type == PREFERENCES.TYPE_ALL -> {
                                 pagerMoveOrUpdateThemeFile()
                             }
-                            type != PREFERENCES.TYPE_CATEGORY -> {
+                            viewModel.type != PREFERENCES.TYPE_CATEGORY -> {
 
                                 var changedText = ""
                                 var themeText = ""
 
-                                when (type) {
+                                when (viewModel.type) {
                                     PREFERENCES.TYPE_LANGUAGE -> {
                                         changedText =
                                             baseActivity.getString(R.string.language_changed_to)
@@ -477,12 +503,21 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
                         "THEME",
                         SelfLearningApplication.themeFile ?: "no gg"
                     )
-                    baseActivity.startActivity(
-                        Intent(
-                            baseActivity,
-                            HomeActivity::class.java
+                    if (baseActivity is HomeActivity) {
+                        baseActivity.startActivity(
+                            Intent(
+                                baseActivity,
+                                HomeActivity::class.java
+                            )
                         )
-                    )
+                    } else {
+                        baseActivity.startActivity(
+                            Intent(
+                                baseActivity,
+                                ModeratorActivity::class.java
+                            )
+                        )
+                    }
                     baseActivity.finish()
 
 //                                        baseActivity.recreate()
@@ -491,7 +526,7 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
     }
 
     fun onClickBack() {
-        if (type != PREFERENCES.TYPE_ALL) {
+        if (viewModel.type != PREFERENCES.TYPE_ALL) {
             findNavController().navigateUp()
         } else {
             /* if (currentSelection == PreferencesFragmentArgs?.fromBundle(requireArguments())?.currentSelection) {

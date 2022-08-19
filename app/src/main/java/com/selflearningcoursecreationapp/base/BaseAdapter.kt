@@ -18,7 +18,7 @@ abstract class BaseAdapter<DB : ViewDataBinding> : RecyclerView.Adapter<BaseView
     private var itemClickListener: IViewClick? = null
     private var pageEndListener: IListEnd? = null
     private var filter: InputFilter? = null
-
+    private var holderList: HashMap<Int, BaseViewHolder> = HashMap()
     @LayoutRes
     abstract fun getLayoutRes(): Int
 
@@ -35,6 +35,11 @@ abstract class BaseAdapter<DB : ViewDataBinding> : RecyclerView.Adapter<BaseView
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         Log.d("main", "BaseAdapter")
+        holderList[position] = holder
+    }
+
+    fun getViewHolder(position: Int): BaseViewHolder? {
+        return holderList[position]
     }
 
     override fun getItemCount(): Int {

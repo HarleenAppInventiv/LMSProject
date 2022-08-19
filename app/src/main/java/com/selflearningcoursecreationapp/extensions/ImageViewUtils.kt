@@ -62,7 +62,7 @@ fun ImageView.loadImage(url: String?, placeholder: Int?, index: Int) {
 
 
 fun ImageView.loadGif(gif: Int) {
-    Glide.with(context).asGif().load(gif).into(this);
+    Glide.with(context).asGif().load(gif).into(this)
 }
 
 

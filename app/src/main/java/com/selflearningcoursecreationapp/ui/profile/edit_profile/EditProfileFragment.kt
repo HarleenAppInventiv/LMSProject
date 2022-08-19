@@ -26,7 +26,7 @@ import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceBott
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.DialogType
 import com.selflearningcoursecreationapp.utils.HandleClick
-import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 

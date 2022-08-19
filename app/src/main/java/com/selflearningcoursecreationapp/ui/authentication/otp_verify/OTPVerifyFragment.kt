@@ -10,13 +10,15 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.databinding.FragmentOTPVarifyBinding
+import com.selflearningcoursecreationapp.extensions.getAttrColor
 import com.selflearningcoursecreationapp.extensions.otpHelper
 import com.selflearningcoursecreationapp.extensions.setSpanString
+import com.selflearningcoursecreationapp.models.user.PreferenceData
 import com.selflearningcoursecreationapp.models.user.UserResponse
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.OtpType
-import com.selflearningcoursecreationapp.utils.SpanUtils
 import com.selflearningcoursecreationapp.utils.ValidationConst
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
@@ -149,16 +151,22 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
                 findNavController().navigate(action)
             }
             userData?.user?.getPreferenceValue() != 4 -> {
+                val data =
+                    PreferenceData(currentSelection = userData?.user?.getPreferenceValue() ?: 0)
 
                 findNavController().navigate(
                     OTPVerifyFragmentDirections.actionOTPVerifyFragmentToPreferencesFragment(
-                        currentSelection = userData?.user?.getPreferenceValue() ?: 0
+                        preferenceData = data
                     )
                 )
 
 
             }
+            userData.user?.currentMode == 2 -> {
+                baseActivity.goToModeratorActivity()
+            }
             else -> {
+
                 baseActivity.goToHomeActivity()
             }
         }
@@ -192,7 +200,7 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
                         SpanUtils.with(baseActivity, resendText).startPos(16).textColor(
                             ContextCompat.getColor(
                                 baseActivity,
-                                R.color.accent_color_fc6d5b
+                                baseActivity.getAttrColor(R.attr.accentColor_Red)
                             )
                         ).isBold().getSpanString()
                     )

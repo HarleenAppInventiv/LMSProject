@@ -102,7 +102,7 @@
                 android:lineSpacingExtra="6sp"
                 android:padding="@dimen/_2sdp"
                 android:text="0 Lesson"
-                android:textColor="?attr/orange_text_color"
+                android:textColor="?attr/accentColor_Red"
                 android:textSize="@dimen/textField_11"
                 app:fontType="medium"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_section_number"

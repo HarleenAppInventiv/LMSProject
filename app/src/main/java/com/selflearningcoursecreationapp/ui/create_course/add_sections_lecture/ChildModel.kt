@@ -27,6 +27,9 @@ data class ChildModel(
     var lectureThumbnailId: String? = "",
     @SerializedName("quizId")
     var quizId: Int? = null,
+
+    @SerializedName("success")
+    var success: Boolean? = false,
     var lectureContentUrl: String? = null,
     var lectureContentSize: Long? = null,
     @SerializedName("totalQuizQuestionCount")

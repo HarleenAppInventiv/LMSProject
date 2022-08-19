@@ -8,7 +8,7 @@ import com.selflearningcoursecreationapp.extensions.loadImage
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.extensions.visibleView
 import com.selflearningcoursecreationapp.models.user.UserProfile
-import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 
 
 class AuthorBioAdapter(private var list: ArrayList<UserProfile>) :
@@ -22,6 +22,11 @@ class AuthorBioAdapter(private var list: ArrayList<UserProfile>) :
         val data = list[position]
         binding.lineV.visibleView(position + 1 != list.size)
         binding.ivProfileImage.loadImage(data.profileUrl, R.drawable.ic_default_user_grey)
+        binding.ivProfileImage.loadImage(
+            data.profileUrl,
+            R.drawable.ic_default_user_grey,
+            data.profileBlurHash
+        )
         binding.ivLogo.loadImage(data.courseLogoURL, R.drawable.ic_logo_default)
         binding.tvBio.setSpanString(
             SpanUtils.with(

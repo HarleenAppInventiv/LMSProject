@@ -11,6 +11,7 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.extensions.changeDateFormat
 import com.selflearningcoursecreationapp.extensions.isNullOrZero
 import com.selflearningcoursecreationapp.models.CategoryData
+import com.selflearningcoursecreationapp.models.RolesData
 import com.selflearningcoursecreationapp.utils.ValidationConst
 import kotlinx.android.parcel.Parcelize
 
@@ -20,6 +21,10 @@ data class UserProfile(
 
     @SerializedName("categories")
     var categoryData: ArrayList<CategoryData>? = null,
+
+    @SerializedName("roles")
+    var roles: ArrayList<RolesData>? = null,
+
 
     @SerializedName("emailVerified")
     var emailVerified: Boolean? = null,
@@ -51,6 +56,8 @@ data class UserProfile(
     var courseLogoURL: String? = null,
     @SerializedName("profileBlurHash")
     var profileBlurHash: String? = null,
+    @SerializedName("currentMode")
+    var currentMode: Int? = null,
     @SerializedName("courseLogoId")
     var courseLogoId: String? = null,
 
@@ -75,6 +82,9 @@ data class UserProfile(
 
     @SerializedName("success")
     var success: String? = "",
+
+    @SerializedName("status")
+    var status: Int? = null,
 
     @SerializedName("city")
     var city: String? = "",

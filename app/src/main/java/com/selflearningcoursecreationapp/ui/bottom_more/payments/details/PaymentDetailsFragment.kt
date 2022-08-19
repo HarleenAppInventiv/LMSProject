@@ -15,7 +15,7 @@ import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.models.course.OrderData
 import com.selflearningcoursecreationapp.utils.PaymentStatus
-import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -104,7 +104,6 @@ class PaymentDetailsFragment : BaseFragment<FragmentPaymentDetailsBinding>() {
         binding.tvTransId.visibleView(!data.transactionId.isNullOrEmpty())
         binding.tvTransTitle.visibleView(!data.transactionId.isNullOrEmpty())
         binding.tvOrderId.text = data?.orderId
-
         binding.tvTime.text = Calendar.getInstance().time.getStringDate("MMM dd, yyyy HH:mm:ss")
     }
 

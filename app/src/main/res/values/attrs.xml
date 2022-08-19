@@ -152,9 +152,14 @@
             <enum name="bg_tint_src" value="10" />
             <enum name="none" value="-1" />
         </attr>
+
+        <attr name="applyGrayscale" format="boolean">
+
+        </attr>
     </declare-styleable>
     <declare-styleable name="LMSShapeAbleImageView" parent="LMSImageView">
         <attr name="changeBackgroundType" />
+        <attr name="applyGrayscale" />
 
     </declare-styleable>
     <declare-styleable name="LMSConstraintLayout">
@@ -179,40 +184,72 @@
 
         </attr>
     </declare-styleable>
+
+    <!--theme-->
+    <attr name="primaryTintColor" format="reference" />
+
+
+    <!--    text view-->
     <attr name="primaryTextColor" format="reference" />
     <attr name="secondaryTextColor" format="reference" />
+    <attr name="bodyTextColor" format="reference" />
     <attr name="headingTextColor" format="reference" />
+    <attr name="hintColor" format="reference" />
+    <attr name="viewBackgroundColor" format="reference" />
+    <attr name="viewSecondaryBgColor" format="reference" />
+
+    <!--    button-->
     <attr name="buttonTextColor" format="reference" />
     <attr name="buttonBackgroundColor" format="reference" />
     <attr name="introButtonBackgroundColor" format="reference" />
-    <attr name="googleButtonBackgroundColor" format="reference" />
     <attr name="otpButtonBackgroundColor" format="reference" />
+    <attr name="buttonBackgroundTintColor" format="reference" />
+    <attr name="googleIconTintColor" format="reference" />
+
+
+    <!--    screen-->
     <attr name="screenBackgroundColor" format="reference" />
     <attr name="secondaryScreenBgColor" format="reference" />
-    <attr name="hintColor" format="reference" />
-    <attr name="buttonBackgroundTintColor" format="reference" />
+    <attr name="homeScr" format="reference" />
+
+    <!--   font-->
     <attr name="fontRegular" format="reference" />
     <attr name="fontMedium" format="reference" />
     <attr name="fontSemiBold" format="reference" />
     <attr name="fontBold" format="reference" />
+
+
+    <!-- Accent color-->
+    <attr name="accentColor_Red" format="reference" />
+    <attr name="accentColor_Green" format="reference" />
+    <attr name="accentColor_Yellow" format="reference" />
+
+
+    <!--    icons color-->
+    <attr name="coinDrawableColor" format="reference" />
+    <attr name="coinDrawableSecondaryColor" format="reference" />
+    <attr name="coinDrawableStrokeColor" format="reference" />
+    <attr name="coinDrawableStrokeBgColor" format="reference" />
+
+
     <attr name="fontSelectionBgColor" format="reference" />
+    <attr name="otpViewStyle" format="reference" />
     <attr name="lineColor" format="reference" />
     <attr name="whiteTextColor" format="reference" />
+    <attr name="blackTextColor" format="reference" />
     <attr name="off_whiteTextColor" format="reference" />
-    <attr name="forgotPassTextColor" format="reference" />
-    <attr name="otpViewStyle" format="reference" />
     <attr name="profile_mail_color" format="reference" />
     <attr name="divider_grey" format="reference" />
-    <attr name="orange_text_color" format="reference" />
+    <attr name="listDividerColor" format="reference" />
+    <attr name="dotColor" format="reference" />
+    <!--    Toolbar-->
     <attr name="toolbarColor" format="reference" />
     <attr name="toolbarTitleColor" format="reference" />
-    <attr name="viewBackgroundColor" format="reference" />
-    <attr name="viewSecondaryBgColor" format="reference" />
-    <attr name="bgCircleOne" format="reference" />
-    <attr name="bgCircleTwo" format="reference" />
-    <attr name="bgCircleThree" format="reference" />
-    <attr name="search_color" format="reference" />
-    <attr name="sliderIndicatorColor" format="reference" />
+
+    <attr name="etDashColor" format="reference" />
+
+    <!--    Quiz Screen-->
+    <attr name="levelBgColor" format="reference" />
 
 
     <declare-styleable name="material_btn_gradient">

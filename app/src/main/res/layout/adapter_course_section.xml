@@ -130,21 +130,49 @@
 
                 />
 
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@color/opacity_50_929292"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/tv_rejection_reason"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_total_time" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_rejection_reason"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:background="@drawable/outline_rejection"
+                android:lineSpacingExtra="@dimen/_4sdp"
+                android:padding="@dimen/_10sdp"
+                android:text="Reason of Rejection : Lorem ipsum dolor sit
+amet, consecte tur adipiscing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua."
+                android:textSize="@dimen/textField_14"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/cl_lesson"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/view"
+                app:layout_constraintVertical_bias="0"
+                app:textColorType="heading" />
+
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_lesson"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_12sdp"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/tv_lecture_list">
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@+id/tv_rejection_reason">
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_1sdp"
-                    android:background="@color/opacity_50_929292"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                     android:id="@+id/tv_description"
@@ -183,7 +211,10 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </com.google.android.material.card.MaterialCardView>
 
 </layout>

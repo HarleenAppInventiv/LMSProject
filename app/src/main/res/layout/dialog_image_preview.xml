@@ -25,7 +25,9 @@
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
             android:src="@drawable/ic_close"
+            android:layout_marginTop="@dimen/_24sdp"
             app:changeBackgroundType="theme_src"
+            android:layout_marginEnd="@dimen/_24sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

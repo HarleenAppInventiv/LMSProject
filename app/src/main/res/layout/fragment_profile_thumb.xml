@@ -34,6 +34,7 @@
                 android:layout_height="wrap_content"
                 app:layoutDescription="@xml/fragment_profile_thumb_xml_constraintlayout_scene"
                 app:layout_constraintEnd_toEndOf="parent"
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -88,7 +89,7 @@
                     app:srcCompat="@drawable/ic_screen_reading_mode_white" />
 
 
-                <com.google.android.material.imageview.ShapeableImageView
+                <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
                     android:id="@+id/circle"
                     android:layout_width="@dimen/_80sdp"
                     android:layout_height="@dimen/_80sdp"
@@ -97,7 +98,7 @@
                     android:padding="@dimen/_3sdp"
                     android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
-
+                    app:applyGrayscale="true"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:shapeAppearanceOverlay="@style/circle"
@@ -237,6 +238,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageView3"
                     app:primaryIconTint="start"
+                    android:elevation="@dimen/_2sdp"
                     app:textColorType="heading" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
@@ -250,6 +252,8 @@
                     android:textSize="@dimen/_12ssp"
                     android:theme="@style/SWTheme"
                     android:thumb="@null"
+                    android:enabled="false"
+                    android:onClickListener="@{(v)->profileThumb.onHandleClick(v)}"
                     app:layout_constraintBottom_toBottomOf="@+id/txt_moderator_switch"
                     app:layout_constraintEnd_toEndOf="@+id/txt_moderator_switch"
                     app:layout_constraintTop_toTopOf="@+id/txt_moderator_switch"
@@ -438,7 +442,7 @@
                     android:onClickListener="@{(v)->profileThumb.onHandleClick(v)}"
                     android:paddingVertical="@dimen/_16sdp"
                     android:text="@string/delete_account"
-                    android:textColor="?attr/orange_text_color"
+                    android:textColor="?attr/accentColor_Red"
                     android:textSize="@dimen/textField_14"
                     app:drawableStartCompat="@drawable/ic_deactivate"
                     app:fontType="regular"
@@ -457,7 +461,7 @@
                     android:onClickListener="@{(v)->profileThumb.onHandleClick(v)}"
                     android:paddingVertical="@dimen/_16sdp"
                     android:text="@string/logout"
-                    android:textColor="?attr/orange_text_color"
+                    android:textColor="?attr/accentColor_Red"
                     android:textSize="@dimen/textField_14"
                     app:drawableStartCompat="@drawable/ic_log_out"
                     app:fontType="regular"

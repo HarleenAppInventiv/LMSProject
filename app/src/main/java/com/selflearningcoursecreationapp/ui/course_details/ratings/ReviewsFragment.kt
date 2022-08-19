@@ -13,6 +13,7 @@ import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentReviewsBinding
 import com.selflearningcoursecreationapp.extensions.getQuantityString
+import com.selflearningcoursecreationapp.ui.bottom_home.HomeVM
 import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.SelectedFilterData
 import com.selflearningcoursecreationapp.ui.course_details.CourseDetailVM
 import com.selflearningcoursecreationapp.ui.course_details.ratings.filters.RatingFilterAdapter
@@ -24,6 +25,7 @@ import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.DialogType
 import com.selflearningcoursecreationapp.utils.SignalR
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -31,6 +33,7 @@ class ReviewsFragment : BaseFragment<FragmentReviewsBinding>(), BaseBottomSheetD
     private val viewModel: CourseDetailVM by viewModels({ if (parentFragment !is NavHostFragment) requireParentFragment() else this })
     private val reviewViewModel: WishListViewModel by viewModel()
     private var model = GetReviewsRequestModel()
+    private val sharedHomeModel: HomeVM by sharedViewModel()
 
     private val reviewListAdapter by lazy {
         ReviewsListAdapter(reviewViewModel) { type, wishListItem, _ ->
@@ -97,16 +100,22 @@ class ReviewsFragment : BaseFragment<FragmentReviewsBinding>(), BaseBottomSheetD
 
         arguments?.let {
             viewModel.courseId = it.getInt("courseId")
+
         }
         model.courseId = viewModel.courseId
 
 
 
         viewLifecycleOwner.lifecycleScope.launch {
-            reviewViewModel.getReviewList(model).observe(viewLifecycleOwner) {
-                reviewListAdapter.submitData(lifecycle, it)
 
-
+            if (viewModel.courseContentType) {
+                reviewViewModel.getReviewList(model).observe(viewLifecycleOwner) {
+                    reviewListAdapter.submitData(lifecycle, it)
+                }
+            } else {
+                reviewViewModel.getReviewList(model).observe(viewLifecycleOwner) {
+                    reviewListAdapter.submitData(lifecycle, it)
+                }
             }
         }
 
@@ -189,6 +198,13 @@ class ReviewsFragment : BaseFragment<FragmentReviewsBinding>(), BaseBottomSheetD
                 ReviewPagingDataSource.count
             )
             binding.tvAverageRating.text = ReviewPagingDataSource.rating.toString()
+
+            sharedHomeModel.updateCourseRating(
+                viewModel.courseId,
+                ReviewPagingDataSource.rating.toString(),
+                ReviewPagingDataSource.count.toLong()
+            )
+
             binding.btRateThisCourse.visibility =
                 if (viewModel.courseData.value?.userCourseStatus == 1) {
                     if (ReviewPagingDataSource.userAlreadyRated) View.GONE else View.VISIBLE

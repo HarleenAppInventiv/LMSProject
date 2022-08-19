@@ -10,7 +10,8 @@ import com.selflearningcoursecreationapp.databinding.AdapterMyCourseBinding
 import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.utils.Constant
-import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.builderUtils.ImageViewBuilder
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 
 class MyCourseAdapter(private var type: Int, private val list: ArrayList<CourseData>) :
     BaseAdapter<AdapterMyCourseBinding>() {
@@ -73,6 +74,13 @@ class MyCourseAdapter(private var type: Int, private val list: ArrayList<CourseD
             R.drawable.ic_home_default_banner,
             position
         )
+
+        ImageViewBuilder.builder(binding.ivPreview)
+            .placeHolder(R.drawable.ic_home_default_banner)
+            .blurhash(list[position].courseBannerHash)
+            .setImageUrl(list[position].courseBannerUrl)
+            .colorIndex(position)
+            .loadImage()
         binding.tvName.text = list.get(position).courseTitle
         binding.tvRating.text = list[position].averageRating
 //        binding.tvReviewCount.setText(list!![position].totalReviews)

@@ -13,7 +13,7 @@
                 android:dashGap="@dimen/_4sdp"
                 android:dashWidth="@dimen/_3sdp" />
 
-            <solid android:color="@color/offWhite" />
+            <solid android:color="@color/off_white_f5f5f5" />
 
             <padding
                 android:bottom="@dimen/_10sdp"

@@ -19,7 +19,7 @@ class StateListDialog : BaseBottomSheetDialog<BottomDialogCourceCateBinding>(),
     override fun getLayoutRes() = R.layout.bottom_dialog_cource_cate
 
     override fun initUi() {
-        binding.parentCL.visible()
+binding.parentCL.visible()
         arguments?.let {
             list = it.getParcelableArrayList("data") ?: ArrayList()
 

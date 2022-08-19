@@ -13,7 +13,7 @@ import com.selflearningcoursecreationapp.extensions.loadImage
 import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.ui.profile.bookmark.PagerViewEvents
 import com.selflearningcoursecreationapp.ui.profile.bookmark.WishListViewModel
-import com.selflearningcoursecreationapp.utils.ResizeableUtils
+import com.selflearningcoursecreationapp.utils.builderUtils.ResizeableUtils
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 
 
@@ -46,7 +46,11 @@ class ReviewsListAdapter(
             binding.tvLikeCount.text = data.totalLikes.toString()
             binding.tvDislike.text = data.totalDislikes.toString()
             binding.tvDate.text = getTimeAgo(data.createdDate.toString())
-            binding.ivUserLogo.loadImage(data.profileUrl, R.drawable.ic_default_user_grey)
+            binding.ivUserLogo.loadImage(
+                data.profileUrl,
+                R.drawable.ic_default_user_grey,
+                data.profileBlurHash
+            )
             binding.rating.rating = data.courseRating?.toFloat() ?: 0f
             binding.ivDislike.isClickable = true
             binding.ivLike.isClickable = true

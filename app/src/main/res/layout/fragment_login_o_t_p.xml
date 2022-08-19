@@ -17,15 +17,13 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="?attr/screenBackgroundColor"
         android:fillViewport="true"
         tools:context=".ui.authentication.OnBoardingActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            >
+            android:layout_height="match_parent">
 
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSRichView
@@ -94,7 +92,7 @@
                     android:layout_width="@dimen/_1sdp"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="@dimen/_12sdp"
-                    android:background="@color/et_dash_color"
+                    android:background="?attr/etDashColor"
                     android:importantForAccessibility="no" />
 
                 <com.hbb20.CountryCodePicker
@@ -159,8 +157,8 @@
                 android:layout_marginBottom="@dimen/_24sdp"
                 android:enabled="@{!loginViaOTP.phone.empty &amp;&amp; loginViaOTP.phone.length()>=5 }"
                 android:text="@string/continues"
-                android:textSize="@dimen/materialButton_14"
                 app:layout_constraintVertical_bias="0"
+                android:textSize="@dimen/materialButton_14"
                 app:fontType="regular"
                 app:btnEnabled="@{!loginViaOTP.phone.empty &amp;&amp; loginViaOTP.phone.length()>=5 }"
                 app:layout_constraintBottom_toBottomOf="parent"

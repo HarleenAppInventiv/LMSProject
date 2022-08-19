@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.databinding.library.baseAdapters.BR
-import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.base.BaseResponse
@@ -24,11 +23,11 @@ import java.io.File
 import java.text.DecimalFormat
 
 
-class DocLessonFragment : BaseFragment<FragmentDocLessonBinding>(),
-        (String?) -> Unit, View.OnTouchListener {
+class DocLessonFragment : BaseFragment<FragmentDocLessonBinding>(), (String?) -> Unit,
+    View.OnTouchListener {
     private val imagePickUtils: ImagePickUtils by inject()
     private val viewModel: DocViewModel by viewModel()
-    private var childPosition: Int? = 0
+    private var childPosition: Int? = -1
 
     private var type: Int? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -129,9 +128,11 @@ class DocLessonFragment : BaseFragment<FragmentDocLessonBinding>(),
             ApiEndPoints.API_ADD_LECTURE_PATCH -> {
                 (value as BaseResponse<ChildModel>).resource?.let {
                     it.lectureContentName = binding.edtDocTitle.content()
-
-                    if (childPosition != null && childPosition != -1) {
-                        viewModel.model?.lessonList?.set(childPosition!!, it)
+                    if (viewModel.model?.lessonList == null) {
+                        viewModel.model?.lessonList = ArrayList()
+                    }
+                    if (childPosition != null && childPosition != -1 && viewModel.model?.lessonList?.isNotEmpty() == true) {
+                        viewModel.model?.lessonList?.set(childPosition ?: 0, it)
                         showToastLong(baseActivity.getString(R.string.lesson_updated_successfully))
 
                     } else {
@@ -140,14 +141,26 @@ class DocLessonFragment : BaseFragment<FragmentDocLessonBinding>(),
                     }
                 }
                 viewModel.model?.notifyPropertyChanged(BR.uploadLesson)
-                findNavController().navigateUp()
+//                lifecycleScope.launch {
+//                    binding.btnAddLesson.isEnabled
+//                    delay(3000)
+//                    baseActivity?.runOnUiThread {
+//                     findNavController().navigateUp()
+//                    }
+//                }
+
+//                findNavController().popBackStack(R.id.addCourseBaseFragment, false)
+//                findNavController().navigateUp()
+                baseActivity.onBackPressed()
             }
             ApiEndPoints.API_CONTENT_UPLOAD -> {
+//                super.onResponseSuccess(value, apiCode)
                 (value as BaseResponse<ImageResponse>).resource?.let {
                     viewModel.contentId = it.id.toString()
                 }
             }
             ApiEndPoints.API_GET_LECTURE_DETAIL -> {
+//                super.onResponseSuccess(value, apiCode)
                 (value as BaseResponse<ChildModel>).resource?.let {
                     viewModel.contentId = it.lectureContentId.toString()
 

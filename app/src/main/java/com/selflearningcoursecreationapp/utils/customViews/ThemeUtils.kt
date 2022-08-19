@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.SelfLearningApplication
+import com.selflearningcoursecreationapp.extensions.getAttrColor
 import com.selflearningcoursecreationapp.extensions.showException
 import com.selflearningcoursecreationapp.extensions.showLog
 import com.selflearningcoursecreationapp.models.AppThemeFile
@@ -38,39 +39,75 @@ object ThemeUtils {
     }
 
     fun getAppColor(context: Context): Int {
-        return if (!getAppThemeFile()?.themeColor.isNullOrEmpty())
+        return if (!getAppThemeFile()?.themeColor.isNullOrEmpty() && SelfLearningApplication.isViOn == false)
             Color.parseColor(getAppThemeFile()?.themeColor)
-        else ContextCompat.getColor(context, R.color.primaryColor)
+        else ContextCompat.getColor(
+            context,
+            context.getAttrColor(R.attr.colorPrimary)
+        )
     }
 
     fun getPrimaryBgColor(context: Context): Int {
-        return if (!getAppThemeFile()?.primaryBgColor.isNullOrEmpty())
+        return if (!getAppThemeFile()?.primaryBgColor.isNullOrEmpty() && SelfLearningApplication.isViOn == false)
             Color.parseColor(getAppThemeFile()?.primaryBgColor)
-        else ContextCompat.getColor(context, R.color.white)
+        else ContextCompat.getColor(
+            context,
+            context.getAttrColor(R.attr.screenBackgroundColor)
+        )
     }
 
     fun getSecondaryBgColor(context: Context): Int {
-        return if (!getAppThemeFile()?.secondaryBgColor.isNullOrEmpty())
+        return if (!getAppThemeFile()?.secondaryBgColor.isNullOrEmpty() && SelfLearningApplication.isViOn == false)
             Color.parseColor(getAppThemeFile()?.secondaryBgColor)
-        else ContextCompat.getColor(context, R.color.intro_btn_bg_color_f5f5f5)
+        else ContextCompat.getColor(
+            context,
+            context.getAttrColor(R.attr.secondaryScreenBgColor)
+        )
     }
 
     fun getBtnTextColor(context: Context): Int {
-        return if (!getAppThemeFile()?.btnTextColor.isNullOrEmpty())
+        return if (!getAppThemeFile()?.btnTextColor.isNullOrEmpty() && SelfLearningApplication.isViOn == false)
             Color.parseColor(getAppThemeFile()?.btnTextColor)
-        else ContextCompat.getColor(context, R.color.primaryColor)
+        else ContextCompat.getColor(
+            context,
+            context.getAttrColor(R.attr.buttonTextColor)
+        )
+    }
+
+    fun getBtnBgColor(context: Context): Int {
+        return if (!getAppThemeFile()?.themeColor.isNullOrEmpty() && SelfLearningApplication.isViOn == false)
+            Color.parseColor(getAppThemeFile()?.themeColor)
+        else ContextCompat.getColor(
+            context,
+            context.getAttrColor(R.attr.buttonBackgroundColor)
+        )
     }
 
     fun getTintColor(context: Context): Int {
-        return if (!getAppThemeFile()?.themeTint.isNullOrEmpty())
+        return if (!getAppThemeFile()?.themeTint.isNullOrEmpty() && SelfLearningApplication.isViOn == false)
             Color.parseColor(getAppThemeFile()?.themeTint)
-        else ContextCompat.getColor(context, R.color.primaryTintColor)
+        else ContextCompat.getColor(
+            context,
+            context.getAttrColor(R.attr.primaryTintColor)
+        )
+    }
+
+    fun getBtnTintColor(context: Context): Int {
+        return if (!getAppThemeFile()?.themeTint.isNullOrEmpty() && SelfLearningApplication.isViOn == false)
+            Color.parseColor(getAppThemeFile()?.themeTint)
+        else ContextCompat.getColor(
+            context,
+            context.getAttrColor(R.attr.buttonBackgroundTintColor)
+        )
     }
 
     fun getPrimaryTextColor(context: Context): Int {
-        return if (!getAppThemeFile()?.primaryTextColor.isNullOrEmpty())
+        return if (!getAppThemeFile()?.primaryTextColor.isNullOrEmpty() && SelfLearningApplication.isViOn == false)
             Color.parseColor(getAppThemeFile()?.primaryTextColor)
-        else ContextCompat.getColor(context, R.color.text_color_black_131414)
+        else ContextCompat.getColor(
+            context,
+            context.getAttrColor(R.attr.primaryTextColor)
+        )
     }
 
 
@@ -191,4 +228,6 @@ object ThemeUtils {
         )
 
     }
+
+    fun isViOn(): Boolean = SelfLearningApplication.isViOn ?: false
 }

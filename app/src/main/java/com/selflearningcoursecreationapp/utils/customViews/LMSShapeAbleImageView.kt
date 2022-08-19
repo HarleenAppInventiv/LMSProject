@@ -2,6 +2,8 @@ package com.selflearningcoursecreationapp.utils.customViews
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
 import android.graphics.PorterDuff
 import android.util.AttributeSet
 import com.google.android.material.imageview.ShapeableImageView
@@ -39,9 +41,23 @@ class LMSShapeAbleImageView : ShapeableImageView {
                 R.styleable.LMSShapeAbleImageView_changeBackgroundType,
                 ThemeConstants.TYPE_NONE
             )
+
+        val applyGrayscale =
+            themeAttrs.getBoolean(R.styleable.LMSShapeAbleImageView_applyGrayscale, false)
         changeBgColor(changeBgType)
 
+        if (applyGrayscale && ThemeUtils.isViOn()) {
+            applyGrayscale()
+        }
         themeAttrs.recycle()
+    }
+
+    fun applyGrayscale() {
+        val colorMatrix = ColorMatrix()
+        colorMatrix.setSaturation(0.0f)
+        val filter = ColorMatrixColorFilter(colorMatrix)
+        colorFilter = filter
+
     }
 
     fun changeBgColor(changeBgType: Int) {

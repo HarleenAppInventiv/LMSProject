@@ -29,7 +29,7 @@ class RecordAudioFragment : BaseFragment<FragmentRecordAudioBinding>(), HandleCl
     var lectureId: Int? = null
     var courseId: Int? = null
     var model: SectionModel? = null
-    var childPosition: Int? = 0
+    var childPosition: Int? = -1
     var sectionId: Int? = null
     var from: Int? = null
 
@@ -269,7 +269,7 @@ class RecordAudioFragment : BaseFragment<FragmentRecordAudioBinding>(), HandleCl
                             filePath = output.toString(),
                             courseId = courseId!!,
                             lectureId = lectureId!!,
-                            childPosition = childPosition!!,
+                            childPosition = childPosition ?: -1,
                             type = Constant.CLICK_ADD,
                             from = from!!
                         )

@@ -24,8 +24,8 @@ import com.selflearningcoursecreationapp.extensions.showLog
 import com.selflearningcoursecreationapp.models.course.quiz.QuizReportData
 import com.selflearningcoursecreationapp.ui.dialog.AssessmentReportDialog
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
-import com.selflearningcoursecreationapp.utils.CommonAlertDialog
 import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel

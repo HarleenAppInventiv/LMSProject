@@ -2,6 +2,8 @@ package com.selflearningcoursecreationapp.utils.customViews
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
 import android.graphics.PorterDuff
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
@@ -40,8 +42,21 @@ class LMSImageView : AppCompatImageView {
                 ThemeConstants.TYPE_NONE
             )
         changeBackground(changeBgType)
+        val applyGrayscale =
+            themeAttrs.getBoolean(R.styleable.LMSShapeAbleImageView_applyGrayscale, false)
 
+        if (applyGrayscale && ThemeUtils.isViOn()) {
+            applyGrayscale()
+        }
         themeAttrs.recycle()
+    }
+
+    fun applyGrayscale() {
+        val colorMatrix = ColorMatrix()
+        colorMatrix.setSaturation(0.0f)
+        val filter = ColorMatrixColorFilter(colorMatrix)
+        colorFilter = filter
+
     }
 
     fun changeBackground(changeBgType: Int) {

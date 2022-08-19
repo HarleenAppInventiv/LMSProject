@@ -10,8 +10,8 @@
     <com.selflearningcoursecreationapp.utils.customViews.LMSCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_12sdp"
         android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginStart="@dimen/_12sdp"
         android:layout_marginEnd="@dimen/_12sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -47,10 +47,10 @@
                 android:id="@+id/LMSTextView23"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_2sdp"
                 android:text="Video   .   35 mins"
                 android:textSize="@dimen/textField_11"
                 app:fontType="medium"
+                android:layout_marginTop="@dimen/_2sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv_course_name"
                 app:layout_constraintTop_toBottomOf="@+id/tv_course_name"

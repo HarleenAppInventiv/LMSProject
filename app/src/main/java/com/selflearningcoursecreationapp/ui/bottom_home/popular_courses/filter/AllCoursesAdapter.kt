@@ -11,10 +11,14 @@ import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.CourseType
+import com.selflearningcoursecreationapp.utils.builderUtils.ImageViewBuilder
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 
 
-class AllCoursesAdapter(private var list: ArrayList<CourseData>) :
+class AllCoursesAdapter(
+    private var list: ArrayList<CourseData>,
+    private var isViOn: Boolean = false
+) :
     BaseAdapter<AdapterCoursesLayoutBinding>() {
     override fun getLayoutRes() = R.layout.adapter_courses_layout
 
@@ -26,23 +30,25 @@ class AllCoursesAdapter(private var list: ArrayList<CourseData>) :
         if (position < list.size) {
             binding.tvOldPrice.paintFlags =
                 binding.tvOldPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            binding.tvCourseLevel.setComplexityLevel(list[position].courseComplexityId)
+            binding.tvCourseLevel.setComplexityLevel(list[position].courseComplexityId ?: 0)
 
             val data = list[position]
             binding.courseData = data
             binding.executePendingBindings()
-            binding.ivBanner.loadImage(
-                data.courseBannerUrl,
-                R.drawable.ic_home_default_banner,
-                position
-            )
+
+            ImageViewBuilder.builder(binding.ivBanner)
+                .placeHolder(R.drawable.ic_home_default_banner)
+                .setImageUrl(data.courseBannerUrl)
+                .loadImage()
+
+
+
             binding.tvReviewCount.text = data.totalReviews.getReviewCount()
             binding.btnEnroll.setCourseButton(
                 data.courseTypeId,
                 data.userCourseStatus,
                 data.paymentStatus
             )
-
 
             if (data.courseWishlisted == 0) {
                 binding.ivBookmark.setBackgroundColor(
@@ -107,7 +113,7 @@ class AllCoursesAdapter(private var list: ArrayList<CourseData>) :
 //            }
 //        }
             binding.tvAuthorName.apply {
-                var value = list[position].createdByName ?: ""
+                var value = data.createdByName ?: ""
                 if (value.length > 12) {
                     var str = value.substring(0, 12)
                     text = "${str}..."

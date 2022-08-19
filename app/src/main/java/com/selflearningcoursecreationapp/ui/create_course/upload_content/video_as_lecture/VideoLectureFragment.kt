@@ -24,6 +24,7 @@ import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.C
 import com.selflearningcoursecreationapp.ui.dialog.UploadVideoOptionsDialog
 import com.selflearningcoursecreationapp.utils.*
 import com.selflearningcoursecreationapp.utils.FileUtils.getFilePath
+import com.selflearningcoursecreationapp.utils.builderUtils.PermissionUtilClass
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
@@ -159,9 +160,13 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
                     it.lectureTitle = binding.edtTitle.content()
 
                     it.thumbNailURl = viewModel.docLiveData.value?.thumbNailURl
-                    if (viewModel.videoLiveData.value?.mChildPosition != null && viewModel.videoLiveData.value?.mChildPosition != -1) {
+                    if (viewModel.videoLiveData.value?.mModel?.lessonList == null) {
+                        viewModel.videoLiveData.value?.mModel?.lessonList = ArrayList()
+                    }
+
+                    if (viewModel.videoLiveData.value?.mChildPosition != null && viewModel.videoLiveData.value?.mChildPosition != -1 && viewModel.videoLiveData.value?.mModel?.lessonList?.isNotEmpty() == true) {
                         viewModel.videoLiveData.value?.mModel?.lessonList?.set(
-                            viewModel.videoLiveData.value?.mChildPosition!!,
+                            viewModel.videoLiveData.value?.mChildPosition ?: 0,
                             it
                         )
                         showToastLong(baseActivity.getString(R.string.lesson_updated_successfully))
@@ -505,14 +510,17 @@ class VideoLectureFragment : BaseFragment<FragmentVideoLectureBinding>(), (Strin
                 }
                 ExoPlayer.STATE_READY -> {
                     binding.progressBar.gone()
-                    viewModel.mDuration = player!!.duration
-                    val totalSec =
-                        TimeUnit.SECONDS.convert(player!!.duration, TimeUnit.MILLISECONDS)
+                    player?.let {
+                        viewModel.mDuration = player!!.duration
+                        val totalSec =
+                            TimeUnit.SECONDS.convert(player!!.duration, TimeUnit.MILLISECONDS)
 //                    binding.tvTimer.text = baseActivity.getQuantityString(
 //                        R.plurals.min_quantity_small,
 //                        DateUtils.formatElapsedTime(totalSec)?.toIntOrNull() ?: 0
 //                    )
-                    binding.tvTimer.text = viewModel.mDuration?.getTime(baseActivity)
+                        binding.tvTimer.text = viewModel.mDuration?.getTime(baseActivity)
+                    }
+
 
                 }
                 ExoPlayer.STATE_ENDED -> {

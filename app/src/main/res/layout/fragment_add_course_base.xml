@@ -18,7 +18,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/viewBackgroundColor"
+        android:background="?attr/screenBackgroundColor"
         tools:context=".ui.create_course.add_courses_steps.AddCourseBaseFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout

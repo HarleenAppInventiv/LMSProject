@@ -8,8 +8,8 @@ import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel
 import com.selflearningcoursecreationapp.ui.create_course.review.LectureViewAdapter
 import com.selflearningcoursecreationapp.utils.Constant
-import com.selflearningcoursecreationapp.utils.ResizeableUtils
-import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.builderUtils.ResizeableUtils
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 
 class ModCourseSectionAdapter(private var list: ArrayList<SectionModel>) :
     BaseAdapter<AdapterModCourseSectionBinding>() {

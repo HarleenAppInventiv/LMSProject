@@ -10,7 +10,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.databinding.AdapterMyCourseBinding
-import com.selflearningcoursecreationapp.extensions.*
+import com.selflearningcoursecreationapp.extensions.gone
+import com.selflearningcoursecreationapp.extensions.invisible
+import com.selflearningcoursecreationapp.extensions.loadImage
+import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.utils.Constant
 
@@ -99,7 +102,11 @@ class RewardListAdapter(
             binding.ivLang.text = data.languageName
             binding.ivCertification.text = data.categoryName
 
-            binding.ivPreview.loadImage(data.courseBannerUrl, R.drawable.ic_dummy_course)
+            binding.ivPreview.loadImage(
+                data.courseBannerUrl,
+                R.drawable.ic_dummy_course,
+                data.courseBannerHash
+            )
 
             binding.root.setOnClickListener {
 
@@ -113,6 +120,8 @@ class RewardListAdapter(
     }
 
 }
+
+
 
 
 object DiffUtilCallBack : DiffUtil.ItemCallback<CourseData>() {

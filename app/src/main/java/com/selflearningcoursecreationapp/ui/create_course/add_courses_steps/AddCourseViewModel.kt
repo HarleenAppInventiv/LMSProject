@@ -281,6 +281,15 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
                         resource.isCreator = resource.createdById == userProfile?.id
                         resource.isCoAuthor = resource.getCoAuthor(userProfile?.id ?: 0) != null
                         resource.coAuthorId = resource.getCoAuthor(userProfile?.id ?: 0)?.id ?: 0
+                        completedStep = when (resource.completeStep) {
+                            1 -> 1
+                            3 -> 2
+                            7 -> 3
+                            15 -> 4
+                            else -> {
+                                1
+                            }
+                        }
                         resource.sectionData = resource.sectionData?.map { section ->
                             section.apply {
                                 isSaved = section.isDataValid(
@@ -291,6 +300,8 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
                         } as ArrayList<SectionModel>
                         courseData.postValue(resource)
                         courseData.value?.notifyChange()
+
+
                         isCreator.postValue((courseData.value?.createdById == userProfile?.id))
 
                     }
@@ -372,7 +383,7 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
 
     private fun setBannerImageData(
         isBanner: Boolean,
-        data: ImageResponse?
+        data: ImageResponse?,
     ) {
         if (isBanner) {
             courseData.value?.courseBannerUrl = data?.fileUrl

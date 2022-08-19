@@ -36,7 +36,7 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
     private val viewModel: AudioLessonViewModel by viewModel()
 
 
-    private var childPosition: Int? = 0
+    private var childPosition: Int? = -1
     private var filePath = ""
     private var mediaFrom = 0
 
@@ -163,6 +163,7 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
         super.onResponseSuccess(value, apiCode)
         when (apiCode) {
             ApiEndPoints.API_CONTENT_UPLOAD -> {
+
                 (value as BaseResponse<ImageResponse>).resource?.let {
                     setMediaPlayer()
                     viewModel.contentId = it.id.toString()
@@ -172,9 +173,13 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
                 (value as BaseResponse<ChildModel>).resource?.let {
                     it.lectureTitle = binding.edtTitle.content()
 
+                    if (viewModel.model?.lessonList == null) {
+                        viewModel.model?.lessonList = ArrayList()
+                    }
 
-                    if (childPosition != null && childPosition != -1) {
-                        viewModel.model?.lessonList?.set(childPosition!!, it)
+
+                    if (!childPosition.isNullOrNegative() && viewModel.model?.lessonList?.isNotEmpty() == true) {
+                        viewModel.model?.lessonList?.set(childPosition ?: 0, it)
                         showToastLong(baseActivity.getString(R.string.lesson_updated_successfully))
 
                     } else {

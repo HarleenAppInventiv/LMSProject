@@ -163,6 +163,7 @@ class MyPurchaseFragment : BaseFragment<FragmentEarningBinding>() {
             viewModel.rewardPoints.value = RewardPagingDataSource.rewardPoints
 
 
+
         }
     }
 

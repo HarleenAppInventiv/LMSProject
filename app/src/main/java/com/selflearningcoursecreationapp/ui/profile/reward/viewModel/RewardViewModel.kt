@@ -36,12 +36,10 @@ class RewardViewModel(private val repo: RewardsRepository) : BaseViewModel() {
     fun onViewEvent(pagerViewEvents: PagerViewEvents) {
         modificationEvents.value += pagerViewEvents
     }
-
     override fun onApiRetry(apiCode: String) {
 
 
     }
-
     fun applyEvents(
         paging: PagingData<CourseData>,
         pagerViewEvents: PagerViewEvents
@@ -84,8 +82,9 @@ class RewardViewModel(private val repo: RewardsRepository) : BaseViewModel() {
                             totalLikes = it.totalLikes,
                             totalDislikes = it.totalDislikes,
                             createdDate = it.createdDate,
-                            userCourseStatus = 1
-                        )
+                        ).also {
+                            it.userCourseStatus = 1
+                        }
                         else return@map it
                     }
 

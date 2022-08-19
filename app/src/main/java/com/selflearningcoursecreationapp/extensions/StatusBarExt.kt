@@ -30,7 +30,6 @@ fun Activity.setTransparentLightStatusBar() {
 
     window.statusBarColor = Color.TRANSPARENT
 }
-
 fun Activity.clearLightStatusBar() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         val window: Window = window

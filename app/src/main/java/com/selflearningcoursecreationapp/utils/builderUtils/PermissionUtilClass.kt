@@ -1,4 +1,4 @@
-package com.selflearningcoursecreationapp.utils
+package com.selflearningcoursecreationapp.utils.builderUtils
 
 import android.Manifest
 import android.app.Activity
@@ -11,6 +11,7 @@ import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.selflearningcoursecreationapp.utils.Constant
 
 class PermissionUtilClass {
     companion object {

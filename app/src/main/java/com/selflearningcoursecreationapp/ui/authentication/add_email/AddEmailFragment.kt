@@ -9,7 +9,7 @@ import com.selflearningcoursecreationapp.databinding.FragmentAddEmailBinding
 import com.selflearningcoursecreationapp.extensions.content
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.utils.OtpType
-import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 

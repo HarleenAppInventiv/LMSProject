@@ -33,36 +33,31 @@ class PagingDataSource(val api: ApiService) : PagingSource<Int, CourseData>() {
             )
             val responseData = mutableListOf<CourseData>()
 
+            val resource = response.body()?.resource
+            val count = resource?.totalCount ?: 0
+            val totalPages = count / (NETWORK_PAGE_SIZE ?: 1)
+
             val data = response.body()?.resource?.list
+            val prevKey = if (pageIndex == 1) null else pageIndex - 1
+
+
             val nextKey =
-                if (data == null || data.isEmpty()) {
-                    null
-                } else {
-                    // By default, initial load size = 3 * NETWORK PAGE SIZE
-                    // ensure we're not requesting duplicating items at the 2nd request
+                if ((pageIndex ?: 1) < totalPages) {
                     pageIndex.plus(1)
+                } else {
+                    null
                 }
             if (data?.isNotEmpty() == true || data != null) {
                 responseData.addAll(data)
 
-                val prevKey = if (pageIndex == 0) null else pageIndex - 1
 
-                LoadResult.Page(
-                    data = responseData,
-                    prevKey = prevKey,
-                    nextKey = nextKey
-                )
-            } else {
-
-                val prevKey = if (pageIndex == 0) null else pageIndex - 1
-
-                LoadResult.Page(
-                    data = responseData,
-                    prevKey = prevKey,
-                    nextKey = nextKey
-                )
             }
 
+            LoadResult.Page(
+                data = responseData,
+                prevKey = prevKey,
+                nextKey = nextKey
+            )
 
         } catch (exception: IOException) {
             return LoadResult.Error(exception)

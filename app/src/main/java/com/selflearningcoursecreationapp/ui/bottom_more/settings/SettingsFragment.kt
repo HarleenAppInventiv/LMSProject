@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentSettingsBinding
 import com.selflearningcoursecreationapp.extensions.gone
 import com.selflearningcoursecreationapp.extensions.visible
+import com.selflearningcoursecreationapp.models.user.PreferenceData
 import com.selflearningcoursecreationapp.ui.home.HomeActivity
 import com.selflearningcoursecreationapp.utils.HandleClick
 import com.selflearningcoursecreationapp.utils.PREFERENCES
@@ -74,36 +76,84 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(), HandleClick {
                     findNavController().navigate(R.id.action_settingsFragment_to_changePasswordFragment)
                 }
                 R.id.tv_language -> {
+                    val data = PreferenceData(
+                        title = baseActivity.getString(R.string.change_language),
+                        type = PREFERENCES.TYPE_LANGUAGE
+                    )
+
                     findNavController().navigate(
-                        SettingsFragmentDirections.actionSettingsFragmentToPreferencesFragment(
-                            PREFERENCES.TYPE_LANGUAGE,
-                            baseActivity.getString(R.string.change_language)
+                        R.id.action_global_preferencesFragment,
+                        bundleOf(
+                            "preferenceData" to data
                         )
                     )
+
+
+//                    findNavController().navigate(
+//                        SettingsFragmentDirections.actionSettingsFragmentToPreferencesFragment(
+//                            PREFERENCES.TYPE_LANGUAGE,
+//                            baseActivity.getString(R.string.change_language)
+//                        )
+//                    )
                 }
                 R.id.tv_category -> {
+//                    findNavController().navigate(
+//                        SettingsFragmentDirections.actionSettingsFragmentToPreferencesFragment(
+//                            PREFERENCES.TYPE_CATEGORY,
+//                            baseActivity.getString(R.string.change_categories)
+//                        )
+//                    )
+                    val data = PreferenceData(
+                        title = baseActivity.getString(R.string.change_categories),
+                        type = PREFERENCES.TYPE_CATEGORY
+                    )
+
                     findNavController().navigate(
-                        SettingsFragmentDirections.actionSettingsFragmentToPreferencesFragment(
-                            PREFERENCES.TYPE_CATEGORY,
-                            baseActivity.getString(R.string.change_categories)
+                        R.id.action_global_preferencesFragment,
+                        bundleOf(
+                            "preferenceData" to data
                         )
                     )
                 }
                 R.id.tv_theme -> {
+                    val data = PreferenceData(
+                        title = baseActivity.getString(R.string.change_theme),
+                        type = PREFERENCES.TYPE_THEME
+                    )
+
                     findNavController().navigate(
-                        SettingsFragmentDirections.actionSettingsFragmentToPreferencesFragment(
-                            PREFERENCES.TYPE_THEME,
-                            baseActivity.getString(R.string.change_theme)
+                        R.id.action_global_preferencesFragment,
+                        bundleOf(
+                            "preferenceData" to data
                         )
                     )
+
+//                    findNavController().navigate(
+//                        SettingsFragmentDirections.actionSettingsFragmentToPreferencesFragment(
+//                            PREFERENCES.TYPE_THEME,
+//                            baseActivity.getString(R.string.change_theme)
+//                        )
+//                    )
                 }
                 R.id.tv_font -> {
+
+                    val data = PreferenceData(
+                        title = baseActivity.getString(R.string.change_font),
+                        type = PREFERENCES.TYPE_FONT
+                    )
+
                     findNavController().navigate(
-                        SettingsFragmentDirections.actionSettingsFragmentToPreferencesFragment(
-                            PREFERENCES.TYPE_FONT,
-                            baseActivity.getString(R.string.change_font)
+                        R.id.action_global_preferencesFragment,
+                        bundleOf(
+                            "preferenceData" to data
                         )
                     )
+//                    findNavController().navigate(
+//                        SettingsFragmentDirections.actionSettingsFragmentToPreferencesFragment(
+//                            PREFERENCES.TYPE_FONT,
+//                            baseActivity.getString(R.string.change_font)
+//                        )
+//                    )
                 }
                 R.id.tv_support -> {
 //                    findNavController().navigate(

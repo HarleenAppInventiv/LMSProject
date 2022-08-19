@@ -15,6 +15,8 @@ import com.selflearningcoursecreationapp.ui.course_details.model.AddReviewReques
 import com.selflearningcoursecreationapp.ui.course_details.ratings.model.GetReviewsRequestModel
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel
+import com.selflearningcoursecreationapp.ui.moderator.model.AddModeratorResponse
+import com.selflearningcoursecreationapp.ui.moderator.model.RequestCountModel
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -111,6 +113,9 @@ interface ApiService {
     @POST(ApiEndPoints.API_CRE_STEP_2)
     suspend fun addCourseStep2(@Body body: Any): Response<BaseResponse<CourseData>>
 
+    @POST(ApiEndPoints.API_ADD_MODERATOR)
+    suspend fun addModerator(@Body body: AddModeratorResponse): Response<BaseResponse<ChildModel>>
+
     @GET(ApiEndPoints.API_CRE_STEP_1)
     suspend fun getCourseDetail(@Query("CourseId") courseId: Int): Response<BaseResponse<CourseData>>
 
@@ -125,6 +130,12 @@ interface ApiService {
     suspend fun uploadImage(
         @Part file: MultipartBody.Part,
         @Part("FileName") fileName: RequestBody,
+    ): Response<BaseResponse<ImageResponse>>
+
+    @Multipart
+    @POST(ApiEndPoints.API_UPLOAD_MODERATOR_DOC)
+    suspend fun uploadModeDoc(
+        @Part file: MultipartBody.Part,
     ): Response<BaseResponse<ImageResponse>>
 
     @Multipart
@@ -312,7 +323,7 @@ interface ApiService {
         @Part("FileName") fileName: RequestBody?,
         @Part file: MultipartBody.Part,
     ): Response<BaseResponse<ImageResponse>>
-
+//sd
 
     @POST(ApiEndPoints.API_INVITE_COAUTHOR)
     suspend fun inviteCoAuthor(@Body body: Any): Response<BaseResponse<Any>>
@@ -410,5 +421,23 @@ interface ApiService {
 
     @GET(ApiEndPoints.API_ASSESSMENT_REPORT_STATUS)
     suspend fun assessmentReportStatus(@QueryMap map: HashMap<String, Any>): Response<BaseResponse<QuizData>>
+
+    @GET(ApiEndPoints.API_SWITCH_TO_MOD)
+    suspend fun switchToMod(@Query("userMode") userMode: Int): Response<BaseResponse<UserProfile>>
+
+    @GET(ApiEndPoints.API_MOD_STATUS)
+    suspend fun modStatus(): Response<BaseResponse<UserProfile>>
+
+    @GET(ApiEndPoints.API_REQUEST_COUNT)
+    suspend fun requestCount(): Response<BaseResponse<RequestCountModel>>
+
+    @GET(ApiEndPoints.API_REQUEST_LIST)
+    suspend fun requestList(@QueryMap map: HashMap<String, Int>): Response<BaseResponse<WishListResponse>>
+
+    @POST(ApiEndPoints.API_COURSE_REQUEST)
+    suspend fun courseRequest(@Body map: HashMap<String, Int>): Response<BaseResponse<WishListResponse>>
+
+    @POST(ApiEndPoints.API_MOD_COURSES)
+    suspend fun modCourse(@Body map: HashMap<String, Int>): Response<BaseResponse<WishListResponse>>
 }
 

@@ -52,7 +52,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_15sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_15sdp"
             android:paddingVertical="@dimen/_5sdp"
             android:textSize="@dimen/adapterTF_14"
@@ -62,6 +61,7 @@
             app:layout_constraintStart_toEndOf="@+id/barrier"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_goneMarginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             tools:text="01 (Jan) " />
 
         <androidx.appcompat.widget.AppCompatImageView

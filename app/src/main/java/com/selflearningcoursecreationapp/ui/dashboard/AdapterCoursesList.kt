@@ -7,7 +7,7 @@ import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterMyCourseBinding
 import com.selflearningcoursecreationapp.extensions.gone
 import com.selflearningcoursecreationapp.extensions.setSpanString
-import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 
 class AdapterCoursesList : BaseAdapter<AdapterMyCourseBinding>() {
     override fun getLayoutRes(): Int {

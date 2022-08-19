@@ -56,7 +56,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.io.File
 
 
-open class HomeFragment : Fragment(), SurfaceHolder.Callback {
+open class ScreenRecorderHomeFragment : Fragment(), SurfaceHolder.Callback {
 
     private lateinit var recordingsAdapter: RecordingAdapter
 
@@ -112,6 +112,7 @@ open class HomeFragment : Fragment(), SurfaceHolder.Callback {
 
         return binding.root
     }
+
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -235,6 +236,8 @@ open class HomeFragment : Fragment(), SurfaceHolder.Callback {
         }
 
         requestPer()
+
+
     }
 
     override fun onResume() {
@@ -808,7 +811,7 @@ open class HomeFragment : Fragment(), SurfaceHolder.Callback {
 //
 //                Toast.makeText(requireContext(), "Converting", Toast.LENGTH_LONG).show()
 //
-//                Log.e("HomeFragment", "process" + Gson().toJson(logMessage))
+//                Log.e("ScreenRecorderHomeFragment", "process" + Gson().toJson(logMessage))
 //
 ////            ImagePicker.with(requireActivity()).saveDir(File((outputPath)))
 //
@@ -831,7 +834,7 @@ open class HomeFragment : Fragment(), SurfaceHolder.Callback {
 //                hideProgressBar()
 //                Toast.makeText(requireContext(), "cancel", Toast.LENGTH_LONG).show()
 //
-//                Log.e("HomeFragment", "cancel")
+//                Log.e("ScreenRecorderHomeFragment", "cancel")
 //
 //            }
 //
@@ -839,7 +842,7 @@ open class HomeFragment : Fragment(), SurfaceHolder.Callback {
 //                hideProgressBar()
 //                Toast.makeText(requireContext(), "failed", Toast.LENGTH_LONG).show()
 //
-//                Log.e("HomeFragment", "failed")
+//                Log.e("ScreenRecorderHomeFragment", "failed")
 //
 //            }
 //        })
@@ -847,31 +850,31 @@ open class HomeFragment : Fragment(), SurfaceHolder.Callback {
 ////        val startTimeString = "00:01:00" (HH:MM:SS)
 ////        val endTimeString = "00:02:00" (HH:MM:SS)
 //
-//        /*  Log.e("HomeFragment", "first${File(filePath).length()}")
+//        /*  Log.e("ScreenRecorderHomeFragment", "first${File(filePath).length()}")
 //          val query:Array<String> = FFmpegQueryExtension().addVideoWaterMark(video, image, xPos, yPos, output = filePath)
 //          CallBackOfQuery().callQuery(query, object : FFmpegCallBack {
 //              override fun statisticsProcess(statistics: Statistics) {
-//                 Log.e("HomeFragment", statistics.size.toString())
+//                 Log.e("ScreenRecorderHomeFragment", statistics.size.toString())
 //              }
 //
 //              override fun process(logMessage: LogMessage) {
-//               Log.e("HomeFragment", logMessage.text)
+//               Log.e("ScreenRecorderHomeFragment", logMessage.text)
 //
 //              }
 //
 //              override fun success() {
 //  //                writeFileOnInternalStorage(requireContext(),filePath)
 //
-//                  Log.e("HomeFragment", "size${File(filePath).length()/1024}")
+//                  Log.e("ScreenRecorderHomeFragment", "size${File(filePath).length()/1024}")
 //                  //Output = outputPath
 //              }
 //
 //              override fun cancel() {
-//                  Log.e("HomeFragment", "cancel")
+//                  Log.e("ScreenRecorderHomeFragment", "cancel")
 //              }
 //
 //              override fun failed() {
-//                  Log.e("HomeFragment", "failed")
+//                  Log.e("ScreenRecorderHomeFragment", "failed")
 //              }
 //          })*/
 //    }

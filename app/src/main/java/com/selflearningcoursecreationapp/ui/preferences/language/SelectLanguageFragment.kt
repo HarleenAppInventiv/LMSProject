@@ -3,10 +3,8 @@ package com.selflearningcoursecreationapp.ui.preferences.language
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseFragment
@@ -16,7 +14,8 @@ import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceViewModel
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.LanguageConstant
-import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.PREFERENCES
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 
 
 @SuppressLint("NotifyDataSetChanged")
@@ -57,13 +56,22 @@ class SelectLanguageFragment : BaseFragment<FragmentSelectLanguageBinding>(),
                         nameList[i],
                         codeArray[i],
                         id = i + 1,
-                        isSelected = i + 1 == viewModel.userProfile?.language?.id
+                        isSelected = if (viewModel.screenType == PREFERENCES.SCREEN_SELECT) viewModel.preferenceArgData?.selectedValues?.contains(
+                            i + 1
+                        ) ?: false else i + 1 == viewModel.userProfile?.language?.id
                     )
                 )
             }
 
             viewModel.languageListLiveData.value = list
         }
+
+        if (viewModel.screenType == PREFERENCES.SCREEN_SELECT) {
+            binding.tvSubheading.text = baseActivity.getString(R.string.select_language_desc)
+        } else {
+            binding.tvSubheading.text = baseActivity.getString(R.string.select_language_subtext)
+        }
+
     }
 
     private fun initUi() {
@@ -78,7 +86,11 @@ class SelectLanguageFragment : BaseFragment<FragmentSelectLanguageBinding>(),
 
     private fun setAdapter() {
         adapter?.notifyDataSetChanged() ?: kotlin.run {
-            adapter = LanguageAdapter(viewModel.languageListLiveData.value!!)
+            adapter =
+                LanguageAdapter(
+                    viewModel.languageListLiveData.value!!,
+                    viewModel.languageSingleSelection
+                )
             binding.rvLanguage.adapter = adapter
             adapter!!.setOnAdapterItemClickListener(this)
         }
@@ -93,22 +105,26 @@ class SelectLanguageFragment : BaseFragment<FragmentSelectLanguageBinding>(),
                     viewModel.languageListLiveData.value =
                         viewModel.languageListLiveData.value?.apply {
                             forEachIndexed { index, themeData ->
-                                themeData.isSelected = position == index
+                                if (viewModel.languageSingleSelection) {
+                                    themeData.isSelected = position == index
+                                } else if (position == index) {
+                                    themeData.isSelected = !themeData.isSelected
+                                }
                             }
                         }
 
                     setAdapter()
-                    if (parentFragment is NavHostFragment) {
-
-                        val bundle = arguments ?: Bundle()
-                        bundle.putString(
-                            "language_code",
-                            viewModel.languageListLiveData.value?.singleOrNull { it.isSelected }?.code
-                        )
-
-                        setFragmentResult("languageData", bundle)
-                        findNavController().navigateUp()
-                    }
+//                    if (parentFragment is NavHostFragment) {
+//
+//                        val bundle = arguments ?: Bundle()
+//                        bundle.putString(
+//                            "language_code",
+//                            viewModel.languageListLiveData.value?.singleOrNull { it.isSelected }?.code
+//                        )
+//
+//                        setFragmentResult("languageData", bundle)
+//                        findNavController().navigateUp()
+//                    }
                 }
             }
         }

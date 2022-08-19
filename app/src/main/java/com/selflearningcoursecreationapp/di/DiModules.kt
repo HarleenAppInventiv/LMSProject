@@ -39,6 +39,9 @@ import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.AllCours
 import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.HomeFilterRepo
 import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.HomeFilterRepoImpl
 import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.HomeFilterVM
+import com.selflearningcoursecreationapp.ui.bottom_more.MoreFragmentRepo
+import com.selflearningcoursecreationapp.ui.bottom_more.MoreFragmentRepoImp
+import com.selflearningcoursecreationapp.ui.bottom_more.MoreFragmentVM
 import com.selflearningcoursecreationapp.ui.bottom_more.payments.details.PaymentDetailVM
 import com.selflearningcoursecreationapp.ui.bottom_more.settings.changePassword.ChangePassRepo
 import com.selflearningcoursecreationapp.ui.bottom_more.settings.changePassword.ChangePassRepoImp
@@ -75,6 +78,9 @@ import com.selflearningcoursecreationapp.ui.home.HomeActivityRepo
 import com.selflearningcoursecreationapp.ui.home.HomeActivityRepoImp
 import com.selflearningcoursecreationapp.ui.home.HomeActivityViewModel
 import com.selflearningcoursecreationapp.ui.moderator.courseDetails.ModCourseDetailVM
+import com.selflearningcoursecreationapp.ui.moderator.moderatorHome.ModHomeRepo
+import com.selflearningcoursecreationapp.ui.moderator.moderatorHome.ModHomeRepoImp
+import com.selflearningcoursecreationapp.ui.moderator.moderatorHome.ModHomeVM
 import com.selflearningcoursecreationapp.ui.practice_accent.PracticeAccentVM
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceRepo
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceRepoImpl
@@ -92,6 +98,9 @@ import com.selflearningcoursecreationapp.ui.profile.profileDetails.ProfileDetail
 import com.selflearningcoursecreationapp.ui.profile.profileThumb.ProfileThumbRepo
 import com.selflearningcoursecreationapp.ui.profile.profileThumb.ProfileThumbRepoImp
 import com.selflearningcoursecreationapp.ui.profile.profileThumb.ProfileThumbViewModel
+import com.selflearningcoursecreationapp.ui.profile.requestTracker.RequestTrackerRepo
+import com.selflearningcoursecreationapp.ui.profile.requestTracker.RequestTrackerRepoImp
+import com.selflearningcoursecreationapp.ui.profile.requestTracker.RequestrackerVM
 import com.selflearningcoursecreationapp.ui.profile.reward.RewardsRepository
 import com.selflearningcoursecreationapp.ui.profile.reward.RewardsRepositoryImpl
 import com.selflearningcoursecreationapp.ui.profile.reward.viewModel.RewardViewModel
@@ -162,9 +171,7 @@ val viewModelModule = module {
     viewModel {
         AddCourseViewModel(get())
     }
-    viewModel {
-        ProfileThumbViewModel(get())
-    }
+    viewModel { ProfileThumbViewModel(get()) }
     viewModel { ProfileDetailViewModel(get()) }
 
     viewModel {
@@ -174,7 +181,7 @@ val viewModelModule = module {
     viewModel {
         SplashVM(get())
     }
-    viewModel { HomeVM(get()) }
+    viewModel { HomeVM(get(), get()) }
     viewModel { SingleChoiceVM(get()) }
 
     viewModel { AddPassViewModel(get()) }
@@ -197,6 +204,9 @@ val viewModelModule = module {
     viewModel { PaymentDetailVM() }
     viewModel { ModCourseDetailVM() }
     viewModel { UnlockVM(get()) }
+    viewModel { RequestrackerVM(get()) }
+    viewModel { ModHomeVM(get()) }
+    viewModel { MoreFragmentVM(get()) }
 
 }
 
@@ -238,4 +248,7 @@ val repoModule = module {
     single<TakeQuizRepo> { TakeQuizRepoImpl(get()) }
     single<MyCoursesRepo> { MyCoursesRepoImp(get()) }
     single<UnlockRepo> { UnlockRepoImp(get()) }
+    single<RequestTrackerRepo> { RequestTrackerRepoImp(get()) }
+    single<ModHomeRepo> { ModHomeRepoImp(get()) }
+    single<MoreFragmentRepo> { MoreFragmentRepoImp(get()) }
 }

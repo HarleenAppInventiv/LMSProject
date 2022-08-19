@@ -14,18 +14,19 @@
         android:layout_marginTop="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_8sdp"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:background="?attr/whiteTextColor"
+        android:background="?attr/viewBackgroundColor"
         android:paddingBottom="@dimen/_10sdp">
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+        <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
             android:id="@+id/iv_media_file"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:scaleType="centerCrop"
             app:srcCompat="@drawable/ic_video_file"
+            app:shapeAppearanceOverlay="@style/corner_radius_5"
 
             />
 

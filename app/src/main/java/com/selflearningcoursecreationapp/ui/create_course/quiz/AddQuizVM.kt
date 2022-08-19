@@ -103,17 +103,17 @@ class AddQuizVM(private var repo: AddQuizRepo) : BaseViewModel() {
 
     private fun saveQuestion(data: QuizQuestionData?) {
         val quesData = data?.getAddAssessmentQuestionData(quizData)
-        viewModelScope.launch(coroutineExceptionHandle) {
-            val response =
-                if (isQuiz) repo.addQuizQues(quesData) else repo.addAssessmentQues(quesData)
-            withContext(Dispatchers.IO) {
-                response.collect {
-                    if (it is Resource.Success<*>) {
-                        val resource = (it.value as? BaseResponse<QuizQuestionData>)?.resource
-                        quizData.list?.get(adapterPosition)?.questionId = resource?.questionId
-                        val optionId =
-                            resource?.optionList?.map { option -> option.id }?.joinToString { "," }
-                        quizData.list?.get(adapterPosition)?.optionList =
+      viewModelScope.launch(coroutineExceptionHandle) {
+          val response =
+              if (isQuiz) repo.addQuizQues(quesData) else repo.addAssessmentQues(quesData)
+          withContext(Dispatchers.IO) {
+              response.collect {
+                  if (it is Resource.Success<*>) {
+                      val resource = (it.value as? BaseResponse<QuizQuestionData>)?.resource
+                      quizData.list?.get(adapterPosition)?.questionId = resource?.questionId
+                      val optionId =
+                          resource?.optionList?.map { option -> option.id }?.joinToString { "," }
+                      quizData.list?.get(adapterPosition)?.optionList =
                             if (quizData.list?.get(adapterPosition)?.optionIds?.equals(optionId) == true) {
                                 resource?.optionList ?: ArrayList()
 

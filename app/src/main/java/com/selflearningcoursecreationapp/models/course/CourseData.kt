@@ -103,8 +103,6 @@ data class CourseData(
     @SerializedName("averageRating")
     var averageRating: String? = null,
 
-    @SerializedName("userCourseStatus")
-    var userCourseStatus: Int? = null,
 
     @SerializedName("reviewId")
     var reviewId: Int? = null,
@@ -122,18 +120,19 @@ data class CourseData(
     @SerializedName("themeId")
     var themeId: String? = null,
 
-    @SerializedName("courseWishlisted")
-    var courseWishlisted: Int? = null,
+
     @SerializedName("totalSections")
     var totalSections: Int? = 0,
 
     @SerializedName("profileUrl", alternate = ["image", "profileURL"])
     var profileUrl: String? = null,
-
+    @SerializedName("profileBlurHash")
+    var profileBlurHash: String? = null,
     @SerializedName("description")
     var contentDescription: String? = null,
     @SerializedName("createdDate")
     var createdDate: String? = null,
+
     @SerializedName("currencySymbol")
     var currencySymbol: String? = null,
 
@@ -147,8 +146,17 @@ data class CourseData(
     @SerializedName("totalDislikes")
     var totalDislikes: Int? = null,
 
+    @SerializedName("coCreatorName")
+    var coCreatorName: String? = null,
+
     @SerializedName("userLiked")
     var userLiked: Int? = null,
+
+    @SerializedName("requestId")
+    var requestId: String? = null,
+
+    @SerializedName("comment")
+    var comment: String? = null,
 
     @Transient
     var isPaid: Boolean = false,
@@ -280,6 +288,14 @@ data class CourseData(
             notifyPropertyChanged(BR.allDataEntered)
         }
 
+
+    @get:Bindable
+    @SerializedName("courseWishlisted")
+    var courseWishlisted: Int? = null
+
+    @get:Bindable
+    @SerializedName("userCourseStatus")
+    var userCourseStatus: Int? = null
 
     @Transient
     @get:Bindable

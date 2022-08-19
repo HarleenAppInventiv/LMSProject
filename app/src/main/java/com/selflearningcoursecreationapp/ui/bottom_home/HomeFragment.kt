@@ -3,11 +3,8 @@ package com.selflearningcoursecreationapp.ui.bottom_home
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
-import android.view.ViewTreeObserver
-import android.view.inputmethod.EditorInfo
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -20,56 +17,64 @@ import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.data.network.ApiError
 import com.selflearningcoursecreationapp.databinding.FragmentHomeBinding
 import com.selflearningcoursecreationapp.extensions.gone
+import com.selflearningcoursecreationapp.extensions.navigateTo
 import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.extensions.visibleView
-import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.models.course.OrderData
 import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.AllCoursesAdapter
 import com.selflearningcoursecreationapp.ui.dialog.unlockCourse.UnlockCourseDialog
-import com.selflearningcoursecreationapp.utils.*
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.utils.CourseType
+import com.selflearningcoursecreationapp.utils.HandleClick
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.selflearningcoursecreationapp.utils.recyclerView.ScrollStateHolder
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapter.IViewClick,
     BaseDialog.IDialogClick {
     val gson: Gson? = null
-    private val viewModel: HomeVM by viewModel()
-    var list = ArrayList<ArrayList<CategoryData>>()
-    private var mAdapter: HomeAdapter? = null
+    private val viewModel: HomeVM by sharedViewModel()
+    private var mAdapter: HomeAdapterTest? = null
     private var mOtherAdapter: AllCoursesAdapter? = null
+    private lateinit var scrollStateHolder: ScrollStateHolder
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        scrollStateHolder = ScrollStateHolder(savedInstanceState)
         initUI()
+
+        if (viewModel.isFirst) {
+            viewModel.categories.value?.clear()
+            binding.recyclerCourseType.adapter?.notifyDataSetChanged()
+            binding.recyclerCourseType.adapter = null
+//            viewModel.homeCategories()
+
+            callApi()
+        } else {
+            reset()
+            binding.recyclerCourseType.adapter?.notifyDataSetChanged()
+            binding.recyclerCourseType.adapter = null
+        }
+
         observeData()
         observeCategoriesData()
         observeWishlist()
-
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        baseActivity.supportActionBar?.hide()
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-        baseActivity.supportActionBar?.hide()
-    }
 
     fun initUI() {
+
+        setUserData()
         binding.viewModel = viewModel
         observeOtherCourseData()
         binding.swipeRefresh.setOnRefreshListener {
-            binding.tvOther.gone()
-            viewModel.reset()
-            reset()
-            viewModel.getCourses()
-            viewModel.getOtherCourses()
+            callApi()
         }
-        viewModel.getCourses()
+
         binding.tvSeeAll.backgroundTintList =
             ColorStateList.valueOf(
                 ContextCompat.getColor(
@@ -107,33 +112,32 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
 //            return@setOnTouchListener true
 //        }
 
-        binding.etSearch.doOnTextChanged { text, start, before, count ->
-            if (text.toString().isEmpty() && viewModel.isTextSearch) {
-                viewModel.isTextSearch = false
-                viewModel.reset()
-                reset()
-                viewModel.getCourses()
-                viewModel.getOtherCourses()
-            }
+        binding.etSearch.setOnClickListener {
+            findNavController().navigateTo(R.id.action_homeFragment_to_fragment_search)
         }
+//        binding.etSearch.doOnTextChanged { text, start, before, count ->
+//            if (text.toString().isEmpty() && viewModel.isTextSearch) {
+//                viewModel.isTextSearch = false
+//                viewModel.reset()
+//                reset()
+//                viewModel.getCourses()
+//                viewModel.getOtherCourses()
+//            }
+//        }
 
-        binding.etSearch.setOnEditorActionListener { textView, i, keyEvent ->
-            if (i == EditorInfo.IME_ACTION_SEARCH) {
-                viewModel.isTextSearch = true
-                viewModel.reset()
-                reset()
-                viewModel.getCourses()
-                viewModel.getOtherCourses()
-            }
-
-            return@setOnEditorActionListener true
-        }
+//        binding.etSearch.setOnEditorActionListener { textView, i, keyEvent ->
+//            if (i == EditorInfo.IME_ACTION_SEARCH) {
+//                viewModel.isTextSearch = true
+//                viewModel.reset()
+//                reset()
+//                viewModel.getCourses()
+//                viewModel.getOtherCourses()
+//            }
+//
+//            return@setOnEditorActionListener true
+//        }
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         binding.homefrag = this
-        list.clear()
-
-
-        viewModel.homeCategories()
 
 
         val color = ThemeUtils.getAppColor(baseActivity)
@@ -157,19 +161,29 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
 
     }
 
+    private fun callApi() {
+        binding.tvOther.gone()
+        viewModel.reset()
+        reset()
+        viewModel.callCombinedApis()
+
+//        viewModel.getCourses()
+//        viewModel.getOtherCourses()
+    }
+
     private fun pagination() {
-        binding.nestedScroll.getViewTreeObserver()
-            .addOnScrollChangedListener(ViewTreeObserver.OnScrollChangedListener {
+        binding.nestedScroll.viewTreeObserver
+            .addOnScrollChangedListener {
                 val view =
-                    binding.nestedScroll.getChildAt(binding.nestedScroll.getChildCount() - 1) as View
+                    binding.nestedScroll.getChildAt(binding.nestedScroll.childCount - 1) as View
                 val diff: Int =
-                    view.bottom - (binding.nestedScroll.getHeight() + binding.nestedScroll
-                        .getScrollY())
+                    view.bottom - (binding.nestedScroll.height + binding.nestedScroll
+                        .scrollY)
                 if (diff == 0) {
                     viewModel.getOtherCourses()
                     // your pagination code
                 }
-            })
+            }
     }
 
     private fun reset() {
@@ -236,7 +250,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
                     if (baseActivity.tokenFromDataStore() == "") {
                         baseActivity.guestUserPopUp()
                     } else {
-                        findNavController().navigate(R.id.action_homeFragment_to_profileThumbFragment)
+                        findNavController().navigateTo(R.id.action_homeFragment_to_profileThumbFragment)
                     }
 
                 }
@@ -244,12 +258,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
                     if (baseActivity.tokenFromDataStore() == "") {
                         baseActivity.guestUserPopUp()
                     } else {
-                        findNavController().navigate(R.id.action_homeFragment_to_profileThumbFragment)
+                        findNavController().navigateTo(R.id.action_homeFragment_to_profileThumbFragment)
                     }
 
                 }
                 R.id.tv_see_all -> {
-                    findNavController().navigate(R.id.action_homeFragment_to_homeCategoriesFragment)
+                    findNavController().navigateTo(R.id.action_homeFragment_to_homeCategoriesFragment)
 
                 }
             }
@@ -257,9 +271,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
+    private fun setUserData() {
         viewModel.getUserData()
 
         binding.tvUserName.apply {
@@ -276,11 +288,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
         Glide.with(requireActivity()).load(viewModel.userProfile?.profileUrl)
             .placeholder(R.drawable.ic_default_user_grey)
             .into(binding.ivUserImage)
-
-        viewModel.reset()
-        reset()
-        viewModel.getCourses()
-        viewModel.getOtherCourses()
     }
 
 
@@ -291,7 +298,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
 
             when (type) {
                 Constant.CLICK_VIEW -> {
-                    findNavController().navigate(
+                    findNavController().navigateTo(
                         R.id.action_homeFragment_to_categoryWiseCoursesFragment, bundleOf(
                             "id" to viewModel.categories.value?.get(position)?.id,
                             "name" to viewModel.categories.value?.get(position)?.name
@@ -301,7 +308,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
 
                 }
                 Constant.CLICK_SEE_ALL -> {
-                    findNavController().navigate(
+                    findNavController().navigateTo(
                         R.id.action_homeFragment_to_popularFragment,
                         bundleOf(
                             "title" to viewModel.courseLiveData.value?.get(position)?.title,
@@ -316,7 +323,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
                     if (items.size > 2) {
                         viewModel.fromOther = false
                         val childPos = items[2] as Int
-                        findNavController().navigate(
+                        findNavController().navigateTo(
                             R.id.action_homeFragment_to_courseDetailsFragment,
                             bundleOf(
                                 "courseId" to viewModel.courseLiveData.value?.get(position)?.courses?.get(
@@ -327,7 +334,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
                     } else {
                         viewModel.fromOther = true
 
-                        findNavController().navigate(
+                        findNavController().navigateTo(
                             R.id.action_homeFragment_to_courseDetailsFragment,
                             bundleOf(
                                 "courseId" to viewModel.otherCourseLiveData.value?.get(position)?.courseId
@@ -376,7 +383,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
                         }
                         if (course?.userCourseStatus == 1) {
 
-                            findNavController().navigate(
+                            findNavController().navigateTo(
                                 R.id.action_homeFragment_to_courseDetailsFragment,
                                 bundleOf(
                                     "courseId" to course.courseId
@@ -461,7 +468,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
             mAdapter = null
         } else {
             mAdapter?.notifyDataSetChanged() ?: kotlin.run {
-                mAdapter = HomeAdapter(viewModel.courseLiveData.value ?: ArrayList())
+                mAdapter = HomeAdapterTest(
+                    viewModel.courseLiveData.value ?: ArrayList(),
+                    scrollStateHolder
+                )
                 binding.rvList.adapter = mAdapter
                 mAdapter?.setOnAdapterItemClickListener(this)
 //                mAdapter!!.setOnPageEndListener(this)
@@ -470,10 +480,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
     }
 
     private fun observeCategoriesData() {
+        binding.tvSeeAll.backgroundTintList =
+            ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    binding.root.context,
+                    if (baseActivity.isViOn()) R.color.ViSecondaryColor else R.color.purple_700
+                )
+            )
         viewModel.categories.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
 //                it.sortBy { it.name }
-                binding.recyclerCourseType.adapter = AdapterCourseType(it)
+                binding.recyclerCourseType.adapter = AdapterCourseType(it, baseActivity.isViOn())
                 (binding.recyclerCourseType.adapter as? AdapterCourseType)?.setOnAdapterItemClickListener(
                     this
                 )
@@ -488,20 +505,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
     private fun observeWishlist() {
         viewModel.wishlistLiveData.observe(viewLifecycleOwner) { event ->
             event?.getContentIfNotHandled()?.let {
-                if (it.success.equals("true")) {
+//                if (it.success.equals("true")) {
 
-//                   mAdapter?.notifyItemChanged(viewModel.adapterPosition)
-//                    viewModel.courseLiveData.value?.let {mainList->
-//                        mainList.get(viewModel.adapterPosition).
-//                    }
-//                    binding.rvList.adapter?.notifyDataSetChanged()
-//                    binding.rvOther.adapter?.notifyDataSetChanged()
+//mAdapter?.callNotifyChange(viewModel.adapterPosition)
                     mAdapter?.notifyDataSetChanged()
                     mOtherAdapter?.notifyDataSetChanged()
-//                viewModel.courseLiveData.value
-//                binding.rvList.adapter = HomeAdapter(it)
-//                (binding.rvList.adapter as? HomeAdapter)?.setOnAdapterItemClickListener(this)
-                }
+//                }
             }
         }
     }
@@ -540,7 +549,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
             ApiEndPoints.API_PURCHASE_COURSE -> {
                 (value as BaseResponse<OrderData>).let {
                     showToastShort((it.message))
-                    findNavController().navigate(
+                    viewModel.updateCourse(it.resource?.course?.courseId)
+                    findNavController().navigateTo(
                         R.id.action_homeFragment_to_courseDetailsFragment,
                         bundleOf("courseId" to it.resource?.course?.courseId)
                     )
@@ -548,7 +558,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
                 }
 
             }
-
+            ApiEndPoints.API_HOME_WISHLIST -> {
+                viewModel.setWishlist((value as Pair<Int?, Boolean>?))
+                mAdapter?.notifyDataSetChanged()
+                mOtherAdapter?.notifyDataSetChanged()
+            }
+//            ApiEndPoints.API_HOME_WISHLIST + "/false" -> {
+//                viewModel.setWishlist((value as Pair<Int?, Boolean>?))
+//                mAdapter?.notifyDataSetChanged()
+//                mOtherAdapter?.notifyDataSetChanged()
+//            }
         }
     }
 
@@ -570,7 +589,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
             binding.tvOther.visible()
             mOtherAdapter?.notifyDataSetChanged() ?: kotlin.run {
                 mOtherAdapter =
-                    AllCoursesAdapter(viewModel.otherCourseLiveData.value as ArrayList<CourseData> /* = java.util.ArrayList<com.selflearningcoursecreationapp.models.course.CourseData> */)
+                    AllCoursesAdapter(
+                        viewModel.otherCourseLiveData.value as ArrayList<CourseData>,
+                        baseActivity.isViOn()
+                    )
                 binding.rvOther.adapter = mOtherAdapter
                 mOtherAdapter?.setOnAdapterItemClickListener(this)
             }
@@ -580,10 +602,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
 
     override fun onDialogClick(vararg items: Any) {
         val type = items[0] as Int
-        val courseId = items[1] as Int
         when (type) {
             Constant.CLICK_VIEW -> {
-                findNavController().navigate(
+                val courseId = items[1] as Int
+                findNavController().navigateTo(
                     R.id.action_homeFragment_to_courseDetailsFragment,
                     bundleOf("courseId" to courseId)
                 )

@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.databinding.AdapterFilterModeratorBinding
+import com.selflearningcoursecreationapp.ui.moderator.dialog.filter.Payload
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 
 class ModeratorFilterParentAdapter(var clickListener: (clickType: Int, position: Int) -> Unit) :

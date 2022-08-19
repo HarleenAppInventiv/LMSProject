@@ -37,36 +37,33 @@ class ReviewPagingDataSource(
             val response = api.getReviewList(data)
             val responseData = mutableListOf<CourseData>()
             val data = response.body()?.resource?.list
-            val nextKey =
-                if (data == null || data.isEmpty()) {
-                    null
-                } else {
-                    pageIndex.plus(1)
-                }
+
+
+            val resource = response.body()?.resource
+            count = resource?.totalCount ?: 0
+            rating = resource?.averageReview ?: 0f
+            val totalPages = count / (this.data.pageSize ?: 1)
+            userAlreadyRated = resource?.userAlreadyRated ?: false
+
             if (data?.isNotEmpty() == true || data != null && data.size != 0) {
                 responseData.addAll(data)
-                count = response.body()?.resource?.totalCount ?: 0
-                rating = response.body()?.resource?.averageReview ?: 0f
-                userAlreadyRated = response.body()?.resource?.userAlreadyRated ?: false
-                val prevKey = if (pageIndex == 1) null else pageIndex - 1
 
 
-                LoadResult.Page(
-                    data = responseData,
-                    prevKey = prevKey,
-                    nextKey = nextKey
-                )
-            } else {
-
-                val prevKey = if (pageIndex == 1) null else pageIndex - 1
-
-                LoadResult.Page(
-                    data = responseData,
-                    prevKey = prevKey,
-                    nextKey = nextKey
-                )
             }
+            val prevKey = if (pageIndex == 1) null else pageIndex - 1
 
+
+            val nextKey =
+                if ((this.data.pageNumber ?: 1) < totalPages) {
+                    pageIndex.plus(1)
+                } else {
+                    null
+                }
+            LoadResult.Page(
+                data = responseData,
+                prevKey = prevKey,
+                nextKey = nextKey
+            )
 
         } catch (exception: IOException) {
             return LoadResult.Error(exception)

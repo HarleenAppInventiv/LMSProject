@@ -1,13 +1,14 @@
 package com.selflearningcoursecreationapp.utils
 
 object ApiEndPoints {
+    const val HOME_SUCCESS = "home_success"
     const val BASE_URL_INTERNAL = "https://selflearndevweb.appskeeper.in/info/"
     const val LINK_TERM_COND = "terms-&-conditions"
     const val LINK_PRIVACY_POL = "privacy-policy"
     const val LINK_ABOUT_US = "about-us"
     const val LINK_FAQ = "faq"
 
-
+    // dummy
     const val VALID_DATA: String = "valid_Data"
     const val GUEST_LOGIN: String = "guest_login"
 
@@ -16,6 +17,7 @@ object ApiEndPoints {
 //    const val BASE_URL = "https://appinventivlearningclientapiqa.azurewebsites.net/Api/" //qa server
 //    const val BASE_URL = "http://20.197.6.132/api/" //qa server
     const val BASE_URL = "https://skillfy.in/Api/" //qa server
+//    const val BASE_URL = "https://api-uat.skillfy.in/Api/" //client server
 
     //    const val BASE_URL = "https://e4be-122-179-201-74.in.ngrok.io/Api/" //qa server
     const val API_SIGNUP = "SignUp/SignUpRequest"
@@ -39,6 +41,8 @@ object ApiEndPoints {
     const val API_ADD_EMAIL = "SignUp/OtpRequestForEmailChange"
     const val API_VERIFY_EMAIL = "SignUp/ValidateOtpRequestForEmailChange"
     const val API_UPLOAD_IMAGE = "User/ProfilePicture"
+    const val API_ADD_MODERATOR = "Moderator"
+    const val API_UPLOAD_MODERATOR_DOC = "$API_ADD_MODERATOR/UploadDocuments"
 
     //course
     const val API_CRE_STEP_1 = "Course"
@@ -85,6 +89,8 @@ object ApiEndPoints {
 
     //CoAuthor
     const val API_COAUTHOR_INVITATION = "CoAuthor/UpdateInvitationStatus"
+    const val API_REQUEST_COUNT = "CoAuthor/RequestCount"
+    const val API_REQUEST_LIST = "CoAuthor/RequestList"
 
 
     // Guest home
@@ -129,5 +135,11 @@ object ApiEndPoints {
     //assessment report
     const val API_ASSESSMENT_REPORT = "CourseContent/AssessmentReport"
     const val API_ASSESSMENT_REPORT_STATUS = "CourseContent/AttemptedAssessmentReport"
+
+    //Moderator
+    const val API_SWITCH_TO_MOD = "User/SwitchToAnotherMode"
+    const val API_MOD_STATUS = "Moderator/Status"
+    const val API_COURSE_REQUEST = "Moderator/ModeratorCourseRequest"
+    const val API_MOD_COURSES = "Moderator/ModeratorCourses"
 
 }

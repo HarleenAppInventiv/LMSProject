@@ -1,56 +1,147 @@
 package com.selflearningcoursecreationapp.ui.moderator.moderatorHome
 
+import android.annotation.SuppressLint
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.selflearningcoursecreationapp.R
-import com.selflearningcoursecreationapp.base.BaseAdapter
-import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterRequestListBinding
+import com.selflearningcoursecreationapp.extensions.changeDateFormat
 import com.selflearningcoursecreationapp.extensions.gone
+import com.selflearningcoursecreationapp.extensions.loadImage
 import com.selflearningcoursecreationapp.extensions.visible
-import com.selflearningcoursecreationapp.utils.Constant
-import com.selflearningcoursecreationapp.utils.ModeratorListType
+import com.selflearningcoursecreationapp.models.course.CourseData
+import com.selflearningcoursecreationapp.utils.CourseType
 
-class AdapterRequestList(private val type: Int) : BaseAdapter<AdapterRequestListBinding>(),
-    BaseAdapter.IViewClick {
-    override fun getLayoutRes() = R.layout.adapter_request_list
-    override fun getItemCount() = 10
-    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        super.onBindViewHolder(holder, position)
 
-        when (type) {
-            ModeratorListType.REQUESTED -> {
-                binding.btApprove.visible()
-                binding.btReject.visible()
-                binding.tvStatusApproved.gone()
-                binding.tvStatusRejected.gone()
-                binding.tvTextReason.gone()
-                binding.tvReason.gone()
+class AdapterRequestList(
+    var viewModel: ModHomeVM,
+    private val clickListener: (type: Int, wishListItem: CourseData, position: Int) -> Unit,
+) : PagingDataAdapter<CourseData, AdapterRequestList.ViewHolder>(
+    DiffUtilCallBack
+) {
 
-            }
-            ModeratorListType.APPROVED -> {
-                binding.btApprove.gone()
-                binding.btReject.gone()
-                binding.tvStatusApproved.visible()
-                binding.tvStatusRejected.gone()
-                binding.tvTextReason.gone()
-                binding.tvReason.gone()
-            }
-            ModeratorListType.REJECTED -> {
-                binding.btApprove.gone()
-                binding.btReject.gone()
-                binding.tvStatusApproved.gone()
-                binding.tvStatusRejected.visible()
-                binding.tvTextReason.visible()
-                binding.tvReason.visible()
-            }
-        }
-
-        binding.btApprove.setOnClickListener {
-            onItemClick(Constant.CLICK_ACCEPT, position)
-        }
-        binding.btReject.setOnClickListener {
-            onItemClick(Constant.CLICK_REJECT, position)
-        }
-
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): AdapterRequestList.ViewHolder {
+        val binding = DataBindingUtil.inflate<AdapterRequestListBinding>(
+            LayoutInflater.from(parent.context),
+            R.layout.adapter_request_list,
+            parent,
+            false
+        )
+        return ViewHolder(binding)
     }
+
+    override fun onBindViewHolder(holder: AdapterRequestList.ViewHolder, position: Int) {
+        getItem(position)?.let { holder.bind(it, position, viewModel) }
+    }
+
+    inner class ViewHolder(var binding: AdapterRequestListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
+        fun bind(data: CourseData, position: Int, viewModel: ModHomeVM) {
+
+            binding.btApprove.visible()
+            binding.btReject.visible()
+            binding.tvStatusApproved.gone()
+            binding.tvStatusRejected.gone()
+            binding.tvTextReason.gone()
+            binding.tvReason.gone()
+            binding.tvId.text = binding.root.context.getString(R.string.id) + " " + data.requestId
+            binding.tvDate.text = data.createdDate.changeDateFormat("MMM dd, yyyy HH:mm:ss")
+            binding.tvName.text = data.courseTitle
+            binding.tvAuthor.text = data.createdByName
+            binding.ivCertification.text = data.categoryName
+            binding.ivLang.text = data.languageName
+
+            when (data.courseTypeId) {
+                CourseType.FREE -> {
+                    binding.tvOldPrice.text = binding.root.context.getString(R.string.free)
+                }
+                CourseType.PAID -> {
+                    binding.tvOldPrice.text =
+                        String.format("%s %s", data.currencySymbol, data.courseFee)
+
+                }
+                CourseType.REWARD_POINTS -> {
+                    binding.tvOldPrice.text =
+                        data.rewardPoints + " " + binding.root.context.getString(R.string.points)
+                }
+                CourseType.RESTRICTED -> {
+                    binding.tvOldPrice.text =
+                        String.format("%s %s", data.currencySymbol, data.courseFee)
+                }
+                else -> {
+                    binding.tvOldPrice.text = binding.root.context.getString(R.string.free)
+
+                }
+            }
+            binding.ivPreview.loadImage(
+                data.courseBannerUrl,
+                R.drawable.ic_logo_default,
+                data.courseLogoHash
+            )
+
+        }
+    }
+
+    object DiffUtilCallBack : DiffUtil.ItemCallback<CourseData>() {
+        override fun areItemsTheSame(oldItem: CourseData, newItem: CourseData): Boolean {
+            return oldItem.courseId == newItem.courseId
+        }
+
+        override fun areContentsTheSame(oldItem: CourseData, newItem: CourseData): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+//    override fun getLayoutRes() = R.layout.adapter_request_list
+//    override fun getItemCount() = 10
+//
+//    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+//        super.onBindViewHolder(holder, position)
+//
+//        when (type) {
+//            ModeratorListType.REQUESTED -> {
+//
+//                binding.btApprove.visible()
+//                binding.btReject.visible()
+//                binding.tvStatusApproved.gone()
+//                binding.tvStatusRejected.gone()
+//                binding.tvTextReason.gone()
+//                binding.tvReason.gone()
+//
+//            }
+//            ModeratorListType.APPROVED -> {
+//                binding.btApprove.gone()
+//                binding.btReject.gone()
+//                binding.tvStatusApproved.visible()
+//                binding.tvStatusRejected.gone()
+//                binding.tvTextReason.gone()
+//                binding.tvReason.gone()
+//            }
+//            ModeratorListType.REJECTED -> {
+//                binding.btApprove.gone()
+//                binding.btReject.gone()
+//                binding.tvStatusApproved.gone()
+//                binding.tvStatusRejected.visible()
+//                binding.tvTextReason.visible()
+//                binding.tvReason.visible()
+//            }
+//        }
+//
+//        binding.btApprove.setOnClickListener {
+//            onItemClick(Constant.CLICK_ACCEPT, position)
+//        }
+//        binding.btReject.setOnClickListener {
+//            onItemClick(Constant.CLICK_REJECT, position)
+//        }
+//
+//    }
 
 }

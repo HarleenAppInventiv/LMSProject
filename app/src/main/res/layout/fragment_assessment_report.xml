@@ -8,8 +8,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/report_main"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_width="match_parent"
         android:visibility="gone">
 
 
@@ -412,9 +412,9 @@ marks in your assessment."
             android:id="@+id/tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
             android:drawablePadding="@dimen/_10sdp"
             android:text="Pass"
+            android:layout_marginStart="@dimen/_10sdp"
 
             android:textColor="@color/color_green"
             android:textSize="@dimen/textField_14"

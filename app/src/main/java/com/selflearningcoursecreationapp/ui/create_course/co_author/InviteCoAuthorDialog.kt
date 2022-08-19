@@ -13,8 +13,8 @@ import com.selflearningcoursecreationapp.extensions.hideKeyboard
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
-import com.selflearningcoursecreationapp.utils.CommonAlertDialog
-import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class InviteCoAuthorDialog : BaseDialog<LayoutEditTextDialogBinding>() {
@@ -114,6 +114,7 @@ class InviteCoAuthorDialog : BaseDialog<LayoutEditTextDialogBinding>() {
     private fun commonAlert() {
 
         CommonAlertDialog.builder(baseActivity)
+            .notCancellable()
             .title(getString(R.string.success))
             .description(getString(R.string.your_invitation_sent))
             .positiveBtnText(getString(R.string.okay))
@@ -121,6 +122,8 @@ class InviteCoAuthorDialog : BaseDialog<LayoutEditTextDialogBinding>() {
             .icon(R.drawable.ic_celebration)
             .getCallback {
                 if (it) {
+
+                    onDialogClick()
                     dismiss()
                 }
             }.build()

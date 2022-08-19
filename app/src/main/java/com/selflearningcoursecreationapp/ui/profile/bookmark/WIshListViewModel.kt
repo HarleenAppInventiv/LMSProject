@@ -147,8 +147,9 @@ class WishListViewModel(private val repo: WishListRepository) : BaseViewModel() 
                             totalLikes = it.totalLikes,
                             totalDislikes = it.totalDislikes,
                             createdDate = it.createdDate,
-                            userCourseStatus = 1
-                        )
+                        ).also {
+                            it.userCourseStatus = 1
+                        }
                         else return@map it
                     }
 

@@ -14,6 +14,7 @@ import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.databinding.FragmentLessonTextBinding
 import com.selflearningcoursecreationapp.extensions.content
 import com.selflearningcoursecreationapp.extensions.disableCopyPaste
+import com.selflearningcoursecreationapp.extensions.isNullOrNegative
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.Constant
@@ -22,7 +23,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LessonTextFragment : BaseFragment<FragmentLessonTextBinding>() {
 
-    private var childPosition: Int? = 0
+    private var childPosition: Int? = -1
     private var isFirstTime: Boolean = true
 
     private var type: Int? = null
@@ -100,8 +101,13 @@ class LessonTextFragment : BaseFragment<FragmentLessonTextBinding>() {
             ApiEndPoints.API_ADD_LECTURE_PATCH -> {
                 (value as BaseResponse<ChildModel>).resource?.let {
                     it.lectureContentName = binding.edtDocTitle.content()
-                    if (childPosition != null && childPosition != -1) {
-                        viewModel.model?.lessonList?.set(childPosition!!, it)
+
+                    if (viewModel.model?.lessonList == null) {
+                        viewModel.model?.lessonList = ArrayList()
+                    }
+
+                    if (!childPosition.isNullOrNegative() && viewModel.model?.lessonList?.isNotEmpty() == true) {
+                        viewModel.model?.lessonList?.set(childPosition ?: 0, it)
 
                         showToastLong(baseActivity.getString(R.string.lesson_updated_successfully))
                     } else {

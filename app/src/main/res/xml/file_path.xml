@@ -12,6 +12,7 @@
     <!--    <files-path-->
     <!--        name="external_file"-->
     <!--        path="." />-->
+
     <external-path
         name="external_files"
         path="." />

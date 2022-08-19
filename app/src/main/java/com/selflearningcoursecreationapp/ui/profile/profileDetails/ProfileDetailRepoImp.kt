@@ -6,6 +6,8 @@ import com.selflearningcoursecreationapp.data.network.ApiService
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.models.course.ImageResponse
 import com.selflearningcoursecreationapp.models.user.UserProfile
+import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
+import com.selflearningcoursecreationapp.ui.moderator.model.AddModeratorResponse
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -32,5 +34,21 @@ class ProfileDetailRepoImp(private val apiService: ApiService) : ProfileDetailRe
                 return apiService.uploadImage(body, fullName)
             }
         }.safeApiCall(ApiEndPoints.API_UPLOAD_IMAGE).flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun uploadModeDoc(body: MultipartBody.Part): Flow<Resource> {
+        return object : BaseRepo<BaseResponse<ImageResponse>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ImageResponse>> {
+                return apiService.uploadModeDoc(body)
+            }
+        }.safeApiCall(ApiEndPoints.API_UPLOAD_MODERATOR_DOC).flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun addModerator(body: AddModeratorResponse): Flow<Resource> {
+        return object : BaseRepo<BaseResponse<ChildModel>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ChildModel>> {
+                return apiService.addModerator(body)
+            }
+        }.safeApiCall(ApiEndPoints.API_ADD_MODERATOR).flowOn(Dispatchers.IO)
     }
 }

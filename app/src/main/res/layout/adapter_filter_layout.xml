@@ -19,23 +19,23 @@
             android:text="Price"
             android:textSize="@dimen/adapterTF_14"
             app:fontType="semiBold"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
             app:layout_constraintStart_toStartOf="@id/guidelineStart"
-            app:layout_constraintTop_toTopOf="parent"
             app:textColorType="heading" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyler_filter_view"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
+            android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/view12"
             app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
             app:layout_constraintStart_toStartOf="@+id/guidelineStart"
             app:layout_constraintTop_toBottomOf="@+id/tv_title"
             tools:itemCount="3"
+            app:layout_constraintBottom_toTopOf="@+id/view12"
             tools:listitem="@layout/adapter_select_filter" />
 
 
@@ -44,11 +44,11 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/_1sdp"
             android:layout_marginHorizontal="@dimen/_25sdp"
-            android:layout_marginTop="@dimen/_22sdp"
             android:background="?attr/divider_grey"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/_22sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recyler_filter_view" />
 
 

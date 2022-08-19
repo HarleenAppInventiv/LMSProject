@@ -19,12 +19,13 @@ import com.selflearningcoursecreationapp.extensions.gone
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.extensions.showHidePassword
 import com.selflearningcoursecreationapp.extensions.visible
+import com.selflearningcoursecreationapp.models.user.PreferenceData
 import com.selflearningcoursecreationapp.models.user.UserResponse
 import com.selflearningcoursecreationapp.ui.authentication.viewModel.OnBoardingViewModel
 import com.selflearningcoursecreationapp.ui.home.HomeActivity
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.OtpType
-import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>(),
     View.OnClickListener {
@@ -145,13 +146,19 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
 
                     }
                     userData?.user?.getPreferenceValue() != 4 -> {
+                        val data = PreferenceData(
+                            currentSelection = userData?.user?.getPreferenceValue() ?: 0
+                        )
 
                         findNavController().navigate(
                             LoginSignUpFragmentDirections.actionLoginSignUpFragmentToPreferencesFragment(
-                                currentSelection = userData?.user?.getPreferenceValue() ?: 0
+                                preferenceData = data
                             )
                         )
 
+                    }
+                    userData.user?.currentMode == 2 -> {
+                        baseActivity.goToModeratorActivity()
                     }
                     else -> {
                         baseActivity.goToHomeActivity()

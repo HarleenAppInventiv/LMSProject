@@ -20,6 +20,7 @@ fun TextView.setSpanText(txt: String?) {
 
 @BindingAdapter(value = ["btnEnabled", "typeSecondary"], requireAll = false)
 fun LMSMaterialButton.setBtnEnabled(value: Boolean, typeSecondary: Boolean = false) {
+    showLog("BUTTON_DISABLED", "$text >> $typeSecondary .... value >> $value")
     if (typeSecondary) {
         setSecondaryBtnDisabled(value)
 
@@ -63,16 +64,16 @@ fun TextView.setLimitedText(data: String?, lines: Int? = 9) {
         setSpanString(SpannableString(data))
 
         var textCount = lineCount
-        if (textCount > (lines ?: 9)) {
+        if (textCount > lines ?: 9) {
             textCount = lines ?: 9
 
 
             val linesList: ArrayList<CharSequence> = ArrayList()
 
             for (i in 0 until textCount) {
-                val start = layout.getLineStart(i)
-                val end = layout.getLineEnd(i)
-                val substring: CharSequence = text.subSequence(start, end)
+                val start = getLayout().getLineStart(i)
+                val end = getLayout().getLineEnd(i)
+                val substring: CharSequence = getText().subSequence(start, end)
                 linesList.add(substring.toString())
             }
             linesList.add("...")

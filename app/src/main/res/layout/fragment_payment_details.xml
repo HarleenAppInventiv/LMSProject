@@ -71,8 +71,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/payment_received_from"
                         app:fontType="medium"
-                        android:textSize="@dimen/textField_12"
                         android:visibility="gone"
+                        android:textSize="@dimen/textField_12"
 
                         app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
                         app:layout_constraintEnd_toStartOf="@+id/iv_profile"
@@ -157,8 +157,8 @@
                         android:text="@string/transaction_id"
                         app:layout_constraintEnd_toEndOf="@+id/guideline"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:textSize="@dimen/textField_14"
                         app:layout_constraintTop_toBottomOf="@+id/view2"
+                        android:textSize="@dimen/textField_14"
                         app:fontType="regular"
                         app:textColorType="secondary" />
 
@@ -192,9 +192,9 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:text="@string/order_id"
+                        android:textSize="@dimen/textField_14"
                         android:layout_marginStart="@dimen/_15sdp"
                         app:fontType="regular"
-                        android:textSize="@dimen/textField_14"
 
                         app:layout_constraintEnd_toEndOf="@+id/guideline"
                         app:layout_constraintStart_toStartOf="parent"
@@ -210,8 +210,8 @@
                         android:text="#A342HFTD"
                         android:textAlignment="viewEnd"
                         app:fontType="medium"
-                        android:layout_marginEnd="@dimen/_15sdp"
                         android:textSize="@dimen/textField_14"
+                        android:layout_marginEnd="@dimen/_15sdp"
 
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -282,9 +282,9 @@
                         android:text="@string/payment_status"
 
                         android:textAllCaps="true"
-                        android:layout_marginStart="@dimen/_8sdp"
-                        app:fontType="semiBold"
                         android:textSize="@dimen/textField_12"
+                        app:fontType="semiBold"
+                        android:layout_marginStart="@dimen/_8sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/view" />

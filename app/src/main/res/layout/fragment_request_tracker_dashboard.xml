@@ -4,6 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.profile.requestTracker.RequestTrackerDashboardFragment">
 
+    <data>
+
+        <variable
+            name="viewModelXML"
+            type="com.selflearningcoursecreationapp.ui.profile.requestTracker.RequestrackerVM" />
+    </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -266,10 +273,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="@string/_10"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textField_24"
                         app:fontType="bold"
+                        android:text="00"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/image1"
@@ -342,7 +349,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="@string/_10"
+                        android:text="00"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textField_24"
                         app:fontType="bold"
@@ -420,7 +427,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="@string/_10"
+                        android:text="00"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textField_24"
                         app:fontType="bold"
@@ -511,7 +518,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="@string/_10"
+                        android:text="00"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textField_24"
                         app:fontType="bold"
@@ -589,7 +596,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="@string/_10"
+                        android:text="00"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textField_24"
                         app:fontType="bold"
@@ -666,7 +673,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="@string/_10"
+                        android:text="00"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textField_24"
                         app:fontType="bold"

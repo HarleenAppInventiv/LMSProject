@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/home"
-        android:name="com.selflearningcoursecreationapp.utils.screenRecorder.home.HomeFragment"
+        android:name="com.selflearningcoursecreationapp.utils.screenRecorder.home.ScreenRecorderHomeFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_home_video_recording">
         <action
@@ -49,7 +49,7 @@
         tools:layout="@layout/fragment_privacy_policy" />
     <fragment
         android:id="@+id/settings"
-        android:name="com.selflearningcoursecreationapp.utils.screenRecorder.settings.SettingsFragment"
+        android:name="com.selflearningcoursecreationapp.utils.screenRecorder.settings.RecorderSettingsFragment"
         android:label="@string/settings" />
     <fragment
         android:id="@+id/licenses"

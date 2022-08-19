@@ -15,7 +15,7 @@ import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.CourseStatus
 import com.selflearningcoursecreationapp.utils.CourseType
-import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 
 class WishListAdapter(
     var viewModel: WishListViewModel,
@@ -84,6 +84,12 @@ class WishListAdapter(
                 data.courseBannerUrl,
                 R.drawable.ic_home_default_banner,
                 position
+            )
+
+            binding.ivPreview.loadImage(
+                data.courseBannerUrl,
+                R.drawable.ic_home_default_banner,
+                data.courseBannerHash
             )
             binding.tvLesson.text =
                 context.getQuantityString(R.plurals.lecture_quantity, data.totalSections)

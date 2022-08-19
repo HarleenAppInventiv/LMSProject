@@ -31,16 +31,16 @@
                 app:textColorType="none" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/tv_Selected_Value"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/points_outline_green"
                 android:paddingHorizontal="@dimen/_8sdp"
                 android:paddingVertical="@dimen/_3sdp"
-                android:textAllCaps="true"
                 android:textColor="@color/accent_color_2FBF71"
                 android:textSize="@dimen/textField_11"
                 app:fontType="medium"
+                android:id="@+id/tv_Selected_Value"
+                android:textAllCaps="true"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_quiz_num"
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                 app:layout_constraintTop_toTopOf="@+id/tv_quiz_num"

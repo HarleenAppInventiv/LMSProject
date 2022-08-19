@@ -23,16 +23,24 @@ import com.selflearningcoursecreationapp.base.BaseActivity
 import com.selflearningcoursecreationapp.databinding.ActivityHomeBinding
 import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.models.course.OrderData
+import com.selflearningcoursecreationapp.ui.bottom_home.HomeVM
 import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseBaseFragment
 import com.selflearningcoursecreationapp.ui.preferences.PreferencesFragment
-import com.selflearningcoursecreationapp.utils.*
-import org.koin.android.ext.android.inject
+import com.selflearningcoursecreationapp.utils.ACTION_NOTIFICATION_BROADCAST
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.CoAuthorStatus
+import com.selflearningcoursecreationapp.utils.CourseType
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
     private var navController: NavController? = null
     private lateinit var binding: ActivityHomeBinding
-    private val viewModel: HomeActivityViewModel by inject()
+    private val viewModel: HomeActivityViewModel by viewModel()
+
+    private val sharedHomeVM: HomeVM by viewModel()
+
     private var receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
@@ -146,8 +154,12 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
                 R.id.quizBaseFragment,
                 R.id.privacyFragment
             )
+
+
             val showCrossIcon =
                 arrayListOf<Int>()
+
+
             val subTitleArray = arrayListOf(R.id.popularFragment)
             val secondaryBgColor = arrayListOf(R.id.paymentDetailsFragment)
             when {
@@ -195,7 +207,7 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
 
                 setToolbar(
                     title = destination.label.toString(),
-                    showToolbar = true,
+                    showToolbar = !hideToolbar.contains(destination.id),
                     showBackIcon = (destination.id == R.id.myCourseTabFragment)
                 )
             }
@@ -353,7 +365,7 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
 //                if (tokenFromDataStore() == "") {
 //                    guestUserPopUp()
 //                } else {
-//                    navController?.navigate(R.id.moderatorBaseFragment)
+//                    navController?.navigate(R.id.contentCourseDetailFragment)
 //                }
                 return false
             }
@@ -399,6 +411,7 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
         viewModel.purchaseCourseLiveData.observe(this, Observer { event ->
             event.getContentIfNotHandled()?.let {
                 hideProgressBar()
+                sharedHomeVM.updateCourse(it.course?.courseId)
                 navController?.navigate(R.id.paymentDetailsFragment, bundleOf("orderData" to it))
             }
 

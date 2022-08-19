@@ -17,6 +17,9 @@ data class CategoryData(
     var code: String? = null,
     @SerializedName("image_Url")
     var imageUrl: String? = null,
+
+    @SerializedName("courseLogoBlurHash")
+    var courseLogoBlurHash: String? = null,
     @Transient
     var imageId: Int? = null,
     @SerializedName("id", alternate = ["categoryId", "languageId"])

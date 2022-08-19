@@ -16,6 +16,7 @@
         <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
             android:id="@+id/iv_img"
             android:layout_width="wrap_content"
+            app:applyGrayscale="true"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_science_dummy"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -39,7 +40,7 @@
         <View
             android:layout_width="0dp"
             android:layout_height="@dimen/_1sdp"
-            android:background="@color/opacity_15_929292"
+            android:background="?attr/listDividerColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />

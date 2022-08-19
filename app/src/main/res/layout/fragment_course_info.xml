@@ -32,12 +32,12 @@
             <WebView
                 android:id="@+id/wv_info"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_8sdp"
                 android:layout_marginVertical="@dimen/_8sdp"
-                android:textSize="@dimen/textField_14"
+                android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:textSize="@dimen/textField_14"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView

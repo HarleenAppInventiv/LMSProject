@@ -18,7 +18,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="?attr/screenBackgroundColor"
         tools:context=".ui.authentication.OnBoardingActivity">
 
 
@@ -78,8 +78,7 @@
                 android:maxLength="@{const.MAX_PASSWORD_LENGTH}"
                 android:singleLine="true"
                 android:text="@={resetPass.resetData.newPassword}"
-                android:textColor="@color/black"
-                android:textColorHint="@color/hintColor"
+                app:textColorType="black"
                 android:textSize="@dimen/editTextField_14"
                 app:drawableStartCompat="@drawable/ic_key_password"
                 app:fontType="regular"
@@ -97,7 +96,7 @@
                 android:layout_height="0dp"
                 android:layout_marginVertical="@dimen/_12sdp"
                 android:layout_marginStart="@dimen/_40sdp"
-                android:background="@color/et_dash_color"
+                android:background="?attr/etDashColor"
                 android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="@+id/et_newPass"
                 app:layout_constraintStart_toStartOf="@+id/et_newPass"
@@ -117,8 +116,7 @@
                 android:maxLength="@{const.MAX_PASSWORD_LENGTH}"
                 android:singleLine="true"
                 android:text="@={resetPass.resetData.confirmPassword}"
-                android:textColor="@color/black"
-                android:textColorHint="@color/hintColor"
+                app:textColorType="black"
                 android:textSize="@dimen/editTextField_14"
                 app:drawableStartCompat="@drawable/ic_key_password"
                 app:fontType="regular"
@@ -137,7 +135,7 @@
                 android:layout_height="0dp"
                 android:layout_marginVertical="@dimen/_12sdp"
                 android:layout_marginStart="@dimen/_40sdp"
-                android:background="@color/et_dash_color"
+                android:background="?attr/etDashColor"
                 android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="@+id/edt_confirm_pass"
                 app:layout_constraintStart_toStartOf="@+id/edt_confirm_pass"

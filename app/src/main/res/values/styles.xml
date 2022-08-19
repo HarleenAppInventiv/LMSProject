@@ -5,6 +5,10 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="corner_radius_5">
+        <item name="cornerSize">5%</item>
+    </style>
+
     <style name="AboutCategory">
         <item name="android:gravity">start</item>
         <item name="android:layout_marginBottom">16dp</item>
@@ -31,6 +35,7 @@
         <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+
 
 
     <style name="DialogTransparent.95" parent="DialogTransparent">
@@ -174,9 +179,9 @@
         <item name="android:windowBackground">@drawable/rounded_corner</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <!--    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!--    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
 
 
     <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
@@ -202,7 +207,6 @@
         <item name="colorControlNormal">@color/hintColor</item>
         <item name="colorControlActivated">@color/coin_stroked_color</item>
     </style>
-
     <dimen name="adapterTextField_11">@dimen/_9ssp</dimen>
     <dimen name="adapterTextField_12">@dimen/_10ssp</dimen>
     <dimen name="adapterTextField_17">@dimen/_15ssp</dimen>

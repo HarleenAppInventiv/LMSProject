@@ -24,7 +24,7 @@ android {
         minSdk 21
         targetSdk 32
         versionCode 1
-        versionName "1.0.26"
+        versionName "1.0.28"
         vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -215,6 +215,7 @@ dependencies {
     // pdfview
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 
+    implementation 'com.danjdt:pdfviewer:0.1.0'
 
 
 

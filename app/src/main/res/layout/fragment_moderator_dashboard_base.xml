@@ -281,12 +281,12 @@
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@drawable/edt_bg_white"
                 android:drawableEnd="@drawable/ic_arrow_bottom"
-                android:drawablePadding="@dimen/_20sdp"
                 android:elevation="@dimen/_3sdp"
-                android:paddingHorizontal="@dimen/_10sdp"
-                android:paddingVertical="@dimen/_3sdp"
                 android:text="Day"
+                android:drawablePadding="@dimen/_20sdp"
+                android:paddingHorizontal="@dimen/_10sdp"
                 android:textSize="@dimen/textField_12"
+                android:paddingVertical="@dimen/_3sdp"
                 app:layout_constraintBottom_toBottomOf="@+id/LMSTextView14"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/LMSTextView14" />
@@ -449,9 +449,9 @@
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@drawable/edt_bg_white"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:tabMode="scrollable"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/card"
-                app:tabMode="scrollable"
                 app:tabTextAppearance="@style/MyTabTextAppearance" />
 
             <androidx.viewpager2.widget.ViewPager2

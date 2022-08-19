@@ -19,7 +19,7 @@
 
         >
 
-        <!--        android:background="@{selectedPosition != itemPos ? @color/offWhite :  @color/accent_color_fc6d5b}"-->
+        <!--        android:background="@{selectedPosition != itemPos ? @color/off_white_f5f5f5 :  @color/accent_color_fc6d5b}"-->
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_course_name"
             android:layout_width="wrap_content"

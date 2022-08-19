@@ -16,13 +16,8 @@ class HomeAdapter(private var courseTypeList: ArrayList<CourseTypeModel>?) :
     override fun getLayoutRes() = R.layout.adapter_home
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+        super.onBindViewHolder(holder, position)
         val binding = holder.binding as AdapterHomeBinding
-//        coursesList.apply {
-//            add(CourseTempData("UI/UX courses", R.drawable.ic_uiux))
-//            add(CourseTempData("Science courses", R.drawable.ic_science))
-//            add(CourseTempData("UX research part", R.drawable.ic_research))
-//            add(CourseTempData("Color Pallete", R.drawable.ic_color_palatte))
-//        }
 
         binding.tvSeeAll.visibleView(
             !courseTypeList?.get(position)?.courses.isNullOrEmpty() && (courseTypeList?.get(
@@ -48,6 +43,12 @@ class HomeAdapter(private var courseTypeList: ArrayList<CourseTypeModel>?) :
     }
 
     override fun getItemCount() = courseTypeList?.size ?: 0
+
+    fun callNotifyChange(adapterPosition: Int) {
+        (getViewHolder(adapterPosition)?.binding as AdapterHomeBinding).rvCourses.adapter?.notifyDataSetChanged()
+        notifyItemChanged(adapterPosition)
+
+    }
 
 
 }

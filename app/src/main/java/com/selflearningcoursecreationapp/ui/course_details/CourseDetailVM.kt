@@ -22,7 +22,7 @@ class CourseDetailVM(private var repo: CourseDetailRepo) : BaseViewModel() {
     var addReviewRequest = AddReviewRequestModel()
     var selectedFilters = ArrayList<SelectedFilterData?>()
     var otp = ""
-
+    var courseContentType: Boolean = false
     var courseId: Int = 0
     var courseData = MutableLiveData<CourseData?>()
     var sectionData = MutableLiveData<ArrayList<SectionModel>>().apply {

@@ -5,49 +5,64 @@
     <com.selflearningcoursecreationapp.utils.customViews.LMSCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginHorizontal="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        app:cardBackgroundColor="?attr/viewBackgroundColor"
         app:cardCornerRadius="@dimen/_8sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_8sdp">
+            android:padding="@dimen/_12sdp">
 
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tvCourseName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/xyz_course"
+                android:ellipsize="end"
                 android:textSize="@dimen/adapterTF_14"
                 app:fontType="semiBold"
+                android:maxLines="1"
+                android:text="UX and Web Design Course"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/tvCourseDesc"
+                android:id="@+id/tv_course_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:text="@string/ba_certification"
-                android:textSize="@dimen/adapterTextField_10"
+                android:textSize="@dimen/adapterTextField_11"
                 app:fontType="medium"
+                app:textColorType="body"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCourseName" />
 
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_dot1"
+                android:layout_width="@dimen/_4sdp"
+                android:layout_height="@dimen/_4sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:importantForAccessibility="no"
+                android:src="@color/grey_c4c4c4"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_course_category"
+                app:layout_constraintStart_toEndOf="@+id/tv_course_category"
+                app:layout_constraintTop_toTopOf="@+id/tv_course_category"
+                app:shapeAppearanceOverlay="@style/circleImage" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tvLanguage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:text="@string/ba_certification"
-                android:textSize="@dimen/adapterTextField_10"
+                android:text="English"
+                android:textSize="@dimen/adapterTextField_11"
                 app:fontType="medium"
-                app:layout_constraintStart_toEndOf="@+id/tvCourseDesc"
+                app:layout_constraintStart_toEndOf="@+id/iv_dot1"
                 app:layout_constraintTop_toBottomOf="@+id/tvCourseName"
                 app:textColorType="theme" />
 
@@ -57,10 +72,10 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:contentDescription="@string/user_image"
-                android:padding="@dimen/_3sdp"
                 android:scaleType="centerCrop"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCourseDesc"
+                android:padding="@dimen/_2sdp"
+                app:layout_constraintStart_toStartOf="@+id/tv_course_category"
+                app:layout_constraintTop_toBottomOf="@+id/tv_course_category"
                 app:shapeAppearanceOverlay="@style/circle"
                 app:srcCompat="@drawable/ic_course_dummy"
                 app:strokeColor="?attr/whiteTextColor"
@@ -83,15 +98,15 @@
                 spanText="@{@string/reject}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
                 android:backgroundTint="@color/accent_color_fc6d5b"
                 android:text="@string/reject"
                 android:textColor="?attr/whiteTextColor"
                 android:textSize="@dimen/adapterTextField_10"
                 app:btnTextColor="?attr/whiteTextColor"
                 app:buttonBackground="none"
-                app:cornerRadius="@dimen/_8sdp"
+                app:cornerRadius="@dimen/_5sdp"
                 app:fontType="semiBold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btnAccept"
@@ -103,13 +118,13 @@
                 spanText="@{@string/accept}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:backgroundTint="@color/accent_color_2FBF71"
                 android:text="@string/accept"
                 android:textSize="@dimen/adapterTextField_10"
                 app:btnTextColor="?attr/whiteTextColor"
                 app:buttonBackground="none"
-                app:cornerRadius="@dimen/_8sdp"
+                app:cornerRadius="@dimen/_5sdp"
                 app:fontType="semiBold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class CourseTypeModel(
     @SerializedName("courses")
-    var courses: List<CourseData>? = null,
+    var courses: ArrayList<CourseData>? = null,
     @SerializedName("coursesType")
     var coursesType: Int? = null,
     @SerializedName("orderId")

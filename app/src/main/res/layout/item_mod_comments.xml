@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_8sdp"
         app:cardCornerRadius="@dimen/_8sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,14 +15,15 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/_8sdp">
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
                 android:id="@+id/ivCourseImage"
-                android:layout_width="@dimen/_110sdp"
-                android:layout_height="@dimen/_80sdp"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_90sdp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_course_dummy"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/corner_radius_5" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                 android:id="@+id/ivSave"
@@ -40,39 +41,62 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_16sdp"
-                android:text="@string/xyz_course"
+                android:ellipsize="end"
                 android:textSize="@dimen/adapterTF_14"
                 app:fontType="semiBold"
+                android:maxLines="1"
+                android:text="UX and Web Design Course"
                 app:layout_constraintEnd_toStartOf="@+id/ivSave"
                 app:layout_constraintStart_toEndOf="@+id/ivCourseImage"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tvUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="@string/allen_wen"
+                android:textSize="@dimen/adapterTextField_12"
+                app:fontType="medium"
+                app:layout_constraintStart_toStartOf="@+id/tvCourseName"
+                app:layout_constraintTop_toBottomOf="@+id/tvCourseName" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tvCourseDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:text="@string/ba_certification"
                 android:textSize="@dimen/adapterTextField_10"
                 app:fontType="medium"
                 app:layout_constraintStart_toEndOf="@+id/ivCourseImage"
-                app:layout_constraintTop_toBottomOf="@+id/tvCourseName"
+                app:layout_constraintTop_toBottomOf="@+id/tvUserName"
                 app:textColorType="body" />
 
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_dot1"
+                android:layout_width="@dimen/_4sdp"
+                android:layout_height="@dimen/_4sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:importantForAccessibility="no"
+                android:src="@color/grey_c4c4c4"
+                app:layout_constraintBottom_toBottomOf="@+id/tvCourseDesc"
+                app:layout_constraintStart_toEndOf="@+id/tvCourseDesc"
+                app:layout_constraintTop_toTopOf="@+id/tvCourseDesc"
+                app:shapeAppearanceOverlay="@style/circleImage" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tvLanguage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:text="@string/english_language"
                 android:textSize="@dimen/adapterTextField_10"
                 app:fontType="medium"
-                app:layout_constraintStart_toEndOf="@+id/tvCourseDesc"
-                app:layout_constraintTop_toBottomOf="@+id/tvCourseName"
+                app:layout_constraintStart_toEndOf="@+id/iv_dot1"
+                app:layout_constraintTop_toBottomOf="@+id/tvUserName"
                 app:textColorType="theme" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView

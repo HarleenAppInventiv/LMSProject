@@ -20,16 +20,23 @@ import com.selflearningcoursecreationapp.databinding.FragmentCourseDetailsBindin
 import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.models.course.OrderData
+import com.selflearningcoursecreationapp.ui.bottom_home.HomeVM
 import com.selflearningcoursecreationapp.ui.course_details.certificate.CertificateFragment
 import com.selflearningcoursecreationapp.ui.course_details.info.CourseInfoFragment
 import com.selflearningcoursecreationapp.ui.course_details.lessons.LessonListingFragment
 import com.selflearningcoursecreationapp.ui.course_details.ratings.ReviewsFragment
 import com.selflearningcoursecreationapp.ui.dialog.unlockCourse.UnlockCourseDialog
 import com.selflearningcoursecreationapp.ui.preferences.ScreenSlidePagerAdapter
-import com.selflearningcoursecreationapp.utils.*
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.utils.CourseStatus
+import com.selflearningcoursecreationapp.utils.CourseType
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
+import com.selflearningcoursecreationapp.utils.builderUtils.ResizeableUtils
 import com.selflearningcoursecreationapp.utils.customViews.LMSTextView
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -38,6 +45,7 @@ class CourseDetailsFragment : BaseFragment<FragmentCourseDetailsBinding>(),
 
     private var menu: Menu? = null
     private val viewModel: CourseDetailVM by viewModel()
+    private val sharedHomeModel: HomeVM by sharedViewModel()
 
     override fun getLayoutRes(): Int {
         return R.layout.fragment_course_details
@@ -131,10 +139,10 @@ class CourseDetailsFragment : BaseFragment<FragmentCourseDetailsBinding>(),
     }
 
     private fun observeData() {
-        viewModel.courseData.observe(viewLifecycleOwner, {
+        viewModel.courseData.observe(viewLifecycleOwner) {
 
             setData(it)
-        })
+        }
     }
 
     private fun setData(data: CourseData?) {
@@ -142,13 +150,21 @@ class CourseDetailsFragment : BaseFragment<FragmentCourseDetailsBinding>(),
             binding.parentCL.visibleView(true)
             binding.ivCourseImage.loadImage(
                 courseData.courseBannerUrl,
-                R.drawable.ic_home_default_banner, 3
+                R.drawable.ic_home_default_banner, courseData.courseBannerHash
             )
 
             binding.bottomCL.visibleView(courseData.userCourseStatus.isNullOrZero())
             binding.progressG.visibleView(courseData.userCourseStatus == 1)
-            binding.ivProfileImage.loadImage(courseData.profileUrl, R.drawable.ic_default_user_grey)
-            binding.ivLogo.loadImage(courseData.courseLogoUrl, R.drawable.ic_logo_default)
+            binding.ivProfileImage.loadImage(
+                courseData.profileUrl,
+                R.drawable.ic_default_user_grey,
+                data.profileBlurHash
+            )
+            binding.ivLogo.loadImage(
+                courseData.courseLogoUrl,
+                R.drawable.ic_logo_default,
+                data.courseLogoHash
+            )
 //            binding.btEnroll.text = baseActivity.getButtonText(
 //                courseData.courseTypeId,
 //                courseData.userCourseStatus
@@ -166,6 +182,11 @@ class CourseDetailsFragment : BaseFragment<FragmentCourseDetailsBinding>(),
             binding.tvLevel.setComplexityLevel(data.courseComplexityId)
             binding.tvDuration.text = courseData.courseDuration.getTime(baseActivity)
             binding.tvCoin.text = data.rewardPoints + " Points"
+            sharedHomeModel.updateCourseRating(
+                viewModel.courseId,
+                data.averageRating,
+                data.totalReviews
+            )
 
             ResizeableUtils.builder(binding.tvDescription).isBold(false)
                 .isUnderline(false)
@@ -308,6 +329,8 @@ class CourseDetailsFragment : BaseFragment<FragmentCourseDetailsBinding>(),
             ApiEndPoints.API_PURCHASE_COURSE -> {
                 showToastShort((value as BaseResponse<OrderData>).message)
                 viewModel.userCourseStatus.value = CourseStatus.ENROLLED
+                sharedHomeModel.updateCourse(viewModel.courseId)
+
                 binding.bottomCL.visibleView(false)
 
             }

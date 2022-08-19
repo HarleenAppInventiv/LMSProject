@@ -8,7 +8,6 @@
         <variable
             name="handleClick"
             type="com.selflearningcoursecreationapp.utils.HandleClick" />
-
         <variable
             name="setting"
             type="com.selflearningcoursecreationapp.ui.bottom_more.settings.SettingsFragment" />

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_700">#8900F2</color>
+        <color name="purple_700">#8900F2</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey_ededed">#EDEDED</color>
     <color name="whiteTrans15">#1D151414</color>
-    <color name="offWhite">#f5f5f5</color>
+    <color name="off_white_f5f5f5">#f5f5f5</color>
     <color name="offWhite_f6f6f6">#F6F6F6</color>
     <color name="lightBlueColor">#e1ebf8</color>
     <color name="no_earning_chart_bg">#D1D4D9</color>
@@ -16,10 +16,25 @@
     <color name="primaryColor">#8900F2</color>
     <color name="primaryTintColor">#647f0ae8</color>
     <color name="accent_color_fc6d5b">#fc6d5b</color>
+    <color name="accent_color_fc6d5b_with_alpha">#14FC6D5B</color>
     <color name="accent_color_FFB800">#ffb800</color>
     <color name="accent_color_2FBF71">#2fbf71</color>
     <color name="test">#7F7F7F</color>
 
+
+    //vi Color
+    <color name="ViMainColor">#262626</color>
+    <color name="ViMainTintColor">#A9757373</color>
+    <color name="ViTextHintColor">#BF262626</color>
+    <color name="ViSecondaryColor">#FFF732</color>
+    <color name="ViSecondaryTintColor">#CBF8F256</color>
+    <color name="ViScreenBgColor">#E5E5E5</color>
+    <color name="ViCoinColor">#0f0f0f</color>
+    <color name="ViCoinSecondaryColor">#595959</color>
+
+
+    <color name="drawableCoinColor">#F8B64C</color>
+    <color name="drawableCoinSecondaryColor">#FFD15C</color>
 
     //onBoarding
     <color name="transPrimary">#40262626</color>
@@ -47,13 +62,13 @@
     <color name="heading_color_262626">#262626</color>
     <color name="text_color_black_131414">#131414</color>
     <color name="light_blue_grey">#e1ebf8</color>
-    <color name="adapter_header_color">#322f2e</color>
+    <color name="adapter_header_color">#322F2E</color>
     <color name="error_red">#D22B16</color>
     <color name="grey_trans">#14121F66</color>
 
 
     <color name="transBlue_05">#0c0056d2</color>
-    <color name="line_color_cfd9e9">#f5f5f5</color>
+    <color name="line_color_cfd9e9">#cfd9e9</color>
     <color name="theme_selection_bg_color">#f8f8f8</color>
     <color name="pager_unselected_dot_color">#d6d5d5</color>
     <color name="price_bg_color">#eafff3</color>
@@ -71,7 +86,7 @@
 
     //wine theme
     <color name="wine_red">#890620</color>
-    <color name="wine_red_tint">#8FEC90A2</color>
+    <color name="wine_red_tint">#8FF1B1BE</color>
     <color name="wine_circle_3">#8F1329</color>
     <color name="wine_circle_2">#9C1023</color>
     <color name="wine_circle_1">#5A0307</color>
@@ -108,10 +123,13 @@
     <color name="green_light">#DEF9E5</color>
 
     <color name="white80">#FFFFFFCC</color>
+    <color name="white55">#8CFFFFFF</color>
     <color name="red_transparent">#1AFC6D5B</color>
     <color name="rejected_background">#FFF3F2</color>
     <color name="color_green">#2FBF71</color>
     <color name="color_report">#322F40</color>
     <color name="color_view">#FAFAFA</color>
     <color name="filter_stroke_view">#E2E2E2</color>
+
+
 </resources>

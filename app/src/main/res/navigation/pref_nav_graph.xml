@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/preferenceNavigation"
+    app:startDestination="@id/preferencesFragment">
+    <fragment
+        android:id="@+id/preferencesFragment"
+        android:name="com.selflearningcoursecreationapp.ui.preferences.PreferencesFragment"
+        android:label="@string/your_preferences"
+        tools:layout="@layout/fragment_preferences">
+
+        <argument
+            android:name="type"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="screenType"
+            android:defaultValue="1"
+            app:argType="integer" />
+        <argument
+            android:name="current_selection"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <argument
+            android:name="isSingleSelection"
+            android:defaultValue="true"
+            app:argType="boolean" />
+
+    </fragment>
+</navigation>

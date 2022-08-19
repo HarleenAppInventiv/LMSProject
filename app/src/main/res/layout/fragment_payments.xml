@@ -180,7 +180,7 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:drawablePadding="@dimen/_5sdp"
                         android:text="@string/total_expense"
-                        android:textColor="?attr/googleButtonBackgroundColor"
+                        android:textColor="?attr/accentColor_Red"
                         android:textSize="@dimen/textField_12"
                         app:drawableStartCompat="@drawable/ic_expense_up"
                         app:fontType="medium"

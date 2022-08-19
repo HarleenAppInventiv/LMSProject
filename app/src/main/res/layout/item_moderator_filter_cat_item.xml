@@ -14,14 +14,14 @@
         <com.selflearningcoursecreationapp.utils.customViews.LMSRadioButton
             android:id="@+id/rb_text"
             android:layout_width="0dp"
+            android:paddingVertical="@dimen/_12sdp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layoutDirection="rtl"
-            android:paddingVertical="@dimen/_12sdp"
             android:text="@string/text"
+            app:compoundFont="semiBold"
             android:textColor="@color/hintColor"
             android:textSize="@dimen/textField_14"
-            app:compoundFont="semiBold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

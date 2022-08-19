@@ -8,7 +8,7 @@ import com.selflearningcoursecreationapp.databinding.DialogUploadAudioBinding
 import com.selflearningcoursecreationapp.utils.ImagePickUtils
 import com.selflearningcoursecreationapp.utils.MediaFrom
 import com.selflearningcoursecreationapp.utils.MediaType
-import com.selflearningcoursecreationapp.utils.PermissionUtilClass
+import com.selflearningcoursecreationapp.utils.builderUtils.PermissionUtilClass
 import org.koin.android.ext.android.inject
 
 class UploadAudioOptionsDialog : BaseBottomSheetDialog<DialogUploadAudioBinding>(),

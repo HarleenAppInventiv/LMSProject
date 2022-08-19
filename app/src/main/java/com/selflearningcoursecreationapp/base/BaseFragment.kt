@@ -47,6 +47,7 @@ abstract class BaseFragment<DB : ViewDataBinding> : Fragment(), LiveDataObserver
         }
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -111,6 +112,7 @@ abstract class BaseFragment<DB : ViewDataBinding> : Fragment(), LiveDataObserver
     fun showToastLong(message: String) {
         baseActivity.showToastLong(message)
     }
+
 
     fun displaySpeechRecognizer(fragment: Fragment) {
 

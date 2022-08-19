@@ -16,26 +16,28 @@
             android:id="@+id/iv_profile_image"
             android:layout_width="@dimen/_28sdp"
             android:layout_height="@dimen/_28sdp"
-            android:layout_marginStart="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_16sdp"
             android:scaleType="fitXY"
+            app:applyGrayscale="true"
+            app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/ic_default_user_grey"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/circleImage" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
             android:id="@+id/iv_logo"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_logo_default"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:applyGrayscale="true"
             app:changeBackgroundType="bg_theme_solid"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:src="@drawable/ic_logo_default"
+            app:layout_constraintTop_toTopOf="@+id/iv_profile_image"
             app:layout_constraintEnd_toEndOf="@+id/iv_profile_image"
             app:layout_constraintStart_toEndOf="@+id/iv_profile_image"
-            app:layout_constraintTop_toTopOf="@+id/iv_profile_image"
             app:shapeAppearanceOverlay="@style/circleImage" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
@@ -43,18 +45,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_18sdp"
-            android:layout_marginEnd="@dimen/_16sdp"
             android:lineSpacingExtra="@dimen/_2sdp"
-            android:textSize="@dimen/textField_14"
+            android:layout_marginEnd="@dimen/_16sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_profile_image"
             app:layout_constraintTop_toTopOf="@+id/iv_profile_image"
+            android:textSize="@dimen/textField_14"
             app:textColorType="heading" />
 
         <View
-            android:id="@+id/lineV"
             android:layout_width="0dp"
             android:layout_height="@dimen/_2sdp"
+            android:id="@+id/lineV"
             android:layout_marginTop="@dimen/_16sdp"
             android:background="@drawable/ic_dotted_line_small"
             app:layout_constraintEnd_toEndOf="parent"

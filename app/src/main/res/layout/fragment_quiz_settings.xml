@@ -10,7 +10,6 @@
             type="com.selflearningcoursecreationapp.ui.create_course.quiz.QuizSettingVM" />
 
         <import type="android.view.View" />
-
         <import
             alias="const"
             type="com.selflearningcoursecreationapp.utils.ValidationConst" />

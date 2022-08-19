@@ -12,7 +12,7 @@ import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceViewModel
 import com.selflearningcoursecreationapp.utils.Constant
-import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 
 @SuppressLint("NotifyDataSetChanged")
 class SelectFontFragment : BaseFragment<FragmentSelectFontBinding>(), BaseAdapter.IViewClick {

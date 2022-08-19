@@ -91,7 +91,7 @@
     <string-array name="walkthrough_description">
         <item>Anyone can join the millions of members in our platform to learn cutting edge skills</item>
         <item>Anyone can join the millions of members in our platform to learn cutting edge skills</item>
-        <item>You can get certification for the courses and can download your certificate.</item>
+        <item>You can get certification for the courses and can download your certificate</item>
     </string-array>
 
     <string name="reset_password">Reset Password</string>
@@ -139,12 +139,14 @@
     <string name="resend_code_in">Resend code in :</string>
     <string name="resend_otp">Resend Code</string>
     <string name="select_categories">Select Categories</string>
+    <string name="select_category">Select Category</string>
     <string name="select_theme">Select Theme</string>
     <string name="select_theme_subtext">Tap on a color theme you want to select and whole app colour will be updated accordingly</string>
     <string name="select_font">Select Font</string>
     <string name="select_font_subtext">Tap on a font type you want to select and whole app text will be updated accordingly</string>
     <string name="select_language">Select Language</string>
     <string name="select_language_subtext">Set whole app language as per your preferred language</string>
+    <string name="select_language_desc">Tap on languages you want to select. </string>
     <string name="your_preferences">Your Preferences</string>
     <string name="roboto_font">Roboto Sans</string>
     <string name="ibm_font">IBM Plex Sans</string>
@@ -213,6 +215,7 @@
     <string name="search_courses">Search courses</string>
     <string name="created">Created</string>
     <string name="requestes">Requests</string>
+    <string name="requeste">Request</string>
     <string name="completed">Completed</string>
     <string name="ongoing">Ongoing</string>
     <string name="in_progress">In Progress</string>
@@ -780,8 +783,10 @@
     <string name="no_course_data_yet">You do not have any courses in your ongoing list yet. Enroll courses to add in the list.</string>
     <string name="rate_this_course">Rate this course</string>
     <string name="rate_the_course">Rate The Course</string>
+    <string name="no_course_found">No Course Found !!!</string>
     <string name="provide_your_rating">Provide Your Rating</string>
     <string name="reviews">Reviews</string>
+    <string name="revenue_text">Revenue</string>
     <string name="reviewed">Reviewed</string>
     <string name="pending">Pending</string>
     <string name="course_list">Course List</string>
@@ -856,7 +861,9 @@
     <string name="check_your_report_card_details">Check your report card details</string>
     <string name="assessment_report">Assessment Report</string>
     <string name="moderator_mode">Moderator Mode</string>
+    <string name="already_a_moderator">Already a Moderator</string>
     <string name="become_moderator_desc_text"><![CDATA[To switch to moderator mode, Create your Moderator account. \n\nProfile > Request Tracker > Become Moderator]]></string>
+    <string name="already_moderator_desc_text"><![CDATA[You are already a moderator, Go to profile to explore more.]]></string>
     <string name="retake_assessment">RE-TAKE ASSESSMENT</string>
     <string name="points">Points :</string>
     <string name="no_certificate_error_Text">No Certificate to download.\nEnroll and Complete Course to acquire the certificate.</string>
@@ -894,6 +901,24 @@
     <string name="attempts_left">" Attempts remaining"</string>
     <string name="plz_enter_quiz_name">Please enter quiz name</string>
     <string name="plz_enter_assessment_name">Please enter assessment name</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="last_search">Last Search</string>
+    <string name="clear_all">CLEAR ALL</string>
+    <string name="language">Language</string>
+    <string name="please_add_documents">Please add documents</string>
+    <string name="request_date">REQUEST DATE</string>
+    <string name="fee_range">FEE RANGE</string>
+    <string name="creator_name">CREATOR’S NAME</string>
+    <string name="accept_request">Accepted Requests</string>
+    <string name="rejectRequest">Rejected Requests</string>
+    <string name="mod_comments">Moderator’s Comments</string>
+    <string name="rejectedCourses">Rejected Courses</string>
+    <string name="no_result_found">No Result Found !!!</string>
+    <string name="id">ID:</string>
+    <string name="select_category_desc">"Tap on one category you want to select "</string>
+    <string name="verified">Verified</string>
 
 
 </resources>

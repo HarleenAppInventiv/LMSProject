@@ -9,7 +9,7 @@ import com.selflearningcoursecreationapp.extensions.setSpanText
 import com.selflearningcoursecreationapp.ui.authentication.forgotPass.ForgotPassViewModel
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.Constant
-import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CheckMailDialog : BaseDialog<DialogCheckYourMailBinding>() {

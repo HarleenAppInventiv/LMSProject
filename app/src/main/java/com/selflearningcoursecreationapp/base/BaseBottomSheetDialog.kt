@@ -146,7 +146,6 @@ abstract class BaseBottomSheetDialog<DB : ViewDataBinding> : BottomSheetDialogFr
         super.onDestroyView()
         dialog?.window?.clearFlags(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     }
-
     fun setCharLimit(et: EditText, max: Int) {
         filter = InputFilter.LengthFilter(max)
         et.filters = arrayOf<InputFilter>(filter as InputFilter.LengthFilter)

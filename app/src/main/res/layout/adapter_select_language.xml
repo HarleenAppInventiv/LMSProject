@@ -13,18 +13,42 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_15sdp">
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSRadioButton
-            android:id="@+id/rb_name"
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/_15sdp"
-            android:layoutDirection="rtl"
+            android:paddingVertical="@dimen/_20sdp"
+            android:paddingEnd="@dimen/_20sdp"
+            android:textSize="@dimen/adapterTF_14"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:textColorType="heading" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSRadioButton
+            android:id="@+id/rb_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/_15sdp"
             android:paddingVertical="@dimen/_20sdp"
             android:textSize="@dimen/adapterTF_14"
             app:compoundFont="regular"
             app:compoundTextColor="heading"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSCheckBox
+            android:id="@+id/cb_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/_15sdp"
+            android:paddingVertical="@dimen/_20sdp"
+            android:textSize="@dimen/adapterTF_14"
+            app:compoundFont="regular"
+            app:compoundTextColor="heading"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
@@ -34,7 +58,7 @@
             android:background="?attr/hintColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rb_name" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

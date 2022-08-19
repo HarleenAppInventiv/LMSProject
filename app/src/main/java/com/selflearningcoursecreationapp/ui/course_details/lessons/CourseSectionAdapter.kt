@@ -4,12 +4,10 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterCourseSectionBinding
-import com.selflearningcoursecreationapp.extensions.getLessonCount
-import com.selflearningcoursecreationapp.extensions.getTime
-import com.selflearningcoursecreationapp.extensions.visibleView
+import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel
 import com.selflearningcoursecreationapp.utils.Constant
-import com.selflearningcoursecreationapp.utils.ResizeableUtils
+import com.selflearningcoursecreationapp.utils.builderUtils.ResizeableUtils
 
 class CourseSectionAdapter(
     private var list: ArrayList<SectionModel>,
@@ -35,8 +33,10 @@ class CourseSectionAdapter(
 
         if (data.isVisible) {
             binding.icExtend.setImageResource(R.drawable.ic_arrow_top)
+            binding.view.visible()
         } else {
             binding.icExtend.setImageResource(R.drawable.ic_arrow_bottom)
+            binding.view.gone()
         }
         binding.icExtend.setOnClickListener {
 //            if (!token.isEmpty()) {

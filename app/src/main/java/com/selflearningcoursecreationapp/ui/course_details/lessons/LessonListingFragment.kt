@@ -34,7 +34,13 @@ class LessonListingFragment : BaseFragment<FragmentLessonListingBinding>(), Base
     private fun init() {
         adapter?.notifyDataSetChanged()
         adapter = null
-        viewModel.getLessonList()
+
+        if (viewModel.courseContentType) {
+            viewModel.getLessonList()
+        } else {
+            viewModel.getLessonList()
+        }
+
 
 
         viewModel.sectionData.observe(viewLifecycleOwner, Observer {
@@ -101,14 +107,19 @@ class LessonListingFragment : BaseFragment<FragmentLessonListingBinding>(), Base
                                 )
                             }
                             MediaType.DOC -> {
-//                            findNavController().navigate(R.id.action_courseDetailsFragment_to_pdfReaderFragment,
-//                                bundleOf("fileUri" to "https://web.stanford.edu/class/archive/cs/cs161/cs161.1168/lecture4.pdf"))
+                                findNavController().navigate(
+                                    R.id.action_courseDetailsFragment_to_pdfReaderFragment,
+                                    bundleOf("fileUri" to "https://web.stanford.edu/class/archive/cs/cs161/cs161.1168/lecture4.pdf")
+                                )
                             }
                             MediaType.TEXT -> {
                                 findNavController().navigate(
                                     R.id.action_courseDetailsFragment_to_pdfReaderFragment,
                                     bundleOf("fileUri" to "https://web.stanford.edu/class/archive/cs/cs161/cs161.1168/lecture4.pdf")
                                 )
+                            }
+                            MediaType.VIDEO -> {
+                                findNavController().navigate(R.id.action_courseDetailsFragment_to_videoBaseFragment)
                             }
 
                         }

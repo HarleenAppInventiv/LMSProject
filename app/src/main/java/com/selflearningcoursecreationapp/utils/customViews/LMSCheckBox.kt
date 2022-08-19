@@ -8,6 +8,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.SelfLearningApplication
+import com.selflearningcoursecreationapp.extensions.getAttrColor
 
 class LMSCheckBox : MaterialCheckBox {
 
@@ -75,19 +76,19 @@ class LMSCheckBox : MaterialCheckBox {
         val colorValue = when (textColorType) {
 
             ThemeConstants.TYPE_SECONDARY -> {
-                ContextCompat.getColor(context, R.color.heading_color_262626)
+                ContextCompat.getColor(context, context.getAttrColor(R.attr.secondaryTextColor))
             }
             ThemeConstants.TYPE_HEADING -> {
-                ContextCompat.getColor(context, R.color.heading_color_262626)
+                ContextCompat.getColor(context, context.getAttrColor(R.attr.headingTextColor))
             }
             ThemeConstants.TYPE_BODY -> {
-                ContextCompat.getColor(context, R.color.hint_color_929292)
+                ContextCompat.getColor(context, context.getAttrColor(R.attr.bodyTextColor))
             }
             ThemeConstants.TYPE_THEME -> {
                 ThemeUtils.getAppColor(context)
             }
             else -> {
-                ContextCompat.getColor(context, R.color.text_color_black_131414)
+                ContextCompat.getColor(context, context.getAttrColor(R.attr.primaryTextColor))
             }
 
         }

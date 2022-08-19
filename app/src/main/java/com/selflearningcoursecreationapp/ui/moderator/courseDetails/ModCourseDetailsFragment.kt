@@ -19,7 +19,7 @@ import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.ui.moderator.courseDetails.content.ModCourseContentFragment
 import com.selflearningcoursecreationapp.ui.preferences.ScreenSlidePagerAdapter
-import com.selflearningcoursecreationapp.utils.ResizeableUtils
+import com.selflearningcoursecreationapp.utils.builderUtils.ResizeableUtils
 import com.selflearningcoursecreationapp.utils.customViews.LMSTextView
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils

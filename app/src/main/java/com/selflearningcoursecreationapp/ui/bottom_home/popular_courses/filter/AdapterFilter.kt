@@ -31,4 +31,8 @@ class AdapterFilter(
     override fun getItemCount() = mainList?.size ?: 0
 
 
+
+
+
+
 }

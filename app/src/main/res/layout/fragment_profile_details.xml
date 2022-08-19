@@ -106,8 +106,9 @@
                 app:layout_constraintHorizontal_bias=".9"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
                 android:id="@+id/img_profile_image"
+                app:applyGrayscale="true"
                 android:layout_width="@dimen/_110sdp"
                 android:layout_height="@dimen/_110sdp"
                 android:contentDescription="@string/user_image"
@@ -203,7 +204,6 @@
                 android:drawablePadding="@dimen/_5sdp"
                 android:gravity="center"
                 android:paddingVertical="@dimen/_20sdp"
-                android:text="88776768"
                 android:textSize="@dimen/textField_14"
                 app:drawableStartCompat="@drawable/ic_call_blue"
                 app:fontType="regular"

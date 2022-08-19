@@ -14,7 +14,8 @@ import com.selflearningcoursecreationapp.ui.home.HomeActivity
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceViewModel
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.Constant
-import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.PREFERENCES
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 
 @SuppressLint("NotifyDataSetChanged")
 class CategoryFragment : BaseFragment<FragmentCategoryBinding>(), BaseAdapter.IViewClick {
@@ -34,21 +35,32 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>(), BaseAdapter.IV
         if (viewModel.categoryListLiveData.value.isNullOrEmpty()) {
 
             viewModel.getApiResponse().observe(viewLifecycleOwner, this)
-            viewModel.getCategories()
+            viewModel.getCategories(viewModel.screenType == PREFERENCES.SCREEN_APP)
         }
 
-        binding.tvTitle.setSpanString(
-            SpanUtils.with(baseActivity, baseActivity.getString(R.string.select_categories))
-                .endPos(6).isBold().getSpanString()
+        if (viewModel.screenType == PREFERENCES.SCREEN_SELECT) {
+            binding.tvSubheading.text = baseActivity.getString(R.string.select_category_desc)
+            binding.tvTitle.setSpanString(
+                SpanUtils.with(baseActivity, baseActivity.getString(R.string.select_category))
+                    .endPos(6).isBold().getSpanString()
 
-        )
+            )
+        } else {
+            binding.tvSubheading.text =
+                baseActivity.getString(R.string.select_category_subheading_text)
+            binding.tvTitle.setSpanString(
+                SpanUtils.with(baseActivity, baseActivity.getString(R.string.select_categories))
+                    .endPos(6).isBold().getSpanString()
 
-        viewModel.categoryListLiveData.observe(viewLifecycleOwner, {
+            )
+        }
+
+        viewModel.categoryListLiveData.observe(viewLifecycleOwner) {
 
             adapter?.notifyDataSetChanged()
             adapter = null
             setCategoryAdapter()
-        })
+        }
         adapter?.notifyDataSetChanged()
         adapter = null
         setCategoryAdapter()
@@ -56,7 +68,10 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>(), BaseAdapter.IV
 
     private fun setCategoryAdapter() {
         adapter?.notifyDataSetChanged() ?: kotlin.run {
-            adapter = CategoryAdapter(viewModel.categoryListLiveData.value!!)
+            adapter = CategoryAdapter(
+                viewModel.categoryListLiveData.value!!,
+                viewModel.categorySingleSelection
+            )
             binding.rvCategory.adapter = adapter
             adapter!!.setOnAdapterItemClickListener(this)
         }
@@ -74,6 +89,8 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>(), BaseAdapter.IV
                             forEachIndexed { index, data ->
                                 if (index == position) {
                                     data.isSelected = !data.isSelected
+                                } else if (viewModel.categorySingleSelection) {
+                                    data.isSelected = false
                                 }
                             }
 

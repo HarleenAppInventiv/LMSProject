@@ -1,9 +1,11 @@
 package com.selflearningcoursecreationapp.ui.course_details.certificate
 
 import android.R.attr.mimeType
+import android.annotation.SuppressLint
 import android.app.DownloadManager
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
@@ -35,6 +37,8 @@ class CertificateFragment : BaseFragment<FragmentCertificateBinding>() {
     private val root = Environment.getExternalStorageDirectory().toString()
     private val app_folder = "$root/Self/"
     var date: Date? = null
+    private var downloadID: Long = 0
+
     override fun getLayoutRes(): Int {
         return R.layout.fragment_certificate
     }
@@ -45,7 +49,6 @@ class CertificateFragment : BaseFragment<FragmentCertificateBinding>() {
         observeAssessmentDetail()
         initUi()
         observeCourseData()
-
     }
 
     private fun observeCourseData() {
@@ -94,23 +97,22 @@ class CertificateFragment : BaseFragment<FragmentCertificateBinding>() {
                     }
                 } ?: kotlin.run {
                     binding.cvTest.gone()
+                    binding.noDataTV.visible()
+
                 }
 
-                if (it.contentAssessmentQuestionAndDuration?.AssessmentMandatory != true) {
-                    binding.tvTest.text =
+                binding.tvTest.text =
+                    if (it.contentAssessmentQuestionAndDuration?.AssessmentMandatory != true)
                         getString(R.string.test_your_knowledge) + " " + getString(R.string.not_mandatory)
-                } else {
-                    binding.tvTest.text =
+                    else
                         getString(R.string.test_your_knowledge) + " " + getString(R.string.mandatory)
-
-                }
 
 
                 if (it.contentAssessmentQuestionAndDuration?.attemptLeft == 0) {
                     binding.btStart.isEnabled = false
                     binding.tvAttempt.setTextColor(Color.RED)
-
                 }
+
                 binding.tvAttempt.text =
                     "${it.contentAssessmentQuestionAndDuration?.attemptLeft}${getString(R.string.attempts_left)}"
 
@@ -119,10 +121,12 @@ class CertificateFragment : BaseFragment<FragmentCertificateBinding>() {
                     binding.tvAttempt.visible()
                     binding.ivDot3.visible()
                     binding.btStart.text = getString(R.string.retake_assessment)
+                    binding.cvCertificate.visible()
                 } ?: kotlin.run {
                     binding.cvAssessment.gone()
                     binding.tvAttempt.gone()
                     binding.ivDot3.gone()
+                    binding.cvCertificate.gone()
                 }
 
 
@@ -138,9 +142,18 @@ class CertificateFragment : BaseFragment<FragmentCertificateBinding>() {
         viewsHandling(viewModel.courseData.value?.userCourseStatus)
 
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
-        viewModel.assessmentDetails()
+
+        if (viewModel.courseContentType) {
+
+        } else {
+            viewModel.assessmentDetails()
+        }
+
+
+
         binding.ivDownload.setOnClickListener {
-            viewModel.downloadCertificate()
+//            viewModel.downloadCertificate()
+            downloadCertificate()
 
 
         }
@@ -259,6 +272,62 @@ class CertificateFragment : BaseFragment<FragmentCertificateBinding>() {
             ApiEndPoints.API_PURCHASE_COURSE -> {
                 viewsHandling(viewModel.courseData.value?.userCourseStatus)
 
+            }
+        }
+    }
+
+    @SuppressLint("Range")
+    fun downloadCertificate() {
+        manager =
+            requireActivity().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
+        val uri: Uri =
+            Uri.parse("https://skillfy.blob.core.windows.net/skillfy-dev/AppContent/Certificates/Certificate.pdf")
+        val request = DownloadManager.Request(uri)
+        request.setMimeType("application/pdf")
+        request.setDestinationInExternalPublicDir(
+            Environment.DIRECTORY_DOWNLOADS,
+            "Certificate.pdf"
+        )
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
+        downloadID = manager?.enqueue(request) ?: 0
+        showToastShort("Download Start")
+
+        var finishDownload = false
+        var progress: Int
+        while (!finishDownload) {
+            val cursor: Cursor? = manager?.query(DownloadManager.Query().setFilterById(downloadID))
+            if (cursor?.moveToFirst() == true) {
+                val status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
+                when (status) {
+                    DownloadManager.STATUS_FAILED -> {
+                        finishDownload = true
+                        showToastShort("Download failed")
+
+                    }
+                    DownloadManager.STATUS_PAUSED -> {}
+                    DownloadManager.STATUS_PENDING -> {}
+                    DownloadManager.STATUS_RUNNING -> {
+                        val total =
+                            cursor.getLong(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
+                        if (total >= 0) {
+                            val downloaded =
+                                cursor.getLong(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
+                            progress = (downloaded * 100L / total).toInt()
+                            // if you use downloadmanger in async task, here you can use like this to display progress.
+                            // Don't forget to do the division in long to get more digits rather than double.
+                            //  publishProgress((int) ((downloaded * 100L) / total));
+                        }
+                    }
+                    DownloadManager.STATUS_SUCCESSFUL -> {
+                        progress = 100
+                        // if you use aysnc task
+                        // publishProgress(100);
+                        finishDownload = true
+
+                        showToastShort("Download Completed")
+                    }
+                }
             }
         }
     }

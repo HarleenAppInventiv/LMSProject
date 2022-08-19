@@ -12,6 +12,7 @@ enum class Constants {
     WALKTHROUGH_DONE,
     THEME_FILE,
     USER_RESPONSE,
+    VI_MODE,
     USER_TOKEN,
     EMAIL,
     PASSWORD,
@@ -66,6 +67,7 @@ object Permission {
     const val CAPTURE_VIDEO = 500
     const val FILE_MANAGER = 600
 }
+
 
 object Constant {
     const val CLICK_VIEW = 100
@@ -155,7 +157,7 @@ object PREFERENCES {
     const val TYPE_LANGUAGE = 3
     const val TYPE_ALL = -1
     const val SCREEN_APP = 1
-    const val SCREEN_COURSE = 2
+    const val SCREEN_SELECT = 2
 
 }
 
@@ -256,12 +258,12 @@ object ComplexityLevel {
     const val ADVANCED = 3
 }
 
-object ModeratorListType {
-    const val REQUESTED = 1
-    const val APPROVED = 2
-    const val REJECTED = 3
-
-}
+//object ModeratorListType {
+//    const val REQUESTED = 1
+//    const val APPROVED = 2
+//    const val REJECTED = 3
+//
+//}
 
 object PaymentStatus {
     const val NOT_DONE = 0
@@ -282,6 +284,7 @@ object CourseStatus {
 
 object BundleConst {
     const val IMAGE = "bundle_image"
+    const val BLUR_HASH = "bundle_key_hash"
 }
 
 object CommonPayload {
@@ -297,4 +300,26 @@ object STATIC_PAGES_TYPE {
     const val HELP = 3
     const val ABOUT_US = 4
 
+}
+
+object MODTYPE {
+    const val LEARNER = 1
+    const val MODERATOR = 2
+}
+
+object MODSTATUS {
+    const val BLOCKED = 0
+    const val ACCEPTED = 1
+    const val REJECTED = 3
+    const val PENDING = 2
+    const val CANCELLED = 4
+}
+
+object ModeratorDashboard {
+    val PENDING_COUNT = 1
+    val ACCEPTED_COUNT = 2
+    val REJECTED_COUNT = 3
+    val MODERATOR_COMMENTS = 4
+    val REJECTED_COURSES_COUNT = 5
+    val REQUEST_COUNT = 6
 }

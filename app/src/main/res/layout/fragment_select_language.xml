@@ -38,7 +38,6 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:text="@string/select_language_subtext"
-            spanText="@{@string/select_language_subtext}"
             app:textColorType="body"
             android:textSize="@dimen/textField_14"
             app:fontType="regular"

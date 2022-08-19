@@ -61,13 +61,13 @@
                         android:hint="@string/search_courses"
                         android:imeOptions="actionSearch"
                         android:maxLines="1"
-                        android:padding="10dp"
                         android:paddingEnd="@dimen/_40sdp"
+                        android:padding="10dp"
                         android:singleLine="true"
                         android:textColor="?attr/whiteTextColor"
-                        android:text="@={viewModel.searchLiveData}"
                         android:textColorHint="@color/black"
                         android:textSize="@dimen/_11sdp"
+                        android:text="@={viewModel.searchLiveData}"
 
                         app:drawableStartCompat="@drawable/ic_home_search"
                         app:fontType="regular"
@@ -252,9 +252,9 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.core.widget.NestedScrollView
-                android:id="@+id/nestedScroll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/nestedScroll"
                 android:fillViewport="true">
 
 
@@ -292,8 +292,8 @@
                         android:text="@string/other_courses"
                         android:textColor="@color/adapter_header_color"
                         android:textSize="@dimen/textField_15"
-                        android:visibility="gone"
                         app:fontType="semiBold"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="@+id/rv_list"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/rv_list"

@@ -17,14 +17,14 @@
             android:id="@+id/tv_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="CLEAR ALL"
+            app:fontType="medium"
             android:layout_marginEnd="@dimen/_15sdp"
             android:paddingVertical="@dimen/_5sdp"
-            android:text="CLEAR ALL"
-            android:textColor="@color/orange_text_color"
-            android:textSize="@dimen/textField_12"
-            app:fontType="medium"
             app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/orange_text_color"
             app:layout_constraintTop_toTopOf="parent"
+            android:textSize="@dimen/textField_12"
             app:textColorType="none" />
 
         <androidx.recyclerview.widget.RecyclerView

@@ -319,7 +319,6 @@ fun LMSTextView.setStepColor(isSelected: Boolean) {
         changeBackgroundTint(ThemeConstants.TYPE_BODY)
     }
 }
-
 fun TextView.disableCopyPaste() {
     isLongClickable = false
     setTextIsSelectable(false)

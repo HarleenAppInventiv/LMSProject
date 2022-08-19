@@ -12,7 +12,7 @@ import com.selflearningcoursecreationapp.ui.create_course.add_assessment.Assessm
 import com.selflearningcoursecreationapp.ui.create_course.add_assessment.AssessmentOptionAdapter
 import com.selflearningcoursecreationapp.ui.create_course.quiz.MarkColumnOptionAdapter
 import com.selflearningcoursecreationapp.utils.QUIZ
-import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 
 class QuizReportDetailAdapter(
     private val list: ArrayList<QuizQuestionData>,

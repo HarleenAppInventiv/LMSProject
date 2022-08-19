@@ -26,6 +26,7 @@ class SelfLearningApplication : Application(), LifecycleObserver {
 
     companion object {
         private var instance: SelfLearningApplication? = null
+        var isViOn: Boolean? = false
         var themeFile: String? = null
         var fontId: Int = FontConstant.IBM
         var languageCode: String = LanguageConstant.ENGLISH
@@ -54,6 +55,7 @@ class SelfLearningApplication : Application(), LifecycleObserver {
     suspend fun updatedThemeFile() {
 
         themeFile = PreferenceDataStore.getString(Constants.THEME_FILE)
+        isViOn = PreferenceDataStore.getBoolean(Constants.VI_MODE)
         fontId = PreferenceDataStore.getInt(Constants.FONT_THEME) ?: FontConstant.IBM
         languageCode =
             PreferenceDataStore.getString(Constants.LANGUAGE_THEME) ?: LanguageConstant.ENGLISH

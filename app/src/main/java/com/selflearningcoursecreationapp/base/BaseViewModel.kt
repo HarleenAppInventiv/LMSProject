@@ -19,6 +19,7 @@ import com.selflearningcoursecreationapp.models.user.UserProfile
 import com.selflearningcoursecreationapp.models.user.UserResponse
 import com.selflearningcoursecreationapp.utils.Constants
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -26,6 +27,7 @@ abstract class BaseViewModel : ViewModel() {
 
     var LogTag = "BaseViewModel"
     var userProfile: UserProfile? = null
+    var isViOn: Boolean? = null
     abstract fun onApiRetry(apiCode: String)
 
     init {
@@ -36,6 +38,7 @@ abstract class BaseViewModel : ViewModel() {
         viewModelScope.launch {
             withContext(viewModelScope.coroutineContext) {
                 val userResponse = PreferenceDataStore.getString(Constants.USER_RESPONSE)
+                isViOn = PreferenceDataStore.getBoolean(Constants.VI_MODE)
                 if (!userResponse.isNullOrEmpty()) {
                     val resp = Gson().fromJson(userResponse, UserResponse::class.java)
                     if (resp.user != null) {
@@ -86,8 +89,13 @@ abstract class BaseViewModel : ViewModel() {
         val myTheme = AppThemeFile()
         myTheme.themeColor = colorString
         myTheme.btnTextColor = colorString
-        val themeColor = Color.parseColor(colorString)
+        val themeColor = try {
 
+
+            Color.parseColor(colorString)
+        } catch (e: Exception) {
+            Color.parseColor("#8900F2")
+        }
         var red = (Color.red(themeColor))
         if (red >= 100) {
             red -= 10
@@ -190,6 +198,16 @@ abstract class BaseViewModel : ViewModel() {
             updateResponseObserver(Resource.Failure(false, "", ApiError().apply {
                 exception = e
             }))
+        }
+    }
+
+    fun saveViMode(isViOn: Boolean) {
+        viewModelScope.launch {
+//            withContext(viewModelScope.coroutineContext) {
+            PreferenceDataStore.saveBoolean(Constants.VI_MODE, isViOn)
+            delay(500)
+            (getAppContext() as SelfLearningApplication).updatedThemeFile()
+//            }
         }
     }
 

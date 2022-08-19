@@ -4,9 +4,11 @@ package com.selflearningcoursecreationapp.ui.bottom_home
 import android.os.Parcelable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.selflearningcoursecreationapp.BR
 import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.base.BaseViewModel
 import com.selflearningcoursecreationapp.base.SelfLearningApplication
+import com.selflearningcoursecreationapp.data.network.ApiService
 import com.selflearningcoursecreationapp.data.network.EventObserver
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.models.CategoryData
@@ -18,13 +20,14 @@ import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.S
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.CourseScreenType
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 
 
-class HomeVM(private val repo: HomeRepo) : BaseViewModel() {
+class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : BaseViewModel() {
     var isTextSearch: Boolean = false
     var currentPage = 1
     private var totalPage = 2
@@ -51,8 +54,8 @@ class HomeVM(private val repo: HomeRepo) : BaseViewModel() {
         value = arrayListOf()
     }
 
-    var wishlistLiveData = MutableLiveData<EventObserver<UserProfile>>().apply {
-        value = EventObserver(UserProfile())
+    var wishlistLiveData = MutableLiveData<EventObserver<Pair<Int?, Boolean>>>().apply {
+
     }
 
 
@@ -89,20 +92,21 @@ class HomeVM(private val repo: HomeRepo) : BaseViewModel() {
     }
 
     fun guestHomeCourse() = viewModelScope.launch(coroutineExceptionHandle) {
-
+//        viewModelScope.async {
         val response = repo.guestHomeCourse(getFilterPayload())
         withContext(Dispatchers.IO) {
             response.collect {
                 if (it is Resource.Success<*>) {
                     isFirst = false
-                    val resource = (it.value as BaseResponse<ArrayList<CourseTypeModel>>).resource
+                    val resource =
+                        (it.value as BaseResponse<ArrayList<CourseTypeModel>>).resource
                     courseLiveData.postValue(resource)
                 }
                 updateResponseObserver(it)
             }
+//            }
         }
     }
-
 
     fun homeCategories() = viewModelScope.launch(coroutineExceptionHandle) {
         val response = repo.homeCategories()
@@ -127,7 +131,6 @@ class HomeVM(private val repo: HomeRepo) : BaseViewModel() {
 
 
                     Pair(it.courseId, it.courseWishlisted == 0)
-//                    it.courseWishlisted = if (it.courseWishlisted == 0) 1 else 0
                 }
 
             } else {
@@ -137,8 +140,6 @@ class HomeVM(private val repo: HomeRepo) : BaseViewModel() {
                         it.courses?.get(childPosition)?.courseId,
                         it.courses?.get(childPosition)?.courseWishlisted == 0
                     )
-//                    it.courses!![childPosition].courseWishlisted =
-//                        if (it.courses!![childPosition].courseWishlisted == 0) 1 else 0
                 }
             }
 
@@ -149,24 +150,15 @@ class HomeVM(private val repo: HomeRepo) : BaseViewModel() {
             withContext(Dispatchers.IO) {
                 response.collect {
                     if (it is Resource.Success<*>) {
-                        setWishlist(coursePair)
-//                        if (fromOther) {
-//                            otherCourseLiveData.value?.get(adapterPosition)?.apply {
-//                                  courseWishlisted = if (courseWishlisted == 0) 1 else 0
-//                            }
-//
-//                        } else {
-//                            courseLiveData.value?.get(adapterPosition)?.apply {
-//
-//                                courses!![childPosition].courseWishlisted =
-//                                    if (courses!![childPosition].courseWishlisted == 0) 1 else 0
-//                            }
-//                        }
-
+//                        setWishlist(coursePair)
 
                         val resource = (it.value as BaseResponse<UserProfile>).resource
-                        wishlistLiveData.postValue(EventObserver(resource ?: UserProfile()))
-                        updateResponseObserver(it)
+                        updateResponseObserver(
+                            Resource.Success(
+                                coursePair,
+                                ApiEndPoints.API_HOME_WISHLIST
+                            )
+                        )
                     } else {
                         updateResponseObserver(it)
                     }
@@ -175,22 +167,37 @@ class HomeVM(private val repo: HomeRepo) : BaseViewModel() {
         }
 
 
-    private fun setWishlist(coursePair: Pair<Int?, Boolean>?) {
-        courseLiveData.value?.forEach { courseTypeModel ->
-            courseTypeModel.courses?.forEach { data ->
+    fun setWishlist(coursePair: Pair<Int?, Boolean>?) {
+        val courseDataList = courseLiveData.value
+        courseLiveData.value?.let {
+            it.forEach { courseTypeModel ->
+                courseTypeModel.courses?.forEach { data ->
+                    data.apply {
+                        if (data.courseId == coursePair?.first) {
+                            data.courseWishlisted = if (coursePair?.second == true) 1 else 0
+                            data.notifyPropertyChanged(BR.courseWishlisted)
+                            data.notifyChange()
+                        }
+                    }
+
+
+                }
+
+            }
+        }
+        otherCourseLiveData.value?.let {
+            it.forEach { data ->
                 if (data.courseId == coursePair?.first) {
                     data.courseWishlisted = if (coursePair?.second == true) 1 else 0
                 }
 
             }
-
         }
-        otherCourseLiveData.value?.forEach { data ->
-            if (data.courseId == coursePair?.first) {
-                data.courseWishlisted = if (coursePair?.second == true) 1 else 0
-            }
 
-        }
+
+//         courseLiveData.postValue(courseDataList)
+//         otherCourseLiveData.postValue(otherCourseLiveData.value)
+        wishlistLiveData.postValue(EventObserver(coursePair ?: Pair(0, false)))
 
     }
 
@@ -204,7 +211,7 @@ class HomeVM(private val repo: HomeRepo) : BaseViewModel() {
                 response.collect {
                     if (it is Resource.Success<*>) {
                         val resource = (it.value as BaseResponse<UserProfile>).resource
-                        wishlistLiveData.postValue(EventObserver(resource ?: UserProfile()))
+                        wishlistLiveData.postValue(EventObserver(Pair(courseId, false)))
                     }
                     updateResponseObserver(it)
                 }
@@ -239,17 +246,18 @@ class HomeVM(private val repo: HomeRepo) : BaseViewModel() {
             withContext(Dispatchers.IO) {
                 response.collect {
                     if (it is Resource.Success<*>) {
+
                         if (fromOther) {
                             val data = otherCourseLiveData.value?.apply {
 
-                                get(adapterPosition)?.let { data ->
+                                get(adapterPosition).let { data ->
                                     data.userCourseStatus = 1
                                 }
                             }
                             otherCourseLiveData.postValue(data)
                         } else {
                             val data = courseLiveData.value?.apply {
-                                get(adapterPosition)?.let { model ->
+                                get(adapterPosition).let { model ->
                                     model.courses?.get(childPosition)?.userCourseStatus = 1
                                 }
                             }
@@ -316,11 +324,11 @@ class HomeVM(private val repo: HomeRepo) : BaseViewModel() {
                                 totalPage = resource.resultCount ?: 2
                                 val list = otherCourseLiveData.value ?: ArrayList()
                                 if (resource.currentPage == 1) {
-                                    list?.clear()
+                                    list.clear()
                                     currentPage = 1
                                 }
                                 currentPage += 1
-                                list?.addAll(resource.coursesList ?: ArrayList())
+                                list.addAll(resource.coursesList ?: ArrayList())
                                 otherCourseLiveData.postValue(list)
                             }
 
@@ -417,5 +425,156 @@ class HomeVM(private val repo: HomeRepo) : BaseViewModel() {
         isFirst = true
         courseLiveData.value?.clear()
         otherCourseLiveData.value?.clear()
+    }
+
+
+    fun callCombinedApis() {
+        viewModelScope.launch(coroutineExceptionHandle) {
+            updateResponseObserver(Resource.Loading())
+            val otherCourses =
+                if (SelfLearningApplication.token.isNullOrEmpty()) repo.getGuestOtherCourses(
+                    getFilterPayload(true)
+                ) else repo.getOtherCourses(
+                    getFilterPayload(true)
+                )
+
+            val mainCourses = if (SelfLearningApplication.token.isNullOrEmpty()) {
+                repo.guestHomeCourse(getFilterPayload())
+
+            } else {
+                repo.homeCourse(getFilterPayload())
+            }
+
+
+            val category = repo.homeCategories()
+
+            combine(category, otherCourses, mainCourses) { t1, t2, t3 ->
+
+                val list = ArrayList<Resource>()
+                list.add(t1)// category
+                list.add(t2)// other courses
+                list.add(t3)// main courses
+
+                list
+            }.collect { list ->
+
+                var successCount = 0
+                var failureCount = 0
+                list.forEachIndexed { index, resource ->
+
+
+                    if (resource is Resource.Success<*>) {
+                        successCount += 1
+                        when (index) {
+                            0 -> {
+                                handleCategoryResponse(resource)
+                            }
+                            1 -> {
+                                handleOtherCoursesResponse(resource)
+                            }
+                            else -> {
+                                handleMainCoursesResponse(resource)
+                            }
+                        }
+                    } else if (resource is Resource.Failure) {
+                        failureCount += 1
+                    }
+                }
+
+                if (successCount + failureCount == 3) {
+                    updateResponseObserver(Resource.Success(true, ApiEndPoints.HOME_SUCCESS))
+                }
+            }
+
+        }
+    }
+
+    private fun handleMainCoursesResponse(response: Resource.Success<*>) {
+        isFirst = false
+        val resource = (response.value as BaseResponse<ArrayList<CourseTypeModel>>).resource
+        courseLiveData.postValue(resource)
+
+    }
+
+    private fun handleOtherCoursesResponse(response: Resource.Success<*>) {
+        isFirst = false
+        (response.value as BaseResponse<AllCoursesResponse>).resource?.let { resource ->
+            totalPage = resource.resultCount ?: 2
+            val list = otherCourseLiveData.value ?: ArrayList()
+            if (resource.currentPage == 1) {
+                list.clear()
+                currentPage = 1
+            }
+            currentPage += 1
+            list.addAll(resource.coursesList ?: ArrayList())
+            otherCourseLiveData.postValue(list)
+        }
+
+    }
+
+    private fun handleCategoryResponse(response: Resource.Success<*>) {
+        val resource = (response.value as BaseResponse<ArrayList<CategoryData>>).resource
+        categories.postValue(resource)
+    }
+
+
+    fun updateCourse(courseId: Int?) {
+        courseLiveData.value?.let {
+            it.forEach { courseTypeModel ->
+                courseTypeModel.courses?.forEach { data ->
+                    data.apply {
+                        if (data.courseId == courseId) {
+                            data.userCourseStatus = 1
+                            data.notifyPropertyChanged(BR.userCourseStatus)
+                            data.notifyChange()
+                        }
+                    }
+
+
+                }
+
+            }
+        }
+        otherCourseLiveData.value?.let {
+            it.forEach { data ->
+                if (data.courseId == courseId) {
+                    data.userCourseStatus = 1
+                }
+
+            }
+        }
+
+
+    }
+
+    fun updateCourseRating(courseId: Int?, rating: String?, reviewCount: Long?) {
+        courseLiveData.value?.let {
+            it.forEach { courseTypeModel ->
+                courseTypeModel.courses?.forEach { data ->
+                    data.apply {
+                        if (data.courseId == courseId) {
+                            data.averageRating = rating
+                            data.totalReviews = reviewCount
+//                            data.notifyPropertyChanged(BR.userCourseStatus)
+                            data.notifyChange()
+                        }
+                    }
+
+
+                }
+
+            }
+        }
+        otherCourseLiveData.value?.let {
+            it.forEach { data ->
+                if (data.courseId == courseId) {
+                    data.averageRating = rating
+                    data.totalReviews = reviewCount
+                }
+
+            }
+        }
+
+
     }
 }

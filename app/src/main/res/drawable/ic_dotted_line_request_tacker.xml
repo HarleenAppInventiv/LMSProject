@@ -6,8 +6,8 @@
         android:width="41dp"
         android:height="2dp" />
     <stroke
-        android:width="@dimen/_1sdp"
         android:color="#929292"
+        android:width="@dimen/_1sdp"
         android:dashWidth="@dimen/_2sdp"
         android:dashGap="@dimen/_5sdp" />
 </shape>

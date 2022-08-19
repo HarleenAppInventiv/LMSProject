@@ -11,8 +11,8 @@
         android:id="@+id/cv_popular_course"
         android:layout_width="@dimen/_230sdp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_2sdp"
         android:layout_marginTop="@dimen/_7sdp"
+        android:layout_marginStart="@dimen/_2sdp"
         android:checkable="true"
         android:layout_marginEnd="@dimen/_10sdp"
         android:clickable="true"
@@ -30,7 +30,7 @@
             android:layout_height="match_parent">
 
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
                 android:id="@+id/appCompatImageView2"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_120sdp"
@@ -38,6 +38,7 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:applyGrayscale="true"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/corneredImage5"
                 app:srcCompat="@drawable/ic_home_default_banner" />
@@ -216,7 +217,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:textColor="@color/accent_color_2FBF71"
+                android:textColor="?attr/accentColor_Green"
                 android:textSize="@dimen/adapterTF_14"
                 app:fontType="semiBold"
                 app:layout_constraintBottom_toBottomOf="@+id/bt_buy"
@@ -232,8 +233,8 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_15sdp"
                 android:textColor="@color/hintColor"
-                android:layout_marginEnd="@dimen/_3sdp"
                 android:textSize="@dimen/adapterTextField_11"
+                android:layout_marginEnd="@dimen/_3sdp"
                 app:fontType="medium"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_new_price"

@@ -97,21 +97,39 @@
             android:id="@+id/action_preferencesFragment_to_homeActivity"
             app:destination="@id/homeActivity" />
         <argument
-            android:name="type"
-            android:defaultValue="-1"
-            app:argType="integer" />
-        <argument
-            android:name="title"
-            android:defaultValue=""
-            app:argType="string" />
-        <argument
-            android:name="screenType"
-            android:defaultValue="1"
-            app:argType="integer" />
-        <argument
-            android:name="current_selection"
-            android:defaultValue="-1"
-            app:argType="integer" />
+            android:name="preferenceData"
+            android:defaultValue="@null"
+            app:argType="com.selflearningcoursecreationapp.models.user.PreferenceData"
+            app:nullable="true" />
+        <!--        <argument-->
+        <!--            android:name="type"-->
+        <!--            android:defaultValue="-1"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="title"-->
+        <!--            android:defaultValue=""-->
+        <!--            app:argType="string" />-->
+        <!--        <argument-->
+        <!--            android:name="screenType"-->
+        <!--            android:defaultValue="1"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="current_selection"-->
+        <!--            android:defaultValue="-1"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="languageSingleSelection"-->
+        <!--            android:defaultValue="true"-->
+        <!--            app:argType="boolean" />-->
+        <!--        <argument-->
+        <!--            android:name="categorySingleSelection"-->
+        <!--            android:defaultValue="false"-->
+        <!--            app:argType="boolean" />-->
+        <!--        <argument-->
+        <!--            android:name="preferenceData"-->
+        <!--            android:defaultValue="@null"-->
+        <!--            app:argType="com.selflearningcoursecreationapp.models.user.PreferenceData"-->
+        <!--            app:nullable="true" />-->
     </fragment>
     <fragment
         android:id="@+id/resetPassFragment"

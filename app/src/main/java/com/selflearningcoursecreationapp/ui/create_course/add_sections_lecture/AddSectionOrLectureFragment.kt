@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.core.os.bundleOf
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -22,7 +23,11 @@ import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddC
 import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseViewModel
 import com.selflearningcoursecreationapp.ui.dialog.SectionMoreDialog
 import com.selflearningcoursecreationapp.ui.dialog.UploadDocOptionsDialog
-import com.selflearningcoursecreationapp.utils.*
+import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.utils.ImagePickUtils
+import com.selflearningcoursecreationapp.utils.Lecture
+import com.selflearningcoursecreationapp.utils.MediaType
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.util.*
@@ -187,7 +192,7 @@ class AddSectionOrLectureFragment :
                             imagePickUtils.openDocs(
                                 baseActivity,
                                 this,
-                                registry = requireActivity().activityResultRegistry
+                                registry = baseActivity.activityResultRegistry
                             )
                         }
 
@@ -303,10 +308,13 @@ class AddSectionOrLectureFragment :
                 }
                 Lecture.CLICK_LESSON_TEXT -> {
                     viewModel.mediaType = MediaType.TEXT
+                    viewModel.sectionChildPosition = -1
                     viewModel.addLecture()
                 }
                 Lecture.CLICK_LESSON_QUIZ -> {
                     viewModel.mediaType = MediaType.QUIZ
+                    viewModel.sectionChildPosition = -1
+
                     findNavController().navigate(
                         AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToAddQuizFragment(
                             viewModel.courseData.value,
@@ -323,18 +331,20 @@ class AddSectionOrLectureFragment :
                     } else {
                         viewModel.mediaType = MediaType.AUDIO
                         mediaFrom = 2
-
+                        viewModel.sectionChildPosition = -1
                         viewModel.addLecture()
                     }
                 }
                 Lecture.CLICK_LESSON_DOCS -> {
                     viewModel.mediaType = MediaType.DOC
+                    viewModel.sectionChildPosition = -1
                     viewModel.addLecture()
 
                 }
                 Lecture.CLICK_LESSON_AUDIO -> {
                     viewModel.mediaType = MediaType.AUDIO
                     mediaFrom = 1
+                    viewModel.sectionChildPosition = -1
                     viewModel.addLecture()
                 }
                 MediaType.VIDEO -> {
@@ -344,6 +354,7 @@ class AddSectionOrLectureFragment :
                         showToastShort(baseActivity.getString(R.string.file_limit_alert_text))
                     } else {
                         viewModel.mediaType = MediaType.VIDEO
+                        viewModel.sectionChildPosition = -1
                         viewModel.addLecture()
 
                     }
@@ -444,6 +455,7 @@ class AddSectionOrLectureFragment :
             }
             MediaType.AUDIO -> {
                 val action =
+
                     AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToAudioLectureFragment(
                         sendSectionModel = viewModel.getSectionList()
                             ?.get(viewModel.sectionAdapterPosition),
@@ -454,7 +466,18 @@ class AddSectionOrLectureFragment :
                         childPosition = viewModel.sectionChildPosition,
                         courseId = viewModel.courseData.value?.courseId ?: 0
                     )
-                findNavController().navigate(action)
+                findNavController().navigate(
+                    R.id.audioLectureFragment, bundleOf(
+                        "sendSectionModel" to viewModel.getSectionList()
+                            ?.get(viewModel.sectionAdapterPosition),
+                        "lectureId" to (viewModel.getSectionList()
+                            ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(viewModel.sectionChildPosition)?.lectureId
+                            ?: 0),
+                        "type" to Constant.CLICK_EDIT,
+                        "childPosition" to viewModel.sectionChildPosition,
+                        "courseId" to (viewModel.courseData.value?.courseId ?: 0)
+                    )
+                )
             }
             MediaType.DOC -> {
 
@@ -550,7 +573,16 @@ class AddSectionOrLectureFragment :
                         filePath = p1.toString()
 
                     )
-                findNavController().navigate(action)
+
+                //R.id.docLessonFragment, bundleOf(   "sendSectionModel" to viewModel.getSectionList()
+                //                    ?.get(viewModel.sectionAdapterPosition),
+                //                    "lectureId" to _lectureId,
+                //                    "type" to Constant.CLICK_ADD,
+                //                    "childPosition" to  -1,
+                //                    "courseId" to (viewModel.courseData.value?.courseId ?: 0),
+                //                    "filePath" to  p1.toString()
+                //                )
+                parentFragment?.findNavController()?.navigate(action)
             }
         }
 

@@ -19,6 +19,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.tasks.OnCompleteListener
@@ -42,6 +43,8 @@ import com.selflearningcoursecreationapp.ui.dialog.singleChoice.NetworkFailDialo
 import com.selflearningcoursecreationapp.ui.home.HomeActivity
 import com.selflearningcoursecreationapp.ui.moderator.ModeratorActivity
 import com.selflearningcoursecreationapp.utils.*
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
+import com.selflearningcoursecreationapp.utils.builderUtils.PermissionUtilClass
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -69,6 +72,8 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
         val exceptionHandler by inject<ExceptionHandler>()
         exceptionHandler.initialize(this)
         Thread.setDefaultUncaughtExceptionHandler(exceptionHandler)
+
+        setDayNightTheme()
     }
 
 
@@ -201,41 +206,14 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
                 PreferenceDataStore.getInt(Constants.APP_THEME) ?: ThemeConstant.BLUE
             val fontValue: Int =
                 PreferenceDataStore.getInt(Constants.FONT_THEME) ?: FontConstant.IBM
-            when (themeValue) {
 
-                ThemeConstant.SEA -> {
-                    val fontArray = listOf(
-                        R.style.SeaTheme_Roboto,
-                        R.style.SeaTheme,
-                        R.style.SeaTheme_WorkSansTheme
-                    )
-                    fontArray[fontValue - 1]
-                }
-                ThemeConstant.BLACK -> {
-                    val fontArray = listOf(
-                        R.style.BlackTheme_Roboto,
-                        R.style.BlackTheme,
-                        R.style.BlackTheme_WorkSansTheme
-                    )
-                    fontArray[fontValue - 1]
-                }
-                ThemeConstant.WINE -> {
-                    val fontArray = listOf(
-                        R.style.WineTheme_Roboto,
-                        R.style.WineTheme,
-                        R.style.WineTheme_WorkSansTheme
-                    )
-                    fontArray[fontValue - 1]
-                }
-                else -> {
                     val fontArray = listOf(
                         R.style.AppTheme_Roboto,
                         R.style.AppTheme,
                         R.style.AppTheme_WorkSansTheme
                     )
                     fontArray[fontValue - 1]
-                }
-            }
+
 //            if (Build.VERSION.SDK_INT >= 23) {
 //                onApplyThemeResource(getTheme(), theme, false);
 //            } else {
@@ -620,5 +598,29 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
             razorpayUtils.initRazorPay(this)
 
         razorpayUtils.startPayment(orderData)
+    }
+
+    fun setDayNightTheme() {
+        lifecycleScope.launch {
+            withContext(lifecycleScope.coroutineContext) {
+                val isViOn = PreferenceDataStore.getBoolean(Constants.VI_MODE) ?: false
+
+                delay(1000)
+                runOnUiThread {
+
+                    if (isViOn) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    fun isViOn(): Boolean {
+        return SelfLearningApplication.isViOn ?: false
     }
 }

@@ -21,10 +21,10 @@ import com.selflearningcoursecreationapp.models.WalkThroughData
 import com.selflearningcoursecreationapp.ui.authentication.InitialActivity
 import com.selflearningcoursecreationapp.ui.dialog.ViModeDialog
 import com.selflearningcoursecreationapp.ui.splash.SplashVM
-import com.selflearningcoursecreationapp.utils.CommonAlertDialog
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.Constants
 import com.selflearningcoursecreationapp.utils.ThemeConstant
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

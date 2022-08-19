@@ -31,7 +31,6 @@
             app:destination="@id/becomeModeratorFragment" />
 
     </fragment>
-
     <fragment
         android:id="@+id/selectLanguageFragment"
         android:name="com.selflearningcoursecreationapp.ui.preferences.language.SelectLanguageFragment"
@@ -62,7 +61,14 @@
         <action
             android:id="@+id/action_homeFragment_to_moderatorBaseFragment"
             app:destination="@id/moderatorBaseFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_fragment_search"
+            app:destination="@id/fragment_search" />
     </fragment>
+    <fragment
+        android:id="@+id/fragment_search"
+        android:name="com.selflearningcoursecreationapp.ui.search.SearchFragment"
+        tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/addCourseBaseFragment"
         android:name="com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseBaseFragment"
@@ -478,7 +484,11 @@
     <fragment
         android:id="@+id/becomeModeratorFragment"
         android:name="com.selflearningcoursecreationapp.ui.moderator.BecomeModeratorFragment"
-        android:label="BecomeModeratorFragment" />
+        android:label="@string/become_a_moderator">
+        <!--        <action-->
+        <!--            android:id="@+id/action_becomeModeratorFragment_to_preferencesFragment"-->
+        <!--            app:destination="@id/preferencesFragment" />-->
+    </fragment>
     <fragment
         android:id="@+id/myCourseTabFragment"
         android:name="com.selflearningcoursecreationapp.ui.bottom_course.MyCourseTabFragment"
@@ -488,9 +498,64 @@
             android:id="@+id/action_myCourseTabFragment_to_courseDetailsFragment"
             app:destination="@id/course_detail_graph" />
         <action
-            android:id="@+id/action_myCourseTabFragment_to_addCourseBaseFragment"
+            android:id="@+id/action_myCourseTabFragment_to_contentCourseDetailFragment"
+            app:destination="@id/contentCourseDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contentCourseDetailFragment"
+        android:name="com.selflearningcoursecreationapp.ui.content_creator.course_detail.ContentCourseDetailFragment"
+        android:label="ContentCourseDetailFragment">
+        <action
+            android:id="@+id/action_contentCourseDetailFragment_to_addCourseBaseFragment"
             app:destination="@id/addCourseBaseFragment" />
     </fragment>
+    <action
+        android:id="@+id/action_global_addCourseBaseFragment"
+        app:destination="@id/addCourseBaseFragment" />
+
+    <fragment
+        android:id="@+id/preferencesFragment"
+        android:name="com.selflearningcoursecreationapp.ui.preferences.PreferencesFragment"
+        android:label="@string/your_preferences"
+        tools:layout="@layout/fragment_preferences">
+        <argument
+            android:name="preferenceData"
+            android:defaultValue="@null"
+            app:argType="com.selflearningcoursecreationapp.models.user.PreferenceData"
+            app:nullable="true" />
+
+        <!--        <argument-->
+        <!--            android:name="type"-->
+        <!--            android:defaultValue="-1"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="title"-->
+        <!--            android:defaultValue=""-->
+        <!--            app:argType="string" />-->
+        <!--        <argument-->
+        <!--            android:name="screenType"-->
+        <!--            android:defaultValue="1"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="current_selection"-->
+        <!--            android:defaultValue="-1"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="languageSingleSelection"-->
+        <!--            android:defaultValue="true"-->
+        <!--            app:argType="boolean" />-->
+        <!--        <argument-->
+        <!--            android:name="categorySingleSelection"-->
+        <!--            android:defaultValue="false"-->
+        <!--            app:argType="boolean" />-->
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_homeFragment"
+        app:destination="@id/homeFragment" />
+    <action
+        android:id="@+id/action_global_preferencesFragment"
+        app:destination="@id/preferencesFragment" />
 
 
 </navigation>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/moderator_graph"
     app:startDestination="@id/moderatorBaseFragment">
 
@@ -30,4 +31,43 @@
         android:name="com.selflearningcoursecreationapp.ui.notification.NotificationFragment"
         android:label="Notification" />
 
+    <fragment
+        android:id="@+id/preferencesFragment"
+        android:name="com.selflearningcoursecreationapp.ui.preferences.PreferencesFragment"
+        android:label="@string/your_preferences"
+        tools:layout="@layout/fragment_preferences">
+        <argument
+            android:name="preferenceData"
+            android:defaultValue="@null"
+            app:argType="com.selflearningcoursecreationapp.models.user.PreferenceData"
+            app:nullable="true" />
+
+        <!--        <argument-->
+        <!--            android:name="type"-->
+        <!--            android:defaultValue="-1"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="title"-->
+        <!--            android:defaultValue=""-->
+        <!--            app:argType="string" />-->
+        <!--        <argument-->
+        <!--            android:name="screenType"-->
+        <!--            android:defaultValue="1"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="current_selection"-->
+        <!--            android:defaultValue="-1"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="languageSingleSelection"-->
+        <!--            android:defaultValue="true"-->
+        <!--            app:argType="boolean" />-->
+        <!--        <argument-->
+        <!--            android:name="categorySingleSelection"-->
+        <!--            android:defaultValue="false"-->
+        <!--            app:argType="boolean" />-->
+    </fragment>
+    <action
+        android:id="@+id/action_global_preferencesFragment"
+        app:destination="@id/preferencesFragment" />
 </navigation>

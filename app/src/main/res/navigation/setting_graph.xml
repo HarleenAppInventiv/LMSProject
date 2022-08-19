@@ -20,36 +20,44 @@
         <action
             android:id="@+id/action_settingsFragment_to_FAQFragment"
             app:destination="@id/FAQFragment" />
-        <action
-            android:id="@+id/action_settingsFragment_to_preferencesFragment"
-            app:destination="@id/preferencesFragment" />
+        <!--        <action-->
+        <!--            android:id="@+id/action_settingsFragment_to_preferencesFragment"-->
+        <!--            app:destination="@id/preferencesFragment" />-->
         <action
             android:id="@+id/action_settingsFragment_to_helpDialog"
             app:destination="@id/helpDialog" />
     </fragment>
-    <fragment
-        android:id="@+id/preferencesFragment"
-        android:name="com.selflearningcoursecreationapp.ui.preferences.PreferencesFragment"
-        android:label="@string/your_preferences"
-        tools:layout="@layout/fragment_preferences">
+    <!--    <fragment-->
+    <!--        android:id="@+id/preferencesFragment"-->
+    <!--        android:name="com.selflearningcoursecreationapp.ui.preferences.PreferencesFragment"-->
+    <!--        android:label="@string/your_preferences"-->
+    <!--        tools:layout="@layout/fragment_preferences">-->
 
-        <argument
-            android:name="type"
-            android:defaultValue="-1"
-            app:argType="integer" />
-        <argument
-            android:name="title"
-            android:defaultValue=""
-            app:argType="string" />
-        <argument
-            android:name="screenType"
-            android:defaultValue="1"
-            app:argType="integer" />
-        <argument
-            android:name="current_selection"
-            android:defaultValue="-1"
-            app:argType="integer" />
-    </fragment>
+    <!--        <argument-->
+    <!--            android:name="type"-->
+    <!--            android:defaultValue="-1"-->
+    <!--            app:argType="integer" />-->
+    <!--        <argument-->
+    <!--            android:name="title"-->
+    <!--            android:defaultValue=""-->
+    <!--            app:argType="string" />-->
+    <!--        <argument-->
+    <!--            android:name="screenType"-->
+    <!--            android:defaultValue="1"-->
+    <!--            app:argType="integer" />-->
+    <!--        <argument-->
+    <!--            android:name="current_selection"-->
+    <!--            android:defaultValue="-1"-->
+    <!--            app:argType="integer" />-->
+    <!--        <argument-->
+    <!--            android:name="languageSingleSelection"-->
+    <!--            android:defaultValue="true"-->
+    <!--            app:argType="boolean" />-->
+    <!--     <argument-->
+    <!--            android:name="categorySingleSelection"-->
+    <!--            android:defaultValue="false"-->
+    <!--            app:argType="boolean" />-->
+    <!--    </fragment>-->
     <fragment
         android:id="@+id/privacyFragment"
         android:name="com.selflearningcoursecreationapp.ui.bottom_more.settings.staticPages.PrivacyFragment"

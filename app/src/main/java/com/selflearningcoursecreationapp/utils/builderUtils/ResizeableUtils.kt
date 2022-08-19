@@ -1,4 +1,4 @@
-package com.selflearningcoursecreationapp.utils
+package com.selflearningcoursecreationapp.utils.builderUtils
 
 import android.widget.TextView
 import com.selflearningcoursecreationapp.R

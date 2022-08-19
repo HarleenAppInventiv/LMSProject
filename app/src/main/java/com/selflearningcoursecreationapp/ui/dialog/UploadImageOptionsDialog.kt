@@ -6,7 +6,7 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.databinding.DialogUploadImageBinding
 import com.selflearningcoursecreationapp.utils.ImagePickUtils
-import com.selflearningcoursecreationapp.utils.PermissionUtilClass
+import com.selflearningcoursecreationapp.utils.builderUtils.PermissionUtilClass
 import org.koin.android.ext.android.inject
 
 class UploadImageOptionsDialog : BaseBottomSheetDialog<DialogUploadImageBinding>(),

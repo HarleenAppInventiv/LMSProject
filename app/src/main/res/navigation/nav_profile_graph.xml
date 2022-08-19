@@ -88,7 +88,7 @@
 
     <fragment
         android:id="@+id/fragment_mode_doc"
-        android:name="com.selflearningcoursecreationapp.ui.moderator.ModeCertificateFragment"
+        android:name="com.selflearningcoursecreationapp.ui.moderator.qualification.ModeCertificateFragment"
         android:label="ModeDoc"
         tools:layout="@layout/fragment_certificate" />
     <fragment
@@ -167,6 +167,9 @@
         <action
             android:id="@+id/action_requestTrackerDashboardFragment_to_becomeModeratorFragment"
             app:destination="@id/becomeModeratorFragment" />
+        <action
+            android:id="@+id/action_requestTrackerDashboardFragment_to_sentRequestFragment"
+            app:destination="@id/sentRequestFragment" />
 
     </fragment>
     <include app:graph="@navigation/course_detail_graph" />
@@ -177,5 +180,43 @@
     <fragment
         android:id="@+id/becomeModeratorFragment"
         android:name="com.selflearningcoursecreationapp.ui.moderator.BecomeModeratorFragment"
-        android:label="@string/become_a_moderator" />
+        android:label="@string/become_a_moderator">
+        <!--        <action-->
+        <!--            android:id="@+id/action_becomeModeratorFragment_to_preferencesFragment"-->
+        <!--            app:destination="@id/preferencesFragment" />-->
+    </fragment>
+
+    <!--    <fragment-->
+    <!--        android:id="@+id/preferencesFragment"-->
+    <!--        android:name="com.selflearningcoursecreationapp.ui.preferences.PreferencesFragment"-->
+    <!--        android:label="@string/your_preferences"-->
+    <!--        tools:layout="@layout/fragment_preferences">-->
+
+    <!--        <argument-->
+    <!--            android:name="type"-->
+    <!--            android:defaultValue="-1"-->
+    <!--            app:argType="integer" />-->
+    <!--        <argument-->
+    <!--            android:name="title"-->
+    <!--            android:defaultValue=""-->
+    <!--            app:argType="string" />-->
+    <!--        <argument-->
+    <!--            android:name="screenType"-->
+    <!--            android:defaultValue="1"-->
+    <!--            app:argType="integer" />-->
+    <!--        <argument-->
+    <!--            android:name="current_selection"-->
+    <!--            android:defaultValue="-1"-->
+    <!--            app:argType="integer" />-->
+    <!--        <argument-->
+    <!--            android:name="isSingleSelection"-->
+    <!--            android:defaultValue="true"-->
+    <!--            app:argType="boolean" />-->
+
+    <!--    </fragment>-->
+    <!--        android:label="@string/become_a_moderator" />-->
+    <fragment
+        android:id="@+id/sentRequestFragment"
+        android:name="com.selflearningcoursecreationapp.ui.profile.requestTracker.sentRequests.SentRequestFragment"
+        android:label="Sent Requests" />
 </navigation>

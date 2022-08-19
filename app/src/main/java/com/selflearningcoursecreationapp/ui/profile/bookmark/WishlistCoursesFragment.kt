@@ -22,10 +22,11 @@ import com.selflearningcoursecreationapp.models.course.OrderData
 import com.selflearningcoursecreationapp.ui.bottom_home.HomeVM
 import com.selflearningcoursecreationapp.ui.dialog.unlockCourse.UnlockCourseDialog
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
-import com.selflearningcoursecreationapp.utils.CommonAlertDialog
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.CourseType
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -33,6 +34,7 @@ class WishlistCoursesFragment : BaseFragment<FragmentMyCourseBinding>(), BaseDia
 
     private val viewModel: WishListViewModel by viewModel()
     private val homeViewModel: HomeVM by viewModel()
+    private val sharedHomeModel: HomeVM by sharedViewModel()
     private lateinit var pagingList: PagingData<CourseData>
 
 
@@ -208,15 +210,15 @@ class WishlistCoursesFragment : BaseFragment<FragmentMyCourseBinding>(), BaseDia
     private fun observeWishlist() {
         homeViewModel.wishlistLiveData.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
-                if (it.success.equals("true")) {
+//                if (it.success.equals("true")) {
 //                wishListListAdapter.refresh()
-                    if (wishListListAdapter.itemCount == 0) {
-                        binding.llNoWishlist.visible()
-                        binding.swipeRefresh.isRefreshing = false
-
-                    }
+                if (wishListListAdapter.itemCount == 0) {
+                    binding.llNoWishlist.visible()
+                    binding.swipeRefresh.isRefreshing = false
 
                 }
+                sharedHomeModel.setWishlist(it)
+//                }
             }
         }
     }
@@ -257,6 +259,7 @@ class WishlistCoursesFragment : BaseFragment<FragmentMyCourseBinding>(), BaseDia
             ApiEndPoints.API_PURCHASE_COURSE -> {
                 val resource = (value as BaseResponse<OrderData>)
                 showToastShort(resource.message)
+                sharedHomeModel.updateCourse(resource.resource?.course?.courseId)
                 findNavController().navigate(
                     R.id.action_bookmarkedCoursesFragment_to_courseDetailsFragment,
                     bundleOf("courseId" to resource.resource?.course?.courseId)

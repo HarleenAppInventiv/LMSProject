@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/secondaryScreenBgColor"
+        tools:context=".ui.content_creator.course_detail.RevenueFragment">
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSCardView
+            android:id="@+id/LMSCardView2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_margin="@dimen/_12sdp"
+            android:background="@color/white"
+            app:cardCornerRadius="@dimen/_10sdp"
+            app:changeBackgroundType="bg_theme_solid"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_100sdp"
+                    android:importantForAccessibility="no"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_half_trans_circle_bg"
+                    app:changeBackgroundType="theme_multiply"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tv_course_revenue_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Course Revenue"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textField_12"
+                    app:fontType="medium"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_revenue"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:textColorType="none" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tv_revenue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_coin_yellow"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:text="16789.56"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textField_28"
+                    app:fontType="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_course_revenue_text"
+                    app:textColorType="none" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView-->
+            <!--                android:id="@+id/imageView3"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="@dimen/_100sdp"-->
+            <!--                android:background="@color/white"-->
+            <!--                android:importantForAccessibility="no"-->
+            <!--                app:changeBackgroundType="bg_theme_solid"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+
+        </com.selflearningcoursecreationapp.utils.customViews.LMSCardView>
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_enroll_history"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:text="Enrollment History"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textField_14"
+            app:fontType="bold"
+            app:layout_constraintEnd_toEndOf="@+id/LMSCardView2"
+            app:layout_constraintStart_toStartOf="@+id/LMSCardView2"
+            app:layout_constraintTop_toBottomOf="@+id/LMSCardView2"
+            app:textColorType="heading" />
+
+        <View
+            android:id="@+id/lineV"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@drawable/ic_dotted_line_small"
+            app:layout_constraintEnd_toEndOf="@+id/tv_enroll_history"
+            app:layout_constraintStart_toStartOf="@+id/tv_enroll_history"
+            app:layout_constraintTop_toBottomOf="@+id/tv_enroll_history" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyer_revenue_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/_40sdp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="@+id/tv_enroll_history"
+            app:layout_constraintStart_toStartOf="@+id/lineV"
+            app:layout_constraintTop_toBottomOf="@+id/lineV"
+            tools:itemCount="5"
+            tools:listitem="@layout/adapter_revenue_list" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

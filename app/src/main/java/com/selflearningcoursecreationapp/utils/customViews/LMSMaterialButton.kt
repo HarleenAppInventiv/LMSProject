@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat
 import com.google.android.material.button.MaterialButton
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.SelfLearningApplication
+import com.selflearningcoursecreationapp.extensions.getAttrColor
 
 
 class LMSMaterialButton : MaterialButton {
@@ -88,8 +89,8 @@ class LMSMaterialButton : MaterialButton {
     private fun changeBtnBackground(backgroundType: Int) {
 
         buttonType = backgroundType
-        val tintColor = ThemeUtils.getTintColor(context)
-        val primaryColor = ThemeUtils.getAppColor(context)
+        val tintColor = ThemeUtils.getBtnTintColor(context)
+        val primaryColor = ThemeUtils.getBtnBgColor(context)
 
         val disabledColor = getDisabledColor()
 
@@ -150,7 +151,7 @@ class LMSMaterialButton : MaterialButton {
     }
 
     private fun getDisabledColor(): Int {
-        val tintColor = ThemeUtils.getTintColor(context)
+        val tintColor = ThemeUtils.getBtnTintColor(context)
         val red = (Color.red(tintColor))
         val green = (Color.green(tintColor))
 
@@ -170,32 +171,35 @@ class LMSMaterialButton : MaterialButton {
     }
 
     private fun changeTextColor(textColorType: Int) {
-        val colorValue = when (textColorType) {
+        if (textColorType != ThemeConstants.TYPE_NONE) {
+            val colorValue = when (textColorType) {
 
-            ThemeConstants.TYPE_PRIMARY -> {
-                ContextCompat.getColor(context, R.color.white)
-            }
-            ThemeConstants.TYPE_HEADING -> {
-                ContextCompat.getColor(context, R.color.heading_color_262626)
-            }
-            ThemeConstants.TYPE_BODY -> {
-                ContextCompat.getColor(context, R.color.hint_color_929292)
-            }
+                ThemeConstants.TYPE_PRIMARY -> {
+                    ContextCompat.getColor(context, context.getAttrColor(R.attr.buttonTextColor))
 
-            else -> {
-                ThemeUtils.getAppColor(context)
-            }
+                }
+                ThemeConstants.TYPE_HEADING -> {
+                    ContextCompat.getColor(context, context.getAttrColor(R.attr.headingTextColor))
+                }
+                ThemeConstants.TYPE_BODY -> {
+                    ContextCompat.getColor(context, context.getAttrColor(R.attr.bodyTextColor))
+                }
 
+                else -> {
+                    ThemeUtils.getAppColor(context)
+                }
+
+            }
+            val states = arrayOf(
+                intArrayOf(android.R.attr.state_enabled),
+            )
+            val colors = intArrayOf(
+                colorValue
+            )
+            iconTint = ColorStateList(states, colors)
+
+            setTextColor(colorValue)
         }
-        val states = arrayOf(
-            intArrayOf(android.R.attr.state_enabled),
-        )
-        val colors = intArrayOf(
-            colorValue
-        )
-        iconTint = ColorStateList(states, colors)
-
-        setTextColor(colorValue)
     }
 
     fun setSecondaryBtnDisabled(enabled: Boolean) {

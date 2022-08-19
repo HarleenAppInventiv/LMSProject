@@ -19,11 +19,17 @@ import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.extensions.visibleView
 import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.models.course.OrderData
+import com.selflearningcoursecreationapp.ui.bottom_home.HomeVM
 import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.AllCoursesAdapter
 import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.FilterBottomDialog
 import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.SelectedFilterData
 import com.selflearningcoursecreationapp.ui.dialog.unlockCourse.UnlockCourseDialog
-import com.selflearningcoursecreationapp.utils.*
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.utils.CourseType
+import com.selflearningcoursecreationapp.utils.DialogType
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -31,6 +37,7 @@ class AllCoursesFragment : BaseFragment<FragmentPopularBinding>(), BaseAdapter.I
     BaseBottomSheetDialog.IDialogClick, BaseAdapter.IListEnd, BaseDialog.IDialogClick {
     private var mAdapter: AllCoursesAdapter? = null
     private val viewModel: AllCoursesVM by viewModel()
+    private val sharedHomeModel: HomeVM by sharedViewModel()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
@@ -167,7 +174,10 @@ class AllCoursesFragment : BaseFragment<FragmentPopularBinding>(), BaseAdapter.I
             mAdapter = null
         } else {
             mAdapter?.notifyDataSetChanged() ?: kotlin.run {
-                mAdapter = AllCoursesAdapter(viewModel.courseLiveData.value ?: ArrayList())
+                mAdapter = AllCoursesAdapter(
+                    viewModel.courseLiveData.value ?: ArrayList(),
+                    baseActivity.isViOn()
+                )
                 binding.recyclerCoursesView.adapter = mAdapter
                 mAdapter?.setOnAdapterItemClickListener(this)
                 mAdapter?.setOnPageEndListener(this)
@@ -297,10 +307,15 @@ class AllCoursesFragment : BaseFragment<FragmentPopularBinding>(), BaseAdapter.I
             ApiEndPoints.API_PURCHASE_COURSE -> {
                 val resource = (value as BaseResponse<OrderData>)
                 showToastShort(resource.message)
+                sharedHomeModel.updateCourse(resource.resource?.course?.courseId)
                 findNavController().navigate(
                     R.id.action_popularFragment_to_courseDetailsFragment,
                     bundleOf("courseId" to resource.resource?.course?.courseId)
                 )
+            }
+            ApiEndPoints.API_HOME_WISHLIST -> {
+                sharedHomeModel.setWishlist((value as Pair<Int?, Boolean>?))
+
             }
 
         }
@@ -310,7 +325,6 @@ class AllCoursesFragment : BaseFragment<FragmentPopularBinding>(), BaseAdapter.I
     override fun onDialogClick(vararg items: Any) {
         if (items.isNotEmpty()) {
             val type = items[0] as Int
-            val courseId = items[1] as Int
             when (type) {
                 DialogType.HOME_FILTER -> {
                     viewModel.selectedFilters.clear()
@@ -319,6 +333,8 @@ class AllCoursesFragment : BaseFragment<FragmentPopularBinding>(), BaseAdapter.I
                     viewModel.getCourses()
                 }
                 Constant.CLICK_VIEW -> {
+                    val courseId = items[1] as Int
+
 //                    val otp = items[1] as String
 //                    viewModel.otp = otp
 //                    viewModel.purchaseCourse()

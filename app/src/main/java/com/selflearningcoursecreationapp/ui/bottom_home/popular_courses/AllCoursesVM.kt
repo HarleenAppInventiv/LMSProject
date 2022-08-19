@@ -135,7 +135,19 @@ class AllCoursesVM(private var repo: AllCoursesRepo) : BaseViewModel() {
                 response.collect {
                     if (it is Resource.Success<*>) {
                         val resource = (it.value as BaseResponse<UserProfile>).resource
+                        val coursePair = Pair(
+                            courseLiveData.value?.get(adapterPosition)?.courseId,
+                            courseLiveData.value?.get(adapterPosition)?.courseWishlisted == 0
+                        )
                         wishlistLiveData.postValue(resource)
+
+                        updateResponseObserver(
+                            Resource.Success(
+                                coursePair,
+                                ApiEndPoints.API_HOME_WISHLIST
+                            )
+                        )
+
                     }
                     updateResponseObserver(it)
                 }

@@ -24,9 +24,9 @@
     <!--            tools:context=".ui.bottom_home.categories.HomeCategoriesFragment">-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/viewSecondaryBgColor">
+        android:layout_width="match_parent"
+        android:background="?attr/secondaryScreenBgColor">
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
             android:id="@+id/et_search"
@@ -48,7 +48,7 @@
             android:id="@+id/img_mic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_20sdp"
+            android:padding="@dimen/_15sdp"
             app:layout_constraintBottom_toBottomOf="@+id/et_search"
             app:layout_constraintEnd_toEndOf="@+id/et_search"
             app:layout_constraintTop_toTopOf="@+id/et_search"
@@ -117,14 +117,14 @@
         <!--                    tools:listitem="@layout/adapter_select_category" />-->
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_list"
             android:layout_width="0dp"
+            android:id="@+id/rv_list"
             android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_search" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView

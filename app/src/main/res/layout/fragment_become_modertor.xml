@@ -4,17 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <variable
-            name="handleClick"
-            type="com.selflearningcoursecreationapp.utils.HandleClick" />
+<variable
+    name="handleClick"
+    type="com.selflearningcoursecreationapp.utils.HandleClick" />
     </data>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/viewBackgroundColor">
+        android:background="?attr/screenBackgroundColor">
 
 
         <androidx.core.widget.NestedScrollView
@@ -23,9 +22,9 @@
             android:layout_marginBottom="@dimen/_16sdp"
             android:background="?attr/viewSecondaryBgColor"
             android:fillViewport="true"
-            app:layout_constraintBottom_toTopOf="@+id/bt_enroll"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/bt_enroll"
             app:layout_constraintTop_toTopOf="parent">
 
 
@@ -111,13 +110,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginBottom="@dimen/_12sdp"
-                    android:background="@drawable/edt_bg_white"
+                    android:background="@drawable/edt_white_bg"
                     android:drawableEnd="@drawable/ic_arrow_right_grey"
                     android:focusable="false"
                     android:hint="@string/choose_category"
                     android:imeOptions="actionDone"
-                    android:inputType="textImeMultiLine|textMultiLine|textCapSentences"
                     android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
+                    android:inputType="textImeMultiLine|textMultiLine|textCapSentences"
                     app:layout_constraintEnd_toEndOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/tv_course_category"
@@ -143,13 +142,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginBottom="@dimen/_12sdp"
-                    android:background="@drawable/edt_bg_white"
+                    android:background="@drawable/edt_white_bg"
+                    android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                     android:drawableEnd="@drawable/ic_arrow_right_grey"
                     android:focusable="false"
                     android:hint="@string/choose_a_language"
                     android:imeOptions="actionDone"
                     android:inputType="textImeMultiLine|textMultiLine|textCapSentences"
-                    android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
 
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/guideline_end"

@@ -15,8 +15,8 @@ class AdapterCourseCategory(private val list: ArrayList<CategoryData>) :
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        val binding =
-            holder.binding as com.selflearningcoursecreationapp.databinding.AdapterCourceCategoriesBinding
+val binding =
+    holder.binding as com.selflearningcoursecreationapp.databinding.AdapterCourceCategoriesBinding
         binding.view.visibleView(list.size != position + 1)
         binding.tvRemoveSection.apply {
             changeTextColor(if (list[position].isSelected) ThemeConstants.TYPE_THEME else ThemeConstants.TYPE_PRIMARY)

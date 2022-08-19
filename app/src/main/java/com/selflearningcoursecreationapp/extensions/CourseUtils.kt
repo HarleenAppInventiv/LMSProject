@@ -42,27 +42,67 @@ fun Int.getMediaType(showGreen: Boolean = true): Pair<Int, Int> {
 }
 
 fun TextView.setComplexityLevel(type: Int?) {
-    if (type.isNullOrZero()) {
-        setTextColor(ContextCompat.getColor(context, R.color.accent_color_fc6d5b))
+    /* if (isViOn) {
+         setTextColor(ContextCompat.getColor(context, R.color.ViMainColor))
+         backgroundTintList =
+             ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white55))
+
+     } else */if (type.isNullOrZero()) {
+        setTextColor(ContextCompat.getColor(context, context.getAttrColor(R.attr.colorPrimary)))
         backgroundTintList =
-            ColorStateList.valueOf(ContextCompat.getColor(context, R.color.offWhite_f6f6f6))
+            ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    context,
+                    context.getAttrColor(R.attr.levelBgColor)
+                )
+            )
     } else {
         when (type) {
             ComplexityLevel.ADVANCED -> {
-                setTextColor(ContextCompat.getColor(context, R.color.accent_color_fc6d5b))
+                setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        context.getAttrColor(R.attr.accentColor_Red)
+                    )
+                )
                 backgroundTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(context, R.color.offWhite_f6f6f6))
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            context,
+                            context.getAttrColor(R.attr.levelBgColor)
+                        )
+                    )
             }
             ComplexityLevel.BEGINNER -> {
-                setTextColor(ContextCompat.getColor(context, R.color.accent_color_2FBF71))
+                setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        context.getAttrColor(R.attr.accentColor_Green)
+                    )
+                )
                 backgroundTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(context, R.color.offWhite_f6f6f6))
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            context,
+                            context.getAttrColor(R.attr.levelBgColor)
+                        )
+                    )
 
             }
             ComplexityLevel.INTERMEDIATE -> {
-                setTextColor(ContextCompat.getColor(context, R.color.primaryColor))
+                setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        context.getAttrColor(R.attr.colorPrimary)
+                    )
+                )
                 backgroundTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(context, R.color.blue_tint_color))
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            context,
+                            context.getAttrColor(R.attr.levelBgColor)
+                        )
+                    )
 
             }
         }

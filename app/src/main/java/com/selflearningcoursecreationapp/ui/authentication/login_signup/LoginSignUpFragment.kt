@@ -7,10 +7,11 @@ import androidx.fragment.app.setFragmentResultListener
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentLoginSignUpBinding
+import com.selflearningcoursecreationapp.extensions.getAttrColor
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.models.user.UserProfile
 import com.selflearningcoursecreationapp.ui.authentication.viewModel.OnBoardingViewModel
-import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -29,7 +30,12 @@ class LoginSignUpFragment : BaseFragment<FragmentLoginSignUpBinding>(), View.OnC
     fun init() {
         binding.textView.setSpanString(
             SpanUtils.with(baseActivity, baseActivity.getString(R.string.hello_welcome)).endPos(6)
-                .textColor(ContextCompat.getColor(baseActivity, R.color.heading_color_262626))
+                .textColor(
+                    ContextCompat.getColor(
+                        baseActivity,
+                        baseActivity.getAttrColor(R.attr.headingTextColor)
+                    )
+                )
                 .isBold().getSpanString()
         )
 

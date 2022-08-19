@@ -6,6 +6,7 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterAnsOptionsBinding
+import com.selflearningcoursecreationapp.extensions.getAttrColor
 import com.selflearningcoursecreationapp.extensions.getCharString
 import com.selflearningcoursecreationapp.models.course.quiz.QuizOptionData
 import com.selflearningcoursecreationapp.utils.Constant
@@ -29,7 +30,7 @@ class MarkAnsOptionAdapter(private var list: ArrayList<QuizOptionData>) :
             binding.ivBg.backgroundTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(
                     binding.root.context,
-                    R.color.accent_color_2FBF71
+                    binding.root.context.getAttrColor(R.attr.accentColor_Green)
                 )
             )
         } else {

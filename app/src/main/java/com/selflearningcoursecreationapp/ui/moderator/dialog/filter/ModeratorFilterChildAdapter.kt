@@ -12,7 +12,6 @@ import com.selflearningcoursecreationapp.databinding.ItemModeratorFilterCatItemB
 import com.selflearningcoursecreationapp.extensions.getStringDate
 import com.selflearningcoursecreationapp.extensions.gone
 import com.selflearningcoursecreationapp.extensions.openDatePickerDialog
-import com.selflearningcoursecreationapp.ui.moderator.dialog.Payload
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 

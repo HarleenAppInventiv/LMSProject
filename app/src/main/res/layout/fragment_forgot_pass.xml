@@ -90,7 +90,7 @@
                     android:layout_width="@dimen/_1sdp"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="@dimen/_12sdp"
-                    android:background="@color/et_dash_color"
+                    android:background="?attr/etDashColor"
                     android:importantForAccessibility="no" />
 
                 <com.hbb20.CountryCodePicker

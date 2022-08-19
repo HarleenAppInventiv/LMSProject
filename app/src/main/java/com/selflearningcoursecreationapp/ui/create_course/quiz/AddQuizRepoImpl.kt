@@ -127,7 +127,7 @@ class AddQuizRepoImpl(private var apiService: ApiService) : AddQuizRepo {
     }
 
     override suspend fun saveAssessment(data: QuizData?): Flow<Resource> {
-        var call = object : BaseRepo<BaseResponse<ChildModel>>() {
+        val call = object : BaseRepo<BaseResponse<ChildModel>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ChildModel>> {
                 return apiService.saveAssessment(data)
             }

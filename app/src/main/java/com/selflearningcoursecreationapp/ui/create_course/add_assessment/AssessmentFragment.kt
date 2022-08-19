@@ -12,8 +12,8 @@ import com.selflearningcoursecreationapp.extensions.visibleView
 import com.selflearningcoursecreationapp.models.course.quiz.QuizData
 import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseBaseFragmentDirections
 import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseViewModel
-import com.selflearningcoursecreationapp.utils.CommonAlertDialog
 import com.selflearningcoursecreationapp.utils.HandleClick
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
 
 @SuppressLint("NotifyDataSetChanged")
 

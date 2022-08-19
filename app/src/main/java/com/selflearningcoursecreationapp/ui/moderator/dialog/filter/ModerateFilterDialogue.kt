@@ -1,12 +1,18 @@
-package com.selflearningcoursecreationapp.ui.moderator.dialog
+package com.selflearningcoursecreationapp.ui.moderator.dialog.filter
 
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.databinding.DialogeModeratorFilterBinding
-import com.selflearningcoursecreationapp.ui.moderator.dialog.filter.ModeratorFilterChildAdapter
+import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseViewModel
+import com.selflearningcoursecreationapp.ui.moderator.dialog.ModeratorFilterParentAdapter
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.Constant
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class ModerateFilterDialogue : BaseBottomSheetDialog<DialogeModeratorFilterBinding>() {
+
+    private val viewModel: AddCourseViewModel by viewModel()
 
     private var catArrayList = arrayListOf<Payload>()
     private var catItemArrayList = arrayListOf<Payload>()
@@ -20,11 +26,33 @@ class ModerateFilterDialogue : BaseBottomSheetDialog<DialogeModeratorFilterBindi
 
     override fun initUi() {
 
+        viewModel.getApiResponse().observe(viewLifecycleOwner, this)
+        if (!viewModel.masterData.isDataAdded()) {
+            viewModel.getMasterData()
+        }
 
-        catArrayList.add(Payload("category", true, Constant.TYPE_CATEGORY))
-        catArrayList.add(Payload("REQUEST DATE", false, Constant.TYPE_REQUEST_DATE))
-        catArrayList.add(Payload("FEE RANGE", false, Constant.TYPE_FEE_RANGE))
-        catArrayList.add(Payload("CREATOR’S NAME", false, Constant.TYPE_CREATOR_NAME))
+        catArrayList.add(
+            Payload(
+                getString(R.string.language).uppercase(Locale.getDefault()),
+                true,
+                Constant.TYPE_CATEGORY
+            )
+        )
+        catArrayList.add(
+            Payload(
+                getString(R.string.request_date),
+                false,
+                Constant.TYPE_REQUEST_DATE
+            )
+        )
+        catArrayList.add(Payload(getString(R.string.fee_range), false, Constant.TYPE_FEE_RANGE))
+        catArrayList.add(
+            Payload(
+                getString(R.string.creator_name),
+                false,
+                Constant.TYPE_CREATOR_NAME
+            )
+        )
 
         parentAdapter = ModeratorFilterParentAdapter { type: Int, position: Int ->
             catArrayList.forEachIndexed { index, _ ->
@@ -39,12 +67,10 @@ class ModerateFilterDialogue : BaseBottomSheetDialog<DialogeModeratorFilterBindi
         binding.recyclerFilterCat.adapter = parentAdapter
 
 
-
-        catItemArrayList.add(Payload("Arts", false, Constant.TYPE_CATEGORY))
-        catItemArrayList.add(Payload("Business", false, Constant.TYPE_CATEGORY))
-        catItemArrayList.add(Payload("Maths", false, Constant.TYPE_CATEGORY))
-        catItemArrayList.add(Payload("Chemistry", false, Constant.TYPE_CATEGORY))
-        catItemArrayList.add(Payload("Biology", false, Constant.TYPE_CATEGORY))
+//        catItemArrayList.add(Payload("Business", false, Constant.TYPE_CATEGORY))
+//        catItemArrayList.add(Payload("Maths", false, Constant.TYPE_CATEGORY))
+//        catItemArrayList.add(Payload("Chemistry", false, Constant.TYPE_CATEGORY))
+//        catItemArrayList.add(Payload("Biology", false, Constant.TYPE_CATEGORY))
 
         childAdapter = ModeratorFilterChildAdapter(baseActivity) { clickType, position ->
             when (clickType) {
@@ -79,6 +105,29 @@ class ModerateFilterDialogue : BaseBottomSheetDialog<DialogeModeratorFilterBindi
 
     }
 
+    override fun <T> onResponseSuccess(value: T, apiCode: String) {
+        super.onResponseSuccess(value, apiCode)
+        when (apiCode) {
+            ApiEndPoints.API_MASTER_DATA -> {
+
+                viewModel.masterData.languages?.list?.forEach { categoryData ->
+                    catItemArrayList.add(
+                        Payload(
+                            categoryData.name.toString(),
+                            false,
+                            Constant.TYPE_CATEGORY
+                        )
+                    )
+
+
+                }
+
+                childAdapter.setAdapterList(catItemArrayList, 0)
+            }
+        }
+
+
+    }
 
 }
 

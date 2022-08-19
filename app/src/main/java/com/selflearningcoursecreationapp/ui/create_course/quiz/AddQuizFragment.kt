@@ -22,6 +22,7 @@ import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.C
 import com.selflearningcoursecreationapp.ui.dialog.UploadImageOptionsDialog
 import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceBottomDialog
 import com.selflearningcoursecreationapp.utils.*
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 

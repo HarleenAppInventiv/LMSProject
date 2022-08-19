@@ -11,19 +11,21 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentModeratorBaseBinding
+import com.selflearningcoursecreationapp.extensions.loadImage
 import com.selflearningcoursecreationapp.extensions.setCustomTabs
-import com.selflearningcoursecreationapp.ui.moderator.dialog.ModerateFilterDialogue
+import com.selflearningcoursecreationapp.ui.moderator.dialog.filter.ModerateFilterDialogue
 import com.selflearningcoursecreationapp.ui.preferences.ScreenSlidePagerAdapter
 import com.selflearningcoursecreationapp.utils.HandleClick
 import com.selflearningcoursecreationapp.utils.customViews.LMSTextView
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class ModeratorBaseFragment : BaseFragment<FragmentModeratorBaseBinding>(), HandleClick {
 
     override fun getLayoutRes() = R.layout.fragment_moderator_base
-
+    private val viewModel: ModHomeVM by viewModel()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         baseActivity.supportActionBar?.hide()
@@ -31,11 +33,13 @@ class ModeratorBaseFragment : BaseFragment<FragmentModeratorBaseBinding>(), Hand
     }
 
     private fun initUI() {
+        setUserData()
+
         binding.handleClick = this
         initViewPager()
-        binding.swipeRefresh.setOnRefreshListener {
-            binding.swipeRefresh.isRefreshing = false
-        }
+//        binding.swipeRefresh.setOnRefreshListener {
+//            binding.swipeRefresh.isRefreshing = false
+//        }
         val color = ThemeUtils.getAppColor(baseActivity)
         binding.toolbarLayout.setContentScrimColor(color)
         binding.toolbarLayout.setBackgroundColor(color)
@@ -57,16 +61,39 @@ class ModeratorBaseFragment : BaseFragment<FragmentModeratorBaseBinding>(), Hand
 
     }
 
+    private fun setUserData() {
+        viewModel.getUserData()
+
+        binding.tvUserName.apply {
+
+            val value = viewModel.userProfile?.name ?: "Guest"
+            if (value.length > 12) {
+                val str = value.substring(0, 12)
+                text = "${str}..."
+            } else {
+                text = value
+            }
+
+        }
+        binding.ivUserImage.loadImage(
+            viewModel.userProfile?.profileUrl,
+            R.drawable.ic_default_user_grey
+        )
+
+    }
+
     private fun initViewPager() {
         val list = ArrayList<Fragment>()
         list.add(RequestFragment())
+        list.add(PendingModFragment())
         list.add(ApprovedFragment())
         list.add(RejectedFragment())
 
         val nameArray = ArrayList<String>()
-        nameArray.add("Request")
-        nameArray.add("Approved")
-        nameArray.add("Rejected")
+        nameArray.add(getString(R.string.requeste))
+        nameArray.add(getString(R.string.pending))
+        nameArray.add(getString(R.string.approved))
+        nameArray.add(getString(R.string.rejected))
         binding.vpModeratorHome.adapter =
             ScreenSlidePagerAdapter(childFragmentManager, list, this.lifecycle)
 

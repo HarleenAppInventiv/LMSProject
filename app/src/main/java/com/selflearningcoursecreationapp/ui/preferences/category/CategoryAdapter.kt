@@ -6,6 +6,7 @@ import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterSelectCategoryBinding
 import com.selflearningcoursecreationapp.extensions.gone
 import com.selflearningcoursecreationapp.extensions.loadImage
+import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.extensions.visibleView
 import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.utils.Constant
@@ -27,10 +28,9 @@ class CategoryAdapter(
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val binding = holder.binding as AdapterSelectCategoryBinding
         if (showRadio) {
-//            binding.rbSelected.visible()
-            binding.rbSelected.isChecked = false
-            binding.ivSelected.visibleView(value[position].isSelected)
-            binding.rbSelected.visibleView(!value[position].isSelected)
+            binding.rbSelected.visible()
+            binding.ivSelected.gone()
+            binding.rbSelected.isChecked = (value[position].isSelected)
 
         } else {
             binding.rbSelected.gone()
@@ -38,6 +38,7 @@ class CategoryAdapter(
         }
         binding.tvTitle.text = value[position].name
         binding.ivPreview.loadImage(value[position].imageUrl, R.drawable.ic_science_dummy)
+
         binding.parentCL.setOnClickListener {
             onItemClick(Constant.CLICK_VIEW, position, type)
         }

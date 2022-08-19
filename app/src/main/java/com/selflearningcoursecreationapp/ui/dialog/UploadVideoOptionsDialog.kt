@@ -8,7 +8,7 @@ import com.selflearningcoursecreationapp.databinding.DialogUploadVideoBinding
 import com.selflearningcoursecreationapp.utils.ImagePickUtils
 import com.selflearningcoursecreationapp.utils.MediaType
 import com.selflearningcoursecreationapp.utils.Permission
-import com.selflearningcoursecreationapp.utils.PermissionUtilClass
+import com.selflearningcoursecreationapp.utils.builderUtils.PermissionUtilClass
 import org.koin.android.ext.android.inject
 
 class UploadVideoOptionsDialog : BaseBottomSheetDialog<DialogUploadVideoBinding>(),

@@ -3,6 +3,7 @@ package com.selflearningcoursecreationapp.extensions
 import android.app.Activity
 import android.content.Context
 import android.graphics.Rect
+import android.os.Bundle
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.util.Log
@@ -10,10 +11,14 @@ import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.annotation.IdRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigator
 import com.google.gson.Gson
 import com.selflearningcoursecreationapp.BuildConfig
 
@@ -118,11 +123,11 @@ fun Context.getTimeInChar(milliseconds: Long?): String {
 
     }
     if (mins > 0) {
-        time = time + ".${if (mins > 9) mins else "0$mins"}"
+        time += ".${if (mins > 9) mins else "0$mins"}"
 
     }
     if (seconds > 0 && (time.isEmpty() || time.startsWith("."))) {
-        time = time + ".${if (seconds > 9) seconds else "0$seconds"}"
+        time += ".${if (seconds > 9) seconds else "0$seconds"}"
     }
 
     val format = if (hrs > 0) {
@@ -136,12 +141,12 @@ fun Context.getTimeInChar(milliseconds: Long?): String {
     return String.format("%s %s", if (time.startsWith(".")) time.substring(1) else time, format)
 
 
+
 }
 
 fun Activity.getRootView(): View {
     return findViewById<View>(android.R.id.content)
 }
-
 fun Context.convertDpToPx(dp: Float): Float {
     return TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,
@@ -149,7 +154,6 @@ fun Context.convertDpToPx(dp: Float): Float {
         this.resources.displayMetrics
     )
 }
-
 fun Activity.isKeyboardOpen(): Boolean {
     val visibleBounds = Rect()
     this.getRootView().getWindowVisibleDisplayFrame(visibleBounds)
@@ -177,5 +181,19 @@ fun View?.fitSystemWindowsAndAdjustResize() = this?.let { view ->
             .apply {
                 ViewCompat.onApplyWindowInsets(v, this)
             }
+    }
+}
+
+fun NavController.navigateTo(
+    @IdRes resId: Int,
+    args: Bundle? = null,
+    navOptions: NavOptions? = null,
+    navigatorExtras: Navigator.Extras? = null
+) {
+    try {
+
+        navigate(resId, args, navOptions, navigatorExtras)
+    } catch (e: Exception) {
+        showException(e)
     }
 }

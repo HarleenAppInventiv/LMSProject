@@ -18,14 +18,15 @@ import com.selflearningcoursecreationapp.models.user.UserProfile
 import com.selflearningcoursecreationapp.ui.dialog.ImagePreviewDialog
 import com.selflearningcoursecreationapp.ui.dialog.UploadImageOptionsDialog
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
-import com.selflearningcoursecreationapp.utils.ResizeableUtils
+import com.selflearningcoursecreationapp.utils.BundleConst
+import com.selflearningcoursecreationapp.utils.builderUtils.ResizeableUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 
 
 class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), View.OnClickListener {
     private val viewModel: ProfileDetailViewModel by viewModel()
-
+    private lateinit var bundle: Bundle
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
@@ -48,7 +49,7 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
         binding.imgEditProfileImage.setOnClickListener(this)
         binding.imgBack.setOnClickListener(this)
         binding.tvAddEmail.setOnClickListener(this)
-//        binding.imgProfileImage.setOnClickListener(this)
+        binding.imgProfileImage.setOnClickListener(this)
     }
 
     override fun getLayoutRes() = R.layout.fragment_profile_details
@@ -66,9 +67,9 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
                 findNavController().navigate(action)
             }
             R.id.img_profile_image -> {
-                val bundle =
-
-                    ImagePreviewDialog().show(childFragmentManager, "")
+                val dialog = ImagePreviewDialog()
+                dialog.arguments = bundle
+                dialog.show(childFragmentManager, "tag")
 //                val action =
 //                    ProfileDetailsFragmentDirections.actionProfileDetailsFragmentToEditProfileFragment()
 //                findNavController().navigate(action)
@@ -123,6 +124,11 @@ class ProfileDetailsFragment : BaseFragment<FragmentProfileDetailsBinding>(), Vi
                         data.profileUrl,
                         R.drawable.ic_default_user_grey,
                         data.profileBlurHash
+                    )
+
+                    bundle = bundleOf(
+                        BundleConst.IMAGE to data.profileUrl,
+                        BundleConst.BLUR_HASH to data.profileBlurHash
                     )
 //                    Glide.with(requireActivity()).load(data.profileUrl)
 //                        .placeholder(R.drawable.ic_default_user_grey)

@@ -79,12 +79,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:ellipsize="end"
                 android:lineSpacingExtra="0dp"
                 android:maxLines="1"
                 android:text="Business analytics &amp; design"
                 android:textSize="@dimen/textField_14"
                 app:fontType="semiBold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_preview"
                 app:layout_constraintTop_toBottomOf="@+id/tv_id" />
 
@@ -237,7 +239,7 @@
                 android:background="@color/wine_red_tint"
                 android:paddingHorizontal="@dimen/_10sdp"
                 android:paddingVertical="@dimen/_4sdp"
-                android:text="@string/reject"
+                android:text="@string/rejected"
                 android:textColor="@color/accent_color_fc6d5b"
                 android:textSize="@dimen/textField_10"
                 android:visibility="visible"

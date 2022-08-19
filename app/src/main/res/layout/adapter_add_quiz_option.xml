@@ -44,7 +44,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/offWhite_f6f6f6"
+            android:background="?attr/levelBgColor"
             android:padding="@dimen/_5sdp">
 
 

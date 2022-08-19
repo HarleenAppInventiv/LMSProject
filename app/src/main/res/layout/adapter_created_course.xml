@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:background="@color/coin_stroked_bg_color"
+                android:background="?attr/coinDrawableStrokeBgColor"
                 android:paddingHorizontal="@dimen/_8sdp"
                 android:paddingVertical="@dimen/_4sdp"
                 android:text="Pending"
@@ -142,7 +142,7 @@
                 app:cornerRadius="@dimen/_2sdp"
                 app:iconGravity="textStart"
                 app:iconPadding="@dimen/_8sdp"
-                app:iconTint="@color/white"
+                app:iconTint="?attr/whiteTextColor"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv_name"
                 app:layout_constraintTop_toBottomOf="@+id/view" />

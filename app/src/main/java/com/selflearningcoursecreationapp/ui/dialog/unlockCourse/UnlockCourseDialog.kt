@@ -8,14 +8,17 @@ import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.databinding.UnlockCourseLayoutBinding
 import com.selflearningcoursecreationapp.extensions.otpHelper
 import com.selflearningcoursecreationapp.models.course.OrderData
+import com.selflearningcoursecreationapp.ui.bottom_home.HomeVM
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.Constant
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UnlockCourseDialog : BaseDialog<UnlockCourseLayoutBinding>() {
 
     override fun getLayoutRes() = R.layout.unlock_course_layout
     private val viewModel: UnlockVM by viewModel()
+    private val sharedHomeModel: HomeVM by sharedViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +51,7 @@ class UnlockCourseDialog : BaseDialog<UnlockCourseLayoutBinding>() {
             ApiEndPoints.API_PURCHASE_COURSE -> {
                 (value as BaseResponse<OrderData>).let {
                     dismiss()
+                    sharedHomeModel.updateCourse(viewModel.courseId)
                     showToastShort(it.message)
                     onDialogClick(Constant.CLICK_VIEW, viewModel.courseId)
                 }

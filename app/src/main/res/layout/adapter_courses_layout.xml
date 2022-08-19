@@ -36,7 +36,7 @@
             android:layout_height="match_parent">
 
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
                 android:id="@+id/iv_banner"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_140sdp"
@@ -46,6 +46,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:applyGrayscale="true"
                 app:shapeAppearanceOverlay="@style/corneredImage5"
                 app:srcCompat="@drawable/banner" />
 
@@ -238,7 +239,7 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_15sdp"
 
-                android:textColor="@color/accent_color_2FBF71"
+                android:textColor="?attr/accentColor_Green"
                 android:textSize="@dimen/adapterTF_14"
                 app:fontType="semiBold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -276,7 +277,7 @@
                 android:paddingHorizontal="@dimen/_5sdp"
                 android:paddingVertical="@dimen/_3sdp"
                 android:text="200"
-                android:textColor="@color/coin_stroked_color"
+                android:textColor="?attr/accentColor_Yellow"
                 android:textSize="@dimen/adapterTextField_12"
                 android:visibility="gone"
                 app:drawableStartCompat="@drawable/ic_rewards_points"

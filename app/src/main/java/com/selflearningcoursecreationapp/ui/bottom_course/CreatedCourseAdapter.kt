@@ -5,10 +5,11 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterCreatedCourseBinding
+import com.selflearningcoursecreationapp.extensions.getAttrColor
 import com.selflearningcoursecreationapp.extensions.gone
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.extensions.visible
-import com.selflearningcoursecreationapp.utils.SpanUtils
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 
 
 class CreatedCourseAdapter : BaseAdapter<AdapterCreatedCourseBinding>() {
@@ -43,7 +44,7 @@ class CreatedCourseAdapter : BaseAdapter<AdapterCreatedCourseBinding>() {
                 binding.tvState.setTextColor(
                     ContextCompat.getColor(
                         context,
-                        R.color.coin_stroked_color
+                        context.getAttrColor(R.attr.accentColor_Yellow)
                     )
                 )
                 binding.btCourse.text = "Edit Course"
@@ -58,7 +59,7 @@ class CreatedCourseAdapter : BaseAdapter<AdapterCreatedCourseBinding>() {
                 binding.tvState.setTextColor(
                     ContextCompat.getColor(
                         context,
-                        R.color.accent_color_fc6d5b
+                        context.getAttrColor(R.attr.accentColor_Red)
                     )
                 )
                 binding.btCourse.text = "Update Course"
@@ -66,7 +67,11 @@ class CreatedCourseAdapter : BaseAdapter<AdapterCreatedCourseBinding>() {
 
         }
         val msg = SpanUtils.with(context, "Revenue: ₹2000").startPos(7)
-            .textColor(ContextCompat.getColor(context, R.color.accent_color_2FBF71))
+            .textColor(
+                ContextCompat.getColor(
+                    context, context.getAttrColor(R.attr.accentColor_Green)
+                )
+            )
             .getSpanString()
         binding.tvPrice.setSpanString(msg)
 

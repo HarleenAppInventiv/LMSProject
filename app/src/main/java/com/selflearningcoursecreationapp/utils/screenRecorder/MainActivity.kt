@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         val transaction: FragmentTransaction = manager.beginTransaction()
         transaction.add(
             R.id.main_nav_host_fragment,
-            com.selflearningcoursecreationapp.utils.screenRecorder.home.HomeFragment()
+            com.selflearningcoursecreationapp.utils.screenRecorder.home.ScreenRecorderHomeFragment()
         )
         transaction.addToBackStack(null)
         transaction.commit()

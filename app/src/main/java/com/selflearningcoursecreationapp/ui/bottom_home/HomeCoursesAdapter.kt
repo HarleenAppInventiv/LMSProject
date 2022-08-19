@@ -13,10 +13,13 @@ import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.CourseType
 import com.selflearningcoursecreationapp.utils.PaymentStatus
+import com.selflearningcoursecreationapp.utils.builderUtils.ImageViewBuilder
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 
 
-class HomeCoursesAdapter(private var list: List<CourseData>?) :
+class HomeCoursesAdapter(
+    private var list: ArrayList<CourseData>?
+) :
     BaseAdapter<AdapterCoursesViewBinding>() {
 
     override fun getLayoutRes() = R.layout.adapter_courses_view
@@ -51,7 +54,19 @@ class HomeCoursesAdapter(private var list: List<CourseData>?) :
 
 //        binding.appCompatImageView2.setImageResource(list[position].)
         binding.appCompatImageView2.apply {
-            loadImage(data?.courseBannerUrl, R.drawable.ic_home_default_banner, position)
+            ImageViewBuilder.builder(this)
+                .placeHolder(R.drawable.ic_home_default_banner)
+                .setImageUrl(data?.courseBannerUrl)
+                .loadImage()
+//            loadImage(data?.courseBannerUrl, R.drawable.ic_home_default_banner, position)
+        }
+
+        binding.appCompatImageView2.apply {
+            loadImage(
+                data?.courseBannerUrl,
+                R.drawable.ic_home_default_banner,
+                data?.courseBannerHash
+            )
         }
         binding.textView4.text = list?.get(position)?.courseTitle
         binding.tvCourseLevel.text = data?.courseComplexityName
@@ -128,6 +143,12 @@ class HomeCoursesAdapter(private var list: List<CourseData>?) :
 
 
     override fun getItemCount() = list?.size ?: 0
+    fun setItems(courses: ArrayList<CourseData>?) {
+        courses?.let {
+            list = it
+            notifyDataSetChanged()
+        }
+    }
 
 
 }

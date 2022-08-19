@@ -1,0 +1,108 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+
+        <item name="colorPrimary">@color/ViMainColor</item>
+        <item name="primaryTintColor">@color/ViMainTintColor</item>
+        <item name="colorPrimaryVariant">@color/ViMainColor</item>
+        <item name="colorAccent">@color/ViMainColor</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/ViMainColor</item>
+        <item name="colorSecondaryVariant">@color/ViMainColor</item>
+        <item name="colorOnSecondary">@color/ViMainColor</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <!-- Status bar color. -->
+        <!-- Customize your theme here. -->
+        <item name="primaryTextColor">@color/heading_color_262626</item>
+        <item name="secondaryTextColor">@color/heading_color_262626</item>
+        <item name="bodyTextColor">@color/hint_color_929292</item>
+        <item name="headingTextColor">@color/heading_color_262626</item>
+        <item name="buttonBackgroundColor">@color/ViSecondaryColor</item>
+        <item name="introButtonBackgroundColor">@color/off_white_f5f5f5</item>
+        <item name="buttonBackgroundTintColor">@color/ViSecondaryTintColor</item>
+        <item name="otpButtonBackgroundColor">@color/otp_btn_bg_color_start_051f32</item>
+        <item name="screenBackgroundColor">@color/white</item>
+        <item name="actionMenuTextColor">?attr/colorPrimary</item>
+        <item name="secondaryScreenBgColor">@color/off_white_f5f5f5</item>
+        <item name="hintColor">@color/ViTextHintColor</item>
+        <item name="buttonTextColor">@color/heading_color_262626</item>
+        <item name="lineColor">@color/grey_ededed</item>
+        <item name="android:textViewStyle">@style/textViewStyle</item>
+        <item name="materialButtonStyle">@style/buttonViewStyle</item>
+        <item name="fontBold">@font/ibm_bold</item>
+        <item name="fontSemiBold">@font/ibm_semibold</item>
+        <item name="fontRegular">@font/ibm_regular</item>
+        <item name="fontMedium">@font/ibm_medium</item>
+        <item name="whiteTextColor">@color/off_white_f5f5f5</item>
+        <item name="blackTextColor">@color/black</item>
+        <item name="off_whiteTextColor">@color/off_white_f5f5f5</item>
+        <item name="profile_mail_color">@color/profile_mail_color</item>
+        <item name="divider_grey">@color/dividerGrey</item>
+        <item name="toolbarTitleColor">@color/heading_color_262626</item>
+        <item name="googleIconTintColor">@color/ViSecondaryTintColor</item>
+        <item name="coinDrawableColor">@color/ViCoinColor</item>
+        <item name="coinDrawableSecondaryColor">@color/ViCoinSecondaryColor</item>
+        <item name="coinDrawableStrokeColor">@color/ViCoinColor</item>
+        <item name="coinDrawableStrokeBgColor">@color/white</item>
+        <item name="listDividerColor">@color/opacity_20_929292</item>
+        <item name="levelBgColor">@color/offWhite_f6f6f6</item>
+        <item name="etDashColor">@color/et_dash_color</item>
+        <item name="dotColor">@color/grey_c4c4c4</item>
+
+
+        <item name="checkboxStyle">@style/CheckboxTheme</item>
+        <item name="radioButtonStyle">@style/RadioButtonTheme</item>
+        <item name="android:radioButtonStyle">@style/RadioButtonTheme</item>
+        <item name="android:checkboxStyle">@style/CheckboxTheme</item>
+        <item name="toolbarColor">@color/white</item>
+        <item name="viewBackgroundColor">@color/screen_background</item>
+        <item name="viewSecondaryBgColor">@color/off_white_f5f5f5</item>
+        <item name="editTextStyle">@style/editTextTheme</item>
+        <item name="android:editTextStyle">@style/editTextTheme</item>
+
+
+        <item name="android:actionButtonStyle">@style/MyActionButtonStyle</item>
+
+        <item name="accentColor_Red">@color/heading_color_262626</item>
+        <item name="accentColor_Green">@color/heading_color_262626</item>
+        <item name="accentColor_Yellow">@color/heading_color_262626</item>
+    </style>
+
+
+    <style name="AppTheme.WorkSansTheme" parent="AppTheme">
+        <item name="fontBold">@font/worksans_bold</item>
+        <item name="fontSemiBold">@font/worksans_semibold</item>
+        <item name="fontRegular">@font/worksans_regular</item>
+        <item name="fontMedium">@font/worksans_medium</item>
+    </style>
+
+
+    <style name="AppTheme.Soleto" parent="AppTheme">
+        <item name="fontBold">@font/soleto_black</item>
+        <item name="fontSemiBold">@font/soleto_bold</item>
+        <item name="fontRegular">@font/soleto_regular</item>
+        <item name="fontMedium">@font/soleto_medium</item>
+    </style>
+
+    <style name="AppTheme.Roboto" parent="AppTheme">
+        <item name="fontBold">@font/roboto_black</item>
+        <item name="fontSemiBold">@font/roboto_bold</item>
+        <item name="fontRegular">@font/roboto_regular</item>
+        <item name="fontMedium">@font/roboto_medium</item>
+    </style>
+
+
+    <style name="MyActionButtonStyle" parent="AppTheme">
+        <item name="android:minWidth">20dip</item>
+        <item name="android:padding">10dip</item>
+    </style>
+    <!--    <style name="AppTheme.NoActionBar">-->
+    <!--        <item name="windowActionBar">false</item>-->
+    <!--        <item name="windowNoTitle">true</item>-->
+    <!--    </style>-->
+    <!--    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->
+    <!--    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
+
+</resources>

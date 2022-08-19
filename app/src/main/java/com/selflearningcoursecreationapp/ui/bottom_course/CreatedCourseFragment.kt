@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
-import com.selflearningcoursecreationapp.BuildConfig
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseFragment
@@ -47,6 +46,7 @@ class CreatedCourseFragment : BaseFragment<FragmentMyCourseBinding>(), BaseAdapt
         mAdapter = null
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         binding.tvNoData.text = getString(R.string.course_list_empty)
+
 
 //        binding.tvNoData.setOnClickListener {
 //            binding.llNoWishlist.gone()
@@ -105,19 +105,19 @@ class CreatedCourseFragment : BaseFragment<FragmentMyCourseBinding>(), BaseAdapt
     }
 
     override fun onItemClick(vararg items: Any) {
-        var type = items[0] as Int
-        var position = items[1] as Int
+        val type = items[0] as Int
+        val position = items[1] as Int
         when (type) {
             Constant.CLICK_VIEW -> {
-                if (BuildConfig.DEBUG) {
-                    findNavController().navigate(
-                        R.id.action_myCourseTabFragment_to_addCourseBaseFragment,
-                        bundleOf(
-                            "courseId" to viewModel.courseLiveData.value?.get(position)?.courseId
-                        )
+//                if (BuildConfig.DEBUG) {
+                findNavController().navigate(
+                    R.id.action_myCourseTabFragment_to_contentCourseDetailFragment,
+                    bundleOf(
+                        "courseId" to viewModel.courseLiveData.value?.get(position)?.courseId
                     )
-                }
+                )
             }
+//            }
         }
 
     }

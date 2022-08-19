@@ -68,7 +68,11 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
 
 
             } else {
-                baseActivity.goToHomeActivity()
+                if (user.currentMode == 1) {
+                    baseActivity.goToHomeActivity()
+                } else {
+                    baseActivity.goToModeratorActivity()
+                }
             }
 
         }

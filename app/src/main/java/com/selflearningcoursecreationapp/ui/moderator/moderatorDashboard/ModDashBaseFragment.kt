@@ -30,6 +30,8 @@ class ModDashBaseFragment : BaseFragment<FragmentModeratorDashboardBaseBinding>(
     }
 
     private fun initUI() {
+
+
         binding.pieChartView2.apply {
 
             val pieEntries: ArrayList<PieEntry> = ArrayList()

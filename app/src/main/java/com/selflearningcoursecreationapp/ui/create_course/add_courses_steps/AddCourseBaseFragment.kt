@@ -27,7 +27,11 @@ import com.selflearningcoursecreationapp.ui.create_course.co_author.InviteCoAuth
 import com.selflearningcoursecreationapp.ui.create_course.review.CourseReviewFragment
 import com.selflearningcoursecreationapp.ui.home.HomeActivity
 import com.selflearningcoursecreationapp.ui.preferences.ScreenSlidePagerAdapter
-import com.selflearningcoursecreationapp.utils.*
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.utils.HandleClick
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -54,7 +58,7 @@ class AddCourseBaseFragment : BaseFragment<FragmentAddCourseBaseBinding>(),
             viewModel.courseData.value?.courseId = it.getInt("courseId")
             isFirstTime += 1
         }
-//        viewModel.courseData.value?.courseId = 1760
+//        viewModel.courseData.value?.courseId = 1890
 //        isFirstTime += 1
 //        arguments?.let {
 //            viewModel.courseData.value?.courseId = it.getInt("courseId")
@@ -63,7 +67,7 @@ class AddCourseBaseFragment : BaseFragment<FragmentAddCourseBaseBinding>(),
         activityResultListener()
         initViewPager()
         setHasOptionsMenu(true)
-        binding.lifecycleOwner = parentFragment
+//        binding.lifecycleOwner = parentFragment
         binding.viewModel = viewModel
         binding.handleClick = this
 //        if (!viewModel.courseData.value?.courseId.isNullOrZero() && isFirstTime == 1) {
@@ -174,10 +178,11 @@ class AddCourseBaseFragment : BaseFragment<FragmentAddCourseBaseBinding>(),
         list.addAll(fragList)
 
 
-        val adapter = ScreenSlidePagerAdapter(childFragmentManager, list, this.lifecycle)
+        val adapter = ScreenSlidePagerAdapter(childFragmentManager, list, lifecycle)
         binding.vpAddCourses.adapter = adapter
 
-
+//binding.vpAddCourses.isSaveEnabled=false
+//binding.vpAddCourses.isSaveFromParentEnabled=false
         binding.vpAddCourses.isUserInputEnabled = false
         binding.vpAddCourses.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
@@ -272,6 +277,7 @@ class AddCourseBaseFragment : BaseFragment<FragmentAddCourseBaseBinding>(),
         viewModel.isCreator.value =
             (viewModel.courseData.value?.createdById == viewModel.userProfile?.id)
 
+
         when (apiCode) {
 
             ApiEndPoints.API_COAUTHOR_INVITATION -> {
@@ -301,7 +307,17 @@ class AddCourseBaseFragment : BaseFragment<FragmentAddCourseBaseBinding>(),
             ApiEndPoints.API_CRE_STEP_1 -> {
                 (value as BaseResponse<UserProfile>)
 
+//                viewModel.completedStep =
+//                    when (viewModel.courseData.value?.completeStep) {
+//                        1 -> 1
+//                        3 -> 2
+//                        7 -> 3
+//                        15 -> 4
+//                        else -> {1}
+//                    }
+
                 binding.vpAddCourses.currentItem += 1
+
 
             }
             ApiEndPoints.API_GET_SECTIONS -> {

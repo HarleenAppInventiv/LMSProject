@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -11,7 +10,6 @@
         <variable
             name="profileThumbVM"
             type="com.selflearningcoursecreationapp.ui.profile.profileThumb.ProfileThumbViewModel" />
-
     </data>
 
     <ScrollView
@@ -19,11 +17,9 @@
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:overScrollMode="never">
-
-        <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent">-->
-
+        <!--         <androidx.constraintlayout.widget.ConstraintLayout -->
+        <!--             android:layout_width="match_parent" -->
+        <!--             android:layout_height="match_parent"> -->
         <androidx.constraintlayout.motion.widget.MotionLayout
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
@@ -53,7 +49,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/img_back"
                 android:layout_width="wrap_content"
@@ -67,7 +62,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_arrow_left_white" />
 
-
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/img_talk"
                 android:layout_width="wrap_content"
@@ -80,7 +74,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_screen_reading_mode_white" />
 
-
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/circle"
                 android:layout_width="@dimen/_80sdp"
@@ -90,7 +83,6 @@
                 android:padding="@dimen/_3sdp"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
-
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/circle"
@@ -114,54 +106,48 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/circle"
                 app:textColorType="none" />
-
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:gravity="center"-->
-            <!--                android:orientation="horizontal"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/txt_user_name">-->
-
-            <!--                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView-->
-            <!--                    android:id="@+id/txt_switch_text"-->
-            <!--                    style="@style/textViewStyle.Heading"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:text="@string/vi_mode"-->
-            <!--                    android:textColor="?attr/whiteTextColor"-->
-            <!--                    android:textSize="@dimen/textField_14"-->
-            <!--                    app:fontType="semiBold"-->
-            <!--                    app:layout_constraintEnd_toStartOf="@+id/sv_change_dash"-->
-            <!--                    app:layout_constraintHorizontal_chainStyle="packed"-->
-            <!--                    app:layout_constraintStart_toStartOf="parent"-->
-
-            <!--                    app:layout_constraintTop_toBottomOf="@+id/txt_user_name"-->
-            <!--                    app:textColorType="none" />-->
-
-            <!--                <androidx.appcompat.widget.SwitchCompat-->
-            <!--                    android:id="@+id/sv_change_dash"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_marginStart="@dimen/_10sdp"-->
-            <!--                    android:layout_marginTop="@dimen/_2sdp"-->
-            <!--                    android:button="@drawable/sw_small_selector"-->
-            <!--                    android:minHeight="0dp"-->
-            <!--                    android:padding="0dp"-->
-            <!--                    android:textAlignment="textStart"-->
-            <!--                    android:textColor="@color/white"-->
-            <!--                    android:textSize="@dimen/_12ssp"-->
-            <!--                    android:theme="@style/SWTheme"-->
-            <!--                    android:thumb="@null"-->
-            <!--                    app:layout_constraintBottom_toBottomOf="@+id/txt_switch_text"-->
-            <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                    app:layout_constraintStart_toEndOf="@+id/txt_switch_text"-->
-            <!--                    app:layout_constraintTop_toTopOf="@+id/txt_switch_text"-->
-            <!--                    app:track="@null" />-->
-
-            <!--            </LinearLayout>-->
-
+            <!--             <LinearLayout -->
+            <!--                 android:layout_width="wrap_content" -->
+            <!--                 android:layout_height="wrap_content" -->
+            <!--                 android:gravity="center" -->
+            <!--                 android:orientation="horizontal" -->
+            <!--                 app:layout_constraintEnd_toEndOf="parent" -->
+            <!--                 app:layout_constraintStart_toStartOf="parent" -->
+            <!--                 app:layout_constraintTop_toBottomOf="@+id/txt_user_name"> -->
+            <!--                 <com.selflearningcoursecreationapp.utils.customViews.LMSTextView -->
+            <!--                     android:id="@+id/txt_switch_text" -->
+            <!--                     style="@style/textViewStyle.Heading" -->
+            <!--                     android:layout_width="wrap_content" -->
+            <!--                     android:layout_height="wrap_content" -->
+            <!--                     android:text="@string/vi_mode" -->
+            <!--                     android:textColor="?attr/whiteTextColor" -->
+            <!--                     android:textSize="@dimen/textField_14" -->
+            <!--                     app:fontType="semiBold" -->
+            <!--                     app:layout_constraintEnd_toStartOf="@+id/sv_change_dash" -->
+            <!--                     app:layout_constraintHorizontal_chainStyle="packed" -->
+            <!--                     app:layout_constraintStart_toStartOf="parent" -->
+            <!--                     app:layout_constraintTop_toBottomOf="@+id/txt_user_name" -->
+            <!--                     app:textColorType="none" /> -->
+            <!--                 <androidx.appcompat.widget.SwitchCompat -->
+            <!--                     android:id="@+id/sv_change_dash" -->
+            <!--                     android:layout_width="wrap_content" -->
+            <!--                     android:layout_height="wrap_content" -->
+            <!--                     android:layout_marginStart="@dimen/_10sdp" -->
+            <!--                     android:layout_marginTop="@dimen/_2sdp" -->
+            <!--                     android:button="@drawable/sw_small_selector" -->
+            <!--                     android:minHeight="0dp" -->
+            <!--                     android:padding="0dp" -->
+            <!--                     android:textAlignment="textStart" -->
+            <!--                     android:textColor="@color/white" -->
+            <!--                     android:textSize="@dimen/_12ssp" -->
+            <!--                     android:theme="@style/SWTheme" -->
+            <!--                     android:thumb="@null" -->
+            <!--                     app:layout_constraintBottom_toBottomOf="@+id/txt_switch_text" -->
+            <!--                     app:layout_constraintEnd_toEndOf="parent" -->
+            <!--                     app:layout_constraintStart_toEndOf="@+id/txt_switch_text" -->
+            <!--                     app:layout_constraintTop_toTopOf="@+id/txt_switch_text" -->
+            <!--                     app:track="@null" /> -->
+            <!--             </LinearLayout> -->
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/txt_switch_text"
                 style="@style/textViewStyle.Heading"
@@ -214,12 +200,13 @@
                 app:textColorType="none" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/txt_moderator_switch"
+                android:id="@+id/txt_moderator_switch_2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:background="@drawable/bottom_line_grey"
                 android:drawablePadding="@dimen/_10sdp"
+                android:elevation="@dimen/_5sdp"
                 android:onClickListener="@{(v)->profileThumb.onHandleClick(v)}"
                 android:paddingVertical="@dimen/_16sdp"
                 android:text="@string/switch_to_moderator_mode"
@@ -243,11 +230,10 @@
                 android:textSize="@dimen/_12ssp"
                 android:theme="@style/SWTheme"
                 android:thumb="@null"
-                app:layout_constraintBottom_toBottomOf="@+id/txt_moderator_switch"
-                app:layout_constraintEnd_toEndOf="@+id/txt_moderator_switch"
-                app:layout_constraintTop_toTopOf="@+id/txt_moderator_switch"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_moderator_switch_2"
+                app:layout_constraintEnd_toEndOf="@+id/txt_moderator_switch_2"
+                app:layout_constraintTop_toTopOf="@+id/txt_moderator_switch_2"
                 app:track="@null" />
-
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/txt_profile_details"
@@ -264,10 +250,9 @@
                 app:fontType="regular"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_moderator_switch"
+                app:layout_constraintTop_toBottomOf="@+id/txt_moderator_switch_2"
                 app:primaryIconTint="start"
                 app:textColorType="heading" />
-
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/txt_dashboard"
@@ -284,13 +269,9 @@
                 app:fontType="regular"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-
                 app:layout_constraintTop_toBottomOf="@+id/txt_profile_details"
                 app:primaryIconTint="start"
-                app:textColorType="heading"
-
-                />
-
+                app:textColorType="heading" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/txt_my_qualifications"
@@ -309,9 +290,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_dashboard"
                 app:primaryIconTint="start"
-                app:textColorType="heading"
-
-                />
+                app:textColorType="heading" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/txt_delete_account"
@@ -323,7 +302,7 @@
                 android:onClickListener="@{(v)->profileThumb.onHandleClick(v)}"
                 android:paddingVertical="@dimen/_16sdp"
                 android:text="@string/delete_account"
-                android:textColor="?attr/orange_text_color"
+                android:textColor="?attr/accentColor_Red"
                 android:textSize="@dimen/textField_14"
                 app:drawableStartCompat="@drawable/ic_deactivate"
                 app:fontType="regular"
@@ -342,7 +321,7 @@
                 android:onClickListener="@{(v)->profileThumb.onHandleClick(v)}"
                 android:paddingVertical="@dimen/_16sdp"
                 android:text="@string/logout"
-                android:textColor="?attr/orange_text_color"
+                android:textColor="?attr/accentColor_Red"
                 android:textSize="@dimen/textField_14"
                 app:drawableStartCompat="@drawable/ic_log_out"
                 app:fontType="regular"
@@ -350,11 +329,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:textColorType="none" />
-            <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-
+            <!--         </androidx.constraintlayout.widget.ConstraintLayout> -->
         </androidx.constraintlayout.motion.widget.MotionLayout>
-
-
     </ScrollView>
 </layout>

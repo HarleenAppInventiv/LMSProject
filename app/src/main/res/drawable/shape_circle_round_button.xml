@@ -3,8 +3,8 @@
     android:shape="oval">
     <solid android:color="#eeffffff" />
     <corners
-        android:bottomLeftRadius="8dip"
         android:bottomRightRadius="8dip"
+        android:bottomLeftRadius="8dip"
         android:topLeftRadius="8dip"
         android:topRightRadius="8dip" />
 </shape>

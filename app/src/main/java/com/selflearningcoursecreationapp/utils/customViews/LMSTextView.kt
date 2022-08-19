@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.SelfLearningApplication
+import com.selflearningcoursecreationapp.extensions.getAttrColor
 import com.selflearningcoursecreationapp.extensions.isNullOrZero
 
 
@@ -122,19 +123,19 @@ class LMSTextView : AppCompatTextView {
         val colorValue = when (textColorType) {
 
             ThemeConstants.TYPE_SECONDARY -> {
-                ContextCompat.getColor(context, R.color.heading_color_262626)
+                ContextCompat.getColor(context, context.getAttrColor(R.attr.secondaryTextColor))
             }
             ThemeConstants.TYPE_HEADING -> {
-                ContextCompat.getColor(context, R.color.heading_color_262626)
+                ContextCompat.getColor(context, context.getAttrColor(R.attr.headingTextColor))
             }
             ThemeConstants.TYPE_BODY -> {
-                ContextCompat.getColor(context, R.color.hint_color_929292)
+                ContextCompat.getColor(context, context.getAttrColor(R.attr.bodyTextColor))
             }
             ThemeConstants.TYPE_BLACK -> {
-                ContextCompat.getColor(context, R.color.black)
+                ContextCompat.getColor(context, context.getAttrColor(R.attr.blackTextColor))
             }
             ThemeConstants.TYPE_WHITE -> {
-                ContextCompat.getColor(context, R.color.white)
+                ContextCompat.getColor(context, context.getAttrColor(R.attr.whiteTextColor))
             }
             ThemeConstants.TYPE_THEME -> {
                 ThemeUtils.getAppColor(context)
@@ -176,7 +177,10 @@ class LMSTextView : AppCompatTextView {
 
                 }
                 ThemeConstants.TYPE_BODY -> {
-                    ContextCompat.getColor(context, R.color.intro_btn_bg_color_f5f5f5)
+                    ContextCompat.getColor(
+                        context,
+                        context.getAttrColor(R.attr.viewSecondaryBgColor)
+                    )
 
                 }
                 else -> {

@@ -27,7 +27,7 @@
                 android:id="@+id/app_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/viewBackgroundColor">
+                android:background="?attr/screenBackgroundColor">
 
                 <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:id="@+id/tl_collapse"
@@ -49,6 +49,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_270sdp"
                             android:scaleType="centerCrop"
+                            app:applyGrayscale="true"
                             android:src="@drawable/ic_dummy_course"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,7 +59,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="@dimen/_16sdp"
                             android:layout_marginTop="@dimen/_60sdp"
-                            app:cardBackgroundColor="@color/white"
+                            app:cardBackgroundColor="?attr/screenBackgroundColor"
                             app:cardCornerRadius="@dimen/_8sdp"
                             app:layout_constraintBottom_toBottomOf="@+id/ivCourseImage"
                             app:layout_constraintTop_toBottomOf="@+id/ivCourseImage">
@@ -149,7 +150,7 @@
                                     android:layout_width="@dimen/_4sdp"
                                     android:layout_height="@dimen/_4sdp"
                                     android:layout_marginStart="@dimen/_6sdp"
-                                    android:src="@color/grey_c4c4c4"
+                                    android:src="?attr/dotColor"
                                     app:layout_constraintBottom_toBottomOf="@+id/tv_category"
                                     app:layout_constraintEnd_toStartOf="@+id/tvLanguage"
                                     app:layout_constraintHorizontal_bias="0"
@@ -182,6 +183,7 @@
                                     android:layout_height="@dimen/_28sdp"
                                     android:layout_marginTop="@dimen/_17sdp"
                                     android:scaleType="centerCrop"
+                                    app:applyGrayscale="true"
                                     android:src="@drawable/ic_default_user_grey"
                                     app:layout_constraintStart_toStartOf="@+id/tvCourseName"
                                     app:layout_constraintTop_toBottomOf="@+id/tv_category"
@@ -194,6 +196,7 @@
                                     android:layout_marginTop="@dimen/_10sdp"
                                     android:layout_marginBottom="@dimen/_10sdp"
                                     android:scaleType="centerCrop"
+                                    app:applyGrayscale="true"
                                     android:src="@drawable/ic_logo_default"
                                     app:changeBackgroundType="bg_theme_solid"
                                     app:layout_constraintBottom_toBottomOf="parent"
@@ -239,7 +242,7 @@
                             android:layout_width="@dimen/_4sdp"
                             android:layout_height="@dimen/_4sdp"
                             android:layout_marginStart="@dimen/_10sdp"
-                            android:src="@color/grey_c4c4c4"
+                            android:src="?attr/dotColor"
                             app:layout_constraintBottom_toBottomOf="@+id/tv_section_count"
                             app:layout_constraintStart_toEndOf="@+id/tv_section_count"
                             app:layout_constraintTop_toTopOf="@+id/tv_section_count"
@@ -350,8 +353,7 @@
                         app:menu="@menu/course_detail_menu"
                         app:navigationIcon="@drawable/ic_arrow_left"
                         app:title="My Toolbar"
-                        app:titleTextAppearance="@style/toolbarTheme"
-                        app:titleTextColor="@color/black_242424">
+                        app:titleTextAppearance="@style/toolbarTheme">
 
                     </com.google.android.material.appbar.MaterialToolbar>
 
@@ -476,7 +478,7 @@
                 android:id="@+id/tv_new_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/accent_color_2FBF71"
+                android:textColor="?attr/accentColor_Green"
                 android:textSize="@dimen/textField_16"
                 app:fontType="semiBold"
                 app:layout_constraintBottom_toBottomOf="@+id/bt_enroll"

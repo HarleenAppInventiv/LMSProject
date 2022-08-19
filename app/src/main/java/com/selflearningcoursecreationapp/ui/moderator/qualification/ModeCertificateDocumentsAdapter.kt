@@ -1,4 +1,4 @@
-package com.selflearningcoursecreationapp.ui.moderator
+package com.selflearningcoursecreationapp.ui.moderator.qualification
 
 import android.annotation.SuppressLint
 import com.selflearningcoursecreationapp.R

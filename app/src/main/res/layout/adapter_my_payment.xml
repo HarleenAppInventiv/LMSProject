@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:text="- ₹2000.00"
-                android:textColor="?attr/googleButtonBackgroundColor"
+                android:textColor="?attr/accentColor_Red"
                 android:textSize="@dimen/adapterTextField_17"
                 app:fontType="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_name"

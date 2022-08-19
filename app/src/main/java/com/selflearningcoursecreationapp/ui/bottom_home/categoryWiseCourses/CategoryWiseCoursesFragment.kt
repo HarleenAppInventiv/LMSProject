@@ -20,13 +20,19 @@ import com.selflearningcoursecreationapp.extensions.isNullOrZero
 import com.selflearningcoursecreationapp.extensions.visibleView
 import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.models.course.OrderData
-import com.selflearningcoursecreationapp.ui.bottom_home.HomeAdapter
+import com.selflearningcoursecreationapp.ui.bottom_home.HomeAdapterTest
 import com.selflearningcoursecreationapp.ui.bottom_home.HomeVM
 import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.AllCoursesAdapter
 import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.FilterBottomDialog
 import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.SelectedFilterData
 import com.selflearningcoursecreationapp.ui.dialog.unlockCourse.UnlockCourseDialog
-import com.selflearningcoursecreationapp.utils.*
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.utils.CourseType
+import com.selflearningcoursecreationapp.utils.DialogType
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
+import com.selflearningcoursecreationapp.utils.recyclerView.ScrollStateHolder
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -34,12 +40,14 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
     BaseAdapter.IViewClick, BaseBottomSheetDialog.IDialogClick, BaseAdapter.IListEnd,
     BaseDialog.IDialogClick {
     private val viewModel: HomeVM by viewModel()
-    private var mAdapter: HomeAdapter? = null
+    private var mAdapter: HomeAdapterTest? = null
     private var mOtherAdapter: AllCoursesAdapter? = null
-
+    private lateinit var scrollStateHolder: ScrollStateHolder
+    private val sharedHomeModel: HomeVM by sharedViewModel()
     override fun getLayoutRes() = R.layout.fragment_category_wise_courses
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        scrollStateHolder = ScrollStateHolder(savedInstanceState)
         setHasOptionsMenu(true)
         initUI()
     }
@@ -49,9 +57,9 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
     }
 
     fun initUI() {
+
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         binding.viewModel = viewModel
-        reset()
         arguments?.let {
             if (!it.getInt("id").isNullOrZero()) {
 
@@ -64,6 +72,10 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
             Log.d("varun", "initUI: ${it.getString("id").toString()}")
 
         }
+
+        baseActivity.setToolbar(viewModel.screenTitle)
+
+        callApi()
 
         binding.etSearch.doOnTextChanged { text, start, before, count ->
             if (text.toString().isEmpty() && viewModel.isTextSearch) {
@@ -99,14 +111,19 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
         observeOtherCourseData()
 
         binding.swipeRefresh.setOnRefreshListener {
-            viewModel.reset()
-            reset()
-            viewModel.getCourses()
-            viewModel.getOtherCourses()
+            callApi()
         }
 
         pagination()
 
+    }
+
+    private fun callApi() {
+        binding.tvOther.gone()
+        viewModel.reset()
+        reset()
+        viewModel.getCourses()
+        viewModel.getOtherCourses()
     }
 
     private fun pagination() {
@@ -141,9 +158,8 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
 
     override fun onResume() {
         super.onResume()
-        viewModel.getCourses()
-        viewModel.getOtherCourses()
-        baseActivity.setToolbar(viewModel.screenTitle)
+//        viewModel.getCourses()
+//        viewModel.getOtherCourses()
     }
 
     private fun speechToTextHandling() {
@@ -331,13 +347,13 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
     private fun observeWishlist() {
         viewModel.wishlistLiveData.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
-                if (it.success.equals("true")) {
+//                if (it.success.equals("true")) {
                     mOtherAdapter?.notifyDataSetChanged()
                     mAdapter?.notifyDataSetChanged()
 //                viewModel.courseLiveData.value
 //                binding.rvList.adapter = HomeAdapter(it)
 //                (binding.rvList.adapter as? HomeAdapter)?.setOnAdapterItemClickListener(this)
-                }
+//                }
             }
 
         }
@@ -353,7 +369,10 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
             mAdapter = null
         } else {
             mAdapter?.notifyDataSetChanged() ?: kotlin.run {
-                mAdapter = HomeAdapter(viewModel.courseLiveData.value ?: ArrayList())
+                mAdapter = HomeAdapterTest(
+                    viewModel.courseLiveData.value ?: ArrayList(),
+                    scrollStateHolder
+                )
                 binding.rvList.adapter = mAdapter
                 mAdapter?.setOnAdapterItemClickListener(this)
 //                mAdapter!!.setOnPageEndListener(this)
@@ -381,10 +400,24 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
             ApiEndPoints.API_PURCHASE_COURSE -> {
                 val resource = (value as BaseResponse<OrderData>)
                 showToastShort(resource.message)
+                sharedHomeModel.updateCourse(resource.resource?.course?.courseId)
                 findNavController().navigate(
                     R.id.action_categoryWiseCoursesFragment_to_courseDetailsFragment,
                     bundleOf("courseId" to resource.resource?.course?.courseId)
                 )
+            }
+
+
+//            ApiEndPoints.API_HOME_WISHLIST + "/false" -> {
+//                viewModel.setWishlist((value as Pair<Int?, Boolean>?))
+//                mAdapter?.notifyDataSetChanged()
+//                mOtherAdapter?.notifyDataSetChanged()
+//            }
+            ApiEndPoints.API_HOME_WISHLIST -> {
+                viewModel.setWishlist((value as Pair<Int?, Boolean>?))
+                sharedHomeModel.setWishlist((value as Pair<Int?, Boolean>?))
+                mAdapter?.notifyDataSetChanged()
+                mOtherAdapter?.notifyDataSetChanged()
             }
             ApiEndPoints.API_RAZORPAY_COURSE -> {
                 baseActivity.startRazorpayPayment((value as BaseResponse<OrderData>).resource)
@@ -415,7 +448,7 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
                     val courseId = items[1] as Int
 
                     findNavController().navigate(
-                        R.id.action_popularFragment_to_courseDetailsFragment,
+                        R.id.action_categoryWiseCoursesFragment_to_courseDetailsFragment,
                         bundleOf("courseId" to courseId)
                     )
                 }
@@ -443,8 +476,10 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
             mOtherAdapter = null
         } else {
             mOtherAdapter?.notifyDataSetChanged() ?: kotlin.run {
-                mOtherAdapter =
-                    AllCoursesAdapter(viewModel.otherCourseLiveData.value ?: ArrayList())
+                mOtherAdapter = AllCoursesAdapter(
+                    viewModel.otherCourseLiveData.value ?: ArrayList(),
+                    baseActivity.isViOn()
+                )
                 binding.rvOther.adapter = mOtherAdapter
                 mOtherAdapter?.setOnAdapterItemClickListener(this)
                 mOtherAdapter?.setOnPageEndListener(this)

@@ -14,7 +14,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="?attr/screenBackgroundColor"
         tools:context=".ui.authentication.OnBoardingActivity">
 
 
@@ -90,7 +90,7 @@
                 android:layout_height="0dp"
                 android:layout_marginVertical="@dimen/_12sdp"
                 android:layout_marginStart="@dimen/_40sdp"
-                android:background="@color/et_dash_color"
+                android:background="?attr/etDashColor"
                 android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="@+id/et_email"
                 app:layout_constraintStart_toStartOf="@+id/et_email"

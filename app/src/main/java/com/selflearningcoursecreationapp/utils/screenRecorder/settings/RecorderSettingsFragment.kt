@@ -19,7 +19,7 @@ import com.selflearningcoursecreationapp.utils.screenRecorder.applyNightMode
 import com.selflearningcoursecreationapp.utils.screenRecorder.services.UriType
 
 
-class SettingsFragment : PreferenceFragmentCompat(),
+class RecorderSettingsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var recordAudio: SwitchPreference
