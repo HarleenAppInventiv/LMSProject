@@ -12,7 +12,6 @@ import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterSectionViewBinding
 import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.utils.Constant
-import com.selflearningcoursecreationapp.utils.MediaType
 import java.util.*
 
 class AddSectionAdapter(
@@ -68,11 +67,9 @@ class AddSectionAdapter(
 
         var millis: Long = 0
         sectionData[position].lessonList.forEach {
-            millis += if (it.mediaType != MediaType.QUIZ) {
+            millis +=
                 it.lectureContentDuration ?: 0
-            } else {
-                it.lectureContentDuration ?: 0
-            }
+
         }
         binding.tvTotalTime.text = millis.getTime(context, true, true)
 

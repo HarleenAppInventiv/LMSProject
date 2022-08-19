@@ -16,7 +16,7 @@ class AdapterCourseType(private var list: ArrayList<CategoryData>) :
     override fun getLayoutRes() = R.layout.adapter_home_course_type
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        // super.onBindViewHolder(holder, position)
+val binding = holder.binding as AdapterHomeCourseTypeBinding
         binding.model = list[position];
 
         binding.tvCourseName.text = list[position].name
@@ -28,54 +28,39 @@ class AdapterCourseType(private var list: ArrayList<CategoryData>) :
 //            ))
 //            binding.tvCourseName.changeBackgroundColor(ThemeConstants.TYPE_THEME)
 //        } else {
-        when (position % 4) {
+        val color = when (position % 4) {
             0 -> {
-                binding.tvCourseName.backgroundTintList =
-                    ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.blue_indicator_color
-                        )
-                    )
+
+                R.color.blue_indicator_color
+
 //                    binding.tvCourseName.backgroundTintMode=PorterDuff.Mode.SRC_IN
             }
             1 -> {
-                binding.tvCourseName.backgroundTintList =
-                    ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.color_green
-                        )
-                    )
+                R.color.color_green
+
             }
             2 -> {
-                binding.tvCourseName.backgroundTintList =
-                    ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.coin_stroked_color
-                        )
-                    )
+                R.color.coin_stroked_color
+
             }
             3 -> {
-                binding.tvCourseName.backgroundTintList =
-                    ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.purple_700
-                        )
-                    )
+
+                R.color.purple_700
+
             }
             else -> {
-                binding.tvCourseName.backgroundTintList =
-                    ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.blue_indicator_color
-                        )
-                    )
+                R.color.primaryColor
+
             }
         }
+
+        binding.tvCourseName.backgroundTintList =
+            ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    binding.root.context,
+                    color
+                )
+            )
 //            binding.tvCourseName.backgroundTintList = null
 //            binding.tvCourseName.setTextColor(
 //                ContextCompat.getColor(

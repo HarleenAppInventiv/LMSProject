@@ -42,23 +42,29 @@ fun Int.getMediaType(showGreen: Boolean = true): Pair<Int, Int> {
 }
 
 fun TextView.setComplexityLevel(type: Int?) {
-    when (type) {
-        ComplexityLevel.ADVANCED -> {
-            setTextColor(ContextCompat.getColor(context, R.color.accent_color_fc6d5b))
-            backgroundTintList =
-                ColorStateList.valueOf(ContextCompat.getColor(context, R.color.offWhite_f6f6f6))
-        }
-        ComplexityLevel.BEGINNER -> {
-            setTextColor(ContextCompat.getColor(context, R.color.accent_color_2FBF71))
-            backgroundTintList =
-                ColorStateList.valueOf(ContextCompat.getColor(context, R.color.offWhite_f6f6f6))
+    if (type.isNullOrZero()) {
+        setTextColor(ContextCompat.getColor(context, R.color.accent_color_fc6d5b))
+        backgroundTintList =
+            ColorStateList.valueOf(ContextCompat.getColor(context, R.color.offWhite_f6f6f6))
+    } else {
+        when (type) {
+            ComplexityLevel.ADVANCED -> {
+                setTextColor(ContextCompat.getColor(context, R.color.accent_color_fc6d5b))
+                backgroundTintList =
+                    ColorStateList.valueOf(ContextCompat.getColor(context, R.color.offWhite_f6f6f6))
+            }
+            ComplexityLevel.BEGINNER -> {
+                setTextColor(ContextCompat.getColor(context, R.color.accent_color_2FBF71))
+                backgroundTintList =
+                    ColorStateList.valueOf(ContextCompat.getColor(context, R.color.offWhite_f6f6f6))
 
-        }
-        ComplexityLevel.INTERMEDIATE -> {
-            setTextColor(ContextCompat.getColor(context, R.color.primaryColor))
-            backgroundTintList =
-                ColorStateList.valueOf(ContextCompat.getColor(context, R.color.blue_tint_color))
+            }
+            ComplexityLevel.INTERMEDIATE -> {
+                setTextColor(ContextCompat.getColor(context, R.color.primaryColor))
+                backgroundTintList =
+                    ColorStateList.valueOf(ContextCompat.getColor(context, R.color.blue_tint_color))
 
+            }
         }
     }
 }

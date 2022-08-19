@@ -82,7 +82,7 @@ fun Long?.getTime(context: Context, showHms: Boolean = true, showHrs: Boolean = 
     if (this.isNullOrZero()) {
         return ""
     } else if (showHms) {
-        return getTimeInHMS(context, showHrs)
+        return getTimeInHMS(showHrs)
     } else {
         return context.getTimeInChar(this)
     }
@@ -90,7 +90,7 @@ fun Long?.getTime(context: Context, showHms: Boolean = true, showHrs: Boolean = 
 
 }
 
-private fun Long?.getTimeInHMS(context: Context, showHrs: Boolean): String {
+private fun Long?.getTimeInHMS(showHrs: Boolean): String {
     val seconds = this!!.div(1000).rem(60).toInt()
     val mins = this.div(1000.times(60)).rem(60).toInt()
     val hrs = this.div(1000.times(60).times(60)).rem(24).toInt()
