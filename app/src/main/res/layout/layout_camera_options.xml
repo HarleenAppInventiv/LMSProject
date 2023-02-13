@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="typeOfClick"
+            type="Integer" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_65sdp"
+        android:paddingTop="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_10sdp">
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivFlash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/_20sdp"
+            android:paddingEnd="@dimen/_20sdp"
+            android:scaleType="center"
+            android:src="@drawable/ic_flash_auto"
+            app:layout_constraintEnd_toStartOf="@id/ivAspectRatio"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--        <androidx.appcompat.widget.AppCompatImageView-->
+        <!--            android:id="@+id/ivFlashRedDot"-->
+        <!--            android:layout_width="@dimen/_8sdp"-->
+        <!--            android:layout_height="@dimen/_8sdp"-->
+        <!--            android:layout_marginTop="5dp"-->
+        <!--            android:scaleType="center"-->
+        <!--            android:visibility="@{typeOfClick == 1 ? View.VISIBLE :View.GONE}"-->
+        <!--            android:src="@drawable/bg_rounded_red_solid"-->
+        <!--            app:layout_constraintStart_toStartOf="@+id/ivFlash"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/ivFlash"-->
+        <!--            app:layout_constraintEnd_toEndOf="@+id/ivFlash"/>-->
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivAspectRatio"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginStart="15dp"
+            android:scaleType="center"
+            android:src="@drawable/ratio_34"
+            android:tint="@color/primaryColor"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/ivTimer"
+            app:layout_constraintStart_toEndOf="@id/ivFlash"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivAspectRatioRedDot"
+            android:layout_width="@dimen/_8sdp"
+            android:layout_height="@dimen/_8sdp"
+            android:layout_marginTop="5dp"
+            android:scaleType="center"
+            android:src="@drawable/bg_rounded_red_solid"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/ivTimer"
+            app:layout_constraintStart_toEndOf="@id/ivFlash"
+            app:layout_constraintTop_toBottomOf="@+id/ivAspectRatio" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivTimer"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginStart="15dp"
+            android:scaleType="center"
+            android:src="@drawable/timer"
+            android:tint="@color/primaryColor"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/btnNext"
+            app:layout_constraintStart_toEndOf="@id/ivAspectRatio"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivTimerRedDot"
+            android:layout_width="@dimen/_8sdp"
+            android:layout_height="@dimen/_8sdp"
+            android:layout_marginTop="5dp"
+            android:scaleType="center"
+            android:src="@drawable/bg_rounded_red_solid"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/ivTimer"
+            app:layout_constraintStart_toStartOf="@+id/ivTimer"
+            app:layout_constraintTop_toBottomOf="@+id/ivTimer" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_35sdp"
+            android:background="?attr/colorPrimary"
+            android:gravity="center"
+            android:paddingStart="@dimen/_18sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_18sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:text="00:00"
+            android:textSize="@dimen/_18ssp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/toolbarGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="ivFlash" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnNext"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginStart="15dp"
+            android:paddingTop="@dimen/_2sdp"
+            android:text="@string/next"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivTimer"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

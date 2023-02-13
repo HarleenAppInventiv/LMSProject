@@ -15,11 +15,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/_10sdp"
-            android:text="Switch to Creator Dashboard"
+            android:text="@string/switch_to_creator_dashboard"
             android:textSize="@dimen/textField_16"
+            app:fontType="semiBold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:fontType="semiBold"
             app:textColorType="heading" />
 
         <androidx.appcompat.widget.SwitchCompat
@@ -27,8 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:button="@drawable/sw_small_selector"
-            android:contentDescription="@string/enable_visually_impaired_mode"
-            android:textColor="@color/white"
+            android:contentDescription="@string/switch_to_creator_dashboard"
             android:textSize="@dimen/_12ssp"
             android:theme="@style/SWTheme"
             android:thumb="@null"

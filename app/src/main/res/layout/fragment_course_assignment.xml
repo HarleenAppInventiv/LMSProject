@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/off_whiteTextColor"
+        android:background="?attr/secondaryScreenBgColor"
         tools:context=".ui.review.CourseAssignmentFragment">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -45,20 +45,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
-                android:backgroundTint="@color/white"
                 android:letterSpacing="0.02"
                 android:lineSpacingExtra="@dimen/_4ssp"
                 android:text="@string/edit"
                 android:textSize="@dimen/materialButton_14"
                 app:btnTextColor="secondary"
-                app:buttonBackground="none"
+                app:buttonBackground="secondary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/bt_submit"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0"
-                app:strokeColor="?attr/buttonBackgroundTintColor"
-                app:strokeWidth="@dimen/_1sdp"
                 app:textAllCaps="true" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton

@@ -9,11 +9,21 @@ import kotlinx.android.parcel.Parcelize
 data class ContentAssessmentQuestionAndDuration(
     @SerializedName("noOfQuesToBeDisplayed")
     var noOfQuesToBeDisplayed: Int? = null,
+
     @SerializedName("totalDuration")
     var totalDuration: Int? = null,
 
     @SerializedName("attemptLeft")
     var attemptLeft: Int? = null,
+
+    @SerializedName("assessmentId")
+    var assessmentId: Int? = null,
+
+    @SerializedName("assessmentPassed")
+    var assessmentPassed: Boolean? = null,
+
+    @SerializedName("totalQues")
+    var totalQues: Int? = null,
 
     @SerializedName("assessmentMandatory", alternate = ["AssessmentMandatory"])
     var AssessmentMandatory: Boolean? = null,

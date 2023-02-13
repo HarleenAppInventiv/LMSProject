@@ -8,7 +8,11 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class QuizReportData(
     @SerializedName("percentageScored")
-    var percentageScored: Int? = null,
+    var percentageScored: Float? = null,
     @SerializedName("quizPassed")
-    var quizPassed: Boolean? = null
+    var quizPassed: Boolean? = null,
+    @SerializedName("attemptLeft")
+    var attemptLeft: Int? = null,
+    @SerializedName("attemptedId")
+    var attemptedId: Int? = null
 ) : Parcelable

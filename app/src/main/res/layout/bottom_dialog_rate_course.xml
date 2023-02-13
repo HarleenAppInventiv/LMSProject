@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/viewSecondaryBgColor">
+        android:background="?attr/secondaryScreenBgColor">
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_dialog_title"
@@ -67,13 +67,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <com.google.android.material.imageview.ShapeableImageView
+                        <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
                             android:id="@+id/iv_preview"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:layout_margin="@dimen/_8sdp"
                             android:contentDescription="@string/course_image"
                             android:scaleType="centerCrop"
+                            android:src="@drawable/ic_home_default_banner"
+                            app:applyGrayscale="true"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintDimensionRatio="1:1.2"
                             app:layout_constraintEnd_toEndOf="@+id/guideline"
@@ -110,7 +112,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_3sdp"
-                            android:contentDescription="@string/bookmarked_icon"
+                            android:contentDescription="@string/wishlist_icon"
                             android:focusable="true"
                             android:paddingHorizontal="@dimen/_3sdp"
                             android:paddingVertical="@dimen/_5sdp"
@@ -210,7 +212,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/_10sdp"
                             android:layout_marginBottom="@dimen/_8sdp"
-                            android:text="100% COMPLETED"
                             android:textSize="@dimen/textField_11"
                             app:fontType="medium"
                             app:layout_constraintBottom_toTopOf="@+id/pb_progress"
@@ -280,7 +281,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:background="@drawable/edt_bg_white"
+                    android:background="@drawable/edt_white_bg"
                     android:elevation="@dimen/_2sdp"
                     android:gravity="start"
                     android:hint="@string/start_writing_here"

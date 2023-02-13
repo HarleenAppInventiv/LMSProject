@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="?attr/viewBackgroundColor"
         android:paddingHorizontal="@dimen/_15sdp"
         android:paddingVertical="@dimen/_8sdp">
 
@@ -19,7 +19,7 @@
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
             android:background="@drawable/white_cornered_bg"
-            android:backgroundTint="@color/intro_btn_bg_color_f5f5f5"
+            android:backgroundTint="?attr/viewSecondaryBgColor"
             android:paddingVertical="@dimen/_5sdp"
             app:changeBackgroundType="none"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,7 @@
             android:layout_height="0dp"
             android:gravity="center"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="?attr/whiteTextColor"
             android:textSize="@dimen/textField_12"
             app:fontType="medium"
 

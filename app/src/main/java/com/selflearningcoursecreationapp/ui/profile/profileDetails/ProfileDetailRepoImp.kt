@@ -4,9 +4,9 @@ import com.selflearningcoursecreationapp.base.BaseRepo
 import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.data.network.ApiService
 import com.selflearningcoursecreationapp.data.network.Resource
+import com.selflearningcoursecreationapp.models.CategoryResponse
 import com.selflearningcoursecreationapp.models.course.ImageResponse
 import com.selflearningcoursecreationapp.models.user.UserProfile
-import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
 import com.selflearningcoursecreationapp.ui.moderator.model.AddModeratorResponse
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import kotlinx.coroutines.Dispatchers
@@ -45,10 +45,18 @@ class ProfileDetailRepoImp(private val apiService: ApiService) : ProfileDetailRe
     }
 
     override suspend fun addModerator(body: AddModeratorResponse): Flow<Resource> {
-        return object : BaseRepo<BaseResponse<ChildModel>>() {
-            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ChildModel>> {
+        return object : BaseRepo<BaseResponse<CategoryResponse>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<CategoryResponse>> {
                 return apiService.addModerator(body)
             }
         }.safeApiCall(ApiEndPoints.API_ADD_MODERATOR).flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun deleteProfileImage(): Flow<Resource> {
+        return object : BaseRepo<BaseResponse<Any>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<Any>> {
+                return apiService.deleteProfileImage()
+            }
+        }.safeApiCall(ApiEndPoints.API_UPLOAD_IMAGE + "/delete").flowOn(Dispatchers.IO)
     }
 }

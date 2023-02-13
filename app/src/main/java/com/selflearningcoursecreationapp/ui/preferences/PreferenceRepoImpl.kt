@@ -5,6 +5,7 @@ import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.data.network.ApiService
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.models.CategoryResponse
+import com.selflearningcoursecreationapp.models.masterData.MasterDataItem
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -48,4 +49,11 @@ class PreferenceRepoImpl(private val apiService: ApiService) : PreferenceRepo {
         }.safeApiCall(ApiEndPoints.API_GET_THEME_LIST).flowOn(Dispatchers.IO)
     }
 
+    override suspend fun getMasterData(): Flow<Resource> {
+        return object : BaseRepo<BaseResponse<MasterDataItem>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<MasterDataItem>> {
+                return apiService.getMasterData()
+            }
+        }.safeApiCall(ApiEndPoints.API_MASTER_DATA).flowOn(Dispatchers.IO)
+    }
 }

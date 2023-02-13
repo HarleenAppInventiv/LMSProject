@@ -95,7 +95,8 @@
 
             app:layout_constraintVertical_bias="0"
 
-            app:textAllCaps="true" />
+            android:capitalize="none"
+            android:textAllCaps="false" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
             android:id="@+id/bt_apply"
@@ -108,11 +109,12 @@
             android:lineSpacingExtra="@dimen/_4ssp"
             android:paddingVertical="@dimen/_10sdp"
             android:text="@string/apply"
-            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/bt_reset"
+            android:capitalize="none"
+            android:textAllCaps="false"
             app:layout_constraintVertical_bias="0" />
 
     </com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout>

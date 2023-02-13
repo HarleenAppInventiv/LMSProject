@@ -62,15 +62,25 @@
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toBottomOf="@+id/txt_dashboard" />
+
         <Constraint
-            android:id="@+id/txt_delete_account"
+            android:id="@+id/txt_my_categories"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="-40dp"
             android:alpha="0"
-            motion:layout_constraintBottom_toTopOf="@id/txt_logout"
             motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintStart_toStartOf="parent" />
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@+id/txt_my_qualifications" />
+        <!--        <Constraint-->
+        <!--            android:id="@+id/txt_delete_account"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="-40dp"-->
+        <!--            android:alpha="0"-->
+        <!--            motion:layout_constraintBottom_toTopOf="@id/txt_logout"-->
+        <!--            motion:layout_constraintEnd_toEndOf="parent"-->
+        <!--            motion:layout_constraintStart_toStartOf="parent" />-->
         <Constraint
             android:id="@+id/txt_logout"
             android:layout_width="0dp"

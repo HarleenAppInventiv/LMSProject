@@ -7,6 +7,7 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentAddEmailBinding
 import com.selflearningcoursecreationapp.extensions.content
+import com.selflearningcoursecreationapp.extensions.navigateTo
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.utils.OtpType
 import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
@@ -20,6 +21,7 @@ class AddEmailFragment : BaseFragment<FragmentAddEmailBinding>() {
         super.onViewCreated(view, savedInstanceState)
         initUI()
     }
+
 
 
     private fun initUI() {
@@ -46,7 +48,7 @@ class AddEmailFragment : BaseFragment<FragmentAddEmailBinding>() {
     override fun getLayoutRes() = R.layout.fragment_add_email
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)
-        findNavController().navigate(
+        findNavController().navigateTo(
             AddEmailFragmentDirections.actionAddEmailFragmentToOTPVerifyFragment2(
                 phone = "",
                 email = binding.etEmail.content(),

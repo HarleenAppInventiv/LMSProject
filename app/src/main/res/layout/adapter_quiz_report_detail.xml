@@ -26,16 +26,26 @@
             app:textColorType="heading"
             tools:text="1. A portable chunk of code that can be embedded in Web pages to give extra functionality is known as a?" />
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
-            android:id="@+id/iv_header"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_120sdp"
+        <com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout
+            android:id="@+id/parentCL"
+            android:layout_width="@dimen/_170sdp"
+            android:layout_height="@dimen/_170sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="@+id/tv_ques_title"
+            android:background="@drawable/edt_white_bg"
             app:layout_constraintStart_toStartOf="@+id/tv_ques_title"
-            app:layout_constraintTop_toBottomOf="@+id/tv_ques_title" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_ques_title">
 
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:id="@+id/iv_header"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_170sdp"
+                android:padding="@dimen/_5sdp"
+                android:scaleType="fitCenter"
+                app:applyGrayscale="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout>
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_option1"
@@ -46,7 +56,7 @@
             android:textSize="@dimen/textField_14"
             app:layout_constraintEnd_toEndOf="@+id/tv_ques_title"
             app:layout_constraintStart_toStartOf="@+id/tv_ques_title"
-            app:layout_constraintTop_toBottomOf="@+id/iv_header"
+            app:layout_constraintTop_toBottomOf="@+id/parentCL"
             app:textColorType="heading" />
 
         <androidx.recyclerview.widget.RecyclerView

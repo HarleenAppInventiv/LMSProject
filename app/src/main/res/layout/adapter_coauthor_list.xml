@@ -7,19 +7,19 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_16sdp"
 
-        android:layout_marginEnd="@dimen/_16sdp">
+        >
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
             android:id="@+id/iv_profile_image"
             android:layout_width="@dimen/_28sdp"
             android:layout_height="@dimen/_28sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:scaleType="centerCrop"
-            android:src="@drawable/dummy_user"
-
+            android:src="@drawable/ic_default_user_grey"
+            app:applyGrayscale="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -29,10 +29,9 @@
             android:id="@+id/iv_logo"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_logo_default"
+            app:applyGrayscale="true"
             app:changeBackgroundType="bg_theme_solid"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/iv_profile_image"
@@ -43,17 +42,17 @@
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_author_name"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:text="John Doe"
-            android:textSize="@dimen/textField_12"
+
             app:fontType="medium"
             app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_logo"
             app:layout_constraintTop_toTopOf="@+id/iv_profile_image"
+            android:layout_marginEnd="@dimen/_20sdp"
             app:textColorType="heading" />
 
 

@@ -1,5 +1,6 @@
 package com.selflearningcoursecreationapp.ui.create_course.upload_content
 
+import com.selflearningcoursecreationapp.BuildConfig
 import com.selflearningcoursecreationapp.base.BaseRepo
 import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.data.network.ApiService
@@ -7,6 +8,7 @@ import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.getMultiPartBody
 import com.selflearningcoursecreationapp.data.network.getRequestBody
 import com.selflearningcoursecreationapp.models.course.ImageResponse
+import com.selflearningcoursecreationapp.models.course.UploadMetaData
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import kotlinx.coroutines.Dispatchers
@@ -19,15 +21,33 @@ class UploadContentRepoImpl(private val apiService: ApiService) : UploadContentR
     override suspend fun addPatchLecture(map: HashMap<String, Any>): Flow<Resource> {
         return object : BaseRepo<BaseResponse<ChildModel>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ChildModel>> {
-                return apiService.addPatchLecture(map)
+                return apiService.addPatchLecture(
+                    BuildConfig.API_BASE_COURSE_URL + ApiEndPoints.API_ADD_LECTURE_PATCH,
+                    map
+                )
             }
-        }.safeApiCall(ApiEndPoints.API_ADD_LECTURE_PATCH).flowOn(Dispatchers.IO)
+        }.safeApiCall(ApiEndPoints.API_ADD_LECTURE_PATCH + "/patch").flowOn(Dispatchers.IO)
     }
 
-    override suspend fun getLectureDetail(lectureId: Int): Flow<Resource> {
+    override suspend fun addLecture(map: HashMap<String, Any>): Flow<Resource> {
         return object : BaseRepo<BaseResponse<ChildModel>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ChildModel>> {
-                return apiService.getLectureDetail(lectureId)
+                return apiService.addLecture(
+                    BuildConfig.API_BASE_COURSE_URL + ApiEndPoints.API_ADD_LECTURE_POST,
+                    map
+                )
+            }
+        }.safeApiCall(ApiEndPoints.API_ADD_LECTURE_POST).flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun getLectureDetail(lectureId: Int, courseId: Int): Flow<Resource> {
+        return object : BaseRepo<BaseResponse<ChildModel>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ChildModel>> {
+                return apiService.getLectureDetail(
+                    BuildConfig.API_BASE_COURSE_URL + ApiEndPoints.API_GET_LECTURE_DETAIL,
+                    lectureId,
+                    courseId
+                )
             }
         }.safeApiCall(ApiEndPoints.API_GET_LECTURE_DETAIL).flowOn(Dispatchers.IO)
     }
@@ -55,6 +75,18 @@ class UploadContentRepoImpl(private val apiService: ApiService) : UploadContentR
         }.safeApiCall(ApiEndPoints.API_CONTENT_UPLOAD).flowOn(Dispatchers.IO)
     }
 
+    override suspend fun contentUploadMetaData(map: HashMap<String, Any>?): Flow<Resource> {
+        return object : BaseRepo<BaseResponse<UploadMetaData>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<UploadMetaData>> {
+                return apiService.uploadMetadata(
+                    BuildConfig.API_BASE_COURSE_URL + ApiEndPoints.API_UPLOAD_METADATA,
+                    map!!
+                )
+            }
+
+        }.safeApiCall(ApiEndPoints.API_UPLOAD_METADATA).flowOn(Dispatchers.IO)
+    }
+
     override suspend fun thumbnailUpload(
         courseId: Int?,
         sectionId: Int?,
@@ -64,6 +96,7 @@ class UploadContentRepoImpl(private val apiService: ApiService) : UploadContentR
         return object : BaseRepo<BaseResponse<ImageResponse>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ImageResponse>> {
                 return apiService.thumbnailUpload(
+                    BuildConfig.API_BASE_COURSE_URL + ApiEndPoints.API_THUMBNAIL_UPLOAD,
                     courseId.getRequestBody(),
                     sectionId.getRequestBody(),
                     lectureId.getRequestBody(),
@@ -84,13 +117,15 @@ class UploadContentRepoImpl(private val apiService: ApiService) : UploadContentR
     ): Flow<Resource> {
         return object : BaseRepo<BaseResponse<ImageResponse>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ImageResponse>> {
+
+                val hashmap = HashMap<String, Any>()
+                hashmap.put("CourseId", courseId ?: "")
+                hashmap.put("SectionId", sectionId ?: "")
+                hashmap.put("LectureId", lectureId ?: "")
+                hashmap.put("Text", text ?: "")
+
                 return apiService.contentUploadText(
-                    courseId.getRequestBody(),
-                    sectionId.getRequestBody(),
-                    lectureId.getRequestBody(),
-                    uploadType.toString().getRequestBody(),
-                    text.getRequestBody(),
-                    duration.getRequestBody()
+                    hashmap
                 )
             }
         }.safeApiCall(ApiEndPoints.API_CONTENT_UPLOAD).flowOn(Dispatchers.IO)

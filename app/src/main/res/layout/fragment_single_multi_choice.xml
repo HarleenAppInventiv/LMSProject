@@ -10,7 +10,10 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/secondaryScreenBgColor">
+        android:background="?attr/secondaryScreenBgColor"
+        android:overScrollMode="always"
+        android:scrollbarSize="10dp"
+        android:scrollbars="vertical">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +26,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_18sdp"
-                android:textColor="@color/accent_color_fc6d5b"
+                android:textColor="?attr/accentColor_Red"
                 android:textSize="@dimen/textField_12"
                 app:fontType="medium"
                 app:layout_constraintStart_toStartOf="@id/guidelineStart"
@@ -36,11 +39,11 @@
                 android:background="@drawable/points_outline_green"
                 android:paddingHorizontal="@dimen/_8sdp"
                 android:paddingVertical="@dimen/_3sdp"
-                android:textColor="@color/accent_color_2FBF71"
+                android:id="@+id/tv_Selected_Value"
                 android:textSize="@dimen/textField_11"
                 app:fontType="medium"
-                android:id="@+id/tv_Selected_Value"
                 android:textAllCaps="true"
+                android:textColor="?attr/accentColor_Green"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_quiz_num"
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                 app:layout_constraintTop_toTopOf="@+id/tv_quiz_num"

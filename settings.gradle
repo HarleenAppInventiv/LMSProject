@@ -1,3 +1,11 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        maven { url 'https://artifactory.img.ly/artifactory/imgly' }
+    }
+}
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -5,11 +13,16 @@ dependencyResolutionManagement {
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
         maven { url "https://jitpack.io" }
+        maven { url 'https://artifactory.img.ly/artifactory/imgly' }
+
+
 
     }
 }
+
+
 rootProject.name = "Self Learning & Course Creation App"
-include ':app'
+include ':app', ':tus-android-client'
 include ':googleSignIn'
-
-
+include ':videoEditor'
+include ':ucrop'

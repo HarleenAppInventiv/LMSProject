@@ -2,6 +2,7 @@ package com.selflearningcoursecreationapp.ui.bottom_home.popular_courses
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.selflearningcoursecreationapp.BR
 import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.base.BaseViewModel
 import com.selflearningcoursecreationapp.base.SelfLearningApplication
@@ -15,6 +16,7 @@ import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.S
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.CourseScreenType
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
@@ -97,8 +99,15 @@ class AllCoursesVM(private var repo: AllCoursesRepo) : BaseViewModel() {
                             if (it is Resource.Success<*>) {
                                 isFirst = false
                                 (it.value as BaseResponse<AllCoursesResponse>).resource?.let { resource ->
-                                    totalPage = resource.resultCount ?: 2
-                                    if (currentPage == 1) {
+                                    val totalPage =
+                                        (resource?.totalCount ?: 0) / (resource?.pageSize ?: 8)
+                                    val remCount =
+                                        (resource?.totalCount ?: 0) % (resource?.pageSize ?: 8)
+                                    this@AllCoursesVM.totalPage =
+                                        totalPage + (if (remCount > 0) 1 else 0)
+//                                    totalPage = resource.resultCount ?: 2
+                                    if (resource.currentPage == 1) {
+                                        currentPage = 1
                                         courseLiveData.postValue(ArrayList())
                                     }
                                     currentPage += 1
@@ -106,6 +115,7 @@ class AllCoursesVM(private var repo: AllCoursesRepo) : BaseViewModel() {
                                     list?.addAll(resource.coursesList ?: ArrayList())
                                     courseLiveData.postValue(list)
                                 }
+                                delay(500)
 
                             }
 
@@ -130,15 +140,25 @@ class AllCoursesVM(private var repo: AllCoursesRepo) : BaseViewModel() {
                 it.courseWishlisted =
                     if (it.courseWishlisted == 0) 1 else 0
             }
+            val coursePair = Pair(
+                courseLiveData.value?.get(adapterPosition)?.courseId,
+                courseLiveData.value?.get(adapterPosition)?.courseWishlisted == 0
+            )
             val response = repo.addWishlist(map)
             withContext(Dispatchers.IO) {
                 response.collect {
+
+                    courseLiveData.value?.forEach { data ->
+                        if (data.courseId == coursePair?.first) {
+                            data.bookmarkProgress = it is Resource.Loading
+                            data.notifyPropertyChanged(BR.bookmarkProgress)
+                            data.notifyChange()
+                        }
+
+                    }
                     if (it is Resource.Success<*>) {
                         val resource = (it.value as BaseResponse<UserProfile>).resource
-                        val coursePair = Pair(
-                            courseLiveData.value?.get(adapterPosition)?.courseId,
-                            courseLiveData.value?.get(adapterPosition)?.courseWishlisted == 0
-                        )
+
                         wishlistLiveData.postValue(resource)
 
                         updateResponseObserver(
@@ -185,6 +205,7 @@ class AllCoursesVM(private var repo: AllCoursesRepo) : BaseViewModel() {
             }
         }
 
+    var stateId = ""
     fun buyRazorPayCourse() =
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
@@ -194,6 +215,7 @@ class AllCoursesVM(private var repo: AllCoursesRepo) : BaseViewModel() {
                 map["courseId"] = it.courseId ?: 0
                 map["amount"] = it.courseFee ?: ""
                 map["currency"] = "INR"
+                map["stateId"] = stateId
             }
 
 

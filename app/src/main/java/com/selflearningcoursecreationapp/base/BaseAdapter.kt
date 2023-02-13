@@ -1,7 +1,6 @@
 package com.selflearningcoursecreationapp.base
 
 import android.text.InputFilter
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -34,7 +33,6 @@ abstract class BaseAdapter<DB : ViewDataBinding> : RecyclerView.Adapter<BaseView
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        Log.d("main", "BaseAdapter")
         holderList[position] = holder
     }
 
@@ -71,9 +69,21 @@ abstract class BaseAdapter<DB : ViewDataBinding> : RecyclerView.Adapter<BaseView
     }
 
     fun onTouch(v: View, event: MotionEvent): Boolean {
+        if (editTxtTouchScrolling(v, event)) return true
+        return false
+    }
+
+    fun editTxtTouchScrolling(
+        v: View?,
+        event: MotionEvent?
+    ): Boolean {
+        if (event == null) {
+            return false
+
+        }
         if (v is AppCompatEditText && v.hasFocus()) {
             v.parent.requestDisallowInterceptTouchEvent(true)
-            when (event.action and MotionEvent.ACTION_MASK) {
+            when (event!!.action and MotionEvent.ACTION_MASK) {
                 MotionEvent.ACTION_SCROLL -> {
                     v.parent.requestDisallowInterceptTouchEvent(false)
                     return true
@@ -94,4 +104,6 @@ abstract class BaseAdapter<DB : ViewDataBinding> : RecyclerView.Adapter<BaseView
             filter = null
         }
     }
+
+
 }

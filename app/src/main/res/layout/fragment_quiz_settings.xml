@@ -10,6 +10,7 @@
             type="com.selflearningcoursecreationapp.ui.create_course.quiz.QuizSettingVM" />
 
         <import type="android.view.View" />
+
         <import
             alias="const"
             type="com.selflearningcoursecreationapp.utils.ValidationConst" />
@@ -34,17 +35,27 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginBottom="@dimen/_15sdp"
-                android:background="@color/white"
+                android:background="?attr/whiteTextColor"
+
                 app:layout_constraintBottom_toTopOf="@+id/tv_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/mandatoryG"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="tv_mandatory_desc,tv_mandatory_title,sw_mandatory" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_mandatory_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_14sdp"
+                android:contentDescription="@{viewModel.quiz ? @string/make_quiz_mandatory : @string/make_assessment_mandatory}"
+                android:importantForAccessibility="yes"
                 android:text="@{viewModel.quiz ? @string/make_quiz_mandatory : @string/make_assessment_mandatory}"
                 android:textSize="@dimen/textField_14"
                 app:fontType="semiBold"
@@ -58,6 +69,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_2sdp"
+                android:contentDescription="@{viewModel.quiz ? @string/quiz_mandatory_desc : @string/assessment_mandatory_desc}"
+                android:importantForAccessibility="yes"
                 android:lineSpacingExtra="@dimen/_3ssp"
                 android:text="@{viewModel.quiz ? @string/quiz_mandatory_desc : @string/assessment_mandatory_desc}"
                 android:textSize="@dimen/textField_11"
@@ -72,6 +85,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_15sdp"
                 android:button="@drawable/sw_selector"
+                android:contentDescription="@string/toggle_switch_mandatory"
+                android:importantForAccessibility="yes"
                 android:thumb="@null"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_mandatory_desc"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -125,13 +140,14 @@
                 android:id="@+id/tv_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_14sdp"
                 android:layout_marginTop="@dimen/_30sdp"
                 android:layout_marginEnd="@dimen/_16sdp"
                 android:text="@{viewModel.quiz ? @string/name_of_the_quiz : @string/name_of_the_assessment}"
                 android:textSize="@dimen/textField_14"
                 app:fontType="semiBold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/tv_mandatory_title"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_freeze_desc"
                 app:textColorType="heading" />
 
@@ -142,9 +158,9 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 android:background="@drawable/edt_white_bg"
                 android:hint="@{viewModel.quiz ? @string/write_name_of_quiz : @string/write_name_of_assessment}"
-                android:imeOptions="actionNext"
-                android:maxLength="@{const.MAX_QUIZ_TITLE}"
-                android:inputType="textPersonName"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLength="@{const.MAX_COURSE_LESSON_LENGTH}"
+                android:maxLines="3"
                 android:nextFocusForward="@+id/et_ques"
                 android:text="@={viewModel.quizSettings.quizName}"
                 android:textSize="@dimen/editTextField_14"
@@ -161,7 +177,7 @@
                 android:textSize="@dimen/textField_14"
                 app:fontType="semiBold"
                 app:layout_constraintEnd_toEndOf="@+id/tv_title"
-                app:layout_constraintStart_toStartOf="@id/tv_mandatory_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
                 app:layout_constraintTop_toBottomOf="@+id/et_name"
                 app:textColorType="heading" />
 
@@ -186,7 +202,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/number_of_questions_to_be_displayed_connot_be_more_than_total_questions_added"
-                android:textColor="@color/error_red"
+                android:textColor="?attr/accentColor_Red"
                 android:textSize="@dimen/textField_12"
                 android:visibility="@{viewModel.quizSettings.quesCountValid? View.GONE:View.VISIBLE}"
                 app:fontType="medium"
@@ -206,7 +222,7 @@
 
                 app:layout_constraintEnd_toEndOf="@+id/tv_title"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@id/tv_mandatory_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
                 app:layout_constraintTop_toBottomOf="@+id/tv_error"
                 app:textColorType="heading" />
 
@@ -234,7 +250,7 @@
                 android:textSize="@dimen/textField_14"
                 app:fontType="semiBold"
                 app:layout_constraintEnd_toStartOf="@+id/tv_pass_value"
-                app:layout_constraintStart_toStartOf="@id/tv_mandatory_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
                 app:layout_constraintTop_toBottomOf="@+id/et_marks"
                 app:textColorType="heading" />
 
@@ -245,8 +261,8 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:textSize="@dimen/textField_12"
                 app:fontType="medium"
-                app:layout_constraintEnd_toEndOf="@+id/tv_title"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_pass"
+                app:layout_constraintEnd_toEndOf="@+id/tv_title"
                 app:layout_constraintTop_toTopOf="@+id/tv_pass"
                 app:textColorType="theme" />
 
@@ -270,7 +286,11 @@
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:importantForAccessibility="no"
+                android:screenReaderFocusable="false"
                 android:text="@string/_0"
+
                 android:textSize="@dimen/textField_11"
                 app:layout_constraintStart_toStartOf="@+id/tv_title"
                 app:layout_constraintTop_toBottomOf="@+id/sb_pass"
@@ -279,8 +299,10 @@
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@null"
                 android:text="@string/_20"
                 android:textSize="@dimen/textField_11"
+                android:importantForAccessibility="no"
                 app:layout_constraintEnd_toEndOf="@+id/tv_title"
                 app:layout_constraintHorizontal_bias="0.2"
                 app:layout_constraintStart_toStartOf="@+id/tv_title"
@@ -290,7 +312,9 @@
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:screenReaderFocusable="false"
                 android:text="@string/_40"
+
                 android:textSize="@dimen/textField_11"
                 app:layout_constraintEnd_toEndOf="@+id/tv_title"
                 app:layout_constraintHorizontal_bias="0.4"
@@ -301,7 +325,9 @@
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:screenReaderFocusable="false"
                 android:text="@string/_60"
+
                 android:textSize="@dimen/textField_11"
                 app:layout_constraintEnd_toEndOf="@+id/tv_title"
                 app:layout_constraintHorizontal_bias="0.6"
@@ -312,7 +338,9 @@
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:screenReaderFocusable="false"
                 android:text="@string/_80"
+
                 android:textSize="@dimen/textField_11"
                 app:layout_constraintEnd_toEndOf="@+id/tv_title"
                 app:layout_constraintHorizontal_bias="0.8"
@@ -323,7 +351,9 @@
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:screenReaderFocusable="false"
                 android:text="@string/_100"
+
                 android:textSize="@dimen/textField_11"
                 app:layout_constraintEnd_toEndOf="@+id/tv_title"
                 app:layout_constraintTop_toBottomOf="@+id/sb_pass"
@@ -339,7 +369,7 @@
                 android:textSize="@dimen/textField_14"
                 app:fontType="semiBold"
                 app:layout_constraintEnd_toStartOf="@+id/tv_time_value"
-                app:layout_constraintStart_toStartOf="@id/tv_mandatory_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
                 app:layout_constraintTop_toBottomOf="@+id/sb_pass"
                 app:textColorType="heading" />
 
@@ -350,8 +380,8 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:textSize="@dimen/textField_12"
                 app:fontType="medium"
-                app:layout_constraintEnd_toEndOf="@+id/tv_title"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_time"
+                app:layout_constraintEnd_toEndOf="@+id/tv_title"
                 app:layout_constraintTop_toTopOf="@+id/tv_time"
                 app:textColorType="theme" />
 
@@ -361,13 +391,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:max="120"
                 android:padding="0dp"
                 android:progress="0"
                 android:stepSize="20.0"
                 android:thumb="@drawable/ic_seek_thumb"
                 android:valueFrom="0.0"
-                android:max="120"
                 android:valueTo="120.0"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_time" />
@@ -375,9 +406,12 @@
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:focusable="false"
+                android:screenReaderFocusable="false"
                 android:text="@string/_0_nmins"
                 android:textAlignment="center"
                 android:textSize="@dimen/textField_11"
+
                 app:layout_constraintStart_toStartOf="@+id/tv_title"
                 app:layout_constraintTop_toBottomOf="@+id/sb_time"
                 app:textColorType="body" />
@@ -385,6 +419,8 @@
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:focusable="false"
+                android:screenReaderFocusable="false"
                 android:text="@string/_30_nmins"
                 android:textAlignment="center"
                 android:textSize="@dimen/textField_11"
@@ -398,6 +434,7 @@
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:screenReaderFocusable="false"
                 android:text="@string/_1_nhr"
                 android:textAlignment="center"
 
@@ -411,6 +448,7 @@
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:screenReaderFocusable="false"
                 android:text="@string/_1_5_nhrs"
                 android:textAlignment="center"
 
@@ -424,6 +462,7 @@
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:screenReaderFocusable="false"
                 android:text="@string/_2_nhrs"
                 android:textAlignment="center"
 

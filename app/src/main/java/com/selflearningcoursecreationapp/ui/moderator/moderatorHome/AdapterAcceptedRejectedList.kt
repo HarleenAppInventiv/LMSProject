@@ -9,11 +9,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.databinding.AdapterRequestListBinding
-import com.selflearningcoursecreationapp.extensions.changeDateFormat
-import com.selflearningcoursecreationapp.extensions.gone
-import com.selflearningcoursecreationapp.extensions.loadImage
-import com.selflearningcoursecreationapp.extensions.visible
+import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.models.course.CourseData
+import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.CourseType
 import com.selflearningcoursecreationapp.utils.MODSTATUS
 
@@ -68,9 +66,15 @@ class AdapterAcceptedRejectedList(
                     binding.tvReason.visible()
                 }
             }
+            binding.root.setOnClickListener {
+                clickListener.invoke(Constant.CLICK_VIEW, data, position)
+            }
 
             binding.tvId.text = binding.root.context.getString(R.string.id) + " " + data.requestId
-            binding.tvDate.text = data.createdDate.changeDateFormat("MMM dd, yyyy HH:mm:ss")
+            binding.tvDate.text = data.createdDate.changeDateFormat(
+                "yyyy-MM-dd'T'HH:mm:ss.SSS",
+                "dd MMM yyyy, hh:mm a"
+            )
             binding.tvName.text = data.courseTitle
             binding.tvAuthor.text = data.createdByName
             binding.ivCertification.text = data.categoryName
@@ -86,12 +90,14 @@ class AdapterAcceptedRejectedList(
 
                 }
                 CourseType.REWARD_POINTS -> {
-                    binding.tvOldPrice.text =
-                        data.rewardPoints + " " + binding.root.context.getString(R.string.points)
+                    binding.tvOldPrice.text = binding.root.context.getQuantityString(
+                        R.plurals.point_quantity,
+                        data.rewardPoints?.toIntOrNull() ?: 0
+                    )
+
                 }
                 CourseType.RESTRICTED -> {
-                    binding.tvOldPrice.text =
-                        String.format("%s %s", data.currencySymbol, data.courseFee)
+                    binding.tvOldPrice.text = binding.root.context.getString(R.string.restricted)
                 }
                 else -> {
                     binding.tvOldPrice.text = binding.root.context.getString(R.string.free)

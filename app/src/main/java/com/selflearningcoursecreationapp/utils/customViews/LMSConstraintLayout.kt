@@ -30,7 +30,7 @@ class LMSConstraintLayout : ConstraintLayout {
     private fun initView(context: Context, attrs: AttributeSet? = null, defStyle: Int? = 0) {
         val themeAttrs = context.obtainStyledAttributes(
             attrs, R.styleable.LMSConstraintLayout,
-            defStyle!!, 0
+            defStyle ?: 0, 0
         )
 
         val changeBgType =
@@ -42,7 +42,7 @@ class LMSConstraintLayout : ConstraintLayout {
         themeAttrs.recycle()
     }
 
-    private fun changeBackground(changeBgType: Int) {
+    fun changeBackground(changeBgType: Int) {
         when (changeBgType) {
             ThemeConstants.TYPE_TINT -> {
 
@@ -54,6 +54,15 @@ class LMSConstraintLayout : ConstraintLayout {
                 backgroundTintList = ColorStateList.valueOf(ThemeUtils.getAppColor(context))
                 backgroundTintMode = PorterDuff.Mode.MULTIPLY
             }
+            ThemeConstants.TYPE_BACKGROUND -> {
+                backgroundTintList = ColorStateList.valueOf(ThemeUtils.getAppColor(context))
+                backgroundTintMode = PorterDuff.Mode.SRC_IN
+            }
+            ThemeConstants.TYPE_BG_TINT_SRC -> {
+                backgroundTintList = ColorStateList.valueOf(ThemeUtils.getTintColor(context))
+                backgroundTintMode = PorterDuff.Mode.SRC_IN
+            }
+
             ThemeConstants.TYPE_THEME -> {
                 setBackgroundColor(ThemeUtils.getAppColor(context))
             }

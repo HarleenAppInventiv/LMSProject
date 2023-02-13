@@ -4,38 +4,42 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.media.MediaRecorder
 import android.os.*
+import android.util.Log
 import android.view.View
-import android.widget.Toast
+import android.view.WindowManager
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentRecordAudioBinding
-import com.selflearningcoursecreationapp.extensions.gone
-import com.selflearningcoursecreationapp.extensions.showException
-import com.selflearningcoursecreationapp.extensions.visible
-import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel
-import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.extensions.*
+import com.selflearningcoursecreationapp.utils.FileUtils
 import com.selflearningcoursecreationapp.utils.HandleClick
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
+import com.selflearningcoursecreationapp.utils.builderUtils.PermissionUtilClass
+import java.io.File
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class RecordAudioFragment : BaseFragment<FragmentRecordAudioBinding>(), HandleClick {
+    private lateinit var fragArgs: RecordAudioFragmentArgs
     private var output: String? = null
     private var mediaRecorder: MediaRecorder? = null
     private var state: Boolean = false
     private var countDownTimer: CountDownTimer? = null
     private var recordingStopped: Boolean = false
     private var recordingStatus = 0
-    var lectureId: Int? = null
-    var courseId: Int? = null
-    var model: SectionModel? = null
-    var childPosition: Int? = -1
-    var sectionId: Int? = null
-    var from: Int? = null
+//    var lectureId: Int? = null
+//    var courseId: Int? = null
+//    var model: SectionModel? = null
+//    var childPosition: Int? = -1
+//    var sectionId: Int? = null
+//    var from: Int? = null
 
     private var mLastStopTime = 0L
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -50,17 +54,22 @@ class RecordAudioFragment : BaseFragment<FragmentRecordAudioBinding>(), HandleCl
         getDatFromArg()
     }
 
+    override fun onResume() {
+        super.onResume()
+//        initUI()
+    }
+
     override fun getLayoutRes() = R.layout.fragment_record_audio
 
     private fun getDatFromArg() {
         arguments?.let {
-            val value = RecordAudioFragmentArgs.fromBundle(it)
-            lectureId = value.lectureId
-            courseId = value.courseId
-            childPosition = value.childPosition
-            model = value.sendSectionModel
-            sectionId = model?.sectionId
-            from = value.from
+            fragArgs = RecordAudioFragmentArgs.fromBundle(it)
+//            lectureId = value.lectureId
+//            courseId = value.courseId
+//            childPosition = value.childPosition
+//            model = value.sendSectionModel
+//            sectionId = model?.sectionId
+//            from = value.from
         }
     }
 
@@ -98,65 +107,59 @@ class RecordAudioFragment : BaseFragment<FragmentRecordAudioBinding>(), HandleCl
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+//        pauseRecording()
+    }
+
     private fun permission() {
+        PermissionUtilClass.builder(baseActivity).requestExternalStorage()
+            .getCallBack { b, strings, _ ->
+                if (b) {
+                    initMediaRecorder()
 
-//        if (SDK_INT >= Build.VERSION_CODES.R) {
-//            try {
-//                val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-//                intent.addCategory("android.intent.category.DEFAULT")
-//                intent.data =
-//                    Uri.parse(String.format("package:%s", getAppContext().packageName))
-//                getContent?.launch(intent)
-//            } catch (e: Exception) {
-//                val intent = Intent()
-//                intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
-//                getContent?.launch(intent)
-//            }
-//
-//        }
+                } else {
+                    baseActivity.handlePermissionDenied(strings)
+                }
+            }.build()
 
 
-//
-//            PermissionUtil.checkPermissions(
-//                requireActivity(),
-//                arrayOf(
-//                    Manifest.permission.MANAGE_EXTERNAL_STORAGE
-//
-//                ),
-//                Permission.RECORD_AUDIO
-//            ) {
-//                if (it) {
-        initMediaRecorder()
-//                } else {
-//                    if (shouldShowRequestPermissionRationale(
-//                            Manifest.permission.MANAGE_EXTERNAL_STORAGE)
-//
-//                    ) {
-//                        showToastShort(baseActivity.getString(R.string.no_permission_accepted))
-//
-//                    } else {
-//                        baseActivity.permissionDenied()
-//                    }
-//
-//                }
-//            }
-////
-//        } else {
-
-//            initMediaRecorder()
-
-//        }
     }
 
 
     private fun initMediaRecorder() {
-        mediaRecorder = MediaRecorder()
-        output =
-            Environment.getExternalStorageDirectory().absolutePath + "/${System.currentTimeMillis()}_recording.mp3"
-        mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
-        mediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            mediaRecorder = MediaRecorder(baseActivity)
+        } else {
+            mediaRecorder = MediaRecorder()
+
+        }
+
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
+        var audiofile: File
+        try {
+            audiofile = File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).absolutePath
+                        + "/AUD_${System.currentTimeMillis()}_recording.aac"
+            )
+
+        } catch (e: IOException) {
+            Log.e("TAG", "external storage access error")
+            return
+        }
+
+        output = audiofile.absolutePath
+//            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/${System.currentTimeMillis()}_recording.mp3"
+        try {
+
+            mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
+        } catch (e: Exception) {
+            mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.DEFAULT)
+        }
+        mediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS)
         mediaRecorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
         mediaRecorder?.setOutputFile(output)
+
     }
 
     private fun startRecording() {
@@ -169,7 +172,8 @@ class RecordAudioFragment : BaseFragment<FragmentRecordAudioBinding>(), HandleCl
             handleTimer()
             showButton()
             recordingStatus = 1
-            binding.ivAudioPlay.setImageResource(R.drawable.ic_baseline_pause_circle_outline_24)
+            binding.ivAudioPlay.setImageResource(R.drawable.ic_pause)
+            binding.ivAudioPlay.contentDescription = baseActivity.getString(R.string.pause_icon)
 
             binding.tvRecording.text = baseActivity.getString(R.string.recording__)
             state = true
@@ -184,16 +188,18 @@ class RecordAudioFragment : BaseFragment<FragmentRecordAudioBinding>(), HandleCl
     @SuppressLint("RestrictedApi", "SetTextI18n")
     @TargetApi(Build.VERSION_CODES.N)
     private fun pauseRecording() {
-
         if (state) {
             binding.ivAudioWaveImg.visible()
             binding.ivAudioWaveImage.gone()
             recordingStatus = 2
             countDownTimer?.cancel()
-            binding.tvRecording.text = "Recording Paused"
+            binding.tvRecording.text = getString(R.string.recording_paused_message)
             binding.tvRecordingTime.stop()
             mLastStopTime = SystemClock.elapsedRealtime()
-            binding.ivAudioPlay.setImageResource(R.drawable.ic_baseline_play_circle_outline_24)
+            binding.ivAudioPlay.setImageResource(R.drawable.ic_record)
+            binding.ivAudioPlay.contentDescription =
+                baseActivity.getString(R.string.record_audio_icon)
+
             binding.ivAudioSave.apply {
                 alpha = 1f
                 isEnabled = true
@@ -206,14 +212,21 @@ class RecordAudioFragment : BaseFragment<FragmentRecordAudioBinding>(), HandleCl
     @SuppressLint("RestrictedApi", "SetTextI18n")
     @TargetApi(Build.VERSION_CODES.N)
     private fun resumeRecording() {
-        binding.ivAudioWaveImg.gone()
-        binding.ivAudioWaveImage.visible()
-        recordingStatus = 1
-        handleTimer()
-        binding.tvRecording.text = "Recording..."
-        mediaRecorder?.resume()
-        binding.ivAudioPlay.setImageResource(R.drawable.ic_baseline_pause_circle_outline_24)
-        recordingStopped = false
+        try {
+            binding.ivAudioWaveImg.gone()
+            binding.ivAudioWaveImage.visible()
+            recordingStatus = 1
+            handleTimer()
+            binding.tvRecording.text = getString(R.string.recording_dots)
+            mediaRecorder?.resume()
+            binding.ivAudioPlay.setImageResource(R.drawable.ic_pause)
+            binding.ivAudioPlay.contentDescription = baseActivity.getString(R.string.pause_icon)
+
+            recordingStopped = false
+        } catch (e: Exception) {
+            deleteAudio()
+            startRecording()
+        }
     }
 
     private fun stopRecording() {
@@ -222,23 +235,25 @@ class RecordAudioFragment : BaseFragment<FragmentRecordAudioBinding>(), HandleCl
             binding.ivAudioWaveImage.gone()
             mediaRecorder?.stop()
             mediaRecorder?.release()
-            binding.tvRecording.text = getString(R.string.recording_stopped)
+            binding.tvRecording.text = baseActivity.getString(R.string.recording_stopped)
 
             state = false
         } else {
-            Toast.makeText(
-                baseActivity,
-                "You are not recording right now!",
-                Toast.LENGTH_SHORT
-            ).show()
+            showToastShort(getString(R.string.you_are_not_recording_right_now))
+//            Toast.makeText(
+//                baseActivity,
+//                getString(R.string.you_are_not_recording_right_now),
+//                Toast.LENGTH_SHORT
+//            ).show()
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         recordingStatus = 0
-    }
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
+    }
 
 
     override fun onHandleClick(vararg items: Any) {
@@ -251,10 +266,10 @@ class RecordAudioFragment : BaseFragment<FragmentRecordAudioBinding>(), HandleCl
                         it.release()
                         mediaRecorder = null
                     }
-                    findNavController().navigateUp()
+                    onClickBack()
 
                 } else {
-                    findNavController().navigateUp()
+                    onClickBack()
 
                 }
 
@@ -262,38 +277,33 @@ class RecordAudioFragment : BaseFragment<FragmentRecordAudioBinding>(), HandleCl
             }
             R.id.iv_audio_save -> {
                 stopRecording()
+                output = FileUtils.getCreatedFilePath(baseActivity, File(output), "audio/aac")
+                    ?.toString() ?: output
+
+
                 if (!state) {
-                    val action =
-                        RecordAudioFragmentDirections.actionRecordAudioFragmentToAudioLectureFragment(
-                            sendSectionModel = model,
-                            filePath = output.toString(),
-                            courseId = courseId!!,
-                            lectureId = lectureId!!,
-                            childPosition = childPosition ?: -1,
-                            type = Constant.CLICK_ADD,
-                            from = from!!
+
+                    if (fragArgs.fromLesson) {
+                        setFragmentResult(
+                            "onRecordCallback",
+                            bundleOf("recordedUri" to output, "fromRecord" to true)
                         )
-                    findNavController().navigate(action)
+                        findNavController().popBackStack()
+                    } else {
+                        fragArgs.lessonArgs?.filePath = output
+                        showLog("VIDEO_COMMAND", "file output >> $output")
+                        val action =
+                            RecordAudioFragmentDirections.actionRecordAudioFragmentToEditAudioFragment(
+                                fragArgs.lessonArgs
+                            )
+                        findNavController().navigateTo(action)
+                    }
+
 
                 }
             }
             R.id.iv_audio_delete -> {
-                binding.ivAudioWaveImg.visible()
-                binding.ivAudioWaveImage.gone()
-                mLastStopTime = 0L
-                recordingStatus = 0
-                binding.tvRecordingTime.stop()
-                binding.tvRecordingTime.base = SystemClock.elapsedRealtime()
-                binding.ivAudioPlay.setImageResource(R.drawable.ic_baseline_play_circle_outline_24)
-                mediaRecorder?.let {
-                    it.stop()
-                    it.reset()
-                    it.release()
-                    mediaRecorder = null
-                }
-                binding.tvRecording.text = baseActivity.getString(R.string.start_recording)
-                initMediaRecorder()
-                blurButton()
+                deleteAudio()
 
             }
             R.id.iv_audio_play -> {
@@ -315,8 +325,77 @@ class RecordAudioFragment : BaseFragment<FragmentRecordAudioBinding>(), HandleCl
         }
     }
 
+    private fun deleteAudio() {
+        binding.ivAudioWaveImg.visible()
+        binding.ivAudioWaveImage.gone()
+        mLastStopTime = 0L
+        recordingStatus = 0
+        binding.tvRecordingTime.stop()
+        binding.tvRecordingTime.base = SystemClock.elapsedRealtime()
+        binding.ivAudioPlay.setImageResource(R.drawable.ic_record)
+        binding.ivAudioPlay.contentDescription = baseActivity.getString(R.string.record_audio_icon)
+
+        try {
+
+
+            mediaRecorder?.let {
+                it.stop()
+                it.reset()
+                it.release()
+                mediaRecorder = null
+            }
+        } catch (e: Exception) {
+            showException(e)
+        }
+        binding.tvRecording.text = baseActivity.getString(R.string.recording)
+        initMediaRecorder()
+        blurButton()
+    }
+
     override fun onApiRetry(apiCode: String) {
 
+    }
+
+    fun onClickBack(isOpen: Boolean = true) {
+//        setFragmentResult(
+//            "onLessonBack",
+//            bundleOf("isDialogOpen" to isOpen)
+//        )
+//        findNavController().popBackStack()
+        if (fragArgs?.fromLesson) {
+//            setFragmentResult(
+//                "onLessonBack",
+//                bundleOf("isDialogOpen" to isOpen)
+//            )
+//                    }
+            findNavController().popBackStack()
+        } else {
+            confirmationPopUp(isOpen)
+        }
+    }
+
+
+    private fun confirmationPopUp(isOpen: Boolean) {
+
+        CommonAlertDialog.builder(baseActivity)
+            .hideNegativeBtn(false)
+            .positiveBtnText(baseActivity.getString(R.string.yes))
+            .negativeBtnText(baseActivity.getString(R.string.no))
+            .title(baseActivity.getString(R.string.alerte))
+            .description(getString(R.string.are_you_do_not_want_to_save_lesson))
+            .getCallback {
+                if (it) {
+//                    if (viewModel.lessonArgs?.type == Constant.CLICK_ADD) {
+                    setFragmentResult(
+                        "onLessonBack",
+                        bundleOf("isDialogOpen" to isOpen)
+                    )
+//                    }
+                    findNavController().popBackStack()
+                }
+
+            }.notCancellable(false).icon(R.drawable.ic_alert_title)
+            .build()
     }
 
 //    private fun registerForCallback(registry: ActivityResultRegistry) {
@@ -326,6 +405,13 @@ class RecordAudioFragment : BaseFragment<FragmentRecordAudioBinding>(), HandleCl
 //        ) { result: ActivityResult ->
 //
 //        }
-//    }
+//
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+
+    }
 
 }

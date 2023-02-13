@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+<variable
+    name="viewModel"
+    type="com.selflearningcoursecreationapp.ui.moderator.dialog.filter.ModHomeFilterVM" />
     </data>
 
 
@@ -47,67 +49,174 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_title" />
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_filter_cat"
-            android:layout_width="0dp"
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:clipToPadding="false"
-            android:overScrollMode="never"
-            android:background="@color/color_view"
-            android:paddingBottom="@dimen/_25sdp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/bt_apply"
-            app:layout_constraintEnd_toStartOf="@+id/recycler_filter_cat_item"
-            app:layout_constraintHorizontal_bias="0.0"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_default="wrap"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintWidth_percent=".35"
-            tools:itemCount="1" />
+            app:layout_constraintVertical_bias="0">
 
-        <View
-            android:id="@+id/v_line"
-            android:layout_width="2dp"
-            android:layout_height="0dp"
-            android:background="@color/color_view"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/recycler_filter_cat_item"
-            app:layout_constraintStart_toEndOf="@+id/recycler_filter_cat"
-            app:layout_constraintTop_toTopOf="@+id/recycler_filter_cat_item" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_filter_cat_item"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:clipToPadding="false"
-            android:overScrollMode="never"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/bt_reset"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_default="wrap"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/recycler_filter_cat"
-            app:layout_constraintTop_toBottomOf="@+id/tv_title"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintWidth_percent=".65"
-            tools:itemCount="1"
-            tools:listitem="@layout/adapter_filter_layout" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
-            android:id="@+id/bt_apply"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:lineSpacingExtra="@dimen/_4ssp"
-            android:paddingVertical="@dimen/_10sdp"
-            android:text="@string/apply"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/recycler_filter_cat_item"
-            app:layout_constraintStart_toStartOf="@+id/recycler_filter_cat_item"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_filter_cat_item" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="?attr/secondaryScreenBgColor"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline"
+                    app:layout_constraintStart_toStartOf="parent"
+
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_filter_cat"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:paddingBottom="@dimen/_25sdp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toTopOf="@+id/bt_apply"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline"
+                    app:layout_constraintHeight_default="wrap"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0"
+                    tools:itemCount="1" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.35" />
+
+                <View
+                    android:id="@+id/v_line"
+                    android:layout_width="2dp"
+                    android:layout_height="0dp"
+                    android:background="?attr/filterStrokeColor"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/recycler_filter_cat_item"
+                    app:layout_constraintStart_toEndOf="@+id/recycler_filter_cat"
+                    app:layout_constraintTop_toTopOf="@+id/recycler_filter_cat_item" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_filter_cat_item"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:overScrollMode="never"
+                    android:visibility="visible"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toTopOf="@+id/bt_reset"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_default="wrap"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/guideline"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_percent=".65"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/adapter_filter_layout" />
+
+                <include
+                    android:id="@+id/layout_request_date"
+                    layout="@layout/item_filter_request_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@+id/bt_reset"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_default="wrap"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/guideline"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_percent=".65"
+                    app:viewModel="@{(com.selflearningcoursecreationapp.ui.moderator.dialog.filter.ModHomeFilterVM)viewModel}" />
+
+                <include
+                    android:id="@+id/layout_fee_range"
+                    layout="@layout/item_fee_range"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@+id/bt_reset"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_default="wrap"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/guideline"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_percent=".65"
+                    app:viewModel="@{(com.selflearningcoursecreationapp.ui.moderator.dialog.filter.ModHomeFilterVM)viewModel}" />
+
+                <include
+                    android:id="@+id/layout_creator"
+                    layout="@layout/item_creator_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@+id/bt_reset"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_default="wrap"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/guideline"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_percent=".65"
+                    app:viewModel="@{(com.selflearningcoursecreationapp.ui.moderator.dialog.filter.ModHomeFilterVM)viewModel}" />
+
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                    android:id="@+id/bt_reset"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:capitalize="none"
+                    android:lineSpacingExtra="@dimen/_4ssp"
+                    android:paddingVertical="@dimen/_10sdp"
+                    android:text="@string/reset"
+                    android:textAllCaps="false"
+                    app:btnTextColor="secondary"
+                    app:buttonBackground="secondary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/bt_apply"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="@+id/recycler_filter_cat_item"
+                    app:layout_constraintVertical_bias="0.128" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                    android:id="@+id/bt_apply"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:capitalize="none"
+                    android:lineSpacingExtra="@dimen/_4ssp"
+                    android:paddingVertical="@dimen/_10sdp"
+                    android:text="@string/apply"
+                    android:textAllCaps="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/bt_reset"
+                    app:layout_constraintVertical_bias="0.128" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
     </com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout>
 </layout>

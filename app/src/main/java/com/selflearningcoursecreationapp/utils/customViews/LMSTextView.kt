@@ -15,7 +15,7 @@ import com.selflearningcoursecreationapp.extensions.getAttrColor
 import com.selflearningcoursecreationapp.extensions.isNullOrZero
 
 
-class LMSTextView : AppCompatTextView {
+open class LMSTextView : AppCompatTextView {
 
     constructor(context: Context) : super(context) {
         initView(context)
@@ -41,7 +41,7 @@ class LMSTextView : AppCompatTextView {
 
         val themeAttrs = context.obtainStyledAttributes(
             attrs, R.styleable.LMSTextView,
-            defStyle!!, 0
+            defStyle ?: 0, 0
         )
 
         val drawablePos =

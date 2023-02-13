@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
             android:layout_marginTop="@dimen/_16sdp"
-            android:background="?attr/divider_grey"
+            android:background="?attr/lineColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/filter" />
@@ -33,7 +33,7 @@
 
             android:paddingHorizontal="@dimen/_6sdp"
             android:paddingVertical="@dimen/_4sdp"
-            android:textColor="@color/coin_stroked_color"
+            android:textColor="?attr/coinDrawableStrokeColor"
             android:textSize="@dimen/textField_12"
             app:drawableStartCompat="@drawable/ic_star"
             app:fontType="semiBold"
@@ -60,10 +60,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_16sdp"
+            android:contentDescription="@string/filter_button"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_filter_field" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:id="@+id/iv_red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-4dp"
+            android:layout_marginEnd="-4dp"
+            android:padding="@dimen/_2sdp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/filter"
+            app:layout_constraintTop_toTopOf="@+id/filter"
+            app:srcCompat="@drawable/ic_circle_red" />
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -80,26 +93,24 @@
             tools:itemCount="3"
             tools:listitem="@layout/adapter_review_list" />
 
+
         <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
             android:id="@+id/bt_rate_this_course"
             spanText="@{@string/rate_this_course}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:backgroundTint="@color/white"
+            android:layout_margin="@dimen/_10sdp"
+
             android:stateListAnimator="@null"
             android:text="@string/rate_this_course"
             app:btnTextColor="secondary"
-            app:buttonBackground="none"
+            app:buttonBackground="secondary"
             app:icon="@drawable/ic_star_outline"
             app:iconGravity="textStart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_rating_list"
-            app:strokeColor="?attr/buttonBackgroundTintColor"
+            app:layout_constraintVertical_bias="1"
             app:strokeWidth="@dimen/_1sdp"
             app:textAllCaps="true" />
 

@@ -20,4 +20,29 @@ class MoreFragmentRepoImp(private val apiService: ApiService) : MoreFragmentRepo
 
         }.safeApiCall(ApiEndPoints.API_SWITCH_TO_MOD).flowOn(Dispatchers.IO)
     }
+
+    override suspend fun support(map: HashMap<String, Any>): Flow<Resource> {
+        return object : BaseRepo<BaseResponse<UserProfile>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<UserProfile>> {
+                return apiService.postSupport(map)
+            }
+
+        }.safeApiCall(ApiEndPoints.API_SUPPORT).flowOn(Dispatchers.IO)
+    }
+
+//    override suspend fun staticPages(type: Int): Flow<Resource> {
+//        return object : BaseRepo<BaseResponse<StaticUrlModel>>() {
+//            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<StaticUrlModel>> {
+//                return apiService.static(type)
+//            }
+//        }.safeApiCall(ApiEndPoints.API_STATIC).flowOn(Dispatchers.IO)
+//    }
+//
+//    override suspend fun staticPagesFaq(): Flow<Resource> {
+//        return object : BaseRepo<BaseResponse<StaticUrlModel>>() {
+//            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<StaticUrlModel>> {
+//                return apiService.static_faq()
+//            }
+//        }.safeApiCall(ApiEndPoints.API_STATIC_FAQ).flowOn(Dispatchers.IO)
+//    }
 }

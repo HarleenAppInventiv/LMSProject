@@ -5,6 +5,9 @@
 
     <data>
 
+        <import
+            alias="const"
+            type="com.selflearningcoursecreationapp.utils.ValidationConst" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,13 +62,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
-            android:background="@drawable/edt_bg_white"
+            android:background="@drawable/edt_white_bg"
             android:gravity="start"
             android:hint="@string/enter_answer_here"
             android:imeOptions="actionNext"
             android:inputType="textImeMultiLine|textMultiLine|textCapSentences"
             android:maxLines="8"
             android:minLines="5"
+            android:maxLength="@{const.MAX_COURSE_COMMENT_LENGTH}"
             android:overScrollMode="always"
             android:scrollbars="vertical"
             android:textSize="@dimen/editTextField_14"

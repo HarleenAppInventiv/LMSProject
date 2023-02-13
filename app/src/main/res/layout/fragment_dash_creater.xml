@@ -9,14 +9,28 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/off_whiteTextColor">
+        android:background="?attr/secondaryScreenBgColor">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/viewSecondaryBgColor">
+            android:background="?attr/secondaryScreenBgColor">
 
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineStart1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="20dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineEnd1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="20dp" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout
                 android:id="@+id/view_main"
@@ -39,15 +53,26 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_15sdp"
-                    android:background="@drawable/ic_bg_search_home"
+                    android:background="@drawable/edt_bg_white_opacity_10"
                     android:drawableEnd="@drawable/ic_filter_white"
                     android:padding="@dimen/_10sdp"
                     android:text="@string/filter"
-                    android:textColor="@color/white"
+
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:textColorType="none" />
+                    app:textColorType="white" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                    android:id="@+id/iv_red"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:padding="@dimen/_2sdp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_filter"
+                    app:layout_constraintTop_toTopOf="@+id/tv_filter"
+                    app:srcCompat="@drawable/ic_circle_red" />
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                     android:id="@+id/tv_stats"
@@ -57,7 +82,7 @@
                     android:layout_marginTop="@dimen/_20sdp"
                     android:text="@string/audience_stats"
                     android:textColor="?attr/whiteTextColor"
-                    android:textSize="@dimen/textField_16"
+                    android:textSize="@dimen/textField_21"
                     app:fontType="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +96,7 @@
                     android:layout_marginStart="@dimen/_15sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/edt_bg"
-                    android:backgroundTint="@color/user_stat_bg"
+                    android:backgroundTint="?attr/dashBoard_YellowStats"
                     android:paddingTop="@dimen/_12sdp"
                     android:paddingBottom="@dimen/_12sdp"
                     app:changeBackgroundType="none"
@@ -85,11 +110,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_8sdp"
                         android:text="@string/total_user"
-                        android:textSize="@dimen/textField_11"
+                        android:textSize="@dimen/textField_12"
                         app:layout_constraintBottom_toTopOf="@+id/tv_user_count"
                         app:layout_constraintEnd_toEndOf="@id/cl_user"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/cl_user"
+                        app:fontType="medium"
                         app:textColorType="heading" />
 
                     <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
@@ -97,8 +123,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_8sdp"
-                        android:text="200"
-                        android:textSize="@dimen/textField_15"
+                        android:textSize="@dimen/textField_24"
                         app:fontType="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -115,7 +140,7 @@
                     android:layout_marginStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/edt_bg"
-                    android:backgroundTint="@color/course_stat_bg"
+                    android:backgroundTint="?attr/dashboard_BlueStats"
                     android:paddingTop="@dimen/_12sdp"
                     android:paddingBottom="@dimen/_12sdp"
                     app:changeBackgroundType="none"
@@ -130,10 +155,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_8sdp"
                         android:text="@string/total_courses"
-                        android:textSize="@dimen/textField_11"
+                        android:textSize="@dimen/textField_12"
                         app:layout_constraintEnd_toEndOf="@id/cl_course"
                         app:layout_constraintStart_toStartOf="@id/cl_course"
                         app:layout_constraintTop_toTopOf="@+id/cl_course"
+                        app:fontType="medium"
                         app:textColorType="heading" />
 
                     <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
@@ -141,8 +167,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_8sdp"
-                        android:text="15"
-                        android:textSize="@dimen/textField_15"
+                        android:textSize="@dimen/textField_24"
                         app:fontType="bold"
                         app:layout_constraintEnd_toEndOf="@id/cl_course"
                         app:layout_constraintStart_toStartOf="@id/cl_course"
@@ -160,7 +185,7 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_15sdp"
                     android:background="@drawable/edt_bg"
-                    android:backgroundTint="@color/video_stat_bg"
+                    android:backgroundTint="?attr/dashboard_PinkStats"
                     android:paddingTop="@dimen/_12sdp"
                     android:paddingBottom="@dimen/_12sdp"
                     app:changeBackgroundType="none"
@@ -175,10 +200,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_8sdp"
                         android:text="@string/total_videos"
-                        android:textSize="@dimen/textField_11"
+                        android:textSize="@dimen/textField_12"
                         app:layout_constraintEnd_toEndOf="@id/cl_video"
                         app:layout_constraintStart_toStartOf="@id/cl_video"
                         app:layout_constraintTop_toTopOf="@+id/cl_video"
+                        app:fontType="medium"
                         app:textColorType="heading" />
 
                     <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
@@ -186,8 +212,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_8sdp"
-                        android:text="200"
-                        android:textSize="@dimen/textField_15"
+                        android:textSize="@dimen/textField_24"
                         app:fontType="bold"
                         app:layout_constraintEnd_toEndOf="@id/cl_video"
                         app:layout_constraintStart_toStartOf="@id/cl_video"
@@ -199,6 +224,12 @@
 
             </com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout>
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineCenter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_enrolled_title"
@@ -208,7 +239,7 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:text="@string/total_user_enrolled"
-                android:textColor="@color/black"
+                android:textColor="?attr/blackTextColor"
                 android:textSize="@dimen/textField_16"
                 app:fontType="bold"
                 app:layout_constraintEnd_toStartOf="@id/tv_select_day"
@@ -217,31 +248,135 @@
                 app:textColorType="none" />
 
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            <com.selflearningcoursecreationapp.utils.customViews.LMSAutoCompleteTextView
                 android:id="@+id/tv_select_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:layout_marginEnd="@dimen/_15sdp"
-                android:background="@drawable/edt_bg_white"
+                android:background="@drawable/edt_white_bg"
                 android:drawableEnd="@drawable/ic_arrow_bottom"
                 android:drawablePadding="@dimen/_40sdp"
                 android:elevation="@dimen/_5sdp"
                 android:padding="@dimen/_5sdp"
-                android:text="Day"
+                android:clickable="true"
+                android:completionThreshold="0"
+                android:editable="false"
+                android:text="@string/all"
                 android:textSize="@dimen/textField_12"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="@+id/guidelineEnd1"
                 app:layout_constraintTop_toBottomOf="@id/view_main" />
 
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/barChart"
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_to"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_200sdp"
-                android:layout_margin="@dimen/_15sdp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_enrolled_title" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/edt_white_bg"
+                android:clickable="true"
+                android:editable="false"
+                android:elevation="@dimen/_5sdp"
+                android:hint="@string/to"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/textField_14"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd1"
+                app:layout_constraintStart_toEndOf="@+id/guidelineCenter"
+                app:layout_constraintTop_toBottomOf="@id/tv_select_day" />
 
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_from"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:background="@drawable/edt_white_bg"
+                android:clickable="true"
+                android:editable="false"
+                android:elevation="@dimen/_5sdp"
+                android:hint="@string/from"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/textField_14"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd1"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineCenter"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart1"
+                app:layout_constraintTop_toBottomOf="@id/tv_select_day" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/tvConstBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_from">
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tvNoUsersEnrolled"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:gravity="center"
+                    android:text="@string/no_users_enrolled_in_any_course"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/textField_11"
+                    android:visibility="gone"
+                    app:fontType="semiBold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/tvConstBarInner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_minus8sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+
+                    >
+
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/tvUsers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:paddingVertical="@dimen/_2sdp"
+                        android:rotation="270"
+                        android:text="@string/users"
+                        android:textSize="@dimen/adapterTextField_11"
+                        app:drawableEndCompat="@drawable/ic_arrow_1"
+                        app:layout_constraintBottom_toBottomOf="@+id/barChart"
+                        app:layout_constraintTop_toTopOf="@+id/barChart"
+
+                        />
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/barChart"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_200sdp"
+                        android:layout_marginVertical="@dimen/_15sdp"
+                        android:layout_marginStart="@dimen/_minus8sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        app:layout_constraintStart_toEndOf="@+id/tvUsers" />
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/tvCourses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_8sdp"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:paddingHorizontal="@dimen/_5sdp"
+                        android:paddingVertical="@dimen/_2sdp"
+                        android:text="@string/course_name"
+                        android:textSize="@dimen/adapterTextField_11"
+                        app:drawableEndCompat="@drawable/ic_arrow_1"
+                        app:layout_constraintEnd_toEndOf="@+id/barChart"
+                        app:layout_constraintStart_toStartOf="@+id/barChart"
+                        app:layout_constraintTop_toBottomOf="@+id/barChart" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_users_heading"
@@ -251,12 +386,12 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_15sdp"
                 android:text="@string/users_count"
-                android:textColor="@color/black"
+                android:textColor="?attr/blackTextColor"
                 android:textSize="@dimen/textField_16"
                 app:fontType="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barChart"
+                app:layout_constraintTop_toBottomOf="@+id/tvConstBar"
                 app:textColorType="none" />
 
 
@@ -265,7 +400,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="?attr/whiteTextColor"
                 app:layout_constraintTop_toBottomOf="@+id/tv_users_heading">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -279,7 +414,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/_10sdp"
                         android:text="@string/total_users_in_course"
-                        android:textColor="@color/adapter_header_color"
+                        android:textColor="?attr/adapterTitleColor"
                         android:textSize="@dimen/textField_12"
                         android:textStyle="bold"
                         app:fontType="bold"
@@ -291,8 +426,7 @@
                         android:id="@+id/tv_course_users"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="200"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/blackTextColor"
                         android:textSize="@dimen/textField_16"
                         android:textStyle="bold"
                         app:fontType="bold"
@@ -305,7 +439,7 @@
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:background="@color/accent_color_fc6d5b"
+                        android:background="?attr/graph_red"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_inactive"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tv_inactive" />
@@ -316,8 +450,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:text="Inactive (50)"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/blackTextColor"
                         android:textSize="@dimen/textField_12"
                         app:fontType="regular"
                         app:layout_constraintStart_toEndOf="@+id/v_red"
@@ -329,7 +462,7 @@
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:background="@color/accent_color_2FBF71"
+                        android:background="?attr/graph_green"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_completed"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tv_completed" />
@@ -340,7 +473,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:text="Completed (100)"
                         android:textSize="@dimen/textField_12"
                         app:fontType="regular"
                         app:layout_constraintStart_toEndOf="@+id/v_green"
@@ -353,7 +485,7 @@
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:background="@color/accent_color_FFB800"
+                        android:background="?attr/graph_yellow"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_inprogress"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tv_inprogress" />
@@ -364,8 +496,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:text="In Progress (2)"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/blackTextColor"
                         android:textSize="@dimen/textField_12"
                         app:fontType="regular"
                         app:layout_constraintStart_toEndOf="@+id/v_yellow"
@@ -379,6 +510,19 @@
                         android:layout_height="@dimen/_150sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/tvNoUsersChart"
+                        android:layout_width="@dimen/_150sdp"
+                        android:layout_height="@dimen/_150sdp"
+                        android:gravity="center"
+                        android:text="@string/no_chart_data_available"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/textField_11"
+                        app:fontType="semiBold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/users_pieChart"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -395,7 +539,7 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:text="@string/total_earning"
-                android:textColor="@color/black"
+                android:textColor="?attr/blackTextColor"
                 android:textSize="@dimen/textField_16"
                 app:fontType="bold"
                 app:layout_constraintEnd_toStartOf="@id/tv_earning_day"
@@ -404,52 +548,118 @@
                 app:textColorType="none" />
 
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            <com.selflearningcoursecreationapp.utils.customViews.LMSAutoCompleteTextView
                 android:id="@+id/tv_earning_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/_15sdp"
-                android:background="@drawable/edt_bg_white"
+                android:background="@drawable/edt_white_bg"
                 android:drawableEnd="@drawable/ic_arrow_bottom"
                 android:drawablePadding="@dimen/_40sdp"
                 android:elevation="@dimen/_5sdp"
                 android:padding="@dimen/_5sdp"
-                android:text="Day"
+                android:clickable="true"
+                android:completionThreshold="0"
+                android:editable="false"
+                android:text="@string/month"
                 android:textSize="@dimen/textField_12"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="@+id/guidelineEnd1"
                 app:layout_constraintTop_toBottomOf="@id/card" />
 
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/earning_pieChart"
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_to_earning"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/edt_white_bg"
+                android:clickable="true"
+                android:editable="false"
+                android:elevation="@dimen/_5sdp"
+                android:hint="@string/to"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/textField_14"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd1"
+                app:layout_constraintStart_toEndOf="@+id/guidelineCenter"
+                app:layout_constraintTop_toBottomOf="@id/tv_earning_day" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_from_earning"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:background="@drawable/edt_white_bg"
+                android:clickable="true"
+                android:editable="false"
+                android:elevation="@dimen/_5sdp"
+                android:hint="@string/from"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/textField_14"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd1"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineCenter"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart1"
+                app:layout_constraintTop_toBottomOf="@id/tv_earning_day" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="@dimen/_150sdp"
                 android:layout_height="@dimen/_150sdp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_earning_heading" />
+                android:id="@+id/constChartEarning"
+                app:layout_constraintTop_toBottomOf="@+id/tv_from_earning">
+
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/earning_pieChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tvNoEranings"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:gravity="center"
+                    android:text="@string/no_chart_data_available"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/textField_11"
+                    android:visibility="gone"
+                    app:fontType="semiBold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Day :"
-                android:textColor="@color/black"
+                android:text="@string/day_colon"
+                android:textColor="?attr/blackTextColor"
                 android:textSize="@dimen/textField_12"
                 android:textStyle="bold"
                 app:fontType="bold"
                 app:layout_constraintBottom_toTopOf="@+id/tv_earning_title"
-                app:layout_constraintStart_toEndOf="@+id/earning_pieChart"
-                app:layout_constraintTop_toTopOf="@+id/earning_pieChart"
+                app:layout_constraintStart_toEndOf="@+id/constChartEarning"
+                app:layout_constraintTop_toTopOf="@+id/constChartEarning"
                 app:textColorType="none" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="12 Apr 2022"
-                android:textColor="@color/black"
+                android:textColor="?attr/blackTextColor"
                 android:textSize="@dimen/textField_12"
-                app:layout_constraintStart_toEndOf="@+id/earning_pieChart"
+                app:layout_constraintStart_toEndOf="@+id/constChartEarning"
                 app:layout_constraintTop_toBottomOf="@+id/tv_day"
                 app:textColorType="none" />
 
@@ -459,22 +669,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{@string/total_earning+`:`}"
-                android:textColor="@color/black"
+                android:textColor="?attr/blackTextColor"
                 android:textSize="@dimen/textField_12"
                 android:textStyle="bold"
                 app:fontType="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/earning_pieChart"
-                app:layout_constraintStart_toEndOf="@+id/earning_pieChart"
+                app:layout_constraintBottom_toBottomOf="@+id/constChartEarning"
+                app:layout_constraintStart_toEndOf="@+id/constChartEarning"
                 app:layout_constraintTop_toBottomOf="@+id/tv_day"
                 app:textColorType="none" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="₹20,000"
-                android:textColor="@color/black"
+                android:id="@+id/tvTotalEarnings"
+                android:textColor="?attr/blackTextColor"
                 android:textSize="@dimen/textField_12"
-                app:layout_constraintStart_toEndOf="@+id/earning_pieChart"
+                app:layout_constraintStart_toEndOf="@+id/constChartEarning"
                 app:layout_constraintTop_toBottomOf="@+id/tv_earning_title"
                 app:textColorType="none" />
 

@@ -1,9 +1,6 @@
 package com.selflearningcoursecreationapp.ui.dashboard
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.selflearningcoursecreationapp.R
@@ -11,19 +8,40 @@ import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentDashboardBaseBinding
 import com.selflearningcoursecreationapp.ui.preferences.ScreenSlidePagerAdapter
 
+
 class DashboardBaseFragment : BaseFragment<FragmentDashboardBaseBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
+
+        callMenu()
         initUI()
     }
 
     private fun initUI() {
 
         val screenList = ArrayList<Fragment>()
-        screenList.add(DashModeratorFragment())
+        screenList.add(DashLearnerFragment())
         screenList.add(DashCreatorFragment())
+
+        binding.vpDashboards.isUserInputEnabled = false
+//
+//        binding.vpDashboards.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+//
+//            override fun onPageScrolled(
+//                position: Int,
+//                positionOffset: Float,
+//                positionOffsetPixels: Int
+//            ) {
+//                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+//                if(position==0){
+//                    binding.svChangeDash.isChecked= false
+//                }
+//                else if(position==1){
+//                    binding.svChangeDash.isChecked=true
+//                }
+//            }
+//        })
 
         binding.vpDashboards.apply {
 
@@ -36,14 +54,15 @@ class DashboardBaseFragment : BaseFragment<FragmentDashboardBaseBinding>() {
         }
 
         binding.svChangeDash.setOnClickListener {
+
             if (binding.svChangeDash.isChecked) {
-//                binding.tvSwitchText.text="Switch to Learner Dashboard"
+                binding.tvSwitchText.text = getString(R.string.switch_to_learner_dashboard)
                 binding.vpDashboards.setCurrentItem(
                     binding.vpDashboards.currentItem + 1,
                     true
                 )
             } else {
-//                binding.tvSwitchText.text="Switch to Creator Dashboard"
+                binding.tvSwitchText.text = getString(R.string.switch_to_creator_dashboard)
                 binding.vpDashboards.setCurrentItem(
                     binding.vpDashboards.currentItem - 1,
                     true
@@ -52,20 +71,7 @@ class DashboardBaseFragment : BaseFragment<FragmentDashboardBaseBinding>() {
 
         }
 
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.course_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_read -> {
-//                baseActivity.checkAccessibilityService()
-            }
-
-        }
-        return super.onOptionsItemSelected(item)
     }
 
 

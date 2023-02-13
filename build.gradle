@@ -4,9 +4,18 @@ buildscript {
         google()
         mavenCentral()
         maven { url "https://jitpack.io" }
-        
+
+    }
+    ext {
+        androidx_appcompat_version = "1.1.0"
+        androidx_core_version = "1.1.0"
+        androidx_exifinterface_version = "1.1.0-beta01"
+        androidx_transition_version = "1.2.0-rc01"
+        constraintlayout_version = "1.1.3"
     }
     dependencies {
+       // ktlint "com.pinterest:ktlint:0.41.0"
+
         classpath 'com.android.tools.build:gradle:7.0.4'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.5.0"
@@ -16,6 +25,10 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
+}
+
+plugins {
+    id 'com.android.library' version '7.2.0' apply false
 }
 
 task clean(type: Delete) {

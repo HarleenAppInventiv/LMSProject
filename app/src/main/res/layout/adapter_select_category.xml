@@ -20,13 +20,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                 android:id="@+id/iv_preview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
                 android:layout_margin="@dimen/_8sdp"
                 android:importantForAccessibility="no"
                 android:padding="@dimen/_10sdp"
+                app:applyGrayscale="true"
 
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -43,10 +44,11 @@
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingVertical="@dimen/_8sdp"
-                android:text="WorkSans"
+                android:paddingHorizontal="@dimen/_8sdp"
+                android:textAlignment="center"
                 android:textSize="@dimen/homeAdapterTF_13"
                 app:fontType="medium"
                 app:layout_constraintEnd_toEndOf="parent"

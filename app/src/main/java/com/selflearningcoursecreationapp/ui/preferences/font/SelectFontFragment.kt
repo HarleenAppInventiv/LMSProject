@@ -29,6 +29,7 @@ class SelectFontFragment : BaseFragment<FragmentSelectFontBinding>(), BaseAdapte
     }
 
 
+
     private fun initUi() {
         val msg = SpanUtils.with(baseActivity, baseActivity.getString(R.string.select_font)).apply {
             isBold()
@@ -53,16 +54,25 @@ class SelectFontFragment : BaseFragment<FragmentSelectFontBinding>(), BaseAdapte
             viewModel.fontListData.value = list
 
         }
+        viewModel.fontListData.observe(viewLifecycleOwner) {
 
-        setAdapter()
+            adapter?.notifyDataSetChanged()
+            adapter = null
+            setAdapter()
+        }
 
     }
 
     private fun setAdapter() {
-        adapter?.notifyDataSetChanged() ?: kotlin.run {
-            adapter = FontAdapter(viewModel.fontListData.value!!)
-            binding.rvFont.adapter = adapter
-            adapter!!.setOnAdapterItemClickListener(this)
+        if (viewModel.fontListData.value.isNullOrEmpty()) {
+            adapter?.notifyDataSetChanged()
+            adapter = null
+        } else {
+            adapter?.notifyDataSetChanged() ?: kotlin.run {
+                adapter = FontAdapter(viewModel.fontListData.value!!)
+                binding.rvFont.adapter = adapter
+                adapter?.setOnAdapterItemClickListener(this)
+            }
         }
     }
 

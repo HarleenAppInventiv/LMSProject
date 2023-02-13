@@ -10,5 +10,8 @@ data class VideoModel(
     var mSectionId: Int? = null,
     var mChildPosition: Int? = null,
     var mType: Int? = null,
+    var fileName: String = "",
+    var mimeType: String = "",
+    var fileSize: Long? = null
 
-    )
+)

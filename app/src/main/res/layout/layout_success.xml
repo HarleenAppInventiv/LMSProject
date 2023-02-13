@@ -18,12 +18,23 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
             android:importantForAccessibility="no"
-
+            app:applyGrayscale="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:vector="@drawable/ic_success"
-            app:srcCompat="@drawable/ic_success" />
+            app:srcCompat="@drawable/ic_success"
+            app:vector="@drawable/ic_success" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:id="@+id/ic_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:paddingVertical="@dimen/_10sdp"
+            android:src="@drawable/ic_close_grey"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_title"
@@ -43,16 +54,20 @@
             android:id="@+id/tv_msg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:text="@string/as_per_your_preference_the_current_app_theme_updated_to_blue_theme"
             android:textAlignment="center"
             android:textSize="@dimen/textField_14"
             app:fontType="regular"
+            android:lineSpacingExtra="@dimen/_3sdp"
+            android:paddingStart="@dimen/_8sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            android:paddingEnd="@dimen/_8sdp"
             app:textColorType="secondary" />
+        />
 
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
@@ -62,13 +77,14 @@
             android:layout_marginVertical="@dimen/_20sdp"
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:letterSpacing="0.02"
             android:padding="@dimen/_12sdp"
             android:text="@string/ok"
             android:textAlignment="center"
-            android:textSize="@dimen/textField_12"
+            android:capitalize="none"
             app:buttonFont="semiBold"
             app:fontType="bold"
+            android:textAllCaps="false"
+            android:textSize="@dimen/textField_14"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btn_negative"
@@ -83,7 +99,7 @@
             android:layout_marginVertical="@dimen/_20sdp"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginEnd="@dimen/_8sdp"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="?attr/whiteTextColor"
             android:letterSpacing="0.02"
             android:padding="@dimen/_12sdp"
             android:text="@string/cancel"
@@ -93,6 +109,8 @@
             app:buttonBackground="none"
             app:buttonFont="semiBold"
             app:fontType="bold"
+            android:capitalize="none"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_positive"
             app:layout_constraintStart_toStartOf="parent"

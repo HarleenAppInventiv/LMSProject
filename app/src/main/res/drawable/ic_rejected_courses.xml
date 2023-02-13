@@ -6,7 +6,7 @@
     <group>
         <clip-path android:pathData="M0.8149,0.308h38.87v44.96h-38.87z" />
         <path
-            android:fillColor="#FFBACF"
+            android:fillColor="?attr/colorVariant_Pink"
             android:pathData="M6.3949,4.6379H21.2649C27.6249,4.6379 32.7949,9.808 32.7949,16.168V39.688C32.7949,42.768 30.2949,45.268 27.2149,45.268H6.3949C3.3149,45.268 0.8149,42.768 0.8149,39.688V10.218C0.8149,7.1379 3.3149,4.6379 6.3949,4.6379Z" />
         <path
             android:fillColor="#ffffff"
@@ -30,9 +30,9 @@
             android:fillColor="#00000000"
             android:pathData="M9.1449,2.558H22.7349C29.8049,2.558 35.5449,8.2979 35.5449,15.368V37.608C35.5449,40.688 33.0449,43.188 29.9649,43.188H9.1449C6.0649,43.188 3.5649,40.688 3.5649,37.608V8.1379C3.5649,5.058 6.0649,2.558 9.1449,2.558Z"
             android:strokeWidth="0.75"
-            android:strokeColor="#FF4883" />
+            android:strokeColor="?attr/colorVariant_DarkPink" />
         <path
-            android:fillColor="#FF4883"
+            android:fillColor="?attr/colorVariant_DarkPink"
             android:pathData="M39.685,10.858C39.685,5.038 34.965,0.308 29.145,0.308C23.325,0.308 18.605,5.0279 18.605,10.858C18.605,16.688 23.325,21.408 29.145,21.408C34.965,21.408 39.685,16.688 39.685,10.858Z" />
         <path
             android:fillColor="#ffffff"

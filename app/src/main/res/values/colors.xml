@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-        <color name="purple_700">#8900F2</color>
+    <color name="purple_700">#8900F2</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
@@ -15,11 +15,19 @@
 
     <color name="primaryColor">#8900F2</color>
     <color name="primaryTintColor">#647f0ae8</color>
+    <color name="buttonTintColor">#64B6A0CA</color>
+
+
+    <color name="created">#CAFFAC4A</color>
+    <color name="completed">#A706A446</color>
+
     <color name="accent_color_fc6d5b">#fc6d5b</color>
     <color name="accent_color_fc6d5b_with_alpha">#14FC6D5B</color>
     <color name="accent_color_FFB800">#ffb800</color>
     <color name="accent_color_2FBF71">#2fbf71</color>
     <color name="test">#7F7F7F</color>
+    <color name="accent_color_2FBF71_tint">#eafff3</color>
+    <color name="accent_color_131414">#131414</color>
 
 
     //vi Color
@@ -27,10 +35,15 @@
     <color name="ViMainTintColor">#A9757373</color>
     <color name="ViTextHintColor">#BF262626</color>
     <color name="ViSecondaryColor">#FFF732</color>
-    <color name="ViSecondaryTintColor">#CBF8F256</color>
+    <color name="ViSecondaryTintColor">#BCF6F167</color>
     <color name="ViScreenBgColor">#E5E5E5</color>
     <color name="ViCoinColor">#0f0f0f</color>
     <color name="ViCoinSecondaryColor">#595959</color>
+    <color name="ViButtonTintColor">#D6D6D6</color>
+    <color name="icons_vi_bg">#E6E2E2</color>
+    <color name="vi_graph_red">#CACACA</color>
+    <color name="vi_graph_yellow">#7A7A7A</color>
+    <color name="vi_graph_green">#0F0F0F</color>
 
 
     <color name="drawableCoinColor">#F8B64C</color>
@@ -41,8 +54,9 @@
     <color name="colorGrey">#676060</color>
     <color name="transBlack">#75000000</color>
     <color name="transBlack_010F22">#99010F22</color>
+    <color name="transBlack_15">#26010F22</color>
+    <color name="progress_layout">#12000000</color>
 
-    <color name="dividerGrey">#F5F5F5</color>
     <color name="hintColor">#929292</color>
     <color name="orange_text_color">#ff4b4b</color>
     <color name="coin_stroked_color">#f9b810</color>
@@ -50,9 +64,13 @@
     <color name="radioTextColor">#756F86</color>
     <color name="radioSelectedTextColor">#231E1E</color>
 
+    <color name="opacity_40_000000">#1Affffff</color>
 
     <color name="intro_btn_bg_color_f5f5f5">#f5f5f5</color>
     <color name="hint_color_929292">#929292</color>
+    <color name="pulse_color_929292">#AAA9A9</color>
+
+    <color name="opacity_40_929292">#40929292</color>
     <color name="opacity_50_929292">#80929292</color>
     <color name="opacity_20_929292">#33929292</color>
     <color name="opacity_15_929292">#26929292</color>
@@ -65,13 +83,13 @@
     <color name="adapter_header_color">#322F2E</color>
     <color name="error_red">#D22B16</color>
     <color name="grey_trans">#14121F66</color>
+    <color name="accentColor_TintRed">#FF8B7C</color>
 
 
     <color name="transBlue_05">#0c0056d2</color>
     <color name="line_color_cfd9e9">#cfd9e9</color>
     <color name="theme_selection_bg_color">#f8f8f8</color>
     <color name="pager_unselected_dot_color">#d6d5d5</color>
-    <color name="price_bg_color">#eafff3</color>
     <color name="profile_mail_color">#d9ddf4</color>
     <color name="search_color">#0045a9</color>
     <color name="search_hint_color">#99ebebf5</color>
@@ -107,7 +125,7 @@
     <color name="black_indicator_color">#585A58</color>
     <color name="black_theme">#262626</color>
 
-    <color name="et_dash_color">#D0D0D0</color>
+    <color name="radio_unselected_color">#D0D0D0</color>
 
 
     <color name="user_stat_bg">#E3EDB1</color>
@@ -116,11 +134,28 @@
 
     <color name="black_1D1E2C">#1D1E2C</color>
     <color name="black_242424">#242424</color>
+
+
     <color name="sky_blue_light">#E6FAFE</color>
-    <color name="red_light">#FFECF2</color>
+    <color name="pink_light">#FFECF2</color>
     <color name="violet_light">#EEECFE</color>
     <color name="yellow_light">#FFF7EB</color>
     <color name="green_light">#DEF9E5</color>
+    <color name="blue_light">#EBF5FF</color>
+
+    <color name="variant_sky">#A2EEFB</color>
+    <color name="variant_pink">#FFBACF</color>
+    <color name="variant_violet">#C0B8FD</color>
+    <color name="variant_blue">#1281F0</color>
+    <color name="variant_yellow">#FFE1B7</color>
+    <color name="variant_green">#73DC8E</color>
+
+    <color name="sky_blue_dark">#05D4F6</color>
+    <color name="pink_dark">#FF4883</color>
+    <color name="violet_dark">#5643FC</color>
+    <color name="blue_dark">#1281F0</color>
+    <color name="yellow_dark">#FFB13E</color>
+    <color name="green_dark">#00A546</color>
 
     <color name="white80">#FFFFFFCC</color>
     <color name="white55">#8CFFFFFF</color>
@@ -128,8 +163,31 @@
     <color name="rejected_background">#FFF3F2</color>
     <color name="color_green">#2FBF71</color>
     <color name="color_report">#322F40</color>
-    <color name="color_view">#FAFAFA</color>
+    <color name="mod_filter_stroke_color">#FAFAFA</color>
     <color name="filter_stroke_view">#E2E2E2</color>
+    <color name="noDataBg">#DCE8F7</color>
+
+    <!--exo-->
+    <color name="white_50">#80FFFFFF</color>
+    <color name="white_20">#33FFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="black_50">#80000000</color>
+    <color name="live_red">#FF3144</color>
+    <color name="recorder_notification_background">#B5332A</color>
+
+
+    <!--    audio trimmer-->
+
+
+    <color name="colorGridLine">#00ed1b24</color>
+    <color name="waveformSelected">#adb5cc</color>
+    <color name="waveformUnselected">#adb5cc</color>
+    <color name="waveformUnselectedBackground">#e8e6e7</color>
+    <color name="colorSelectionBorder">#9c41bc</color>
+    <color name="colorPlaybackIndicator">#b2253571</color>
+    <color name="colorTimeCode">#dd253571</color>
+    <color name="colorTimeCodeShadow">#aa253571</color>
+    <color name="colorWaveformBg">#253571</color>
 
 
 </resources>

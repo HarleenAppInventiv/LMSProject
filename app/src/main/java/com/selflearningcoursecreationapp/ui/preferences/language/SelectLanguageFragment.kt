@@ -4,16 +4,15 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentSelectLanguageBinding
 import com.selflearningcoursecreationapp.extensions.setSpanString
-import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceViewModel
 import com.selflearningcoursecreationapp.utils.Constant
-import com.selflearningcoursecreationapp.utils.LanguageConstant
 import com.selflearningcoursecreationapp.utils.PREFERENCES
 import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 
@@ -24,7 +23,6 @@ class SelectLanguageFragment : BaseFragment<FragmentSelectLanguageBinding>(),
     private var adapter: LanguageAdapter? = null
 
     private val viewModel: PreferenceViewModel by viewModels({ if (parentFragment !is NavHostFragment) requireParentFragment() else this })
-
     override fun getLayoutRes(): Int {
         return R.layout.fragment_select_language
     }
@@ -39,32 +37,39 @@ class SelectLanguageFragment : BaseFragment<FragmentSelectLanguageBinding>(),
 
     private fun initLanguageList() {
         if (viewModel.languageListLiveData.value.isNullOrEmpty()) {
-            val nameList =
-                baseActivity.resources.getStringArray(R.array.language_array)
-            val codeArray = arrayListOf(
-                LanguageConstant.ENGLISH,
-                LanguageConstant.HINDI,
-                LanguageConstant.TELUGU,
-                LanguageConstant.TAMIL,
-                LanguageConstant.KANNADA,
-                LanguageConstant.BENGALI
-            )
-            val list = ArrayList<CategoryData>()
-            for (i in nameList.indices) {
-                list.add(
-                    CategoryData(
-                        nameList[i],
-                        codeArray[i],
-                        id = i + 1,
-                        isSelected = if (viewModel.screenType == PREFERENCES.SCREEN_SELECT) viewModel.preferenceArgData?.selectedValues?.contains(
-                            i + 1
-                        ) ?: false else i + 1 == viewModel.userProfile?.language?.id
-                    )
-                )
-            }
+            viewModel.getMasterData()
 
-            viewModel.languageListLiveData.value = list
+//            val nameList =
+//                baseActivity.resources.getStringArray(R.array.language_array)
+//            val codeArray = arrayListOf(
+//                LanguageConstant.ENGLISH,
+//                LanguageConstant.HINDI,
+//                LanguageConstant.TELUGU,
+//                LanguageConstant.TAMIL,
+//                LanguageConstant.KANNADA,
+//                LanguageConstant.BENGALI
+//            )
+//            val list = ArrayList<CategoryData>()
+//            for (i in nameList.indices) {
+//                list.add(
+//                    CategoryData(
+//                        nameList[i],
+//                        codeArray[i],
+//                        id = i + 1,
+//                        isSelected = if (viewModel.screenType == PREFERENCES.SCREEN_SELECT) viewModel.preferenceArgData?.selectedValues?.contains(
+//                            i + 1
+//                        ) ?: false else i + 1 == viewModel.userProfile?.language?.id
+//                    )
+//                )
+//            }
+//
+//            viewModel.languageListLiveData.value = list
         }
+
+        viewModel.languageListLiveData.observe(viewLifecycleOwner, Observer {
+            setAdapter()
+
+        })
 
         if (viewModel.screenType == PREFERENCES.SCREEN_SELECT) {
             binding.tvSubheading.text = baseActivity.getString(R.string.select_language_desc)
@@ -81,18 +86,23 @@ class SelectLanguageFragment : BaseFragment<FragmentSelectLanguageBinding>(),
                 .isBold().getSpanString()
 
         )
-        setAdapter()
     }
 
     private fun setAdapter() {
-        adapter?.notifyDataSetChanged() ?: kotlin.run {
-            adapter =
-                LanguageAdapter(
-                    viewModel.languageListLiveData.value!!,
-                    viewModel.languageSingleSelection
-                )
-            binding.rvLanguage.adapter = adapter
-            adapter!!.setOnAdapterItemClickListener(this)
+        if (!viewModel.languageListLiveData.value.isNullOrEmpty()) {
+            adapter?.notifyDataSetChanged() ?: kotlin.run {
+                adapter =
+                    LanguageAdapter(
+                        viewModel.languageListLiveData.value!!,
+                        viewModel.languageSingleSelection,
+                        viewModel.from
+                    )
+                binding.rvLanguage.adapter = adapter
+                adapter!!.setOnAdapterItemClickListener(this)
+            }
+        } else {
+            adapter?.notifyDataSetChanged()
+            adapter = null
         }
     }
 

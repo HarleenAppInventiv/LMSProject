@@ -25,6 +25,7 @@ class QuizAnswerListAdapter(private val list: ArrayList<QuizOptionData>, private
         binding.rbChecked.isChecked = data.isSelected == true
         binding.cbChecked.isChecked = data.isSelected == true
         binding.ivOption.loadImage(list[position].image, R.drawable.ic_default_banner)
+        binding.ivOption.contentDescription = "Option ${position + 1} from list"
         binding.tvTitle.visibleView(list[position].image.isNullOrEmpty())
         binding.ivOption.visibleView(!list[position].image.isNullOrEmpty())
         binding.tvTitle.text = list[position].option1

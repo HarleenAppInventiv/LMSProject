@@ -272,6 +272,7 @@ RE.backuprange = function(){
           "endContainer": range.endContainer,
           "endOffset": range.endOffset};
     }
+    RE.enabledEditingItems({})
 }
 
 RE.restorerange = function(){
@@ -358,4 +359,5 @@ RE.editor.addEventListener("keyup", function(e) {
         RE.enabledEditingItems(e);
     }
 });
+
 RE.editor.addEventListener("click", RE.enabledEditingItems);

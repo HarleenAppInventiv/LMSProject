@@ -61,6 +61,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:inputType="textCapSentences|textMultiLine"
                 android:maxLength="@{const.MAX_QUIZ_OPTION_LENGTH}"
                 android:maxLines="3"
                 android:padding="@dimen/_8sdp"
@@ -78,6 +79,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:inputType="textCapSentences"
                 android:maxLength="@{const.MAX_QUIZ_OPTION_LENGTH}"
                 android:maxLines="3"
                 android:padding="@dimen/_8sdp"
@@ -100,26 +102,26 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/endBarrier"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:textColorType="theme" />
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                 android:id="@+id/iv_option"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_40sdp"
-                android:scaleType="centerCrop"
+                android:layout_height="@dimen/_170sdp"
                 android:visibility="@{optionData.imageId!=null &amp;&amp; !optionData.imageId.empty ? View.VISIBLE: View.GONE}"
+                app:applyGrayscale="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_default="wrap" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/_5sdp"
+                android:contentDescription="@string/delete_quiz_option"
+                android:paddingVertical="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_3sdp"
                 android:src="@drawable/ic_cancel_icon_grey"
                 android:visibility="@{isEnabled? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"

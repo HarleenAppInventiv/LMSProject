@@ -37,15 +37,16 @@
                 app:layout_constraintTop_toTopOf="parent">
 
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <com.selflearningcoursecreationapp.utils.customViews.LMSRichView
                     android:id="@+id/imageView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="@dimen/_20sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_bank_account" />
+                    app:srcCompat="@drawable/ic_bank_account"
+                    app:vector="@drawable/ic_bank_account" />
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                     android:id="@+id/textView2"
@@ -53,8 +54,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="@string/no_bank_account"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_21ssp"
+                    android:textColor="?attr/blackTextColor"
+                    android:textSize="@dimen/textField_21"
                     app:fontType="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -69,8 +70,7 @@
                     android:lineSpacingExtra="@dimen/_5ssp"
                     android:text="@string/kindly_add_your_bank_account_details_to_purchase_courses_and_transfer_all_your_earnings"
                     android:textAlignment="center"
-                    android:textSize="@dimen/_14ssp"
-                    android:textStyle="normal"
+                    android:textSize="@dimen/textField_14"
                     app:fontType="regular"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -87,13 +87,14 @@
                     android:letterSpacing="0.02"
                     android:onClickListener="@{(v)->myBank.onHandleClick(v)}"
                     android:text="@string/add_bank_account"
-                    android:textSize="@dimen/_14ssp"
+                    android:capitalize="none"
                     app:buttonFont="semiBold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView5"
-
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/textField_14"
 
                     />
 
@@ -108,14 +109,37 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:itemCount="10"
+            tools:itemCount="5"
             tools:listitem="@layout/adapter_recycler_bank" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+            android:id="@+id/btn_add_bank"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_20sdp"
+            android:layout_marginVertical="@dimen/_4sdp"
+            android:capitalize="none"
+            android:letterSpacing="0.02"
+            android:onClickListener="@{(v)->myBank.onHandleClick(v)}"
+            android:text="@string/add_bank_account"
+            android:textAllCaps="false"
+            android:textSize="@dimen/textField_14"
+            android:visibility="gone"
+            app:buttonFont="semiBold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView5"
+
+
+            />
+
 
     </com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout>
 </layout>

@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?attr/secondaryScreenBgColor"
-            tools:context=".ui.moderator.moderatorHome.RequestFragment">
+            tools:context=".ui.moderator.moderatorHome.request.RequestFragment">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_requested_list"

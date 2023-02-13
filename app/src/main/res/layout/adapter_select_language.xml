@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -9,6 +7,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_15sdp">
@@ -54,8 +53,9 @@
         <View
             android:layout_width="0dp"
             android:layout_height="@dimen/_1sdp"
+            android:id="@+id/view"
             android:alpha=".2"
-            android:background="?attr/hintColor"
+            android:background="?attr/divider_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_name" />

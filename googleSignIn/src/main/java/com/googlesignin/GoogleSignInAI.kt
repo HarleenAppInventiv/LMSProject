@@ -64,11 +64,13 @@ class GoogleSignInAI {
                 val signInIntent = mGoogleSignInClient!!.signInIntent
                 mActivity!!.startActivityForResult(signInIntent, GoogleSignInRequestCode)
             }
-            else -> Toast.makeText(
-                mActivity,
-                "Google SignIn Client is not connected",
-                Toast.LENGTH_SHORT
-            ).show()
+            else ->
+
+                Toast.makeText(
+                    mActivity,
+                    "Google SignIn Client is not connected",
+                    Toast.LENGTH_SHORT
+                ).show()
         }
     }
 

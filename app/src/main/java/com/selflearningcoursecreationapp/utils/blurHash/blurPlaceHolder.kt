@@ -14,8 +14,11 @@ fun RequestBuilder<Drawable>.blurPlaceHolder(
 ) {
     if (width != 0 && height != 0) {
         blurHash.execute(blurString, width, height) { drawable ->
-            this@blurPlaceHolder.placeholder(drawable)
-            response(this@blurPlaceHolder)
+            drawable?.let {
+                this@blurPlaceHolder.placeholder(drawable)
+                response(this@blurPlaceHolder)
+
+            }
         }
     }
 }
@@ -40,8 +43,10 @@ fun RequestOptions.blurPlaceHolderOf(
 ) {
     if (width != 0 && height != 0) {
         blurHash.execute(blurString, width, height) { drawable ->
-            this@blurPlaceHolderOf.placeholder(drawable)
-            response(this@blurPlaceHolderOf)
+            drawable?.let {
+                this@blurPlaceHolderOf.placeholder(drawable)
+                response(this@blurPlaceHolderOf)
+            }
         }
     }
 }
@@ -81,7 +86,7 @@ fun blurHashDrawable(
 ) {
     if (width != 0 && height != 0) {
         blurHash.execute(blurString, width, height) { drawable ->
-            response(drawable)
+            drawable?.let { response(drawable) }
         }
     }
 }

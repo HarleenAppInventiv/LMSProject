@@ -11,9 +11,13 @@ import com.selflearningcoursecreationapp.base.SelfLearningApplication
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.models.course.OrderData
-import com.selflearningcoursecreationapp.models.user.UserProfile
+import com.selflearningcoursecreationapp.models.user.ModeratorStatusResponses
+import com.selflearningcoursecreationapp.ui.course_details.ratings.model.GetReviewsRequestModel
 import com.selflearningcoursecreationapp.ui.moderator.model.RequestCountModel
+import com.selflearningcoursecreationapp.ui.profile.requestTracker.paymentWithdrawls.PaymentWithdrawData
+import com.selflearningcoursecreationapp.ui.profile.requestTracker.paymentWithdrawls.PaymentWithdrawList
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.MODSTATUS
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -38,7 +42,7 @@ class RequestrackerVM(private val repo: RequestTrackerRepo) : BaseViewModel() {
     }
 
     var modStatusLiveData = MutableLiveData<Int>().apply {
-        value = 0
+        value = -1
     }
 
 
@@ -46,13 +50,84 @@ class RequestrackerVM(private val repo: RequestTrackerRepo) : BaseViewModel() {
         value = RequestCountModel()
     }
 
+    var currentPage = 1
+    var isLastPage = false
+
+
+    var paymentWithdrawLiveDataList = MutableLiveData<ArrayList<PaymentWithdrawList>>().apply {
+        value = ArrayList()
+    }
+
+    fun existsCoAuthorDetails() {
+        viewModelScope.launch(coroutineExceptionHandle) {
+
+            val response = repo.existsCoAuthor(courseId ?: 0)
+            withContext(Dispatchers.IO) {
+                response.collect {
+
+                    updateResponseObserver(it)
+                }
+            }
+        }
+    }
+
+    fun getPaymentWithdrawlList() = viewModelScope.launch(coroutineExceptionHandle)
+    {
+
+        if (!isLastPage) {
+
+            var map = HashMap<String, Any>()
+            map["pageNumber"] = currentPage
+            map["pageSize"] = 10
+            val response = repo.paymentWithdrawList(map)
+
+
+            withContext(Dispatchers.IO) {
+                response.collect {
+                    if (it is Resource.Success<*>) {
+                        (it.value as BaseResponse<PaymentWithdrawData>).resource?.let { resource ->
+
+                            if (resource.pageNumber == 1) {
+                                currentPage = 1
+                                paymentWithdrawLiveDataList.postValue(ArrayList())
+                            }
+                            currentPage += 1
+                            val list = paymentWithdrawLiveDataList.value
+                            list?.addAll(resource.list ?: ArrayList())
+//                            if(resource.list.isNullOrEmpty())
+                            isLastPage = resource.list.isNullOrEmpty()
+                            paymentWithdrawLiveDataList.postValue(list)
+                        }
+                    }
+                    updateResponseObserver(it)
+                }
+            }
+        }
+    }
+
+
     fun modStatus() = viewModelScope.launch(coroutineExceptionHandle) {
         val response = repo.modStatus()
         withContext(Dispatchers.IO) {
             response.collect {
                 if (it is Resource.Success<*>) {
-                    val data = it.value as BaseResponse<UserProfile>
-                    modStatusLiveData.postValue(data.resource?.status)
+                    val data = it.value as BaseResponse<ModeratorStatusResponses>
+
+                    var respArray = data.resource?.list ?: ArrayList()
+
+
+                    if (respArray.size > 0) {
+                        if (respArray.filter { it.status == MODSTATUS.ACCEPTED }.size > 0) {
+                            modStatusLiveData.postValue(MODSTATUS.ACCEPTED)
+                        } else if (respArray.filter { it.status == MODSTATUS.REJECTED }.size == respArray.size) {
+                            modStatusLiveData.postValue(MODSTATUS.REJECTED)
+                        } else if (respArray.filter { it.status == MODSTATUS.BLOCKED }.size == respArray.size) {
+                            modStatusLiveData.postValue(MODSTATUS.BLOCKED)
+                        } else if (respArray.filter { it.status != MODSTATUS.REJECTED && it.status != MODSTATUS.BLOCKED }.size == respArray.filter { it.status == MODSTATUS.PENDING }.size) {
+                            modStatusLiveData.postValue(MODSTATUS.PENDING)
+                        }
+                    }
+
                 }
                 updateResponseObserver(it)
             }
@@ -93,7 +168,22 @@ class RequestrackerVM(private val repo: RequestTrackerRepo) : BaseViewModel() {
         }
     }
 
-    suspend fun getRequestResponse(hashMap: HashMap<String, Int>): LiveData<PagingData<CourseData>> {
+    fun cancelReq(courseId: String) = viewModelScope.launch(coroutineExceptionHandle) {
+        val map = HashMap<String, Any>()
+        map["courseId"] = courseId
+        val response = repo.cancelReq(map)
+        withContext(Dispatchers.IO) {
+            response.collect {
+//                if (it is Resource.Success<*>) {
+//                    val data = it.value as BaseResponse<RequestCountModel>
+//                    requestCountLiveData.postValue(data.resource)
+//                }
+                updateResponseObserver(it)
+            }
+        }
+    }
+
+    suspend fun getRequestResponse(hashMap: GetReviewsRequestModel): LiveData<PagingData<CourseData>> {
         val response = repo.getRequestList(hashMap).cachedIn(viewModelScope).asFlow()
             .combine(modificationEvents) { pagingData, modifications ->
                 modifications.fold(pagingData) { acc, event ->
@@ -189,7 +279,7 @@ class RequestrackerVM(private val repo: RequestTrackerRepo) : BaseViewModel() {
                             totalDislikes = PagerViewEventsRequest.pagerViewData.totalDislikes,
                             createdDate = it.createdDate,
                             userDisLiked = PagerViewEventsRequest.pagerViewData.userDisLiked,
-                            userLiked = PagerViewEventsRequest.pagerViewData.userLiked,
+//                            userLiked = PagerViewEventsRequest.pagerViewData.userLiked,
                             reviewId = it.reviewId
 
                         )
@@ -213,7 +303,7 @@ class RequestrackerVM(private val repo: RequestTrackerRepo) : BaseViewModel() {
                                 totalDislikes = it.totalDislikes?.minus(1),
                                 createdDate = it.createdDate,
                                 userDisLiked = 0,
-                                userLiked = 1,
+//                                userLiked = 1,
                                 reviewId = it.reviewId
                             )
                         } else if (PagerViewEventsRequest.pagerViewData.reviewId == it.reviewId && PagerViewEventsRequest.pagerViewData.userLiked == 0) {
@@ -228,7 +318,7 @@ class RequestrackerVM(private val repo: RequestTrackerRepo) : BaseViewModel() {
                                 totalDislikes = it.totalDislikes,
                                 createdDate = it.createdDate,
                                 userDisLiked = 0,
-                                userLiked = 1,
+//                                userLiked = 1,
                                 reviewId = it.reviewId
                             )
 
@@ -244,7 +334,7 @@ class RequestrackerVM(private val repo: RequestTrackerRepo) : BaseViewModel() {
                                 totalDislikes = it.totalDislikes?.plus(1),
                                 createdDate = it.createdDate,
                                 userDisLiked = 1,
-                                userLiked = 0,
+//                                userLiked = 0,
                                 reviewId = it.reviewId
                             )
                         } else if (PagerViewEventsRequest.pagerViewData.reviewId == it.reviewId && PagerViewEventsRequest.pagerViewData.userLiked == 1) {
@@ -259,7 +349,7 @@ class RequestrackerVM(private val repo: RequestTrackerRepo) : BaseViewModel() {
                                 totalDislikes = it.totalDislikes,
                                 createdDate = it.createdDate,
                                 userDisLiked = it.userDisLiked,
-                                userLiked = it.userLiked?.minus(1),
+//                                userLiked = it.userLiked?.minus(1),
                                 reviewId = it.reviewId
                             )
                         } else {
@@ -288,7 +378,7 @@ class RequestrackerVM(private val repo: RequestTrackerRepo) : BaseViewModel() {
                                 totalDislikes = it.totalDislikes?.plus(1),
                                 createdDate = it.createdDate,
                                 userDisLiked = 1,
-                                userLiked = 0,
+//                                userLiked = 0,
                                 reviewId = it.reviewId
                             )
                         } else if (PagerViewEventsRequest.pagerViewData.reviewId == it.reviewId && PagerViewEventsRequest.pagerViewData.userDisLiked == 0) {
@@ -303,7 +393,7 @@ class RequestrackerVM(private val repo: RequestTrackerRepo) : BaseViewModel() {
                                 totalDislikes = it.totalDislikes?.plus(1),
                                 createdDate = it.createdDate,
                                 userDisLiked = 1,
-                                userLiked = 0,
+//                                userLiked = 0,
                                 reviewId = it.reviewId
                             )
 
@@ -319,7 +409,7 @@ class RequestrackerVM(private val repo: RequestTrackerRepo) : BaseViewModel() {
                                 totalDislikes = it.totalDislikes?.minus(1),
                                 createdDate = it.createdDate,
                                 userDisLiked = 0,
-                                userLiked = 1,
+//                                userLiked = 1,
                                 reviewId = it.reviewId
                             )
                         } else if (PagerViewEventsRequest.pagerViewData.reviewId == it.reviewId && PagerViewEventsRequest.pagerViewData.userDisLiked == 1) {
@@ -334,7 +424,7 @@ class RequestrackerVM(private val repo: RequestTrackerRepo) : BaseViewModel() {
                                 totalDislikes = it.totalDislikes?.minus(1),
                                 createdDate = it.createdDate,
                                 userDisLiked = it.userDisLiked?.minus(1),
-                                userLiked = it.userLiked,
+//                                userLiked = it.userLiked,
                                 reviewId = it.reviewId
                             )
 

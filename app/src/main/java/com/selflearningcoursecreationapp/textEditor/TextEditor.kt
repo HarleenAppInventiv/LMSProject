@@ -54,7 +54,7 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
     constructor(context: Context, attrs: AttributeSet? = null) : this(
         context,
         attrs,
-     android.R.attr.webViewStyle
+        android.R.attr.webViewStyle
     )
 
     private fun createWebviewClient(): EditorWebViewClient {
@@ -75,9 +75,9 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
 
     private fun callback(text: String) {
         mContents = text.replaceFirst(CALLBACK_SCHEME.toRegex(), "")
-        if (mTextChangeListener != null) {
-            mTextChangeListener!!.onTextChange(mContents)
-        }
+//        if (mTextChangeListener != null) {
+        mTextChangeListener?.onTextChange(mContents)
+//        }
     }
 
     private fun stateCheck(text: String) {
@@ -88,9 +88,9 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
                 types.add(type)
             }
         }
-        if (mDecorationStateListener != null) {
-            mDecorationStateListener!!.onStateChangeListener(state, types)
-        }
+//        if (mDecorationStateListener != null) {
+        mDecorationStateListener?.onStateChangeListener(state, types)
+//        }
     }
 
     @SuppressLint("RtlHardcoded")
@@ -157,7 +157,6 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
     fun setEditorBackgroundColor(color: Int) {
         setBackgroundColor(color)
     }
-
 
 
     override fun setBackgroundResource(resid: Int) {
@@ -408,9 +407,9 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
     private inner class EditorWebViewClient : WebViewClient() {
         override fun onPageFinished(view: WebView, url: String) {
             isReady = url.equals(SETUP_HTML, ignoreCase = true)
-            if (mLoadListener != null) {
-                mLoadListener!!.onAfterInitialLoad(isReady)
-            }
+//            if (mLoadListener != null) {
+            mLoadListener?.onAfterInitialLoad(isReady)
+//            }
         }
 
         override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
@@ -455,4 +454,17 @@ class TextEditor @SuppressLint("SetJavaScriptEnabled") constructor(
         loadUrl(SETUP_HTML)
         applyAttributes(context, attrs)
     }
+
+//    override fun startActionMode(callback: ActionMode.Callback?, type: Int): ActionMode {
+//        Log.e("", "")
+//        onSelectionCallback()
+//        return super.startActionMode(callback, type)
+//    }
+//
+//    private fun onSelectionCallback() {
+//        evaluateJavascript(
+//            "(function(){return window.getSelection().toString()})()"
+//        ) { value -> Log.e("TAG", "SELECTION:$value") }
+//
+//    }
 }

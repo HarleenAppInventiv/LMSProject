@@ -19,7 +19,7 @@ class AddCommentFragment : BaseFragment<FragmentAddCommentBinding>() {
     }
 
     private fun initUI() {
-        binding.rvAddCommentList.adapter = ModratorDashAdapter()
+//        binding.rvAddCommentList.adapter = ModratorDashAdapter()
 
     }
 

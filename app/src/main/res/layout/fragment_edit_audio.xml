@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parentCL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:keepScreenOn="true"
+        android:visibility="visible">
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:id="@+id/audioTrimmerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/opacity_20_929292"
+            android:paddingTop="@dimen/_20sdp"
+            android:src="@drawable/ic_waveform"
+            app:changeBackgroundType="theme_src"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/sbRange"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_centerVertical="true"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/audioTrimmerView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/audioTrimmerView" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.32" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tvStartTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_16sdp"
+            android:text="@string/start_time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guideline"
+            app:textColorType="heading" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tvStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:text="00:00"
+            android:textSize="@dimen/textField_14"
+            app:fontType="semiBold"
+            app:layout_constraintStart_toStartOf="@+id/tvStartTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvStartTitle"
+            app:textColorType="heading" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tvEndTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_16sdp"
+            android:text="@string/end_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guideline"
+            app:textColorType="heading" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tvEndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:text="00:00"
+            android:textSize="@dimen/textField_14"
+            app:fontType="semiBold"
+            app:layout_constraintEnd_toEndOf="@+id/tvEndTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvEndTitle"
+            app:textColorType="heading" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/seekbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:padding="0dp"
+            android:progress="50"
+            android:progressDrawable="@drawable/sb_drawable_course"
+            android:thumb="@null"
+            app:layout_constraintBottom_toTopOf="@+id/iv_play"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvStartTime" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:id="@+id/iv_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_30sdp"
+            android:layout_marginVertical="@dimen/_10sdp"
+            android:contentDescription="@string/pause_icon"
+            android:src="@drawable/ic_play_audio_black"
+            app:layout_constraintBottom_toTopOf="@+id/bt_save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekbar" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+            android:id="@+id/bt_save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_16sdp"
+            android:text="@string/save_audio"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

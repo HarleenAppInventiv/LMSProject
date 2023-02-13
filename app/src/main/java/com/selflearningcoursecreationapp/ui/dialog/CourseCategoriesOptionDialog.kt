@@ -52,11 +52,7 @@ class CourseCategoriesOptionDialog : BaseBottomSheetDialog<BottomDialogCourceCat
                 list.clear()
                 list.addAll(arguments?.getParcelableArrayList("list") ?: ArrayList())
                 list.forEach {
-                    if (it.id == selectedId) {
-                        it.isSelected = true
-                    } else {
-                        it.isSelected = false
-                    }
+                    it.isSelected = it.id == selectedId
                 }
 
                 setAdapter(list)
@@ -98,7 +94,7 @@ class CourseCategoriesOptionDialog : BaseBottomSheetDialog<BottomDialogCourceCat
     }
 
     private fun observeCategoryData() {
-        viewModel.categoryListLiveData.observe(viewLifecycleOwner, {
+        viewModel.categoryListLiveData.observe(viewLifecycleOwner) {
             list.addAll(it)
             list.forEach { catData ->
                 if (catData.id == selectedId) {
@@ -109,7 +105,7 @@ class CourseCategoriesOptionDialog : BaseBottomSheetDialog<BottomDialogCourceCat
                 setAdapter(list)
                 binding.parentCL.visible()
             }
-        })
+        }
 
     }
 
@@ -120,7 +116,7 @@ class CourseCategoriesOptionDialog : BaseBottomSheetDialog<BottomDialogCourceCat
         mAdapter?.notifyDataSetChanged() ?: kotlin.run {
             mAdapter = AdapterCourseCategory(list)
             binding.recyclerCourceCategory.adapter = mAdapter
-            mAdapter!!.setOnAdapterItemClickListener(this)
+            mAdapter?.setOnAdapterItemClickListener(this)
         }
     }
 

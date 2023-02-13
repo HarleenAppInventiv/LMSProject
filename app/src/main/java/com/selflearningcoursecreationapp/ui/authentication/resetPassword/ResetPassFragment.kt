@@ -27,7 +27,7 @@ class ResetPassFragment : BaseFragment<FragmentResetPassBinding>() {
 
     private fun initUi() {
         arguments?.let {
-            viewModel.userId = it.getString("user_id").toString()
+          viewModel.userId = it.getString("user_id").toString()
         }
 
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
@@ -51,7 +51,7 @@ class ResetPassFragment : BaseFragment<FragmentResetPassBinding>() {
         super.onResponseSuccess(value, apiCode)
         when (apiCode) {
             ApiEndPoints.API_RESET_PASS -> {
-                CommonAlertDialog.builder(baseActivity).notCancellable().hideNegativeBtn(true)
+                CommonAlertDialog.builder(baseActivity).notCancellable(false).hideNegativeBtn(true)
                     .description(baseActivity.getString(R.string.password_reset_successfully))
                     .icon(R.drawable.ic_checked_logo)
                     .getCallback {

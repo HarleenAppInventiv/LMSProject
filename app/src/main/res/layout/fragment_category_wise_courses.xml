@@ -47,11 +47,12 @@
                     android:layout_marginEnd="@dimen/_12sdp"
                     android:background="@drawable/edt_white_bg"
                     android:drawablePadding="@dimen/_10sdp"
-                    android:drawableTint="@color/hintColor"
                     android:hint="@string/search_course_by_name"
                     android:imeOptions="actionSearch"
                     android:maxLines="1"
-                    android:padding="@dimen/_8sdp"
+                    android:paddingVertical="@dimen/_8sdp"
+                    android:paddingStart="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_30sdp"
                     android:singleLine="true"
                     android:text="@={viewModel.searchLiveData}"
                     android:textColor="?attr/whiteTextColor"
@@ -66,6 +67,18 @@
                     tools:targetApi="m" />
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                    android:id="@+id/img_cross"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/close"
+                    android:padding="@dimen/_10sdp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/et_search"
+                    app:layout_constraintEnd_toEndOf="@+id/et_search"
+                    app:layout_constraintTop_toTopOf="@+id/et_search"
+                    app:srcCompat="@drawable/ic_cross_grey" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:id="@+id/iv_mic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -74,7 +87,9 @@
                     app:layout_constraintEnd_toEndOf="@+id/et_search"
                     app:layout_constraintTop_toTopOf="@+id/et_search"
                     app:srcCompat="@drawable/ic_mic_home"
-                    app:tint="@color/hintColor" />
+                    android:contentDescription="@string/voice_search"
+                    android:visibility="gone"
+                    app:tint="?attr/hintColor" />
 
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
@@ -83,6 +98,8 @@
                     android:layout_height="0dp"
                     android:layout_marginEnd="@dimen/_12sdp"
                     android:visibility="visible"
+                    android:clickable="true"
+                    android:contentDescription="@string/filter_button"
                     app:layout_constraintBottom_toBottomOf="@+id/et_search"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/et_search"
@@ -128,7 +145,7 @@
                     android:layout_marginStart="@dimen/_12sdp"
                     android:layout_marginTop="@dimen/_12sdp"
                     android:text="@string/other_courses"
-                    android:textColor="@color/adapter_header_color"
+                    android:textColor="?attr/adapterTitleColor"
                     android:textSize="@dimen/textField_15"
                     app:fontType="semiBold"
                     app:layout_constraintEnd_toEndOf="@+id/et_search"

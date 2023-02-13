@@ -2,6 +2,7 @@ package com.selflearningcoursecreationapp.ui.bottom_course
 
 import android.annotation.SuppressLint
 import android.graphics.Paint
+import android.util.Log
 import androidx.core.content.ContextCompat
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
@@ -10,6 +11,7 @@ import com.selflearningcoursecreationapp.databinding.AdapterMyCourseBinding
 import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.utils.CourseScreenType
 import com.selflearningcoursecreationapp.utils.builderUtils.ImageViewBuilder
 import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 
@@ -25,22 +27,12 @@ class MyCourseAdapter(private var type: Int, private val list: ArrayList<CourseD
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val binding = holder.binding as AdapterMyCourseBinding
         val context = binding.root.context
-
         binding.tvOldPrice.paintFlags = binding.tvOldPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-
+        binding.tvLesson.text =
+            context.getQuantityString(R.plurals.section_quantity, list[position].totalSections)
+        binding.tvTime.text = list[position].courseDuration.getTime(context)
         when (type) {
-            Constant.COURSE_IN_PROGRESS -> {
-                binding.bookmarkTimeG.gone()
-                binding.priceG.gone()
-                binding.tvCoin.gone()
-                binding.progressG.gone()
-                binding.btBuy.visible()
-                binding.tvDuration.gone()
-                binding.btBuy.text = context.getString(R.string.resume)
-                binding.tvDuration.visible()
-                binding.progressG.visible()
-                binding.btBuy.icon = ContextCompat.getDrawable(context, R.drawable.ic_resume)
-            }
+
             Constant.MYCOURSES -> {
                 binding.bookmarkTimeG.gone()
                 binding.priceG.gone()
@@ -49,24 +41,98 @@ class MyCourseAdapter(private var type: Int, private val list: ArrayList<CourseD
                 binding.tvDuration.gone()
                 binding.tvDuration.gone()
                 binding.progressG.invisible()
-                binding.btBuy.text = context.getString(R.string.edit_course)
+                binding.btBuy.setCreateCourseText(list[position].status)
 
+                binding.ivSignLanguage.visibleView(list[position].isSignLanguage ?: false)
+            }
+
+            CourseScreenType.COMPLETED_COURSES -> {
+                binding.bookmarkTimeG.gone()
+                binding.priceG.gone()
+                binding.tvCoin.gone()
+                binding.btBuy.visible()
+                binding.tvDuration.gone()
+                binding.tvDuration.gone()
+                binding.progressG.invisible()
+                binding.btBuy.text = context.getString(R.string.completed)
+                binding.ivSignLanguage.visibleView(list[position].isSignLanguage ?: false)
+
+//                binding.btBuy.setCreateCourseText(list[position].status)
+            }
+            else -> {
+                binding.bookmarkTimeG.gone()
+                binding.priceG.gone()
+                binding.tvCoin.gone()
+                binding.btBuy.visible()
+                binding.ivSignLanguage.visibleView(list[position].isSignLanguage ?: false)
+
+//                binding.tvDuration.visible()
+
+                if (list[position].totalPlayedTime == 0) {
+                    binding.btBuy.text = context.getString(R.string.start)
+                    binding.progressG.gone()
+                    binding.tvDuration.gone()
+
+                } else {
+                    binding.btBuy.icon = ContextCompat.getDrawable(context, R.drawable.ic_resume)
+                    binding.btBuy.text = context.getString(R.string.resume)
+//                    binding.tvProgress.text = list[position].percentageCompleted
+//                        .toString() + "% " + context?.getString(R.string.completed)
+                    binding.tvProgress.text =
+                        if ((list[position].percentageCompleted
+                                ?: 0.0) > 0 && (list[position].percentageCompleted
+                                ?: 0.0) < 1
+                        ) {
+                            (list[position].percentageCompleted).toString() + "% " + context.getString(
+                                R.string.completed
+                            )
+
+                        } else {
+                            (list[position].percentageCompleted)?.toInt()
+                                .toString() + "% " + context.getString(R.string.completed)
+
+                        }
+
+
+                    binding.progressG.visible()
+                    binding.tvDuration.apply {
+                        visibleView(
+                            (list[position].percentageCompleted?.toInt()
+                                ?: 0) > 0 && (list[position].percentageCompleted?.toInt()
+                                ?: 0) < 100
+                        )
+                        val duration = list[position]?.totalDurationLeft.milliSecToMin().toString()
+                        val msg =
+                            SpanUtils.with(
+                                context,
+                                "${duration}${context.getString(R.string.m_left_in_course)}"
+                            )
+                                .endPos(duration.length + 9)
+                                .themeColor().getSpanString()
+                        binding.tvDuration.setSpanString(msg)
+//                        text = (list[position].courseDuration?.toInt()
+//                            ?: 0.minus(list[position].totalDurationLeft ?: 0)).toString()
+                    }
+
+
+                    binding.pbProgress.apply {
+
+                        max = 100
+                        progress = if ((list[position].percentageCompleted
+                                ?: 0.0) > 0 && (list[position].percentageCompleted ?: 0.0) < 1
+                        )
+                            1
+                        else
+                            list[position].percentageCompleted?.toInt() ?: 0
+
+                    }
+
+                }
             }
 
 
         }
 
-
-//        binding.bookmarkTimeG.gone()
-//        binding.priceG.gone()
-//        binding.tvCoin.gone()
-//        binding.progressG.gone()
-//        binding.btBuy.visible()
-//        binding.tvDuration.gone()
-
-
-//        binding.tvProgress.text = "8% COMPLETED"
-//        binding.pbProgress.progress = 10
 
 
         binding.ivPreview.loadImage(
@@ -75,39 +141,34 @@ class MyCourseAdapter(private var type: Int, private val list: ArrayList<CourseD
             position
         )
 
+        if (position + 1 == list.size) {
+            onPageEnd()
+        }
+
         ImageViewBuilder.builder(binding.ivPreview)
             .placeHolder(R.drawable.ic_home_default_banner)
-            .blurhash(list[position].courseBannerHash)
+//            .blurhash(list[position].courseBannerHash)
             .setImageUrl(list[position].courseBannerUrl)
             .colorIndex(position)
             .loadImage()
         binding.tvName.text = list.get(position).courseTitle
-        binding.tvRating.text = list[position].averageRating
+        binding.tvRating.apply {
+            text = list[position].averageRating
+            contentDescription = "$text ${context.getString(R.string.reviews_small)}"
+        }
+//
 //        binding.tvReviewCount.setText(list!![position].totalReviews)
         binding.tvAuthor.text = list[position].createdByName
         binding.ivCertification.text = list[position].categoryName
         binding.ivLang.text = list[position].languageName
 
-//        if (list[position].courseWishlisted == 0) {
-//            binding.ivBookmark.setBackgroundColor(
-//                ContextCompat.getColor(
-//                    context,
-//                    R.color.transBlack
-//                )
-//            )
 
-//        }
-//        else {
-//            binding.ivBookmark.changeBgColor(ThemeConstants.TYPE_BACKGROUND)
-//        }
         binding.ivBookmark.apply {
-//            setImageResource(if (list[position].courseWishlisted == 0) R.drawable.ic_home_bookmark else R.drawable.ic_blue_bookmark)
-//            setOnClickListener {
-//                onItemClick(Constant.CLICK_BOOKMARK, position)
-//            }
             gone()
         }
         binding.btBuy.setOnClickListener {
+            Log.d("varun", "onBindViewHolder: yes")
+//            onItemClick(Constant.CLICK_EDIT, position, list.get(position).status ?: 0)
             onItemClick(Constant.CLICK_VIEW, position)
 
         }
@@ -116,70 +177,11 @@ class MyCourseAdapter(private var type: Int, private val list: ArrayList<CourseD
 
         }
 
-//        when (type) {
-//            Constant.COURSE_COMPLETED -> {
-//
-//                binding.btBuy.gone()
-//
-//            }
-//            Constant.COURSE_COMPLETED_REWARD -> {
-//
-//                binding.btBuy.gone()
-//                binding.btCertificate.visible()
-//                binding.tvCoin.visible()
-//
-//            }
-//            Constant.COURSE_BOOKMARKED -> {
-//
-//                when (position) {
-//                    2 -> {
-//                        binding.btBuy.gone()
-//                    }
-//                    1 -> {
-//                        binding.btBuy.text = context.getString(R.string.resume)
-//                        binding.btBuy.icon =
-//                            ContextCompat.getDrawable(context, R.drawable.ic_resume)
-//                        binding.tvProgress.text = "8% COMPLETED"
-//                        binding.pbProgress.progress = 10
-//                        binding.tvDuration.visible()
-//                        binding.progressG.visible()
-//                    }
-//                    3 -> {
-//                        binding.bookmarkTimeG.visible()
-//                        binding.priceG.visible()
-//                        binding.btBuy.text = context.getString(R.string.enroll_now)
-//                        binding.btBuy.icon = null
-//                    }
-//                    else -> {
-//                        binding.bookmarkTimeG.visible()
-//                        binding.priceG.visible()
-//                        binding.btBuy.text = context.getString(R.string.buy_now)
-//                        binding.btBuy.icon = null
-//                    }
-//                }
-//            }
-//            else -> {
-//                binding.btBuy.text = context.getString(R.string.resume)
-//                binding.btBuy.icon = ContextCompat.getDrawable(context, R.drawable.ic_resume)
-//                binding.tvProgress.text = "8% COMPLETED"
-//                binding.pbProgress.progress = 10
-//                binding.tvDuration.visible()
-//                binding.progressG.visible()
-//            }
-//        }
 
-
-        val msg =
-            SpanUtils.with(context, "10m left in lesson").endPos(8).themeColor().getSpanString()
 //
-        binding.tvDuration.setSpanString(msg)
-//
-//        binding.pbProgress.setOnTouchListener { _, _ ->
-//            return@setOnTouchListener true
-//        }
+        binding.pbProgress.setOnTouchListener { _, _ ->
+            return@setOnTouchListener true
+        }
 
-
-        binding.cvOngoing.contentDescription =
-            "this ongoing course ux and web design course by allen wen is only 8 percent completed."
     }
 }

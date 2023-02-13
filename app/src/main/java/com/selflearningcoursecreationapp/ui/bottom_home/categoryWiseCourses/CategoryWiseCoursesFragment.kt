@@ -1,9 +1,9 @@
 package com.selflearningcoursecreationapp.ui.bottom_home.categoryWiseCourses
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.view.ViewTreeObserver.OnScrollChangedListener
 import android.view.inputmethod.EditorInfo
@@ -14,22 +14,19 @@ import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.*
 import com.selflearningcoursecreationapp.data.network.ApiError
+import com.selflearningcoursecreationapp.data.network.HTTPCode
 import com.selflearningcoursecreationapp.databinding.FragmentCategoryWiseCoursesBinding
-import com.selflearningcoursecreationapp.extensions.gone
-import com.selflearningcoursecreationapp.extensions.isNullOrZero
-import com.selflearningcoursecreationapp.extensions.visibleView
+import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.models.course.OrderData
-import com.selflearningcoursecreationapp.ui.bottom_home.HomeAdapterTest
+import com.selflearningcoursecreationapp.ui.bottom_home.HomeAdapter
 import com.selflearningcoursecreationapp.ui.bottom_home.HomeVM
 import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.AllCoursesAdapter
 import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.FilterBottomDialog
 import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.SelectedFilterData
 import com.selflearningcoursecreationapp.ui.dialog.unlockCourse.UnlockCourseDialog
-import com.selflearningcoursecreationapp.utils.ApiEndPoints
-import com.selflearningcoursecreationapp.utils.Constant
-import com.selflearningcoursecreationapp.utils.CourseType
-import com.selflearningcoursecreationapp.utils.DialogType
+import com.selflearningcoursecreationapp.ui.payment.CheckoutBottomSheet
+import com.selflearningcoursecreationapp.utils.*
 import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
 import com.selflearningcoursecreationapp.utils.recyclerView.ScrollStateHolder
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -40,32 +37,42 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
     BaseAdapter.IViewClick, BaseBottomSheetDialog.IDialogClick, BaseAdapter.IListEnd,
     BaseDialog.IDialogClick {
     private val viewModel: HomeVM by viewModel()
-    private var mAdapter: HomeAdapterTest? = null
+    private var mAdapter: HomeAdapter? = null
     private var mOtherAdapter: AllCoursesAdapter? = null
     private lateinit var scrollStateHolder: ScrollStateHolder
     private val sharedHomeModel: HomeVM by sharedViewModel()
+    var categoryId = -1
+    var isFilterOpen = false
     override fun getLayoutRes() = R.layout.fragment_category_wise_courses
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         scrollStateHolder = ScrollStateHolder(savedInstanceState)
-        setHasOptionsMenu(true)
+        callMenu()
         initUI()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.course_menu, menu)
-    }
 
     fun initUI() {
 
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         binding.viewModel = viewModel
         arguments?.let {
+
+            if (it.getInt("id").isNullOrZero() && it.getString("viewType").isNullOrEmpty()) {
+                categoryId = 0
+            }
+
+
+
             if (!it.getInt("id").isNullOrZero()) {
 
                 viewModel.selectedCategory = ArrayList<CategoryData>().apply {
                     add(CategoryData(id = it.getInt("id")))
                 }
+            }
+            if (it?.containsKey("searchData")) {
+                viewModel.searchLiveData.value = it?.getString("searchData")
+                viewModel.isTextSearch = true
             }
             viewModel.screenTitle = it.getString("name").toString()
 
@@ -73,17 +80,41 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
 
         }
 
+
+
         baseActivity.setToolbar(viewModel.screenTitle)
 
         callApi()
 
+        binding.etSearch.setOnClickListener {
+            if (categoryId == 0) {
+                findNavController().navigateTo(R.id.action_categoryWiseCoursesFragment_to_searchFragment)
+            }
+        }
+
+        binding.imgCross.setOnClickListener {
+            viewModel.searchLiveData.value = ""
+            binding.etSearch.text?.clear()
+            binding.imgCross.gone()
+            binding.ivMic.visible()
+
+        }
+
         binding.etSearch.doOnTextChanged { text, start, before, count ->
             if (text.toString().isEmpty() && viewModel.isTextSearch) {
                 viewModel.isTextSearch = false
+                binding.imgCross.gone()
+                binding.ivMic.visible()
                 viewModel.reset()
                 reset()
-                viewModel.getCourses()
-                viewModel.getOtherCourses()
+                viewModel.callCombinedApis()
+            } else if (text.toString().isEmpty()) {
+                binding.imgCross.gone()
+                binding.ivMic.visible()
+                if (categoryId == 0) binding.ivMic.gone()
+            } else {
+                binding.imgCross.visible()
+                binding.ivMic.gone()
             }
         }
 
@@ -92,18 +123,27 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
                 viewModel.isTextSearch = true
                 viewModel.reset()
                 reset()
-                viewModel.getCourses()
-                viewModel.getOtherCourses()
+                viewModel.callCombinedApis()
             }
 
             return@setOnEditorActionListener true
         }
 
         binding.filter.setOnClickListener {
-            FilterBottomDialog().apply {
-                arguments = bundleOf("selectedFilters" to viewModel.selectedFilters)
-                setOnDialogClickListener(this@CategoryWiseCoursesFragment)
-            }.show(childFragmentManager, "")
+            if (!isFilterOpen) {
+                this.isFilterOpen = true
+                FilterBottomDialog().apply {
+                    arguments = bundleOf("selectedFilters" to viewModel.selectedFilters)
+                    setOnDialogClickListener(this@CategoryWiseCoursesFragment)
+                }.show(childFragmentManager, "")
+            }
+
+
+            Handler(Looper.getMainLooper()).postDelayed(Runnable {
+                isFilterOpen = false
+            }, 2000)
+
+
         }
         observeData()
         speechToTextHandling()
@@ -115,6 +155,13 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
         }
 
         pagination()
+        if (categoryId == 0) {
+            binding.etSearch.isClickable = false
+            binding.etSearch.isFocusable = false
+            binding.ivMic.gone()
+        } else {
+            binding.ivMic.visible()
+        }
 
     }
 
@@ -122,8 +169,7 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
         binding.tvOther.gone()
         viewModel.reset()
         reset()
-        viewModel.getCourses()
-        viewModel.getOtherCourses()
+        viewModel.callCombinedApis()
     }
 
     private fun pagination() {
@@ -165,12 +211,12 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
     private fun speechToTextHandling() {
         spokenTextLiveData.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let { value ->
+                viewModel.isTextSearch = true
                 binding.etSearch.setText(value)
 //                viewModel.reset()
                 reset()
                 viewModel.reset()
-                viewModel.getCourses()
-                viewModel.getOtherCourses()
+                viewModel.callCombinedApis()
             }
 
 
@@ -192,7 +238,7 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
                 if (items.size > 2) {
                     viewModel.fromOther = false
                     val childPos = items[2] as Int
-                    findNavController().navigate(
+                    findNavController().navigateTo(
                         R.id.action_categoryWiseCoursesFragment_to_courseDetailsFragment,
                         bundleOf(
                             "courseId" to viewModel.courseLiveData.value?.get(position)?.courses?.get(
@@ -203,7 +249,7 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
                 } else {
                     viewModel.fromOther = true
 
-                    findNavController().navigate(
+                    findNavController().navigateTo(
                         R.id.action_categoryWiseCoursesFragment_to_courseDetailsFragment,
                         bundleOf(
                             "courseId" to viewModel.otherCourseLiveData.value?.get(position)?.courseId
@@ -223,7 +269,7 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
                 val subtitle =
                     if (viewModel.screenTitle.equals(baseActivity.getString(R.string.all_courses))) "" else viewModel.screenTitle
 
-                findNavController().navigate(
+                findNavController().navigateTo(
                     R.id.action_categoryWiseCoursesFragment_to_popularFragment,
                     bundleOf(
                         "title" to viewModel.courseLiveData.value?.get(position)?.title,
@@ -274,16 +320,22 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
                         viewModel.otherCourseLiveData.value?.get(position)
 
                     }
-                    if (course?.userCourseStatus == 1) {
+                    if (course?.userCourseStatus == CourseStatus.NOT_ENROLLED) {
+                        buyCourseCheck(
+                            course?.courseTypeId,
+                            course?.courseId,
+                            course?.rewardPoints,
+                            course?.courseFee
+                        )
 
-                        findNavController().navigate(
-                            R.id.action_categoryWiseCoursesFragment_to_popularFragment,
+
+                    } else {
+                        findNavController().navigateTo(
+                            R.id.action_categoryWiseCoursesFragment_to_courseDetailsFragment,
                             bundleOf(
-                                "courseId" to course.courseId
+                                "courseId" to course?.courseId
                             )
                         )
-                    } else {
-                        buyCourseCheck(course?.courseTypeId, course?.courseId, course?.rewardPoints)
                     }
                 }
 
@@ -292,13 +344,25 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
         }
     }
 
-    private fun buyCourseCheck(courseType: Int?, courseId: Int?, rewardPoints: String?) {
+    private fun buyCourseCheck(
+        courseType: Int?,
+        courseId: Int?,
+        rewardPoints: String?,
+        courseFee: String?
+    ) {
         when (courseType) {
             CourseType.FREE -> {
                 viewModel.purchaseCourse()
             }
             CourseType.PAID -> {
-                viewModel.buyRazorPayCourse()
+                CheckoutBottomSheet().apply {
+                    arguments = bundleOf(
+                        "courseFee" to courseFee,
+                    )
+                    setOnDialogClickListener(this@CategoryWiseCoursesFragment)
+
+                }.show(childFragmentManager, "")
+
             }
             CourseType.RESTRICTED -> {
                 UnlockCourseDialog().apply {
@@ -311,7 +375,7 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
                     baseActivity.getString(R.string.to_buy_this_course),
                     rewardPoints
                 )
-                CommonAlertDialog.builder(requireContext())
+                CommonAlertDialog.builder(baseActivity)
                     .title(getString(R.string.pay_by_reward))
                     .description(desc)
                     .icon(R.drawable.ic_coin_icon)
@@ -326,7 +390,7 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
                     .build()
             }
             else -> {
-                showToastShort("Course type not added in course")
+                showToastShort(getString(R.string.course_type_not_added))
             }
         }
     }
@@ -348,8 +412,8 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
         viewModel.wishlistLiveData.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
 //                if (it.success.equals("true")) {
-                    mOtherAdapter?.notifyDataSetChanged()
-                    mAdapter?.notifyDataSetChanged()
+                mOtherAdapter?.notifyDataSetChanged()
+                mAdapter?.notifyDataSetChanged()
 //                viewModel.courseLiveData.value
 //                binding.rvList.adapter = HomeAdapter(it)
 //                (binding.rvList.adapter as? HomeAdapter)?.setOnAdapterItemClickListener(this)
@@ -369,7 +433,7 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
             mAdapter = null
         } else {
             mAdapter?.notifyDataSetChanged() ?: kotlin.run {
-                mAdapter = HomeAdapterTest(
+                mAdapter = HomeAdapter(
                     viewModel.courseLiveData.value ?: ArrayList(),
                     scrollStateHolder
                 )
@@ -382,15 +446,34 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
 
     override fun onLoading(message: String, apiCode: String?) {
         if (!binding.swipeRefresh.isRefreshing) {
-            super.onLoading(message, apiCode)
-
+            if (!apiCode.equals(ApiEndPoints.API_HOME_WISHLIST + "/false")) {
+                super.onLoading(message, apiCode)
+            }
         }
     }
 
     override fun onException(isNetworkAvailable: Boolean, exception: ApiError, apiCode: String) {
-        super.onException(isNetworkAvailable, exception, apiCode)
         binding.swipeRefresh.isRefreshing = false
-
+        when (exception.statusCode) {
+            HTTPCode.USER_NOT_FOUND -> {
+                hideLoading()
+                CommonAlertDialog.builder(baseActivity)
+                    .description(exception.message ?: "")
+                    .positiveBtnText(baseActivity.getString(R.string.okay))
+                    .icon(R.drawable.ic_alert)
+                    .title("")
+                    .notCancellable(true)
+                    .hideNegativeBtn(true)
+                    .getCallback {
+                        if (it) {
+                            callApi()
+                        }
+                    }.build()
+            }
+            else -> {
+                super.onException(isNetworkAvailable, exception, apiCode)
+            }
+        }
     }
 
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
@@ -398,13 +481,25 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
         binding.swipeRefresh.isRefreshing = false
         when (apiCode) {
             ApiEndPoints.API_PURCHASE_COURSE -> {
-                val resource = (value as BaseResponse<OrderData>)
-                showToastShort(resource.message)
-                sharedHomeModel.updateCourse(resource.resource?.course?.courseId)
-                findNavController().navigate(
-                    R.id.action_categoryWiseCoursesFragment_to_courseDetailsFragment,
-                    bundleOf("courseId" to resource.resource?.course?.courseId)
-                )
+
+
+                CommonAlertDialog.builder(baseActivity)
+                    .title(getString(R.string.congrats))
+                    .description(getString(R.string.you_have_succesully_enroled_inthis))
+                    .icon(R.drawable.ic_checked_logo)
+                    .hideNegativeBtn(true)
+                    .positiveBtnText(getString(R.string.okay))
+                    .getCallback {
+                        if (it) {
+                            val resource = (value as BaseResponse<OrderData>)
+                            sharedHomeModel.updateCourse(resource.resource?.course?.courseId)
+                            findNavController().navigateTo(
+                                R.id.action_categoryWiseCoursesFragment_to_courseDetailsFragment,
+                                bundleOf("courseId" to resource.resource?.course?.courseId)
+                            )
+                        }
+                    }
+                    .build()
             }
 
 
@@ -431,6 +526,10 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
         if (items.isNotEmpty()) {
             val type = items[0] as Int
             when (type) {
+                DialogType.PAYMENT -> {
+                    viewModel.stateId = items[1] as String
+                    viewModel.buyRazorPayCourse()
+                }
                 DialogType.HOME_FILTER -> {
                     viewModel.selectedFilters.clear()
                     viewModel.selectedFilters.addAll(items[1] as ArrayList<SelectedFilterData?>)
@@ -438,8 +537,7 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
                         if (viewModel.selectedFilters.isEmpty()) View.GONE else View.VISIBLE
                     viewModel.reset()
                     reset()
-                    viewModel.getCourses()
-                    viewModel.getOtherCourses()
+                    viewModel.callCombinedApis()
                 }
                 Constant.CLICK_VIEW -> {
 //                    val otp = items[1] as String
@@ -447,7 +545,7 @@ class CategoryWiseCoursesFragment : BaseFragment<FragmentCategoryWiseCoursesBind
 //                    viewModel.purchaseCourse()
                     val courseId = items[1] as Int
 
-                    findNavController().navigate(
+                    findNavController().navigateTo(
                         R.id.action_categoryWiseCoursesFragment_to_courseDetailsFragment,
                         bundleOf("courseId" to courseId)
                     )

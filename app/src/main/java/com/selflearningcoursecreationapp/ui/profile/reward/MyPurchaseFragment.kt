@@ -2,24 +2,20 @@ package com.selflearningcoursecreationapp.ui.profile.reward
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentEarningBinding
-import com.selflearningcoursecreationapp.extensions.getFirstLastDateOfMonth
-import com.selflearningcoursecreationapp.extensions.getStringDate
-import com.selflearningcoursecreationapp.extensions.increaseDecrease
-import com.selflearningcoursecreationapp.extensions.openDatePickerDialog
+import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.ui.course_details.ratings.model.GetReviewsRequestModel
 import com.selflearningcoursecreationapp.ui.course_details.ratings.model.SearchFieldsItem
 import com.selflearningcoursecreationapp.ui.profile.reward.adapter.RewardListAdapter
 import com.selflearningcoursecreationapp.ui.profile.reward.viewModel.RewardViewModel
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.CommonPayload
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.CourseType
@@ -45,15 +41,19 @@ class MyPurchaseFragment : BaseFragment<FragmentEarningBinding>() {
     //6633221  100
     private val rewardListAdapter by lazy {
         RewardListAdapter(Constant.COURSE_COMPLETED_REWARD) {
-            findNavController().navigate(
-                R.id.action_reward_to_courseDetailsFragment,
-                bundleOf("courseId" to it.courseId)
-            )
         }
     }
 
 
     private fun initUI() {
+
+        binding.rvList.visible()
+        binding.tvMonth.visible()
+        binding.imgRight.visible()
+        binding.imgLeft.visible()
+        binding.tvTitle.visible()
+        binding.tvMonthCourse.visible()
+        model.transactionTypeId = 3
 
 
         addDataIntoPayload(true)
@@ -73,14 +73,14 @@ class MyPurchaseFragment : BaseFragment<FragmentEarningBinding>() {
 
         }
 
-        binding.tvMonth.setOnClickListener {
-            requireContext().openDatePickerDialog {
-                date = it.time
-                addDataIntoPayload(false)
-
-            }
-
-        }
+//        binding.tvMonth.setOnClickListener {
+//            requireContext().openDatePickerDialog {
+//                date = it.time
+//                addDataIntoPayload(false)
+//
+//            }
+//
+//        }
 
         binding.rvList.adapter = rewardListAdapter
 
@@ -105,7 +105,10 @@ class MyPurchaseFragment : BaseFragment<FragmentEarningBinding>() {
                 loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
                 else -> null
             }
+            errorState?.let {
+                handlePagingError(it, ApiEndPoints.API_REWARDS_POINTS)
 
+            }
         }
 
     }
@@ -128,16 +131,26 @@ class MyPurchaseFragment : BaseFragment<FragmentEarningBinding>() {
         model.courseType = CourseType.REWARD_POINTS_PURCHASED_COURSES
         filterFields.add(
             SearchFieldsItem(
-                CommonPayload.PUBLISHED_DATE,
+                CommonPayload.CREATED_DATE,
                 CommonPayload.OPERATOR_TYPE_6,
-                arrayListOf("'${getFirstLastDateOfMonth(true, date).getStringDate("yyyy-MM-dd")}'")
+                arrayListOf(
+                    "'${
+                        getFirstLastDateOfMonth(true, date).getStringDate("yyyy-MM-dd")
+                            .convertToUtc()
+                    }'"
+                )
             )
         )
         filterFields.add(
             SearchFieldsItem(
-                CommonPayload.PUBLISHED_DATE,
+                CommonPayload.CREATED_DATE,
                 CommonPayload.OPERATOR_TYPE_7,
-                arrayListOf("'${getFirstLastDateOfMonth(false, date).getStringDate("yyyy-MM-dd")}'")
+                arrayListOf(
+                    "'${
+                        getFirstLastDateOfMonth(false, date).getStringDate("yyyy-MM-dd")
+                            .convertToUtc()
+                    }'"
+                )
             )
         )
         model.searchFields = filterFields
@@ -150,6 +163,7 @@ class MyPurchaseFragment : BaseFragment<FragmentEarningBinding>() {
 
 
     override fun onApiRetry(apiCode: String) {
+
         rewardListAdapter.retry()
 
     }
@@ -161,10 +175,18 @@ class MyPurchaseFragment : BaseFragment<FragmentEarningBinding>() {
         } else {
             hideLoading()
             viewModel.rewardPoints.value = RewardPagingDataSource.rewardPoints
-
+            viewModel.totalSpendRewards.value = RewardPagingDataSource.totalSpendRewards
+            viewModel.totalEarnAsACreatorRewards.value =
+                RewardPagingDataSource.totalEarnAsACreatorRewards
+            viewModel.totalEarnAsALearnerRewards.value =
+                RewardPagingDataSource.totalEarnAsALearnerRewards
 
 
         }
+    }
+
+    fun onRefreshData() {
+        rewardListAdapter.refresh()
     }
 
 

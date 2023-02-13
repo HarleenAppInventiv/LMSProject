@@ -19,6 +19,9 @@ import kotlinx.coroutines.flow.combine
 class RewardViewModel(private val repo: RewardsRepository) : BaseViewModel() {
     private val modificationEvents = MutableStateFlow<List<PagerViewEvents>>(emptyList())
     var rewardPoints = MutableLiveData<Long>()
+    var totalEarnAsACreatorRewards = MutableLiveData<Long>()
+    var totalEarnAsALearnerRewards = MutableLiveData<Long>()
+    var totalSpendRewards = MutableLiveData<Long>()
 
 
     suspend fun getRewardList(model: GetReviewsRequestModel): LiveData<PagingData<CourseData>> {
@@ -103,7 +106,7 @@ class RewardViewModel(private val repo: RewardsRepository) : BaseViewModel() {
                             totalDislikes = pagerViewEvents.pagerViewData.totalDislikes,
                             createdDate = it.createdDate,
                             userDisLiked = pagerViewEvents.pagerViewData.userDisLiked,
-                            userLiked = pagerViewEvents.pagerViewData.userLiked,
+//                            userLiked = pagerViewEvents.pagerViewData.userLiked,
                             reviewId = it.reviewId
 
                         )
@@ -127,7 +130,7 @@ class RewardViewModel(private val repo: RewardsRepository) : BaseViewModel() {
                                 totalDislikes = it.totalDislikes?.minus(1),
                                 createdDate = it.createdDate,
                                 userDisLiked = 0,
-                                userLiked = 1,
+//                                userLiked = 1,
                                 reviewId = it.reviewId
                             )
                         } else if (pagerViewEvents.pagerViewData.reviewId == it.reviewId && pagerViewEvents.pagerViewData.userLiked == 0) {
@@ -142,7 +145,7 @@ class RewardViewModel(private val repo: RewardsRepository) : BaseViewModel() {
                                 totalDislikes = it.totalDislikes,
                                 createdDate = it.createdDate,
                                 userDisLiked = 0,
-                                userLiked = 1,
+//                                userLiked = 1,
                                 reviewId = it.reviewId
                             )
 
@@ -158,7 +161,7 @@ class RewardViewModel(private val repo: RewardsRepository) : BaseViewModel() {
                                 totalDislikes = it.totalDislikes?.plus(1),
                                 createdDate = it.createdDate,
                                 userDisLiked = 1,
-                                userLiked = 0,
+//                                userLiked = 0,
                                 reviewId = it.reviewId
                             )
                         } else if (pagerViewEvents.pagerViewData.reviewId == it.reviewId && pagerViewEvents.pagerViewData.userLiked == 1) {
@@ -173,7 +176,7 @@ class RewardViewModel(private val repo: RewardsRepository) : BaseViewModel() {
                                 totalDislikes = it.totalDislikes,
                                 createdDate = it.createdDate,
                                 userDisLiked = it.userDisLiked,
-                                userLiked = it.userLiked?.minus(1),
+//                                userLiked = it.userLiked?.minus(1),
                                 reviewId = it.reviewId
                             )
                         } else {
@@ -202,7 +205,7 @@ class RewardViewModel(private val repo: RewardsRepository) : BaseViewModel() {
                                 totalDislikes = it.totalDislikes?.plus(1),
                                 createdDate = it.createdDate,
                                 userDisLiked = 1,
-                                userLiked = 0,
+//                                userLiked = 0,
                                 reviewId = it.reviewId
                             )
                         } else if (pagerViewEvents.pagerViewData.reviewId == it.reviewId && pagerViewEvents.pagerViewData.userDisLiked == 0) {
@@ -217,7 +220,7 @@ class RewardViewModel(private val repo: RewardsRepository) : BaseViewModel() {
                                 totalDislikes = it.totalDislikes?.plus(1),
                                 createdDate = it.createdDate,
                                 userDisLiked = 1,
-                                userLiked = 0,
+//                                userLiked = 0,
                                 reviewId = it.reviewId
                             )
 
@@ -233,7 +236,7 @@ class RewardViewModel(private val repo: RewardsRepository) : BaseViewModel() {
                                 totalDislikes = it.totalDislikes?.minus(1),
                                 createdDate = it.createdDate,
                                 userDisLiked = 0,
-                                userLiked = 1,
+//                                userLiked = 1,
                                 reviewId = it.reviewId
                             )
                         } else if (pagerViewEvents.pagerViewData.reviewId == it.reviewId && pagerViewEvents.pagerViewData.userDisLiked == 1) {
@@ -248,7 +251,7 @@ class RewardViewModel(private val repo: RewardsRepository) : BaseViewModel() {
                                 totalDislikes = it.totalDislikes?.minus(1),
                                 createdDate = it.createdDate,
                                 userDisLiked = it.userDisLiked?.minus(1),
-                                userLiked = it.userLiked,
+//                                userLiked = it.userLiked,
                                 reviewId = it.reviewId
                             )
 

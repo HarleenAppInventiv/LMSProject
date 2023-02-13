@@ -49,7 +49,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:padding="@dimen/_5sdp"
-                android:text="WorkSans"
                 android:textSize="@dimen/homeAdapterTF_13"
                 app:fontType="medium"
                 app:layout_constraintEnd_toEndOf="parent"

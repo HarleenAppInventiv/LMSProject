@@ -40,7 +40,7 @@ class LMSEditText : AppCompatEditText {
 
         val themeAttrs = context.obtainStyledAttributes(
             attrs, R.styleable.LMSEditText,
-            defStyle!!, 0
+            defStyle ?: 0, 0
         )
 
         val drawablePos =
@@ -149,7 +149,7 @@ class LMSEditText : AppCompatEditText {
                     ThemeUtils.getTintColor(context)
 
                 }
-                ThemeConstants.TYPE_SECONDARY-> {
+                ThemeConstants.TYPE_SECONDARY -> {
                     ContextCompat.getColor(
                         context,
                         context.getAttrColor(R.attr.viewSecondaryBgColor)

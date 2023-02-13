@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/ic_walkthrough_trans_bg"
             app:viewBackground="background_tint"
+            android:keepScreenOn="true"
             tools:context=".ui.create_course.audio_as_lesson.RecordAudioFragment">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -30,6 +31,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:onClick="@{(v)->handleClick.onHandleClick(v)}"
                 android:padding="@dimen/_20sdp"
+                android:contentDescription="@string/back_button"
                 android:src="@drawable/ic_close"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -39,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/record_audio"
-                android:textColor="@color/white"
+                android:textColor="?attr/whiteTextColor"
                 android:textSize="@dimen/loginTitle_28"
                 app:fontType="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -92,9 +94,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_25sdp"
-                android:textColor="@color/white"
+                android:textColor="?attr/whiteTextColor"
                 android:textSize="@dimen/textField_28"
                 app:fontType="bold"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:text="@string/recording"
-                android:textColor="@color/white"
+                android:textColor="?attr/whiteTextColor"
                 android:textSize="@dimen/textField_20"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -124,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_4sdp"
                 android:alpha=".56"
-                android:textColor="@color/white"
+                android:textColor="?attr/whiteTextColor"
                 android:textSize="@dimen/textField_14"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -140,7 +143,7 @@
                 android:layout_marginHorizontal="@dimen/_16sdp"
                 android:layout_marginTop="@dimen/_38sdp"
                 android:alpha=".35"
-                android:background="@color/white"
+                android:background="?attr/whiteTextColor"
                 app:layout_constraintTop_toBottomOf="@+id/tv_recording_details" />
 
 
@@ -151,6 +154,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="@{(v)->handleClick.onHandleClick(v)}"
                 android:layout_marginEnd="@dimen/_20sdp"
+                android:contentDescription="@string/delete_audio"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_audio_play"
                 app:layout_constraintEnd_toStartOf="@+id/iv_audio_play"
                 app:layout_constraintHorizontal_bias="1"
@@ -168,15 +172,16 @@
                 android:onClick="@{(v)->handleClick.onHandleClick(v)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:contentDescription="@string/record_audio_icon"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintVertical_bias="0.3"
                 app:layout_constraintTop_toBottomOf="@+id/v"
-                app:srcCompat="@drawable/ic_baseline_play_circle_outline_24" />
+                app:srcCompat="@drawable/ic_record" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                 android:id="@+id/iv_audio_save"
-
+                android:contentDescription="@string/save_audio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
@@ -186,7 +191,7 @@
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toEndOf="@+id/iv_audio_play"
                 app:layout_constraintTop_toTopOf="@+id/iv_audio_play"
-                app:srcCompat="@drawable/ic_pause" />
+                app:srcCompat="@drawable/ic_stop_recording" />
 
         </com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout>
     </ScrollView>

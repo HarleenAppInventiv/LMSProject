@@ -9,6 +9,10 @@
             name="viewModel"
             type="com.selflearningcoursecreationapp.ui.authentication.add_email.AddEmailVM" />
 
+        <import
+            alias="const"
+            type="com.selflearningcoursecreationapp.utils.ValidationConst" />
+
     </data>
 
     <ScrollView
@@ -69,6 +73,7 @@
                 android:background="@drawable/edt_bg"
                 android:drawablePadding="@dimen/_18sdp"
                 android:hint="@string/email"
+                android:maxLength="@{const.MAX_EMAIL_LENGTH}"
                 android:imeOptions="actionDone"
                 android:inputType="textEmailAddress"
                 android:singleLine="true"
@@ -90,7 +95,7 @@
                 android:layout_height="0dp"
                 android:layout_marginVertical="@dimen/_12sdp"
                 android:layout_marginStart="@dimen/_40sdp"
-                android:background="?attr/etDashColor"
+                android:background="?attr/radioUnselectedColor"
                 android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="@+id/et_email"
                 app:layout_constraintStart_toStartOf="@+id/et_email"
@@ -109,6 +114,8 @@
                 android:textSize="@dimen/materialButton_14"
                 app:btnEnabled="@{!viewModel.email.empty}"
                 app:buttonFont="semiBold"
+                android:capitalize="none"
+                android:textAllCaps="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.512"

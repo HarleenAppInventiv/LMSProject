@@ -62,6 +62,8 @@ class AddEmailVM(private val repo: AddEmailRepo) : BaseViewModel() {
 
             map["email"] = email.value!!
             map["otpType"] = OtpType.TYPE_EMAIL.toString()
+            map["otpValue"] = ""
+            map["unit"] = 60
 
 
             updateResponseObserver(Resource.Loading())

@@ -42,7 +42,7 @@ data class QuizQuestionData(
     @SerializedName("quizId")
     var quizId: Int? = null,
 
-    @SerializedName("markAnsweres")
+    @SerializedName("markAnsweres", alternate = ["quizMarkAnsweres"])
     var markAnsList: ArrayList<MarkAnswer>? = null,
 
     @Transient
@@ -95,7 +95,7 @@ data class QuizQuestionData(
     fun isDataValid(): Int {
         return when {
             title.isNullOrEmpty() -> R.string.plz_enter_question
-            title!!.isBlank() -> R.string.plz_enter_question
+            title.isNullOrBlank() -> R.string.plz_enter_question
             questionType == QUIZ.IMAGE_BASED && questionImageId.isNullOrEmpty() -> R.string.plz_upload_ques_image
             optionList.isNullOrEmpty() -> R.string.plz_add_option
             optionList.size == 1 -> R.string.plz_add_min_2_option

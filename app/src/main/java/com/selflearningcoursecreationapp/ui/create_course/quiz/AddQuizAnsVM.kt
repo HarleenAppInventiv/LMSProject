@@ -21,7 +21,6 @@ import org.json.JSONObject
 
 class AddQuizAnsVM(private var repo: AddQuizRepo) : BaseViewModel() {
     var hashmap = HashMap<String, ArrayList<QuizOptionData>>()
-
     var quizData = QuizData()
     var adapterPosition = 0
     var childPosition = 0

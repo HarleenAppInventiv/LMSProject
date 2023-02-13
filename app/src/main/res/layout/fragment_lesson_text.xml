@@ -8,7 +8,7 @@
         <variable
             name="textLesson"
             type="com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_text.TextViewModel" />
-
+        <import type="android.view.View" />
         <import
             alias="converter"
             type="com.selflearningcoursecreationapp.extensions.BindingConverters" />
@@ -21,7 +21,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/off_white_f5f5f5"
+        android:background="?attr/secondaryScreenBgColor"
         android:fillViewport="true"
         android:overScrollMode="never"
         android:scrollbars="none">
@@ -46,33 +46,66 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:textColorType="heading" />
 
-            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
-                android:id="@+id/edt_text"
-                count="@{12}"
-                htmlString="@{textLesson.textLiveData.lessonText}"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/constEnterText"
+                android:layout_height="@dimen/_101sdp"
+                android:background="@drawable/edt_white_bg"
+                android:fillViewport="true"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginHorizontal="@dimen/_16sdp"
                 android:layout_marginTop="@dimen/_12sdp"
                 android:layout_marginBottom="@dimen/_12sdp"
-                android:background="@drawable/edt_bg_white"
-                android:ellipsize="end"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_lesson"
+                app:layout_constraintVertical_bias="0">
+
+                <WebView
+                    android:id="@+id/wv_enter_text"
+                    formattedStringDesc="@{textLesson.textLiveData.textFileText}"
+                    lineCount="@{4}"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/_2sdp"
+                    android:lineSpacingExtra="10sp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:scrollbars="none"
+                    android:visibility="@{textLesson.textLiveData.textFileText.length()>0 ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+
+                    />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/ev_enter_text_empty"
+                unFormattedString="@{textLesson.textLiveData.textFileText}"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_101sdp"
                 android:focusable="false"
                 android:gravity="start"
+                android:layout_marginHorizontal="@dimen/_16sdp"
                 android:hint="@string/enter_lesson_text"
-                android:imeOptions="actionNext"
                 android:inputType="textImeMultiLine|textMultiLine|textCapSentences"
-                android:longClickable="false"
-                android:minLines="6"
-                android:overScrollMode="always"
-                android:paddingHorizontal="@dimen/_10sdp"
-                android:maxLines="12"
-                android:paddingVertical="@dimen/_12sdp"
-
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_12sdp"
                 android:textSize="@dimen/editTextField_14"
+                android:background="@drawable/edt_white_bg"
+                android:longClickable="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:maxLines="10"
+                android:paddingHorizontal="@dimen/_13sdp"
+                android:visibility="@{textLesson.textLiveData.textFileText.length()>0 ? View.GONE : View.VISIBLE}"
                 app:layout_constraintTop_toBottomOf="@+id/tv_lesson" />
+
 
             <!--            android:scrollbarStyle="insideInset"-->
             <!--            android:scrollbars="vertical"-->
@@ -82,12 +115,36 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:text="@string/title"
+                android:layout_marginEnd="@dimen/_16sdp"
                 android:textSize="@dimen/textField_14"
                 app:fontType="medium"
-                app:layout_constraintEnd_toEndOf="@+id/edt_text"
-                app:layout_constraintStart_toStartOf="@id/edt_text"
-                app:layout_constraintTop_toBottomOf="@+id/edt_text"
+                app:layout_constraintEnd_toStartOf="@+id/tv_word_count"
+                app:layout_constraintStart_toStartOf="@id/constEnterText"
+                app:layout_constraintTop_toBottomOf="@+id/constEnterText"
                 app:textColorType="heading" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_word_count"
+                limitColor="@{textLesson.textLiveData.titleLength &lt; const.MAX_COURSE_LESSON_LENGTH }"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{``+textLesson.textLiveData.titleLength}"
+                android:textSize="@dimen/textField_12"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_title"
+                app:layout_constraintEnd_toStartOf="@+id/tv_word_count_title"
+                app:layout_constraintTop_toTopOf="@+id/tv_title"
+                app:textColorType="body" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_word_count_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{@string/title_count(const.MAX_COURSE_LESSON_LENGTH)}"
+                android:textSize="@dimen/textField_12"
+                app:fontType="medium"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_title"
+                app:layout_constraintEnd_toEndOf="@+id/constEnterText"
+                app:layout_constraintTop_toTopOf="@+id/tv_title" />
 
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
@@ -95,18 +152,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:background="@drawable/edt_bg_white"
+                android:background="@drawable/edt_white_bg"
                 android:hint="@string/enter_title"
-                android:imeOptions="actionNext"
-                android:maxLength="@{const.MAX_QUIZ_TITLE}"
-                android:inputType="textCapWords"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLength="@{const.MAX_COURSE_LESSON_LENGTH}"
                 android:lineSpacingExtra="@dimen/_7ssp"
                 android:text="@={textLesson.textLiveData.lectureTitle}"
 
                 android:maxLines="3"
                 android:textSize="@dimen/editTextField_14"
-                app:layout_constraintEnd_toEndOf="@+id/edt_text"
-                app:layout_constraintStart_toStartOf="@+id/edt_text"
+                app:layout_constraintEnd_toEndOf="@+id/constEnterText"
+                app:layout_constraintStart_toStartOf="@+id/constEnterText"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
@@ -117,8 +173,8 @@
                 android:text="@string/reading_time"
                 android:textSize="@dimen/textField_14"
                 app:fontType="medium"
-                app:layout_constraintEnd_toEndOf="@+id/edt_text"
-                app:layout_constraintStart_toStartOf="@id/edt_text"
+                app:layout_constraintEnd_toEndOf="@+id/constEnterText"
+                app:layout_constraintStart_toStartOf="@id/constEnterText"
                 app:layout_constraintTop_toBottomOf="@+id/edt_doc_title"
                 app:textColorType="heading" />
 
@@ -128,7 +184,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:background="@drawable/edt_bg_white"
+                android:background="@drawable/edt_white_bg"
                 android:hint="@string/time"
                 android:imeOptions="actionDone"
                 android:inputType="number"
@@ -137,16 +193,16 @@
                 android:singleLine="true"
                 android:text="@={converter.millisToMinutes(textLesson.textLiveData.lectureContentDuration)}"
                 android:textSize="@dimen/editTextField_14"
-                app:layout_constraintEnd_toEndOf="@+id/edt_text"
-                app:layout_constraintStart_toStartOf="@+id/edt_text"
+                app:layout_constraintEnd_toEndOf="@+id/constEnterText"
+                app:layout_constraintStart_toStartOf="@+id/constEnterText"
                 app:layout_constraintTop_toBottomOf="@+id/tv_read_time" />
 
             <View
                 android:id="@+id/view_bottom"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_100sdp"
+                android:layout_height="@dimen/_80sdp"
                 android:layout_marginTop="@dimen/_16sdp"
-                android:background="@color/white"
+                android:background="?attr/whiteTextColor"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -163,8 +219,8 @@
                 android:textSize="@dimen/materialButton_14"
                 app:btnEnabled="@{textLesson.textLiveData.textLesson}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/edt_text"
-                app:layout_constraintStart_toStartOf="@id/edt_text"
+                app:layout_constraintEnd_toEndOf="@id/constEnterText"
+                app:layout_constraintStart_toStartOf="@id/constEnterText"
                 app:layout_constraintTop_toTopOf="@+id/view_bottom"
                 app:layout_constraintWidth_percent=".9"
                 app:textAllCaps="true" />

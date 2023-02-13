@@ -2,9 +2,6 @@ package com.selflearningcoursecreationapp.ui.bottom_more.settings.changePassword
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -31,11 +28,11 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUi()
+        callMenu()
     }
 
     private fun initUi() {
         binding.viewModel = viewModel
-        setHasOptionsMenu(true)
 
         binding.etConfirm.showHidePassword()
         binding.etNew.showHidePassword()
@@ -53,19 +50,7 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
     }
 
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.course_menu, menu)
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_read -> {
-//                baseActivity.checkAccessibilityService()
-            }
-
-        }
-        return super.onOptionsItemSelected(item)
-    }
 
 
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
@@ -77,7 +62,8 @@ class ChangePasswordFragment : BaseFragment<FragmentChangePasswordBinding>() {
                         viewModel.saveUserToken("")
                         viewModel.saveUser(null)
                     }
-                    CommonAlertDialog.builder(baseActivity).notCancellable().hideNegativeBtn(true)
+                    CommonAlertDialog.builder(baseActivity).notCancellable(false)
+                        .hideNegativeBtn(true)
                         .description(baseActivity.getString(R.string.password_changed_successfully))
                         .getCallback {
                             baseActivity.startActivity(

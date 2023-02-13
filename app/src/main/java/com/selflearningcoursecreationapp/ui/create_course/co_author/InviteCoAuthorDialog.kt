@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.core.widget.doOnTextChanged
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseDialog
+import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.data.network.ApiError
 import com.selflearningcoursecreationapp.data.network.HTTPCode
 import com.selflearningcoursecreationapp.data.network.ToastData
@@ -114,7 +115,7 @@ class InviteCoAuthorDialog : BaseDialog<LayoutEditTextDialogBinding>() {
     private fun commonAlert() {
 
         CommonAlertDialog.builder(baseActivity)
-            .notCancellable()
+            .notCancellable(false)
             .title(getString(R.string.success))
             .description(getString(R.string.your_invitation_sent))
             .positiveBtnText(getString(R.string.okay))
@@ -132,8 +133,47 @@ class InviteCoAuthorDialog : BaseDialog<LayoutEditTextDialogBinding>() {
 
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)
-        dismiss()
-        commonAlert()
+        when (apiCode) {
+            ApiEndPoints.API_EXISTS_COAUTHOR -> {
+
+                var data = (value as BaseResponse<ExistsCoAuthorResponse>)
+                when (data.resource?.coAuthorExists) {
+                    true -> {
+                        val desc = String.format(
+                            baseActivity.getString(R.string.course_coauthor_exists_desc_text),
+                            data.resource?.phone
+                        )
+                        CommonAlertDialog.builder(baseActivity)
+                            .title(baseActivity.getString(R.string.coauthor_already_exists))
+                            .spannedText(
+                                SpanUtils.with(baseActivity, desc).startPos(63)
+                                    .endPos(75)
+                                    .textColor().isBold().getSpanString()
+                            )
+                            .positiveBtnText(baseActivity.getString(R.string.okay))
+                            .negativeBtnText(baseActivity.getString(R.string.cancel))
+                            .icon(R.drawable.ic_assessment_submitted)
+                            .getCallback {
+                                if (it) {
+                                    viewModel.inviteCoAuthor(!isEmail)
+                                }
+                            }
+                            .build()
+                    }
+                    false -> {
+                        viewModel.inviteCoAuthor(!isEmail)
+                    }
+                }
+
+
+            }
+
+            ApiEndPoints.API_INVITE_COAUTHOR -> {
+                dismiss()
+                commonAlert()
+            }
+        }
+
 
     }
 

@@ -4,7 +4,6 @@
     android:id="@+id/tab_tittle"
     android:layout_width="@dimen/_100sdp"
     android:layout_height="wrap_content"
-    android:text="Tab1"
     android:textAlignment="center"
     android:textColor="@drawable/tab_selector"
     app:fontType="medium"

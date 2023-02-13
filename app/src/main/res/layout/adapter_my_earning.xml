@@ -20,14 +20,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
                 android:id="@+id/iv_preview"
                 android:layout_width="@dimen/_55sdp"
                 android:layout_height="@dimen/_65sdp"
                 android:layout_margin="@dimen/_8sdp"
                 android:contentDescription="@string/course_image"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_course_dummy"
+                android:src="@drawable/ic_default_banner"
+                app:applyGrayscale="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/corneredImage5" />
@@ -38,9 +39,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:text="UX and Web Design Course"
+                android:ellipsize="end"
                 android:textSize="@dimen/adapterTF_14"
                 app:fontType="semiBold"
+                android:singleLine="true"
                 app:layout_constraintEnd_toStartOf="@+id/tv_date"
                 app:layout_constraintStart_toEndOf="@+id/iv_preview"
                 app:layout_constraintTop_toTopOf="@+id/iv_preview" />
@@ -50,7 +52,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_8sdp"
-                android:text="17 Feb, 2022"
                 android:textSize="@dimen/adapterTextField_11"
                 app:fontType="medium"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -64,13 +65,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
-                android:text="No. of Learners: 32"
                 android:textSize="@dimen/adapterTextField_12"
                 app:fontType="medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv_name"
                 app:layout_constraintTop_toBottomOf="@+id/tv_name"
-                app:textColorType="secondary" />
+                app:textColorType="body" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier"
@@ -98,7 +98,8 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:text="@string/revenue"
-                android:textAllCaps="true"
+                android:capitalize="none"
+                android:textAllCaps="false"
                 android:textSize="@dimen/adapterTextField_12"
                 app:fontType="semiBold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -110,11 +111,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:drawablePadding="@dimen/_5sdp"
-                android:text="2000"
-                android:textColor="@color/accent_color_FFB800"
+
+                android:textColor="?attr/accentColor_Yellow"
                 android:textSize="@dimen/adapterTextField_17"
-                app:drawableStartCompat="@drawable/ic_rewards_points"
+
                 app:fontType="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_revenue"
                 app:layout_constraintStart_toEndOf="@+id/tv_revenue"
@@ -130,13 +130,17 @@
                 android:paddingStart="@dimen/_10sdp"
                 android:paddingEnd="@dimen/_10sdp"
                 android:text="@string/more_details"
-                android:textSize="@dimen/adapterTextField_10"
+                android:id="@+id/tv_more_details"
                 app:buttonFont="semiBold"
                 app:icon="@drawable/ic_arrow_right_grey"
                 app:iconGravity="textEnd"
                 app:iconPadding="@dimen/_5sdp"
+                android:capitalize="none"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:textAllCaps="false"
+                android:textSize="@dimen/adapterTextField_11"
+                app:cornerRadius="@dimen/_3sdp"
                 app:layout_constraintTop_toBottomOf="@+id/view" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

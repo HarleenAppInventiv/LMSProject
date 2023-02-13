@@ -92,18 +92,17 @@
                     android:layout_width="@dimen/_1sdp"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="@dimen/_12sdp"
-                    android:background="?attr/etDashColor"
+                    android:background="?attr/radioUnselectedColor"
                     android:importantForAccessibility="no" />
 
                 <com.hbb20.CountryCodePicker
                     android:id="@+id/country_code_picker"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:ccp_areaCodeDetectedCountry="true"
-                    app:ccp_autoDetectCountry="true"
-
+                    android:focusable="false"
+                    app:ccp_clickable="false"
+                    app:ccp_defaultNameCode="IN"
+                    app:ccp_showArrow="false"
                     android:gravity="center"
                     app:ccpDialog_backgroundColor="?attr/viewBackgroundColor"
                     app:ccp_showFlag="false"
@@ -155,17 +154,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_40sdp"
                 android:layout_marginBottom="@dimen/_24sdp"
-                android:enabled="@{!loginViaOTP.phone.empty &amp;&amp; loginViaOTP.phone.length()>=5 }"
+                android:enabled="@{!loginViaOTP.phone.empty &amp;&amp; loginViaOTP.phone.length()>=const.MIN_NO_LENGTH }"
                 android:text="@string/continues"
                 app:layout_constraintVertical_bias="0"
                 android:textSize="@dimen/materialButton_14"
                 app:fontType="regular"
-                app:btnEnabled="@{!loginViaOTP.phone.empty &amp;&amp; loginViaOTP.phone.length()>=5 }"
+                app:btnEnabled="@{!loginViaOTP.phone.empty &amp;&amp; loginViaOTP.phone.length()>=const.MIN_NO_LENGTH }"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
                 app:layout_constraintStart_toStartOf="@+id/guidelineStart"
                 app:layout_constraintTop_toBottomOf="@+id/txt_sign_up"
-                app:textAllCaps="true" />
+                app:textAllCaps="false" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineStart"

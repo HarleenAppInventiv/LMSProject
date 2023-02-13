@@ -16,27 +16,34 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_clock"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_search_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_7sdp"
+            android:minLines="1"
             android:gravity="center_vertical"
-            android:text="Iphone 6s"
             android:textSize="@dimen/textField_14"
             app:fontType="regular"
-            app:layout_constraintBottom_toBottomOf="@id/img_clock"
+            android:paddingEnd="@dimen/_8sdp"
+            android:singleLine="true"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img_clock"
+            app:layout_constraintEnd_toStartOf="@+id/img_cross"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
             android:id="@+id/img_cross"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/close"
             android:layout_marginEnd="@dimen/_3sdp"
-            android:src="@drawable/ic_close"
+            android:paddingVertical="@dimen/_8sdp"
+            android:paddingStart="@dimen/_8sdp"
+            android:src="@drawable/ic_close_grey"
             app:layout_constraintBottom_toBottomOf="@+id/img_clock"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/img_clock" />
@@ -44,8 +51,8 @@
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="@dimen/_16sdp"
-            android:background="@color/line_color_cfd9e9"
+            android:layout_marginTop="@dimen/_13sdp"
+            android:background="?attr/lineColor"
             app:layout_constraintEnd_toEndOf="@id/img_cross"
             app:layout_constraintStart_toStartOf="@+id/tv_search_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_search_title" />

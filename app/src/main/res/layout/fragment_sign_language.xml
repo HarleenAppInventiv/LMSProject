@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -26,6 +27,43 @@
             tools:itemCount="2"
             tools:listitem="@layout/adapter_sign_language" />
 
+        <include
+            android:id="@+id/child_layout"
+            layout="@layout/adapter_sign_language"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/noDataTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:drawableTop="@drawable/ic_no_doc"
+            android:drawablePadding="@dimen/_15sdp"
+            android:gravity="center"
+            android:text="@string/no_data_found"
+            android:textAlignment="center"
+            android:textSize="@dimen/textField_15"
+            android:visibility="gone"
+            app:fontType="medium"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:primaryIconTint="bottom"
+            app:textColorType="heading" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

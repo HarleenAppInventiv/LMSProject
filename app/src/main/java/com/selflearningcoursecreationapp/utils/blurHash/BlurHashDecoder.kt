@@ -121,9 +121,9 @@ object BlurHashDecoder {
                 var b = 0f
                 for (j in 0 until numCompY) {
                     for (i in 0 until numCompX) {
-                        val cosX = cosinesX.getCos(calculateCosX, i, numCompX, x, width)
-                        val cosY = cosinesY.getCos(calculateCosY, j, numCompY, y, height)
-                        val basis = (cosX * cosY).toFloat()
+                        val cosX = cosinesX?.getCos(calculateCosX, i, numCompX, x, width) ?: 0.0
+                        val cosY = cosinesY?.getCos(calculateCosY, j, numCompY, y, height)
+                        val basis = (cosX * (cosY ?: 0.0)).toFloat()
                         val color = colors[j * numCompX + i]
                         r += color[0] * basis
                         g += color[1] * basis
@@ -144,7 +144,7 @@ object BlurHashDecoder {
             }
         }
         else -> {
-            cacheCosinesY[height * numCompY]!!
+            cacheCosinesY[height * numCompY]
         }
     }
 
@@ -154,7 +154,7 @@ object BlurHashDecoder {
                 cacheCosinesX[width * numCompX] = it
             }
         }
-        else -> cacheCosinesX[width * numCompX]!!
+        else -> cacheCosinesX[width * numCompX]
     }
 
     private fun DoubleArray.getCos(

@@ -25,6 +25,7 @@
                 android:layout_margin="@dimen/_15sdp"
                 android:text="@string/select_theme"
                 android:textSize="@dimen/textField_21"
+                android:contentDescription="@string/select_theme"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+
+        >
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tvRatio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:text="aspect_ratio"
+            android:textColor="@color/white"
+            android:textSize="@dimen/adapterTextField_12"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:textColorType="white" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRatio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvRatio"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:id="@+id/ivRatio3by4"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/bg_rounded_red_solid"
+            android:padding="@dimen/_10sdp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ratio_34"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivRatio4by3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:id="@+id/ivRatio4by3"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:padding="@dimen/_10sdp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ratio_34"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivRatio1by1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:id="@+id/ivRatio1by1"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginEnd="@dimen/_30sdp"
+            android:padding="@dimen/_10sdp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ratio_34"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

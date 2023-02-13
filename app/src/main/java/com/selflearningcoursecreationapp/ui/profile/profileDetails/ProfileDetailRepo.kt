@@ -11,5 +11,6 @@ interface ProfileDetailRepo {
     suspend fun uploadImage(body: MultipartBody.Part, fullName: RequestBody): Flow<Resource>
     suspend fun uploadModeDoc(body: MultipartBody.Part): Flow<Resource>
     suspend fun addModerator(body: AddModeratorResponse): Flow<Resource>
+    suspend fun deleteProfileImage(): Flow<Resource>
 
 }

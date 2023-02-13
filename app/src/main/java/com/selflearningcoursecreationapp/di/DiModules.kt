@@ -42,6 +42,9 @@ import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.H
 import com.selflearningcoursecreationapp.ui.bottom_more.MoreFragmentRepo
 import com.selflearningcoursecreationapp.ui.bottom_more.MoreFragmentRepoImp
 import com.selflearningcoursecreationapp.ui.bottom_more.MoreFragmentVM
+import com.selflearningcoursecreationapp.ui.bottom_more.payments.PaymentsFragmentRepo
+import com.selflearningcoursecreationapp.ui.bottom_more.payments.PaymentsFragmentRepoImp
+import com.selflearningcoursecreationapp.ui.bottom_more.payments.PaymentsVM
 import com.selflearningcoursecreationapp.ui.bottom_more.payments.details.PaymentDetailVM
 import com.selflearningcoursecreationapp.ui.bottom_more.settings.changePassword.ChangePassRepo
 import com.selflearningcoursecreationapp.ui.bottom_more.settings.changePassword.ChangePassRepoImp
@@ -49,12 +52,19 @@ import com.selflearningcoursecreationapp.ui.bottom_more.settings.changePassword.
 import com.selflearningcoursecreationapp.ui.bottom_more.settings.faq.FAQRepoImpl
 import com.selflearningcoursecreationapp.ui.bottom_more.settings.faq.FAQViewModel
 import com.selflearningcoursecreationapp.ui.bottom_more.settings.faq.FaqRepo
+import com.selflearningcoursecreationapp.ui.content_creator.course_detail.RevenueFragmentRepo
+import com.selflearningcoursecreationapp.ui.content_creator.course_detail.RevenueFragmentRepoImp
+import com.selflearningcoursecreationapp.ui.content_creator.course_detail.RevenueFragmentVM
+import com.selflearningcoursecreationapp.ui.course_details.AuthorDetailsVM
 import com.selflearningcoursecreationapp.ui.course_details.CourseDetailRepo
 import com.selflearningcoursecreationapp.ui.course_details.CourseDetailRepoImpl
 import com.selflearningcoursecreationapp.ui.course_details.CourseDetailVM
+import com.selflearningcoursecreationapp.ui.course_details.authorDetail.AuthorDetailsFragmentRepo
+import com.selflearningcoursecreationapp.ui.course_details.authorDetail.AuthorDetailsRepoImpl
 import com.selflearningcoursecreationapp.ui.course_details.quiz.TakeQuizRepo
 import com.selflearningcoursecreationapp.ui.course_details.quiz.TakeQuizRepoImpl
 import com.selflearningcoursecreationapp.ui.course_details.quiz.TakeQuizVM
+import com.selflearningcoursecreationapp.ui.course_details.video.ContentDetailViewModel
 import com.selflearningcoursecreationapp.ui.create_course.AddCourseRepo
 import com.selflearningcoursecreationapp.ui.create_course.AddCourseRepoImpl
 import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseViewModel
@@ -67,7 +77,15 @@ import com.selflearningcoursecreationapp.ui.create_course.upload_content.UploadC
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.audio_as_lesson.AudioLessonViewModel
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_as_lecture.DocViewModel
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_text.TextViewModel
+import com.selflearningcoursecreationapp.ui.create_course.upload_content.editVideo.AudioEditVM
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.video_as_lecture.VideoLessonViewModel
+import com.selflearningcoursecreationapp.ui.dashboard.LearnerDashboardRepo
+import com.selflearningcoursecreationapp.ui.dashboard.LearnerDashboardRepoImp
+import com.selflearningcoursecreationapp.ui.dashboard.LearnerDashboardVM
+import com.selflearningcoursecreationapp.ui.dashboard.creator_dashboard.CreatorDashFilterVM
+import com.selflearningcoursecreationapp.ui.dashboard.creator_dashboard.CreatorDashboardRepo
+import com.selflearningcoursecreationapp.ui.dashboard.creator_dashboard.CreatorDashboardRepoImp
+import com.selflearningcoursecreationapp.ui.dashboard.creator_dashboard.CreatorDashboardVM
 import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceRepo
 import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceRepoImpl
 import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceVM
@@ -77,10 +95,41 @@ import com.selflearningcoursecreationapp.ui.dialog.unlockCourse.UnlockVM
 import com.selflearningcoursecreationapp.ui.home.HomeActivityRepo
 import com.selflearningcoursecreationapp.ui.home.HomeActivityRepoImp
 import com.selflearningcoursecreationapp.ui.home.HomeActivityViewModel
+import com.selflearningcoursecreationapp.ui.moderator.courseDetails.ModCourseDetailRepo
+import com.selflearningcoursecreationapp.ui.moderator.courseDetails.ModCourseDetailRepoImp
 import com.selflearningcoursecreationapp.ui.moderator.courseDetails.ModCourseDetailVM
+import com.selflearningcoursecreationapp.ui.moderator.dialog.filter.ModHomeFilterVM
+import com.selflearningcoursecreationapp.ui.moderator.editCourse.ModEditRepo
+import com.selflearningcoursecreationapp.ui.moderator.editCourse.ModEditRepoImp
+import com.selflearningcoursecreationapp.ui.moderator.editCourse.ModEditVM
+import com.selflearningcoursecreationapp.ui.moderator.moderatorDashboard.ModDashboardRepo
+import com.selflearningcoursecreationapp.ui.moderator.moderatorDashboard.ModDashboardRepoImp
+import com.selflearningcoursecreationapp.ui.moderator.moderatorDashboard.ModDashboardVM
 import com.selflearningcoursecreationapp.ui.moderator.moderatorHome.ModHomeRepo
 import com.selflearningcoursecreationapp.ui.moderator.moderatorHome.ModHomeRepoImp
 import com.selflearningcoursecreationapp.ui.moderator.moderatorHome.ModHomeVM
+import com.selflearningcoursecreationapp.ui.moderator.moderatorHome.accepted.ModApprovedVM
+import com.selflearningcoursecreationapp.ui.moderator.moderatorHome.pending.ModPendingVM
+import com.selflearningcoursecreationapp.ui.moderator.moderatorHome.rejected.ModRejectedVM
+import com.selflearningcoursecreationapp.ui.moderator.moderatorHome.request.ModRequestVM
+import com.selflearningcoursecreationapp.ui.moderator.myCategories.MyCategoriesRepo
+import com.selflearningcoursecreationapp.ui.moderator.myCategories.MyCategoriesRepoImpl
+import com.selflearningcoursecreationapp.ui.moderator.myCategories.MyCategoriesVM
+import com.selflearningcoursecreationapp.ui.moderator.qualification.ModCertificateRepo
+import com.selflearningcoursecreationapp.ui.moderator.qualification.ModCertificateRepoImp
+import com.selflearningcoursecreationapp.ui.moderator.qualification.ModCertificateVM
+import com.selflearningcoursecreationapp.ui.my_bank.BankAccountRepo
+import com.selflearningcoursecreationapp.ui.my_bank.BankAccountRepoImpl
+import com.selflearningcoursecreationapp.ui.my_bank.BankAccountVM
+import com.selflearningcoursecreationapp.ui.notification.NotificationRepo
+import com.selflearningcoursecreationapp.ui.notification.NotificationRepoImp
+import com.selflearningcoursecreationapp.ui.notification.NotificationVM
+import com.selflearningcoursecreationapp.ui.offlineCourse.AddOfflineCourseVM
+import com.selflearningcoursecreationapp.ui.offlineCourse.OfflineCourseDetailVM
+import com.selflearningcoursecreationapp.ui.offlineCourse.OfflineCourseVM
+import com.selflearningcoursecreationapp.ui.payment.CheckoutRepo
+import com.selflearningcoursecreationapp.ui.payment.CheckoutRepoImpl
+import com.selflearningcoursecreationapp.ui.payment.CheckoutVM
 import com.selflearningcoursecreationapp.ui.practice_accent.PracticeAccentVM
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceRepo
 import com.selflearningcoursecreationapp.ui.preferences.PreferenceRepoImpl
@@ -104,6 +153,9 @@ import com.selflearningcoursecreationapp.ui.profile.requestTracker.Requestracker
 import com.selflearningcoursecreationapp.ui.profile.reward.RewardsRepository
 import com.selflearningcoursecreationapp.ui.profile.reward.RewardsRepositoryImpl
 import com.selflearningcoursecreationapp.ui.profile.reward.viewModel.RewardViewModel
+import com.selflearningcoursecreationapp.ui.search.SearchFragmentRepo
+import com.selflearningcoursecreationapp.ui.search.SearchFragmentRepoImp
+import com.selflearningcoursecreationapp.ui.search.SearchFragmentVM
 import com.selflearningcoursecreationapp.ui.splash.SplashRepo
 import com.selflearningcoursecreationapp.ui.splash.SplashRepoImp
 import com.selflearningcoursecreationapp.ui.splash.SplashVM
@@ -129,8 +181,10 @@ val networkingModule = module {
     single {
         ExceptionHandler()
     }
+    single { getDatabase() }
 }
 
+fun getDatabase() = SelfLearningApplication.mDatabase
 fun getAppContext() = SelfLearningApplication.applicationContext()
 val viewModelModule = module {
     viewModel {
@@ -199,14 +253,39 @@ val viewModelModule = module {
     viewModel { HomeFilterVM(get()) }
     viewModel { AllCoursesVM(get()) }
     viewModel { CourseDetailVM(get()) }
+    viewModel { ContentDetailViewModel(get()) }
     viewModel { TakeQuizVM(get()) }
     viewModel { MyCourseVM(get()) }
-    viewModel { PaymentDetailVM() }
-    viewModel { ModCourseDetailVM() }
+    viewModel { PaymentDetailVM(get()) }
+    viewModel { ModCourseDetailVM(get()) }
     viewModel { UnlockVM(get()) }
     viewModel { RequestrackerVM(get()) }
     viewModel { ModHomeVM(get()) }
     viewModel { MoreFragmentVM(get()) }
+    viewModel { ModRequestVM(get()) }
+    viewModel { ModPendingVM(get()) }
+    viewModel { ModApprovedVM(get()) }
+    viewModel { ModRejectedVM(get()) }
+    viewModel { ModDashboardVM(get()) }
+    viewModel { ModHomeFilterVM(get()) }
+    viewModel { LearnerDashboardVM(get()) }
+    viewModel { SearchFragmentVM(get()) }
+    viewModel { ModCertificateVM(get()) }
+    viewModel { ModEditVM(get()) }
+    viewModel { RevenueFragmentVM(get()) }
+    viewModel { NotificationVM(get()) }
+    viewModel { AuthorDetailsVM(get()) }
+    viewModel { PaymentsVM(get()) }
+    viewModel { AddOfflineCourseVM(get()) }
+    viewModel { OfflineCourseVM(get()) }
+    viewModel { OfflineCourseDetailVM(get()) }
+    viewModel { CreatorDashboardVM(get()) }
+    viewModel { CreatorDashFilterVM(get()) }
+    viewModel { CheckoutVM(get()) }
+    viewModel { BankAccountVM(get()) }
+    viewModel { AudioEditVM() }
+    viewModel { MyCategoriesVM(get()) }
+
 
 }
 
@@ -251,4 +330,20 @@ val repoModule = module {
     single<RequestTrackerRepo> { RequestTrackerRepoImp(get()) }
     single<ModHomeRepo> { ModHomeRepoImp(get()) }
     single<MoreFragmentRepo> { MoreFragmentRepoImp(get()) }
+
+    single<ModDashboardRepo> { ModDashboardRepoImp(get()) }
+    single<RevenueFragmentRepo> { RevenueFragmentRepoImp(get()) }
+    single<LearnerDashboardRepo> { LearnerDashboardRepoImp(get()) }
+    single<ModCourseDetailRepo> { ModCourseDetailRepoImp(get()) }
+    single<ModCertificateRepo> { ModCertificateRepoImp(get()) }
+    single<ModEditRepo> { ModEditRepoImp(get()) }
+    single<NotificationRepo> { NotificationRepoImp(get()) }
+    single<AuthorDetailsFragmentRepo> { AuthorDetailsRepoImpl(get()) }
+    single<PaymentsFragmentRepo> { PaymentsFragmentRepoImp(get()) }
+    single<CreatorDashboardRepo> { CreatorDashboardRepoImp(get()) }
+    single<SearchFragmentRepo> { SearchFragmentRepoImp(get()) }
+    single<CheckoutRepo> { CheckoutRepoImpl(get()) }
+    single<BankAccountRepo> { BankAccountRepoImpl(get()) }
+    single<MyCategoriesRepo> { MyCategoriesRepoImpl(get()) }
+
 }

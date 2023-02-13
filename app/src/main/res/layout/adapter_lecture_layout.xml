@@ -23,7 +23,7 @@
         android:layout_marginTop="@dimen/_3sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_4sdp"
-        android:background="?attr/whiteTextColor"
+        android:background="?attr/screenBackgroundColor"
         app:cardBackground="primary">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,14 +34,14 @@
                 android:id="@+id/iv_media_file"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
-                android:scaleType="centerCrop"
                 android:layout_margin="@dimen/_8sdp"
+                android:scaleType="centerCrop"
+                app:applyGrayscale="true"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/corner_radius_5"
-                app:srcCompat="@drawable/ic_quiz"
-
-                />
+                app:srcCompat="@drawable/ic_quiz" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_lesson_name"
@@ -80,7 +80,7 @@
                 android:layout_width="@dimen/_4sdp"
                 android:layout_height="@dimen/_4sdp"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:background="@color/grey_c4c4c4"
+                android:background="?attr/dotColor"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_lesson_type"
                 app:layout_constraintStart_toEndOf="@+id/tv_lesson_type"
                 app:layout_constraintTop_toTopOf="@+id/tv_lesson_type"
@@ -105,8 +105,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:text="Complete Quiz"
+                android:focusable="false"
                 android:textSize="@dimen/textField_11"
+                android:focusableInTouchMode="false"
+                android:paddingVertical="@dimen/_3sdp"
+                android:text="@string/complete_quiz"
                 app:fontType="medium"
                 android:layout_marginEnd="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="@id/iv_delete"
@@ -132,12 +135,16 @@
                 android:id="@+id/iv_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                doEnable="@{doEnable}"
+                doClickAble="@{doEnable}"
+                android:contentDescription="@string/edit"
+                android:focusable="false"
                 app:changeBackgroundType="theme_src"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_delete"
                 app:layout_constraintEnd_toStartOf="@+id/iv_delete"
                 app:layout_constraintTop_toTopOf="@+id/iv_delete"
-                android:padding="@dimen/_6sdp"
+                android:focusableInTouchMode="false"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_8sdp"
                 app:srcCompat="@drawable/ic_edit_pen" />
 
 
@@ -145,10 +152,14 @@
                 android:id="@+id/iv_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                doEnable="@{doEnable}"
+                doClickAble="@{doEnable}"
+                android:contentDescription="@string/delete_lessons"
+                android:focusable="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:padding="@dimen/_6sdp"
+                android:focusableInTouchMode="false"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_8sdp"
                 app:srcCompat="@drawable/ic_cross_grey" />
 
 

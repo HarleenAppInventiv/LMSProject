@@ -26,6 +26,7 @@
         android:layout_marginTop="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_16sdp"
         android:animateLayoutChanges="true"
+        android:screenReaderFocusable="false"
         app:cardBackgroundColor="?attr/viewBackgroundColor">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,24 +40,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:lineSpacingExtra="6sp"
-                android:text="@string/question"
-                android:textSize="@dimen/textField_12"
                 android:layout_marginTop="@dimen/_12sdp"
                 android:layout_marginBottom="@dimen/_12sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:lineSpacingExtra="6sp"
+                android:screenReaderFocusable="true"
+
+                android:text="@string/question"
+                android:textSize="@dimen/textField_12"
                 app:fontType="medium"
-                app:layout_constraintVertical_bias="0"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0"
                 app:textAllCaps="true" />
 
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                 android:id="@+id/iv_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/more_button"
+                android:contentDescription="@string/delete_button"
                 android:padding="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -66,7 +69,7 @@
                 android:id="@+id/tv_expand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/more_button"
+                android:contentDescription="Expand/Collapse view"
                 android:padding="@dimen/_10sdp"
                 app:layout_constraintEnd_toStartOf="@+id/iv_delete"
                 app:layout_constraintTop_toTopOf="parent"
@@ -110,14 +113,15 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_10sdp"
-                    android:text="@string/title"
+                    android:screenReaderFocusable="true"
+                    android:text="@string/question_statement"
                     android:textSize="@dimen/textField_12"
                     android:textStyle="normal"
                     app:fontType="medium"
-                    app:textColorType="heading"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_ques_type" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_ques_type"
+                    app:textColorType="heading" />
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
                     android:id="@+id/et_question"
@@ -125,13 +129,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_4sdp"
-                    android:longClickable="true"
-                    android:background="?attr/off_whiteTextColor"
+                    android:background="?attr/viewSecondaryBgColor"
                     android:hint="@string/type_your_question_here"
-                    android:imeOptions="actionNext"
+
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:longClickable="true"
                     android:maxLength="@{const.MAX_QUIZ_TITLE}"
-                    android:text="@={quizData.title}"
                     android:maxLines="5"
+                    android:text="@={quizData.title}"
                     android:textSize="@dimen/editTextField_14"
                     app:layout_constraintEnd_toEndOf="@+id/tv_title"
                     app:layout_constraintStart_toStartOf="@+id/tv_title"
@@ -140,11 +145,12 @@
                 <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                     android:id="@+id/iv_header"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/_128sdp"
+                    android:layout_height="@dimen/_170sdp"
+                    android:contentDescription="@string/upload_image"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:scaleType="centerCrop"
                     android:src="@drawable/cornered_stroked_bg"
                     android:visibility="@{quizData.questionType==quizConst.IMAGE_BASED ? View.VISIBLE : View.GONE}"
+                    app:applyGrayscale="true"
                     app:changeBackgroundType="bg_tint_src"
                     app:layout_constraintEnd_toEndOf="@+id/tv_title"
                     app:layout_constraintStart_toStartOf="@+id/tv_title"
@@ -174,6 +180,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_10sdp"
+                    android:contentDescription="@string/edit"
                     android:src="@drawable/ic_edit_logo"
                     app:layout_constraintEnd_toEndOf="@+id/iv_header"
                     app:layout_constraintTop_toTopOf="@+id/iv_header" />
@@ -194,9 +201,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
+                    android:screenReaderFocusable="true"
                     android:text="@string/options"
                     android:textSize="@dimen/textField_12"
-
                     android:textStyle="normal"
                     android:visibility="@{quizData.questionType== quizConst.MATCH_COLUMN ? View.GONE : View.VISIBLE}"
                     app:fontType="medium"
@@ -218,8 +225,10 @@
                     android:background="@drawable/bottom_line_primary"
                     android:paddingHorizontal="@dimen/_15sdp"
                     android:paddingBottom="@dimen/_5sdp"
+                    android:screenReaderFocusable="true"
                     android:text="@string/column_1"
                     android:textSize="@dimen/textField_12"
+
                     android:textStyle="normal"
                     app:fontType="medium"
                     app:layout_constraintStart_toStartOf="@+id/tv_title"
@@ -233,6 +242,7 @@
                     android:background="@drawable/bottom_line_primary"
                     android:paddingHorizontal="@dimen/_15sdp"
                     android:paddingBottom="@dimen/_5sdp"
+                    android:screenReaderFocusable="true"
                     android:text="@string/column_2"
 
                     android:textSize="@dimen/textField_12"
@@ -251,7 +261,6 @@
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
                     app:constraint_referenced_ids="tv_column2,tv_column1,tv_options" />
-
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -284,15 +293,15 @@
 
                 <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
                     android:id="@+id/bt_answer"
+                    btnEnabled="@{!quizData.isEnabled()}"
+                    typeSecondary="@{true}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    btnEnabled="@{!quizData.isEnabled()}"
-                    android:layout_marginBottom="@dimen/_20sdp"
-                    android:letterSpacing="0.02"
-                    typeSecondary="@{true}"
-                    android:text="@string/mark_answer"
                     android:layout_marginTop="@dimen/_16sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
                     android:enabled="@{!quizData.isEnabled()}"
+                    android:letterSpacing="0.02"
+                    android:text="@string/mark_answer"
                     android:textSize="@dimen/textField_12"
                     app:btnTextColor="secondary"
                     app:buttonBackground="secondary"
@@ -334,8 +343,8 @@
                     android:letterSpacing="0.02"
                     android:text="@string/edit_question"
                     android:textSize="@dimen/textField_12"
-                    app:buttonFont="medium"
                     android:visibility="@{quizData.isEnabled() ? View.GONE : View.VISIBLE}"
+                    app:buttonFont="medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/tv_title"
                     app:layout_constraintStart_toEndOf="@+id/bt_save"

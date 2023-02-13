@@ -25,6 +25,7 @@ import com.selflearningcoursecreationapp.BuildConfig
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.SelfLearningApplication
 import com.selflearningcoursecreationapp.ui.home.HomeActivity
+import com.selflearningcoursecreationapp.ui.moderator.ModeratorActivity
 import com.selflearningcoursecreationapp.utils.ACTION_NOTIFICATION_BROADCAST
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -38,32 +39,32 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
+
         val bundle = Bundle()
         for ((key, value) in remoteMessage.data) {
             bundle.putString(key, value)
 
         }
-        Log.d("varun", "onMessageReceived: ${remoteMessage.data["title"]}")
+        Log.d("varun", "onMessageReceived: ${remoteMessage.data}")
+        val isAppInForeground =
+            ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)
+        generateNotification(applicationContext, bundle, isAppInForeground)
 
-        if (ProcessLifecycleOwner.get().lifecycle.currentState
-                .isAtLeast(Lifecycle.State.STARTED)
-        ) {
-
-
+        if (isAppInForeground) {
             val intent = Intent(ACTION_NOTIFICATION_BROADCAST)
             intent.putExtras(bundle)
             LocalBroadcastManager.getInstance(SelfLearningApplication.applicationContext())
                 .sendBroadcast(intent)
         } else {
             Log.d("varun", "onMessageReceived:false")
-            generateNotification(applicationContext, bundle)
         }
+
 
     }
 
 
     @SuppressLint("InvalidWakeLockTag", "UnspecifiedImmutableFlag")
-    fun generateNotification(context: Context, extra: Bundle) {
+    fun generateNotification(context: Context, extra: Bundle, isAppInForeground: Boolean) {
         val message = extra.get("body") as String?
 
         val largeIcon = BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher)
@@ -82,7 +83,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         mBuilder.setVibrate(vibrate)
         mBuilder.setAutoCancel(true)
 
-        val resultIntent = Intent(context, HomeActivity::class.java)
+        var resultIntent: Intent? = if (extra.get("userType").toString().toInt() == 3) Intent(
+            context,
+            ModeratorActivity::class.java
+        ) else {
+            Log.d("varun", "generateNotification: yoooo ")
+            Intent(context, HomeActivity::class.java)
+        }
         try {
             val r = RingtoneManager.getRingtone(applicationContext, notifySound)
             r.play()
@@ -90,17 +97,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             e.printStackTrace()
         }
 
-        resultIntent.action = Intent.ACTION_MAIN
-        resultIntent.addCategory(Intent.CATEGORY_LAUNCHER)
-        resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        resultIntent.putExtra("notificationBundle", extra)
-
-//        val pendingFlags: Int
-//        pendingFlags = if (BuildConfig.VERSION_CODE >= 23) {
-//            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-//        } else {
-//            PendingIntent.FLAG_UPDATE_CURRENT
-//        }
+        resultIntent?.action = Intent.ACTION_MAIN
+        resultIntent?.addCategory(Intent.CATEGORY_LAUNCHER)
+        resultIntent?.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        resultIntent?.putExtra("notificationBundle", extra)
 
         val resultPendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             PendingIntent.getActivity(
@@ -172,7 +172,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     companion object {
         private const val NOTIFICATION_CHANNEL_ID = "SLCC_notification"
-        private const val TAG = "FireBaseMessagingService"
 
     }
 

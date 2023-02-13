@@ -12,10 +12,10 @@
         android:layout_height="match_parent"
         tools:context=".ui.course_details.quiz.MultipleFragment">
 
-        <TextView
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Drag"
+            android:text="@string/drag"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

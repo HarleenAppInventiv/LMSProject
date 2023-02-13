@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_15sdp"
-            android:text="Unlock Course"
+            android:text="@string/unlock_course"
             android:textAlignment="center"
             android:textSize="@dimen/textField_21"
             app:fontType="bold"
@@ -48,7 +48,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_15sdp"
-            android:text="Enter 4 digit code to unlock"
+            android:text="@string/enter_4_digit_code_to_unlock"
             android:textAlignment="center"
             android:textSize="@dimen/textField_14"
             app:fontType="medium"
@@ -64,6 +64,7 @@
             android:layout_width="@dimen/_43sdp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/_15sdp"
+            android:cursorVisible="false"
 
             android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/edt_bg"
@@ -92,6 +93,7 @@
             android:id="@+id/et_otp2"
             android:layout_width="@dimen/_43sdp"
             android:layout_height="0dp"
+            android:cursorVisible="false"
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/edt_bg"
@@ -116,6 +118,7 @@
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
             android:id="@+id/et_otp3"
+            android:cursorVisible="false"
             android:layout_width="@dimen/_43sdp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/_15sdp"
@@ -143,6 +146,7 @@
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
             android:id="@+id/et_otp4"
+            android:cursorVisible="false"
             android:layout_width="@dimen/_43sdp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/_15sdp"
@@ -167,6 +171,20 @@
             app:layout_constraintStart_toEndOf="@+id/et_otp3"
             app:layout_constraintTop_toBottomOf="@+id/tv_send_otp_text" />
 
+        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+            android:id="@+id/hiddenOTPET"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@null"
+            android:cursorVisible="false"
+            android:gravity="center_horizontal"
+            android:inputType="number"
+            android:maxLength="4"
+            android:textColor="@color/transparent"
+            app:layout_constraintEnd_toEndOf="@+id/et_otp4"
+            app:layout_constraintStart_toStartOf="@+id/et_otp1"
+            app:layout_constraintTop_toBottomOf="@+id/et_otp1" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
             android:id="@+id/btn_submit_otp"
@@ -185,6 +203,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_otp4"
+            android:capitalize="none"
+            android:textAllCaps="false"
             app:layout_constraintVertical_bias="0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

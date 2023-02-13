@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/off_whiteTextColor">
+        android:background="?attr/secondaryScreenBgColor">
 
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:background="@drawable/edt_bg_white"
+            android:background="@drawable/edt_white_bg"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:lineSpacingExtra="@dimen/_7ssp"
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:background="@drawable/edt_bg_white"
+            android:background="@drawable/edt_white_bg"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:textSize="@dimen/editTextField_14"
@@ -142,7 +142,7 @@
             android:layout_marginEnd="@dimen/_5sdp"
             android:focusable="true"
             android:textSize="@dimen/editTextField_14"
-            android:background="@drawable/edt_bg_white"
+            android:background="@drawable/edt_white_bg"
             android:clickable="true"
 
             android:drawableEnd="@drawable/ic_calendar"
@@ -180,7 +180,7 @@
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:background="@drawable/edt_bg_white"
+            android:background="@drawable/edt_white_bg"
             android:clickable="true"
             android:focusable="true"
             android:textSize="@dimen/editTextField_14"

@@ -10,30 +10,48 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:keepScreenOn="true"
         tools:context=".ui.course_details.video.VideoBaseFragment">
 
-        <androidx.media3.ui.PlayerView
+        <!--        <androidx.media3.ui.PlayerView-->
+        <com.google.android.exoplayer2.ui.PlayerView
+
             android:id="@+id/video_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_percent=".25"
+            android:layout_height="@dimen/_200sdp"
+            android:background="@color/black"
+            android:soundEffectsEnabled="true"
+            app:auto_show="true"
+            app:controller_layout_id="@layout/exo_player_view_custom"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".25"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:show_buffering="when_playing"
+            app:show_fastforward_button="true"
+            app:show_next_button="false"
+            app:show_previous_button="false"
+            app:show_rewind_button="true"
+            app:show_subtitle_button="false"
+
+            app:surface_type="surface_view"
+            app:use_controller="true"
+
+            />
 
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/video_view"
             android:layout_width="0dp"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/screenBackgroundColor"
+            android:textSize="@dimen/textField_14"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/video_view"
             app:tabBackground="?attr/screenBackgroundColor"
             app:tabIndicatorHeight="@dimen/_2sdp"
             app:tabMode="fixed"
-            android:textSize="@dimen/textField_14"
             app:tabSelectedTextColor="?attr/headingTextColor"
             app:tabTextAppearance="@style/MyTabTextAppearance"
             app:tabTextColor="?attr/hintColor" />
@@ -42,11 +60,24 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/child_frame"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+            app:layout_constraintVertical_bias="1.0" />
 
+        <FrameLayout
+            android:id="@+id/child_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <include
+                android:id="@+id/childView"
+                layout="@layout/layout_previous_next" />
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

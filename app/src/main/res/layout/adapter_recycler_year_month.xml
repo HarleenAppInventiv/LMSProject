@@ -16,7 +16,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="@dimen/_15sdp"
-            android:text="01 (Jan) "
             android:textSize="@dimen/adapterTF_14"
             app:fontType="semiBold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -36,7 +35,7 @@
             android:layout_height="@dimen/_1sdp"
             android:layout_marginStart="@dimen/_40sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:background="?attr/off_whiteTextColor"
+            android:background="?attr/lineColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_month_year_name" />

@@ -3,6 +3,7 @@ package com.selflearningcoursecreationapp.ui.moderator.dialog
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.databinding.DialogReasonRejectionBinding
+import com.selflearningcoursecreationapp.extensions.content
 
 class ReasonForRejectionDialogue : BaseBottomSheetDialog<DialogReasonRejectionBinding>() {
 
@@ -20,7 +21,12 @@ class ReasonForRejectionDialogue : BaseBottomSheetDialog<DialogReasonRejectionBi
 
         }
         binding.btnSave.setOnClickListener {
-            dismiss()
+            if (binding.evEnterDescription.content().isNullOrEmpty()) {
+                showToastShort(baseActivity.getString(R.string.plz_enter_reason_for_rejection))
+            } else {
+                onDialogClick(binding.evEnterDescription.content())
+                dismiss()
+            }
 
         }
 

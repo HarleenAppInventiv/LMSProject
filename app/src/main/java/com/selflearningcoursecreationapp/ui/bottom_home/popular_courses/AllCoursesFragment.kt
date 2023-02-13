@@ -1,8 +1,6 @@
 package com.selflearningcoursecreationapp.ui.bottom_home.popular_courses
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.core.os.bundleOf
@@ -12,11 +10,9 @@ import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.*
 import com.selflearningcoursecreationapp.data.network.ApiError
+import com.selflearningcoursecreationapp.data.network.HTTPCode
 import com.selflearningcoursecreationapp.databinding.FragmentPopularBinding
-import com.selflearningcoursecreationapp.extensions.gone
-import com.selflearningcoursecreationapp.extensions.showKeyBoard
-import com.selflearningcoursecreationapp.extensions.visible
-import com.selflearningcoursecreationapp.extensions.visibleView
+import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.models.course.OrderData
 import com.selflearningcoursecreationapp.ui.bottom_home.HomeVM
@@ -24,10 +20,8 @@ import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.A
 import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.FilterBottomDialog
 import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.SelectedFilterData
 import com.selflearningcoursecreationapp.ui.dialog.unlockCourse.UnlockCourseDialog
-import com.selflearningcoursecreationapp.utils.ApiEndPoints
-import com.selflearningcoursecreationapp.utils.Constant
-import com.selflearningcoursecreationapp.utils.CourseType
-import com.selflearningcoursecreationapp.utils.DialogType
+import com.selflearningcoursecreationapp.ui.payment.CheckoutBottomSheet
+import com.selflearningcoursecreationapp.utils.*
 import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -41,19 +35,16 @@ class AllCoursesFragment : BaseFragment<FragmentPopularBinding>(), BaseAdapter.I
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
-        setHasOptionsMenu(true)
+        callMenu()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.course_menu, menu)
-    }
 
     private fun initUI() {
         arguments?.let {
-            viewModel.searchLiveData.value = it?.getString("searchData")
+            viewModel.searchLiveData.value = it.getString("searchData")
             if (it.containsKey("filterData")) {
                 viewModel.selectedFilters =
-                    it?.getParcelableArrayList<SelectedFilterData>("filterData") as ArrayList<SelectedFilterData?>
+                    it.getParcelableArrayList<SelectedFilterData>("filterData") as ArrayList<SelectedFilterData?>
 
             }
         }
@@ -71,14 +62,29 @@ class AllCoursesFragment : BaseFragment<FragmentPopularBinding>(), BaseAdapter.I
         binding.viewModel = viewModel
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
 
-        binding.etSearch.doOnTextChanged { text, start, before, count ->
+        binding.imgCross.setOnClickListener {
+            viewModel.searchLiveData.value = ""
+            binding.etSearch.text?.clear()
+            binding.imgCross.gone()
+            binding.ivMic.visible()
+
+        }
+
+        binding.etSearch.doOnTextChanged { text, _, _, _ ->
             if (text.toString().isEmpty() && viewModel.isTextSearch) {
                 viewModel.isTextSearch = false
-
+                binding.imgCross.gone()
+                binding.ivMic.visible()
                 viewModel.reset()
                 mAdapter?.notifyDataSetChanged()
                 mAdapter = null
                 viewModel.getCourses()
+            } else if (text.toString().isEmpty()) {
+                binding.imgCross.gone()
+                binding.ivMic.visible()
+            } else {
+                binding.imgCross.visible()
+                binding.ivMic.gone()
             }
 
         }
@@ -98,8 +104,6 @@ class AllCoursesFragment : BaseFragment<FragmentPopularBinding>(), BaseAdapter.I
 
 
         arguments?.let {
-
-
             if (it.containsKey("selectedList")) {
                 viewModel.selectedCategory.clear()
                 viewModel.selectedCategory.addAll(
@@ -143,6 +147,7 @@ class AllCoursesFragment : BaseFragment<FragmentPopularBinding>(), BaseAdapter.I
     private fun speechToTextHandling() {
         spokenTextLiveData.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let { value ->
+                viewModel.isTextSearch = true
                 binding.etSearch.setText(value)
                 viewModel.reset()
                 mAdapter?.notifyDataSetChanged()
@@ -192,7 +197,7 @@ class AllCoursesFragment : BaseFragment<FragmentPopularBinding>(), BaseAdapter.I
 
         when (type) {
             Constant.CLICK_DETAILS -> {
-                findNavController().navigate(
+                findNavController().navigateTo(
                     R.id.action_popularFragment_to_courseDetailsFragment,
                     bundleOf("courseId" to viewModel.courseLiveData.value?.get(position)?.courseId)
                 )
@@ -214,8 +219,10 @@ class AllCoursesFragment : BaseFragment<FragmentPopularBinding>(), BaseAdapter.I
 //                viewModel.childPosition = innerPosition
 
                     viewModel.courseLiveData.value?.get(position).let {
-                        if (it?.userCourseStatus == 1) {
-                            findNavController().navigate(
+                        if (it?.userCourseStatus == CourseStatus.ENROLLED || it?.userCourseStatus == CourseStatus.IN_PROGRESS ||
+                            it?.userCourseStatus == CourseStatus.COMPELETD
+                        ) {
+                            findNavController().navigateTo(
                                 R.id.action_popularFragment_to_courseDetailsFragment,
                                 bundleOf("courseId" to viewModel.courseLiveData.value?.get(position)?.courseId)
                             )
@@ -226,7 +233,17 @@ class AllCoursesFragment : BaseFragment<FragmentPopularBinding>(), BaseAdapter.I
                                     viewModel.purchaseCourse()
                                 }
                                 CourseType.PAID -> {
-                                    viewModel.buyRazorPayCourse()
+
+                                    CheckoutBottomSheet().apply {
+                                        arguments = bundleOf(
+                                            "courseFee" to viewModel.courseLiveData.value?.get(
+                                                position
+                                            )?.courseFee,
+                                        )
+                                        setOnDialogClickListener(this@AllCoursesFragment)
+
+                                    }.show(childFragmentManager, "")
+
                                 }
                                 CourseType.RESTRICTED -> {
                                     UnlockCourseDialog().apply {
@@ -242,7 +259,7 @@ class AllCoursesFragment : BaseFragment<FragmentPopularBinding>(), BaseAdapter.I
                                         baseActivity.getString(R.string.to_buy_this_course),
                                         viewModel.courseLiveData.value?.get(position)?.rewardPoints
                                     )
-                                    CommonAlertDialog.builder(requireContext())
+                                    CommonAlertDialog.builder(baseActivity)
                                         .title(getString(R.string.pay_by_reward))
                                         .description(desc)
                                         .icon(R.drawable.ic_coin_icon)
@@ -257,7 +274,7 @@ class AllCoursesFragment : BaseFragment<FragmentPopularBinding>(), BaseAdapter.I
                                         .build()
                                 }
                                 else -> {
-                                    showToastShort("course type not added")
+                                    showToastShort(getString(R.string.course_type_not_added))
 
                                 }
                             }
@@ -283,6 +300,9 @@ class AllCoursesFragment : BaseFragment<FragmentPopularBinding>(), BaseAdapter.I
 
                 }
             }
+            ApiEndPoints.API_WISHLIST -> {
+
+            }
             else -> {
                 super.onLoading(message, apiCode)
 
@@ -291,8 +311,30 @@ class AllCoursesFragment : BaseFragment<FragmentPopularBinding>(), BaseAdapter.I
     }
 
     override fun onException(isNetworkAvailable: Boolean, exception: ApiError, apiCode: String) {
-        super.onException(isNetworkAvailable, exception, apiCode)
         binding.swipeRefresh.isRefreshing = false
+        when (exception.statusCode) {
+            HTTPCode.USER_NOT_FOUND -> {
+                hideLoading()
+                CommonAlertDialog.builder(baseActivity)
+                    .description(exception.message ?: "")
+                    .positiveBtnText(baseActivity.getString(R.string.okay))
+                    .icon(R.drawable.ic_alert)
+                    .title("")
+                    .notCancellable(true)
+                    .hideNegativeBtn(true)
+                    .getCallback {
+                        if (it) {
+                            viewModel.reset()
+                            mAdapter?.notifyDataSetChanged()
+                            mAdapter = null
+                            viewModel.getCourses()
+                        }
+                    }.build()
+            }
+            else -> {
+                super.onException(isNetworkAvailable, exception, apiCode)
+            }
+        }
 
     }
 
@@ -305,13 +347,26 @@ class AllCoursesFragment : BaseFragment<FragmentPopularBinding>(), BaseAdapter.I
                 baseActivity.startRazorpayPayment((value as BaseResponse<OrderData>).resource)
             }
             ApiEndPoints.API_PURCHASE_COURSE -> {
-                val resource = (value as BaseResponse<OrderData>)
-                showToastShort(resource.message)
-                sharedHomeModel.updateCourse(resource.resource?.course?.courseId)
-                findNavController().navigate(
-                    R.id.action_popularFragment_to_courseDetailsFragment,
-                    bundleOf("courseId" to resource.resource?.course?.courseId)
-                )
+
+                CommonAlertDialog.builder(baseActivity)
+                    .title(getString(R.string.congrats))
+                    .description(getString(R.string.you_have_succesully_enroled_inthis))
+                    .icon(R.drawable.ic_checked_logo)
+                    .hideNegativeBtn(true)
+                    .positiveBtnText(getString(R.string.okay))
+                    .getCallback {
+                        if (it) {
+                            val resource = (value as BaseResponse<OrderData>)
+                            sharedHomeModel.updateCourse(resource.resource?.course?.courseId)
+                            findNavController().navigateTo(
+                                R.id.action_popularFragment_to_courseDetailsFragment,
+                                bundleOf("courseId" to resource.resource?.course?.courseId)
+                            )
+                        }
+                    }
+                    .build()
+
+
             }
             ApiEndPoints.API_HOME_WISHLIST -> {
                 sharedHomeModel.setWishlist((value as Pair<Int?, Boolean>?))
@@ -326,6 +381,11 @@ class AllCoursesFragment : BaseFragment<FragmentPopularBinding>(), BaseAdapter.I
         if (items.isNotEmpty()) {
             val type = items[0] as Int
             when (type) {
+                DialogType.PAYMENT -> {
+                    viewModel.stateId = items[1] as String
+                    viewModel.buyRazorPayCourse()
+
+                }
                 DialogType.HOME_FILTER -> {
                     viewModel.selectedFilters.clear()
                     viewModel.selectedFilters.addAll(items[1] as ArrayList<SelectedFilterData?>)
@@ -338,7 +398,7 @@ class AllCoursesFragment : BaseFragment<FragmentPopularBinding>(), BaseAdapter.I
 //                    val otp = items[1] as String
 //                    viewModel.otp = otp
 //                    viewModel.purchaseCourse()
-                    findNavController().navigate(
+                    findNavController().navigateTo(
                         R.id.action_popularFragment_to_courseDetailsFragment,
                         bundleOf("courseId" to courseId)
                     )

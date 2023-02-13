@@ -7,7 +7,6 @@ import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.models.user.UserProfile
 import com.selflearningcoursecreationapp.models.user.UserResponse
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -20,7 +19,6 @@ class SplashVM(private val repo: SplashRepo) : BaseViewModel() {
                 if (it is Resource.Success<*>) {
                     val data = it.value as BaseResponse<UserProfile>
                     saveUser(UserResponse(user = data.resource))
-
                 }
                 updateResponseObserver(it)
             }

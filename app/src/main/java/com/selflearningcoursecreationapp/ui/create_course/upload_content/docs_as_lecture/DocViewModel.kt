@@ -3,11 +3,12 @@ package com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_a
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.base.BaseViewModel
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
+import com.selflearningcoursecreationapp.models.course.LessonArgs
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
-import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel
 import com.selflearningcoursecreationapp.ui.create_course.upload_content.UploadContentRepo
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.MediaType
@@ -17,22 +18,29 @@ import kotlinx.coroutines.withContext
 import java.io.File
 
 class DocViewModel(private val repo: UploadContentRepo) : BaseViewModel() {
+    var lessonArgs: LessonArgs? = null
+
 
     var docLiveData = MutableLiveData<ChildModel>().apply {
         value = ChildModel()
     }
-    var lectureId: Int? = null
-    var courseId: Int? = null
-    var model: SectionModel? = null
+
+    //    var lectureId: Int? = null
+//    var courseId: Int? = null
+//    var model: SectionModel? = null
     var contentId: String = ""
     var uri = ""
+    var uri_tus = ""
+    var fileName = ""
+    var fileSize = 0L
+    var mimeType = ""
 
-    private fun addPatchLecture() =
+    fun addPatchLecture() =
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
-            map["courseId"] = courseId ?: 0
-            map["sectionId"] = model?.sectionId.toString()
-            map["lectureId"] = lectureId ?: -1
+            map["courseId"] = lessonArgs?.courseId ?: 0
+            map["sectionId"] = lessonArgs?.sectionId.toString()
+            map["lectureId"] = lessonArgs?.lectureId ?: -1
             map["mediaTypeId"] = MediaType.DOC.toString()
             map["lectureTitle"] = docLiveData.value?.lectureTitle?.trim() ?: ""
             map["lectureContentId"] = contentId
@@ -53,10 +61,40 @@ class DocViewModel(private val repo: UploadContentRepo) : BaseViewModel() {
         docLiveData.value?.let {
             val errorId = it.isDocValid()
             if (errorId == 0) {
-                addPatchLecture()
+                if (lessonArgs?.lectureId == 0) {
+                    addLecture()
+                } else if (!uri_tus.isNullOrEmpty()) {
+                    uploadMetaData()
+                } else {
+                    addPatchLecture()
+                }
+
             } else {
                 updateResponseObserver(Resource.Error(ToastData(errorId)))
             }
+        }
+    }
+
+    fun uploadMetaData(
+    ) {
+        viewModelScope.launch(coroutineExceptionHandle) {
+            val map = HashMap<String, Any>()
+            map["courseId"] = lessonArgs?.courseId ?: 0
+            map["sectionId"] = lessonArgs?.sectionId ?: 0
+            map["lectureId"] = lessonArgs?.lectureId ?: 0
+            map["fileName"] = fileName
+            map["uploadType"] = MediaType.DOC
+            map["contentDuration"] = 0L
+            map["contentSize"] = fileSize
+            map["mimeType"] = mimeType
+            val response = repo.contentUploadMetaData(map)
+
+            withContext(Dispatchers.IO) {
+                response.collect {
+                    updateResponseObserver(it)
+                }
+            }
+
         }
     }
 
@@ -64,9 +102,9 @@ class DocViewModel(private val repo: UploadContentRepo) : BaseViewModel() {
         val file = File(Uri.parse(uri).path ?: "")
         viewModelScope.launch(coroutineExceptionHandle) {
             val response = repo.contentUpload(
-                courseId,
-                model?.sectionId,
-                lectureId ?: -1,
+                lessonArgs?.courseId,
+                lessonArgs?.sectionId,
+                lessonArgs?.lectureId ?: -1,
                 file,
                 MediaType.DOC,
                 0L
@@ -81,7 +119,7 @@ class DocViewModel(private val repo: UploadContentRepo) : BaseViewModel() {
 
     fun getLectureDetail() = viewModelScope.launch(coroutineExceptionHandle) {
 
-        val response = repo.getLectureDetail(lectureId ?: 0)
+        val response = repo.getLectureDetail(lessonArgs?.lectureId ?: 0, lessonArgs?.courseId ?: 0)
         withContext(Dispatchers.IO) {
             response.collect {
                 updateResponseObserver(it)
@@ -98,9 +136,35 @@ class DocViewModel(private val repo: UploadContentRepo) : BaseViewModel() {
             ApiEndPoints.API_CONTENT_UPLOAD -> {
                 uploadContent()
             }
-            ApiEndPoints.API_ADD_LECTURE_PATCH -> {
+            ApiEndPoints.API_ADD_LECTURE_PATCH + "/patch" -> {
+                addPatchLecture()
+            }
+            ApiEndPoints.API_ADD_LECTURE_POST -> {
                 docValidations()
+            }
+            ApiEndPoints.API_UPLOAD_METADATA -> {
+                uploadMetaData()
             }
         }
     }
+
+
+    fun addLecture() =
+        viewModelScope.launch(coroutineExceptionHandle) {
+            val map = HashMap<String, Any>()
+            map["courseId"] = lessonArgs?.courseId ?: 0
+            map["sectionId"] = lessonArgs?.sectionId?.toString() ?: ""
+            map["mediaTypeId"] = MediaType.DOC.toString()
+            val response = repo.addLecture(map)
+            withContext(Dispatchers.IO) {
+                response.collect {
+                    if (it is Resource.Success<*>) {
+                        val resource = (it.value as BaseResponse<ChildModel>).resource
+                        lessonArgs?.lectureId = resource?.lectureId
+                        uploadMetaData()
+                    }
+                    updateResponseObserver(it)
+                }
+            }
+        }
 }

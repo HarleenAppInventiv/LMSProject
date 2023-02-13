@@ -1,9 +1,10 @@
 package com.selflearningcoursecreationapp.ui.bottom_more.payments.details
 
+import android.Manifest
+import android.app.DownloadManager
 import android.content.res.ColorStateList
+import android.os.Build
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -15,12 +16,17 @@ import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.models.course.OrderData
 import com.selflearningcoursecreationapp.utils.PaymentStatus
+import com.selflearningcoursecreationapp.utils.builderUtils.PermissionUtilClass
 import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
+import com.selflearningcoursecreationapp.utils.convertPaiseToRs
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
 
 class PaymentDetailsFragment : BaseFragment<FragmentPaymentDetailsBinding>() {
+    var manager: DownloadManager? = null
+    private var downloadID: Long = 0
+    private var invoiceUrl: String? = null
     override fun getLayoutRes(): Int {
         return R.layout.fragment_payment_details
     }
@@ -30,27 +36,43 @@ class PaymentDetailsFragment : BaseFragment<FragmentPaymentDetailsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUi()
-        setHasOptionsMenu(true)
+        callMenu()
     }
 
     private fun initUi() {
         baseActivity.setToolbar(
-            showToolbar = true,
-            title = "",
-            toolbarColor = R.attr.secondaryScreenBgColor
+            showToolbar = true, title = "", toolbarColor = R.attr.secondaryScreenBgColor
         )
         arguments?.let {
-            viewModel.orderData = it.getParcelable("orderData")
+            if (it.containsKey("purchaseData")) {
+                viewModel.purchaseData = it.getParcelable("purchaseData")
+                viewModel.getApiResponse().observe(viewLifecycleOwner, this)
+                setPurchasedCourseDetailObserver()
+
+                viewModel.purchaseData?.let { it1 ->
+                    viewModel.getPurchasedCourseDetails(
+                        it1.courseId ?: 0
+                    )
+                }
+                setPurchaseData()
+            } else {
+                viewModel.orderData = it.getParcelable("orderData")
+
+                binding.parentSV.visible()
+                viewModel.orderData?.let { data ->
+                    baseActivity.hideProgressBar()
+                    invoiceUrl = data.invoiceURL
+                    data.status?.let { it1 -> setPaymentState(it1) }
+                    setOrderData(data)
+                    setCourseData(data.course)
+                    viewModel.courseid = data.course?.courseId ?: 0
+                }
+            }
+
 
         }
 
-        viewModel.orderData?.let { data ->
-            baseActivity.hideProgressBar()
-            setPaymentState(data)
-            setOrderData(data)
-            setCourseData(data.course)
-
-        }
+        observeInvoiceLiveData()
         binding.llCourse.priceG.gone()
         binding.llCourse.bookmarkTimeG.gone()
         binding.llCourse.btBuy.gone()
@@ -61,7 +83,89 @@ class PaymentDetailsFragment : BaseFragment<FragmentPaymentDetailsBinding>() {
 //        binding.llCourse.tvDuration.visible()
         binding.llCourse.view.gone()
         binding.llCourse.ivBookmark.gone()
-        binding.llCourse.ivPreview.setImageResource(R.drawable.ic_course_dummy)
+        binding.llCourse.ivPreview.setImageResource(R.drawable.ic_home_default_banner)
+
+        binding.btInvoice.setOnClickListener {
+//            showCommingSoonDialog(getString(R.string.coming_soon))
+//            showToastShort(getString(R.string.coming_soon))
+
+            if (!invoiceUrl.isNullOrEmpty()) {
+                downloadInvoice()
+
+            } else {
+
+                viewModel.getPurchasedCourseDetails(viewModel.courseid, false)
+
+            }
+        }
+
+    }
+
+    private fun downloadInvoice() {
+        PermissionUtilClass.builder(baseActivity)
+            .requestPermissions(
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    arrayOf(
+                        Manifest.permission.READ_MEDIA_VIDEO,
+                    )
+                } else {
+                    arrayOf(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    )
+                }
+            )
+            .getCallBack { b, strings, _ ->
+                if (b) {
+                    baseActivity.downloadPdf(invoiceUrl, "Skillfy Invoice.pdf")
+//                    downloadCertificate(invoiceUrl)
+
+                } else {
+                    baseActivity.handlePermissionDenied(strings)
+                }
+            }.build()
+    }
+
+    private fun observeInvoiceLiveData() {
+        viewModel.invoiceLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            it.getContentIfNotHandled()?.let { url ->
+                if (url.isNotEmpty()) {
+                    invoiceUrl = url
+                    downloadInvoice()
+                }
+
+            }
+        })
+    }
+
+    private fun setPurchasedCourseDetailObserver() {
+        viewModel.purchasedCourseDetailLiveData.observe(viewLifecycleOwner) {
+            it?.let { data ->
+                binding.parentSV.visible()
+                invoiceUrl = data.invoiceURL
+                setCourseData(data.course)
+
+            }
+        }
+    }
+
+
+    private fun setPurchaseData() {
+        binding.tvRewards.text = String.format(
+            "- %s %s",
+            viewModel.purchaseData?.currencySymbol,
+            viewModel.purchaseData?.amount?.convertPaiseToRs()
+        )
+        binding.tvTransId.text = viewModel.purchaseData?.transactionId
+        binding.tvTransId.visibleView(!viewModel.purchaseData?.transactionId.isNullOrEmpty())
+        binding.tvTransTitle.visibleView(!viewModel.purchaseData?.transactionId.isNullOrEmpty())
+        binding.tvOrderId.text = viewModel.purchaseData?.orderId
+        binding.tvTime.text = viewModel.purchaseData?.createdDate.changeDateFormat(
+            "yyyy-MM-dd'T'hh:mm:ss",
+            "MMM dd, yyyy HH:mm:ss"
+        )
+
+        viewModel.purchaseData?.let { setPaymentState(it.paymentStatus ?: PaymentStatus.SUCCESS) }
 
     }
 
@@ -73,59 +177,86 @@ class PaymentDetailsFragment : BaseFragment<FragmentPaymentDetailsBinding>() {
             ivPreview.loadImage(data?.courseBannerUrl, R.drawable.ic_home_default_banner, 0)
             ivLang.text = data?.languageName
             cvOngoing.setOnClickListener {
-                findNavController().navigate(
+                findNavController().navigateTo(
                     R.id.action_paymentDetailsFragment_to_courseDetailsFragment,
                     bundleOf("courseId" to data?.courseId)
                 )
             }
             btBuy.setOnClickListener {
-                findNavController().navigate(
-                    R.id.action_paymentDetailsFragment_to_courseDetailsFragment,
-                    bundleOf("courseId" to data?.courseId)
+                findNavController().navigateTo(
+                    R.id.paymentDetailsFragment, bundleOf("courseId" to data?.courseId)
                 )
             }
 
-            val msg =
-                SpanUtils.with(baseActivity, "10m left in lesson").endPos(8).themeColor()
-                    .getSpanString()
-//
-            binding.llCourse.tvDuration.setSpanString(msg)
             binding.llCourse.tvRating.text = data?.averageRating
-            binding.llCourse.tvProgress.text = "0% COMPLETED"
-            binding.llCourse.pbProgress.progress = 0
+            binding.llCourse.progressG.visible()
+
+
+            binding.llCourse.tvProgress.text =
+                data?.percentageCompleted.toString() + "% " + context?.getString(R.string.completed)
+            binding.llCourse.progressG.visible()
+            binding.llCourse.tvDuration.apply {
+                visibleView(
+                    (data?.percentageCompleted?.toInt()
+                        ?: 0) > 0 && (data?.percentageCompleted?.toInt() ?: 0) < 100
+                )
+                val duration = data?.totalDurationLeft.milliSecToMin().toString()
+                val msg = SpanUtils.with(
+                    context, "${duration}${context.getString(R.string.m_left_in_course)}"
+                ).endPos(duration.length + 9).themeColor().getSpanString()
+                binding.llCourse.tvDuration.setSpanString(msg)
+//                        text = (list[position].courseDuration?.toInt()
+//                            ?: 0.minus(list[position].totalDurationLeft ?: 0)).toString()
+            }
+
+//
+//            binding.llCourse.pbProgress.apply {
+//                max = 100
+//                progress = data?.percentageCompleted?.toInt() ?: 0
+//            }
+
+            binding.llCourse.pbProgress.apply {
+
+                max = 100
+                progress = if ((data?.percentageCompleted ?: 0.0) > 0 && (data?.percentageCompleted
+                        ?: 0.0) < 1
+                ) 1
+                else data?.percentageCompleted?.toInt() ?: 0
+
+            }
+            binding.llCourse.pbProgress.setOnTouchListener { _, _ ->
+                return@setOnTouchListener true
+            }
+
 
         }
     }
 
     private fun setOrderData(data: OrderData) {
         binding.tvRewards.text =
-            String.format("-%s %s", data?.currencySymbol, data?.course?.courseFee)
-        binding.tvTransId.text = data?.transactionId
+            String.format("-%s %s", data.currencySymbol, data.course?.courseFee)
+        binding.tvTransId.text = data.transactionId
         binding.tvTransId.visibleView(!data.transactionId.isNullOrEmpty())
         binding.tvTransTitle.visibleView(!data.transactionId.isNullOrEmpty())
-        binding.tvOrderId.text = data?.orderId
+        binding.tvOrderId.text = data.orderId
         binding.tvTime.text = Calendar.getInstance().time.getStringDate("MMM dd, yyyy HH:mm:ss")
     }
 
-    private fun setPaymentState(data: OrderData) {
-        when (data.status) {
+    private fun setPaymentState(status: Int) {
+        when (status) {
             PaymentStatus.SUCCESS -> {
                 binding.ivHeader.setImageResource(R.drawable.ic_payment_done)
 //                binding.ivHeader.loadGif(R.raw.in_progress)
 
                 binding.tvStatus.text = baseActivity.getString(R.string.success)
                 binding.tvStatus.setTextColor(
-                    ContextCompat.getColor(
-                        baseActivity,
-                        R.color.accent_color_2FBF71
-                    )
+                    baseActivity.getAttrResource(R.attr.accentColor_Green)
                 )
                 binding.tvStatus.backgroundTintList = ColorStateList.valueOf(
-                    ContextCompat.getColor(
-                        baseActivity,
-                        R.color.price_bg_color
-                    )
+                    baseActivity.getAttrResource(R.attr.accentColor_GreenTintAlpha)
+
                 )
+                binding.btInvoice.visible()
 
 //                binding.llCourse.btBuy.visible()
 //                binding.llCourse.btBuy.text = baseActivity.getString(R.string.resume)
@@ -136,13 +267,16 @@ class PaymentDetailsFragment : BaseFragment<FragmentPaymentDetailsBinding>() {
                 binding.ivHeader.setImageResource(R.drawable.ic_payment_failed)
                 binding.tvStatus.text = baseActivity.getString(R.string.failed)
                 binding.tvStatus.setTextColor(
+                    baseActivity.getAttrResource(R.attr.accentColor_Red)
+
+                )
+                binding.tvStatus.backgroundTintList = ColorStateList.valueOf(
                     ContextCompat.getColor(
-                        baseActivity,
-                        R.color.accent_color_fc6d5b
+                        baseActivity, baseActivity.getAttrResource(R.attr.accentColor_RedTintAlpha)
                     )
                 )
-                binding.tvStatus.backgroundTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(baseActivity, R.color.red_light))
+                binding.btInvoice.gone()
+
 //                binding.llCourse.btBuy.visible()
 //                binding.llCourse.btBuy.text = baseActivity.getString(R.string.buy_now)
 //                binding.llCourse.btBuy.icon = null
@@ -152,17 +286,15 @@ class PaymentDetailsFragment : BaseFragment<FragmentPaymentDetailsBinding>() {
 //                binding.ivHeader.setImageResource(R.drawable.ic_alert_title)
                 binding.tvStatus.text = baseActivity.getString(R.string.in_progress)
                 binding.tvStatus.setTextColor(
-                    ContextCompat.getColor(
-                        baseActivity,
-                        R.color.accent_color_FFB800
-                    )
+                    baseActivity.getAttrResource(R.attr.accentColor_Yellow)
+
                 )
                 binding.tvStatus.backgroundTintList = ColorStateList.valueOf(
-                    ContextCompat.getColor(
-                        baseActivity,
-                        R.color.yellow_light
-                    )
+                    baseActivity.getAttrResource(R.attr.accentColor_YellowTintAlpha)
+
                 )
+                binding.btInvoice.gone()
+
 //                binding.llCourse.btBuy.visible()
 //                binding.llCourse.btBuy.text = baseActivity.getString(R.string.resume)
 //                binding.llCourse.btBuy.setBtnEnabled(false)
@@ -170,14 +302,9 @@ class PaymentDetailsFragment : BaseFragment<FragmentPaymentDetailsBinding>() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.course_menu, menu)
-    }
-
 
     override fun onApiRetry(apiCode: String) {
-
+        viewModel.onApiRetry(apiCode)
     }
-
 
 }

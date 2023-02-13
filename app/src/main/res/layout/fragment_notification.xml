@@ -7,37 +7,105 @@
 
     </data>
 
+    <!--    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+    <!--        android:id="@+id/swipeRefresh"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="?attr/secondaryScreenBgColor">-->
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/secondaryScreenBgColor"
-        tools:context=".ui.notification.NotificationFragment">
+        tools:context=".ui.bottom_course.MyCourseFragment">
+
+        <LinearLayout
+            android:id="@+id/ll_no_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_no_wishlist" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_no_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_result_found"
+                android:textAlignment="center"
+                android:textSize="@dimen/textField_16"
+                app:fontType="semiBold"
+                app:textColorType="primary" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_no_data_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:textAlignment="center"
+                android:textSize="@dimen/textField_12"
+                app:fontType="regular"
+                app:textColorType="heading" />
+        </LinearLayout>
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CLEAR ALL"
-            app:fontType="medium"
             android:layout_marginEnd="@dimen/_15sdp"
-            android:paddingVertical="@dimen/_5sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textColor="@color/orange_text_color"
-            app:layout_constraintTop_toTopOf="parent"
+            android:paddingVertical="@dimen/_10sdp"
+            android:text="@string/clear_all"
+            android:textColor="?attr/accentColor_Red"
             android:textSize="@dimen/textField_12"
+            android:visibility="gone"
+            app:fontType="medium"
+            app:layout_constraintBottom_toTopOf="@+id/rv_notification_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:textColorType="none" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_read_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:paddingVertical="@dimen/_10sdp"
+            android:text="@string/read_all"
+            android:textColor="?attr/accentColor_Red"
+            android:textSize="@dimen/textField_12"
+            android:visibility="gone"
+            app:fontType="medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:textColorType="none" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_notification_parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clipToPadding="false"
             android:orientation="vertical"
+            android:paddingBottom="@dimen/_30sdp"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_clear"
             tools:itemCount="5"
-            tools:listitem="@layout/adapter_notification_parent" />
+            tools:listitem="@layout/adapter_notification_child" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 </layout>

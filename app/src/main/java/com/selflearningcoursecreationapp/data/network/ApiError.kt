@@ -8,6 +8,7 @@ open class ApiError : Parcelable {
     var status: Boolean = false
     var message: String? = null
     var result: Any? = null
+    var data: Any? = null
     var statusCode: Int? = null
     var exception: Throwable? = null
 }

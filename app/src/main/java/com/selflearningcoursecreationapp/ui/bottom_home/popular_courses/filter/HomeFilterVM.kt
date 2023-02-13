@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
 
 class HomeFilterVM(private var repo: HomeFilterRepo) : BaseViewModel() {
 
-    var filterLiveData = MutableLiveData<FilterResponse>().apply {
+    var filterLiveData = MutableLiveData<FilterResponse?>().apply {
         value = FilterResponse()
     }
 

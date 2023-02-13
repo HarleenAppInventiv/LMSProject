@@ -67,8 +67,9 @@
             android:id="@+id/et_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:maxLength="@{const.MAX_QUIZ_OPTION_LENGTH}"
+            android:inputType="textCapSentences|textMultiLine"
             android:background="@drawable/edt_bg"
+            android:maxLength="@{const.MAX_QUIZ_OPTION_LENGTH}"
             android:hint="@string/enter_answer_here"
             android:maxLines="4"
             android:visibility="gone"
@@ -100,13 +101,13 @@
             app:layout_constraintStart_toStartOf="@+id/rb_text"
             app:layout_constraintTop_toBottomOf="@+id/et_text" />
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
             android:id="@+id/iv_header"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_120sdp"
+            android:layout_height="@dimen/_170sdp"
+            app:applyGrayscale="true"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/dashed_view"
-            android:scaleType="centerCrop"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/rb_text"
             app:layout_constraintStart_toStartOf="@+id/rb_text"

@@ -26,25 +26,25 @@
 
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/tv_bank_name"
+                android:id="@+id/tv_notification_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:textSize="@dimen/textField_12"
                 app:fontType="semiBold"
-                app:layout_constraintBottom_toTopOf="@+id/tv_bank_number"
+                app:layout_constraintBottom_toTopOf="@+id/tv_notificaiton_desc"
                 app:layout_constraintEnd_toStartOf="@+id/bt_view"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/tv_bank_number"
+                android:id="@+id/tv_notificaiton_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_bank_name"
+                app:layout_constraintTop_toBottomOf="@+id/tv_notification_name"
                 android:textSize="@dimen/textField_12"
                 app:textColorType="body" />
 

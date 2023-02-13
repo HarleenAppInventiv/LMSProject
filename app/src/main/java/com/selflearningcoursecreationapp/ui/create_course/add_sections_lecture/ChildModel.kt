@@ -1,4 +1,5 @@
 @file:Suppress("SuspiciousVarProperty")
+
 package com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture
 
 import android.os.Parcelable
@@ -17,27 +18,108 @@ data class ChildModel(
     var lectureId: Int? = null,
     @SerializedName("mediaType")
     var mediaType: Int? = null,
-    @SerializedName("lectureStatusId")
+    @SerializedName("contentStatus")
+    var contentStatus: Int? = null,
+    @SerializedName("lectureContentType")
+    var lectureContentType: String? = null,
+    var isEnabled: Boolean = true,
+    var sectionId: Int = 0,
+    var courseTitle: String? = null,
+    var courseDesc: String? = null,
+    var courseCategory: String? = null,
+    var sectionTitle: String? = null,
+    var sectionDesc: String? = null,
+
+//
+    @SerializedName("deleted", alternate = ["updated"])
+    var deletedUpdatedStatus: Boolean? = null,
+
+    @SerializedName("lectureStatusId", alternate = ["status"])
     var lectureStatusId: Int? = null,
     @SerializedName("lectureStatus")
     var lectureStatus: String? = null,
     @SerializedName("lectureContentId")
     var lectureContentId: String? = "",
+    @SerializedName("lectureContentStatus")
+    var lectureContentStatus: String? = "",
+
+
+    @SerializedName("lectureTranscriptUrl")
+    var lectureTranscriptUrl: String? = null,
+
+    @SerializedName("lectureComment")
+    var lectureComment: String? = null,
+
+    @SerializedName("courseCommentCreatedDate", alternate = ["lectureCommentCreatedDate"])
+    val courseCommentCreatedDate: String? = null,
+
+    @SerializedName("lectureCommentId")
+    var lectureCommentId: Int? = null,
+
     @SerializedName("lectureThumbnailId")
     var lectureThumbnailId: String? = "",
     @SerializedName("quizId")
     var quizId: Int? = null,
+    @SerializedName("lectureContentStatusId")
+    var lectureContentStatusId: Int? = null,
 
     @SerializedName("success")
     var success: Boolean? = false,
+
+
+    @SerializedName("lectureContentUrl")
     var lectureContentUrl: String? = null,
+
     var lectureContentSize: Long? = null,
+
     @SerializedName("totalQuizQuestionCount")
     var totalQuizQues: Int? = null,
 
     @SerializedName("inCompleteQuiz")
     var allAnsMarked: Boolean = false,
 
+    @SerializedName("lectureIsCompleted")
+    var lectureIsCompleted: Boolean? = false,
+
+    @SerializedName("lecturePercentageCompleted")
+    var lecturePercentageCompleted: Double? = null,
+
+    @SerializedName("lectureTotalPlayedTime")
+    var lectureTotalPlayedTime: Long? = null,
+
+    @SerializedName("lectureSignLanguageContentDuration")
+    var lectureSignLanguageContentDuration: Long? = null,
+
+
+    @SerializedName("signLanguageStreamingEndpointUrl")
+    var signLanguageStreamingEndpointUrl: String? = null,
+
+    @SerializedName("lectureLastPlayedTime")
+    var lectureLastPlayedTime: Long? = null,
+
+
+    @SerializedName("streamingEndpointUrl")
+    var streamingEndpointUrl: String? = null,
+
+    @SerializedName("lectureSignLanguageThumbnailUrl")
+    var lectureSignLanguageThumbnailUrl: String? = null,
+
+    @SerializedName("lectureSignLanguageThumbnailBlurHash")
+    var lectureSignLanguageThumbnailBlurHash: String? = null,
+
+    @SerializedName("lectureSignLanguageTranscriptUrl")
+    var lectureSignLanguageTranscriptUrl: String? = null,
+
+    @SerializedName("attemptedId")
+    var attemptedId: Int? = null,
+
+    @SerializedName("quizPassed")
+    var quizPassed: Boolean? = false,
+
+//    var lectureContentUrl: String? = null,
+
+    @SerializedName("lectureThumbnailUrl")
+    var lectureThumbnailUrl: String? = null,
 
     ) :
     BaseObservable(), Parcelable {
@@ -51,7 +133,7 @@ data class ChildModel(
         }
 
     @SerializedName("textFileText")
-    var textFileText: String? = null
+    var textFileText: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.textLesson)
@@ -65,8 +147,17 @@ data class ChildModel(
             notifyPropertyChanged(BR.docLesson)
             notifyPropertyChanged(BR.textLesson)
             notifyPropertyChanged(BR.audioLesson)
+            notifyPropertyChanged(BR.titleLength)
 
         }
+
+
+    @Transient
+    @get:Bindable
+    var titleLength: Int = 0
+        get() =
+            if (lectureTitle.isNullOrEmpty()) 0 else lectureTitle!!.trim().length
+
 
     @SerializedName("lectureContentDuration")
     var lectureContentDuration: Long? = null
@@ -112,13 +203,18 @@ data class ChildModel(
     var thumbNailURls: Boolean = false
         get() = !thumbNailURl.isNullOrEmpty()
 
+    @Transient
+    @get:Bindable
+    var lectureIsEmpty: Boolean = false
+        get() = !lectureTitle.isNullOrEmpty()
+
 
     fun isDocValid(): Int {
         return when {
-            lectureContentName!!.isBlank() -> {
+            lectureContentName.isNullOrEmpty() || lectureContentName.isNullOrBlank() -> {
                 R.string.select_doc_file
             }
-            lectureTitle!!.isBlank() -> {
+            lectureTitle.isNullOrBlank() -> {
                 R.string.please_enter_title
             }
 //            lectureContentDuration.isNullOrZero() -> {
@@ -139,10 +235,10 @@ data class ChildModel(
 
     fun isTextValid(): Int {
         return when {
-            textFileText!!.isBlank() -> {
+            textFileText.isNullOrBlank() -> {
                 R.string.please_enter_lesson
             }
-            lectureTitle!!.isBlank() -> {
+            lectureTitle.isNullOrBlank() -> {
                 R.string.please_enter_title
             }
 
@@ -157,7 +253,7 @@ data class ChildModel(
 
     fun isAudioValid(): Int {
         return when {
-            lectureTitle!!.isBlank() -> {
+            lectureTitle.isNullOrBlank() -> {
                 R.string.please_enter_title
             }
             else -> {

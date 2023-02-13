@@ -39,8 +39,8 @@ class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewMod
             val password = PreferenceDataStore.getString(Constants.PASSWORD)
             val countryCode = PreferenceDataStore.getString(Constants.COUNTYRY_CODE)
             if (!email.isNullOrEmpty()) {
-                value!!.email = email
-                value!!.password = password ?: ""
+                value?.email = email
+                value?.password = password ?: ""
                 isRememberChecked.value = true
                 value?.countryCode = countryCode ?: ""
             }
@@ -79,13 +79,14 @@ class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewMod
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
             if (loginLiveData.value?.email?.isDigitsOnly() == true) {
-                map["phone"] = loginLiveData.value!!.email
+                map["phone"] = loginLiveData.value?.email ?: ""
                 map["countryCode"] = selectedCountryCodeWithPlus
             } else {
-                map["email"] = loginLiveData.value!!.email
+                map["email"] = loginLiveData.value?.email ?: ""
             }
-            map["password"] = loginLiveData.value!!.password
+            map["password"] = loginLiveData.value?.password ?: ""
             map["fcmDeviceToken"] = token
+            map["viMode"] = loginLiveData.value?.viMode ?: false
 
             val response = repository?.loginInApi(map)
             withContext(Dispatchers.IO) {
@@ -93,8 +94,8 @@ class OnBoardingViewModel(private val repository: OnBoardingRepo?) : BaseViewMod
                     if (it is Resource.Success<*>) {
                         val data = it.value as BaseResponse<UserResponse>
                         if (data.resource?.user?.phoneNumberVerified == true) {
-
                             saveUserDataInDB(data)
+                            saveViMode(data.resource?.user?.viMode ?: false)
 
                         }
                         rememberMeFunctionality(selectedCountryCodeWithPlus)

@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_helpDialog"
             app:destination="@id/helpDialog" />
+        <action
+            android:id="@+id/action_settingsFragment_to_supportFragment"
+            app:destination="@id/supportFragment" />
     </fragment>
     <!--    <fragment-->
     <!--        android:id="@+id/preferencesFragment"-->
@@ -88,6 +91,13 @@
         android:name="com.selflearningcoursecreationapp.ui.bottom_more.settings.faq.FAQFragment"
         android:label="FAQFragment"
         tools:layout="@layout/faq_list_view" />
+    <fragment
+        android:id="@+id/supportFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.settings.support.SupportFragment"
+        android:label="Support" />
+    <action
+        android:id="@+id/action_global_supportFragment"
+        app:destination="@id/supportFragment" />
 
 
 </navigation>

@@ -18,6 +18,7 @@ import com.selflearningcoursecreationapp.data.network.ApiError
 import com.selflearningcoursecreationapp.data.network.LiveDataObserver
 import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.extensions.showLog
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
 
 abstract class BaseBottomSheetDialog<DB : ViewDataBinding> : BottomSheetDialogFragment(),
     LiveDataObserver {
@@ -156,5 +157,16 @@ abstract class BaseBottomSheetDialog<DB : ViewDataBinding> : BottomSheetDialogFr
             et.filters = arrayOfNulls(0)
             filter = null
         }
+    }
+
+    fun showDefaultDialog(message: String) {
+
+        CommonAlertDialog.builder(baseActivity)
+            .hideNegativeBtn(true)
+            .title(this.getString(R.string.coming_soon))
+            .getCallback {
+
+            }.icon(null)
+            .build()
     }
 }

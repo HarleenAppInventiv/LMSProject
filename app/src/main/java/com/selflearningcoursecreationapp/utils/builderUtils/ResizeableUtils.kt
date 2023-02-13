@@ -24,6 +24,7 @@ class ResizeableUtils {
         private var spanColor: Int = ThemeUtils.getAppColor(textview.context)
 
 
+
         fun setFullText(fullString: String?): Builder {
             fullText = if (fullString.isNullOrEmpty()) {
                 ""
@@ -31,13 +32,23 @@ class ResizeableUtils {
             return this
         }
 
-        fun setFullText(fullId: Int = R.string.read_more): Builder {
-            showFullText = fullId
-            return this
-        }
+//        @RequiresApi(Build.VERSION_CODES.P)
+fun setFullText(fullId: Int = R.string.read_more): Builder {
+    showFullText = fullId
+//            textview.apply {
+//                contentDescription = textview.context.getString(R.string.read_more)
+//                isScreenReaderFocusable = true
+//            }
+    return this
+}
 
+        //        @RequiresApi(Build.VERSION_CODES.P)
         fun setLessText(lessId: Int = R.string.read_less): Builder {
             showLessText = lessId
+//            textview.apply {
+//                contentDescription = textview.context.getString(R.string.read_less)
+//                isScreenReaderFocusable = true
+//            }
             return this
         }
 

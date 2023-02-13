@@ -35,12 +35,13 @@ class AddQuizOptionAdapter(
         binding.type = optionType
         binding.tvName.text = position.getCharString()
 
-
+        binding.etOption1.isFocusable = false
+        binding.etOption1.isFocusableInTouchMode = false
 
         binding.etOption1.gone()
         binding.etOption2.gone()
-        binding.etOption2.textHelper(position + 1 == list.size)
-        binding.etOption1.textHelper(position + 1 == list.size)
+//        binding.etOption2.textHelper(position + 1 == list.size)
+//        binding.etOption1.textHelper(position + 1 == list.size)
         binding.etOption1.setOnTouchListener(this)
         binding.etOption2.setOnTouchListener(this)
 //        binding.etOption1.setWordLimit()
@@ -56,20 +57,31 @@ class AddQuizOptionAdapter(
 
                 }
                 binding.etOption1.hint =
-                    "${context.getString(R.string.tap_here_to_enter_option)} ${position.getCharString()}"
+                    "${context.getString(R.string.tap_here_to_enter_option)} ${position.getCharString()} ${
+                        context.getString(
+                            R.string.for_column
+                        )
+                    } ${optionType + 1}"
                 binding.etOption2.hint =
-                    "${context.getString(R.string.tap_here_to_enter_option)} ${position.getCharString()}"
+                    "${context.getString(R.string.tap_here_to_enter_option)} ${position.getCharString()} ${
+                        context.getString(
+                            R.string.for_column
+                        )
+                    } ${optionType + 1}"
             }
             QUIZ.DRAG_DROP, QUIZ.IMAGE_BASED -> {
                 if (!data.option1.isNullOrEmpty()) {
                     binding.etOption1.visible()
+                    binding.etOption1.isFocusable = false
+                    binding.etOption1.isFocusableInTouchMode = false
                 } else if (!data.imageId.isNullOrEmpty()) {
                     binding.ivOption.visible()
                     binding.ivOption.loadImage(data.image, R.drawable.ic_default_banner)
                 } else {
                     binding.tvSelect.visible()
                 }
-                binding.tvSelect.text = binding.root.context.getString(R.string.add_answer)
+                binding.tvSelect.hint =
+                    "${binding.root.context.getString(R.string.tap_here_to_add_option)} ${position.getCharString()}"
 
             }
             else -> {

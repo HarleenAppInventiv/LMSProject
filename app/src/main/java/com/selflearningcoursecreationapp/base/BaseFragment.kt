@@ -4,27 +4,33 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
-import com.selflearningcoursecreationapp.data.network.ApiError
-import com.selflearningcoursecreationapp.data.network.EventObserver
-import com.selflearningcoursecreationapp.data.network.LiveDataObserver
-import com.selflearningcoursecreationapp.data.network.ToastData
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import com.selflearningcoursecreationapp.R
+import com.selflearningcoursecreationapp.data.network.*
+import com.selflearningcoursecreationapp.data.network.exception.ApiException
+import com.selflearningcoursecreationapp.data.network.exception.UnAuthorizedException
 import com.selflearningcoursecreationapp.extensions.showLog
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
+import com.selflearningcoursecreationapp.utils.isInternetAvailable
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 
 
-abstract class BaseFragment<DB : ViewDataBinding> : Fragment(), LiveDataObserver {
+abstract class BaseFragment<DB : ViewDataBinding> : Fragment(), LiveDataObserver, MenuProvider {
     protected lateinit var binding: DB
 
     @LayoutRes
@@ -52,21 +58,31 @@ abstract class BaseFragment<DB : ViewDataBinding> : Fragment(), LiveDataObserver
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
+        showLog("LAGGING_ISSE", "onCreateView ")
+
         binding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false)
         binding.lifecycleOwner = this
         return binding.root
 
     }
 
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is BaseActivity) {
             baseActivity = context
+            showLog("LAGGING_ISSUE", "onAttach ")
         }
     }
 
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
-        hideLoading()
+        baseActivity.lifecycleScope.launch {
+            delay(150)
+            baseActivity.runOnUiThread {
+                hideLoading()
+            }
+
+        }
         showLog("API_RESPONSE", "base response")
 
     }
@@ -91,13 +107,22 @@ abstract class BaseFragment<DB : ViewDataBinding> : Fragment(), LiveDataObserver
 
     }
 
+    fun callMenu() {
+        val menuHost: MenuHost = baseActivity
+        menuHost.addMenuProvider(
+            this,
+            viewLifecycleOwner,
+            Lifecycle.State.RESUMED
+        )
+    }
 
     override fun onLoading(message: String, apiCode: String?) {
+        showLog("onHomeLoading", "onLoading")
         showLoading()
     }
 
-    fun showLoading() {
-        baseActivity.showProgressBar()
+    fun showLoading(message: String? = null) {
+        baseActivity.showProgressBar(message)
     }
 
     fun hideLoading() {
@@ -113,6 +138,16 @@ abstract class BaseFragment<DB : ViewDataBinding> : Fragment(), LiveDataObserver
         baseActivity.showToastLong(message)
     }
 
+    fun showCommingSoonDialog(message: String = "") {
+
+        CommonAlertDialog.builder(baseActivity)
+            .hideNegativeBtn(true)
+            .title(this.getString(R.string.coming_soon))
+            .getCallback {
+
+            }.icon(null)
+            .build()
+    }
 
     fun displaySpeechRecognizer(fragment: Fragment) {
 
@@ -137,6 +172,65 @@ abstract class BaseFragment<DB : ViewDataBinding> : Fragment(), LiveDataObserver
             }
         }
         return false
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        showLog("LAGGING_ISSE", "onDestroyView ")
+        binding.unbind()
+    }
+
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.course_menu, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.action_read -> {
+                baseActivity.checkAccessibilityService()
+
+                true
+            }
+            else -> false
+        }
+    }
+
+
+    fun handlePagingError(error: LoadState.Error, apiCode: String) {
+        val isNetworkAvailable = !isInternetAvailable(baseActivity)
+        when (error.error) {
+            is UnAuthorizedException -> {
+                baseActivity.handleOnException(isNetworkAvailable, ApiError().apply {
+                    statusCode = HTTPCode.TOKEN_EXPIRED
+                    exception = error.error
+                }, apiCode)
+
+            }
+            is ApiException -> {
+                baseActivity.handleOnException(isNetworkAvailable, ApiError().apply {
+                    exception = error.error
+                }, apiCode)
+            }
+            else -> {
+                onRetry(apiCode, isNetworkAvailable, ApiError().apply {
+                    this.exception = error.error
+                })
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showLog("LAGGING_ISSE", "onResume ")
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        showLog("LAGGING_ISSE", "onPause ")
+
     }
 
 

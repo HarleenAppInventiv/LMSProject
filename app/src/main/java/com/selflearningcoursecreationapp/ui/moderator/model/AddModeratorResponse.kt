@@ -11,5 +11,5 @@ data class AddModeratorResponse(
     val documentsContentId: List<String?>? = null,
 
     @field:SerializedName("categoryId")
-    val categoryId: Int? = null
+    val category: String? = null
 )

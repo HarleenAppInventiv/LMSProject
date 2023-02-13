@@ -13,9 +13,12 @@ import java.util.*
 
 class PracticeAccentVM : BaseViewModel() {
 
-    private var fromLanguage: String = LanguageConstant.ENGLISH
-    private var toLanguage: String = ""
+    //    private var fromLanguage: String = LanguageConstant.ENGLISH
+    private var fromLanguage: String = ""
+    private var toLanguage: String = LanguageConstant.ENGLISH
+    private var toLanguageId: Int = 0
     private var translator: Translator? = null
+    private var sourceString = ""
     var translatedText = MutableLiveData<String>().apply {
         value = ""
     }
@@ -26,13 +29,24 @@ class PracticeAccentVM : BaseViewModel() {
         fromLanguage = languageCode
     }
 
-
-    fun setToLanguage(languageCode: String) {
-        toLanguage = languageCode
+    fun setFromLanguageId(languageCode: Int) {
+        toLanguageId = languageCode
     }
 
-    fun getToLanguage(): String {
-        return toLanguage
+//    fun setToLanguage(languageCode: String) {
+//        toLanguage = languageCode
+//    }
+//
+//    fun setToLanguageId(languageCode: Int) {
+//        toLanguageId = languageCode
+//    }
+
+    //    fun getToLanguage(): String {
+//        return toLanguage
+//    }
+//
+    fun getFromLanguageId(): Int {
+        return toLanguageId
     }
 
     fun getFromLanguage(): String {
@@ -52,11 +66,15 @@ class PracticeAccentVM : BaseViewModel() {
     }
 
     private fun downloadFiles() {
+//        if (sourceString.isNotEmpty()) {
+        translatedText.postValue("Translating...")
+//        }
         val conditions = DownloadConditions.Builder()
             .build()
         translator?.downloadModelIfNeeded(conditions)
             ?.addOnSuccessListener {
 
+                translateData(sourceString)
                 showLog("TRANSLATE", "success")
                 // Model downloaded successfully. Okay to start translating.
                 // (Set a flag, unhide the translation UI, etc.)
@@ -69,20 +87,27 @@ class PracticeAccentVM : BaseViewModel() {
     }
 
     fun translateData(source: String) {
+        sourceString = source
+        translatedText.postValue("Translating...")
+
         showLog("LANGUAGE_CODE", "from >>$fromLanguage")
         showLog("LANGUAGE_CODE", "to >>$toLanguage")
         showLog("LANGUAGE_CODE", "source >>$source")
+        if (source.isNotEmpty()) {
+            translator?.translate(source)
 
-        translator?.translate(source)
+                ?.addOnSuccessListener { text ->
+                    showLog("LANGUAGE_CODE", "translated >>$text")
+                    translatedText.postValue(text)
+                }
 
-            ?.addOnSuccessListener { text ->
-                showLog("LANGUAGE_CODE", "translated >>$text")
-                translatedText.postValue(text)
-            }
+                ?.addOnFailureListener { exception ->
+                    showException(exception)
+                }
+        } else {
+            translatedText.postValue("")
 
-            ?.addOnFailureListener { exception ->
-                showException(exception)
-            }
+        }
     }
 
     fun getLanguageCode(code: String?): String {

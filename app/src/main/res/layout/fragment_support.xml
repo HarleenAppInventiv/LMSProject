@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/secondaryScreenBgColor"
+        tools:context=".ui.bottom_more.settings.support.SupportFragment">
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/LMSTextView4"
+            style="@style/textViewStyle.SemiBold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_12sdp"
+            android:text="@string/your_message"
+            android:textColor="?attr/primaryTextColor"
+            android:textSize="@dimen/textField_16"
+            app:fontType="semiBold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:primaryIconTint="start" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+            android:id="@+id/desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@drawable/edt_white_bg"
+            android:drawablePadding="@dimen/_10sdp"
+            android:gravity="top|start"
+            android:hint="@string/enter_your_text_here"
+            android:inputType="textMultiLine"
+            android:lines="10"
+            android:minLines="8"
+            android:textColor="?attr/primaryTextColor"
+            android:textColorHint="?attr/hintColor"
+            android:textSize="@dimen/editTextField_14"
+            app:layout_constraintEnd_toEndOf="@+id/LMSTextView4"
+            app:layout_constraintStart_toStartOf="@+id/LMSTextView4"
+            app:layout_constraintTop_toBottomOf="@+id/LMSTextView4"
+            app:primaryIconTint="end" />
+
+
+        <View
+            android:id="@+id/v"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_80sdp"
+            android:background="?attr/screenBackgroundColor"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+            android:id="@+id/bt_enroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_16sdp"
+            android:text="@string/submit"
+            app:layout_constraintBottom_toBottomOf="@+id/v"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/v" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

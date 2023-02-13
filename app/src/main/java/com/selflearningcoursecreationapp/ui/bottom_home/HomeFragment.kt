@@ -5,56 +5,82 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.selflearningcoursecreationapp.R
-import com.selflearningcoursecreationapp.base.BaseAdapter
-import com.selflearningcoursecreationapp.base.BaseDialog
-import com.selflearningcoursecreationapp.base.BaseFragment
-import com.selflearningcoursecreationapp.base.BaseResponse
+import com.selflearningcoursecreationapp.base.*
 import com.selflearningcoursecreationapp.data.network.ApiError
+import com.selflearningcoursecreationapp.data.network.HTTPCode
 import com.selflearningcoursecreationapp.databinding.FragmentHomeBinding
-import com.selflearningcoursecreationapp.extensions.gone
-import com.selflearningcoursecreationapp.extensions.navigateTo
-import com.selflearningcoursecreationapp.extensions.visible
-import com.selflearningcoursecreationapp.extensions.visibleView
+import com.selflearningcoursecreationapp.extensions.*
+import com.selflearningcoursecreationapp.models.NotificationData
 import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.models.course.OrderData
 import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.AllCoursesAdapter
+import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.FilterBottomDialog
+import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.SelectedFilterData
 import com.selflearningcoursecreationapp.ui.dialog.unlockCourse.UnlockCourseDialog
-import com.selflearningcoursecreationapp.utils.ApiEndPoints
-import com.selflearningcoursecreationapp.utils.Constant
-import com.selflearningcoursecreationapp.utils.CourseType
-import com.selflearningcoursecreationapp.utils.HandleClick
+import com.selflearningcoursecreationapp.ui.payment.CheckoutBottomSheet
+import com.selflearningcoursecreationapp.ui.splash.MessageListener
+import com.selflearningcoursecreationapp.ui.splash.WebSocketManager
+import com.selflearningcoursecreationapp.utils.*
 import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
 import com.selflearningcoursecreationapp.utils.recyclerView.ScrollStateHolder
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import kotlin.concurrent.thread
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapter.IViewClick,
-    BaseDialog.IDialogClick {
+    BaseDialog.IDialogClick, MessageListener, BaseBottomSheetDialog.IDialogClick {
+    private var filterDialog: FilterBottomDialog? = null
     val gson: Gson? = null
     private val viewModel: HomeVM by sharedViewModel()
-    private var mAdapter: HomeAdapterTest? = null
+    private var mAdapter: HomeAdapter? = null
     private var mOtherAdapter: AllCoursesAdapter? = null
     private lateinit var scrollStateHolder: ScrollStateHolder
+    var isFilterOpen = false
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showLog("LAGGING_ISSE", "onViewCreated ")
+
         scrollStateHolder = ScrollStateHolder(savedInstanceState)
+        viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         initUI()
+        apiCalling()
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.setTransparentStatusBar()
+        showLog("onresume called", "yes")
+        binding.ivRed.visibility =
+            if (viewModel.selectedFilters.isEmpty()) View.GONE else View.VISIBLE
+
+    }
+
+    private fun apiCalling() {
+
+        if (baseActivity.tokenFromDataStore().isNotEmpty()) {
+            viewModel.getNotificationCount()
+        }
 
         if (viewModel.isFirst) {
             viewModel.categories.value?.clear()
             binding.recyclerCourseType.adapter?.notifyDataSetChanged()
             binding.recyclerCourseType.adapter = null
-//            viewModel.homeCategories()
+            //            viewModel.homeCategories()
 
             callApi()
         } else {
+
             reset()
             binding.recyclerCourseType.adapter?.notifyDataSetChanged()
             binding.recyclerCourseType.adapter = null
@@ -63,25 +89,34 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
         observeData()
         observeCategoriesData()
         observeWishlist()
+        observeOtherCourseData()
     }
 
 
     fun initUI() {
+        binding.rvList.setHasFixedSize(true)
+        binding.rvOther.setHasFixedSize(true)
+
+
+        thread {
+            kotlin.run {
+                WebSocketManager.init(
+                    "${ApiEndPoints.WEB_SOCKET_USER_NOTIFICATION_COUNT}?Token=${baseActivity.tokenFromDataStore()}&LanguageId=${1}&ChannelId=2",
+                    this,
+                )
+                WebSocketManager.connect()
+            }
+        }
 
         setUserData()
         binding.viewModel = viewModel
-        observeOtherCourseData()
         binding.swipeRefresh.setOnRefreshListener {
             callApi()
         }
+        binding.ivTalkback.setOnClickListener {
+            baseActivity.checkAccessibilityService()
+        }
 
-        binding.tvSeeAll.backgroundTintList =
-            ColorStateList.valueOf(
-                ContextCompat.getColor(
-                    binding.root.context,
-                    R.color.purple_700
-                )
-            )
 
 
         spokenTextLiveData.observe(viewLifecycleOwner) {
@@ -91,52 +126,54 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
 //                viewModel.reset()
                 reset()
                 viewModel.reset()
-                viewModel.getCourses()
-                viewModel.getOtherCourses()
-//
-//                findNavController().navigate(
-//                    R.id.action_homeFragment_to_popularFragment,
-//                    bundleOf("fromSearch" to true, "searchText" to value)
-//                )
+                viewModel.callCombinedApis()
 
             }
         }
-//
-//        binding.etSearch.setOnTouchListener { view, motionEvent ->
-//            if (motionEvent.action == MotionEvent.ACTION_DOWN) {
-//                findNavController().navigate(
-//                    R.id.action_homeFragment_to_popularFragment,
-//                    bundleOf("fromSearch" to true, "searchText" to "")
-//                )
-//            }
-//            return@setOnTouchListener true
-//        }
+        binding.imgCross.setOnClickListener {
+            viewModel.searchLiveData.value = ""
+            binding.etSearch.text?.clear()
+            binding.imgCross.gone()
+//            binding.imgMic.visible()
+
+        }
+
+        binding.etSearch.doOnTextChanged { text, start, before, count ->
+
+            if (text.toString().isEmpty() && viewModel.isTextSearch) {
+                viewModel.isTextSearch = false
+                binding.imgCross.gone()
+//                binding.imgMic.visible()
+                viewModel.reset()
+                reset()
+                viewModel.callCombinedApis()
+
+            } else if (text.toString().isEmpty()) {
+                binding.imgCross.gone()
+//                binding.imgMic.visible()
+            } else {
+//                binding.imgCross.visible()
+                binding.imgMic.gone()
+            }
+        }
 
         binding.etSearch.setOnClickListener {
             findNavController().navigateTo(R.id.action_homeFragment_to_fragment_search)
-        }
-//        binding.etSearch.doOnTextChanged { text, start, before, count ->
-//            if (text.toString().isEmpty() && viewModel.isTextSearch) {
-//                viewModel.isTextSearch = false
-//                viewModel.reset()
-//                reset()
-//                viewModel.getCourses()
-//                viewModel.getOtherCourses()
-//            }
-//        }
 
-//        binding.etSearch.setOnEditorActionListener { textView, i, keyEvent ->
+        }
+
+        binding.etSearch.setOnEditorActionListener { textView, i, keyEvent ->
+            findNavController().navigateTo(R.id.action_homeFragment_to_fragment_search)
+
 //            if (i == EditorInfo.IME_ACTION_SEARCH) {
 //                viewModel.isTextSearch = true
 //                viewModel.reset()
 //                reset()
-//                viewModel.getCourses()
-//                viewModel.getOtherCourses()
+//                viewModel.callCombinedApis()
 //            }
-//
-//            return@setOnEditorActionListener true
-//        }
-        viewModel.getApiResponse().observe(viewLifecycleOwner, this)
+
+            return@setOnEditorActionListener true
+        }
         binding.homefrag = this
 
 
@@ -147,6 +184,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
         binding.appBar.setBackgroundColor(color)
 
         binding.ivNotification.setOnClickListener {
+            if (baseActivity.tokenFromDataStore() == "") {
+                baseActivity.guestUserPopUp()
+
+            } else {
+                findNavController().navigateTo(R.id.action_homeFragment_to_notificationFragment)
+
+            }
 //            InviteCoAuthorDialog().show(childFragmentManager, "")
 //            downloadDataToInternalStorage()
 //            throw RuntimeException("Test Crash"); // Force a crash
@@ -158,6 +202,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
         }
         pagination()
 
+
+        binding.filter.setOnClickListener {
+            if (filterDialog?.isVisible != true) {
+                filterDialog = FilterBottomDialog().apply {
+                    arguments = bundleOf("selectedFilters" to viewModel.selectedFilters)
+                    setOnDialogClickListener(this@HomeFragment)
+                }
+                filterDialog?.show(childFragmentManager, "")
+            }
+        }
+
+
+//            Handler(Looper.getMainLooper()).postDelayed(Runnable {
+//                isFilterOpen = false
+//            }, 2000)
+
+
+//        }
 
     }
 
@@ -190,7 +252,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
         binding.otherG.gone()
         mAdapter?.notifyDataSetChanged()
         mAdapter = null
-
+        binding.rvOther.recycledViewPool.clear()
         mOtherAdapter?.notifyDataSetChanged()
         mOtherAdapter = null
 
@@ -276,7 +338,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
 
         binding.tvUserName.apply {
 
-            val value = viewModel.userProfile?.name ?: "Guest"
+            val value = viewModel.userProfile?.name ?: context.getString(R.string.guest)
             if (value.length > 12) {
                 val str = value.substring(0, 12)
                 text = "${str}..."
@@ -285,7 +347,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
             }
 
         }
-        Glide.with(requireActivity()).load(viewModel.userProfile?.profileUrl)
+        Glide.with(baseActivity).load(viewModel.userProfile?.profileUrl)
             .placeholder(R.drawable.ic_default_user_grey)
             .into(binding.ivUserImage)
     }
@@ -381,7 +443,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
                             viewModel.otherCourseLiveData.value?.get(position)
 
                         }
-                        if (course?.userCourseStatus == 1) {
+                        if (course?.userCourseStatus == CourseStatus.ENROLLED || course?.userCourseStatus == CourseStatus.IN_PROGRESS
+                            || course?.userCourseStatus == CourseStatus.COMPELETD
+                        ) {
 
                             findNavController().navigateTo(
                                 R.id.action_homeFragment_to_courseDetailsFragment,
@@ -393,7 +457,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
                             buyCourseCheck(
                                 course?.courseTypeId,
                                 course?.courseId,
-                                course?.rewardPoints
+                                course?.rewardPoints,
+                                course?.courseFee
                             )
                         }
 
@@ -407,13 +472,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
 
     }
 
-    private fun buyCourseCheck(courseType: Int?, courseId: Int?, rewardPoints: String?) {
+
+    private fun buyCourseCheck(
+        courseType: Int?,
+        courseId: Int?,
+        rewardPoints: String?,
+        courseFee: String?
+    ) {
         when (courseType) {
             CourseType.FREE -> {
                 viewModel.purchaseCourse()
             }
             CourseType.PAID -> {
-                viewModel.buyRazorPayCourse()
+                CheckoutBottomSheet().apply {
+                    arguments = bundleOf(
+                        "courseFee" to courseFee,
+                    )
+                    setOnDialogClickListener(this@HomeFragment)
+
+                }.show(childFragmentManager, "")
+
             }
             CourseType.RESTRICTED -> {
                 UnlockCourseDialog().apply {
@@ -427,7 +505,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
                     baseActivity.getString(R.string.to_buy_this_course),
                     rewardPoints
                 )
-                CommonAlertDialog.builder(requireContext())
+                CommonAlertDialog.builder(baseActivity)
                     .title(getString(R.string.pay_by_reward))
                     .description(desc)
                     .icon(R.drawable.ic_coin_icon)
@@ -442,7 +520,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
                     .build()
             }
             else -> {
-                showToastShort("Course type not added in course")
+                showToastShort(getString(R.string.course_type_not_added))
             }
         }
     }
@@ -454,6 +532,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
 
     private fun observeData() {
         viewModel.courseLiveData.observe(viewLifecycleOwner) {
+
             setAdapter()
         }
     }
@@ -468,7 +547,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
             mAdapter = null
         } else {
             mAdapter?.notifyDataSetChanged() ?: kotlin.run {
-                mAdapter = HomeAdapterTest(
+                mAdapter = HomeAdapter(
                     viewModel.courseLiveData.value ?: ArrayList(),
                     scrollStateHolder
                 )
@@ -508,35 +587,61 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
 //                if (it.success.equals("true")) {
 
 //mAdapter?.callNotifyChange(viewModel.adapterPosition)
-                    mAdapter?.notifyDataSetChanged()
-                    mOtherAdapter?.notifyDataSetChanged()
+                mAdapter?.notifyDataSetChanged()
+                mOtherAdapter?.notifyDataSetChanged()
 //                }
             }
         }
     }
 
     override fun onLoading(message: String, apiCode: String?) {
-        when (apiCode) {
+        showLog("onHomeLoading", "false")
+        if (!binding.swipeRefresh.isRefreshing && !apiCode.equals(ApiEndPoints.API_WISHLIST + "/false")) {
+            showLog("onHomeLoading", "true")
+            super.onLoading(message, apiCode)
+
+        } /* when (apiCode) {
 
 
             ApiEndPoints.API_HOME_COURSES, ApiEndPoints.API_HOME_GUESTCOURSES, ApiEndPoints.API_ALL_COURSES, ApiEndPoints.API_GUEST_ALL_COURSES -> {
-                if (!binding.swipeRefresh.isRefreshing) {
-                    super.onLoading(message, apiCode)
 
-                }
+            }
+            ApiEndPoints.API_WISHLIST + "/false" -> {
+
             }
             else -> {
                 super.onLoading(message, apiCode)
 
             }
-        }
+        }*/
     }
 
     override fun onException(isNetworkAvailable: Boolean, exception: ApiError, apiCode: String) {
-        super.onException(isNetworkAvailable, exception, apiCode)
         binding.swipeRefresh.isRefreshing = false
+        when (exception.statusCode) {
+            HTTPCode.USER_NOT_FOUND -> {
+                hideLoading()
+                CommonAlertDialog.builder(baseActivity)
+                    .description(exception.message ?: "")
+                    .positiveBtnText(baseActivity.getString(R.string.okay))
+                    .icon(R.drawable.ic_alert)
+                    .title("")
+                    .notCancellable(true)
+                    .hideNegativeBtn(true)
+                    .getCallback {
+                        if (it) {
+                            callApi()
+                        }
+                    }.build()
+            }
+            else -> {
+                super.onException(isNetworkAvailable, exception, apiCode)
+            }
+        }
+
 
     }
+
 
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)
@@ -547,21 +652,43 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
                 baseActivity.startRazorpayPayment((value as BaseResponse<OrderData>).resource)
             }
             ApiEndPoints.API_PURCHASE_COURSE -> {
-                (value as BaseResponse<OrderData>).let {
-                    showToastShort((it.message))
-                    viewModel.updateCourse(it.resource?.course?.courseId)
-                    findNavController().navigateTo(
-                        R.id.action_homeFragment_to_courseDetailsFragment,
-                        bundleOf("courseId" to it.resource?.course?.courseId)
-                    )
+                CommonAlertDialog.builder(baseActivity)
+                    .title(getString(R.string.congrats))
+                    .description(getString(R.string.you_have_succesully_enroled_inthis))
+                    .icon(R.drawable.ic_checked_logo)
+                    .hideNegativeBtn(true)
+                    .positiveBtnText(getString(R.string.okay))
+                    .getCallback {
+                        if (it) {
+                            (value as BaseResponse<OrderData>).let {
+                                viewModel.updateCourse(it.resource?.course?.courseId)
+                                findNavController().navigateTo(
+                                    R.id.action_homeFragment_to_courseDetailsFragment,
+                                    bundleOf("courseId" to it.resource?.course?.courseId)
+                                )
 
-                }
+                            }
+                        }
+                    }
+                    .build()
+
 
             }
             ApiEndPoints.API_HOME_WISHLIST -> {
                 viewModel.setWishlist((value as Pair<Int?, Boolean>?))
                 mAdapter?.notifyDataSetChanged()
                 mOtherAdapter?.notifyDataSetChanged()
+            }
+            ApiEndPoints.API_NOTIFICATION_COUNT -> {
+                (value as BaseResponse<NotificationData>).let { notificationData ->
+                    binding.tvNotificationCount.apply {
+                        text =
+                            if ((notificationData.resource?.totalunreadnotificationcount
+                                    ?: 0) > 99
+                            ) "99+" else notificationData.resource?.totalunreadnotificationcount.toString()
+                        visibleView(notificationData.resource?.totalunreadnotificationcount != 0)
+                    }
+                }
             }
 //            ApiEndPoints.API_HOME_WISHLIST + "/false" -> {
 //                viewModel.setWishlist((value as Pair<Int?, Boolean>?))
@@ -603,6 +730,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
     override fun onDialogClick(vararg items: Any) {
         val type = items[0] as Int
         when (type) {
+            DialogType.PAYMENT -> {
+                viewModel.stateId = items[1] as String
+                viewModel.buyRazorPayCourse()
+            }
             Constant.CLICK_VIEW -> {
                 val courseId = items[1] as Int
                 findNavController().navigateTo(
@@ -610,6 +741,68 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), HandleClick, BaseAdapt
                     bundleOf("courseId" to courseId)
                 )
             }
+
+            DialogType.HOME_FILTER -> {
+                isFilterOpen = false
+                viewModel.selectedFilters.clear()
+                viewModel.selectedFilters.addAll(items[1] as ArrayList<SelectedFilterData?>)
+                binding.ivRed.visibility =
+                    if (viewModel.selectedFilters.isEmpty()) View.GONE else View.VISIBLE
+                viewModel.reset()
+                reset()
+                viewModel.callCombinedApis()
+            }
+
         }
     }
+
+    override fun onDestroyView() {
+//        reset()
+        super.onDestroyView()
+        activity?.setTransparentLightStatusBar()
+        WebSocketManager.close()
+    }
+
+    override fun onConnectSuccess() {
+
+    }
+
+    override fun onConnectFailed() {
+    }
+
+    override fun onClose() {
+    }
+
+    override fun onMessage(text: String?) {
+        showLog("web", text ?: "")
+        try {
+
+            showLog("WEB_SOCKET", "try count")
+
+            val jsObj = Gson().fromJson(text?.toString() ?: "", NotificationData::class.java)
+            baseActivity.runOnUiThread {
+                binding.tvNotificationCount.text =
+                    jsObj?.totalunreadnotificationcount?.toString() ?: ""
+                binding.tvNotificationCount.visibleView(
+                    (jsObj?.totalunreadnotificationcount ?: 0) != 0
+                )
+
+            }
+            showLog("WEB_SOCKET", "count >> ${(jsObj?.totalunreadnotificationcount ?: 0)}")
+
+        } catch (e: Exception) {
+            showLog("WEB_SOCKET", "parsing error")
+            showException(e)
+        }
+
+    }
+
+    fun refreshData() {
+        showLog("REFRESH_DATA", "home refresh")
+        if (baseActivity.tokenFromDataStore().isNotEmpty()) {
+            viewModel.getNotificationCount()
+        }
+    }
+
+
 }

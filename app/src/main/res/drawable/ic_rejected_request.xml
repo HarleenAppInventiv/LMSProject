@@ -7,7 +7,7 @@
         android:fillColor="#ffffff"
         android:pathData="M36,32m-32,0a32,32 0,1 1,64 0a32,32 0,1 1,-64 0" />
     <path
-        android:fillColor="#FC6D5B"
+        android:fillColor="?attr/accentColor_Red"
         android:pathData="M36.5,14L36.5,14A17.5,17.5 0,0 1,54 31.5L54,31.5A17.5,17.5 0,0 1,36.5 49L36.5,49A17.5,17.5 0,0 1,19 31.5L19,31.5A17.5,17.5 0,0 1,36.5 14z" />
     <path
         android:fillColor="#ffffff"

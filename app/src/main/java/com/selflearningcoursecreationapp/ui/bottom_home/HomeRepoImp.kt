@@ -7,6 +7,7 @@ import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.getRequestBody
 import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.models.CourseTypeModel
+import com.selflearningcoursecreationapp.models.NotificationData
 import com.selflearningcoursecreationapp.models.course.AllCoursesResponse
 import com.selflearningcoursecreationapp.models.course.OrderData
 import com.selflearningcoursecreationapp.models.user.UserProfile
@@ -25,6 +26,14 @@ class HomeRepoImp(private val apiService: ApiService) : HomeRepo {
             }
 
         }.safeApiCall(ApiEndPoints.API_HOME_COURSES).flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun getNotificationCount(): Flow<Resource> {
+        return object : BaseRepo<BaseResponse<NotificationData>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<NotificationData>> {
+                return apiService.getNotificationCount()
+            }
+        }.safeApiCall(ApiEndPoints.API_NOTIFICATION_COUNT).flowOn(Dispatchers.IO)
     }
 
 

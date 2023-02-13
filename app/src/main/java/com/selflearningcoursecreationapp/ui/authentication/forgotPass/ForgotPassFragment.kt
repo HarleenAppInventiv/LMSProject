@@ -11,14 +11,12 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseDialog
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentForgotPassBinding
-import com.selflearningcoursecreationapp.extensions.content
-import com.selflearningcoursecreationapp.extensions.gone
-import com.selflearningcoursecreationapp.extensions.setSpanString
-import com.selflearningcoursecreationapp.extensions.visible
+import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.ui.dialog.CheckMailDialog
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.OtpType
+import com.selflearningcoursecreationapp.utils.ValidationConst
 import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -42,14 +40,14 @@ class ForgotPassFragment : BaseFragment<FragmentForgotPassBinding>(), BaseDialog
 
 
         binding.edtForgotphone.doAfterTextChanged {
-            if (it!!.isDigitsOnly()) {
+            if (it?.isDigitsOnly() == true) {
                 binding.countryCodePicker.visible()
-                limitEditText(16)
+                limitEditText(ValidationConst.MAX_NO_LENGTH)
             } else {
                 binding.countryCodePicker.gone()
-                limitEditText(40)
+                limitEditText(ValidationConst.MAX_EMAIL_LENGTH)
             }
-            if (it.isEmpty()) {
+            if (it.isNullOrEmpty()) {
                 binding.countryCodePicker.gone()
             }
         }
@@ -97,7 +95,7 @@ class ForgotPassFragment : BaseFragment<FragmentForgotPassBinding>(), BaseDialog
             when (items[0] as Int) {
                 Constant.CLICK_VIEW -> {
 
-                    findNavController().navigate(
+                    findNavController().navigateTo(
                         ForgotPassFragmentDirections.actionForgotPassFragmentToOTPVerifyFragment(
                             phone = if (binding.edtForgotphone.content()
                                     .isDigitsOnly()

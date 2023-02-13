@@ -65,6 +65,7 @@ class CardDetailsBottomDialog : BaseBottomSheetDialog<BottomDialogCardDetailBind
     }
 
 
+
     override fun onHandleClick(vararg items: Any) {
         if (items.isNotEmpty()) {
             val view = items[0] as View
@@ -80,13 +81,13 @@ class CardDetailsBottomDialog : BaseBottomSheetDialog<BottomDialogCardDetailBind
                     yearMonthBottomDialog.apply {
                         arguments = bundleOf("type" to Constant.TYPE_YEAR)
                     }
-                    yearMonthBottomDialog.show(childFragmentManager, "year")
+                    yearMonthBottomDialog.show(childFragmentManager, getString(R.string.year))
                 }
                 R.id.ev_exp_month -> {
                     yearMonthBottomDialog.apply {
                         arguments = bundleOf("type" to Constant.TYPE_MONTH)
                     }
-                    yearMonthBottomDialog.show(childFragmentManager, "month")
+                    yearMonthBottomDialog.show(childFragmentManager, getString(R.string.month))
                 }
 
 

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.selflearningcoursecreationapp.ui.bottom_more.payments.PaymentsVM" />
+
+        <import
+            alias="const"
+            type="com.selflearningcoursecreationapp.utils.ValidationConst" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edt_white_bg"
+        android:paddingBottom="@dimen/_20sdp">
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_lab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/enter_amount"
+            android:textSize="@dimen/textField_14"
+            app:fontType="semiBold"
+            app:layout_constraintStart_toStartOf="@+id/guide_line_start"
+            app:layout_constraintTop_toTopOf="parent"
+            app:textColorType="heading" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+            android:id="@+id/et_amount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/edt_bg"
+            android:hint="@string/add_amount_here"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:paddingVertical="@dimen/_10sdp"
+            android:paddingStart="@dimen/_12ssp"
+            android:paddingEnd="@dimen/_16sdp"
+            android:singleLine="true"
+            android:text="@={viewModel.amountEntered}"
+            android:textColorHint="@color/colorGrey"
+            android:textSize="@dimen/editTextField_14"
+            app:fontType="regular"
+            app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@+id/tv_lab"
+            app:primaryIconTint="start" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_error"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_24sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:textColor="?attr/accentColor_Yellow"
+            android:textSize="@dimen/editTextField_12"
+            android:visibility="gone"
+            app:fontType="medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_amount"
+            app:textColorType="none" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_48sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:elevation="0dp"
+            android:letterSpacing="0.02"
+            android:lineSpacingExtra="@dimen/_4ssp"
+            android:minHeight="0dp"
+            android:text="@string/cancel"
+            android:textSize="@dimen/materialButton_14"
+            app:btnTextColor="secondary"
+            app:buttonBackground="none"
+            app:elevation="0dp"
+            app:fontType="semiBold"
+            app:layout_constraintEnd_toStartOf="@id/btn_continue"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@+id/tv_error" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+            android:id="@+id/btn_continue"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_48sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:letterSpacing="0.02"
+            android:lineSpacingExtra="@dimen/_4ssp"
+            android:minHeight="0dp"
+            android:text="@string/submit"
+            android:textSize="@dimen/materialButton_14"
+            app:fontType="semiBold"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toEndOf="@id/btn_cancel"
+            app:layout_constraintTop_toBottomOf="@+id/tv_error" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/_20sdp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/_20sdp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

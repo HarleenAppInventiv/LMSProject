@@ -1,21 +1,34 @@
 package com.selflearningcoursecreationapp.ui.course_details.info
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebSettings
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
+import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseFragment
+import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.base.SelfLearningApplication
+import com.selflearningcoursecreationapp.data.network.ApiError
+import com.selflearningcoursecreationapp.data.network.HTTPCode
 import com.selflearningcoursecreationapp.databinding.FragmentCourseInfoBinding
+import com.selflearningcoursecreationapp.extensions.navigateTo
 import com.selflearningcoursecreationapp.ui.course_details.CourseDetailVM
+import com.selflearningcoursecreationapp.ui.course_details.model.AuthorDetailsData
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
 
 
-class CourseInfoFragment : BaseFragment<FragmentCourseInfoBinding>() {
+class CourseInfoFragment : BaseFragment<FragmentCourseInfoBinding>(), BaseAdapter.IViewClick {
     private val viewModel: CourseDetailVM by viewModels({ if (parentFragment !is NavHostFragment) requireParentFragment() else this })
+    private var mAdapter: AuthorBioAdapter? = null
     override fun getLayoutRes(): Int {
         return R.layout.fragment_course_info
     }
@@ -25,9 +38,16 @@ class CourseInfoFragment : BaseFragment<FragmentCourseInfoBinding>() {
         initUi()
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.getRoot().requestLayout();
+    }
+
     private fun initUi() {
         viewModel.courseData.observe(viewLifecycleOwner, Observer { courseData ->
-            binding.rvAuthor.adapter = courseData?.courseCoAuthors?.let { AuthorBioAdapter(it) }
+            mAdapter = courseData?.courseCoAuthors?.let { AuthorBioAdapter(it) }
+            binding.rvAuthor.adapter = mAdapter
+            mAdapter?.setOnAdapterItemClickListener(this)
             binding.tvTitle.text = courseData?.courseTitle
             binding.wvInfo.settings?.apply {
 //                val fontSize = baseActivity.resources.getDimensionPixelOffset(R.dimen.textField_10);
@@ -53,13 +73,18 @@ class CourseInfoFragment : BaseFragment<FragmentCourseInfoBinding>() {
 //                fixedFontFamily= Typeface.createFromAsset(baseActivity.assets,"shizuru_test.ttf").toString()
 
             }
-            val fontName = ThemeUtils.getFontName(SelfLearningApplication.fontId)
+            var fontName = ThemeUtils.getFontName(SelfLearningApplication.fontId)
+
+
             val takeAways = "<html>\n" +
                     "<head>\n" +
                     "    <style>\n" +
                     "        @font-face {\n" +
                     "            font-family: '${fontName.first}';\n" +
-                    "            src: url('font/${fontName.second}');\n" +
+                    "            src: url('font/${
+                        fontName.second
+
+                    }');\n" +
                     "        }\n" +
                     "        #font {\n" +
                     "            font-family: '${fontName.first}';\n" +
@@ -74,7 +99,7 @@ class CourseInfoFragment : BaseFragment<FragmentCourseInfoBinding>() {
                     "</head>\n" +
                     "<body>\n" +
                     courseData?.keyTakeaways?.trim()?.replace("<p><br></p>", "\n") +
-                    "</body>"
+                    "</body></html>"
 
             binding.wvInfo.loadDataWithBaseURL(
                 "file:///android_res/",
@@ -86,10 +111,83 @@ class CourseInfoFragment : BaseFragment<FragmentCourseInfoBinding>() {
 
         })
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            binding.parentNSV.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+
+
+            }
+        }
 
     }
 
     override fun onApiRetry(apiCode: String) {
 
+    }
+
+    override fun onItemClick(vararg items: Any) {
+        val type = items[0] as Int
+        val position = items[1] as Int
+        when (type) {
+            Constant.CLICK_AUTHOR_PROFILE -> {
+                if (baseActivity.tokenFromDataStore() == "") {
+                    baseActivity.guestUserPopUp()
+                } else {
+                    viewModel.authorUserId =
+                        viewModel.courseData.value?.courseCoAuthors?.get(position)?.id ?: 0
+                    viewModel.getAuthorDetails()
+
+
+                }
+            }
+        }
+    }
+
+
+    override fun <T> onResponseSuccess(value: T, apiCode: String) {
+        super.onResponseSuccess(value, apiCode)
+        when (apiCode) {
+            ApiEndPoints.API_COURSE_AUTHOR_DETAIL -> {
+                var data = value as BaseResponse<AuthorDetailsData>
+                if (data.statusCode == HTTPCode.USER_NOT_FOUND) {
+                    CommonAlertDialog.builder(baseActivity)
+                        .description(data.message ?: "")
+                        .positiveBtnText(baseActivity.getString(R.string.okay))
+                        .icon(R.drawable.ic_alert)
+                        .title("")
+                        .notCancellable(true)
+                        .hideNegativeBtn(true)
+                        .getCallback {
+                        }.build()
+                }
+
+                if (data.statusCode == HTTPCode.SUCCESS) {
+                    findNavController().navigateTo(
+                        R.id.action_courseDetailsFragment_to_authorDetailsFragment, bundleOf(
+                            "userId" to viewModel.courseData.value?.courseCoAuthors?.get(0)?.id
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    override fun onException(isNetworkAvailable: Boolean, exception: ApiError, apiCode: String) {
+        when (exception.statusCode) {
+            HTTPCode.USER_NOT_FOUND -> {
+                hideLoading()
+                CommonAlertDialog.builder(baseActivity)
+                    .description(exception.message ?: "")
+                    .positiveBtnText(baseActivity.getString(R.string.okay))
+                    .icon(R.drawable.ic_alert)
+                    .title("")
+                    .notCancellable(true)
+                    .hideNegativeBtn(true)
+                    .getCallback {
+                    }.build()
+
+
+            }
+
+        }
     }
 }

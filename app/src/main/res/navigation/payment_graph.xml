@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/payment_graph"
+    app:startDestination="@id/paymentsFragment">
+
+
+    <fragment
+        android:id="@+id/paymentsFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.payments.PaymentsFragment"
+        android:label="@string/payments"
+        tools:layout="@layout/fragment_payments">
+        <action
+            android:id="@+id/action_paymentsFragment_to_walletFragment"
+            app:destination="@id/walletFragment" />
+        <action
+            android:id="@+id/action_paymentsFragment_to_paymentDetailsFragment"
+            app:destination="@id/paymentDetailsFragment1"
+            app:popUpTo="@id/paymentsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/walletFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.payments.wallet.WalletFragment"
+        android:label="@string/wallet_history" />
+
+    <fragment
+        android:id="@+id/paymentDetailsFragment1"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.payments.details.PaymentDetailsFragment"
+        android:label="">
+        <action
+            android:id="@+id/action_paymentDetailsFragment_to_courseDetailsFragment"
+            app:destination="@id/course_detail_graph" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/revenueFragment"
+        android:name="com.selflearningcoursecreationapp.ui.content_creator.course_detail.RevenueFragment"
+        android:label="@string/revenue_" />
+
+    <action
+        android:id="@+id/action_global_revenueFragment"
+        app:destination="@id/revenueFragment" />
+
+</navigation>

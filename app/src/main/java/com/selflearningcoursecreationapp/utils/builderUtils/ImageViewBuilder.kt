@@ -4,10 +4,10 @@ import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.net.Uri
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.selflearningcoursecreationapp.R
+import com.selflearningcoursecreationapp.extensions.getAttrResource
 import com.selflearningcoursecreationapp.extensions.isNullOrNegative
 import com.selflearningcoursecreationapp.extensions.isNullOrZero
 import com.selflearningcoursecreationapp.utils.blurHash.blurPlaceHolder
@@ -50,10 +50,10 @@ class ImageViewBuilder {
             return this
         }
 
-        fun isViModeOn(isOn: Boolean? = false): Builder {
-            this.isViOn = isOn
-            return this
-        }
+//        fun isViModeOn(isOn: Boolean? = false): Builder {
+//            this.isViOn = isOn
+//            return this
+//        }
 
         fun loadGif(gif: Int?): Builder {
             this.gifFile = gif
@@ -72,45 +72,38 @@ class ImageViewBuilder {
                 when (indexPosition!! % 4) {
                     0 -> {
                         imageView.setBackgroundColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.red_light
+                            context.getAttrResource(
+                                R.attr.colorVariant_LightPink
                             )
                         )
                     }
                     1 -> {
                         imageView.setBackgroundColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.violet_light
+                            context.getAttrResource(
+                                R.attr.colorVariant_LightPurple
                             )
                         )
 
                     }
                     2 -> {
                         imageView.setBackgroundColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.yellow_light
+                            context.getAttrResource(
+                                R.attr.colorVariant_LightYellow
                             )
                         )
 
                     }
                     3 -> {
                         imageView.setBackgroundColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.green_light
+                            context.getAttrResource(
+                                R.attr.colorVariant_LightGreen
                             )
                         )
 
                     }
                     else -> {
                         imageView.setBackgroundColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.red_light
-                            )
+                            context.getAttrResource(R.attr.colorVariant_LightPink)
                         )
 
                     }
@@ -126,20 +119,20 @@ class ImageViewBuilder {
                     Glide.with(context).load(imageUrl)
                         .skipMemoryCache(false)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .also {
+                        .apply {
                             if (!placeHolderImage.isNullOrZero()) {
-                                it.placeholder(placeHolderImage!!)
+                                placeholder(placeHolderImage!!)
 
-                                it.error(placeHolderImage)
+                                error(placeHolderImage)
                             }
 
 
                             if (!blurHash.isNullOrEmpty()) {
-                                it.blurPlaceHolder(blurHash!!, imageView) { requestBuilder ->
+                                blurPlaceHolder(blurHash!!, imageView) { requestBuilder ->
                                     requestBuilder.into(imageView)
                                 }
                             } else {
-                                it.into(imageView)
+                                into(imageView)
                             }
                         }
 //                    .into(imageView)

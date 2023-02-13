@@ -103,7 +103,7 @@ class SvgRatingBar @JvmOverloads constructor(
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         if (sampleTile != null) {
-            val width = sampleTile!!.width * numStars
+            val width = (sampleTile?.width ?: 0) * numStars
             setMeasuredDimension(
                 resolveSizeAndState(width, widthMeasureSpec, 0),
                 measuredHeight

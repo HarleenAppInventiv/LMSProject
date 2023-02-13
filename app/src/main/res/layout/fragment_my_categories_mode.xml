@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:overScrollMode="never">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/secondaryScreenBgColor"
+            tools:context=".ui.preferences.category.CategoryFragment">
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/txt_languages"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_15sdp"
+                android:contentDescription="@string/select_categories"
+                android:text="@string/languages"
+                android:textSize="@dimen/textField_17"
+                app:fontType="semiBold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textColorType="heading" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvLanguage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_languages"
+                tools:listitem="@layout/adapter_my_languages" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/txt_categories"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_15sdp"
+                android:contentDescription="@string/categories"
+                android:text="@string/categories"
+                android:textSize="@dimen/textField_17"
+                app:fontType="semiBold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvLanguage"
+                app:textColorType="heading" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCategory"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_categories"
+                app:layout_constraintVertical_bias="0"
+                app:spanCount="3"
+                tools:itemCount="5"
+                tools:listitem="@layout/adapter_select_category" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

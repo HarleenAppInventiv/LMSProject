@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parentCL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".ui.HdEditorActivity">
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/mainG"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="editor,bt_finish,tv_original,tv_edit" />
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_ios_24"
+            app:title="Video Editor"
+            app:titleTextColor="@color/text_color" />
+
+        <com.hd.videoEditor.customViews.editor.EditorView
+            android:id="@+id/editor"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottomGuideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_finish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/purple_500"
+            android:text="@string/finish"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/purple_500"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/bottomGuideline" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/bottomGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.9" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_add_image"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/bottomGuideline" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_add_text"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_image"
+            app:layout_constraintTop_toTopOf="@+id/bottomGuideline" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_trim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_trim_video"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_text"
+            app:layout_constraintTop_toTopOf="@+id/bottomGuideline" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_video_filter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/bt_finish"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/iv_trim"
+            app:layout_constraintTop_toTopOf="@+id/bottomGuideline" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_watermark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_watermark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/bt_finish"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/iv_filter"
+            app:layout_constraintTop_toTopOf="@+id/bottomGuideline" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/editG"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="iv_trim,iv_filter,iv_watermark" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="8dp"
+            android:text="Edit"
+            android:textColor="@color/text_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/bottomGuideline" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_original"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:text="Original"
+            android:textColor="@color/text_color"
+            app:drawableStartCompat="@drawable/ic_tick_original"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/bt_finish"
+            app:layout_constraintStart_toEndOf="@+id/tv_edit"
+            app:layout_constraintTop_toTopOf="@id/bottomGuideline" />
+
+
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_processing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="Processing File..."
+            android:textAlignment="center"
+            android:textColor="@color/purple_200"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pb_loading"
+            app:layout_constraintVertical_bias="0.05" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/loadingG"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="pb_loading,tv_processing" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

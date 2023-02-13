@@ -5,6 +5,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface ProfileThumbRepo {
     suspend fun logout(): Flow<Resource>
-    suspend fun deleteAccount(): Flow<Resource>
+    suspend fun deleteAccount(deleteUsers: Boolean, deleteWallet: Boolean): Flow<Resource>
     suspend fun switchMod(userMode: Int): Flow<Resource>
+    suspend fun changeViMode(changeViMode: ChangeViModeModel): Flow<Resource>
+    suspend fun profileApi(): Flow<Resource>
 }

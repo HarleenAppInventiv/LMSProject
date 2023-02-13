@@ -3,12 +3,16 @@ package com.selflearningcoursecreationapp.ui.bottom_course
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.data.network.ApiError
 import com.selflearningcoursecreationapp.databinding.FragmentMyCourseBinding
+import com.selflearningcoursecreationapp.extensions.navigateTo
 import com.selflearningcoursecreationapp.extensions.visibleView
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.Constant
@@ -19,6 +23,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MyCourseFragment : BaseFragment<FragmentMyCourseBinding>(), BaseAdapter.IViewClick,
     BaseAdapter.IListEnd {
     private val viewModel: MyCourseVM by viewModel()
+    private val parentVM: MyCourseVM by viewModels({ if (parentFragment !is NavHostFragment) requireParentFragment() else this })
     private var mAdapter: MyCourseAdapter? = null
 
     override fun getLayoutRes(): Int {
@@ -28,23 +33,17 @@ class MyCourseFragment : BaseFragment<FragmentMyCourseBinding>(), BaseAdapter.IV
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
+//        callMenu()
 //        setHasOptionsMenu(true)
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.course_menu, menu)
-//    }
+
 
     private fun initUI() {
         binding.swipeRefresh.setOnRefreshListener {
-            viewModel.reset()
-            mAdapter?.notifyDataSetChanged()
-            mAdapter = null
-            viewModel.getCourses(CourseScreenType.ONGOINGCOURSES)
+            reset()
         }
 
-        mAdapter?.notifyDataSetChanged()
-        mAdapter = null
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         binding.tvNoData.text = getString(R.string.course_list_empty)
         binding.tvNoDataDesc.text = getString(R.string.no_course_data_yet)
@@ -56,12 +55,37 @@ class MyCourseFragment : BaseFragment<FragmentMyCourseBinding>(), BaseAdapter.IV
 //
 //        }
         onGoingDataObserver()
+
+        binding.rvCourse.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                when (newState) {
+                    RecyclerView.SCROLL_STATE_IDLE -> {
+                        parentVM.viewPagerScroll.value = true
+                    }
+                    else -> {
+                        parentVM.viewPagerScroll.value = false
+
+                    }
+                }
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        reset()
+    }
+
+    private fun reset() {
+        viewModel.reset()
+        mAdapter?.notifyDataSetChanged()
+        mAdapter = null
         viewModel.getCourses(CourseScreenType.ONGOINGCOURSES)
     }
 
     private fun setAdapter() {
-        binding.rvCourse.visibleView(!viewModel.courseLiveData.value.isNullOrEmpty())
-        binding.llNoWishlist.visibleView(viewModel.courseLiveData.value.isNullOrEmpty())
+
         if (viewModel.courseLiveData.value.isNullOrEmpty()) {
             mAdapter?.notifyDataSetChanged()
             mAdapter = null
@@ -77,6 +101,8 @@ class MyCourseFragment : BaseFragment<FragmentMyCourseBinding>(), BaseAdapter.IV
                 mAdapter?.setOnPageEndListener(this)
             }
         }
+        binding.rvCourse.visibleView(!viewModel.courseLiveData.value.isNullOrEmpty())
+        binding.llNoWishlist.visibleView(viewModel.courseLiveData.value.isNullOrEmpty())
     }
 
     override fun onApiRetry(apiCode: String) {
@@ -110,13 +136,23 @@ class MyCourseFragment : BaseFragment<FragmentMyCourseBinding>(), BaseAdapter.IV
         val position = items[1] as Int
         when (type) {
             Constant.CLICK_VIEW -> {
-                findNavController().navigate(
+                findNavController().navigateTo(
                     R.id.action_myCourseTabFragment_to_courseDetailsFragment,
                     bundleOf(
                         "courseId" to viewModel.courseLiveData.value?.get(position)?.courseId
                     )
                 )
             }
+
+            Constant.CLICK_EDIT -> {
+                findNavController().navigateTo(
+                    R.id.action_myCourseTabFragment_to_courseDetailsFragment,
+                    bundleOf(
+                        "courseId" to viewModel.courseLiveData.value?.get(position)?.courseId
+                    )
+                )
+            }
+
         }
 
     }

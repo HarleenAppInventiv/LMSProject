@@ -2,7 +2,22 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges
+        </item>
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        //---------------------------------------------------------
+        <!--        //removing white screen before splash-->
+        <!--        <item name="android:windowBackground">@android:color/transparent</item>-->
+        <!--        <item name="windowNoTitle">true</item>-->
+        <!--        <item name="windowActionBar">false</item>-->
+        <!--        <item name="android:windowFullscreen">true</item>-->
+        <!--        <item name="android:windowIsTranslucent">true</item>-->
+        <!--        <item name="android:windowContentOverlay">@null</item>-->
+        <!--        <item name="android:backgroundDimEnabled">false</item>-->
+        <!--        <item name="android:windowDisablePreview">true</item>-->
+        <!--        //&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
 
         <item name="colorPrimary">@color/ViMainColor</item>
         <item name="primaryTintColor">@color/ViMainTintColor</item>
@@ -21,7 +36,7 @@
         <item name="headingTextColor">@color/heading_color_262626</item>
         <item name="buttonBackgroundColor">@color/ViSecondaryColor</item>
         <item name="introButtonBackgroundColor">@color/off_white_f5f5f5</item>
-        <item name="buttonBackgroundTintColor">@color/ViSecondaryTintColor</item>
+        <item name="buttonBackgroundTintColor">@color/ViButtonTintColor</item>
         <item name="otpButtonBackgroundColor">@color/otp_btn_bg_color_start_051f32</item>
         <item name="screenBackgroundColor">@color/white</item>
         <item name="actionMenuTextColor">?attr/colorPrimary</item>
@@ -39,7 +54,7 @@
         <item name="blackTextColor">@color/black</item>
         <item name="off_whiteTextColor">@color/off_white_f5f5f5</item>
         <item name="profile_mail_color">@color/profile_mail_color</item>
-        <item name="divider_grey">@color/dividerGrey</item>
+        <item name="divider_grey">@color/opacity_50_929292</item>
         <item name="toolbarTitleColor">@color/heading_color_262626</item>
         <item name="googleIconTintColor">@color/ViSecondaryTintColor</item>
         <item name="coinDrawableColor">@color/ViCoinColor</item>
@@ -48,9 +63,20 @@
         <item name="coinDrawableStrokeBgColor">@color/white</item>
         <item name="listDividerColor">@color/opacity_20_929292</item>
         <item name="levelBgColor">@color/offWhite_f6f6f6</item>
-        <item name="etDashColor">@color/et_dash_color</item>
+        <item name="radioUnselectedColor">@color/radio_unselected_color</item>
         <item name="dotColor">@color/grey_c4c4c4</item>
+        <item name="switchSelectedColor">@color/ViSecondaryColor</item>
+        <item name="switchPathColor">@color/ViSecondaryTintColor</item>
+        <item name="filterStrokeColor">@color/mod_filter_stroke_color</item>
+        <item name="adapterTitleColor">@color/adapter_header_color</item>
 
+        <item name="graph_green">@color/vi_graph_green</item>
+        <item name="graph_red">@color/vi_graph_red</item>
+        <item name="graph_yellow">@color/vi_graph_yellow</item>
+
+        <item name="dashboard_BlueStats">@color/icons_vi_bg</item>
+        <item name="dashboard_PinkStats">@color/icons_vi_bg</item>
+        <item name="dashBoard_YellowStats">@color/icons_vi_bg</item>
 
         <item name="checkboxStyle">@style/CheckboxTheme</item>
         <item name="radioButtonStyle">@style/RadioButtonTheme</item>
@@ -66,11 +92,43 @@
         <item name="android:actionButtonStyle">@style/MyActionButtonStyle</item>
 
         <item name="accentColor_Red">@color/heading_color_262626</item>
+        <item name="accentColor_RedTint">@color/grey_c4c4c4</item>
+        <item name="accentColor_RedTintAlpha">@color/opacity_20_929292</item>
         <item name="accentColor_Green">@color/heading_color_262626</item>
+        <item name="accentColor_GreenTintAlpha">@color/opacity_20_929292</item>
+        <item name="accentColor_WineRedTintAlpha">@color/opacity_20_929292</item>
         <item name="accentColor_Yellow">@color/heading_color_262626</item>
+        <item name="accentColor_Black">@color/heading_color_262626</item>
+        <item name="accentColor_YellowTintAlpha">@color/opacity_20_929292</item>
+
+
+        <item name="colorVariant_LightGreen">@color/grey_c4c4c4</item>
+        <item name="colorVariant_LightPink">@color/grey_c4c4c4</item>
+        <item name="colorVariant_LightPurple">@color/grey_c4c4c4</item>
+        <item name="colorVariant_LightSky">@color/grey_c4c4c4</item>
+        <item name="colorVariant_LightYellow">@color/grey_c4c4c4</item>
+        <item name="colorVariant_LightBlue">@color/grey_c4c4c4</item>
+
+        <item name="colorVariant_Green">@color/icons_vi_bg</item>
+        <item name="colorVariant_Pink">@color/icons_vi_bg</item>
+        <item name="colorVariant_Purple">@color/icons_vi_bg</item>
+        <item name="colorVariant_Blue">@color/icons_vi_bg</item>
+        <item name="colorVariant_Sky">@color/icons_vi_bg</item>
+        <item name="colorVariant_Yellow">@color/icons_vi_bg</item>
+
+        <item name="colorVariant_DarkGreen">@color/ViMainColor</item>
+        <item name="colorVariant_DarkPink">@color/ViMainColor</item>
+        <item name="colorVariant_DarkPurple">@color/ViMainColor</item>
+        <item name="colorVariant_DarkBlue">@color/ViMainColor</item>
+        <item name="colorVariant_DarkSky">@color/ViMainColor</item>
+        <item name="colorVariant_DarkYellow">@color/ViMainColor</item>
+        <item name="colorVariant_ErrorRed">@color/ViMainColor</item>
+
+
+        <item name="courseProgressColor">@color/ViSecondaryColor</item>
+        <item name="noDataBg">@color/filter_stroke_view</item>
+
     </style>
-
-
     <style name="AppTheme.WorkSansTheme" parent="AppTheme">
         <item name="fontBold">@font/worksans_bold</item>
         <item name="fontSemiBold">@font/worksans_semibold</item>
@@ -92,6 +150,28 @@
         <item name="fontRegular">@font/roboto_regular</item>
         <item name="fontMedium">@font/roboto_medium</item>
     </style>
+
+    <!--    <style name="AppTheme.WorkSansTheme" parent="AppTheme">-->
+    <!--        <item name="fontBold">@font/worksans_bold</item>-->
+    <!--        <item name="fontSemiBold">@font/worksans_semibold</item>-->
+    <!--        <item name="fontRegular">@font/worksans_regular</item>-->
+    <!--        <item name="fontMedium">@font/worksans_medium</item>-->
+    <!--    </style>-->
+
+
+    <!--    <style name="AppTheme.Soleto" parent="AppTheme">-->
+    <!--        <item name="fontBold">@font/soleto_black</item>-->
+    <!--        <item name="fontSemiBold">@font/soleto_bold</item>-->
+    <!--        <item name="fontRegular">@font/soleto_regular</item>-->
+    <!--        <item name="fontMedium">@font/soleto_medium</item>-->
+    <!--    </style>-->
+
+    <!--    <style name="AppTheme.Roboto" parent="AppTheme">-->
+    <!--        <item name="fontBold">@font/roboto_black</item>-->
+    <!--        <item name="fontSemiBold">@font/roboto_bold</item>-->
+    <!--        <item name="fontRegular">@font/roboto_regular</item>-->
+    <!--        <item name="fontMedium">@font/roboto_medium</item>-->
+    <!--    </style>-->
 
 
     <style name="MyActionButtonStyle" parent="AppTheme">

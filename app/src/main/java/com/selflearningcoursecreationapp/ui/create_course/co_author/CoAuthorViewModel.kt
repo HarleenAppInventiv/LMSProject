@@ -10,7 +10,6 @@ import com.selflearningcoursecreationapp.extensions.isValidEmail
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.ValidationConst
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -24,6 +23,21 @@ class CoAuthorViewModel(private val repo: CoAuthorRepo) : BaseViewModel() {
     var selectedCountryCodeWithPlus: String = ""
     var courseId: Int = 0
     private var isEmail = false
+
+    fun existsCoAuthorDetails() {
+        viewModelScope.launch(coroutineExceptionHandle) {
+
+            val response = repo.existsCoAuthor(courseId ?: 0)
+            withContext(Dispatchers.IO) {
+                response.collect {
+
+                    updateResponseObserver(it)
+                }
+            }
+        }
+    }
+
+
     fun validate(isEmail: Boolean) {
         this.isEmail = isEmail
         when {
@@ -67,12 +81,12 @@ class CoAuthorViewModel(private val repo: CoAuthorRepo) : BaseViewModel() {
 
             else -> {
                 inviteCoAuthor(!isEmail)
-
+//                existsCoAuthorDetails()
             }
         }
     }
 
-    private fun inviteCoAuthor(isPhone: Boolean) {
+    fun inviteCoAuthor(isPhone: Boolean) {
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
             if (isPhone) {
@@ -100,6 +114,10 @@ class CoAuthorViewModel(private val repo: CoAuthorRepo) : BaseViewModel() {
         when (apiCode) {
             ApiEndPoints.API_INVITE_COAUTHOR -> {
                 validate(isEmail)
+            }
+
+            ApiEndPoints.API_EXISTS_COAUTHOR -> {
+                existsCoAuthorDetails()
             }
         }
     }

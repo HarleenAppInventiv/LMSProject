@@ -1,6 +1,5 @@
 package com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture
 
-import androidx.core.content.ContextCompat
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
@@ -9,11 +8,11 @@ import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.LectureStatus
 import com.selflearningcoursecreationapp.utils.MediaType
+import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
 
 class ChildLectureAdapter(
     private val lessonList: ArrayList<ChildModel>,
-    private val doEnable: Boolean,
-    private var isEdit: Boolean = true,
+    private var doEnable: Boolean
 ) :
     BaseAdapter<AdapterLectureLayoutBinding>() {
     override fun getLayoutRes() = R.layout.adapter_lecture_layout
@@ -23,69 +22,90 @@ class ChildLectureAdapter(
         val context = binding.root.context
         binding.doEnable = doEnable
 
-        binding.ivDelete.visibleView(isEdit)
-        binding.ivEdit.visibleView(isEdit)
-        binding.ivPlay.visibleView(!isEdit)
-
 
         val min = lessonList[position].lectureContentDuration ?: 0
 
 
 
-        binding.tvLessonTime.text = min.getTime(context)
+        binding.tvLessonTime.text =
+            if (min.isNullOrZero()) {
+                if (lessonList[position].mediaType.isMediaLecture()) {
+                    context.getString(
+                        R.string.calculating
+                    )
+                } else {
+                    "--:--"
+                }
+            } else min.getTime(context)
         binding.ivDelete.setOnClickListener {
             if (doEnable) {
                 onItemClick(Constant.CLICK_OPTION_DELETE, position)
             }
-
         }
-        binding.ivPlay.setOnClickListener {
 
-            onItemClick(Constant.CLICK_PLAY, position)
-
-        }
         binding.ivEdit.setOnClickListener {
             if (doEnable) {
                 onItemClick(Constant.CLICK_EDIT, position)
             }
         }
+
         binding.tvStatus.setOnClickListener {
-            if (doEnable) {
+            if (doEnable && !lessonList[position].contentStatus.isLectureInProcessing()) {
                 onItemClick(Constant.CLICK_EDIT, position)
             }
         }
-        val mediaType =
-            lessonList[position].mediaType?.getMediaType(lessonList[position].lectureStatusId == LectureStatus.IN_PROCESS)
+
+        binding.parentCV.setOnClickListener {
+            if (doEnable && !lessonList[position].contentStatus.isLectureInProcessing()) {
+                onItemClick(Constant.CLICK_EDIT, position)
+            }
+        }
+
+        var mediaType =
+            lessonList[position].mediaType?.getMediaType(/*lessonList[position].lectureStatusId == LectureStatus.IN_PROCESS*/
+                lessonList[position].lectureContentType
+            )
+
+
+
         binding.tvLessonType.text = mediaType?.second?.let { context.getString(it) } ?: ""
-//        binding.ivMediaFile.setImageResource(mediaType?.first ?: R.drawable.ic_docx_icon)
         binding.ivMediaFile.loadImage(
             lessonList[position].thumbNailURl,
             mediaType?.first ?: R.drawable.ic_docx_icon
         )
+        binding.parentCV.strokeColor = context.getAttrResource(R.attr.accentColor_Red)
 
+//        binding.tvStatus.visibleView(lessonList[position].lectureStatusId != LectureStatus.COMPLETED)
+        binding.tvStatus.setTextColor(
+            context.getAttrResource(R.attr.accentColor_Red)
+
+        )
         when (lessonList[position].mediaType) {
             MediaType.QUIZ -> {
-                binding.parentCV.strokeColor =
-                    ContextCompat.getColor(context, R.color.accent_color_fc6d5b)
-                binding.parentCV.strokeWidth =
-                    if (lessonList[position].lectureStatusId == LectureStatus.IN_PROCESS) context.resources.getDimensionPixelOffset(
-                        R.dimen._1sdp
-                    ) else 0
-                binding.tvStatus.visibleView(lessonList[position].lectureStatusId == LectureStatus.IN_PROCESS)
                 binding.tvStatus.text = context.getString(R.string.in_complete_quiz)
-                binding.tvStatus.setTextColor(
-                    ContextCompat.getColor(
-                        context,
-                        R.color.accent_color_fc6d5b
-                    )
-                )
-                binding.ivEdit.visibleView(lessonList[position].lectureStatusId == LectureStatus.COMPLETED)
             }
             else -> {
-                binding.ivEdit.visible()
-                binding.tvStatus.gone()
+                if (lessonList[position].contentStatus.isLectureFailed()) {
+                    binding.tvStatus.text = context.getString(R.string.retry)
+
+                } else if (lessonList[position].contentStatus.isLectureInProcessing()) {
+                    binding.tvStatus.text = context.getString(R.string.in_processing)
+                    binding.parentCV.strokeColor = ThemeUtils.getAppColor(context)
+                    binding.tvStatus.setTextColor(
+                        ThemeUtils.getAppColor(context)
+
+                    )
+
+
+                } else {
+                    binding.tvStatus.text = context.getString(R.string.in_complete)
+
+                }
             }
         }
+
+
+
 
         if (lessonList[position].lectureTitle.isNullOrEmpty()) {
             binding.tvLessonName.text = String.format(
@@ -97,12 +117,23 @@ class ChildLectureAdapter(
             binding.tvLessonName.text = lessonList[position].lectureTitle
 
         }
-        binding.ivEdit.setOnClickListener {
-            onItemClick(Constant.CLICK_EDIT, position)
-        }
 
+        val isEdit = if (lessonList[position].mediaType == MediaType.QUIZ) {
+            lessonList[position].lectureStatusId == LectureStatus.COMPLETED
+        } else
+            lessonList[position].lectureStatusId == LectureStatus.COMPLETED && lessonList[position].contentStatus == LectureStatus.COMPLETED
+
+//
+//        binding.ivDelete.visibleView(isEdit)
+        binding.ivEdit.visibleView(isEdit)
+        binding.tvStatus.visibleView(!isEdit)
+        binding.parentCV.strokeWidth =
+            if (isEdit) 0 else context.resources.getDimensionPixelOffset(
+                R.dimen._1sdp
+            )
 
     }
+
 
     override fun getItemCount() = lessonList.size
 

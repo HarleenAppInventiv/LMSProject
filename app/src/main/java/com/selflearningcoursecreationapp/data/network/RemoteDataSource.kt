@@ -1,7 +1,7 @@
 package com.selflearningcoursecreationapp.data.network
 
+import com.selflearningcoursecreationapp.BuildConfig
 import com.selflearningcoursecreationapp.base.SelfLearningApplication
-import com.selflearningcoursecreationapp.utils.ApiEndPoints.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit
 fun getApiProvider(): Retrofit {
     return Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(BASE_URL)
+        .baseUrl(BuildConfig.API_BASE_URL)
         .client(getHttpClient().build())
         .build()
 }
@@ -33,7 +33,7 @@ fun getHttpClient(): OkHttpClient.Builder {
                 .header("Authorization", "Bearer ${SelfLearningApplication.token}")
                 .header("platform", "3")
                 .header("api_key", "1234")
-                .header("language", SelfLearningApplication.languageCode)
+                .header("language", SelfLearningApplication.languageCodeId.toString())
                 .header("offset", getOffset())
                 .header("timezone", getTimeZone())
                 .method(original.method, original.body)
@@ -41,7 +41,14 @@ fun getHttpClient(): OkHttpClient.Builder {
             val response = chain.proceed(request)
             response
         }
-        .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+        .apply {
+            if (BuildConfig.DEBUG) addInterceptor(
+                HttpLoggingInterceptor().setLevel(
+                    HttpLoggingInterceptor.Level.BODY
+                )
+            )
+
+        }
         .readTimeout(30000, TimeUnit.MILLISECONDS)
         .writeTimeout(30000, TimeUnit.MILLISECONDS)
 }

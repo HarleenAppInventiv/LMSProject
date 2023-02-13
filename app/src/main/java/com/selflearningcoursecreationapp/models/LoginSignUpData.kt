@@ -29,6 +29,9 @@ class LoginData : BaseObservable(), Parcelable {
             notifyPropertyChanged(BR.dataEntered)
         }
 
+    @SerializedName("viMode")
+    var viMode: Boolean = false
+
 //    @SerializedName("phone")
 //    var phone: String = ""
 //        set(value) {

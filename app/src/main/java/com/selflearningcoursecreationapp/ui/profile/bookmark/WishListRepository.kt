@@ -11,8 +11,8 @@ import com.selflearningcoursecreationapp.data.network.ApiService
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.models.course.OrderData
-import com.selflearningcoursecreationapp.ui.course_details.ratings.ReviewPagingDataSource
 import com.selflearningcoursecreationapp.ui.course_details.ratings.model.GetReviewsRequestModel
+import com.selflearningcoursecreationapp.ui.course_details.ratings.model.ReviewResponse
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -23,8 +23,9 @@ interface WishListRepository {
     suspend fun getWishListData(): LiveData<PagingData<CourseData>>
     suspend fun purchaseCourse(map: Map<String, Any>): Flow<Resource>
     suspend fun buyRazorPayCourse(map: Map<String, Any>): Flow<Resource>
+    suspend fun reportComment(map: HashMap<String, Any>): Flow<Resource>
 
-    suspend fun getReviewListData(data: GetReviewsRequestModel): LiveData<PagingData<CourseData>>
+    suspend fun getReviewListData(data: GetReviewsRequestModel): Flow<Resource>
 }
 
 class WishListRepositoryImpl(private val service: ApiService) : WishListRepository {
@@ -49,24 +50,29 @@ class WishListRepositoryImpl(private val service: ApiService) : WishListReposito
     }
 
 
-    override suspend fun getReviewListData(data: GetReviewsRequestModel): LiveData<PagingData<CourseData>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = 20,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = {
-                ReviewPagingDataSource(service, data)
-            }
-        ).liveData
-    }
-
     override suspend fun buyRazorPayCourse(map: Map<String, Any>): Flow<Resource> {
         return object : BaseRepo<BaseResponse<OrderData>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<OrderData>> {
                 return service.buyRazorPayCourse(map)
             }
         }.safeApiCall(ApiEndPoints.API_RAZORPAY_COURSE).flowOn(Dispatchers.IO)
+    }
+
+
+    override suspend fun reportComment(map: HashMap<String, Any>): Flow<Resource> {
+        return object : BaseRepo<BaseResponse<CourseData>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<CourseData>> {
+                return service.reportComment(map)
+            }
+        }.safeApiCall(ApiEndPoints.API_REPORT_COMMENT).flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun getReviewListData(data: GetReviewsRequestModel): Flow<Resource> {
+        return object : BaseRepo<BaseResponse<ReviewResponse>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ReviewResponse>> {
+                return service.getReviewList(data)
+            }
+        }.safeApiCall(ApiEndPoints.API_GET_REVIEW).flowOn(Dispatchers.IO)
     }
 
 }

@@ -34,7 +34,7 @@
                 spanText="@{@string/settings}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bottom_line_grey"
+                android:background="@drawable/bottom_line"
                 android:paddingBottom="@dimen/settingOptionVerticalPadding"
                 android:drawablePadding="@dimen/_10sdp"
                 android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
@@ -50,7 +50,7 @@
                 spanText="@{@string/become_a_moderator}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bottom_line_grey"
+                android:background="@drawable/bottom_line"
                 android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                 android:drawablePadding="@dimen/_10sdp"
                 android:paddingVertical="@dimen/settingOptionVerticalPadding"
@@ -64,9 +64,9 @@
                 android:layout_width="match_parent"
                 spanText="@{@string/practice_accent}"
                 android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/settingOptionVerticalPadding"
+                android:background="@drawable/bottom_line"
                 app:fontType="regular"
-                android:background="@drawable/bottom_line_grey"
+                android:paddingVertical="@dimen/settingOptionVerticalPadding"
                 android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                 android:drawablePadding="@dimen/_10sdp"
                 app:drawableStartCompat="@drawable/ic_practise_accent"
@@ -81,12 +81,12 @@
                 android:layout_height="wrap_content"
                 android:paddingVertical="@dimen/settingOptionVerticalPadding"
                 app:fontType="regular"
-                android:background="@drawable/bottom_line_grey"
                 android:textSize="@dimen/_12sdp"
                 android:drawablePadding="@dimen/_10sdp"
                 android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                 app:drawableStartCompat="@drawable/ic_payments"
                 app:primaryIconTint="start" />
+
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_cards"
@@ -95,10 +95,11 @@
                 android:layout_height="wrap_content"
                 android:text="@string/saved_cards"
                 android:paddingVertical="@dimen/settingOptionVerticalPadding"
+                android:textSize="@dimen/_12sdp"
                 app:fontType="regular"
                 android:drawablePadding="@dimen/_10sdp"
                 android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
-                android:textSize="@dimen/_12sdp"
+                android:visibility="gone"
                 app:drawableStartCompat="@drawable/ic_manage_payment"
                 app:primaryIconTint="start" />
 
@@ -115,6 +116,19 @@
                 app:drawableStartCompat="@drawable/ic_add_card"
                 app:primaryIconTint="start" />
 
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_100sdp"
+                android:drawablePadding="@dimen/_10sdp"
+
+
+                android:paddingVertical="@dimen/settingOptionVerticalPadding"
+                android:textAlignment="center"
+                android:textSize="@dimen/_10sdp"
+                android:visibility="visible"
+                app:fontType="regular" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </ScrollView>

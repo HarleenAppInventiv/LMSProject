@@ -11,6 +11,7 @@ import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.data.network.ApiError
 import com.selflearningcoursecreationapp.data.prefrence.PreferenceDataStore
 import com.selflearningcoursecreationapp.databinding.FragmentSplashBinding
+import com.selflearningcoursecreationapp.extensions.navigateTo
 import com.selflearningcoursecreationapp.models.user.UserProfile
 import com.selflearningcoursecreationapp.ui.authentication.InitialActivity
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
@@ -32,6 +33,9 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
     fun initUI() {
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
 
+//        UploadDocOptionsDialog().show(childFragmentManager,"")
+
+
         lifecycleScope.launch {
             delay(2000)
             if (PreferenceDataStore.getString(Constants.USER_TOKEN).isNullOrEmpty()) {
@@ -40,7 +44,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
 
                     baseActivity.finish()
                 } else {
-                    findNavController().navigate(R.id.action_splashFragment_to_sliderFragment)
+                    findNavController().navigateTo(R.id.action_splashFragment_to_sliderFragment)
                 }
             } else {
                 viewModel.viewProfile()

@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="courseData"
+            type="com.selflearningcoursecreationapp.models.course.CourseData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,11 +18,11 @@
             android:layout_width="@dimen/_42sdp"
             android:layout_height="@dimen/_42sdp"
             android:layout_marginStart="@dimen/_16sdp"
+            android:background="?attr/whiteTextColor"
             android:layout_marginTop="@dimen/_12sdp"
-            android:background="@color/white"
+            android:src="@drawable/ic_default_user_grey"
             android:scaleType="centerCrop"
-            android:src="@drawable/dummys"
-            app:changeBackgroundType="bg_theme_src"
+            app:applyGrayscale="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/circleImage" />
@@ -33,7 +36,6 @@
             android:maxLines="1"
             android:singleLine="false"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:text="Alline Sharma"
             android:textSize="@dimen/textField_14"
             app:fontType="semiBold"
             android:maxLength="30"
@@ -61,7 +63,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
-            android:text="Nice lounge with very cooperative staff!!"
             android:textSize="@dimen/textField_12"
             app:fontType="regular"
             app:layout_constraintEnd_toEndOf="@+id/tv_date"
@@ -74,7 +75,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_16sdp"
-            android:text="30 mins ago"
             android:textSize="@dimen/textField_12"
             app:fontType="regular"
             app:layout_constraintBottom_toBottomOf="@+id/tv_user_name"
@@ -89,6 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
             android:padding="@dimen/_5sdp"
+            android:contentDescription="@string/like_button"
             app:layout_constraintStart_toStartOf="@+id/tv_description"
             app:layout_constraintTop_toBottomOf="@+id/tv_description"
             app:srcCompat="@drawable/ic_like" />
@@ -97,9 +98,10 @@
             android:id="@+id/tv_like_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10"
             android:textSize="@dimen/textField_12"
             app:fontType="regular"
+            android:screenReaderFocusable="true"
+
             app:layout_constraintEnd_toEndOf="@+id/iv_like"
             app:layout_constraintStart_toStartOf="@+id/iv_like"
             app:layout_constraintTop_toBottomOf="@+id/iv_like"
@@ -112,6 +114,8 @@
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:padding="@dimen/_5sdp"
+            android:contentDescription="@string/dislike_button"
+            android:screenReaderFocusable="true"
             app:layout_constraintStart_toEndOf="@+id/iv_like"
             app:layout_constraintTop_toBottomOf="@+id/tv_description"
             app:srcCompat="@drawable/ic_dislike" />
@@ -120,20 +124,34 @@
             android:id="@+id/tv_dislike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4"
             android:textSize="@dimen/textField_12"
             app:fontType="regular"
+
             app:layout_constraintEnd_toEndOf="@+id/iv_dislike"
             app:layout_constraintStart_toStartOf="@+id/iv_dislike"
             app:layout_constraintTop_toBottomOf="@+id/iv_dislike"
             app:textColorType="black" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:text="@string/report"
+            android:textColor="@color/accent_color_fc6d5b"
+            android:textSize="@dimen/textField_12"
+            app:fontType="regular"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_date"
+            app:textColorType="none" />
 
         <View
             android:id="@+id/view12"
             android:layout_width="0dp"
             android:layout_height="@dimen/_1sdp"
             android:layout_marginTop="@dimen/_16sdp"
-            android:background="?attr/divider_grey"
+            android:background="?attr/lineColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_user_name"
             app:layout_constraintTop_toBottomOf="@+id/tv_like_count" />

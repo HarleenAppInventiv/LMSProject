@@ -3,6 +3,7 @@ package com.selflearningcoursecreationapp.utils.builderUtils
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
+import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
@@ -14,8 +15,11 @@ import android.text.style.StyleSpan
 import android.util.TypedValue
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.selflearningcoursecreationapp.R
+import com.selflearningcoursecreationapp.base.SelfLearningApplication
 import com.selflearningcoursecreationapp.extensions.isNullOrZero
+import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
 import java.util.*
 
@@ -38,8 +42,8 @@ class SpanUtils {
         private var size: Float = 1f
         private var onClick: () -> Unit = {}
 
-        fun isBold(): Builder {
-            isBold = true
+        fun isBold(isBold: Boolean = true): Builder {
+            this.isBold = isBold
             return this
         }
 
@@ -99,9 +103,30 @@ class SpanUtils {
                         val theme = context.theme
                         theme.resolveAttribute(attrColor, typedValue, true)
                         ds.color = ContextCompat.getColor(context, typedValue.resourceId)
+//                        val fontName = ThemeUtils.getFontName(SelfLearningApplication.fontId)
+//                        val font = Typeface.createFromAsset(context.assets, "fonts/edu_test.ttf")
+//
+//                        ds.typeface= font
+
                     }
                     if (isBold) {
-                        ds.typeface = Typeface.DEFAULT_BOLD
+                        ds.typeface = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            context.resources.getFont(
+
+                                ThemeUtils.getFont(
+                                    SelfLearningApplication.fontId,
+                                    ThemeConstants.FONT_BOLD
+                                )
+                            )
+                        } else {
+                            ResourcesCompat.getFont(
+                                context,
+                                ThemeUtils.getFont(
+                                    SelfLearningApplication.fontId,
+                                    ThemeConstants.FONT_BOLD
+                                )
+                            )
+                        }
                     }
                 }
             }
@@ -117,7 +142,7 @@ class SpanUtils {
             ss.setSpan(LocaleSpan(Locale.getDefault()), 0, ss.length, 0)
             ss.setSpan(RelativeSizeSpan(size), startPos, endPos, 0)
 
-            ss.setSpan(clickableSpan, startPos, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            ss.setSpan(clickableSpan, startPos, endPos, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
             return ss
         }
 

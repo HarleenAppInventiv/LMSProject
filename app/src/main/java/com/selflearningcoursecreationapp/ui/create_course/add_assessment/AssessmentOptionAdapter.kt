@@ -6,6 +6,8 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterAssessmentOptionBinding
+import com.selflearningcoursecreationapp.extensions.getAttrColor
+import com.selflearningcoursecreationapp.extensions.getAttrResource
 import com.selflearningcoursecreationapp.extensions.loadImage
 import com.selflearningcoursecreationapp.extensions.visibleView
 import com.selflearningcoursecreationapp.models.course.quiz.QuizOptionData
@@ -33,18 +35,26 @@ class AssessmentOptionAdapter(
 
 
         if (data.isSelected == true) {
+//            binding.parentCL.background=  if (data.isCorrectAns == true || !showRightAns) context.getDrawable(R.drawable.accent_green_stroked_bg_5)
+//            else context.getDrawable(R.drawable.accent_green_stroked_bg_5)
+
+
             binding.parentCL.backgroundTintList =
                 ColorStateList.valueOf(
                     ContextCompat.getColor(
                         context,
-                        if (data.isCorrectAns == true || !showRightAns) R.color.accent_color_2FBF71 else R.color.accent_color_fc6d5b
+                        if (data.isCorrectAns == true || !showRightAns) context.getAttrColor(R.attr.accentColor_Green) else context.getAttrColor(
+                            R.attr.accentColor_Red
+                        )
                     )
                 )
             binding.tvTitle.setTextColor(ContextCompat.getColor(context, R.color.white))
             binding.rbChecked.buttonTintList =
                 ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white))
         } else {
-            binding.parentCL.backgroundTintList = null
+            binding.parentCL.backgroundTintList = ColorStateList.valueOf(
+                context.getAttrResource(R.attr.viewBackgroundColor)
+            )
             binding.tvTitle.changeTextColor(ThemeConstants.TYPE_HEADING)
             binding.rbChecked.buttonTintList =
                 ColorStateList.valueOf(ContextCompat.getColor(context, R.color.hint_color_929292))

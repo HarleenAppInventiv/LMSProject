@@ -22,6 +22,7 @@ class FAQFragment : BaseFragment<FragmentFAQBinding>(), HandleClick, BaseAdapter
     }
 
 
+
     fun init() {
         binding.faq = this
         baseActivity.supportActionBar?.hide()
@@ -59,7 +60,7 @@ class FAQFragment : BaseFragment<FragmentFAQBinding>(), HandleClick, BaseAdapter
     }
 
     override fun onItemClick(vararg items: Any) {
-        Toast.makeText(requireContext(), "" + items[1].toString(), Toast.LENGTH_SHORT).show()
+        Toast.makeText(baseActivity, "" + items[1].toString(), Toast.LENGTH_SHORT).show()
 
     }
 

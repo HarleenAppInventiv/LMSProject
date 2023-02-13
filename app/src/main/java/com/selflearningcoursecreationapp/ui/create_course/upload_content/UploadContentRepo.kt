@@ -5,8 +5,10 @@ import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 interface UploadContentRepo {
+    suspend fun addLecture(map: HashMap<String, Any>): Flow<Resource>
+
     suspend fun addPatchLecture(map: HashMap<String, Any>): Flow<Resource>
-    suspend fun getLectureDetail(lectureId: Int): Flow<Resource>
+    suspend fun getLectureDetail(lectureId: Int, courseId: Int): Flow<Resource>
     suspend fun contentUpload(
         courseId: Int?,
         sectionId: Int?,
@@ -14,6 +16,10 @@ interface UploadContentRepo {
         file: File,
         uploadType: Int,
         duration: Long,
+    ): Flow<Resource>
+
+    suspend fun contentUploadMetaData(
+        map: HashMap<String, Any>?,
     ): Flow<Resource>
 
     suspend fun thumbnailUpload(

@@ -8,6 +8,7 @@ import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import com.google.gson.annotations.SerializedName
 import com.selflearningcoursecreationapp.R
+import com.selflearningcoursecreationapp.extensions.blank
 import com.selflearningcoursecreationapp.extensions.changeDateFormat
 import com.selflearningcoursecreationapp.extensions.isNullOrZero
 import com.selflearningcoursecreationapp.models.CategoryData
@@ -30,8 +31,20 @@ data class UserProfile(
     var emailVerified: Boolean? = null,
     @SerializedName("themeUpdated")
     var themeUpdated: Boolean? = null,
+
     @SerializedName("categoryUpdated")
     var categoryUpdated: Boolean? = null,
+
+    @SerializedName("viMode")
+    var viMode: Boolean? = null,
+
+    @SerializedName("coursePolicy")
+    var coursePolicy: Boolean? = null,
+
+    @SerializedName("isDRFEmployee")
+    var IsDRFEmployee: Boolean? = null,
+
+
     @SerializedName("languageUpdated")
     var languageUpdated: Boolean? = null,
     @SerializedName("fontUpdated")
@@ -100,6 +113,9 @@ data class UserProfile(
 
     @SerializedName("deleted")
     var deleted: Boolean? = false,
+
+    var isPrivacyPolicyChecked: Boolean = false
+
 ) : BaseObservable(), Parcelable {
 
     @SerializedName("email")
@@ -147,6 +163,13 @@ data class UserProfile(
 
         }
 
+//    var isPrivacyPolicy: Boolean = false
+//        set(value) {
+//            field = value
+//            notifyPropertyChanged(BR.signUpDataEntered)
+//            notifyPropertyChanged(BR.dataEntered)
+//
+//        }
 
     @SerializedName("cityId")
     var cityId: String? = null
@@ -180,7 +203,7 @@ data class UserProfile(
         }
 
     @SerializedName("genderId")
-    var genderId: String? = null
+    var genderId: Int? = null
         set(value) {
             field = value
             notifyPropertyChanged(BR.dataEntered)
@@ -207,19 +230,19 @@ data class UserProfile(
     @get:Bindable
     var signUpDataEntered: Boolean = false
         get() = /*!email.isBlank() && !password.isEmpty() &&*/
-            number.isNotEmpty() && name.isNotEmpty() && professionId.isNotEmpty()
+            number.isNotEmpty() && !name.blank() && professionId.isNotEmpty()
 
     @Transient
     @get:Bindable
     var dataEntered: Boolean = false
         get() =/* !email.isBlank() &&*/
-            number.isNotEmpty() && name.isNotEmpty() && !dob.isNullOrEmpty() && !stateId.isNullOrZero() && !cityId.isNullOrEmpty() && professionId.isNotEmpty() && !bio.isNullOrEmpty()
-                    && !genderId.isNullOrEmpty() && !countryCode.isNullOrEmpty()
+            number.isNotEmpty() && !name.blank() && !dob.isNullOrEmpty() && !stateId.isNullOrZero() && !cityId.isNullOrEmpty() && professionId.isNotEmpty() && !bio.isNullOrEmpty()
+                    && !genderId.isNullOrZero() && !countryCode.isNullOrEmpty()
 
 
     fun isSignUpValid(): Int {
         return when {
-            name.isBlank() -> {
+            name.blank() -> {
                 R.string.enter_name
             }
             name.length < ValidationConst.MIN_NAME_LENGTH -> {
@@ -231,8 +254,12 @@ data class UserProfile(
 //            !email.isValidEmail() -> {
 //                R.string.enter_valid_email
 //            }
-            number.isBlank() -> {
+            number.blank() -> {
                 R.string.enter_phone_number
+            }
+            number.toLongOrNull().isNullOrZero() -> {
+                R.string.enter_valid_phone_number
+
             }
             number.length < ValidationConst.MIN_NO_LENGTH -> {
                 R.string.enter_valid_phone_number
@@ -247,6 +274,7 @@ data class UserProfile(
                 R.string.plz_select_profession
             }
             else -> {
+                name = name.trim()
                 0
             }
         }
@@ -258,7 +286,7 @@ data class UserProfile(
 
     fun isProfileValid(): Int {
         return when {
-            name.isBlank() -> {
+            name.blank() -> {
                 R.string.enter_name
             }
             name.length < ValidationConst.MIN_NAME_LENGTH -> {
@@ -272,34 +300,34 @@ data class UserProfile(
 //                R.string.enter_valid_email
 //
 //            }
-//            number.isEmpty() -> {
-//                R.string.enter_phone_number
-//
-//            }
-//            number.length < 10 -> {
-//                R.string.enter_valid_phone_number
-//
-//            }
-            dob.isNullOrEmpty() -> {
-                R.string.please_enter_dob
+            number.isEmpty() -> {
+                R.string.enter_phone_number
 
             }
-            cityId.isNullOrEmpty() -> {
-                R.string.please_enter_city
+            number.length < 10 -> {
+                R.string.enter_valid_phone_number
 
             }
-            stateId.isNullOrZero() -> {
-                R.string.please_enter_state
-            }
+//            dob.isNullOrEmpty() -> {
+//                R.string.please_enter_dob
+//
+//            }
+//            cityId.isNullOrEmpty() -> {
+//                R.string.please_enter_city
+//
+//            }
+//            stateId.isNullOrZero() -> {
+//                R.string.please_enter_state
+//            }
             professionId.isEmpty() -> {
                 R.string.plz_select_profession
             }
-            bio.isNullOrEmpty() -> {
-                R.string.please_enter_bio
-            }
-            genderId.isNullOrEmpty() -> {
-                R.string.please_select_gender
-            }
+//            bio.isNullOrEmpty() -> {
+//                R.string.please_enter_bio
+//            }
+//            genderId.isNullOrZero() -> {
+//                R.string.please_select_gender
+//            }
 
             else -> {
                 0
@@ -318,3 +346,10 @@ data class UserProfile(
     }
 
 }
+
+@Parcelize
+data class ModeratorStatusResponses(
+    @SerializedName("moderatorStatuses")
+    var list: ArrayList<UserProfile>? = null
+) : Parcelable
+

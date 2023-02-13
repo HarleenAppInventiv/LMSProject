@@ -30,18 +30,26 @@ class QuizReportDetailFragment : BaseFragment<FragmentQuizReportDetailBinding>()
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         arguments?.let {
             markedAnswerCorrect = it.getBoolean("markedAnswerCorrect")
-            viewModel.courseId = it.getString("courseId").toString()
+            viewModel.isQuizReport = it.getBoolean("isQuizReport")
+            viewModel.courseId = it.getInt("courseId")
             viewModel.attemptId = it.getString("attemptId").toString()
             assessmentId = it.getInt("assessmentId").toString()
         }
 
-        baseActivity.setToolbar(title = if (markedAnswerCorrect) "Correct Answers" else "Wrong Answers")
+        baseActivity.setToolbar(
+            title = if (markedAnswerCorrect) getString(R.string.correct_answers) else getString(
+                R.string.wrong_answers
+            )
+        )
 
-        viewModel.getAssessmentReportStatus(markedAnswerCorrect, assessmentId)
+        viewModel.status = markedAnswerCorrect
+        viewModel.assessmentId = assessmentId
+        viewModel.getAssessmentReportStatus()
 
     }
 
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
+        super.onResponseSuccess(value, apiCode)
         when (apiCode) {
             ApiEndPoints.API_ASSESSMENT_REPORT_STATUS -> {
                 (value as BaseResponse<QuizData>).let {
@@ -81,5 +89,6 @@ class QuizReportDetailFragment : BaseFragment<FragmentQuizReportDetailBinding>()
     }
 
     override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
     }
 }

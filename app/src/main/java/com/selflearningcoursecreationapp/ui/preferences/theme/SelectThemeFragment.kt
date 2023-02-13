@@ -31,6 +31,7 @@ class SelectThemeFragment : BaseFragment<FragmentSelectThemeBinding>(), BaseAdap
     }
 
 
+
     private fun initUi() {
         if (viewModel.themeListLiveData.value.isNullOrEmpty()) {
 
@@ -45,12 +46,12 @@ class SelectThemeFragment : BaseFragment<FragmentSelectThemeBinding>(), BaseAdap
                 .isBold().getSpanString()
 
         )
-        viewModel.themeListLiveData.observe(viewLifecycleOwner, {
+        viewModel.themeListLiveData.observe(viewLifecycleOwner) {
             adapter?.notifyDataSetChanged()
             adapter = null
             setAdapter()
 
-        })
+        }
         setAdapter()
     }
 
@@ -58,7 +59,7 @@ class SelectThemeFragment : BaseFragment<FragmentSelectThemeBinding>(), BaseAdap
         adapter?.notifyDataSetChanged() ?: kotlin.run {
             adapter = ThemeAdapter(viewModel.themeListLiveData.value!!)
             binding.rvTheme.adapter = adapter
-            adapter!!.setOnAdapterItemClickListener(this)
+            adapter?.setOnAdapterItemClickListener(this)
         }
     }
 

@@ -10,10 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.databinding.AdapterMyCourseBinding
-import com.selflearningcoursecreationapp.extensions.gone
-import com.selflearningcoursecreationapp.extensions.invisible
-import com.selflearningcoursecreationapp.extensions.loadImage
-import com.selflearningcoursecreationapp.extensions.visible
+import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.utils.Constant
 
@@ -50,9 +47,11 @@ class RewardListAdapter(
             binding.bookmarkTimeG.invisible()
             binding.priceG.gone()
             binding.tvCoin.visible()
+            binding.tvLearnerName.visible()
             binding.progressG.gone()
             binding.btBuy.invisible()
             binding.ivBookmark.gone()
+            binding.ivSignLanguage.visibleView(data.isSignLanguage ?: false)
 
 
             binding.btBuy.text = context.getString(R.string.resume)
@@ -62,10 +61,8 @@ class RewardListAdapter(
             when (type) {
                 Constant.COURSE_COMPLETED_REWARD -> {
                     binding.tvCoin.setTextColor(
-                        ContextCompat.getColor(
-                            context,
-                            R.color.accent_color_fc6d5b
-                        )
+                        context.getAttrResource(R.attr.accentColor_Red)
+
                     )
                     binding.tvCoin.background =
                         ContextCompat.getDrawable(context, R.drawable.coins_stroked_red_bg)
@@ -78,10 +75,8 @@ class RewardListAdapter(
                 }
                 else -> {
                     binding.tvCoin.setTextColor(
-                        ContextCompat.getColor(
-                            context,
-                            R.color.accent_color_FFB800
-                        )
+                        context.getAttrResource(R.attr.accentColor_Yellow)
+
                     )
                     binding.tvCoin.background =
                         ContextCompat.getDrawable(context, R.drawable.coins_stroked_bg)
@@ -95,12 +90,21 @@ class RewardListAdapter(
                 }
             }
 
+            binding.tvLearnerName.gone()
+
             binding.tvRating.text = data.averageRating
+            binding.tvRating.contentDescription =
+                "${data.averageRating}  ${context.getString(R.string.average_rating)}"
             binding.tvCoin.text = data.rewardPoints
             binding.tvName.text = data.courseTitle
             binding.tvAuthor.text = data.createdByName
             binding.ivLang.text = data.languageName
             binding.ivCertification.text = data.categoryName
+
+
+            if (!data.learnerName.isNullOrEmpty())
+                binding.tvLearnerName.visible()
+            binding.tvLearnerName.text = data.learnerName
 
             binding.ivPreview.loadImage(
                 data.courseBannerUrl,
@@ -113,15 +117,13 @@ class RewardListAdapter(
                 wishClickListener.invoke(data)
             }
 
-            binding.cvOngoing.contentDescription =
-                "this ongoing course ux and web design course by allen wen is only 8 percent completed."
+//            binding.cvOngoing.contentDescription =
+//                "this ongoing course ux and web design course by allen wen is only 8 percent completed."
         }
 
     }
 
 }
-
-
 
 
 object DiffUtilCallBack : DiffUtil.ItemCallback<CourseData>() {

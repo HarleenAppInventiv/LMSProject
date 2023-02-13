@@ -34,12 +34,18 @@ class UploadAudioOptionsDialog : BaseBottomSheetDialog<DialogUploadAudioBinding>
             onClickRecord()
 
         }
+        binding.txtTrimAudio.setOnClickListener {
+            dismiss()
+            onDialogClick(MediaFrom.EDITING)
+
+        }
 
         binding.txtTakeFromFile.setOnClickListener {
             dismiss()
             onPickFile()
 
         }
+
     }
 
     private fun onPickFile() {
@@ -49,8 +55,7 @@ class UploadAudioOptionsDialog : BaseBottomSheetDialog<DialogUploadAudioBinding>
                 if (b) {
                     imagePickUtils.openAudioFile(
                         baseActivity,
-                        this,
-                        registry = requireActivity().activityResultRegistry
+                        this
                     )
                 } else {
                     baseActivity.handlePermissionDenied(strings)

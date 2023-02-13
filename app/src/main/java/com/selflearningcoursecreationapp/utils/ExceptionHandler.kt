@@ -60,7 +60,7 @@ class ExceptionHandler : Thread.UncaughtExceptionHandler {
         sendIntent.putExtra(Intent.EXTRA_TEXT, body)
         sendIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
         sendIntent.type = "text/plain"
-        app!!.startActivity(Intent.createChooser(sendIntent, "Send Crash To:"))
+        app?.startActivity(Intent.createChooser(sendIntent, "Send Crash To:"))
         defaultUEH.uncaughtException(t, e)
     }
 

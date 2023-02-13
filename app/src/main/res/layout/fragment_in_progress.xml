@@ -12,11 +12,41 @@
         android:layout_height="wrap_content"
         tools:context=".ui.dashboard.InProgressFragment">
 
+
+        <LinearLayout
+            android:id="@+id/ll_no_wishlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_20sdp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_no_doc" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_no_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_course_found"
+                android:textAlignment="center"
+                android:textSize="@dimen/textField_16"
+                app:fontType="semiBold"
+                app:textColorType="primary" />
+
+
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_courses"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -24,7 +54,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="10"
-            tools:listitem="@layout/adapter_my_course"
+            android:visibility="gone"
+            tools:listitem="@layout/item_moderator_courses"
 
             />
 

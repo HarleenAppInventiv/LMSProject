@@ -18,9 +18,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layoutDirection="rtl"
-            android:text="@string/text"
+            app:compoundTextColor="body"
             app:compoundFont="semiBold"
-            android:textColor="@color/hintColor"
             android:textSize="@dimen/textField_14"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,8 +28,8 @@
 
         <View
             android:layout_width="wrap_content"
-            android:layout_height="2dp"
-            android:background="@color/color_view"
+            android:layout_height="@dimen/_1sdp"
+            android:background="?attr/filterStrokeColor"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rb_text" />
 

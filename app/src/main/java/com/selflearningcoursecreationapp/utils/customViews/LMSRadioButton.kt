@@ -34,7 +34,7 @@ class LMSRadioButton : MaterialRadioButton {
     private fun initView(context: Context, attrs: AttributeSet? = null, defStyle: Int? = 0) {
         val themeAttrs = context.obtainStyledAttributes(
             attrs, R.styleable.LMSRadioButton,
-            defStyle!!, 0
+            defStyle ?: 0, 0
         )
 //
 //        val btnTint = themeAttrs.getInt(R.styleable.LMSCheckBox_btnTint, ThemeConstants.TYPE_PRIMARY)
@@ -56,7 +56,7 @@ class LMSRadioButton : MaterialRadioButton {
         val colors = intArrayOf(
             tintColor,
             primaryColor,
-            ContextCompat.getColor(context, R.color.et_dash_color)
+            ContextCompat.getColor(context, context.getAttrColor(R.attr.radioUnselectedColor))
         )
         buttonTintList = ColorStateList(states, colors)
 

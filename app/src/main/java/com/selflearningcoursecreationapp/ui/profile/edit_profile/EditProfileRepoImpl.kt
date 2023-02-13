@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.flowOn
 import retrofit2.Response
 
 class EditProfileRepoImpl(private val apiService: ApiService) : EditProfileRepo {
-    override suspend fun updateProfile(map: HashMap<String, Any>): Flow<Resource> {
+    override suspend fun updateProfile(map: HashMap<String, Any?>): Flow<Resource> {
         return object : BaseRepo<BaseResponse<UserResponse>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<UserResponse>> {
                 return apiService.updateProfile(map)

@@ -1,6 +1,5 @@
 package com.selflearningcoursecreationapp.ui.course_details.quiz
 
-import androidx.core.content.ContextCompat
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
@@ -26,20 +25,22 @@ class QuizReportDetailAdapter(
         val data = list[position]
 
         binding.tvQuesTitle.text = "${position + 1}. ${data.title}"
-        binding.ivHeader.visibleView(!data.questionImage.isNullOrEmpty())
+        binding.parentCL.visibleView(!data.questionImage.isNullOrEmpty())
         binding.ivHeader.loadImage(data.questionImage, R.drawable.ic_default_banner)
 
 
         if (showRightAnswer) {
             binding.tvColumnAns.setSpanString(
-                SpanUtils.with(context, "Your answer is CORRECT").startPos(15)
-                    .textColor(ContextCompat.getColor(context, R.color.accent_color_2FBF71))
+                SpanUtils.with(context, context.getString(R.string.your_answer_is_correct))
+                    .startPos(15)
+                    .textColor(context.getAttrResource(R.attr.accentColor_Green))
                     .getSpanString()
             )
         } else {
             binding.tvColumnAns.setSpanString(
-                SpanUtils.with(context, "Your answer is WRONG").startPos(15)
-                    .textColor(ContextCompat.getColor(context, R.color.accent_color_fc6d5b))
+                SpanUtils.with(context, context.getString(R.string.your_answer_is_wrong))
+                    .startPos(15)
+                    .textColor(context.getAttrResource(R.attr.accentColor_Red))
                     .getSpanString()
             )
 

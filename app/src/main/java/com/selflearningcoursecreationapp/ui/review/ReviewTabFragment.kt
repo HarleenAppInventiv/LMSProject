@@ -23,8 +23,10 @@ class ReviewTabFragment : BaseFragment<FragmentReviewParentBinding>() {
     }
 
 
+
     fun init() {
-        val nameArray = arrayListOf("Course Content", "Course Assignment")
+        val nameArray =
+            arrayListOf(getString(R.string.course_content), getString(R.string.course_assignment))
         val fragList = arrayListOf<Fragment>(CourseContentFragment(), CourseAssignmentFragment())
         binding.vpCoursesType.adapter =
             ScreenSlidePagerAdapter(childFragmentManager, fragList, this.lifecycle)

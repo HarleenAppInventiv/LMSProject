@@ -87,6 +87,28 @@
             app:layout_constraintTop_toBottomOf="@+id/txt_record_audio"
             app:primaryIconTint="start" />
 
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/txt_trim_audio"
+            spanText="@{@string/edit_audio}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:drawablePadding="@dimen/_10sdp"
+            android:lineSpacingExtra="4sp"
+            android:paddingHorizontal="@dimen/_16sdp"
+            android:paddingTop="@dimen/_22sdp"
+            android:paddingBottom="@dimen/_22sdp"
+            android:text="@string/edit_audio"
+            android:textSize="@dimen/textField_14"
+            android:visibility="gone"
+            app:drawableStartCompat="@drawable/ic_edit_pen"
+            app:fontType="regular"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_take_from_file"
+            app:primaryIconTint="start" />
+
 
         <View
             android:layout_width="0dp"
@@ -94,9 +116,21 @@
             android:layout_marginStart="@dimen/_40sdp"
             android:layout_marginEnd="@dimen/_16sdp"
             android:alpha="0.6"
-            android:background="@color/off_white_f5f5f5"
+            android:background="?attr/lineColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_record_audio" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_0.5dp"
+            android:layout_marginStart="@dimen/_40sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:alpha="0.6"
+            android:background="?attr/lineColor"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_take_from_file" />
     </com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout>
 </layout>

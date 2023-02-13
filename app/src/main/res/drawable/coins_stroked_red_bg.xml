@@ -3,7 +3,7 @@
 
     <stroke
         android:width="@dimen/_1sdp"
-        android:color="@color/accent_color_fc6d5b" />
+        android:color="?attr/accentColor_Red" />
     <corners android:radius="@dimen/_50sdp" />
 
 </shape>

@@ -62,7 +62,13 @@ class AssessmentReportDialog(private val data: QuizReportData) :
         ).startPos(44).isBold().themeColor()
             .getCallback {
 //                if (arguments?.containsKey("RE-TAKE ASSESSMENT") == true) {
-                onDialogClick(Constant.CLICK_VIEW)
+                if (data.attemptLeft ?: 0 <= 0) {
+                    showToastShort(getString(R.string.no_assessment_left))
+                    findNavController().navigateUp()
+                } else {
+                    onDialogClick(Constant.CLICK_VIEW)
+
+                }
 
                 dismiss()
 //                }
@@ -70,8 +76,10 @@ class AssessmentReportDialog(private val data: QuizReportData) :
 
         binding.tvResend.setSpanString(msg)
         binding.btnConfirmLater.setOnClickListener {
-            findNavController().navigateUp()
             dismiss()
+//            onDialogClick(Constant.CLICK_DELETE)
+            findNavController().navigateUp()
+
         }
     }
 

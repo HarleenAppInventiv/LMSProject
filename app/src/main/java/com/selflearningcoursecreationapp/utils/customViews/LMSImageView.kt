@@ -9,7 +9,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import com.selflearningcoursecreationapp.R
 
-class LMSImageView : AppCompatImageView {
+open class LMSImageView : AppCompatImageView {
 
     constructor(context: Context) : super(context) {
         initView(context)
@@ -33,7 +33,7 @@ class LMSImageView : AppCompatImageView {
     private fun initView(context: Context, attrs: AttributeSet? = null, defStyle: Int? = 0) {
         val themeAttrs = context.obtainStyledAttributes(
             attrs, R.styleable.LMSImageView,
-            defStyle!!, 0
+            defStyle ?: 0, 0
         )
 
         val changeBgType =
@@ -56,7 +56,8 @@ class LMSImageView : AppCompatImageView {
         colorMatrix.setSaturation(0.0f)
         val filter = ColorMatrixColorFilter(colorMatrix)
         colorFilter = filter
-
+//imageTintList=ColorStateList.valueOf(ContextCompat.getColor(context,R.color.offWhite_f6f6f6))
+//        imageTintMode=PorterDuff.Mode.SRC_OVER
     }
 
     fun changeBackground(changeBgType: Int) {

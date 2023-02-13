@@ -47,10 +47,11 @@
                         <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                             android:id="@+id/ivCourseImage"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_270sdp"
-                            android:scaleType="centerCrop"
+                            android:layout_height="@dimen/_150sdp"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_home_default_banner"
                             app:applyGrayscale="true"
-                            android:src="@drawable/ic_dummy_course"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <com.google.android.material.card.MaterialCardView
@@ -58,10 +59,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="@dimen/_16sdp"
-                            android:layout_marginTop="@dimen/_60sdp"
+                            android:layout_marginTop="@dimen/_minus60sdp"
                             app:cardBackgroundColor="?attr/screenBackgroundColor"
                             app:cardCornerRadius="@dimen/_8sdp"
-                            app:layout_constraintBottom_toBottomOf="@+id/ivCourseImage"
                             app:layout_constraintTop_toBottomOf="@+id/ivCourseImage">
 
 
@@ -76,7 +76,6 @@
                                     android:layout_marginStart="@dimen/_16sdp"
                                     android:layout_marginTop="@dimen/_12sdp"
                                     android:layout_marginEnd="@dimen/_8sdp"
-                                    android:text="@{viewModel.courseData.courseTitle}"
                                     android:textSize="@dimen/textField_15"
                                     app:fontType="semiBold"
                                     app:layout_constraintEnd_toStartOf="@+id/llRatings"
@@ -129,6 +128,12 @@
 
                                 </LinearLayout>
 
+                                <androidx.constraintlayout.widget.Barrier
+                                    android:id="@+id/nameBarried"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:barrierDirection="bottom"
+                                    app:constraint_referenced_ids="llRatings,tvCourseName" />
 
                                 <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                                     android:id="@+id/tv_category"
@@ -141,7 +146,7 @@
                                     app:layout_constraintHorizontal_bias="0"
                                     app:layout_constraintHorizontal_chainStyle="packed"
                                     app:layout_constraintStart_toStartOf="@+id/tvCourseName"
-                                    app:layout_constraintTop_toBottomOf="@+id/tvCourseName"
+                                    app:layout_constraintTop_toBottomOf="@+id/nameBarried"
                                     app:layout_constraintWidth_default="wrap"
                                     app:textColorType="heading" />
 
@@ -183,8 +188,8 @@
                                     android:layout_height="@dimen/_28sdp"
                                     android:layout_marginTop="@dimen/_17sdp"
                                     android:scaleType="centerCrop"
-                                    app:applyGrayscale="true"
                                     android:src="@drawable/ic_default_user_grey"
+                                    app:applyGrayscale="true"
                                     app:layout_constraintStart_toStartOf="@+id/tvCourseName"
                                     app:layout_constraintTop_toBottomOf="@+id/tv_category"
                                     app:shapeAppearanceOverlay="@style/circleImage" />
@@ -196,8 +201,8 @@
                                     android:layout_marginTop="@dimen/_10sdp"
                                     android:layout_marginBottom="@dimen/_10sdp"
                                     android:scaleType="centerCrop"
-                                    app:applyGrayscale="true"
                                     android:src="@drawable/ic_logo_default"
+                                    app:applyGrayscale="true"
                                     app:changeBackgroundType="bg_theme_solid"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="@+id/iv_profile_image"
@@ -281,13 +286,14 @@
                             app:textColorType="theme" />
 
                         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                            android:id="@+id/tv_description"
+                            android:id="@+id/tv_desc_invisible"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/_30sdp"
                             android:layout_marginTop="@dimen/_17sdp"
                             android:layout_marginBottom="@dimen/_16sdp"
                             android:lineSpacingExtra="@dimen/_4sdp"
                             android:textSize="@dimen/textField_14"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/cvTopDetails"
                             app:layout_constraintStart_toStartOf="@+id/cvTopDetails"
@@ -295,10 +301,41 @@
                             app:layout_constraintVertical_bias="0"
                             app:textColorType="heading" />
 
+                        <WebView
+                            android:id="@+id/tv_description"
+                            android:background="@color/transparent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_17sdp"
+                            android:layout_marginBottom="@dimen/_16sdp"
+                            android:lineSpacingExtra="@dimen/_4sdp"
+                            android:overScrollMode="never"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/cvTopDetails"
+                            app:layout_constraintStart_toStartOf="@+id/cvTopDetails"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_section_count"
+                            app:layout_constraintVertical_bias="0"
+                            android:scrollbars="none"
+                            android:textSize="@dimen/textField_12"
+                            app:textColorType="heading" />
+
+                        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                            android:id="@+id/tv_readMore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            android:padding="@dimen/_8sdp"
+                            android:text="@string/read_more_arrow"
+                            app:fontType="semiBold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_description"
+                            app:textColorType="theme" />
+
                         <androidx.constraintlayout.widget.Group
                             android:id="@+id/progressG"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:visibility="gone"
                             app:constraint_referenced_ids="tv_progress,pb_progress" />
 
                         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
@@ -306,13 +343,11 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_24sdp"
-                            android:text="8% COMPLETED"
                             android:textSize="@dimen/textField_11"
-                            android:visibility="gone"
                             app:fontType="medium"
                             app:layout_constraintEnd_toEndOf="@+id/tv_description"
                             app:layout_constraintStart_toStartOf="@+id/tv_description"
-                            app:layout_constraintTop_toBottomOf="@+id/tv_description"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_readMore"
                             app:textColorType="body" />
 
                         <androidx.appcompat.widget.AppCompatSeekBar
@@ -347,6 +382,7 @@
                         android:paddingTop="@dimen/_24sdp"
                         android:textSize="@dimen/toolbar_14"
                         app:contentInsetLeft="0dp"
+                        app:navigationContentDescription="@string/back_button"
                         app:contentInsetStart="0dp"
                         app:contentInsetStartWithNavigation="0dp"
                         app:layout_collapseMode="pin"
@@ -360,38 +396,62 @@
 
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-                <View
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_1sdp"
-                    android:background="@color/opacity_15_929292" />
+                    android:layout_height="wrap_content"
+                    android:background="?attr/screenBackgroundColor"
+                    android:elevation="@dimen/_4sdp"
+                    app:layout_collapseMode="pin">
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tlHeader"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="?attr/viewBackgroundColor"
-                    android:textSize="@dimen/homeAdapterTF_13"
-                    app:layout_collapseMode="pin"
-                    app:tabBackground="?attr/screenBackgroundColor"
-                    app:tabIndicatorColor="?attr/colorPrimary"
-                    app:tabIndicatorHeight="@dimen/_2sdp"
-                    app:tabMode="scrollable"
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tlHeader"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:background="?attr/viewBackgroundColor"
+                        android:textSize="@dimen/homeAdapterTF_13"
+                        app:layout_collapseMode="pin"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tabBackground="?attr/screenBackgroundColor"
+                        app:tabIndicatorColor="?attr/colorPrimary"
+                        app:tabIndicatorHeight="@dimen/_2sdp"
+                        app:tabMode="scrollable"
 
-                    app:tabSelectedTextColor="?attr/headingTextColor"
-                    app:tabTextAppearance="@style/MyTabTextAppearance"
-                    app:tabTextColor="?attr/hintColor" />
+                        app:tabSelectedTextColor="?attr/headingTextColor"
+                        app:tabTextAppearance="@style/MyTabTextAppearance"
+                        app:tabTextColor="?attr/hintColor" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_1sdp"
-                    android:background="@color/opacity_15_929292" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:background="@color/opacity_15_929292"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:background="@color/opacity_15_929292"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tlHeader" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.appbar.AppBarLayout>
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewpager"
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                android:fillViewport="true"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </androidx.core.widget.NestedScrollView>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -432,8 +492,8 @@
                 android:layout_marginEnd="@dimen/_16sdp"
                 android:layout_marginBottom="@dimen/_15sdp"
                 android:text="@string/enroll_now"
-                android:textAllCaps="true"
-
+                android:capitalize="none"
+                android:textAllCaps="false"
                 android:textSize="@dimen/materialButton_14"
                 app:buttonFont="medium"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -506,7 +566,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:drawablePadding="@dimen/_5sdp"
-                android:text="2000 Points"
                 android:textSize="@dimen/textField_14"
                 android:visibility="gone"
                 app:drawableStartCompat="@drawable/ic_rewards_points"

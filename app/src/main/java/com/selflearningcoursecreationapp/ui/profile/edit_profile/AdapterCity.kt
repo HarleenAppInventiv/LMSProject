@@ -6,7 +6,6 @@ import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterCourceCategoriesBinding
 import com.selflearningcoursecreationapp.models.CityModel
 import com.selflearningcoursecreationapp.utils.Constant
-import java.util.*
 
 class AdapterCity(private val cityList: ArrayList<CityModel>) :
     BaseAdapter<AdapterCourceCategoriesBinding>() {
@@ -14,6 +13,8 @@ class AdapterCity(private val cityList: ArrayList<CityModel>) :
     override fun getItemCount() = cityList.size
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
+        val binding = holder.binding as AdapterCourceCategoriesBinding
+
         binding.tvRemoveSection.apply {
 
             text = cityList[position].cityName

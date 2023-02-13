@@ -12,6 +12,7 @@ import com.selflearningcoursecreationapp.data.network.EventObserver
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.prefrence.PreferenceDataStore
 import com.selflearningcoursecreationapp.di.getAppContext
+import com.selflearningcoursecreationapp.extensions.isNullOrZero
 import com.selflearningcoursecreationapp.extensions.showException
 import com.selflearningcoursecreationapp.extensions.showLog
 import com.selflearningcoursecreationapp.models.AppThemeFile
@@ -34,6 +35,7 @@ abstract class BaseViewModel : ViewModel() {
         getUserData()
     }
 
+
     fun getUserData() {
         viewModelScope.launch {
             withContext(viewModelScope.coroutineContext) {
@@ -53,12 +55,11 @@ abstract class BaseViewModel : ViewModel() {
 
 
     val coroutineExceptionHandle = CoroutineExceptionHandler { _, e ->
-        Log.d(LogTag, "CoroutineExceptionHandler")
+        Log.d(LogTag, "CoroutineExceptionHandler >> ${e.message}")
 
         updateResponseObserver(Resource.Failure(false, "", ApiError().apply {
             exception = e
         }))
-        Log.d(LogTag, "${e.message}")
     }
 
     fun getApiResponse(): LiveData<EventObserver<Resource>> = _response
@@ -78,6 +79,14 @@ abstract class BaseViewModel : ViewModel() {
             PreferenceDataStore.saveString(Constants.USER_RESPONSE, Gson().toJson(userResponse))
         }
     }
+
+//    suspend fun setIntercomLoginStatus(isLogIn: Boolean) {
+//        PreferenceDataStore.saveBoolean(Constants.INTERCOM_LOGIN, isLogIn)
+//    }
+
+//    suspend fun getIntercomLoginStatus(): Boolean {
+//        return PreferenceDataStore.getBoolean(Constants.INTERCOM_LOGIN) == true
+//    }
 
     suspend fun saveUserToken(token: String?) {
         PreferenceDataStore.saveString(Constants.USER_TOKEN, token ?: "")
@@ -166,6 +175,15 @@ abstract class BaseViewModel : ViewModel() {
 
     }
 
+    suspend fun saveLanguageId(languageCodeId: Int) {
+        PreferenceDataStore.saveInt(
+            Constants.LANGUAGE_ID,
+            languageCodeId
+        )
+
+
+    }
+
     suspend fun saveUserDataInDB(
         data: BaseResponse<UserResponse>,
     ) {
@@ -183,6 +201,7 @@ abstract class BaseViewModel : ViewModel() {
                     }
 
                 }
+                saveViMode(user.viMode == true)
                 user.font?.id?.let { fontId ->
                     if (fontId >= 0)
                         saveFont(fontId)
@@ -190,6 +209,10 @@ abstract class BaseViewModel : ViewModel() {
                 user.language?.code?.let { languageCode ->
                     if (languageCode.isNotEmpty())
                         saveLanguage(languageCode)
+                }
+                user.language?.id?.let { languageCode ->
+                    if (!languageCode.isNullOrZero())
+                        saveLanguageId(languageCode)
                 }
 
             }
@@ -211,5 +234,12 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
+//    fun localToGMT(date: String): String {
+////        val date = Date()
+//        Log.d("TimeTest", "date: $date ")
+//        val sdf = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+//        sdf.timeZone = TimeZone.getTimeZone("UTC")
+//        return sdf.format(date).toString()
+//    }
 
 }

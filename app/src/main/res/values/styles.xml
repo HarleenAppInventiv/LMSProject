@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+
     <style name="circle">
         <item name="cornerSize">50%</item>
     </style>
 
     <style name="corner_radius_5">
         <item name="cornerSize">5%</item>
+    </style>
+
+
+    <style name="TrackSelectionDialogThemeOverlay" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="windowNoTitle">false</item>
     </style>
 
     <style name="AboutCategory">
@@ -130,7 +136,7 @@
         <item name="android:fontFamily">?attr/fontMedium</item>
         <item name="cornerRadius">@dimen/_5sdp</item>
         <item name="android:textAllCaps">false</item>
-        <item name="textAllCaps">true</item>
+        <item name="textAllCaps">false</item>
         <item name="android:padding">@dimen/_10sdp</item>
         <item name="android:paddingTop">@dimen/_12sdp</item>
         <item name="android:paddingBottom">@dimen/_12sdp</item>
@@ -222,11 +228,13 @@
     <dimen name="textField_11">@dimen/_9ssp</dimen>
     <dimen name="textField_12">@dimen/_10ssp</dimen>
     <dimen name="textField_14">@dimen/_11ssp</dimen>
+    <dimen name="textField_14.5">@dimen/_12ssp</dimen>
     <dimen name="textField_15">@dimen/_13ssp</dimen>
     <dimen name="textField_16">@dimen/_14ssp</dimen>
     <dimen name="textField_17">@dimen/_15ssp</dimen>
     <dimen name="textField_24">@dimen/_19ssp</dimen>
     <dimen name="textField_28">@dimen/_24ssp</dimen>
+    <dimen name="textField_28_reduced">@dimen/_22ssp</dimen>
     <dimen name="textField_46">@dimen/_42ssp</dimen>
     <dimen name="textField_21">@dimen/_18ssp</dimen>
     <dimen name="textField_20">@dimen/_19ssp</dimen>

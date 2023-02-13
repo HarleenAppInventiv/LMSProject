@@ -8,10 +8,17 @@ import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel
 import com.selflearningcoursecreationapp.ui.create_course.review.LectureViewAdapter
 import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.utils.ModHomeConst
+import com.selflearningcoursecreationapp.utils.builderUtils.ImageViewBuilder
 import com.selflearningcoursecreationapp.utils.builderUtils.ResizeableUtils
 import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 
-class ModCourseSectionAdapter(private var list: ArrayList<SectionModel>) :
+class ModCourseSectionAdapter(
+    private var list: ArrayList<SectionModel>,
+    private var createdById: Int?,
+    private var status: Int,
+    private val pending: Int
+) :
     BaseAdapter<AdapterModCourseSectionBinding>() {
     override fun getLayoutRes() = R.layout.adapter_mod_course_section
 
@@ -22,13 +29,30 @@ class ModCourseSectionAdapter(private var list: ArrayList<SectionModel>) :
         binding.sectionData = data
         binding.executePendingBindings()
 
+
+
         binding.tvTotalTime.text = data.sectionDuration.getTime(context)
         binding.tvLectureList.text = data.lessonList.getLessonCount(context).joinToString(", ")
+
+        binding.ivUserImage.visibleView(createdById != data.sectionCreatedById)
+        binding.ivUserLogo.visibleView(createdById != data.sectionCreatedById)
+
+
+        ImageViewBuilder.builder(binding.ivUserImage)
+            .setImageUrl(data.sectionCreatedByProfileURL)
+            .placeHolder(R.drawable.ic_default_user_grey)
+            .loadImage()
+
+        ImageViewBuilder.builder(binding.ivUserLogo)
+            .setImageUrl(data.sectionLogoURL)
+            .placeHolder(R.drawable.ic_logo_default)
+            .loadImage()
+
 
         binding.tvComment.setSpanString(
             SpanUtils.with(
                 context,
-                "Comment : Lorem ipsum dolor sitamet, consecte tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                "Comment: ${list.get(position).moderatorComment}"
             ).endPos(7).isBold().getSpanString()
         )
 
@@ -36,19 +60,28 @@ class ModCourseSectionAdapter(private var list: ArrayList<SectionModel>) :
             onItemClick(Constant.CLICK_VIEW, position)
         }
         binding.clLesson.visibleView(data.isVisible)
-        binding.commentG.visibleView(position % 2 != 0)
+        binding.commentG.visibleView(!list.get(position).moderatorComment.isNullOrEmpty())
+
+        binding.ivEdit.visibleView(status == ModHomeConst.PENDING && !list[position].moderatorComment.isNullOrEmpty())
+        binding.ivDelete.visibleView(status == ModHomeConst.PENDING && !list[position].moderatorComment.isNullOrEmpty())
+
+//        binding.tvComment.text = list.get(position).moderatorComment
+        binding.tvTime.text = list.get(position).commentCreatedDate.changeDateFormat()
         if (data.isVisible) {
             binding.ivExtend.setImageResource(R.drawable.ic_arrow_top)
-            binding.ivComment.visibleView(position % 2 == 0)
+            binding.ivComment.visibleView(list.get(position).moderatorComment.isNullOrEmpty() && status == ModHomeConst.PENDING)
+            binding.tvLessonName.isSingleLine = false
+
         } else {
             binding.ivExtend.setImageResource(R.drawable.ic_arrow_bottom)
             binding.ivComment.gone()
+            binding.tvLessonName.isSingleLine = true
         }
         binding.ivExtend.setOnClickListener {
             list[position].isVisible = !list[position].isVisible
             notifyItemChanged(position)
         }
-        binding.rvLessons.adapter = LectureViewAdapter(data.lessonList, true).apply {
+        binding.rvLessons.adapter = LectureViewAdapter(data.lessonList, true, pending).apply {
             setOnAdapterItemClickListener(object : BaseAdapter.IViewClick {
                 override fun onItemClick(vararg items: Any) {
                     if (items.isNotEmpty()) {
@@ -62,13 +95,30 @@ class ModCourseSectionAdapter(private var list: ArrayList<SectionModel>) :
 
             })
         }
+        binding.ivComment.setOnClickListener {
+            onItemClick(Constant.CLICK_ADD, position)
+        }
+        binding.ivEdit.setOnClickListener {
+            onItemClick(Constant.CLICK_EDIT, position)
+
+        }
+        binding.ivDelete.setOnClickListener {
+            onItemClick(Constant.CLICK_DELETE, position)
+
+        }
         ResizeableUtils.builder(binding.tvDescription)
+            .isBold(false)
             .isUnderline(false)
             .setFullText(data.sectionDescription)
-            .setFullText(R.string.read_more)
+            .setFullText(R.string.read_more_arrow)
             .showDots(true)
             .build()
     }
 
     override fun getItemCount() = list.size
+
+    fun changeStatus(status: Int) {
+        this.status = status
+        notifyDataSetChanged()
+    }
 }

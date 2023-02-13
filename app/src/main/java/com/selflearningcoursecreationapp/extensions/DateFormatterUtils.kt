@@ -6,17 +6,19 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+
 fun Date?.getStringDate(format: String? = "MMM dd, yyyy"): String {
     if (this == null || format.isNullOrEmpty()) {
         return ""
     }
+
     val outputFormat = SimpleDateFormat(format, Locale.getDefault())
     return outputFormat.format(this)
 }
 
 fun String?.changeDateFormat(
     sourceFormat: String? = "yyyy-MM-dd'T'hh:mm:ss",
-    outputFormat: String? = "MMM dd, yyyy",
+    outputFormat: String? = "dd MMM yyyy",
 ): String {
     if (isNullOrEmpty()) {
         return ""
@@ -29,12 +31,17 @@ fun String?.createDate(sourceFormat: String?): Date {
         return Date()
     }
     val inputFormat = SimpleDateFormat(sourceFormat, Locale.getDefault())
+    inputFormat.timeZone = TimeZone.getTimeZone("UTC")
     var date = Date()
     try {
         date = inputFormat.parse(this)
     } catch (e: ParseException) {
         showException(e)
     }
+//    val localInputFormat = SimpleDateFormat(sourceFormat, Locale.getDefault())
+//    localInputFormat.timeZone = TimeZone.getDefault()
+//    var time= localInputFormat.format(date.getTime())
+//    date= localInputFormat.parse(time)
     return date
 }
 
@@ -81,16 +88,155 @@ private const val MINUTE_MILLIS = 60 * SECOND_MILLIS
 private const val HOUR_MILLIS = 60 * MINUTE_MILLIS
 private const val DAY_MILLIS = 24 * HOUR_MILLIS
 
-fun getCurrentDate() {
+fun getCurrentDate(): String {
+    val sdf = SimpleDateFormat("yyyy-MM-dd")
+    return sdf.format(Date())
+}
+
+fun String.convertToUtc(): String {
+    var selectedDate = this.getFormateedDateYear("yyyy-MM-dd", "EEE MMM dd")
+    var selectedYear = this.getFormateedDateYear("yyyy-MM-dd", "yyyy")
+
+    var fullDate = "${selectedDate} ${"00:00:00"} ${selectedYear}"
+
+    val sdfForDateUTC = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+    sdfForDateUTC.timeZone = TimeZone.getTimeZone("UTC")
+    val currentDate = sdfForDateUTC.format(Date(fullDate))
+
+    showLog("searchFields", "" + currentDate)
+    return currentDate
+}
+
+
+private fun String.getFormateedDateYear(inFormat: String, outputFormat: String): String {
+    val inFormat = SimpleDateFormat(inFormat)
+    val date = inFormat.parse(this)
+    val outFormat = SimpleDateFormat(outputFormat)
+    val goal = outFormat.format(date)
+    return goal
+}
+
+fun getLastWeekDate(dateString: String, noOfDays: Int = 7): String {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+    val myDate: Date = dateFormat.parse(dateString)
+    val calendar = Calendar.getInstance()
+    calendar.time = myDate
+    calendar.add(Calendar.DAY_OF_YEAR, -noOfDays)
+    val newDate = calendar.time
+    val date: String = dateFormat.format(newDate)
+    return date
 
 }
 
+fun getLastMOnthDate(dateString: String): String {
+    val calendar = Calendar.getInstance()
+    var monthDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+    return getLastWeekDate(dateString, monthDays)
+}
+
+fun getNextMOnthDate(dateString: String): String {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+    val myDate: Date = dateFormat.parse(dateString)
+    val calendar = Calendar.getInstance()
+    calendar.time = myDate
+    var monthDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+    return getNextXDays(dateString, monthDays)
+}
+
+fun getNextXDays(dateString: String, noOfDays: Int = 1): String {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+    val myDate: Date = dateFormat.parse(dateString)
+    val calendar = Calendar.getInstance()
+    calendar.time = myDate
+    calendar.add(Calendar.DAY_OF_YEAR, +noOfDays)
+    val newDate = calendar.time
+    val date: String = dateFormat.format(newDate)
+    return date
+}
+
+fun getNextDay(
+    dateString: String,
+    sourceFormat: String? = "yyyy-MM-dd",
+): String {
+    val dateFormat = SimpleDateFormat(sourceFormat)
+    val myDate: Date = dateFormat.parse(dateString)
+    val calendar = Calendar.getInstance()
+    calendar.time = myDate
+    calendar.add(Calendar.DAY_OF_YEAR, +1)
+    val newDate = calendar.time
+    val date: String = dateFormat.format(newDate)
+    return date
+}
+
+fun getLastDay(dateString: String): String {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+    val myDate: Date = dateFormat.parse(dateString)
+    val calendar = Calendar.getInstance()
+    calendar.time = myDate
+    calendar.add(Calendar.DAY_OF_YEAR, -1)
+    val newDate = calendar.time
+    val date: String = dateFormat.format(newDate)
+    return date
+}
+
 fun getTimeAgo(date: String): String {
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss")
+//    var dateFormat: SimpleDateFormat? = null /*SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss")*/
+//
+//    if (type != 0) {
+//        dateFormat = SimpleDateFormat("MM/dd/yyyy 'T'hh:mm:ss")
+//
+//    } else {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+
+//    }
     dateFormat.timeZone = TimeZone.getTimeZone("UTC")
     val pasTime = dateFormat.parse(date)
 
     var time = pasTime.time
+    if (time < 1000000000000L) {
+        time *= 1000
+    }
+
+    val now = Calendar.getInstance().timeInMillis
+    if (time > now || time <= 0) {
+        return "Just Now"
+    }
+
+    val diff = now - time
+    return when {
+        diff < MINUTE_MILLIS -> "moments ago"
+        diff < 2 * MINUTE_MILLIS -> "a mins ago"
+        diff < 60 * MINUTE_MILLIS -> "${diff / MINUTE_MILLIS} mins ago"
+        diff < 2 * HOUR_MILLIS -> "an hour ago"
+        diff < 24 * HOUR_MILLIS -> "${diff / HOUR_MILLIS} hours ago"
+        diff < 48 * HOUR_MILLIS -> "yesterday"
+        else -> "${diff / DAY_MILLIS} days ago"
+    }
+}
+
+//fun getLocalToUTCDate(date: Date?): String? {
+//    val calendar: Calendar = Calendar.getInstance()
+//    calendar.time = date
+//    calendar.timeZone = TimeZone.getTimeZone("UTC")
+//    val time: Date = calendar.time
+//    @SuppressLint("SimpleDateFormat") val outputFmt =
+//        SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+//    outputFmt.timeZone = TimeZone.getTimeZone("UTC")
+//    return outputFmt.format(time)
+//}
+
+
+fun getTime(date: Long): String {
+//    var dateFormat: SimpleDateFormat? = null /*SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss")*/
+//
+//    if (type != 0) {
+//        dateFormat = SimpleDateFormat("MM/dd/yyyy 'T'hh:mm:ss")
+//
+//    } else {
+
+//    }
+
+    var time = date
     if (time < 1000000000000L) {
         time *= 1000
     }
@@ -102,10 +248,9 @@ fun getTimeAgo(date: String): String {
 
     val diff = now - time
     return when {
-        diff < MINUTE_MILLIS -> "moments ago"
-        diff < 2 * MINUTE_MILLIS -> "a mins ago"
-        diff < 60 * MINUTE_MILLIS -> "${diff / MINUTE_MILLIS} mins ago"
-        diff < 2 * HOUR_MILLIS -> "an hour ago"
+        diff < MINUTE_MILLIS -> "seconds"
+        diff < 2 * MINUTE_MILLIS -> " mins "
+        diff < 2 * HOUR_MILLIS -> " hour "
         diff < 24 * HOUR_MILLIS -> "${diff / HOUR_MILLIS} hours ago"
         diff < 48 * HOUR_MILLIS -> "yesterday"
         else -> "${diff / DAY_MILLIS} days ago"
@@ -140,4 +285,11 @@ fun getFirstLastDateOfMonth(isFirst: Boolean, date: Date?): Date? {
 
     }
     return cal.time
+}
+
+fun LocalToGMT(date: Date): String {
+//    val date = Date()
+    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    sdf.timeZone = TimeZone.getTimeZone("UTC")
+    return sdf.format(date)
 }

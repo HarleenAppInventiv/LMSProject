@@ -1,7 +1,9 @@
 package com.selflearningcoursecreationapp.utils
 
 
-const val ACTION_NOTIFICATION_BROADCAST = "com.skillfy.notification_broadcast"
+val ACTION_NOTIFICATION_BROADCAST = "com.skillfy.notification_broadcast"
+val ACTION_RECORDER_BROADCAST = "com.skillfy.recorder_broadcast"
+val ACTION_RECORDER_BROADCAST_NOTIFY = "com.skillfy.recorder_broadcast_notify"
 
 
 enum class Constants {
@@ -9,184 +11,295 @@ enum class Constants {
     APP_THEME,
     FONT_THEME,
     LANGUAGE_THEME,
+    LANGUAGE_ID,
     WALKTHROUGH_DONE,
     THEME_FILE,
     USER_RESPONSE,
     VI_MODE,
     USER_TOKEN,
     EMAIL,
+    INTERCOM_LOGIN,
     PASSWORD,
     COUNTYRY_CODE,
     COURSE_ID,
-    FCM_TOKEN
+    FCM_TOKEN,
 
+
+}
+
+
+object PaymentWithdrawlStatys {
+    val BLOCKED = 0
+    val ACCEPTED = 1
+    val PENDING = 2
+    val REJECTED = 3
+    val CANCELLED = 4
+}
+
+object WalletHistoryStatus {
+    val FAILED = 16
+    val PROCESSING = 32
+    val PROCESSED = 64
+    val REVERSED = 128
+    val QUEUED = 256
+    val PENDING = 512
+    val REJECTED = 1024
 }
 
 object RequestCode {
-    const val ACCESSIBILITY = 11
+    val CAPTURE_IMAGE = 10
+    val ACCESSIBILITY = 11
+    val PICK_IMAGE = 12
+    val CAPTURE_BANNER_IMAGE = 13
+    val PICK_BANNER_IMAGE = 14
+    val CAPTURE_VIDEO = 15
+    val PICK_VIDEO = 16
+    val PICK_DOCUMENT = 17
+    val PICK_AUDIO = 18
+    val PICK_PDF_DOCUMENT = 19
+    val OVERLAY_PERMISSION = 20
+    val RECORD_PERMISSION = 21
+    val PRACTICE_ACCENT = 22
 }
 
 object ThemeConstant {
-    const val BLUE = 1
-    const val WINE = 2
-    const val BLACK = 3
-    const val SEA = 4
+    val BLUE = 1
+    val WINE = 2
+    val BLACK = 3
+    val SEA = 4
 }
 
 object FontConstant {
-    const val ROBOTO = 1
-    const val IBM = 2
-    const val WORK_SANS = 3
+    val ROBOTO = 1
+    val IBM = 2
+    val WORK_SANS = 3
 }
 
 object LanguageConstant {
-    const val ENGLISH = "en"
-    const val KANNADA = "kn"
-    const val TAMIL = "ta"
-    const val TELUGU = "te"
-    const val BENGALI = "bn"
-    const val HINDI = "hi"
+    val ENGLISH = "en"
+    val KANNADA = "kn"
+    val TAMIL = "ta"
+    val TELUGU = "te"
+    val BENGALI = "bn"
+    val HINDI = "hi"
+}
+
+object NotificationType {
+    val COURSE_PUBLISHED = "1"
+    val COURSE_REJECTED = "2"
+    val MODERATOR_REQUEST_APPROVED = "3"
+    val MODERATOR_REQUEST_REJECTED = "4"
+    val COAUTHOR_REQUEST = "5"
+    val COURSE_REVIEW_REQUEST = "6"
+    val REWARDS_EARNED = "8"
+    val REVIEW_ADDED = "9"
+    val COAUTHOR_ACCEPT_REQUEST = "10"
+    val COAUTHOR_REJECT_REQUEST = "11"
+    val COAUTHOR_COURSE_SUBMIT = "12"
+    val LEARNER_ENROLLED_COURSE = "13"
+    val ENROLLED_COURSE = "14"
+    val AS_MODERATOR_BLOCKED = "15"
+    val COURSE_SUBMITTED = "16"
+    val UPLOAD_SIGN = "17"
+    val DELETE_SIGN = "18"
 }
 
 
 object Lecture {
-    const val CLICK_LESSON_DOCS = 1001
-    const val CLICK_LESSON_VIDEO = 1002
-    const val CLICK_LESSON_AUDIO = 1003
-    const val CLICK_LESSON_TEXT = 1004
-    const val CLICK_LESSON_SCREEN_RECORD = 1005
-    const val CLICK_LESSON_QUIZ = 1006
+    val CLICK_LESSON_DOCS = 1001
+    val CLICK_LESSON_VIDEO = 1002
+    val CLICK_LESSON_AUDIO = 1003
+    val CLICK_LESSON_TEXT = 1004
+    val CLICK_LESSON_SCREEN_RECORD = 1005
+    val CLICK_LESSON_QUIZ = 1006
 
 }
 
 object Permission {
-    const val TAKE_PHOTO = 100
-    const val GALLERY = 200
-    const val DOC = 300
-    const val RECORD_AUDIO = 400
-    const val CAPTURE_VIDEO = 500
-    const val FILE_MANAGER = 600
+    val TAKE_PHOTO = 100
+    val GALLERY = 200
+    val DOC = 300
+    val RECORD_AUDIO = 400
+    val CAPTURE_VIDEO = 500
+    val FILE_MANAGER = 600
+    val FIXCROP = 1
 }
 
 
+
 object Constant {
-    const val CLICK_VIEW = 100
-    const val CLICK_MORE = 101
-    const val CLICK_DELETE = 102
-    const val CLICK_UPLOAD = 103
-    const val CLICK_EDIT = 104
-    const val CLICK_IMAGE = 105
-    const val CLICK_ADD = 108
-    const val CLICK_ADD_SECTION = 109
-    const val CLICK_SWAP = 110
-    const val CLICK_COAUTHOR_VISIBLE = 111
-    const val CLICK_PLAY = 112
-    const val CLICK_TEXT_CHANGES = 113
-    const val CLICK_SAVE = 200
-    const val CLICK_OPTION_DELETE = 300
-    const val CLICK_DETAILS = 500
-    const val CLICK_SEE_ALL = 1000
-    const val CLICK_BOOKMARK = 1500
-    const val CLICK_BUYBUTTON = 2000
-    const val CLICK_CAT = 201
-    const val CLICK_CAT_OPTIONS = 402
-    const val CLICK_ACCEPT = 114
-    const val CLICK_REJECT = 115
-    const val CLICK_ASSESSMENT = 116
-    const val CLICK_LESSON = 117
+    val CLICK_VIEW = 100
+    val CLICK_MORE = 101
+    val CLICK_DELETE = 102
+    val CLICK_UPLOAD = 103
+    val CLICK_EDIT = 104
+    val CLICK_IMAGE = 105
+    val CLICK_ADD = 108
+    val CLICK_ADD_SECTION = 109
+    val CLICK_SWAP = 110
+    val CLICK_COAUTHOR_VISIBLE = 111
+    val CLICK_PLAY = 112
+    val CLICK_TEXT_CHANGES = 113
+    val CLICK_ACCEPT = 114
+    val CLICK_REJECT = 115
+    val CLICK_ASSESSMENT = 116
+    val CLICK_LESSON = 117
+    val CLICK_BEFORE_TEXT_CHANGES = 118
+    val CLICK_AFTER_TEXT_CHANGES = 119
+
+    val CLICK_EDIT_COMMENT = 120
+    val CLICK_DELETE_COMMENT = 121
+    val CLICK_REQUEST = 122
+    val CLICK_PENDING = 123
+    val CLICK_ASSESSMENT_REVIEW = 124
+    val CLICK_ADD_COMMENT = 125
+    val CLICK_SAVE = 200
+    val CLICK_CAT = 201
+    val CLICK_INVOICE = 202
+    val CLICK_QUIZ_REPORT = 203
+    val CLICK_ADD_COMMENT_LEC = 204
+    val CLICK_EDIT_COMMENT_LEC = 205
+    val CLICK_DELETE_COMMENT_LEC = 206
+    val CLICK_REPORT = 208
+
+    val DOWNLOAD_COMPLETIION = 209
+    val DOWNLOAD_APPRECIATION = 210
+    val CLICK_OPTION_DELETE = 300
+    val CLICK_INFO = 400
+    val CLICK_CAT_OPTIONS = 402
+    val CLICK_DETAILS = 500
+    val CLICK_SEE_ALL = 1000
+    val CLICK_BOOKMARK = 1500
+    val CLICK_BUYBUTTON = 2000
 
 
-    const val TYPE_ROUND = 1
-    const val TYPE_LINE = 2
-    const val TYPE_MONTH = 3
-    const val TYPE_YEAR = 4
+    val COMMENT_TITLE = 1
+    val COMMENT_DESC = 2
+    val COMMENT_ASSESSMENT = 3
 
-    const val TYPE_CATEGORY = 0
-    const val TYPE_REQUEST_DATE = 1
-    const val TYPE_FEE_RANGE = 2
-    const val TYPE_CREATOR_NAME = 3
+    val SEARCH_CROSS = 1
+    val CLICK_SUGGESTION = 2
 
 
-    const val COURSE_COMPLETED = 1
-    const val COURSE_COMPLETED_REWARD = 4
-    const val COURSE_IN_PROGRESS = 2
-    const val MYCOURSES = 5
-    const val COURSE_BOOKMARKED = 3
+    val TYPE_ROUND = 1
+    val TYPE_LINE = 2
+    val TYPE_MONTH = 3
+    val TYPE_YEAR = 4
 
-    const val COURSE = 1
-    const val LANG = 2
+    val TYPE_CATEGORY = 0
+    val TYPE_REQUEST_DATE_START_DATE = 1
+    val TYPE_FEE_RANGE = 2
+    val TYPE_CREATOR_NAME = 3
 
 
-    const val DESC = 1
-    const val KEY_TAKEAWAY = 2
-    const val TEXT_AS_LESSON = 2
+    val COURSE_COMPLETED = 1
+    val COURSE_COMPLETED_REWARD = 4
+    val COURSE_IN_PROGRESS = 2
+    val MYCOURSES = 5
+    val COURSE_BOOKMARKED = 3
 
+    val COURSE = 1
+    val LANG = 2
+
+
+    val DESC = 1
+    val KEY_TAKEAWAY = 2
+    val TEXT_AS_LESSON = 2
+
+    val CLICK_AUTHOR_PROFILE = 1
+
+    const val ACCEPTED_COURSES = 1
+    const val PENDING_COURSES = 2
+    const val REJECTED_COURSES = 3
+
+    const val DESC_CHAR_COUNT_MAX = 150
 
 }
 
 object ValidationConst {
-    const val MIN_NO_LENGTH = 5
-    const val MAX_NO_LENGTH = 15
+    const val MIN_NO_LENGTH = 10
+    const val MAX_NO_LENGTH = 10
+
+    const val MAX_EMAIL_LENGTH = 50
+
     const val MAX_NAME_LENGTH = 30
     const val MIN_NAME_LENGTH = 2
+
     const val MAX_PASSWORD_LENGTH = 16
-    const val MIN_PASSWORD_LENGTH = 8
+    const val MIN_PASSWORD_LENGTH = 4
+
     const val OTP_TIME = 60000L
     const val OTP_TIME_REQUEST = 5
-    const val MAX_COURSE_TITLE_LENGTH = 500
-    const val MAX_COURSE_TITLE_LENGTH_SHOW = 256
-    const val MAX_COURSE_DESC_LENGTH = 4000
-    const val MAX_COURSE_DESC_LENGTH_SHOW = 500
+
+    //course const validation
+    const val MAX_COURSE_TITLE_LENGTH = 256
+    const val MAX_COURSE_DESC_LENGTH = 500
+
+    const val MAX_COURSE_SECTION_LENGTH = 256
+    const val MAX_COURSE_SECTION_DESC_LENGTH = 500
+
+    const val MAX_COURSE_LESSON_LENGTH = 256
+    const val MAX_COURSE_COMMENT_LENGTH = 4000
     const val MAX_QUIZ_TITLE = 1000
     const val MAX_QUIZ_OPTION_LENGTH = 1000
+
+    //bank const validation
+    const val MAX_BANK_ACCOUNT_NUM_LEN = 17
+    const val MIN_BANK_ACCOUNT_NUM_LEN = 10
+    const val MAX_BANK_ACCOUNT_NAME = 60
+    const val MIN_BANK_ACCOUNT_NAME = 2
+    const val MIN_IFSC_LENGTH = 11
 }
 
 object LoginConstant {
-    const val IS_LOGIN = 0
+    val IS_LOGIN = 0
 }
 
 
 object TAG {
-    const val ACCESSIBILITY = "Accessibility"
+    val ACCESSIBILITY = "Accessibility"
 }
 
 object PREFERENCES {
-    const val TYPE_CATEGORY = 0
-    const val TYPE_THEME = 1
-    const val TYPE_FONT = 2
-    const val TYPE_LANGUAGE = 3
-    const val TYPE_ALL = -1
-    const val SCREEN_APP = 1
-    const val SCREEN_SELECT = 2
+    val TYPE_CATEGORY = 0
+    val TYPE_THEME = 1
+    val TYPE_FONT = 2
+    val TYPE_LANGUAGE = 3
+    val TYPE_ALL = -1
+    val SCREEN_APP = 1
+    val SCREEN_SELECT = 2
 
 }
 
 object OtpType {
-    const val TYPE_SIGNUP = 1
-    const val TYPE_LOGIN = 2
-    const val TYPE_FORGOT = 3
-    const val TYPE_EMAIL = 4
+    val TYPE_SIGNUP = 1
+    val TYPE_LOGIN = 2
+    val TYPE_FORGOT = 3
+    val TYPE_EMAIL = 4
 }
 
 object DialogType {
-    const val PROFESSION = 5
-    const val COURSE_COMPLEXITY = 2
-    const val COURSE_TYPE = 3
-    const val STATE = 7
-    const val CITY = 1
-    const val GENDER = 6
-    const val CATEGORY = 8
-    const val LANGUAGE = 9
-    const val CLICK_LOGO = 10
-    const val CLICK_BANNER = 11
-    const val CLICK_QUIZ_TYPE = 12
-    const val CLICK_QUIZ_OPTION = 13
-    const val QUIZ_ANSWER = 14
-    const val CLICK_CO_AUTHOR = 15
-    const val HOME_FILTER = 16
-    const val RATE_COURSE = 17
-    const val CLICK_DRAG_OPTION = 18
-
+    val PROFESSION = 5
+    val COURSE_COMPLEXITY = 2
+    val COURSE_TYPE = 3
+    val STATE = 7
+    val CITY = 1
+    val GENDER = 6
+    val CATEGORY = 8
+    val LANGUAGE = 9
+    val CLICK_LOGO = 10
+    val CLICK_BANNER = 11
+    val CLICK_QUIZ_TYPE = 12
+    val CLICK_QUIZ_OPTION = 13
+    val QUIZ_ANSWER = 14
+    val CLICK_CO_AUTHOR = 15
+    val HOME_FILTER = 16
+    val RATE_COURSE = 17
+    val CLICK_DRAG_OPTION = 18
+    val CREATOR_DASH_FILTER = 19
+    val PAYMENT = 20
+    val CLICK_PORTRAIT_QUES = 21
+    val LOGO_OPTION = 22
 
 }
 
@@ -202,43 +315,57 @@ object QUIZ {
 
 
 object MediaType {
-    const val VIDEO = 1
-    const val AUDIO = 2
-    const val DOC = 3
-    const val TEXT = 4
-    const val QUIZ = 5
-    const val QUIZ_QUES = 6
-    const val QUIZ_OPTION = 7
-    const val COURSE_BANNER = 8
-    const val COURSE_LOGO = 9
-    const val PROFILE_PIC = 10
-    const val ASSESSMENT_QUES = 11
-    const val ASSESSMENT_OPTION = 12
+    val VIDEO = 1
+    val AUDIO = 2
+    val DOC = 3
+    val TEXT = 4
+    val QUIZ = 5
+    val QUIZ_QUES = 6
+    val QUIZ_OPTION = 7
+    val COURSE_BANNER = 8
+    val COURSE_LOGO = 9
+    val PROFILE_PIC = 10
+    val ASSESSMENT_QUES = 11
+    val ASSESSMENT_OPTION = 12
+    val EDITED_VIDEO = 13
 }
 
 object MediaFrom {
-    const val RECORDING = 100001
+    val RECORDING = 100001
+    val EDITING = 100002
 
 }
 
 
 object LectureStatus {
-    const val IN_PROCESS = 2
-    const val COMPLETED = 1
+    val IN_PROCESS = 2 //lesson uploading failed at server end
+    val ERRORED = 13
+    val CANCELLED = 12
+    val COMPLETED = 1
+    val IN_COMPLETE = 16
+    val CONTENT_PROCESSING = 8
+    val JOB_CREATED = 9
+    val JOB_PROCESSING_START = 10
+    val JOB_FINISHED = 11
+    val LINK_GENERATED = 14
+    val PARTIAL_SUBMITTED = 17
 }
 
 object CoAuthorStatus {
-    const val ACCEPT = 1
-    const val PENDING = 2
-    const val REJECT = 3
-    const val CANCELLED = 4
-    const val SUBMITTED = 5
+    val ACCEPT = 1
+    val PENDING = 2
+    val REJECT = 3
+    val CANCELLED = 4
+    val SUBMITTED = 5
+    val CANCELLEDWITHSUBMIT = 5
 }
 
 object CourseScreenType {
-    const val ALL_COURSES = 1
-    const val ONGOINGCOURSES = 6
-    const val MYCOURSES = 8
+    val ALL_COURSES = 1
+    val ALL_COURSES_GUEST = 0
+    val ONGOINGCOURSES = 6
+    val MYCOURSES = 8
+    val COMPLETED_COURSES = 11
 }
 
 
@@ -252,67 +379,113 @@ object CourseType {
 
 }
 
+object RevenueType {
+
+    const val PURCHASED = 1
+    const val REWARD_POINTS = 2
+
+}
+
 object ComplexityLevel {
-    const val BEGINNER = 1
-    const val INTERMEDIATE = 2
-    const val ADVANCED = 3
+    val BEGINNER = 1
+    val INTERMEDIATE = 2
+    val ADVANCED = 3
 }
 
 //object ModeratorListType {
-//    const val REQUESTED = 1
-//    const val APPROVED = 2
-//    const val REJECTED = 3
+//     val REQUESTED = 1
+//     val APPROVED = 2
+//     val REJECTED = 3
 //
 //}
 
 object PaymentStatus {
-    const val NOT_DONE = 0
-    const val INITIATED = 1
-    const val IN_PROGRESS = 2
-    const val SUCCESS = 4
-    const val FAILED = 16
-    const val REFUNDED = 8
-    const val AUTHORIZED = 2
+    val NOT_DONE = 0
+    val INITIATED = 1
+    val IN_PROGRESS = 2
+    val SUCCESS = 4
+    val FAILED = 16
+    val REFUNDED = 8
+    val AUTHORIZED = 2
 
 }
 
 object CourseStatus {
-    const val ENROLLED = 1
-    const val NOT_ENROLLED = 0
-    const val REWARD_POINTS_EARNED_COURSES = 9
+    val ENROLLED = 1
+    val NOT_ENROLLED = 0
+    val IN_PROGRESS = 2
+    val COMPELETD = 3
+    val REWARD_POINTS_EARNED_COURSES = 9
 }
 
 object BundleConst {
-    const val IMAGE = "bundle_image"
-    const val BLUR_HASH = "bundle_key_hash"
+    val IMAGE = "bundle_image"
+    val BLUR_HASH = "bundle_key_hash"
 }
 
 object CommonPayload {
     val PUBLISHED_DATE = "publishedDate"
+    val MODIFIED_DATE = "modifiedDate"
+    val CREATED_DATE = "CreatedDate"
+    val AGE = "age"
+    val PROFESSIONID = "professionId"
     val OPERATOR_TYPE_6 = 6
     val OPERATOR_TYPE_7 = 7
+    val OPERATOR_EQUAL = 1
+    val OPERATOR_IN = 2
+    val OPERATOR_LIKE = 3
+    val OPERATOR_GREATER = 4
+    val OPERATOR_LESS_THAN = 5
+    val OPERATOR_GREATER_EQUAL = 6
+    val OPERATOR_LESS_EQUAL = 7
 
 }
 
+object DASHBOARD_FILTER_TYPE {
+    val DAY = 0
+    val WEEK = 1
+    val MONTH = 2
+    val ALL = 3
+
+}
+
+object PROFESSION_FILTER {
+    val ALL = 0
+    val STUDENT = 1
+    val WORKING_PROFESSIONAL = 2
+    val PURSUING_GRADUATION = 3
+
+}
+
+
 object STATIC_PAGES_TYPE {
-    const val PRIVACY = 1
-    const val TERMS = 2
-    const val HELP = 3
-    const val ABOUT_US = 4
+    val PRIVACY = 1
+    val TERMS = 2
+    val HELP = 3
+    val ABOUT_US = 4
+    val CONTACT_US = 5
 
 }
 
 object MODTYPE {
-    const val LEARNER = 1
-    const val MODERATOR = 2
+    val LEARNER = 1
+    val MODERATOR = 2
 }
 
 object MODSTATUS {
-    const val BLOCKED = 0
-    const val ACCEPTED = 1
-    const val REJECTED = 3
-    const val PENDING = 2
-    const val CANCELLED = 4
+    val BLOCKED = 0
+    val ACCEPTED = 1
+    val REJECTED = 3
+    val PENDING = 2
+    val CANCELLED = 4
+}
+
+
+object ModHomeConst {
+    val REQUEST = 1
+    val PENDING = 2
+    val APPROVED = 3
+    val REJECTED = 4
 }
 
 object ModeratorDashboard {
@@ -322,4 +495,33 @@ object ModeratorDashboard {
     val MODERATOR_COMMENTS = 4
     val REJECTED_COURSES_COUNT = 5
     val REQUEST_COUNT = 6
+    val ACCEPTED_FRAGMENT = 1
+    val PENDING_FRAGMENT = 2
+    val REJECTED_FRAGMENT = 3
+
+    val INPROGRESS_FRAGMENT = 1
+    val TODO_FRAGMENT = 2
+    val DONE_FRAGMENT = 3
+}
+
+object CreatedCourseStatus {
+    val BLOCKED = 0
+    val DRAFT = 1
+    val INPROCESS = 2
+    val SUBMIT = 3
+    val APPROVAL = 4
+    val PUBLISHED = 5
+    val REJECTED = 6
+    val PARTIALREJECTED = 7
+    val UNDER_PROCESSING = 17
+    val PARTIAL_SUBMITTED = 17
+}
+
+object SentRequestsStatus {
+    val ACCEPTED = 1
+}
+
+object WithdrawalType {
+    val RAZORPAY_WITHDRAW_AMOUNT = 5
+    val MANUAL_WITHDRAW_AMOUNT = 6
 }

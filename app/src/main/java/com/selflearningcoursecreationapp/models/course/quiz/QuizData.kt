@@ -116,9 +116,9 @@ data class QuizData(
 
     fun isAssessmentValid(): Int {
         return when {
-            assessmentId.isNullOrZero() -> 0
+            assessmentId.isNullOrZero() -> R.string.plz_add_assessment
             list.isNullOrEmpty() -> R.string.plz_add_ques_in_assessment
-            !list!!.filter { !it.isAnsMarked() }
+            !list?.filter { !it.isAnsMarked() }
                 .isNullOrEmpty() -> R.string.plz_mark_ans_ques_in_assessment
             assessmentName.isNullOrEmpty() -> R.string.plz_update_settings_in_assessment
             else -> 0
@@ -128,9 +128,9 @@ data class QuizData(
     fun isSettingsValid(isQuiz: Boolean): Int {
         return when {
             isQuiz && quizName.isNullOrEmpty() -> R.string.plz_enter_quiz_name
-            isQuiz && quizName!!.isBlank() -> R.string.plz_enter_quiz_name
+            isQuiz && quizName.isNullOrBlank() -> R.string.plz_enter_quiz_name
             !isQuiz && quizName.isNullOrEmpty() -> R.string.plz_enter_assessment_name
-            !isQuiz && quizName!!.isBlank() -> R.string.plz_enter_assessment_name
+            !isQuiz && quizName.isNullOrBlank() -> R.string.plz_enter_assessment_name
             else -> 0
         }
     }
@@ -138,8 +138,8 @@ data class QuizData(
     fun isQuizValid(): Int {
         return when {
             list.isNullOrEmpty() -> R.string.plz_add_ques
-            list!!.find { it.questionId.isNullOrZero() || it.isEnabled == true } != null -> R.string.plz_save_all_quiz_ques_ans
-            !list!!.filter { !it.isAnsMarked() }.isNullOrEmpty() -> R.string.plz_mark_ans_ques
+            list?.find { it.questionId.isNullOrZero() || it.isEnabled == true } != null -> R.string.plz_save_all_quiz_ques_ans
+            !list?.filter { !it.isAnsMarked() }.isNullOrEmpty() -> R.string.plz_mark_ans_ques
             else -> 0
         }
     }
@@ -147,8 +147,8 @@ data class QuizData(
     fun isSingleQuizValid(): Int {
         return when {
 
-            list!!.find { it.questionId.isNullOrZero() || it.isEnabled == true } != null -> R.string.plz_save_question_first
-            !list!!.filter { !it.isAnsMarked() }
+            list?.find { it.questionId.isNullOrZero() || it.isEnabled == true } != null -> R.string.plz_save_question_first
+            !list?.filter { !it.isAnsMarked() }
                 .isNullOrEmpty() -> R.string.plz_mark_ans_ques_single
             else -> 0
         }

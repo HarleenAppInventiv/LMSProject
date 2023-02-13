@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/create_course_graph"
+    app:startDestination="@id/step1Fragment">
+
+    <fragment
+        android:id="@+id/step1Fragment"
+        android:name="com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.Step1Fragment"
+        android:label="Step1Fragment" />
+    <fragment
+        android:id="@+id/step2Fragment"
+        android:name="com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.Step2Fragment"
+        android:label="Step2Fragment" />
+    <fragment
+        android:id="@+id/addSectionOrLectureFragment2"
+        android:name="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.AddSectionOrLectureFragment"
+        android:label="AddSectionOrLectureFragment" />
+    <fragment
+        android:id="@+id/assessmentFragment2"
+        android:name="com.selflearningcoursecreationapp.ui.create_course.add_assessment.AssessmentFragment"
+        android:label="AssessmentFragment" />
+    <fragment
+        android:id="@+id/courseReviewFragment"
+        android:name="com.selflearningcoursecreationapp.ui.create_course.review.CourseReviewFragment"
+        android:label="CourseReviewFragment" />
+
+</navigation>

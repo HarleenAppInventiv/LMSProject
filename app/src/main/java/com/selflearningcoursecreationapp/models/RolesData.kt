@@ -12,5 +12,7 @@ data class RolesData(
     @SerializedName("roleDescription")
     var roleDescription: String? = null,
     @SerializedName("roleName")
-    var roleName: String? = null
+    var roleName: String? = null,
+    @SerializedName("topicName")
+    var topicName: String? = null
 ) : Parcelable

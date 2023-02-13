@@ -1,9 +1,16 @@
 package com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture
 
 import android.annotation.SuppressLint
+import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doBeforeTextChanged
 import androidx.core.widget.doOnTextChanged
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.selflearningcoursecreationapp.R
@@ -13,7 +20,9 @@ import com.selflearningcoursecreationapp.databinding.AdapterSectionViewBinding
 import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.MediaType
+import com.selflearningcoursecreationapp.utils.ValidationConst
 import java.util.*
+
 
 class AddSectionAdapter(
     private val sectionData: ArrayList<SectionModel>,
@@ -24,18 +33,62 @@ class AddSectionAdapter(
     BaseAdapter<AdapterSectionViewBinding>(), View.OnTouchListener {
     override fun getLayoutRes() = R.layout.adapter_section_view
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+        val binding = DataBindingUtil.inflate<AdapterSectionViewBinding>(
+            LayoutInflater.from(parent.context),
+            getLayoutRes(),
+            parent,
+            false
+        )
+
+        return AddSectionViewHolder(binding)
+    }
+
     @SuppressLint("DefaultLocale", "NotifyDataSetChanged")
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        val binding = holder.binding as AdapterSectionViewBinding
+        val viewHolder = (holder as AddSectionViewHolder)
+        val binding = (holder as AddSectionViewHolder).itemBinding
         val context = binding.root.context
         val data = sectionData[position]
         val doEnable = isCreator || userId == data.sectionCreatedById
 
+
         binding.lecture = sectionData[position]
         binding.doEnable = doEnable
         binding.executePendingBindings()
-        binding.etSectionDesc.setOnTouchListener(this)
-        binding.etSectionTitle.setOnTouchListener(this)
+
+        if (data.isSectionSaved == true) {
+            binding.ivSectionSaved.setImageResource(R.drawable.ic_saved_secton)
+        } else {
+            binding.ivSectionSaved.setImageResource(R.drawable.ic_unsaved_section)
+
+        }
+        binding.ivSectionSaved.setOnClickListener {
+            if (data.isSectionSaved == false) {
+                onItemClick(Constant.CLICK_INFO, position)
+            }
+        }
+
+        binding.etSectionDesc.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
+                onItemClick(Constant.CLICK_BEFORE_TEXT_CHANGES, position)
+
+                editTxtTouchScrolling(p0, p1)
+                return false
+            }
+
+        })
+        binding.etSectionTitle.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
+                onItemClick(Constant.CLICK_BEFORE_TEXT_CHANGES, position)
+
+                editTxtTouchScrolling(p0, p1)
+                return false
+            }
+
+        })
+//        binding.etSectionTitle.setOnTouchListener(this)
+//        binding.etSectionDesc.setOnTouchListener(this)
         binding.logoGroup.visibleView(courseCreatorId != data.sectionCreatedById)
         binding.ivUserImage.loadImage(
             data.sectionCreatedByProfileURL,
@@ -48,7 +101,6 @@ class AddSectionAdapter(
         binding.llChild.gone()
         binding.btSave.gone()
         binding.rvLecture.gone()
-
         binding.ivVisible.setImageResource(R.drawable.ic_arrow_bottom)
         binding.ivDelete.setOnClickListener {
             if (doEnable) {
@@ -56,9 +108,41 @@ class AddSectionAdapter(
             }
         }
 
+        binding.ivDelete.alpha = if (doEnable) 1f else 0.2f
 
-        binding.etSectionDesc.doOnTextChanged { _, _, _, _ ->
+//        binding.etSectionDesc.doOnTextChanged { input, _, _, _ ->
+//            onItemClick(Constant.CLICK_TEXT_CHANGES, position)
+//            val list = input.toString().split(" ")
+////            var count = 0
+////            for (i in 0 until list.size)
+////            {
+////                if (i<100)
+////                {
+////                    count+=list[i].length
+////                    count+=1
+////                }else{
+////                    break
+////                }
+////            }
+//            if (list.size > ValidationConst.MAX_COURSE_SECTION_DESC_LENGTH) {
+//                binding.etSectionDesc. setText(list.dropLast(list.size - ValidationConst.MAX_COURSE_SECTION_DESC_LENGTH).joinToString(" ").toString())
+//                binding.etSectionDesc.setSelection(  binding.etSectionDesc.text?.length?:0)
+//            }
+//            binding.tvDescTotalChar.text = binding.etSectionDesc.content().wordCount().toString()
+//        }
+//
+        binding.etSectionDesc.setWordLimit(ValidationConst.MAX_COURSE_SECTION_DESC_LENGTH) {
             onItemClick(Constant.CLICK_TEXT_CHANGES, position)
+            binding.tvDescTotalChar.text = binding.etSectionDesc.content().wordCount().toString()
+
+        }
+        binding.tvDescTotalChar.text = binding.etSectionDesc.content().wordCount().toString()
+
+        binding.etSectionDesc.doBeforeTextChanged { _, _, _, _ ->
+            onItemClick(Constant.CLICK_BEFORE_TEXT_CHANGES, position)
+        }
+        binding.etSectionDesc.doAfterTextChanged { _ ->
+            onItemClick(Constant.CLICK_AFTER_TEXT_CHANGES, position)
         }
 
         binding.etSectionTitle.doOnTextChanged { _, _, _, _ ->
@@ -80,6 +164,8 @@ class AddSectionAdapter(
         binding.tvSectionNumber.text =
             String.format(binding.root.context.getString(R.string.section), position + 1)
 
+        binding.ivVisible.contentDescription = "Expand Session${position + 1} from list"
+
         binding.tvLectureNumber.text = context.getQuantityString(
             R.plurals.lecture_quantity,
             sectionData[position].lessonList.size
@@ -87,7 +173,7 @@ class AddSectionAdapter(
 
         binding.llChild.visibleView(sectionData[position].isVisible)
         binding.group.visibleView(!sectionData[position].isVisible && !data.lessonList.isNullOrEmpty())
-        binding.tvLectureNumber.visibleView(!data.lessonList.isNullOrEmpty())
+//        binding.tvLectureNumber.visibleView(!data.lessonList.isNullOrEmpty())
 
         if (sectionData[position].isVisible) {
             binding.ivVisible.setImageResource(R.drawable.ic_arrow_top)
@@ -141,8 +227,73 @@ class AddSectionAdapter(
         }
 
         binding.executePendingBindings()
+        binding.tvTitleTotalChar.text = binding.etSectionTitle.text?.trim()?.length.toString()
 
 
+        binding.etSectionTitle.doAfterTextChanged { textAfter ->
+            binding.tvTitleTotalChar.setText(textAfter?.length.toString())
+            binding.tvTitleTotalChar.apply {
+                if ((textAfter?.length ?: 0) < ValidationConst.MAX_COURSE_SECTION_LENGTH) {
+                    setTextColor(ContextCompat.getColor(context, R.color.black))
+                } else {
+                    setTextColor(
+                        context.getAttrResource(R.attr.accentColor_Red)
+                    )
+                }
+            }
+        }
+
+
+//        binding.etSectionDesc.doAfterTextChanged {
+//            val count = binding.etSectionDesc.content().wordCount()
+//            if (count >= ValidationConst.MAX_COURSE_SECTION_DESC_LENGTH) {
+////                val result: List<String>? = binding.etSectionDesc.text?.split(" ")
+////                var finalText = ""
+////                if (result != null) {
+////                    for (i in 1 .. 500) {
+////                        finalText += " " + result[i]
+////                    }
+////                }
+////                binding.etSectionDesc.setText(finalText)
+//                setCharLimit(binding.etSectionDesc, binding.etSectionDesc.content().length)
+////                binding.tvDescTotalChar.apply {
+////                    text ="500"
+////                    setTextColor(ContextCompat.getColor(context, R.color.black))
+////                }
+//            } else {
+//                binding.tvDescTotalChar.apply {
+//                    text = count.toString()
+//                    setTextColor(context.getAttrResource(R.attr.accentColor_Red))
+//                }
+//                removeFilter(binding.etSectionDesc)
+//            }
+//
+////            binding.tvDescTotalChar.apply {
+////                text = count.toString()
+////                if (count < ValidationConst.MAX_COURSE_DESC_LENGTH_SHOW) {
+////                    setTextColor(ContextCompat.getColor(context, R.color.black))
+////                } else {
+////                    setTextColor(context.getAttrResource(R.attr.accentColor_Red))
+////                }
+////            }
+//
+//
+//        }
+
+//        binding.etSectionDesc.doOnTextChanged { text, _, _, _ ->
+//            val count = text.toString().wordCount()
+//            if (count >= ValidationConst.MAX_COURSE_DESC_LENGTH_SHOW) {
+//                val text: List<String>? = binding.etSectionDesc.text?.split(" ")
+//                var finalText = ""
+//                if (text != null) {
+//                    for (i in 0 until 500) {
+//                        finalText += " "+text[i]
+//                    }
+//                }
+//                binding.etSectionDesc.setText(finalText)
+//
+//            }
+//        }
     }
 
     private fun lectureFunctionality(
@@ -152,6 +303,7 @@ class AddSectionAdapter(
         data: SectionModel
     ) {
         if (sectionData[position].lessonList.isNotEmpty()) {
+
             binding.rvLecture.visible()
             val touchHelper = object : TouchHelper() {
                 override fun onMove(
@@ -161,22 +313,58 @@ class AddSectionAdapter(
                 ): Boolean {
 
                     val childLectureAdapter = recyclerView.adapter as ChildLectureAdapter
-                    val fromPosition = viewHolder.adapterPosition
-                    val toPosition = target.adapterPosition
-                    Collections.swap(
-                        sectionData[holder.adapterPosition].lessonList,
-                        fromPosition,
-                        toPosition
-                    )
-                    childLectureAdapter.notifyItemMoved(fromPosition, toPosition)
-                    onItemClick(
-                        Constant.CLICK_SWAP,
-                        holder.adapterPosition,
-                        fromPosition,
-                        toPosition
-                    )
+                    sectionData[holder.adapterPosition].fromPosition = viewHolder.adapterPosition
+                    sectionData[holder.adapterPosition].toPosition = target.adapterPosition
+                    sectionData[holder.adapterPosition].mOrderChanged = true
+                    onItemClick(Constant.CLICK_BEFORE_TEXT_CHANGES, position)
 
-                    return false
+//                    if (! sectionData[holder.adapterPosition].fromPosition.isNullOrNegative() && ! sectionData[holder.adapterPosition].toPosition.isNullOrNegative()) {
+//                        Collections.swap(
+//                            sectionData[holder.adapterPosition].lessonList,
+//                            sectionData[holder.adapterPosition].    fromPosition,
+//                            sectionData[holder.adapterPosition].     toPosition
+//                        )
+//                        childLectureAdapter.notifyItemMoved( sectionData[holder.adapterPosition].fromPosition,  sectionData[holder.adapterPosition].toPosition)
+//                        onItemClick(
+//                            Constant.CLICK_SWAP,
+//                            holder.adapterPosition,
+//                            sectionData[holder.adapterPosition].   fromPosition,
+//                            sectionData[holder.adapterPosition].  toPosition
+//                        )
+//                    }
+                    return true
+                }
+
+                override fun onSelectedChanged(
+                    viewHolder: RecyclerView.ViewHolder?,
+                    actionState: Int
+                ) {
+                    super.onSelectedChanged(viewHolder, actionState)
+                    if (actionState == ItemTouchHelper.ACTION_STATE_IDLE && sectionData[holder.adapterPosition].mOrderChanged) {
+                        sectionData[holder.adapterPosition].mOrderChanged = false
+                        val childLectureAdapter = binding.rvLecture.adapter as ChildLectureAdapter
+
+                        if (!sectionData[holder.adapterPosition].fromPosition.isNullOrNegative() && !sectionData[holder.adapterPosition].toPosition.isNullOrNegative()) {
+                            Collections.swap(
+                                sectionData[holder.adapterPosition].lessonList,
+                                sectionData[holder.adapterPosition].fromPosition,
+                                sectionData[holder.adapterPosition].toPosition
+                            )
+
+                            childLectureAdapter.notifyItemMoved(
+                                sectionData[holder.adapterPosition].fromPosition,
+                                sectionData[holder.adapterPosition].toPosition
+                            )
+                            childLectureAdapter.notifyDataSetChanged()
+                            onItemClick(
+                                Constant.CLICK_SWAP,
+                                holder.adapterPosition,
+                                sectionData[holder.adapterPosition].fromPosition,
+                                sectionData[holder.adapterPosition].toPosition
+                            )
+                        }
+//
+                    }
                 }
             }
             binding.rvLecture.adapter =
@@ -208,4 +396,9 @@ class AddSectionAdapter(
 
     override fun getItemCount() = sectionData.size
 
+
+    class AddSectionViewHolder(var itemBinding: AdapterSectionViewBinding) :
+        BaseViewHolder(itemBinding) {
+        val textChanges = false
+    }
 }

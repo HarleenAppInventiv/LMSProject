@@ -44,14 +44,14 @@
     <string name="check_your_mail">Check email</string>
     <string name="check_your_mail_sms">Check mail or SMS</string>
     <string name="enable_visually_impaired_mode">Enable visually impaired mode</string>
-    <string name="enable_screen_reading_mode">Enable screen reading view</string>
+    <string name="enable_screen_reading_mode">Enable Screen Reading View</string>
     <string name="enable_disable_screen_reading_mode">Enable/Disable screen reading mode</string>
     <string name="disable_screen_reading_mode">Disable screen reading mode</string>
     <string name="enable_screen_reading_mode_desc">Screen reading mode is currently disabled. To enable this, you need to enable the talkback on in your settings. By clicking on "Enable" button you will be redirected to the talkback settings.</string>
     <string name="disable_screen_reading_mode_desc">Screen reading mode is currently enabled. Do you want to disable this service?</string>
     <string name="sign_in_to_continue_your_account">Sign in to continue your account</string>
     <string name="sign_up">SIGN UP</string>
-    <string name="by_registering_you_are_accepting_privacy_policy_and_terms_of_use">By Registering you are accepting “PRIVACY POLICY” and “TERMS OF USE”</string>
+    <string name="by_registering_you_are_accepting_privacy_policy_and_terms_of_use">By Registering you are accepting “PRIVACY POLICY” and “TERMS &amp; CONDITIONS”</string>
     <string name="please_enter_otp">Please enter OTP</string>
     <string name="please_enter_valid_otp">Please enter valid OTP</string>
     <string name="please_enter_new_password">Please enter new password</string>
@@ -72,9 +72,9 @@
     </integer-array>
 
     <string-array name="walkthrough_title">
-        <item>Scale up your \nskill</item>
-        <item>Find your favourite lessons</item>
-        <item>Find your favourite lessons</item>
+        <item>Scale Up Your Skill</item>
+        <item>Find Your Favourite Courses</item>
+        <item>Get Certifications For Courses</item>
     </string-array>
 
 
@@ -86,9 +86,9 @@
     </string-array>
 
     <string-array name="walkthrough_description">
-        <item>Anyone can join the millions of members in our platform to learn cutting edge skills</item>
-        <item>Anyone can join the millions of members in our platform to learn cutting edge skills</item>
-        <item>Anyone can join the millions of members in our platform to learn cutting edge skills</item>
+        <item>Anyone Can Join The Millions Of Members On Our Platform To Learn Cutting-edge Skills</item>
+        <item>Anyone Can Join The Millions Of Members On Our Platform To Learn Cutting-edge Skills</item>
+        <item>You Can Get Certification For The Courses And Can Download Your Certificate.</item>
     </string-array>
 
     <string name="reset_password">Reset Password</string>
@@ -129,7 +129,7 @@
     <string name="hello_welcome">Hello! Welcome</string>
     <string name="enter_phone_email">Enter Email/Mobile Number</string>
     <string name="submit">Submit</string>
-    <string name="submit_otp">submit OTP</string>
+    <string name="submit_otp">Submit OTP</string>
     <string name="select_all">Select All</string>
     <string name="take_photo">Take photo</string>
     <string name="select_from_gallery">Select from gallery</string>
@@ -146,7 +146,7 @@
     <string name="roboto_font">Roboto Sans</string>
     <string name="ibm_font">IBM Plex Sans</string>
     <string name="worksans_font">Work Sans</string>
-    <string name="english_language">English (UK)</string>
+    <string name="english_language">English</string>
     <string name="kannada_language">ಕನ್ನಡ (Kannada)</string>
     <string name="tamil_language">தமிழ் (Tamil)</string>
     <string name="telugu_language">తెలుగు (Telugu)</string>
@@ -180,7 +180,7 @@
     <string name="not_received_email_resend_again">Did not receive the email?\nCheck your spam folder or TRY AGAIN</string>
     <string name="not_received_instructions_resend_again">Did not receive the instruction? TRY AGAIN</string>
     <string name="we_have_sent_password_recovery_instructions_to_your_email">We have sent password recovery instructions by email.</string>
-    <string name="plz_accept_terms_conditions">Please accept Privacy Policy and Terms of Use</string>
+    <string name="plz_accept_terms_conditions">Please accept Privacy Policy and Terms &amp; Conditions</string>
     <string name="address_details">ADDRESS DETAILS</string>
     <string name="plz_enter_old_password">Please enter old password</string>
     <string name="plz_enter_new_password">Please enter new password</string>
@@ -194,10 +194,10 @@
     <string name="contact_us">Contact us</string>
     <string name="chat_with_us">Chat with us</string>
     <string name="privacy_policy">Privacy Policy</string>
-    <string name="terms_amp_conditions"><![CDATA[Terms & conditions]]></string>
+    <string name="terms_amp_conditions"><![CDATA[Terms & Conditions]]></string>
     <string name="question_we_ve_got_instant_answers">Question ? We’ve got instant answers</string>
     <string name="successful">Successful</string>
-    <string name="success">Success!!!</string>
+    <string name="success">Success</string>
     <string name="as_per_your_preference_the_current_app_theme_updated_to_blue_theme">As per your preference, the current app theme updated to “Blue theme”</string>
     <string name="are_you_sure_you_want_to_logout">Are you sure you want to Logout?</string>
     <string name="plz_enter_phone_email">Please enter email</string>
@@ -369,7 +369,7 @@
     <string name="course_language">Course Language</string>
     <string name="gender">Gender</string>
     <string name="enter_phone_num">Enter phone number</string>
-    <string name="enable_high_contrast_view">Enable high contrast view</string>
+    <string name="enable_high_contrast_view">Enable High Contrast View</string>
     <string name="filter">Filter</string>
     <string name="filters">Filters</string>
     <string name="audience_stats">Audience Stats</string>
@@ -619,7 +619,7 @@
     <string name="question_deleted_successfully">Question deleted successfully.</string>
     <string name="plz_add_sections">Please add section(s) to continue.</string>
     <string name="plz_add_lesson">Please add lesson(s).</string>
-    <string name="file_limit_alert_text">File size is more than 5 MB, not able to upload. Please select another file.</string>
+    <string name="file_limit_alert_text">File size is more than 100 MB, not able to upload. Please select another file.</string>
     <string name="plz_add_data_in_section">Please add data in all field(s) of section.</string>
     <string name="plz_save_sections">Please save all section(s).</string>
     <string name="plz_add_data_in_quiz">Please update quiz settings.</string>
@@ -651,7 +651,7 @@
     <string name="course_ninfo_n">Course\nInfo</string>
     <string name="choose_a_course_complexity">Choose a course complexity</string>
     <string name="record_screen">Record Screen</string>
-    <string name="document_format_should_be_pdf_docx_and_ppt">Document format should be .pdf, .docx and .ppt</string>
+    <string name="document_format_should_be_pdf_docx_and_ppt">Document format should be .pdf, .docx, .doc, .pptx and .ppt</string>
     <string name="upload_video">Upload Video</string>
     <string name="_1">1.</string>
     <string name="_2">2.</string>
@@ -696,11 +696,13 @@
     <string name="failed">Failed!!</string>
     <string name="all_courses">All Courses</string>
     <string name="no_lectures_added">No Lectures Added!!</string>
-    <string name="no_reviews_found">No Reviews Added!!</string>
+    <string name="no_reviews_found">No Reviews Found!!</string>
     <string name="enter_date">Enter  Date</string>
     <string name="approve">Approve</string>
     <string name="other_courses">Other Courses</string>
     <string name="complete_quiz">Complete Quiz</string>
+    <string name="exo_track_resolution_pixel"><tools:g example="768" id="height">%1$dp</tools:g></string>
 
+    <string name="sections">Sections</string>
 
 </resources>

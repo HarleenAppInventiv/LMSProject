@@ -2,23 +2,21 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/divider_grey"
+        android:background="?attr/secondaryScreenBgColor"
         tools:context=".ui.profile.requestTracker.acceptRejectRequest.AcceptedRequestFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvRequests"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/divider_grey"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:clipToPadding="false"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/_12sdp"
             android:visibility="visible"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/_12sdp"
             tools:listitem="@layout/item_co_author_request" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView

@@ -6,7 +6,7 @@
         android:width="@dimen/_100sdp"
         android:height="@dimen/_2sdp" />
     <stroke
-        android:color="?attr/off_whiteTextColor"
+        android:color="?attr/lineColor"
         android:width="@dimen/_1sdp"
         android:dashGap="@dimen/_5sdp"
         android:dashWidth="@dimen/_2sdp" />

@@ -1,8 +1,14 @@
 package com.selflearningcoursecreationapp.utils.screenRecorder.settings
 
+import android.content.ContentValues
+import android.content.Context
 import android.content.SharedPreferences
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.selflearningcoursecreationapp.utils.screenRecorder.PreferenceHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -53,29 +59,6 @@ class PreferenceLiveData<T>(
     }
 }
 
-@ExperimentalCoroutinesApi
-fun preferencesChangedFlow(
-    sharedPreferences: SharedPreferences,
-    keys: List<String>,
-    emitOnCreate: Boolean = false
-): Flow<String> = callbackFlow {
-    val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-        if (key in keys) {
-//            offer(key)
-            //TODO: offer was deprecrated, so check is trySend method working
-            trySend(key)
-        }
-    }
-    if (emitOnCreate) {
-//        offer(keys.first())
-        trySend(keys.first())
-    }
-    sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
-    awaitClose {
-        sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener)
-    }
-
-}
 
 @ExperimentalCoroutinesApi
 fun <T> preferenceFlow(
@@ -113,6 +96,20 @@ fun createPreferenceChangedLiveData(
     keys: List<String>
 ): LiveData<String> {
     return PreferenceChangedLiveData(sharedPreferences, keys)
+}
+
+
+fun Context.closeMedia(uri: Uri) {
+    val contentValues = ContentValues()
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        contentValues.put(MediaStore.MediaColumns.IS_PENDING, 0)
+    } else {
+        contentValues.put(MediaStore.MediaColumns.DATE_TAKEN, System.currentTimeMillis());
+
+        // DATE HERE
+    }
+
+    contentResolver.update(uri, contentValues, null, null)
 }
 
 fun <T> createPreferenceLiveData(

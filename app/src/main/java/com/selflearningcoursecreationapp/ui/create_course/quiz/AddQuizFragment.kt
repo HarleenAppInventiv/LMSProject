@@ -5,22 +5,24 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.core.os.bundleOf
-import androidx.databinding.library.baseAdapters.BR
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.base.BaseResponse
+import com.selflearningcoursecreationapp.data.network.ApiError
+import com.selflearningcoursecreationapp.data.network.HTTPCode
 import com.selflearningcoursecreationapp.databinding.FragmentAddQuizBinding
 import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.models.SingleChoiceData
 import com.selflearningcoursecreationapp.models.course.quiz.QuizData
 import com.selflearningcoursecreationapp.models.course.quiz.QuizOptionData
 import com.selflearningcoursecreationapp.models.course.quiz.QuizQuestionData
-import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
 import com.selflearningcoursecreationapp.ui.dialog.UploadImageOptionsDialog
 import com.selflearningcoursecreationapp.ui.dialog.singleChoice.SingleChoiceBottomDialog
+import com.selflearningcoursecreationapp.ui.home.HomeActivity
 import com.selflearningcoursecreationapp.utils.*
 import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -30,7 +32,8 @@ import java.io.File
 class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IViewClick,
     BaseBottomSheetDialog.IDialogClick, View.OnClickListener {
     private var adapter: AddQuizViewAdapter? = null
-    private var sectionChildPosition = -1
+
+    //    private var sectionChildPosition = -1
     private val viewModel: AddQuizVM by viewModel()
     private var bundleArgs: AddQuizFragmentArgs? = null
     override fun getLayoutRes(): Int {
@@ -62,29 +65,22 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
     private fun getBundleData() {
         arguments?.let {
             bundleArgs = AddQuizFragmentArgs.fromBundle(it)
-            sectionChildPosition = bundleArgs?.childPosition ?: -1
-            viewModel.isQuiz = bundleArgs?.isQuiz ?: true
-            viewModel.quizData.courseId = bundleArgs?.courseData?.courseId ?: 0
+//            sectionChildPosition = bundleArgs?.childPosition ?: -1
+            viewModel.isQuiz = bundleArgs?.lessonArgs?.isQuiz ?: true
+            viewModel.quizData.courseId = bundleArgs?.lessonArgs?.courseId ?: 0
             if (viewModel.isQuiz) {
                 viewModel.quizData.sectionId =
-                    bundleArgs?.sectionData?.get(bundleArgs?.adapterPosition ?: 0)?.sectionId ?: 0
-                if (!bundleArgs?.childPosition.isNullOrNegative()) {
-                    viewModel.quizData.lectureId =
-                        bundleArgs?.sectionData?.get(
-                            bundleArgs?.adapterPosition ?: 0
-                        )?.lessonList?.get(bundleArgs?.childPosition ?: 0)?.lectureId
-                            ?: 0
-                    viewModel.quizData.quizId =
-                        bundleArgs?.sectionData?.get(
-                            bundleArgs?.adapterPosition ?: 0
-                        )?.lessonList?.get(bundleArgs?.childPosition ?: 0)?.quizId
-                            ?: 0
+                    bundleArgs?.lessonArgs?.sectionId ?: 0
+                if (bundleArgs?.lessonArgs?.type == Constant.CLICK_EDIT) {
+                    viewModel.quizData.lectureId = bundleArgs?.lessonArgs?.lectureId ?: 0
+                    viewModel.quizData.quizId = bundleArgs?.lessonArgs?.quizId ?: 0
                     viewModel.getQuizQuestions()
                     baseActivity.setToolbar(baseActivity.getString(R.string.update_quiz))
                 }
+
             } else {
-                if (!bundleArgs?.courseData?.assessmentId.isNullOrZero()) {
-                    viewModel.quizData.assessmentId = bundleArgs?.courseData?.assessmentId
+                if (!bundleArgs?.lessonArgs?.quizId.isNullOrZero()) {
+                    viewModel.quizData.assessmentId = bundleArgs?.lessonArgs?.quizId
 
                     viewModel.getQuizQuestions()
                     baseActivity.setToolbar(baseActivity.getString(R.string.update_assessment))
@@ -167,6 +163,12 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
 
                     viewModel.saveQuestionValidation()
                 }
+                DialogType.CLICK_PORTRAIT_QUES -> {
+                    UploadImageOptionsDialog().apply {
+                        arguments = bundleOf("type" to DialogType.CLICK_PORTRAIT_QUES)
+                        setOnDialogClickListener(this@AddQuizFragment)
+                    }.show(childFragmentManager, "")
+                }
 
                 DialogType.CLICK_BANNER -> {
                     UploadImageOptionsDialog().apply {
@@ -209,6 +211,26 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
     override fun onDialogClick(vararg items: Any) {
         if (items.isNotEmpty()) {
             when (items[0] as Int) {
+                DialogType.CLICK_PORTRAIT_QUES -> {
+
+                    viewModel.getListData(viewModel.adapterPosition)?.questionImage =
+                        items[1] as String
+
+                    if (viewModel.isQuizAdded()) {
+
+                        viewModel.uploadImage(
+                            File(items[1] as String),
+                            if (viewModel.isQuiz) MediaType.QUIZ_QUES else MediaType.ASSESSMENT_QUES,
+                            viewModel.adapterPosition,
+                            0
+                        )
+                    } else {
+                        viewModel.currentAction = 2
+                        viewModel.addQuizAssessment()
+                    }
+                    setAdapter()
+                }
+
                 DialogType.CLICK_BANNER -> {
 
                     viewModel.getListData(viewModel.adapterPosition)?.questionImage =
@@ -296,7 +318,7 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
                 }
             }
         }
-        isAllAnsMarked()
+//        isAllAnsMarked()
 
         adapter?.notifyItemChanged(viewModel.adapterPosition)
     }
@@ -336,28 +358,28 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
                 setAdapter()
             }
             "${ApiEndPoints.API_ADD_QUIZ}/add" -> {
-                bundleArgs?.sectionData?.get(bundleArgs?.adapterPosition ?: 0)?.lessonList?.add(
-                    ChildModel(
-                        viewModel.quizData.lectureId,
-                        mediaType = MediaType.QUIZ,
-                        quizId = viewModel.quizData.quizId,
-                        lectureStatusId = LectureStatus.IN_PROCESS
-                    )
-                )
-                bundleArgs?.sectionData?.get(bundleArgs?.adapterPosition ?: 0)
-                    ?.notifyPropertyChanged(BR.uploadLesson)
+//                bundleArgs?.sectionData?.get(bundleArgs?.adapterPosition ?: 0)?.lessonList?.add(
+//                    ChildModel(
+//                        viewModel.quizData.lectureId,
+//                        mediaType = MediaType.QUIZ,
+//                        quizId = viewModel.quizData.quizId,
+//                        lectureStatusId = LectureStatus.IN_PROCESS
+//                    )
+//                )
+//                bundleArgs?.sectionData?.get(bundleArgs?.adapterPosition ?: 0)
+//                    ?.notifyPropertyChanged(BR.uploadLesson)
 
                 viewModel.continueAction()
-                sectionChildPosition = (bundleArgs?.sectionData?.get(
-                    bundleArgs?.adapterPosition ?: 0
-                )?.lessonList?.size ?: 0) - 1
+//                sectionChildPosition = (bundleArgs?.sectionData?.get(
+//                    bundleArgs?.adapterPosition ?: 0
+//                )?.lessonList?.size ?: 0) - 1
 
                 adapter?.notifyDataSetChanged()
                 adapter = null
                 setAdapter()
             }
             "${ApiEndPoints.API_ADD_ASSESSMENT}/add" -> {
-                bundleArgs?.courseData?.assessmentId = viewModel.quizData.assessmentId
+                bundleArgs?.lessonArgs?.courseData?.assessmentId = viewModel.quizData.assessmentId
                 adapter?.notifyDataSetChanged()
                 adapter = null
                 setAdapter()
@@ -368,21 +390,30 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
             }
             "${ApiEndPoints.API_ADD_QUIZ_QUESTION}/add", "${ApiEndPoints.API_ADD_ASSESSMENT_QUESTION}/add" -> {
 
-                if (viewModel.isQuiz) {
-                    isAllAnsMarked()
-                }
+//                if (viewModel.isQuiz) {
+//                    isAllAnsMarked()
+//                }
                 showToastShort((value as BaseResponse<QuizData>).message)
                 setAdapter()
                 binding.btAdd.visible()
+                QuizMarkAnsDialog().apply {
+                    arguments = bundleOf(
+
+                        "quizData" to viewModel.quizData,
+                        "position" to viewModel.adapterPosition
+
+                    )
+                    setOnDialogClickListener(this@AddQuizFragment)
+                }.show(childFragmentManager, "")
             }
             "${ApiEndPoints.API_ADD_QUIZ_QUESTION}/delete" -> {
                 if (viewModel.quizData.list.isNullOrEmpty()) {
-                    deleteQuizLecture()
+//                    deleteQuizLecture()
                     findNavController().navigateUp()
                 } else {
-                    if (viewModel.isQuiz) {
-                        isAllAnsMarked()
-                    }
+//                    if (viewModel.isQuiz) {
+//                        isAllAnsMarked()
+//                    }
                     showToastShort((value as BaseResponse<QuizData>).message)
                     setAdapter()
                     binding.btAdd.visible()
@@ -393,17 +424,17 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
                     deleteAssessment()
                     findNavController().navigateUp()
                 } else {
-                    if (viewModel.isQuiz) {
-                        isAllAnsMarked()
-                    }
+//                    if (viewModel.isQuiz) {
+//                        isAllAnsMarked()
+//                    }
                     showToastShort((value as BaseResponse<QuizData>).message)
                     setAdapter()
                     binding.btAdd.visible()
                 }
             }
-            ApiEndPoints.API_LECTURE_DELETE + "/delete" -> {
-                deleteQuizLecture()
-            }
+//            ApiEndPoints.API_LECTURE_DELETE + "/delete" -> {
+//                deleteQuizLecture()
+//            }
             ApiEndPoints.API_ADD_ASSESSMENT + "/delete" -> {
                 deleteAssessment()
             }
@@ -411,27 +442,27 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
     }
 
     private fun deleteAssessment() {
-        bundleArgs?.courseData?.assessmentId = null
-        bundleArgs?.courseData?.assessmentFreezeContent = false
-        bundleArgs?.courseData?.assessmentMandatory = false
-        bundleArgs?.courseData?.assessmentName = ""
+        bundleArgs?.lessonArgs?.courseData?.assessmentId = null
+        bundleArgs?.lessonArgs?.courseData?.assessmentFreezeContent = false
+        bundleArgs?.lessonArgs?.courseData?.assessmentMandatory = false
+        bundleArgs?.lessonArgs?.courseData?.assessmentName = ""
     }
 
-    private fun deleteQuizLecture() {
-        if (!sectionChildPosition.isNullOrNegative()) {
-            bundleArgs?.sectionData?.get(
-                bundleArgs?.adapterPosition ?: 0
-            )?.lessonList?.removeAt(sectionChildPosition)
-        } else {
-            bundleArgs?.sectionData
-                ?.get(bundleArgs?.adapterPosition ?: 0)
-                ?.lessonList?.removeAt(
-                    bundleArgs?.sectionData?.get(
-                        bundleArgs?.adapterPosition ?: 0
-                    )?.lessonList?.size ?: 0
-                )
-        }
-    }
+//    private fun deleteQuizLecture() {
+//        if (!sectionChildPosition.isNullOrNegative()) {
+//            bundleArgs?.sectionData?.get(
+//                bundleArgs?.adapterPosition ?: 0
+//            )?.lessonList?.removeAt(sectionChildPosition)
+//        } else {
+//            bundleArgs?.sectionData
+//                ?.get(bundleArgs?.adapterPosition ?: 0)
+//                ?.lessonList?.removeAt(
+//                    bundleArgs?.sectionData?.get(
+//                        bundleArgs?.adapterPosition ?: 0
+//                    )?.lessonList?.size ?: 0
+//                )
+//        }
+//    }
 
 
     override fun onClick(p0: View?) {
@@ -453,7 +484,7 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
                     if (errorId == 0) {
                         val bundle = arguments ?: Bundle()
                         bundle.putParcelable("quizData", viewModel.quizData)
-                        findNavController().navigate(
+                        findNavController().navigateTo(
                             R.id.action_addQuizFragment_to_quizSettingsFragment,
                             bundle
                         )
@@ -487,6 +518,7 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
         )
 
         setAdapter(true)
+//        showToastShort("New question is added.")
 
     }
 
@@ -496,21 +528,105 @@ class AddQuizFragment : BaseFragment<FragmentAddQuizBinding>(), BaseAdapter.IVie
     }
 
 
-    private fun isAllAnsMarked() {
-        bundleArgs?.sectionData?.get(bundleArgs?.adapterPosition ?: 0)?.lessonList?.apply {
-            val pos = if (bundleArgs?.childPosition.isNullOrNegative()) {
-                size - 1
-            } else {
-                bundleArgs?.childPosition!!
-            }
-            get(pos).totalQuizQues = viewModel.quizData.list?.size
-
-            get(pos).allAnsMarked =
-                viewModel.quizData.list?.filter { !it.isAnsMarked() }.isNullOrEmpty()
-        }
-    }
+//    private fun isAllAnsMarked() {
+//        bundleArgs?.sectionData?.get(bundleArgs?.adapterPosition ?: 0)?.lessonList?.apply {
+//            val pos = if (bundleArgs?.childPosition.isNullOrNegative()) {
+//                size - 1
+//            } else {
+//                bundleArgs?.childPosition!!
+//            }
+//            get(pos).totalQuizQues = viewModel.quizData.list?.size
+//
+//            get(pos).allAnsMarked =
+//                viewModel.quizData.list?.filter { !it.isAnsMarked() }.isNullOrEmpty()
+//        }
+//    }
 
     override fun onApiRetry(apiCode: String) {
         viewModel.onApiRetry(apiCode)
+    }
+
+    override fun onException(isNetworkAvailable: Boolean, exception: ApiError, apiCode: String) {
+        when (exception.statusCode) {
+            HTTPCode.CO_AUTHOR_ACCESS_DENIED -> {
+                CommonAlertDialog.builder(baseActivity)
+                    .icon(R.drawable.ic_rejected_account)
+                    .description(exception.message ?: "")
+                    .positiveBtnText(baseActivity.getString(R.string.okay))
+                    .notCancellable(false)
+                    .title("")
+                    .hideNegativeBtn(true)
+                    .getCallback {
+                        (baseActivity as HomeActivity).setSelected(R.id.action_home)
+                    }
+                    .build()
+            }
+            HTTPCode.CONTENT_DELETED -> {
+                CommonAlertDialog.builder(baseActivity)
+                    .icon(R.drawable.ic_alert_title)
+                    .apply {
+
+                        description(exception.message ?: "")
+
+                    }
+                    .positiveBtnText(baseActivity.getString(R.string.okay))
+                    .notCancellable(false)
+                    .title("")
+                    .hideNegativeBtn(true)
+                    .getCallback {
+                        baseActivity.onBackPressed()
+                    }
+                    .build()
+            }
+            else -> {
+                super.onException(isNetworkAvailable, exception, apiCode)
+
+            }
+        }
+
+    }
+
+    fun onClickBack(isOpen: Boolean = true) {
+//        if (bundleArgs?.lessonArgs?.type == Constant.CLICK_ADD) {
+//            setFragmentResult(
+//                "onLessonBack",
+//                bundleOf("isDialogOpen" to isOpen)
+//            )
+//        }
+//        findNavController().popBackStack()
+        if (viewModel.isQuizAdded()) {
+            if (bundleArgs?.lessonArgs?.type == Constant.CLICK_ADD) {
+                setFragmentResult(
+                    "onLessonBack",
+                    bundleOf("isDialogOpen" to isOpen)
+                )
+            }
+            findNavController().popBackStack()
+        } else {
+            confirmationPopUp(isOpen)
+        }
+    }
+
+    private fun confirmationPopUp(isOpen: Boolean) {
+
+        CommonAlertDialog.builder(baseActivity)
+            .hideNegativeBtn(false)
+            .positiveBtnText(baseActivity.getString(R.string.yes))
+            .negativeBtnText(baseActivity.getString(R.string.no))
+            .title(baseActivity.getString(R.string.alerte))
+            .description(getString(R.string.are_you_do_not_want_to_save_lesson))
+            .getCallback {
+                if (it) {
+                    if (bundleArgs?.lessonArgs?.type == Constant.CLICK_ADD) {
+                        setFragmentResult(
+                            "onLessonBack",
+                            bundleOf("isDialogOpen" to isOpen)
+                        )
+                    }
+                    findNavController().popBackStack()
+                }
+
+            }.notCancellable(false).icon(R.drawable.ic_alert_title)
+            .build()
     }
 }

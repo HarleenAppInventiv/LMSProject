@@ -1,8 +1,6 @@
 package com.selflearningcoursecreationapp.ui.profile.bookmark
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -11,26 +9,28 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.selflearningcoursecreationapp.R
+import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.base.BaseDialog
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.databinding.FragmentMyCourseBinding
 import com.selflearningcoursecreationapp.extensions.gone
+import com.selflearningcoursecreationapp.extensions.navigateTo
 import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.models.course.OrderData
 import com.selflearningcoursecreationapp.ui.bottom_home.HomeVM
 import com.selflearningcoursecreationapp.ui.dialog.unlockCourse.UnlockCourseDialog
-import com.selflearningcoursecreationapp.utils.ApiEndPoints
-import com.selflearningcoursecreationapp.utils.Constant
-import com.selflearningcoursecreationapp.utils.CourseType
+import com.selflearningcoursecreationapp.ui.payment.CheckoutBottomSheet
+import com.selflearningcoursecreationapp.utils.*
 import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class WishlistCoursesFragment : BaseFragment<FragmentMyCourseBinding>(), BaseDialog.IDialogClick {
+class WishlistCoursesFragment : BaseFragment<FragmentMyCourseBinding>(), BaseDialog.IDialogClick,
+    BaseBottomSheetDialog.IDialogClick {
 
     private val viewModel: WishListViewModel by viewModel()
     private val homeViewModel: HomeVM by viewModel()
@@ -39,25 +39,29 @@ class WishlistCoursesFragment : BaseFragment<FragmentMyCourseBinding>(), BaseDia
 
 
     private var itemposition = 0
+    lateinit var itemWishlisted: CourseData
     private val wishListListAdapter by lazy {
-        WishListAdapter(viewModel) { type, wishListItem, position ->
+        WishListAdapter { type, wishListItem, position ->
             itemposition = position
-
+            itemWishlisted = wishListItem
 
             when (type) {
                 Constant.CLICK_BOOKMARK -> {
+                    viewModel.onViewEvent(PagerViewEvents.Remove(wishListItem))
                     homeViewModel.courseId = wishListItem.courseId ?: 0
                     homeViewModel.unmarkWishlist()
                 }
                 Constant.CLICK_VIEW -> {
-                    findNavController().navigate(
+                    findNavController().navigateTo(
                         R.id.action_bookmarkedCoursesFragment_to_courseDetailsFragment,
                         bundleOf("courseId" to wishListItem.courseId)
                     )
                 }
                 Constant.CLICK_BUYBUTTON -> {
-                    if (wishListItem.userCourseStatus == 1) {
-                        findNavController().navigate(
+                    if (wishListItem.userCourseStatus == CourseStatus.ENROLLED || wishListItem.userCourseStatus == CourseStatus.IN_PROGRESS
+                        || wishListItem.userCourseStatus == CourseStatus.COMPELETD
+                    ) {
+                        findNavController().navigateTo(
                             R.id.action_bookmarkedCoursesFragment_to_courseDetailsFragment,
                             bundleOf("courseId" to wishListItem.courseId)
                         )
@@ -67,7 +71,15 @@ class WishlistCoursesFragment : BaseFragment<FragmentMyCourseBinding>(), BaseDia
                                 viewModel.purchaseCourse(wishListItem)
                             }
                             CourseType.PAID -> {
-                                viewModel.buyRazorPayCourse(wishListItem)
+                                CheckoutBottomSheet().apply {
+                                    arguments = bundleOf(
+                                        "courseFee" to wishListItem.courseFee,
+                                    )
+                                    setOnDialogClickListener(this@WishlistCoursesFragment)
+
+                                }.show(childFragmentManager, "")
+
+//                                viewModel.buyRazorPayCourse(wishListItem)
                             }
                             CourseType.RESTRICTED -> {
 //                                UnlockCourseDialog().show(childFragmentManager, "")
@@ -84,7 +96,7 @@ class WishlistCoursesFragment : BaseFragment<FragmentMyCourseBinding>(), BaseDia
                                     baseActivity.getString(R.string.to_buy_this_course),
                                     wishListItem.rewardPoints
                                 )
-                                CommonAlertDialog.builder(requireContext())
+                                CommonAlertDialog.builder(baseActivity)
                                     .title(getString(R.string.pay_by_reward))
                                     .description(desc)
                                     .icon(R.drawable.ic_coin_icon)
@@ -131,11 +143,7 @@ class WishlistCoursesFragment : BaseFragment<FragmentMyCourseBinding>(), BaseDia
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUi()
-        setHasOptionsMenu(true)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.course_menu, menu)
+        callMenu()
     }
 
 
@@ -200,6 +208,7 @@ class WishlistCoursesFragment : BaseFragment<FragmentMyCourseBinding>(), BaseDia
             errorState?.let {
                 binding.llNoWishlist.visible()
                 binding.swipeRefresh.isRefreshing = false
+                handlePagingError(it, ApiEndPoints.API_HOME_WISHLIST)
             }
         }
 
@@ -231,8 +240,16 @@ class WishlistCoursesFragment : BaseFragment<FragmentMyCourseBinding>(), BaseDia
 
 
     override fun onApiRetry(apiCode: String) {
-        viewModel.onApiRetry(apiCode = apiCode)
-        homeViewModel.onApiRetry(apiCode = apiCode)
+        when (apiCode) {
+            ApiEndPoints.API_HOME_WISHLIST -> {
+                wishListListAdapter.refresh()
+            }
+            else -> {
+                viewModel.onApiRetry(apiCode = apiCode)
+                homeViewModel.onApiRetry(apiCode = apiCode)
+
+            }
+        }
 
 
     }
@@ -257,13 +274,28 @@ class WishlistCoursesFragment : BaseFragment<FragmentMyCourseBinding>(), BaseDia
             }
 
             ApiEndPoints.API_PURCHASE_COURSE -> {
-                val resource = (value as BaseResponse<OrderData>)
-                showToastShort(resource.message)
-                sharedHomeModel.updateCourse(resource.resource?.course?.courseId)
-                findNavController().navigate(
-                    R.id.action_bookmarkedCoursesFragment_to_courseDetailsFragment,
-                    bundleOf("courseId" to resource.resource?.course?.courseId)
-                )
+
+
+                CommonAlertDialog.builder(baseActivity)
+                    .title(getString(R.string.congrats))
+                    .description(getString(R.string.you_have_succesully_enroled_inthis))
+                    .icon(R.drawable.ic_checked_logo)
+                    .hideNegativeBtn(true)
+                    .notCancellable(false)
+                    .positiveBtnText(getString(R.string.okay))
+                    .getCallback {
+                        if (it) {
+                            val resource = (value as BaseResponse<OrderData>)
+                            sharedHomeModel.updateCourse(resource.resource?.course?.courseId)
+                            findNavController().navigateTo(
+                                R.id.action_bookmarkedCoursesFragment_to_courseDetailsFragment,
+                                bundleOf("courseId" to resource.resource?.course?.courseId)
+                            )
+                        }
+                    }
+                    .build()
+
+
             }
 
         }
@@ -273,14 +305,20 @@ class WishlistCoursesFragment : BaseFragment<FragmentMyCourseBinding>(), BaseDia
         if (items.isNotEmpty()) {
             val type = items[0] as Int
             when (type) {
+                DialogType.PAYMENT -> {
+                    viewModel.stateId = items[1] as String
+                    viewModel.buyRazorPayCourse(itemWishlisted)
+
+                }
+
                 Constant.CLICK_VIEW -> {
 //                    val otp = items[1] as String
 //                    viewModel.otp = otp
 //                    viewModel.purchaseCourse()
                     val courseId = items[1] as Int
 
-                    findNavController().navigate(
-                        R.id.action_popularFragment_to_courseDetailsFragment,
+                    findNavController().navigateTo(
+                        R.id.action_bookmarkedCoursesFragment_to_courseDetailsFragment,
                         bundleOf("courseId" to courseId)
                     )
                 }

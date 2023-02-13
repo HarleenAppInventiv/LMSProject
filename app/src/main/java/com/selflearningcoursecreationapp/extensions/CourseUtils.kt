@@ -1,23 +1,20 @@
 package com.selflearningcoursecreationapp.extensions
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.blue
-import androidx.core.graphics.green
-import androidx.core.graphics.red
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.tabs.TabLayout
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.utils.*
 import com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
 import com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
 
-fun Int.getMediaType(showGreen: Boolean = true): Pair<Int, Int> {
+fun Int.getMediaType(lectureContentType: String? = ""): Pair<Int, Int> {
     return when (this) {
         MediaType.VIDEO -> {
             Pair(
@@ -26,88 +23,66 @@ fun Int.getMediaType(showGreen: Boolean = true): Pair<Int, Int> {
         }
         MediaType.AUDIO -> {
             Pair(R.drawable.ic_audio_icon, R.string.audio)
-
         }
         MediaType.DOC -> {
-            Pair(R.drawable.ic_text_icon, R.string.doc)
+            when (lectureContentType) {
+                "application/msword" -> {
+                    return Pair(R.drawable.ic_docx_icon, R.string.doc)
+                }
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document" -> {
+                    return Pair(R.drawable.ic_docx_icon, R.string.docx)
+                }
+                "application/vnd.ms-powerpoint" -> {
+                    return Pair(R.drawable.ic_ppt, R.string.ppt)
+                }
+                "application/vnd.openxmlformats-officedocument.presentationml.presentation" -> {
+                    return Pair(R.drawable.ic_ppt, R.string.pptx)
+                }
+                else -> {
+                    return Pair(R.drawable.ic_docx_icon, R.string.doc)
+                }
+            }
+//
         }
+//
         MediaType.TEXT -> {
-            Pair(R.drawable.ic_docx_icon, R.string.text)
-
+            Pair(R.drawable.ic_text, R.string.text)
         }
         else -> {
-            Pair(if (showGreen) R.drawable.ic_quiz_green else R.drawable.ic_quiz, R.string.quiz)
-        }
-    }
-}
-
-fun TextView.setComplexityLevel(type: Int?) {
-    /* if (isViOn) {
-         setTextColor(ContextCompat.getColor(context, R.color.ViMainColor))
-         backgroundTintList =
-             ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white55))
-
-     } else */if (type.isNullOrZero()) {
-        setTextColor(ContextCompat.getColor(context, context.getAttrColor(R.attr.colorPrimary)))
-        backgroundTintList =
-            ColorStateList.valueOf(
-                ContextCompat.getColor(
-                    context,
-                    context.getAttrColor(R.attr.levelBgColor)
-                )
+            Pair(/*if (showGreen)*/ R.drawable.ic_quiz_green /*else R.drawable.ic_quiz*/,
+                R.string.quiz
             )
-    } else {
-        when (type) {
-            ComplexityLevel.ADVANCED -> {
-                setTextColor(
-                    ContextCompat.getColor(
-                        context,
-                        context.getAttrColor(R.attr.accentColor_Red)
-                    )
-                )
-                backgroundTintList =
-                    ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            context,
-                            context.getAttrColor(R.attr.levelBgColor)
-                        )
-                    )
-            }
-            ComplexityLevel.BEGINNER -> {
-                setTextColor(
-                    ContextCompat.getColor(
-                        context,
-                        context.getAttrColor(R.attr.accentColor_Green)
-                    )
-                )
-                backgroundTintList =
-                    ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            context,
-                            context.getAttrColor(R.attr.levelBgColor)
-                        )
-                    )
-
-            }
-            ComplexityLevel.INTERMEDIATE -> {
-                setTextColor(
-                    ContextCompat.getColor(
-                        context,
-                        context.getAttrColor(R.attr.colorPrimary)
-                    )
-                )
-                backgroundTintList =
-                    ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            context,
-                            context.getAttrColor(R.attr.levelBgColor)
-                        )
-                    )
-
-            }
         }
     }
 }
+
+fun Int?.isLectureInProcessing(): Boolean {
+    return when (this) {
+        LectureStatus.CONTENT_PROCESSING, LectureStatus.JOB_CREATED, LectureStatus.JOB_PROCESSING_START, LectureStatus.JOB_FINISHED, LectureStatus.LINK_GENERATED -> {
+            true
+        }
+        else -> false
+    }
+}
+
+fun Int?.isMediaLecture(): Boolean {
+    return when (this) {
+        MediaType.VIDEO, MediaType.AUDIO, MediaType.DOC -> {
+            true
+        }
+        else -> false
+    }
+}
+
+fun Int?.isLectureFailed(): Boolean {
+    return when (this) {
+        LectureStatus.ERRORED, LectureStatus.IN_PROCESS, LectureStatus.CANCELLED -> {
+            true
+        }
+        else -> false
+    }
+}
+
 
 fun TextView.setPriceColor(type: Int?) {
     when (type) {
@@ -129,38 +104,147 @@ fun TextView.setPriceColor(type: Int?) {
     }
 }
 
+fun Button.setCreateCourseText(type: Int?) {
+    when (type) {
+        CreatedCourseStatus.BLOCKED -> {
+            gone()
+        }
+        CreatedCourseStatus.DRAFT -> {
+            isEnabled = true
+            text = context.getString(R.string.edit_course)
+        }
+        CreatedCourseStatus.INPROCESS -> {
+            text = context.getString(R.string.in_progress)
+            isEnabled = false
+            if (ThemeUtils.isViOn()) setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.black
+                )
+            )
+
+        }
+
+        CreatedCourseStatus.SUBMIT -> {
+            text = context.getString(R.string.under_review)
+            isEnabled = false
+            if (ThemeUtils.isViOn()) setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.black
+                )
+            )
+        }
+        CreatedCourseStatus.APPROVAL -> {
+            text = context.getString(R.string.approved)
+            isEnabled = false
+            if (ThemeUtils.isViOn()) setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.black
+                )
+            )
+
+        }
+        CreatedCourseStatus.PUBLISHED -> {
+            text = context.getString(R.string.published)
+            isEnabled = false
+            if (ThemeUtils.isViOn()) setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.black
+                )
+            )
+
+        }
+        CreatedCourseStatus.REJECTED -> {
+            text = context.getString(R.string.rejected)
+            isEnabled = false
+            if (ThemeUtils.isViOn()) setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.black
+                )
+            )
+
+        }
+        CreatedCourseStatus.PARTIALREJECTED -> {
+            isEnabled = true
+            text = context.getString(R.string.edit_course)
+
+        }
+        CreatedCourseStatus.UNDER_PROCESSING -> {
+            isEnabled = false
+            text = context.getString(R.string.under_processing)
+
+        }
+        CreatedCourseStatus.PARTIAL_SUBMITTED -> {
+            isEnabled = false
+            setText(context.getString(R.string.under_processing))
+
+        }
+    }
+}
+
 fun LMSMaterialButton.setCourseButton(
     type: Int?,
     userCourseStatus: Int? = 0,
     paymentStatus: Int? = 0,
     type2: Int? = 0,
+    status: Int? = 1
 ) {
-    text = context.getButtonText(type, userCourseStatus, type2)
+    text = context.getButtonText(type, userCourseStatus, type2, status)
     icon = when (userCourseStatus) {
-        CourseStatus.ENROLLED -> {
+        CourseStatus.IN_PROGRESS -> {
             ContextCompat.getDrawable(context, R.drawable.ic_resume)
         }
         else -> {
             null
         }
     }
-    when (paymentStatus) {
-        PaymentStatus.IN_PROGRESS -> {
-            text = context.getString(R.string.resume)
-            setBtnEnabled(false)
-            isEnabled = false
+
+    text = when (userCourseStatus) {
+
+        CourseStatus.IN_PROGRESS -> {
+            context.getString(R.string.resume)
+        }
+        CourseStatus.ENROLLED -> {
+            context.getString(R.string.start)
+        }
+        CourseStatus.COMPELETD -> {
+            context.getString(R.string.completed)
         }
         else -> {
-            setBtnEnabled(true)
-            isEnabled = true
-
+            context.getButtonText(type, userCourseStatus, type2, status)
         }
     }
+    setBtnEnabled(true)
+    isEnabled = true
+
+//    when (paymentStatus) {
+//        PaymentStatus.IN_PROGRESS, PaymentStatus.SUCCESS -> {
+//            text = context.getString(R.string.resume)
+////            setBtnEnabled(false)
+////            isEnabled = false
+//            setBtnEnabled(true)
+//            isEnabled = true
+//        }
+//        else -> {
+//            setBtnEnabled(true)
+//            isEnabled = true
+//
+//        }
+//    }
 }
 
-fun Context.getButtonText(type: Int?, userCourseStatus: Int? = 0, type2: Int?): String {
+fun Context.getButtonText(
+    type: Int?,
+    userCourseStatus: Int? = 0,
+    type2: Int?,
+    status: Int?
+): String {
     if (userCourseStatus == 1) {
-        return getString(R.string.resume)
+        return if (status == 0) getString(R.string.start) else getString(R.string.resume)
     } else {
         return when (type) {
             CourseType.FREE -> {
@@ -240,6 +324,14 @@ fun TabLayout.setCustomTabs(list: ArrayList<String>) {
     }
 }
 
+fun TabLayout.setCustomTabsFixed(list: ArrayList<String>) {
+
+    for (i in 0 until list.size) {
+        getTabAt(i)?.setCustomView(R.layout.tab_custom_view_fixed_tab)
+        (getTabAt(i)?.customView as LMSTextView).text = list[i]
+    }
+}
+
 fun TextView.setLimitedName(name: String?) {
     if (name.isNullOrEmpty())
         text = ""
@@ -252,46 +344,64 @@ fun TextView.setLimitedName(name: String?) {
 }
 
 
-fun MaterialToolbar.scrollHandling(totalCount: Int, currentCount: Int) {
-    if (currentCount >= totalCount) {
-        val percentValue = currentCount.toFloat().div(totalCount).toFloat()
+fun MaterialToolbar.scrollHandling(totalCount: Int, currentCount: Int, offsetValue: Int) {
+//    if (currentCount >= totalCount) {
+//        val percentValue = currentCount.toFloat().div(totalCount).toFloat()
+//
+//        val colorValue = 2.55.times(1.minus(percentValue)).times(100)
+//        val colorTransValue = 2.55.times(percentValue).times(100)
+    var color: Int/* = Color.rgb(colorValue.toInt(), colorValue.toInt(), colorValue.toInt())*/
 
-        val colorValue = 2.55.times(1.minus(percentValue)).times(100)
-        val colorTransValue = 2.55.times(percentValue).times(100)
-        val color = Color.rgb(colorValue.toInt(), colorValue.toInt(), colorValue.toInt())
+//        val whiteColor = Color.rgb(255, 255, 255)
+//        val blackColor = Color.rgb(36, 36, 36)
 
-        val whiteColor = Color.rgb(255, 255, 255)
-        val blackColor = Color.rgb(36, 36, 36)
-
-        val whiteToolbarColor = String.format(
+    var whiteToolbarColor: Int/* = Color.parseColor(String.format(
             "#%02x%02x%02x%02x",
             colorTransValue.toInt(),
             whiteColor.red,
             whiteColor.green,
 
             whiteColor.blue
-        )
+        ))*/
 
-        val blackTitleColor = String.format(
+    var blackTitleColor: Int /*= Color.parseColor(String.format(
             "#%02x%02x%02x%02x",
             colorTransValue.toInt(),
             blackColor.red,
             blackColor.green,
             blackColor.blue
-        )
-        setTitleTextColor(Color.parseColor(blackTitleColor))
-        setNavigationIconTint(color)
-        setBackgroundColor(
-            Color.parseColor(whiteToolbarColor)
-        )
+        ))*/
 
 
-        for (i in 0 until menu.size()) {
-            menu?.getItem(i)?.icon?.colorFilter = PorterDuffColorFilter(
-                color,
-                PorterDuff.Mode.SRC_IN
-            )
-        }
+
+    if (currentCount >= offsetValue) {
+        color = ContextCompat.getColor(context, R.color.white)
+        whiteToolbarColor = ContextCompat.getColor(context, android.R.color.transparent)
+        blackTitleColor = ContextCompat.getColor(context, android.R.color.transparent)
+
+
+    } else {
+        color = ContextCompat.getColor(context, R.color.text_color_black_131414)
+        whiteToolbarColor = ContextCompat.getColor(context, R.color.white)
+        blackTitleColor = context.getAttrResource(R.attr.toolbarTitleColor)
+
+
     }
 
+    setTitleTextColor(blackTitleColor)
+    setNavigationIconTint(color)
+    setBackgroundColor(
+        whiteToolbarColor
+    )
+    for (i in 0 until menu.size()) {
+        menu?.getItem(i)?.icon?.colorFilter = PorterDuffColorFilter(
+            color,
+            PorterDuff.Mode.SRC_IN
+        )
+    }
+
+//    }
+
 }
+
+

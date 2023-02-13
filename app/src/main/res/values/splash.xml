@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.App.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">#FFFFFF</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
-        <item name="windowSplashScreenAnimationDuration">1000</item>
-        <item name="postSplashScreenTheme">@style/AppTheme</item>
-    </style>
+    <!--    <style name="Theme.App.Splash" parent="Theme.SplashScreen">-->
+    <!--        <item name="windowSplashScreenBackground">#FFFFFF</item>-->
+    <!--        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>-->
+    <!--        <item name="windowSplashScreenAnimationDuration">1000</item>-->
+    <!--        <item name="postSplashScreenTheme">@style/AppTheme</item>-->
+    <!--    </style>-->
 
 </resources>

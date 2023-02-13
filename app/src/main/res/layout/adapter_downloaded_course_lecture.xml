@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="?attr/screenBackgroundColor"
+        android:paddingBottom="@dimen/_10sdp">
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
+            android:id="@+id/iv_media_file"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:scaleType="centerCrop"
+            app:applyGrayscale="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/corner_radius_5"
+            app:srcCompat="@drawable/ic_video_file"
+
+            />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_lesson_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textSize="@dimen/textField_12"
+            app:fontType="semiBold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_media_file"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:textColorType="heading" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_lesson_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:textSize="@dimen/textField_11"
+            app:fontType="medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_lesson_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_lesson_name"
+            app:layout_constraintVertical_bias="0"
+            app:textColorType="body" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_dot"
+            android:layout_width="@dimen/_4sdp"
+            android:layout_height="@dimen/_4sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:background="?attr/dotColor"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_lesson_type"
+            app:layout_constraintStart_toEndOf="@+id/tv_lesson_type"
+            app:layout_constraintTop_toTopOf="@+id/tv_lesson_type"
+            app:layout_constraintVertical_bias="0.6"
+            app:shapeAppearanceOverlay="@style/circleImage" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_lesson_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:textSize="@dimen/textField_11"
+            app:fontType="medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_dot"
+
+            app:layout_constraintTop_toBottomOf="@+id/tv_lesson_name"
+            app:layout_constraintVertical_bias="0"
+            app:textColorType="body" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSRichView
+            android:id="@+id/iv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:padding="@dimen/_2sdp"
+            android:src="@drawable/ic_delete_menu"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_lesson_type"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintTop_toTopOf="@+id/tv_lesson_type"
+
+
+            app:vector="@drawable/ic_delete_menu" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/pb_progress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:clickable="false"
+            android:enabled="false"
+            android:focusable="false"
+            android:minHeight="0dp"
+            android:padding="0dp"
+
+            android:progress="10"
+            android:progressDrawable="@drawable/sb_drawable_course"
+            android:thumb="@null"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/tv_percent"
+            app:layout_constraintStart_toEndOf="@+id/iv_media_file"
+            app:layout_constraintTop_toBottomOf="@+id/tv_lesson_type" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:textSize="@dimen/textField_10"
+            android:visibility="gone"
+            app:fontType="medium"
+            app:layout_constraintBottom_toTopOf="@+id/pb_progress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/pb_progress"
+            app:layout_constraintVertical_bias="0"
+            app:textColorType="heading" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

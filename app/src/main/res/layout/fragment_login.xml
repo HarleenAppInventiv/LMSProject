@@ -33,6 +33,7 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:backgroundTint="?attr/accentColor_Red"
             android:padding="@dimen/_12sdp"
+            android:visibility="gone"
             android:text="@string/google"
             android:textSize="@dimen/materialButton_14"
             app:buttonBackground="none"
@@ -53,7 +54,8 @@
             android:id="@+id/btn_otp_login"
             spanText="@{@string/via_otp}"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:capitalize="none"
             android:layout_marginVertical="@dimen/_4sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:background="@drawable/btn_otp_bg"
@@ -71,12 +73,13 @@
             app:iconPadding="@dimen/_10sdp"
             android:textColor="?attr/googleIconTintColor"
             app:btnTextColor="none"
+            android:textAllCaps="false"
             app:iconTint="?attr/googleIconTintColor"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_google_login"
+            app:layout_constraintTop_toTopOf="@+id/btn_google_login"
+            app:layout_goneMarginStart="0dp"
             app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
             app:layout_constraintStart_toEndOf="@+id/btn_google_login"
-            app:layout_constraintTop_toTopOf="@+id/btn_google_login"
-            app:layout_constraintWidth_percent="0.45" />
+            app:layout_goneMarginTop="@dimen/_20sdp" />
 
 
         <LinearLayout
@@ -111,8 +114,9 @@
                 android:gravity="center"
                 android:visibility="gone"
                 app:ccpDialog_backgroundColor="?attr/viewBackgroundColor"
-                app:ccp_areaCodeDetectedCountry="true"
-                app:ccp_autoDetectCountry="true"
+                app:ccp_clickable="true"
+                app:ccp_defaultNameCode="IN"
+                app:ccp_showArrow="false"
                 app:ccp_showFlag="false"
                 app:ccp_showNameCode="false"
                 app:ccp_textSize="@dimen/textField_14" />
@@ -123,9 +127,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/edt_bg"
-                android:digits="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890.@_"
+                android:digits="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890.@_+-%"
                 android:hint="@string/enter_phone_email"
                 android:imeOptions="actionNext"
+
                 android:inputType="textEmailAddress|textNoSuggestions"
                 android:maxLength="40"
                 android:paddingStart="@dimen/_6sdp"
@@ -144,7 +149,7 @@
             android:layout_height="0dp"
             android:layout_marginVertical="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_40sdp"
-            android:background="@color/et_dash_color"
+            android:background="?attr/radioUnselectedColor"
             android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="@+id/ll_phone"
             app:layout_constraintStart_toStartOf="@+id/ll_phone"
@@ -177,7 +182,7 @@
             android:layout_height="0dp"
             android:layout_marginVertical="@dimen/_12sdp"
             android:layout_marginStart="@dimen/_40sdp"
-            android:background="@color/et_dash_color"
+            android:background="?attr/radioUnselectedColor"
             android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="@+id/edt_login_password"
             app:layout_constraintStart_toStartOf="@+id/edt_login_password"
@@ -226,12 +231,12 @@
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
             android:id="@+id/btn_sing_in"
-            spanText="@{@string/sign_in}"
+            spanText="@{@string/login}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
             android:enabled="@{login.loginLiveData.dataEntered}"
-            android:text="@string/sign_in"
+            android:text="@string/login"
             android:textSize="@dimen/materialButton_14"
             app:btnEnabled="@{login.loginLiveData.dataEntered}"
             app:buttonFont="semiBold"
@@ -242,7 +247,7 @@
             app:layout_constraintTop_toBottomOf="@+id/chk_remember_me"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintWidth_percent=".9"
-            app:textAllCaps="true" />
+            app:textAllCaps="false" />
 
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
@@ -250,8 +255,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_15sdp"
-            android:importantForAccessibility="no"
-
             android:text="@string/or_continue_as_a_guest"
             android:textAlignment="center"
             android:textSize="@dimen/textField_14"

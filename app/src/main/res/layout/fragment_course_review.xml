@@ -7,6 +7,7 @@
 
     </data>
 
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/parentNSV"
         android:layout_width="match_parent"
@@ -15,15 +16,88 @@
         android:fillViewport="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:overScrollMode="never"
+        android:overScrollMode="ifContentScrolls"
         tools:context=".ui.create_course.review.CourseReviewFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="?attr/viewSecondaryBgColor"
             android:clickable="true"
             android:focusable="true"
             android:focusableInTouchMode="true">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSCardView
+                android:id="@+id/cl_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:cardBackgroundColor="?attr/whiteTextColor"
+                app:layout_constraintEnd_toEndOf="@+id/rv_sections"
+                app:layout_constraintHeight_default="wrap"
+                app:layout_constraintStart_toStartOf="@+id/rv_sections"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="@dimen/_10sdp">
+
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/LMSTextView18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/freeze_content"
+                        android:textSize="@dimen/textField_14"
+                        app:fontType="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorType="heading" />
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/LMSTextView16"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:text="@string/this_will_not_allow_learner_to_go_to_next_lesson_until_the_previous_lesson_is_completed"
+                        android:textSize="@dimen/textField_12"
+                        app:fontType="regular"
+                        app:layout_constraintEnd_toStartOf="@+id/sv_change_dash1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/LMSTextView18"
+                        app:textColorType="none" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/sv_change_dash1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:button="@drawable/sw_small_selector"
+                        android:minHeight="0dp"
+                        android:padding="0dp"
+
+                        android:textAlignment="textStart"
+                        android:textColor="?attr/whiteTextColor"
+                        android:textSize="@dimen/_12ssp"
+                        android:theme="@style/SWTheme"
+                        android:thumb="@null"
+                        app:layout_constraintBottom_toBottomOf="@+id/LMSTextView16"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/LMSTextView16"
+                        app:track="@null" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </com.selflearningcoursecreationapp.utils.customViews.LMSCardView>
+
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_sections"
@@ -35,7 +109,7 @@
                 app:fontType="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_parent"
                 app:textColorType="heading" />
 
             <View
@@ -53,6 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_16sdp"
+                android:overScrollMode="never"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -75,7 +150,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_5sdp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="?attr/whiteTextColor"
                 app:layout_constraintBottom_toTopOf="@+id/et_keywords"
                 app:layout_constraintEnd_toEndOf="@+id/et_keywords"
                 app:layout_constraintHeight_default="wrap"
@@ -103,6 +178,7 @@
                 android:background="@drawable/edt_white_bg"
                 android:hint="@string/enter_keywords"
                 android:imeOptions="actionGo"
+                android:maxLength="40"
                 android:paddingHorizontal="@dimen/_16sdp"
                 android:paddingVertical="@dimen/_12sdp"
                 android:singleLine="true"
@@ -115,11 +191,24 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_keywords"
                 android:layout_width="0dp"
+
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="@+id/tv_sections"
                 app:layout_constraintStart_toStartOf="@+id/tv_sections"
                 app:layout_constraintTop_toBottomOf="@+id/et_keywords" />
+
+
+            <View
+                android:id="@+id/disableView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:clickable="true"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

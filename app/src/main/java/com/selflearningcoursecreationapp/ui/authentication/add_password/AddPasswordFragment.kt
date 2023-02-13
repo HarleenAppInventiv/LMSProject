@@ -6,6 +6,7 @@ import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentAddPasswordBinding
+import com.selflearningcoursecreationapp.extensions.navigateTo
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.extensions.showHidePassword
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
@@ -59,11 +60,11 @@ class AddPasswordFragment : BaseFragment<FragmentAddPasswordBinding>() {
                     .positiveBtnText(getString(R.string.okay))
                     .hideNegativeBtn(true)
                     .icon(R.drawable.ic_checked_logo)
-                    .notCancellable()
+                    .notCancellable(false)
                     .getCallback {
                         if (it) {
                             baseActivity.runOnUiThread {
-                                findNavController().navigate(R.id.action_addPasswordFragment_to_preferencesFragment)
+                                findNavController().navigateTo(R.id.action_addPasswordFragment_to_preferencesFragment)
                             }
                         }
                     }.build()

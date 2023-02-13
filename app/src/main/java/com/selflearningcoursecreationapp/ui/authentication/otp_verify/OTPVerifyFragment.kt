@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
+import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
@@ -11,9 +12,11 @@ import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.databinding.FragmentOTPVarifyBinding
 import com.selflearningcoursecreationapp.extensions.getAttrColor
+import com.selflearningcoursecreationapp.extensions.navigateTo
 import com.selflearningcoursecreationapp.extensions.otpHelper
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.models.user.PreferenceData
+import com.selflearningcoursecreationapp.models.user.UserProfile
 import com.selflearningcoursecreationapp.models.user.UserResponse
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.OtpType
@@ -45,10 +48,12 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
     }
 
     private fun initUI() {
-        binding.etOtp1.otpHelper()
-        binding.etOtp2.otpHelper()
-        binding.etOtp3.otpHelper()
-        binding.etOtp4.otpHelper()
+        binding.hiddenOTPET.otpHelper(ArrayList<EditText>().apply {
+            add(binding.etOtp1)
+            add(binding.etOtp2)
+            add(binding.etOtp3)
+            add(binding.etOtp4)
+        })
         binding.textView.setSpanString(
             SpanUtils.with(baseActivity, baseActivity.getString(R.string.verify_with_otp)).endPos(7)
                 .isBold().getSpanString()
@@ -103,6 +108,8 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
                 binding.tvResend.changeTextColor(ThemeConstants.TYPE_PRIMARY)
                 startTimer()
                 binding.tvResend.isEnabled = false
+                showToastShort((value as BaseResponse<UserProfile>).message)
+
             }
             ApiEndPoints.API_OTP_VAL, ApiEndPoints.API_VERIFY_EMAIL -> {
                 val userData = (value as? BaseResponse<UserResponse>)?.resource
@@ -113,7 +120,7 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
                             OTPVerifyFragmentDirections.actionOTPVerifyFragmentToResetPassFragment(
                                 userId
                             )
-                        findNavController().navigate(action)
+                        findNavController().navigateTo(action)
                     }
                     OtpType.TYPE_LOGIN -> {
                         handleLoginResponse(userData)
@@ -127,7 +134,7 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
                             OTPVerifyFragmentDirections.actionOTPVerifyFragmentToAddPasswordFragment(
                                 userData?.user?.id.toString()
                             )
-                        findNavController().navigate(action)
+                        findNavController().navigateTo(action)
 
                     }
                     OtpType.TYPE_EMAIL -> {
@@ -144,17 +151,18 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
     ) {
         when {
             userData?.user?.passwordUpdated == false -> {
+
                 val action =
                     OTPVerifyFragmentDirections.actionOTPVerifyFragmentToAddPasswordFragment(
                         userData.user?.id.toString()
                     )
-                findNavController().navigate(action)
+                findNavController().navigateTo(action)
             }
             userData?.user?.getPreferenceValue() != 4 -> {
                 val data =
                     PreferenceData(currentSelection = userData?.user?.getPreferenceValue() ?: 0)
 
-                findNavController().navigate(
+                findNavController().navigateTo(
                     OTPVerifyFragmentDirections.actionOTPVerifyFragmentToPreferencesFragment(
                         preferenceData = data
                     )
@@ -191,13 +199,13 @@ class OTPVerifyFragment : BaseFragment<FragmentOTPVarifyBinding>() {
                             )
                         )
                     val resendText = String.format(
-                        "%s %02d : %02d",
+                        "%s %02d:%02d",
                         baseActivity.getString(R.string.resend_code_in),
                         min,
                         sec
                     )
                     binding.tvResend.setSpanString(
-                        SpanUtils.with(baseActivity, resendText).startPos(16).textColor(
+                        SpanUtils.with(baseActivity, resendText).startPos(14).textColor(
                             ContextCompat.getColor(
                                 baseActivity,
                                 baseActivity.getAttrColor(R.attr.accentColor_Red)

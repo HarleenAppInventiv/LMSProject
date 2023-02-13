@@ -29,15 +29,20 @@ class AddQuizViewAdapter(private var list: ArrayList<QuizQuestionData>) :
             String.format(context.getString(R.string.question), position + 1)
         binding.quizData = data
         binding.executePendingBindings()
-        binding.tvQuesType.text =
-            if (data.questionTypeTitle.isNullOrEmpty()) context.getQuizTypeTitle(
-                data.questionType ?: QUIZ.MULTIPLE_CHOICE
-            ) else data.questionTypeTitle
+        binding.tvQuesType.apply {
+            text =
+                if (data.questionTypeTitle.isNullOrEmpty()) context.getQuizTypeTitle(
+                    data.questionType ?: QUIZ.MULTIPLE_CHOICE
+                ) else data.questionTypeTitle
 
+            contentDescription = "$text double tab to see other question types"
+        }
 
+        if ((data.questionImage != null || !data.questionImageId.isNullOrEmpty()))
+            binding.ivHeader.loadImage(data.questionImage, null)
+        else
+            binding.ivHeader.background = context.getDrawable(R.drawable.cornered_stroked_bg)
 
-
-        binding.ivHeader.loadImage(data.questionImage, null)
         binding.ivEditImage.visibleView(!data.questionImageId.isNullOrEmpty() && data.questionType == QUIZ.IMAGE_BASED)
 
 //        binding.etQuestion.doEnable(data.isEnabled ?: true)
@@ -51,7 +56,6 @@ class AddQuizViewAdapter(private var list: ArrayList<QuizQuestionData>) :
             )
         } else {
             binding.tvQuesType.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
-
         }
         setOptionAdapter(position, binding, data, list[position].optionSelected)
         binding.tvExpand.setOnClickListener {
@@ -80,16 +84,16 @@ class AddQuizViewAdapter(private var list: ArrayList<QuizQuestionData>) :
         }
         binding.tvHeader.setOnClickListener {
             if (data.questionImageId.isNullOrEmpty())
-                onItemClick(DialogType.CLICK_BANNER, position)
+                onItemClick(DialogType.CLICK_PORTRAIT_QUES, position)
 
         }
         binding.ivEditImage.setOnClickListener {
-            onItemClick(DialogType.CLICK_BANNER, position)
+            onItemClick(DialogType.CLICK_PORTRAIT_QUES, position)
 
         }
         binding.ivHeader.setOnClickListener {
             if (data.questionImageId.isNullOrEmpty())
-                onItemClick(DialogType.CLICK_BANNER, position)
+                onItemClick(DialogType.CLICK_PORTRAIT_QUES, position)
 
         }
 

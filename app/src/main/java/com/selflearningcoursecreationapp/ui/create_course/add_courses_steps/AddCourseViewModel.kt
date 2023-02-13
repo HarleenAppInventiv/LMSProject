@@ -22,10 +22,7 @@ import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.S
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.CoAuthorStatus
 import com.selflearningcoursecreationapp.utils.Constant
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -33,16 +30,18 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
 class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
-
+    var enableFields: Boolean = true
     private var dragId: Int? = 0
     var completedStep: Int = 0
+    var currentPosition = 0
     private var job: Job? = null
-    var sectionAdapterPosition: Int = -1
+    var sectionAdapterPosition: Int = 0
     var sectionChildPosition: Int = -1
     var fromPosition: Int = -1
     var toPosition: Int = -1
     var mediaType = 0
     private var submitCourse: Boolean = false
+    var freezeContent: Boolean = false
     private var keywords: String = ""
     var sectionUpdateData = MutableLiveData<EventObserver<Int>>().apply {
         value = EventObserver(0)
@@ -70,6 +69,7 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
     var isCreator = MutableLiveData<Boolean>().apply {
         value = courseData.value?.createdById == userProfile?.id
     }
+
 
     var masterData = MasterDataItem()
     fun getSectionList(): ArrayList<SectionModel>? = courseData.value?.sectionData
@@ -118,14 +118,16 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
 
     fun step3Validation() {
         courseData.value?.let {
-            val errorId =
-                it.isStep3Verified(userProfile?.id)
+            val errorId = it.isStep3Verified(
+                userProfile?.id,
+                ignoreEmpty = userProfile?.id == courseData.value?.createdById
+            )
             if (errorId == 0) {
-
                 completeSteps(2)
-                if (isCreator.value == true)
+                if (isCreator.value == true) {
                     updateResponseObserver(Resource.Success(true, ApiEndPoints.VALID_DATA))
-                else {
+                } else {
+
                     hitCoAuthorExitApi()
                 }
             } else {
@@ -150,12 +152,25 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
         }
     }
 
-    private fun hitCoAuthorExitApi() {
+    fun hitCoAuthorExitApi() {
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
             map["courseId"] = courseData.value?.courseId ?: 0
             map["status"] = CoAuthorStatus.SUBMITTED
             val response = repo.updateCoAuthorStatus(map)
+            withContext(Dispatchers.IO) {
+                response.collect {
+
+                    updateResponseObserver(it)
+                }
+            }
+        }
+    }
+
+    fun existsCoAuthorDetails() {
+        viewModelScope.launch(coroutineExceptionHandle) {
+
+            val response = repo.existsCoAuthor(courseData.value?.courseId ?: 0)
             withContext(Dispatchers.IO) {
                 response.collect {
 
@@ -171,7 +186,6 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
             if (errorId == 0) {
 
                 completeSteps(3)
-                getCourseSections()
                 updateResponseObserver(Resource.Success(true, ApiEndPoints.VALID_DATA))
             } else {
                 updateResponseObserver(Resource.Error(ToastData(errorCode = errorId)))
@@ -214,7 +228,7 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
 
     }
 
-    private fun completeSteps(i: Int) {
+    fun completeSteps(i: Int) {
         if (completedStep == i) {
             completedStep += 1
         }
@@ -233,6 +247,7 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
         map["keyTakeaways"] = courseData.value?.keyTakeaways ?: ""
         map["courseFee"] = courseData.value?.courseFee ?: ""
         map["rewardPoints"] = courseData.value?.rewardPoints?.toIntOrNull() ?: 0
+        map["logoRequiredOnCertificate"] = courseData.value?.logoRequiredOnCertificate ?: false
 
         val response = repo.step2AddCourse(map)
         withContext(Dispatchers.IO) {
@@ -251,7 +266,11 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
     }
 
     fun notifyData() {
-        courseData.value?.notifyChange()
+        viewModelScope.launch {
+            delay(200)
+            courseData.value?.notifyChange()
+
+        }
     }
 
     fun getMasterData() {
@@ -269,6 +288,25 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
         }
     }
 
+    fun getCourseComplete(step: Int) {
+        val map = HashMap<String, Any>()
+        map["courseId"] = courseData.value?.courseId ?: 0
+        map["completedStep"] = step
+        viewModelScope.launch(coroutineExceptionHandle) {
+            val response = repo.getCompleteCourse(map)
+            withContext(Dispatchers.IO) {
+                response.collect {
+//                    if (it is Resource.Success<*>) {
+//                        masterData =
+//                            (it.value as BaseResponse<MasterDataItem>).resource ?: MasterDataItem()
+//                    }
+                    updateResponseObserver(it)
+                }
+            }
+        }
+    }
+
+
     fun getCourseDetail() {
         viewModelScope.launch(coroutineExceptionHandle) {
             val response = repo.getCourseDetail(courseData.value?.courseId ?: 0)
@@ -278,6 +316,7 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
                         val resource =
                             (it.value as BaseResponse<CourseData>).resource ?: CourseData()
                         resource.isPaid = resource.courseTypeId == 2
+                        courseData.value?.courseDescription = resource.courseDescription
                         resource.isCreator = resource.createdById == userProfile?.id
                         resource.isCoAuthor = resource.getCoAuthor(userProfile?.id ?: 0) != null
                         resource.coAuthorId = resource.getCoAuthor(userProfile?.id ?: 0)?.id ?: 0
@@ -287,7 +326,7 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
                             7 -> 3
                             15 -> 4
                             else -> {
-                                1
+                                5
                             }
                         }
                         resource.sectionData = resource.sectionData?.map { section ->
@@ -311,7 +350,7 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
         }
     }
 
-    fun getCourseSections() {
+    fun getCourseSections(newAdded: Boolean = false) {
         viewModelScope.launch(coroutineExceptionHandle) {
             val response = repo.getCourseSections(courseData.value?.courseId ?: 0)
             withContext(Dispatchers.IO) {
@@ -327,14 +366,31 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
                         data.isCoAuthor = data.getCoAuthor(userProfile?.id ?: 0) != null
                         data.coAuthorId = data.getCoAuthor(userProfile?.id ?: 0)?.id ?: 0
 
-                        data.sectionData = resource.sectionData?.map { section ->
+                        data.sectionData = resource.sectionData?.mapIndexed { index, section ->
+
                             section.apply {
-                                isVisible = false
+                                isVisible =
+                                    if (newAdded) index + 1 == resource.sectionData?.size ?: 0 else index == sectionAdapterPosition
+
                                 isSaved = section.isDataValid(
                                     false,
                                     currentId = userProfile?.id ?: 0
                                 ) == 0
                             }
+
+                            data.sectionData?.find { sectionModel -> sectionModel.sectionId == section.sectionId }
+                                ?.let { foundSection ->
+
+                                    if (section.sectionTitle.isNullOrEmpty()) section.sectionTitle =
+                                        foundSection.sectionTitle
+
+
+                                    if (section.sectionDescription.isNullOrEmpty()) section.sectionDescription =
+                                        foundSection.sectionDescription
+
+
+                                }
+                            section
                         } as ArrayList<SectionModel>
                         courseData.postValue(data)
                         courseData.value?.notifyChange()
@@ -411,7 +467,7 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
         withContext(Dispatchers.IO) {
             response.collect {
                 if (it is Resource.Success<*>) {
-                    getCourseSections()
+                    getCourseSections(true)
 
                     sectionUpdateData.postValue(EventObserver(Constant.CLICK_ADD))
                 }
@@ -454,7 +510,7 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
             map["courseId"] = courseData.value?.courseId ?: 0
             map["firstSectionId"] = first.toString()
             map["secondSectionId"] = second.toString()
-            map["finalSectionId"] = getSectionList()?.get(fromPosition)?.sectionId?.toString() ?: ""
+            map["finalSectionId"] = getSectionList()?.get(toPosition)?.sectionId?.toString() ?: ""
             val response = repo.dragAndDropSection(map)
             withContext(Dispatchers.IO) {
                 response.collect {
@@ -512,6 +568,7 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
             map["courseId"] = courseData.value?.courseId ?: 0
+            map["sectionId"] = getSectionList()?.get(sectionAdapterPosition)?.sectionId ?: 0
             map["firstLectureId"] = first.toString()
             map["secondLectureId"] = second.toString()
             map["finalLectureId"] = final.toString()
@@ -601,6 +658,7 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
 
     fun step5Validation() {
         courseData.value?.let {
+
             var errorId = it.isStep1Verified()
             if (errorId == 0) {
                 errorId = it.isStep2Verified()
@@ -613,9 +671,16 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
             }
 
             if (errorId == 0) {
+
                 publishCourse(false)
+                viewModelScope.launch {
+                    delay(200)
+                    it.singleClick = true
+                }
+
             } else {
                 updateResponseObserver(Resource.Error(ToastData(errorCode = errorId)))
+                it.singleClick = true
             }
         }
     }
@@ -628,6 +693,7 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
 
             map["courseId"] = courseData.value?.courseId ?: 0
             map["courseSubmit"] = submit
+            map["courseMandatory"] = courseData.value?.courseMandatory ?: false
             if (!courseData.value?.keywords.isNullOrEmpty()) {
                 map["keywords"] =
                     courseData.value?.keywords?.map { SingleChoiceData(title = it) } as ArrayList<SingleChoiceData>
@@ -636,7 +702,6 @@ class AddCourseViewModel(private val repo: AddCourseRepo) : BaseViewModel() {
                 repo.publishCourse(map)
             withContext(Dispatchers.IO) {
                 response.collect {
-
                     updateResponseObserver(it)
                 }
             }

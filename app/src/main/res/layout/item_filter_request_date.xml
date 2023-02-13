@@ -2,13 +2,18 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.selflearningcoursecreationapp.ui.moderator.dialog.filter.ModHomeFilterVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_card_number"
@@ -30,11 +35,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:background="@drawable/edt_outline_grey"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@drawable/cornered_stroked_bg"
             android:focusable="false"
             android:hint="@string/enter_date"
             android:imeOptions="actionNext"
+            android:text="@={viewModel.filterData.startDate}"
             android:inputType="textEmailAddress"
             android:lineSpacingExtra="@dimen/_7ssp"
             android:singleLine="true"
@@ -65,11 +71,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:background="@drawable/edt_outline_grey"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@drawable/cornered_stroked_bg"
             android:focusable="false"
             android:hint="@string/enter_date"
             android:imeOptions="actionNext"
+            android:text="@={viewModel.filterData.endDate}"
             android:inputType="textEmailAddress"
             android:lineSpacingExtra="@dimen/_7ssp"
             android:singleLine="true"

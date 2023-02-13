@@ -5,6 +5,9 @@
 
     <data>
 
+        <import
+            alias="const"
+            type="com.selflearningcoursecreationapp.utils.ValidationConst" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,13 +32,15 @@
             app:textColorType="none"
             tools:ignore="RtlSymmetry" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
             android:id="@+id/iv_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/close"
             android:padding="@dimen/_20sdp"
             android:src="@drawable/ic_close"
+            app:changeBackgroundType="none"
+
             app:layout_constraintBottom_toBottomOf="@+id/tv_dialog_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_dialog_title" />
@@ -59,10 +64,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
-            android:background="@drawable/edt_bg_white"
+            android:background="@drawable/edt_white_bg"
             android:gravity="start"
             android:hint="@string/enter_your_comment_here"
             android:imeOptions="actionNext"
+            android:maxLength="@{const.MAX_COURSE_COMMENT_LENGTH}"
             android:inputType="textImeMultiLine|textMultiLine|textCapSentences"
             android:maxLines="8"
             android:minLines="5"

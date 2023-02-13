@@ -9,12 +9,17 @@
         <attr name="civ_fill_color" format="color" />
         <attr name="civ_circle_background_color" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="PulseCountDown">
+        <attr name="pc_startValue" format="integer" />
+        <attr name="pc_endValue" format="integer" />
+    </declare-styleable>
     <declare-styleable name="RichPathView">
         <attr name="vector" format="reference" />
     </declare-styleable>
-<declare-styleable name="RichSeekBar">
-    <attr name="vectorThumb" format="reference" />
-</declare-styleable>
+    <declare-styleable name="RichSeekBar">
+        <attr name="vectorThumb" format="reference" />
+    </declare-styleable>
 
     <declare-styleable name="LMSTextView">
         <attr name="primaryIconTint" format="enum">
@@ -87,7 +92,8 @@
             <enum name="none" value="-1" />
             <enum name="tint" value="6" />
             <enum name="stroked_tint" value="9" />
-
+            <enum name="acceptColor" value="14" />
+            <enum name="rejectColor" value="15" />
         </attr>
         <attr name="buttonFont" format="enum">
             <enum name="regular" value="1" />
@@ -103,6 +109,7 @@
             <enum name="theme" value="3" />
             <enum name="heading" value="4" />
             <enum name="body" value="5" />
+            <enum name="rejectColor" value="15" />
             <enum name="none" value="-1" />
         </attr>
 
@@ -162,12 +169,19 @@
         <attr name="applyGrayscale" />
 
     </declare-styleable>
+    <declare-styleable name="LMSRichView" parent="LMSImageView">
+        <attr name="changeBackgroundType" />
+        <attr name="applyGrayscale" />
+
+    </declare-styleable>
     <declare-styleable name="LMSConstraintLayout">
         <attr name="viewBackground" format="enum">
             <enum name="primary" value="1" />
             <enum name="secondary" value="2" />
             <enum name="theme" value="3" />
             <enum name="tint" value="6" />
+            <enum name="theme_src" value="7" />
+            <enum name="tint_src" value="10" />
             <enum name="none" value="-1" />
             <enum name="background_tint" value="9" />
 
@@ -181,6 +195,7 @@
             <enum name="theme" value="3" />
             <enum name="tint" value="6" />
             <enum name="none" value="-1" />
+
 
         </attr>
     </declare-styleable>
@@ -197,6 +212,7 @@
     <attr name="hintColor" format="reference" />
     <attr name="viewBackgroundColor" format="reference" />
     <attr name="viewSecondaryBgColor" format="reference" />
+    <attr name="adapterTitleColor" format="reference" />
 
     <!--    button-->
     <attr name="buttonTextColor" format="reference" />
@@ -221,8 +237,15 @@
 
     <!-- Accent color-->
     <attr name="accentColor_Red" format="reference" />
+    <attr name="accentColor_RedTint" format="reference" />
+    <attr name="accentColor_RedTintAlpha" format="reference" />
     <attr name="accentColor_Green" format="reference" />
+    <attr name="accentColor_GreenTintAlpha" format="reference" />
+    <attr name="accentColor_WineRedTintAlpha" format="reference" />
     <attr name="accentColor_Yellow" format="reference" />
+    <attr name="accentColor_Black" format="reference" />
+    <attr name="accentColor_YellowTintAlpha" format="reference" />
+    <attr name="colorVariant_ErrorRed" format="reference" />
 
 
     <!--    icons color-->
@@ -235,6 +258,7 @@
     <attr name="fontSelectionBgColor" format="reference" />
     <attr name="otpViewStyle" format="reference" />
     <attr name="lineColor" format="reference" />
+    <attr name="filterStrokeColor" format="reference" />
     <attr name="whiteTextColor" format="reference" />
     <attr name="blackTextColor" format="reference" />
     <attr name="off_whiteTextColor" format="reference" />
@@ -242,19 +266,87 @@
     <attr name="divider_grey" format="reference" />
     <attr name="listDividerColor" format="reference" />
     <attr name="dotColor" format="reference" />
+    <attr name="courseProgressColor" format="reference" />
+    <attr name="switchSelectedColor" format="reference" />
+    <attr name="switchPathColor" format="reference" />
+    <attr name="noDataBg" format="reference" />
+
+
     <!--    Toolbar-->
     <attr name="toolbarColor" format="reference" />
     <attr name="toolbarTitleColor" format="reference" />
 
-    <attr name="etDashColor" format="reference" />
+    <attr name="radioUnselectedColor" format="reference" />
 
     <!--    Quiz Screen-->
     <attr name="levelBgColor" format="reference" />
+
+
+    <!--    color variant-->
+
+    <attr name="colorVariant_LightSky" format="reference" />
+    <attr name="colorVariant_LightPurple" format="reference" />
+    <attr name="colorVariant_LightPink" format="reference" />
+    <attr name="colorVariant_LightYellow" format="reference" />
+    <attr name="colorVariant_LightGreen" format="reference" />
+    <attr name="colorVariant_LightBlue" format="reference" />
+
+    <attr name="colorVariant_Sky" format="reference" />
+    <attr name="colorVariant_Purple" format="reference" />
+    <attr name="colorVariant_Blue" format="reference" />
+    <attr name="colorVariant_Pink" format="reference" />
+    <attr name="colorVariant_Yellow" format="reference" />
+    <attr name="colorVariant_Green" format="reference" />
+
+    <attr name="colorVariant_DarkSky" format="reference" />
+    <attr name="colorVariant_DarkPurple" format="reference" />
+    <attr name="colorVariant_DarkBlue" format="reference" />
+    <attr name="colorVariant_DarkPink" format="reference" />
+    <attr name="colorVariant_DarkYellow" format="reference" />
+    <attr name="colorVariant_DarkGreen" format="reference" />
+
+
+    <!--    Graph Color-->
+    <attr name="graph_red" format="reference" />
+    <attr name="graph_green" format="reference" />
+    <attr name="graph_yellow" format="reference" />
+
+
+    <!--    Dashboard stats color-->
+    <attr name="dashBoard_YellowStats" format="reference" />
+    <attr name="dashboard_BlueStats" format="reference" />
+    <attr name="dashboard_PinkStats" format="reference" />
 
 
     <declare-styleable name="material_btn_gradient">
         <attr name="horizontal_color_start" format="color" />
         <attr name="horizontal_color_end" format="color" />
 
+    </declare-styleable>
+
+    <declare-styleable name="WaveformSeekBar">
+        <attr name="wave_progress" format="float" />
+        <attr name="wave_max_progress" format="float" />
+        <attr name="wave_width" format="dimension" />
+        <attr name="wave_gap" format="dimension" />
+        <attr name="wave_min_height" format="dimension" />
+        <attr name="wave_corner_radius" format="dimension" />
+        <attr name="wave_background_color" format="color" />
+        <attr name="wave_progress_color" format="color" />
+        <attr name="wave_gravity" format="enum">
+            <enum name="top" value="1" />
+            <enum name="center" value="2" />
+            <enum name="bottom" value="3" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="AudioTrimmerView">
+        <attr name="atv_window_left_bar" format="reference" />
+        <attr name="atv_window_right_bar" format="reference" />
+        <attr name="atv_window_thumb" format="reference" />
+        <attr name="atv_window_thumb_width" format="reference" />
+        <attr name="atv_window_bar_width" format="dimension" />
+        <attr name="atv_window_border_width" format="dimension" />
+        <attr name="atv_window_border_color" format="color" />
+        <attr name="atv_overlay_color" format="color" />
     </declare-styleable>
 </resources>

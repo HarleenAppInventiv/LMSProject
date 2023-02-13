@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <import
             alias="const"
             type="com.selflearningcoursecreationapp.utils.ValidationConst" />
@@ -13,14 +12,19 @@
             type="com.selflearningcoursecreationapp.utils.HandleClick" />
     </data>
 
+
     <FrameLayout
+        android:id="@+id/ss"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:background="?attr/secondaryScreenBgColor"
+        android:fitsSystemWindows="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/off_whiteTextColor">
+            android:background="?attr/secondaryScreenBgColor">
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_word_count"
@@ -38,7 +42,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="@{@string/word_count(const.MAX_COURSE_DESC_LENGTH_SHOW)}"
+                android:text="@{@string/word_count(const.MAX_COURSE_DESC_LENGTH)}"
                 android:textSize="@dimen/textField_12"
                 app:fontType="semiBold"
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
@@ -86,10 +90,11 @@
                         android:contentDescription="@null"
                         android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                         android:padding="@dimen/_5sdp"
+
                         android:scaleType="centerCrop"
                         android:visibility="gone"
                         app:srcCompat="@drawable/undo"
-                        app:tint="@color/black" />
+                        app:tint="?attr/blackTextColor" />
 
                     <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                         android:id="@+id/action_redo"
@@ -104,7 +109,7 @@
                         android:scaleType="fitXY"
                         android:visibility="gone"
                         app:srcCompat="@drawable/redo"
-                        app:tint="@color/black" />
+                        app:tint="?attr/blackTextColor" />
 
                     <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                         android:id="@+id/action_bold"
@@ -113,7 +118,8 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:background="@null"
-                        android:contentDescription="@null"
+
+                        android:contentDescription="@string/bold"
                         android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                         android:padding="@dimen/_8sdp"
                         app:srcCompat="@drawable/ic_bold" />
@@ -126,7 +132,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:background="@null"
-                        android:contentDescription="@null"
+                        android:contentDescription="@string/italic"
                         android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                         android:padding="@dimen/_8sdp"
                         app:srcCompat="@drawable/ic_itallic" />
@@ -139,7 +145,7 @@
 
                         android:layout_marginStart="@dimen/_5sdp"
                         android:background="@null"
-                        android:contentDescription="@null"
+                        android:contentDescription="@string/underline"
                         android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                         android:padding="@dimen/_8sdp"
                         app:srcCompat="@drawable/ic_underline" />
@@ -151,7 +157,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:background="@null"
-                        android:contentDescription="@null"
+                        android:contentDescription="@string/action_align_left"
 
                         android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                         android:padding="@dimen/_8sdp"
@@ -164,7 +170,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:background="@null"
-                        android:contentDescription="@null"
+                        android:contentDescription="@string/action_align_centre"
 
                         android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                         android:padding="@dimen/_8sdp"
@@ -177,7 +183,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:background="@null"
-                        android:contentDescription="@null"
+                        android:contentDescription="@string/action_align_right"
 
                         android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                         android:padding="@dimen/_8sdp"
@@ -190,7 +196,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:background="@null"
-                        android:contentDescription="@null"
+                        android:contentDescription="@string/action_bullet"
 
                         android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                         android:padding="@dimen/_8sdp"
@@ -204,7 +210,7 @@
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_marginRight="@dimen/_5sdp"
                         android:background="@null"
-                        android:contentDescription="@null"
+                        android:contentDescription="@string/action_number_bullet"
                         android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                         android:padding="@dimen/_8sdp"
                         app:srcCompat="@drawable/ic_numbering" />
@@ -219,7 +225,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:elevation="@dimen/_5sdp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="?attr/viewBackgroundColor"
                 app:cardCornerRadius="@dimen/_5sdp"
                 app:contentPadding="0dp"
                 app:layout_constraintBottom_toTopOf="@+id/view_bottom"
@@ -229,6 +235,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
+
                     android:layout_height="match_parent">
 
                     <com.selflearningcoursecreationapp.textEditor.TextEditor
@@ -236,12 +243,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="@dimen/_10sdp"
-                        android:background="@drawable/edt_white_bg"
+                        android:background="?attr/viewBackgroundColor"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -271,6 +277,7 @@
                 android:layout_margin="@dimen/_15sdp"
                 android:text="@string/add_text"
                 android:textAllCaps="false"
+                android:importantForAccessibility="yes"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/view_bottom"

@@ -23,20 +23,22 @@
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:overScrollMode="never"
+        android:keepScreenOn="true"
         android:scrollbars="none">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/off_white_f5f5f5"
+            android:background="?attr/secondaryScreenBgColor"
             tools:context=".ui.create_course.upload_content.docs_as_lecture.DocLessonFragment">
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_lesson"
+                android:text="@string/lesson"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_16sdp"
-                android:text="Lesson"
+                android:visibility="gone"
                 android:textColor="@color/black_242424"
                 android:textSize="@dimen/textField_14"
                 app:fontType="medium"
@@ -49,7 +51,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:background="@color/white"
+                android:background="?attr/whiteTextColor"
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                 app:layout_constraintStart_toStartOf="@id/guidelineStart"
                 app:layout_constraintTop_toBottomOf="@+id/tv_lesson">
@@ -57,7 +59,7 @@
                 <com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_200sdp"
-                    android:background="@color/white">
+                    android:background="?attr/whiteTextColor">
 
                     <com.selflearningcoursecreationapp.utils.customViews.LMSRichView
                         android:id="@+id/iv_doc"
@@ -105,6 +107,7 @@
                         android:id="@+id/iv_edit_pdf"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/edit_study_material"
                         android:layout_margin="@dimen/_5sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -117,28 +120,51 @@
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_marginEnd="@dimen/_16sdp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_16sdp"
-                android:text="Title"
+                android:text="@string/title"
                 android:textColor="@color/black_242424"
                 android:textSize="@dimen/textField_14"
                 app:fontType="medium"
+                app:layout_constraintEnd_toStartOf="@+id/tv_word_count"
                 app:layout_constraintStart_toStartOf="@id/guidelineStart"
                 app:layout_constraintTop_toBottomOf="@+id/cv_doc_container"
                 app:textColorType="heading" />
 
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_word_count"
+                limitColor="@{docs.docLiveData.titleLength &lt; const.MAX_COURSE_LESSON_LENGTH }"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{``+docs.docLiveData.titleLength}"
+                android:textSize="@dimen/textField_12"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_title"
+                app:layout_constraintEnd_toStartOf="@+id/tv_word_count_title"
+                app:layout_constraintTop_toTopOf="@+id/tv_title"
+                app:textColorType="body" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_word_count_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{@string/title_count(const.MAX_COURSE_LESSON_LENGTH)}"
+                android:textSize="@dimen/textField_12"
+                app:fontType="medium"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_title"
+                app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+                app:layout_constraintTop_toTopOf="@+id/tv_title" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
                 android:id="@+id/edt_doc_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:background="@drawable/edt_bg_white"
+                android:background="@drawable/edt_white_bg"
                 android:hint="@string/enter_title"
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:maxLength="@{const.MAX_QUIZ_TITLE}"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLength="@{const.MAX_COURSE_LESSON_LENGTH}"
                 android:maxLines="3"
                 android:lineSpacingExtra="@dimen/_7ssp"
                 android:text="@={docs.docLiveData.lectureTitle}"
@@ -166,7 +192,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:background="@drawable/edt_bg_white"
+                android:background="@drawable/edt_white_bg"
                 android:hint="@string/time"
                 android:imeOptions="actionDone"
                 android:inputType="number"
@@ -188,6 +214,7 @@
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                 app:layout_constraintTop_toBottomOf="@+id/edt_read_time"
                 app:srcCompat="@drawable/ic_signly"
+                android:visibility="gone"
                 app:vector="@drawable/ic_signly" />
 
             <View
@@ -195,7 +222,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_80sdp"
                 android:layout_marginTop="@dimen/_16sdp"
-                android:background="@color/white"
+                android:background="?attr/whiteTextColor"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

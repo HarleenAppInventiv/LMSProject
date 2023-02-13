@@ -30,5 +30,8 @@ data class RequestCountModel(
     @SerializedName("sentRequestCount")
     var sentRequestCount: Int? = 0,
     @SerializedName("sentRequestId")
-    var sentRequestId: Int? = null
+    var sentRequestId: Int? = null,
+    @SerializedName("paymentWithdrawRequestCount")
+    var paymentWithdrawRequestCount: Int? = null
+
 ) : Parcelable

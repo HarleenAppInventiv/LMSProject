@@ -34,7 +34,7 @@ class LMSCheckBox : MaterialCheckBox {
     private fun initView(context: Context, attrs: AttributeSet? = null, defStyle: Int? = 0) {
         val themeAttrs = context.obtainStyledAttributes(
             attrs, R.styleable.LMSCheckBox,
-            defStyle!!, 0
+            defStyle ?: 0, 0
         )
 
         val primaryColor = ThemeUtils.getAppColor(context)
@@ -48,7 +48,7 @@ class LMSCheckBox : MaterialCheckBox {
         val colors = intArrayOf(
             tintColor,
             primaryColor,
-            ContextCompat.getColor(context, R.color.et_dash_color)
+            ContextCompat.getColor(context, R.color.radio_unselected_color)
         )
         buttonTintList = ColorStateList(states, colors)
 

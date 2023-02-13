@@ -2,16 +2,17 @@ package com.selflearningcoursecreationapp.ui.profile.requestTracker.acceptReject
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.databinding.ItemAcceptedRequestsBinding
+import com.selflearningcoursecreationapp.extensions.getAttrResource
 import com.selflearningcoursecreationapp.extensions.loadImage
 import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.ui.profile.requestTracker.RequestrackerVM
+import com.selflearningcoursecreationapp.utils.CoAuthorStatus
 
 
 class AcceptedRequestsAdapter(
@@ -43,35 +44,57 @@ class AcceptedRequestsAdapter(
             binding.tvCourseDesc.text = data.categoryName
             binding.tvLanguage.text = data.languageName
 
+            when (data.requestStatus) {
+                CoAuthorStatus.SUBMITTED or CoAuthorStatus.CANCELLEDWITHSUBMIT -> {
+                    binding.tvStatus.apply {
+                        text = binding.root.context?.getString(R.string.submitted)
+                        setTextColor(
+                            binding.root.context.getAttrResource(R.attr.accentColor_Green)
+                        )
+                    }
+                }
+                CoAuthorStatus.ACCEPT ->
+                    binding.tvStatus.apply {
+                        text = binding.root.context?.getString(R.string.accepted)
+                        setTextColor(
+                            binding.root.context.getAttrResource(R.attr.accentColor_Green)
+                        )
+                    }
+                CoAuthorStatus.REJECT -> {
+                    binding.tvStatus.apply {
+                        text = binding.root.context?.getString(R.string.rejected)
+                        setTextColor(
+                            binding.root.context.getAttrResource(R.attr.accentColor_Red)
+                        )
+                    }
+                }
+
+            }
             binding.ivUser.loadImage(
                 data.profileUrl,
                 R.drawable.ic_default_user_grey,
                 data.profileBlurHash
             )
-            if (viewModel.isRejected)
-                binding.tvStatus.apply {
-                    text = binding.root.context?.getString(R.string.rejected)
-                    setTextColor(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.accent_color_fc6d5b
-                        )
-                    )
-                }
-            else
-                binding.tvStatus.apply {
-                    text = binding.root.context?.getString(R.string.accepted)
-                    setTextColor(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.accent_color_2FBF71
-                        )
-                    )
-                }
+//            if (viewModel.isRejected)
+//                binding.tvStatus.apply {
+//                    text = binding.root.context?.getString(R.string.rejected)
+//                    setTextColor(
+//                        binding.root.context.getAttrResource(R.attr.accentColor_Red)
+//                    )
+//                }
+//            else
+//                binding.tvStatus.apply {
+//                    text = binding.root.context?.getString(R.string.accepted)
+//                    setTextColor(
+//                        binding.root.context.getAttrResource(R.attr.accentColor_Green)
+//                    )
+//                }
 
             binding.root.setOnClickListener {
+                if (data.requestStatus == CoAuthorStatus.ACCEPT) {
+                    clickListener.invoke(1, data, position)
+                }
 
-                clickListener.invoke(1, data, position)
             }
         }
 

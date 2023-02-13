@@ -3,7 +3,6 @@ package com.selflearningcoursecreationapp.ui.authentication.login_signup
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputFilter
-import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.text.isDigitsOnly
@@ -14,17 +13,16 @@ import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.base.BaseResponse
+import com.selflearningcoursecreationapp.base.SelfLearningApplication
 import com.selflearningcoursecreationapp.databinding.FragmentLoginBinding
-import com.selflearningcoursecreationapp.extensions.gone
-import com.selflearningcoursecreationapp.extensions.setSpanString
-import com.selflearningcoursecreationapp.extensions.showHidePassword
-import com.selflearningcoursecreationapp.extensions.visible
+import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.models.user.PreferenceData
 import com.selflearningcoursecreationapp.models.user.UserResponse
 import com.selflearningcoursecreationapp.ui.authentication.viewModel.OnBoardingViewModel
 import com.selflearningcoursecreationapp.ui.home.HomeActivity
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.OtpType
+import com.selflearningcoursecreationapp.utils.ValidationConst
 import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>(),
@@ -56,18 +54,17 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
         initializeGoogle()
 
         binding.edtLoginEmail.doAfterTextChanged {
-            if (it!!.isDigitsOnly()) {
+            if (it?.isDigitsOnly() == true) {
                 binding.countryCodePicker.visible()
-                limitEditText(16)
+                limitEditText(ValidationConst.MAX_NO_LENGTH)
             } else {
                 binding.countryCodePicker.gone()
-                limitEditText(40)
+                limitEditText(ValidationConst.MAX_EMAIL_LENGTH)
             }
-            if (it.isEmpty()) {
+            if (it.isNullOrEmpty()) {
                 binding.countryCodePicker.gone()
             }
         }
-
 
         binding.tvGuest.setSpanString(
             SpanUtils.with(
@@ -76,13 +73,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
             ).startPos(
                 17
             ).isBold().themeColor().getCallback {
-
                 setFragmentResult("loginData", bundleOf("type" to 1))
                 findNavController().navigateUp()
             }.getSpanString()
-
-
         )
+
+        viewModel.loginLiveData.value?.viMode = SelfLearningApplication.isViOn ?: false
 
         binding.btnSingIn.setOnClickListener {
 
@@ -97,12 +93,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
             if (!viewModel.loginLiveData.value?.countryCode.isNullOrEmpty()) {
                 setCountryForPhoneCode(
                     viewModel.loginLiveData.value?.countryCode?.subSequence(
-                        1,
-                        viewModel.loginLiveData.value?.countryCode?.length ?: 0
+                        1, viewModel.loginLiveData.value?.countryCode?.length ?: 0
                     )?.toString()?.toInt() ?: 91
                 )
-            } else {
-                setAutoDetectedCountry(true)
             }
         }
 
@@ -131,11 +124,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
 
 
                 val userData = (value as BaseResponse<UserResponse>).resource
-                Log.e("API_RESPONSE", userData?.token.toString())
+                showLog("API_RESPONSE", userData?.token.toString())
 
                 when {
                     userData?.user?.phoneNumberVerified == false -> {
-                        findNavController().navigate(
+                        findNavController().navigateTo(
                             LoginSignUpFragmentDirections.actionLoginSignUpFragmentToOTPVerifyFragment(
                                 "",
                                 type = OtpType.TYPE_SIGNUP,
@@ -150,7 +143,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
                             currentSelection = userData?.user?.getPreferenceValue() ?: 0
                         )
 
-                        findNavController().navigate(
+                        findNavController().navigateTo(
                             LoginSignUpFragmentDirections.actionLoginSignUpFragmentToPreferencesFragment(
                                 preferenceData = data
                             )
@@ -188,15 +181,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(),
             R.id.btn_otp_login -> {
                 val action =
                     LoginSignUpFragmentDirections.actionLoginSignUpFragmentToLoginOTPFragment()
-                findNavController().navigate(action)
+                findNavController().navigateTo(action)
             }
             R.id.txt_forgot_pass -> {
                 val action =
                     LoginSignUpFragmentDirections.actionLoginSignUpFragmentToForgotPassFragment()
-                findNavController().navigate(action)
+                findNavController().navigateTo(action)
             }
             R.id.tv_guest -> {
-                activity?.startActivity(Intent(requireActivity(), HomeActivity::class.java))
+                activity?.startActivity(Intent(baseActivity, HomeActivity::class.java))
             }
 
             R.id.btn_google_login -> {

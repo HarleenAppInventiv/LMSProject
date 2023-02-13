@@ -1,7 +1,6 @@
 package com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter
 
 import android.graphics.Paint
-import android.util.Log
 import androidx.core.content.ContextCompat
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
@@ -30,8 +29,14 @@ class AllCoursesAdapter(
         if (position < list.size) {
             binding.tvOldPrice.paintFlags =
                 binding.tvOldPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            binding.tvCourseLevel.setComplexityLevel(list[position].courseComplexityId ?: 0)
+            try {
 
+
+                binding.tvCourseLevel.setComplexityLevel(list[position].courseComplexityId ?: 0)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                binding.tvCourseLevel.setComplexityLevel(0)
+            }
             val data = list[position]
             binding.courseData = data
             binding.executePendingBindings()
@@ -78,10 +83,11 @@ class AllCoursesAdapter(
             }
 
 
-            binding.tvCoin.text = data.rewardPoints + " Points"
+            binding.tvCoin.text = data.rewardPoints + " " + context.getString(R.string.points_)
 
             binding.tvNewPrice.gone()
             binding.tvCoin.gone()
+
             when (data.courseTypeId) {
                 CourseType.REWARD_POINTS -> {
                     binding.tvCoin.visible()
@@ -92,15 +98,26 @@ class AllCoursesAdapter(
                     binding.tvNewPrice.visible()
                     binding.tvNewPrice.text =
                         String.format("%s %s", data.currencySymbol, data.courseFee)
-
+                    binding.tvCoin.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            context.getAttrColor(R.attr.accentColor_Green)
+                        )
+                    )
                 }
                 CourseType.FREE -> {
                     binding.tvNewPrice.visible()
                     binding.tvNewPrice.text = context.getString(R.string.free)
-                    binding.tvNewPrice.setTextColor(ContextCompat.getColor(context, R.color.black))
+
+                }
+                CourseType.RESTRICTED -> {
+                    binding.tvNewPrice.visible()
+                    binding.tvNewPrice.text = context.getString(R.string.restricted)
 
                 }
             }
+
+
 //        when(data.paymentStatus)
 //        {
 //            PaymentStatus.IN_PROGRESS->{
@@ -112,18 +129,7 @@ class AllCoursesAdapter(
 //
 //            }
 //        }
-            binding.tvAuthorName.apply {
-                var value = data.createdByName ?: ""
-                if (value.length > 12) {
-                    var str = value.substring(0, 12)
-                    text = "${str}..."
-                    Log.d("varun", "onBindViewHolder1: ${text}")
-                } else {
-                    text = value
-                    Log.d("varun", "onBindViewHolder2: ${text}")
-                }
-
-            }
+            binding.tvAuthorName.setLimitedName(data.createdByName)
 
         }
     }

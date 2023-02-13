@@ -3,6 +3,7 @@ package com.selflearningcoursecreationapp.ui.authentication.otp_verify
 import androidx.lifecycle.viewModelScope
 import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.base.BaseViewModel
+import com.selflearningcoursecreationapp.base.SelfLearningApplication
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.models.OtpData
@@ -39,8 +40,10 @@ class OTPVerifyViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
 
             } else {
                 map["email"] = argBundle?.email.toString()
+
             }
             map["OtpType"] = argBundle?.type.toString()
+            map["unit"] = 60
 
 
             val response = when (argBundle?.type) {
@@ -71,7 +74,9 @@ class OTPVerifyViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
             }
             map["otpValue"] = otpData.otp ?: ""
             map["otpType"] = args?.type.toString()
+            map["unit"] = 60
             map["fcmDeviceToken"] = token
+            map["viMode"] = SelfLearningApplication.isViOn ?: false
 
             updateResponseObserver(Resource.Loading())
 
@@ -88,6 +93,7 @@ class OTPVerifyViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
                     if (it is Resource.Success<*> && (args?.type != OtpType.TYPE_FORGOT && args?.type != OtpType.TYPE_EMAIL)) {
                         val data = it.value as BaseResponse<UserResponse>
                         saveUserDataInDB(data)
+                        saveViMode(data.resource?.user?.viMode ?: false)
                         delay(2000)
                     }
 

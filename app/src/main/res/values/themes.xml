@@ -2,7 +2,22 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges
+        </item>
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <!--        //-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+        <!--        //removing white screen before splash-->
+        <!--        <item name="android:windowBackground">@android:color/transparent</item>-->
+        <!--        <item name="windowNoTitle">true</item>-->
+        <!--        <item name="windowActionBar">false</item>-->
+        <!--        <item name="android:windowFullscreen">true</item>-->
+        <!--        <item name="android:windowIsTranslucent">true</item>-->
+        <!--        <item name="android:windowContentOverlay">@null</item>-->
+        <!--        <item name="android:backgroundDimEnabled">false</item>-->
+        <!--        <item name="android:windowDisablePreview">true</item>-->
+        //--------------------------------------------------------------
 
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="primaryTintColor">@color/primaryTintColor</item>
@@ -21,7 +36,7 @@
         <item name="headingTextColor">@color/heading_color_262626</item>
         <item name="buttonBackgroundColor">@color/primaryColor</item>
         <item name="introButtonBackgroundColor">@color/off_white_f5f5f5</item>
-        <item name="buttonBackgroundTintColor">@color/blue_tint_color</item>
+        <item name="buttonBackgroundTintColor">@color/buttonTintColor</item>
         <item name="otpButtonBackgroundColor">@color/otp_btn_bg_color_start_051f32</item>
         <item name="screenBackgroundColor">@color/white</item>
         <item name="actionMenuTextColor">?attr/colorPrimary</item>
@@ -39,7 +54,7 @@
         <item name="blackTextColor">@color/black</item>
         <item name="off_whiteTextColor">@color/off_white_f5f5f5</item>
         <item name="profile_mail_color">@color/profile_mail_color</item>
-        <item name="divider_grey">@color/dividerGrey</item>
+        <item name="divider_grey">@color/opacity_50_929292</item>
         <item name="toolbarTitleColor">@color/heading_color_262626</item>
         <item name="googleIconTintColor">@color/white</item>
         <item name="coinDrawableColor">@color/drawableCoinColor</item>
@@ -48,8 +63,21 @@
         <item name="coinDrawableStrokeBgColor">@color/coin_stroked_bg_color</item>
         <item name="listDividerColor">@color/opacity_20_929292</item>
         <item name="levelBgColor">@color/offWhite_f6f6f6</item>
-        <item name="etDashColor">@color/et_dash_color</item>
+        <item name="radioUnselectedColor">@color/radio_unselected_color</item>
         <item name="dotColor">@color/grey_c4c4c4</item>
+        <item name="switchSelectedColor">@color/accent_color_2FBF71</item>
+        <item name="switchPathColor">@color/primaryTintColor</item>
+        <item name="filterStrokeColor">@color/mod_filter_stroke_color</item>
+        <item name="adapterTitleColor">@color/adapter_header_color</item>
+
+
+        <item name="graph_green">@color/accent_color_2FBF71</item>
+        <item name="graph_red">@color/accent_color_fc6d5b</item>
+        <item name="graph_yellow">@color/accent_color_FFB800</item>
+
+        <item name="dashboard_BlueStats">@color/course_stat_bg</item>
+        <item name="dashboard_PinkStats">@color/video_stat_bg</item>
+        <item name="dashBoard_YellowStats">@color/user_stat_bg</item>
 
 
         <item name="checkboxStyle">@style/CheckboxTheme</item>
@@ -66,8 +94,39 @@
         <item name="android:actionButtonStyle">@style/MyActionButtonStyle</item>
 
         <item name="accentColor_Red">@color/accent_color_fc6d5b</item>
+        <item name="accentColor_RedTint">@color/accentColor_TintRed</item>
+        <item name="accentColor_RedTintAlpha">@color/accent_color_fc6d5b_with_alpha</item>
         <item name="accentColor_Green">@color/accent_color_2FBF71</item>
+        <item name="accentColor_GreenTintAlpha">@color/accent_color_2FBF71_tint</item>
+        <item name="accentColor_WineRedTintAlpha">@color/wine_red_tint</item>
         <item name="accentColor_Yellow">@color/accent_color_FFB800</item>
+        <item name="accentColor_Black">@color/heading_color_262626</item>
+        <item name="accentColor_YellowTintAlpha">@color/yellow_light</item>
+
+        <item name="colorVariant_LightGreen">@color/green_light</item>
+        <item name="colorVariant_LightPink">@color/pink_light</item>
+        <item name="colorVariant_LightPurple">@color/violet_light</item>
+        <item name="colorVariant_LightSky">@color/sky_blue_light</item>
+        <item name="colorVariant_LightYellow">@color/yellow_light</item>
+        <item name="colorVariant_LightBlue">@color/blue_light</item>
+        <item name="colorVariant_ErrorRed">@color/error_red</item>
+
+        <item name="colorVariant_Green">@color/variant_green</item>
+        <item name="colorVariant_Pink">@color/variant_pink</item>
+        <item name="colorVariant_Purple">@color/variant_violet</item>
+        <item name="colorVariant_Blue">@color/variant_blue</item>
+        <item name="colorVariant_Sky">@color/variant_sky</item>
+        <item name="colorVariant_Yellow">@color/variant_yellow</item>
+
+        <item name="colorVariant_DarkGreen">@color/green_dark</item>
+        <item name="colorVariant_DarkPink">@color/pink_dark</item>
+        <item name="colorVariant_DarkPurple">@color/violet_dark</item>
+        <item name="colorVariant_DarkBlue">@color/blue_dark</item>
+        <item name="colorVariant_DarkSky">@color/sky_blue_dark</item>
+        <item name="colorVariant_DarkYellow">@color/yellow_dark</item>
+
+        <item name="courseProgressColor">@color/accent_color_2FBF71</item>
+        <item name="noDataBg">@color/noDataBg</item>
 
     </style>
 
@@ -93,7 +152,6 @@
         <item name="fontRegular">@font/roboto_regular</item>
         <item name="fontMedium">@font/roboto_medium</item>
     </style>
-
 
     <style name="MyActionButtonStyle" parent="AppTheme">
         <item name="android:minWidth">20dip</item>

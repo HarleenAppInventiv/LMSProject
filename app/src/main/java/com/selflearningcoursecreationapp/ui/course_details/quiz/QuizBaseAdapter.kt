@@ -137,6 +137,9 @@ class QuizBaseAdapter(private val typeList: ArrayList<QuizQuestionData>, private
             val context = binding.root.context
             binding.tvQuizNum.text =
                 String.format(context.getString(R.string.question_no), position + 1, typeList.size)
+            binding.tvQuizNum.contentDescription =
+                "Question ${(position + 1)} out of ${typeList.size}"
+
             binding.tvTitle.text = typeList[position].title
             binding.tvSelectedValue.text =
                 context.getQuantityString(R.plurals.point_quantity, points)
@@ -156,6 +159,9 @@ class QuizBaseAdapter(private val typeList: ArrayList<QuizQuestionData>, private
 
             binding.tvQuizNum.text =
                 String.format(context.getString(R.string.question_no), position + 1, typeList.size)
+            binding.tvQuizNum.contentDescription =
+                "Question ${(position + 1)} out of ${typeList.size}"
+
             binding.tvTitle.text = typeList[position].title
             binding.tvSelectedValue.text =
                 context.getQuantityString(R.plurals.point_quantity, points)
@@ -171,14 +177,19 @@ class QuizBaseAdapter(private val typeList: ArrayList<QuizQuestionData>, private
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(position: Int) {
+
             val context = binding.root.context
-            binding.ivHeader.visibleView(!typeList[position].questionImage.isNullOrEmpty())
+            binding.parentCL.visibleView(!typeList[position].questionImage.isNullOrEmpty())
             binding.ivHeader.loadImage(
                 typeList[position].questionImage,
                 R.drawable.ic_default_banner
             )
             binding.tvQuesNum.text =
                 String.format(context.getString(R.string.question_no), position + 1, typeList.size)
+
+            binding.tvQuesNum.contentDescription =
+                "Question ${(position + 1)} out of ${typeList.size}"
+
             binding.tvTitle.text = typeList[position].title
             binding.tvSelectedValue.text =
                 context.getQuantityString(R.plurals.point_quantity, points)
@@ -198,6 +209,9 @@ class QuizBaseAdapter(private val typeList: ArrayList<QuizQuestionData>, private
 
             binding.tvQuizNum.text =
                 String.format(context.getString(R.string.question_no), position + 1, typeList.size)
+            binding.tvQuizNum.contentDescription =
+                "Question ${(position + 1)} out of ${typeList.size}"
+
             binding.tvTitle.text = typeList[position].title
             binding.tvSelectedValue.text =
                 context.getQuantityString(R.plurals.point_quantity, points)
@@ -222,9 +236,11 @@ class QuizBaseAdapter(private val typeList: ArrayList<QuizQuestionData>, private
                 notifyItemChanged(position)
             }
 
+
             val recyclerViewState = binding.rvQuestions.layoutManager?.onSaveInstanceState()
             binding.rvQuestions.layoutManager?.onRestoreInstanceState(recyclerViewState)
             binding.rvQuestions.adapter = adapter
+            binding.rvQuestions.setVerticalScrollBarEnabled(true)
 
             binding.dropContainer.setOnDragListener(
                 ChoiceDragListener(
@@ -242,6 +258,9 @@ class QuizBaseAdapter(private val typeList: ArrayList<QuizQuestionData>, private
         fun bind(position: Int, binding: FragmentMatchColumnBinding) {
             val context = binding.root.context
             val data = typeList[position]
+            binding.tvQuesNum.contentDescription =
+                "Question ${(position + 1)} out of ${typeList.size}"
+
             binding.rvOptions.adapter = AssessmentColumnOptionAdapter(data.optionList, true)
             binding.rvOption2.adapter = AssessmentColumnOptionAdapter(data.optionList, false)
             val hashmap = HashMap<String, ArrayList<QuizOptionData>>()

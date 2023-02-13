@@ -3,7 +3,6 @@ package com.selflearningcoursecreationapp.extensions
 import android.annotation.SuppressLint
 import android.net.Uri
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.selflearningcoursecreationapp.R
@@ -17,22 +16,22 @@ fun ImageView.loadImage(url: String?, placeholder: Int?, index: Int) {
             placeholder?.let { setImageResource(it) }
             when (index % 4) {
                 0 -> {
-                    this.setBackgroundColor(ContextCompat.getColor(context, R.color.red_light))
+                    this.setBackgroundColor(context.getAttrResource(R.attr.colorVariant_LightPink))
                 }
                 1 -> {
-                    this.setBackgroundColor(ContextCompat.getColor(context, R.color.violet_light))
+                    this.setBackgroundColor(context.getAttrResource(R.attr.colorVariant_LightPurple))
 
                 }
                 2 -> {
-                    this.setBackgroundColor(ContextCompat.getColor(context, R.color.yellow_light))
+                    this.setBackgroundColor(context.getAttrResource(R.attr.colorVariant_LightYellow))
 
                 }
                 3 -> {
-                    this.setBackgroundColor(ContextCompat.getColor(context, R.color.green_light))
+                    this.setBackgroundColor(context.getAttrResource(R.attr.colorVariant_LightGreen))
 
                 }
                 else -> {
-                    this.setBackgroundColor(ContextCompat.getColor(context, R.color.red_light))
+                    this.setBackgroundColor(context.getAttrResource(R.attr.colorVariant_LightPink))
 
                 }
             }
@@ -105,7 +104,7 @@ fun ImageView.loadImage(url: String?, placeholder: Int?, keyHash: String?) {
             }
             url.startsWith("http") -> {
                 Glide.with(context).load(url)
-                    .skipMemoryCache(false)
+                    .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .also {
                         if (!placeholder.isNullOrZero()) {

@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_30sdp"
                 android:background="@drawable/edt_bg"
-                android:digits="qwertyuiopasdfghjklzxcvbnm QWERTYUIOPASDFGHJKLZXCVBNM"
+                android:digits="qwertyuiopasdfghjklzxcvbnm QWERTYUIOPASDFGHJKLZXCVBNM1234567890"
                 android:drawablePadding="@dimen/_18sdp"
                 android:hint="@string/name"
                 android:imeOptions="actionNext"
@@ -44,8 +44,8 @@
                 android:maxLength="@{const.MAX_NAME_LENGTH}"
                 android:nextFocusForward="@+id/edt_reg_phone"
                 android:paddingStart="@dimen/_12ssp"
-                android:singleLine="true"
                 android:paddingEnd="@dimen/_12sdp"
+                android:singleLine="true"
                 android:text="@={signup.signUpLiveData.name}"
                 app:drawableStartCompat="@drawable/ic_user_profile"
                 app:fontType="regular"
@@ -60,7 +60,7 @@
                 android:layout_height="0dp"
                 android:layout_marginVertical="@dimen/_12sdp"
                 android:layout_marginStart="@dimen/_40sdp"
-                android:background="?attr/etDashColor"
+                android:background="?attr/radioUnselectedColor"
                 android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="@+id/edt_reg_name"
                 app:layout_constraintStart_toStartOf="@+id/edt_reg_name"
@@ -82,8 +82,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:paddingVertical="@dimen/_12sdp"
                     android:paddingHorizontal="@dimen/_10sdp"
+                    android:paddingVertical="@dimen/_12sdp"
                     app:changeBackgroundType="theme_src"
                     app:srcCompat="@drawable/ic_call"
 
@@ -98,10 +98,11 @@
                     android:focusable="true"
                     android:gravity="center"
                     android:textSize="@dimen/editTextField_14"
-                    app:ccp_areaCodeDetectedCountry="true"
-                    app:ccp_autoDetectCountry="true"
                     app:ccpDialog_backgroundColor="?attr/viewBackgroundColor"
+                    app:ccp_clickable="false"
                     app:ccp_showFlag="false"
+                    app:ccp_defaultNameCode="IN"
+                    app:ccp_showArrow="false"
                     app:ccp_showNameCode="false"
                     app:ccp_textSize="@dimen/textField_14" />
 
@@ -135,7 +136,7 @@
                 android:layout_height="0dp"
                 android:layout_marginVertical="@dimen/_12sdp"
                 android:layout_marginStart="@dimen/_40sdp"
-                android:background="?attr/etDashColor"
+                android:background="?attr/radioUnselectedColor"
                 android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="@+id/ll_phone"
                 app:layout_constraintStart_toStartOf="@+id/ll_phone"
@@ -171,7 +172,7 @@
                 android:layout_height="0dp"
                 android:layout_marginVertical="@dimen/_12sdp"
                 android:layout_marginStart="@dimen/_40sdp"
-                android:background="?attr/etDashColor"
+                android:background="?attr/radioUnselectedColor"
                 android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="@+id/ev_choose_profession"
                 app:layout_constraintStart_toStartOf="@+id/ev_choose_profession"
@@ -183,6 +184,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_18sdp"
                 android:layout_marginTop="@dimen/_24sdp"
+
                 android:checked="@={signup.isPrivacyPolicyChecked}"
                 android:contentDescription="@string/by_registering_you_are_accepting_privacy_policy_and_terms_of_use"
                 android:padding="@dimen/_5sdp"
@@ -199,12 +201,12 @@
                 android:text="@string/by_registering_you_are_accepting_privacy_policy_and_terms_of_use"
                 android:textSize="@dimen/textField_12"
                 app:fontType="medium"
-                app:textColorType="heading"
                 app:layout_constraintBottom_toBottomOf="@+id/chk_register"
                 app:layout_constraintEnd_toEndOf="@+id/edt_reg_name"
-
                 app:layout_constraintStart_toEndOf="@+id/chk_register"
-                app:layout_constraintTop_toTopOf="@+id/chk_register" />
+
+                app:layout_constraintTop_toTopOf="@+id/chk_register"
+                app:textColorType="heading" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
                 android:id="@+id/btn_sign_up"
@@ -212,18 +214,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_25sdp"
                 android:layout_marginBottom="@dimen/_20sdp"
-                android:enabled="@{signup.signUpLiveData.signUpDataEntered}"
+                android:enabled="@{signup.signUpLiveData.signUpDataEntered &amp;&amp; signup.isPrivacyPolicyChecked()}"
                 android:onClick="@{()->signup.signupValidations()}"
                 android:text="@string/sign_up"
-                app:btnEnabled="@{signup.signUpLiveData.signUpDataEntered}"
+                android:textSize="@dimen/materialButton_14"
+                app:btnEnabled="@{signup.signUpLiveData.signUpDataEntered &amp;&amp; signup.isPrivacyPolicyChecked()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_terms"
                 app:layout_constraintVertical_bias="0"
                 app:layout_constraintWidth_percent=".9"
-                android:textSize="@dimen/materialButton_14"
-                app:textAllCaps="true" />
+                app:textAllCaps="false" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineStart"

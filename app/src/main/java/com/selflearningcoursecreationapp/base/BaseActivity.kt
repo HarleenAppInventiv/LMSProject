@@ -1,20 +1,27 @@
 package com.selflearningcoursecreationapp.base
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.app.DownloadManager
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.database.Cursor
 import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.os.LocaleList
 import android.provider.Settings
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
@@ -42,42 +49,96 @@ import com.selflearningcoursecreationapp.ui.dialog.ProgressDialog
 import com.selflearningcoursecreationapp.ui.dialog.singleChoice.NetworkFailDialogue
 import com.selflearningcoursecreationapp.ui.home.HomeActivity
 import com.selflearningcoursecreationapp.ui.moderator.ModeratorActivity
+import com.selflearningcoursecreationapp.ui.splash.intro_slider.ActivityMessageListener
+import com.selflearningcoursecreationapp.ui.splash.intro_slider.ActivityTrackSocketManager
 import com.selflearningcoursecreationapp.utils.*
 import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
 import com.selflearningcoursecreationapp.utils.builderUtils.PermissionUtilClass
-import kotlinx.coroutines.delay
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
+import com.selflearningcoursecreationapp.utils.customViews.LMSTextView
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 import java.util.*
+import kotlin.concurrent.schedule
+
 
 open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDialogClick,
     /*PaymentResultListener,*/ PaymentResultWithDataListener,
-    ExternalWalletListener, RazorpayUtils.RazorPayCallback {
+    ExternalWalletListener, RazorpayUtils.RazorPayCallback, ActivityMessageListener {
 
+
+    private var failDialog: NetworkFailDialogue? = null
     private var progressDialog: ProgressDialog? = null
     private var onClickDialog: IBaseDialogClick? = null
     private var orderData: OrderData? = null
     val razorpayUtils = RazorpayUtils()
+    private var timer: Timer? = null
 
     var token = ""
-    override fun onCreate(savedInstanceState: Bundle?) {
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         razorpayUtils.initRazorPay(this)
         setTransparentLightStatusBar()
         changeAppLanguage()
         getRefreshToken()
-        val exceptionHandler by inject<ExceptionHandler>()
-        exceptionHandler.initialize(this)
-        Thread.setDefaultUncaughtExceptionHandler(exceptionHandler)
+
+//        val exceptionHandler by inject<ExceptionHandler>()
+//        exceptionHandler.initialize(this)
+//        Thread.setDefaultUncaughtExceptionHandler(exceptionHandler)
 
         setDayNightTheme()
+
+//        transferObject.apply {
+//            crashText = "D'oh! Its Crash.." // your error message "oops its crash" or something.
+//            destinationActivity = HomeActivity::class.java //MUST BE UR STARTING ACTIVITY
+//            detailsButonText =
+//                "Details" // showing stacktrace. change your button's text what you want
+//            restartAppButtonText =
+//                "Contiune" // restart your app. change your button's text what you want
+//            imagePath =
+//                R.drawable.ic_logo_default // ur error image change what you want. MUST BE "R.drawable.example"
+//            backgorundHex = "#ffffff" // ur crash activity's backgorund color.change what you want.
+//            crashTextColor = "#000000" // CrashText's color. MUST BE HEX CODE
+//
+//        }
+
+//        Thread.setDefaultUncaughtExceptionHandler(CosmosException(this,transferObject))
+
+
+    }
+
+    private fun sendDataToSocket() {
+
+
+        ActivityTrackSocketManager.init(
+            "${ApiEndPoints.WEB_SOCKET_USER_TRACKING}?Token=${tokenFromDataStore()}&LanguageId=${1}&ChannelId=2",
+            this
+        )
+
+        ActivityTrackSocketManager.connect()
+        timer?.cancel()
+        timer = null
+        timer = Timer()
+
+
+        timer?.schedule(20000, 20000) {
+            runOnUiThread {
+                if (ActivityTrackSocketManager.isConnect() && isInternetAvailable()) {
+                    ActivityTrackSocketManager.sendMessage("xzcvb")
+                    showLog("websocket", "sendcalled")
+                }
+            }
+        }
+
+
     }
 
 
-    private fun getAccessibilityService(): Boolean {
+    fun getAccessibilityService(): Boolean {
         var accessibilityEnabled = 0
         try {
             accessibilityEnabled = Settings.Secure.getInt(
@@ -100,18 +161,28 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
         }
     }
 
-    fun showProgressBar() {
-        if (!isDestroyed) {
-            if (progressDialog == null) {
-                progressDialog = ProgressDialog(this)
-                progressDialog?.let { dialog ->
-                    dialog.setCancelable(false)
-                    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                }
-            } else if (progressDialog!!.isShowing)
-                progressDialog!!.dismiss()
 
-            progressDialog!!.show()
+    fun showProgressBar(message: String? = null) {
+        if (!isDestroyed) {
+            try {
+
+
+                if (progressDialog?.isShowing == true) {
+                    progressDialog?.dismiss()
+                }
+                progressDialog = null
+                if (progressDialog == null) {
+                    progressDialog = ProgressDialog(this, message)
+
+                    progressDialog?.let { dialog ->
+                        dialog.setCancelable(false)
+                        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    }
+                }
+                progressDialog?.show()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
 
     }
@@ -140,9 +211,11 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
 
     fun goToInitialActivity() {
         SelfLearningApplication.token = ""
+        SelfLearningApplication.fontId = FontConstant.IBM
         lifecycleScope.launch {
             withContext(lifecycleScope.coroutineContext) {
                 PreferenceDataStore.saveString(Constants.USER_TOKEN, "")
+                PreferenceDataStore.saveInt(Constants.FONT_THEME, FontConstant.IBM)
                 PreferenceDataStore.saveString(Constants.USER_RESPONSE, null)
             }
         }
@@ -152,12 +225,28 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
 
     fun showToastShort(message: String) {
         showLog("SHOW_TOAST", message)
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        var toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
+        val view: View = LayoutInflater.from(this)
+            .inflate(R.layout.custom_toast_layout, null)
+
+        val tvMessage: LMSTextView = view.findViewById(R.id.tvMessage)
+        tvMessage.text = message
+
+        toast.view = view
+        toast.show()
     }
 
     fun showToastLong(message: String) {
         showLog("SHOW_TOAST", message)
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        var toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
+        val view: View = LayoutInflater.from(this)
+            .inflate(R.layout.custom_toast_layout, null)
+
+        val tvMessage: LMSTextView = view.findViewById(R.id.tvMessage)
+        tvMessage.text = message
+
+        toast.view = view
+        toast.show()
     }
 
 
@@ -180,45 +269,61 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
         exception: ApiError
     ) {
         hideProgressBar()
-        NetworkFailDialogue().apply {
+        failDialog?.dismiss()
+        failDialog = NetworkFailDialogue().apply {
             setOnDialogClickListener(object : BaseDialog.IDialogClick {
                 override fun onDialogClick(vararg items: Any) {
-                    callBack(apiCode)
+                    var view = items[0] as Int
+                    when (view) {
+                        Constant.CLICK_VIEW -> {
+                            callFragment(R.id.action_download, true)
+                        }
+                        else -> {
+                            if (networkError && isInternetAvailable()) {
+                                sendDataToSocket()
+                            }
+                            callBack(apiCode)
+                        }
+                    }
                 }
 
             })
             arguments = bundleOf(
                 "apiCode" to apiCode,
                 "networkError" to networkError,
-                "exception" to exception
+                "exception" to exception, "fromHome" to (this@BaseActivity is HomeActivity)
             )
-        }.show(supportFragmentManager, "")
+        }
+        failDialog?.show(supportFragmentManager, "")
     }
 
     open fun onApiRetry(apiCode: String) {
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val imagePickUtils: ImagePickUtils by inject()
+        imagePickUtils.onActivityResult(requestCode, resultCode, data)
+    }
 
     fun setAppTheme() {
         lifecycleScope.launch {
-            val themeValue: Int =
-                PreferenceDataStore.getInt(Constants.APP_THEME) ?: ThemeConstant.BLUE
             val fontValue: Int =
-                PreferenceDataStore.getInt(Constants.FONT_THEME) ?: FontConstant.IBM
+                SelfLearningApplication.fontId
 
-                    val fontArray = listOf(
-                        R.style.AppTheme_Roboto,
-                        R.style.AppTheme,
-                        R.style.AppTheme_WorkSansTheme
-                    )
-                    fontArray[fontValue - 1]
+            val fontArray = listOf(
+                R.style.AppTheme_Roboto,
+                R.style.AppTheme,
+                R.style.AppTheme_WorkSansTheme
+            )
+            val theme = fontArray[fontValue - 1]
 
-//            if (Build.VERSION.SDK_INT >= 23) {
-//                onApplyThemeResource(getTheme(), theme, false);
-//            } else {
-//                setTheme(theme);
-//            }
+            if (Build.VERSION.SDK_INT >= 23) {
+                onApplyThemeResource(getTheme(), theme, false)
+            } else {
+                setTheme(theme)
+            }
         }
     }
 
@@ -228,9 +333,9 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
         showToolbar: Boolean = true,
         backIcon: Int = R.drawable.ic_arrow_left,
         showBackIcon: Boolean = true,
-        subTitle: String? = "",
+        subTitle: String? = ""
     ) {
-        Log.d("main", "main")
+
     }
 
     fun changeAppLanguage() {
@@ -240,11 +345,8 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
             PreferenceDataStore.getString(Constants.LANGUAGE_THEME) ?: LanguageConstant.ENGLISH
 
         }
-//        showToastShort(languageCode)
         val newLocale = Locale(languageCode)
         Locale.setDefault(newLocale)
-        val tts: SpeechUtils by inject()
-        tts.changeLanguage(newLocale)
 
 
         val resources: Resources = resources
@@ -272,64 +374,91 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
 
     }
 
-    fun saveTheme(themeId: Int) {
-        lifecycleScope.launch {
-            withContext(lifecycleScope.coroutineContext) {
-                PreferenceDataStore.saveInt(Constants.APP_THEME, themeId)
-            }
-            delay(1000)
-            setAppTheme()
-            delay(1000)
-        }
-    }
 
     fun checkAccessibilityService() {
-        val isActive = getAccessibilityService()
+//        val isActive = getAccessibilityService()
 
-        when {
-            isActive -> {
-                CommonAlertDialog.builder(this)
-                    .title(getString(R.string.disable_screen_reading_mode))
-                    .description(getString(R.string.disable_screen_reading_mode_desc))
-                    .positiveBtnText(getString(R.string.disable))
-                    .icon(null)
-                    .getCallback {
-                        if (it) {
-
-                            try {
-                                val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
-                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                                startActivityForResult(intent, RequestCode.ACCESSIBILITY)
-
-                            } catch (e: ActivityNotFoundException) {
-                                showToastLong(getString(R.string.you_dont_have_activity_to_perform_action))
-                            }
-                        }
-                    }.build()
-
-
-            }
-            else -> {
-                CommonAlertDialog.builder(this)
-                    .title(getString(R.string.enable_screen_reading_mode))
-                    .description(getString(R.string.enable_screen_reading_mode_desc))
-                    .positiveBtnText(getString(R.string.enable))
-                    .icon(null)
-                    .getCallback {
-                        if (it) {
-
-                            try {
-                                val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
-                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                                startActivityForResult(intent, RequestCode.ACCESSIBILITY)
-
-                            } catch (e: ActivityNotFoundException) {
-                                showToastLong(getString(R.string.you_dont_have_activity_to_perform_action))
-                            }
-                        }
-                    }.build()
-            }
-        }
+        CommonAlertDialog.builder(this)
+            .title(getString(R.string.screen_reading_mode))
+            .spannedText(
+                SpanUtils.with(this, getString(R.string.enable_screen_reading_mode_desc))
+                    .startPos(80)
+                    .textColor().isBold().getSpanString()
+            ).positiveBtnText(getString(R.string.close_cap))
+//            .negativeBtnText(getString(R.string.close))
+            .setThemeIconColor(true)
+            .hideNegativeBtn(true)
+            .notCancellable()
+            .icon(R.drawable.ic_visually_impaired)
+            .getCallback {
+//                        if (it) {
+//
+//                            try {
+//                                val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+//                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+//                                startActivityForResult(intent, RequestCode.ACCESSIBILITY)
+//
+//                            } catch (e: ActivityNotFoundException) {
+//                                showToastLong(getString(R.string.you_dont_have_activity_to_perform_action))
+//                            }
+//                        }
+            }.build()
+//        when {
+//            isActive -> {
+//                CommonAlertDialog.builder(this)
+//                    .title(getString(R.string.screen_reading_mode))
+//                    .description(getString(R.string.disable_screen_reading_mode_desc))
+//                    .positiveBtnText(getString(R.string.disable))
+//                    .notCancellable()
+//                    .setThemeIconColor(true)
+//                    .hideNegativeBtn(true)
+//                    .icon(R.drawable.ic_visually_impaired)
+//                    .getCallback {
+////                        if (it) {
+////
+////                            try {
+////                                val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+////                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+////                                startActivityForResult(intent, RequestCode.ACCESSIBILITY)
+////
+////                            } catch (e: ActivityNotFoundException) {
+////                                showToastLong(getString(R.string.you_dont_have_activity_to_perform_action))
+////                            }
+////                        }
+//                    }.build()
+//
+//
+//            }
+//            else -> {
+//
+//
+//                CommonAlertDialog.builder(this)
+//                    .title(getString(R.string.screen_reading_mode))
+//                    .spannedText(
+//                        SpanUtils.with(this, getString(R.string.enable_screen_reading_mode_desc))
+//                            .startPos(80)
+//                            .textColor().isBold().getSpanString()
+//                    ).positiveBtnText(getString(R.string.okay))
+////                    .negativeBtnText(getString(R.string.close))
+//                    .setThemeIconColor(true)
+//                    .hideNegativeBtn(true)
+//                    .notCancellable()
+//                    .icon(R.drawable.ic_visually_impaired)
+//                    .getCallback {
+////                        if (it) {
+////
+////                            try {
+////                                val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+////                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+////                                startActivityForResult(intent, RequestCode.ACCESSIBILITY)
+////
+////                            } catch (e: ActivityNotFoundException) {
+////                                showToastLong(getString(R.string.you_dont_have_activity_to_perform_action))
+////                            }
+////                        }
+//                    }.build()
+//            }
+//        }
 
 
     }
@@ -346,6 +475,13 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         showLog("BASE_ACTIVITY", "onResponseSuccess>>> $apiCode")
         hideProgressBar()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        sendDataToSocket()
+
+
     }
 
     override fun onException(isNetworkAvailable: Boolean, exception: ApiError, apiCode: String) {
@@ -374,13 +510,17 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
     }
 
     fun goToHomeActivity() {
+        val intent = Intent(
+            this,
+            HomeActivity::class.java
+        )
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+//        overridePendingTransition(0, 0)
         startActivity(
-            Intent(
-                this,
-                HomeActivity::class.java
-            )
+            intent
         )
         finish()
+
     }
 
     fun goToModeratorActivity() {
@@ -398,7 +538,11 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
         hideProgressBar()
         NetworkFailDialogue().apply {
             setOnDialogClickListener(this@BaseActivity)
-            arguments = bundleOf("apiCode" to apiCode, "networkError" to networkError)
+            arguments = bundleOf(
+                "apiCode" to apiCode,
+                "networkError" to networkError,
+                "fromHome" to (this@BaseActivity is HomeActivity)
+            )
         }.show(supportFragmentManager, "")
     }
 
@@ -464,7 +608,7 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
     private fun getRefreshToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Log.w("varun", "Fetching FCM registration token failed", task.exception)
+                Log.w("FCM_TOKEN", "Fetching FCM registration token failed", task.exception)
                 return@OnCompleteListener
             }
 
@@ -476,25 +620,7 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
 
     //hide keyboard on click outside the edittext
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-        /* if (event.action == MotionEvent.ACTION_MOVE) {
-             val imm = (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-             val isKeyboardUp = imm.isAcceptingText
-             val v = currentFocus
-
-             if (isKeyboardUp) {
-                 imm.hideSoftInputFromWindow(v?.windowToken, 0)
-             }
- //            if (v is ScrollView) {
- //                val outRect = Rect()
- //                v.getGlobalVisibleRect(outRect)
- //                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
- //                    v.clearFocus()
- //                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
- //                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
- //                }
- //            }
-         }
-       else */ if (event.action == MotionEvent.ACTION_DOWN) {
+        if (event.action == MotionEvent.ACTION_DOWN) {
             val v = currentFocus
             if (v is EditText) {
                 val outRect = Rect()
@@ -511,14 +637,9 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
     }
 
     fun tokenFromDataStore(): String {
-        var token = ""
-        lifecycleScope.launch {
-            token = PreferenceDataStore.getString(Constants.USER_TOKEN).toString()
-
-        }
-
         return SelfLearningApplication.token ?: ""
     }
+
 
     fun guestUserPopUp() {
         CommonAlertDialog.builder(this)
@@ -526,7 +647,7 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
             .description(getString(R.string.you_need_to_login_first))
             .positiveBtnText(getString(R.string.login))
             .negativeBtnText(getString(R.string.cancel))
-            .notCancellable()
+            .notCancellable(false)
             .icon(R.drawable.ic_alert_title)
             .getCallback {
                 if (it) {
@@ -543,18 +664,15 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
         shareIntent.action = Intent.ACTION_SEND
         shareIntent.type = "text/plain"
         shareIntent.putExtra(Intent.EXTRA_TEXT, data)
-        startActivity(Intent.createChooser(shareIntent, "Share via"))
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_via)))
 
     }
 
-//    override fun onPaymentSuccess(razorpayPaymentId: String?) {
-//        showLog(tag = "RAZORPAY", msg = "Payment onPaymentSuccess $razorpayPaymentId ")
-//
-//    }
+    override fun onPause() {
+        super.onPause()
+        timer?.cancel()
+    }
 
-//    override fun onPaymentError(errorCode: Int, response: String?) {
-//        showLog(tag = "RAZORPAY", msg = "Payment onPaymentError $errorCode >>> $response")
-//    }
 
     override fun onPaymentSuccess(razorpayPaymentId: String?, p1: PaymentData?) {
         showLog(
@@ -588,6 +706,10 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
 
     }
 
+    open fun callFragment(id: Int, isBottomFrag: Boolean) {
+
+    }
+
     override fun orderDetail(orderData: OrderData?) {
         this.orderData = orderData
     }
@@ -601,26 +723,152 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
     }
 
     fun setDayNightTheme() {
-        lifecycleScope.launch {
-            withContext(lifecycleScope.coroutineContext) {
-                val isViOn = PreferenceDataStore.getBoolean(Constants.VI_MODE) ?: false
 
-                delay(1000)
-                runOnUiThread {
+        hideProgressBar()
 
-                    if (isViOn) {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    } else {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    }
-                }
-            }
+        if (SelfLearningApplication.isViOn == true) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
-
 
     }
 
     fun isViOn(): Boolean {
         return SelfLearningApplication.isViOn ?: false
     }
+
+    open fun updateTheme() {
+        progressDialog = null
+
+    }
+
+    fun showDefaultDialog(message: String) {
+
+
+        CommonAlertDialog.builder(this)
+            .hideNegativeBtn(true)
+            .title(this.getString(R.string.coming_soon))
+            .getCallback {
+
+            }.icon(null)
+            .build()
+    }
+
+    override fun onConnectSuccess() {
+
+        showLog("websocket", "onConnectSuccess")
+    }
+
+    override fun onConnectFailed() {
+        showLog("websocket", "onConnectFailed")
+        if (!isDestroyed && !(tokenFromDataStore().isNullOrEmpty()) && isInternetAvailable()) {
+            sendDataToSocket()
+        }
+    }
+
+    override fun onClose() {
+        showLog("websocket", "onClose")
+    }
+
+    override fun onMessage(text: String?) {
+        showLog("websocket", "onMessage")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ActivityTrackSocketManager.close()
+    }
+
+
+    @SuppressLint("Range")
+    fun downloadPdf(contentURL: String?, fileName: String) {
+        PermissionUtilClass.builder(this).requestPermissions(
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                arrayOf(
+                    Manifest.permission.READ_MEDIA_VIDEO,
+
+                    )
+            } else {
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+            }
+        ).getCallBack { b, strings, _ ->
+            if (b) {
+                try {
+
+
+                    val manager =
+                        getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
+                    val uri: Uri = Uri.parse(contentURL)
+                    val request = DownloadManager.Request(uri)
+                    request.setMimeType("application/pdf")
+                    request.setDestinationInExternalPublicDir(
+                        Environment.DIRECTORY_DOWNLOADS,
+                        fileName
+                    )
+                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                    request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
+                    val downloadID = manager?.enqueue(request) ?: 0
+                    showToastShort(getString(R.string.download_start))
+
+                    var finishDownload = false
+                    var progress: Int
+                    while (!finishDownload) {
+                        val cursor: Cursor? =
+                            manager?.query(DownloadManager.Query().setFilterById(downloadID))
+                        if (cursor?.moveToFirst() == true) {
+                            val status =
+                                cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
+                            when (status) {
+                                DownloadManager.STATUS_FAILED -> {
+                                    finishDownload = true
+                                    showToastShort(getString(R.string.download_failed))
+
+                                }
+                                DownloadManager.STATUS_PAUSED -> {}
+                                DownloadManager.STATUS_PENDING -> {}
+                                DownloadManager.STATUS_RUNNING -> {
+//                                val total =
+//                                    cursor.getLong(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
+//                                if (total > 0) {
+//                                    val downloaded = cursor.getLong(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
+//                                    progress = (downloaded * 100L / total).toInt()
+                                    // if you use downloadmanger in async task, here you can use like this to display progress.
+                                    // Don't forget to do the division in long to get more digits rather than double.
+                                    //  publishProgress((int) ((downloaded * 100L) / total));
+//                                }
+                                }
+                                DownloadManager.STATUS_SUCCESSFUL -> {
+                                    progress = 100
+                                    // if you use aysnc task
+                                    // publishProgress(100);
+                                    finishDownload = true
+
+                                    showToastShort(getString(R.string.download_completed))
+                                }
+                            }
+                        }
+                        cursor?.close()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            } else {
+                handlePermissionDenied(strings)
+            }
+
+
+        }.build()
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        ActivityTrackSocketManager.close()
+    }
+
 }

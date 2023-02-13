@@ -13,19 +13,57 @@
         android:background="?attr/secondaryScreenBgColor"
         tools:context=".ui.moderator.moderatorDashboard.PendingFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_pending_list"
+        <LinearLayout
+            android:id="@+id/ll_no_wishlist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipToPadding="false"
+            android:layout_marginVertical="@dimen/_20sdp"
+            android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/_10sdp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:itemCount="5"
-            tools:listitem="@layout/adapter_my_course" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_no_doc" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_no_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_course_found"
+                android:textAlignment="center"
+                android:textSize="@dimen/textField_16"
+                app:fontType="semiBold"
+                app:textColorType="primary" />
+
+
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:visibility="gone">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_pending_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/_10sdp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:itemCount="5"
+                tools:listitem="@layout/item_moderator_courses" />
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

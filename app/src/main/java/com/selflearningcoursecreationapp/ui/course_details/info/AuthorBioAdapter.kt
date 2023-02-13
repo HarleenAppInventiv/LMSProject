@@ -8,6 +8,7 @@ import com.selflearningcoursecreationapp.extensions.loadImage
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.extensions.visibleView
 import com.selflearningcoursecreationapp.models.user.UserProfile
+import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 
 
@@ -28,16 +29,28 @@ class AuthorBioAdapter(private var list: ArrayList<UserProfile>) :
             data.profileBlurHash
         )
         binding.ivLogo.loadImage(data.courseLogoURL, R.drawable.ic_logo_default)
-        binding.tvBio.setSpanString(
-            SpanUtils.with(
-                context,
-                "${data.name} ${data.bio ?: ""}"
+        binding.tvBio.apply {
+            setSpanString(
+                SpanUtils.with(
+                    context,
+                    "${data.name} ${data.bio ?: ""}"
+                )
+                    .startPos(0)
+                    .endPos(data.name.length)
+                    .isBold()
+                    .getSpanString()
             )
-                .startPos(0)
-                .endPos(data.name.length)
-                .isBold()
-                .getSpanString()
-        )
+            setOnClickListener {
+                onItemClick(Constant.CLICK_AUTHOR_PROFILE, position)
+            }
+        }
+        binding.ivProfileImage.setOnClickListener {
+            onItemClick(Constant.CLICK_AUTHOR_PROFILE, position)
+        }
+
+        binding.ivLogo.setOnClickListener {
+            onItemClick(Constant.CLICK_AUTHOR_PROFILE, position)
+        }
 
 
     }

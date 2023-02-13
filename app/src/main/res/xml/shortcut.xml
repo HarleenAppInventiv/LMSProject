@@ -12,8 +12,8 @@
         tools:targetApi="n_mr1">
         <intent
             android:action="com.ibashkimi.screenrecorder.TOGGLE_RECORDING"
-            android:targetClass="com.selflearningcoursecreationapp.utils.screenRecorder.MainActivity"
-            android:targetPackage="com.ibashkimi.screenrecorder" />
+            android:targetClass="com.selflearningcoursecreationapp.utils.screenRecorder.ScreenRecordingActivity"
+            android:targetPackage="com.selflearningcoursecreationapp.utils.screenRecorder" />
     </shortcut>
     <!-- Specify more shortcuts here. -->
 </shortcuts>

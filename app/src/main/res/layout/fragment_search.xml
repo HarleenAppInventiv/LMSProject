@@ -28,7 +28,8 @@
                 app:changeBackgroundType="bg_theme_solid"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -39,35 +40,71 @@
                         android:id="@+id/img_back"
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_30sdp"
+                        android:contentDescription="@string/back_button"
                         android:src="@drawable/ic_arrow_left_white" />
 
 
-                    <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
-                        android:id="@+id/et_search"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_15sdp"
-                        android:layout_marginBottom="@dimen/_16sdp"
-                        android:background="@drawable/ic_bg_search_home"
-                        android:drawablePadding="@dimen/_10sdp"
-                        android:gravity="center_vertical"
-                        android:hint="@string/search_courses"
-                        android:imeOptions="actionSearch"
-                        android:maxLines="1"
-                        android:padding="10dp"
-                        android:paddingEnd="@dimen/_40sdp"
-                        android:singleLine="true"
-                        android:textColor="?attr/whiteTextColor"
-                        android:textColorHint="@color/black"
-                        android:textSize="@dimen/_11sdp"
-
-                        app:drawableStartCompat="@drawable/ic_home_search"
-                        app:fontType="regular"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintVertical_bias="0"
-                        app:primaryIconTint="end" />
+
+                        >
+
+                        <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                            android:id="@+id/et_search"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginBottom="@dimen/_16sdp"
+                            android:background="@drawable/ic_bg_search_home"
+                            android:drawablePadding="@dimen/_10sdp"
+                            android:gravity="center_vertical"
+                            android:hint="@string/search_courses"
+                            android:imeOptions="actionSearch"
+                            android:maxLines="1"
+                            android:padding="10dp"
+                            android:paddingEnd="@dimen/_40sdp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/_11sdp"
+                            app:drawableStartCompat="@drawable/ic_home_search"
+                            app:fontType="regular"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:primaryIconTint="end" />
+
+                        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                            android:id="@+id/img_cross"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/close"
+                            android:padding="@dimen/_5sdp"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="@+id/et_search"
+                            app:layout_constraintEnd_toEndOf="@+id/et_search"
+                            app:layout_constraintTop_toTopOf="@+id/et_search"
+                            app:srcCompat="@drawable/ic_cross_grey"
+
+                            />
+
+                        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                            android:id="@+id/img_mic"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_5sdp"
+                            app:changeBackgroundType="theme_src"
+                            app:layout_constraintBottom_toBottomOf="@+id/et_search"
+                            app:layout_constraintEnd_toEndOf="@+id/et_search"
+                            app:layout_constraintTop_toTopOf="@+id/et_search"
+                            app:srcCompat="@drawable/ic_mic_home"
+
+                            />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 </LinearLayout>
 
@@ -81,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/last_search"
-                android:textColor="@color/adapter_header_color"
+                android:textColor="?attr/adapterTitleColor"
                 android:textSize="@dimen/textField_14"
                 app:fontType="semiBold"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
@@ -89,15 +126,14 @@
                 app:textColorType="heading" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_clear_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/clear_all"
-
-                android:textColor="@color/accent_color_fc6d5b"
+                android:textColor="?attr/accentColor_Red"
                 android:textSize="@dimen/textField_12"
                 app:fontType="medium"
-
                 app:layout_constraintEnd_toEndOf="@+id/guideline4"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar"
                 app:textColorType="none" />
@@ -105,9 +141,9 @@
             <View
                 android:id="@+id/view"
                 android:layout_width="0dp"
-                android:layout_height="1dp"
+                android:layout_height="2dp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:background="@color/line_color_cfd9e9"
+                android:background="?attr/listDividerColor"
                 app:layout_constraintEnd_toEndOf="@+id/guideline4"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
                 app:layout_constraintTop_toBottomOf="@+id/tv_header" />
@@ -117,22 +153,37 @@
                 android:id="@+id/rv_search"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
+
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="@+id/guideline4"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
                 app:layout_constraintTop_toBottomOf="@+id/view"
                 tools:itemCount="5"
+
                 tools:listitem="@layout/item_search" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_no_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_search_keywords_available"
+                android:textAlignment="center"
+                android:textSize="@dimen/textField_11"
+                android:visibility="visible"
+                app:fontType="regular"
+                app:layout_constraintEnd_toEndOf="@+id/guideline4"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toBottomOf="@+id/view"
+                app:textColorType="primary" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_popular_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:text="@string/last_search"
-                android:textColor="@color/adapter_header_color"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:text="@string/suggestions"
+                android:textColor="?attr/adapterTitleColor"
                 android:textSize="@dimen/textField_14"
                 app:fontType="semiBold"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
@@ -142,9 +193,9 @@
             <View
                 android:id="@+id/view2"
                 android:layout_width="0dp"
-                android:layout_height="1dp"
+                android:layout_height="2dp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:background="@color/line_color_cfd9e9"
+                android:background="?attr/listDividerColor"
                 app:layout_constraintEnd_toEndOf="@+id/guideline4"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
                 app:layout_constraintTop_toBottomOf="@+id/tv_popular_search" />
@@ -154,7 +205,6 @@
                 android:id="@+id/rv_popular_search"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="@+id/guideline4"

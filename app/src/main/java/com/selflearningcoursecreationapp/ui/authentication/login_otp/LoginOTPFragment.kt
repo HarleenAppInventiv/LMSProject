@@ -10,6 +10,7 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentLoginOTPBinding
 import com.selflearningcoursecreationapp.extensions.content
+import com.selflearningcoursecreationapp.extensions.navigateTo
 import com.selflearningcoursecreationapp.extensions.setSpanString
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.OtpType
@@ -54,11 +55,6 @@ class LoginOTPFragment : BaseFragment<FragmentLoginOTPBinding>() {
         )
 
 
-        binding.countryCodePicker.apply {
-            setAutoDetectedCountry(true)
-        }
-
-
         binding.btnContinue.setOnClickListener {
             viewModel.countryCode = binding.countryCodePicker.selectedCountryCodeWithPlus
             viewModel.loginViaOTP()
@@ -68,6 +64,7 @@ class LoginOTPFragment : BaseFragment<FragmentLoginOTPBinding>() {
 
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)
+
         when (apiCode) {
             ApiEndPoints.API_OTP_REQ -> {
                 val action =
@@ -77,7 +74,8 @@ class LoginOTPFragment : BaseFragment<FragmentLoginOTPBinding>() {
                         type = OtpType.TYPE_LOGIN,
                         countryCode = binding.countryCodePicker.selectedCountryCodeWithPlus
                     )
-                findNavController().navigate(action)
+                findNavController().navigateTo(action)
+                showToastShort(baseActivity.getString(R.string.otp_sent_successfully))
             }
 
         }
@@ -88,6 +86,12 @@ class LoginOTPFragment : BaseFragment<FragmentLoginOTPBinding>() {
     override fun onResume() {
         super.onResume()
         baseActivity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        baseActivity.window.clearFlags(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
     }
 
     override fun onApiRetry(apiCode: String) {

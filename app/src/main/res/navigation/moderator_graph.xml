@@ -9,13 +9,36 @@
     <fragment
         android:id="@+id/modCourseDetailsFragment"
         android:name="com.selflearningcoursecreationapp.ui.moderator.courseDetails.ModCourseDetailsFragment"
-        android:label="ModCourseDetailsFragment" />
+        android:label="">
+        <action
+            android:id="@+id/action_modCourseDetailsFragment_to_quizBaseFragment"
+            app:destination="@id/quizBaseFragment" />
+        <action
+            android:id="@+id/action_modCourseDetailsFragment_to_modEditCourseFragment"
+            app:destination="@id/modEditCourseFragment" />
+        <action
+            android:id="@+id/action_modCourseDetailsFragment_to_assessmentFragment"
+            app:destination="@id/assessmentFragment" />
+        <!--        <action-->
+        <!--            android:id="@+id/action_modCourseDetailsFragment_to_modCourseAssessmentFragment"-->
+        <!--            app:destination="@id/modCourseAssessmentFragment" />-->
+        <action
+            android:id="@+id/action_modCourseDetailsFragment_to_modAssessmentFragment"
+            app:destination="@id/modAssessmentFragment" />
+        <action
+            android:id="@+id/action_modCourseDetailsFragment_to_pdfReaderFragment"
+            app:destination="@id/pdfReaderFragment" />
+        <action
+            android:id="@+id/action_modCourseDetailsFragment_to_videoBaseFragment"
+            app:destination="@id/videoBaseFragment" />
+
+    </fragment>
     <include app:graph="@navigation/setting_graph" />
     <include app:graph="@navigation/nav_profile_graph" />
     <fragment
         android:id="@+id/moderatorBaseFragment"
         android:name="com.selflearningcoursecreationapp.ui.moderator.moderatorHome.ModeratorBaseFragment"
-        android:label="ModeratorBaseFragment">
+        android:label="">
         <action
             android:id="@+id/action_moderatorBaseFragment_to_nav_profile_graph"
             app:destination="@id/nav_profile_graph" />
@@ -25,11 +48,14 @@
         <action
             android:id="@+id/action_moderatorBaseFragment_to_modCourseDetailsFragment"
             app:destination="@id/modCourseDetailsFragment" />
+
     </fragment>
+
+
     <fragment
         android:id="@+id/notificationFragment"
         android:name="com.selflearningcoursecreationapp.ui.notification.NotificationFragment"
-        android:label="Notification" />
+        android:label="@string/notifications" />
 
     <fragment
         android:id="@+id/preferencesFragment"
@@ -70,4 +96,75 @@
     <action
         android:id="@+id/action_global_preferencesFragment"
         app:destination="@id/preferencesFragment" />
+    <fragment
+        android:id="@+id/quizBaseFragment"
+        android:name="com.selflearningcoursecreationapp.ui.course_details.quiz.QuizBaseFragment"
+        android:label="">
+        <action
+            android:id="@+id/action_quizBaseFragment_to_quizReportFragment"
+            app:destination="@id/quizReportFragment"
+            app:popUpTo="@id/courseDetailsFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/modEditCourseFragment"
+        android:name="com.selflearningcoursecreationapp.ui.moderator.editCourse.ModEditCourseFragment"
+        android:label="Edit Course" />
+    <fragment
+        android:id="@+id/assessmentFragment"
+        android:name="com.selflearningcoursecreationapp.ui.create_course.add_assessment.AssessmentFragment"
+        android:label="" />
+    <fragment
+        android:id="@+id/modAssessmentFragment"
+        android:name="com.selflearningcoursecreationapp.ui.moderator.courseDetails.Assessment.ModAssessmentFragment"
+        android:label="" />
+
+
+    <fragment
+        android:id="@+id/modDashBaseFragment"
+        android:name="com.selflearningcoursecreationapp.ui.moderator.moderatorDashboard.ModDashBaseFragment"
+        android:label="">
+
+        <action
+            android:id="@+id/action_modDashBaseFragment_to_modCourseDetailsFragment"
+            app:destination="@id/modCourseDetailsFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_modCourseDetailsFragment"
+        app:destination="@id/modCourseDetailsFragment" />
+
+
+    <fragment
+        android:id="@+id/videoBaseFragment"
+        android:name="com.selflearningcoursecreationapp.ui.course_details.video.VideoBaseFragment"
+        android:label="" />
+
+    <fragment
+        android:id="@+id/pdfReaderFragment"
+        android:name="com.selflearningcoursecreationapp.ui.course_details.doc.PdfViewerFragment"
+        android:label="Document" />
+
+
+    <fragment
+        android:id="@+id/quizReportFragment"
+        android:name="com.selflearningcoursecreationapp.ui.course_details.quiz.QuizReportFragment"
+        android:label="Assessment Report">
+        <action
+            android:id="@+id/action_quizReportFragment_to_quizReportDetailFragment"
+            app:destination="@id/quizReportDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizReportDetailFragment"
+        android:name="com.selflearningcoursecreationapp.ui.course_details.quiz.QuizReportDetailFragment"
+        android:label="Correct Answers" />
+
+    <fragment
+        android:id="@+id/quiZListForModCreatorFragment"
+        android:name="com.selflearningcoursecreationapp.ui.course_details.quizList.QuiZListForModCreatorFragment"
+        android:label="QuiZListForModCreatorFragment" />
+    <action
+        android:id="@+id/action_global_quiZListForModCreatorFragment"
+        app:destination="@id/quiZListForModCreatorFragment" />
+
+
 </navigation>

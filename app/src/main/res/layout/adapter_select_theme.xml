@@ -12,7 +12,7 @@
         android:layout_marginStart="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
-        app:cardBackgroundColor="@color/theme_selection_bg_color"
+        app:cardBackgroundColor="?attr/filterStrokeColor"
         app:cardCornerRadius="@dimen/_5sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,13 +24,12 @@
                 android:id="@+id/tv_preview"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_70sdp"
-                android:background="@color/sea"
+                android:background="?attr/colorPrimary"
                 android:paddingVertical="@dimen/_15sdp"
                 android:paddingStart="@dimen/_10sdp"
                 android:paddingEnd="@dimen/_20sdp"
-                android:text="@string/skillfy"
                 android:textAllCaps="true"
-                android:textColor="@color/white"
+                android:textColor="?attr/whiteTextColor"
                 android:textSize="@dimen/textField_14"
                 app:fontType="semiBold"
                 app:layout_constraintEnd_toEndOf="parent"

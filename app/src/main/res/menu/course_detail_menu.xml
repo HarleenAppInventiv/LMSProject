@@ -11,6 +11,7 @@
         android:id="@+id/action_share"
         android:icon="@drawable/ic_share"
         android:title="Share"
+
         app:showAsAction="always" />
 
 

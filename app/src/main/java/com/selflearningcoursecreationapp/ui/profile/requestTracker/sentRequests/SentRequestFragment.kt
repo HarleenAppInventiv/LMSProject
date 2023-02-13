@@ -1,6 +1,8 @@
 package com.selflearningcoursecreationapp.ui.profile.requestTracker.sentRequests
 
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.TextUtils
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -9,10 +11,18 @@ import androidx.paging.LoadState
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseDialog
 import com.selflearningcoursecreationapp.base.BaseFragment
+import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.databinding.FragmentSentRequestBinding
 import com.selflearningcoursecreationapp.models.course.CourseData
+import com.selflearningcoursecreationapp.models.user.UserProfile
+import com.selflearningcoursecreationapp.ui.course_details.ratings.model.GetReviewsRequestModel
+import com.selflearningcoursecreationapp.ui.create_course.co_author.ExistsCoAuthorResponse
 import com.selflearningcoursecreationapp.ui.create_course.co_author.InviteCoAuthorDialog
+import com.selflearningcoursecreationapp.ui.profile.requestTracker.PagerViewEventsRequest
 import com.selflearningcoursecreationapp.ui.profile.requestTracker.RequestrackerVM
+import com.selflearningcoursecreationapp.utils.ApiEndPoints
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
+import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -26,10 +36,12 @@ class SentRequestFragment : BaseFragment<FragmentSentRequestBinding>(), BaseDial
             courseData = data
             when (type) {
                 0 -> {
-                    InviteCoAuthorDialog().apply {
-                        arguments = bundleOf("courseId" to data.courseId)
-                        setOnDialogClickListener(this@SentRequestFragment)
-                    }.show(childFragmentManager, "")
+                    viewModel.courseId = data.courseId ?: 0
+                    viewModel.existsCoAuthorDetails()
+
+                }
+                1 -> {
+                    viewModel.cancelReq(data.courseId.toString())
                 }
             }
         }
@@ -40,7 +52,9 @@ class SentRequestFragment : BaseFragment<FragmentSentRequestBinding>(), BaseDial
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
+        callMenu()
     }
+
 
     private fun initUI() {
 
@@ -48,14 +62,14 @@ class SentRequestFragment : BaseFragment<FragmentSentRequestBinding>(), BaseDial
         arguments?.let {
             viewModel.sentRequestId = it.getInt("sentRequestId")
         }
-        val hashMap = HashMap<String, Int>()
-        hashMap["PageNumber"] = 1
-        hashMap["PageSize"] = 20
-        hashMap["RequestType"] = viewModel.sentRequestId
 
 
+        val filterData = GetReviewsRequestModel()
+        filterData.pageSize = 20
+        filterData.pageNumber = 1
+        filterData.RequestType = viewModel.sentRequestId
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getRequestResponse(hashMap).observe(viewLifecycleOwner) {
+            viewModel.getRequestResponse(filterData).observe(viewLifecycleOwner) {
                 adapter.submitData(lifecycle, it)
             }
 
@@ -104,7 +118,100 @@ class SentRequestFragment : BaseFragment<FragmentSentRequestBinding>(), BaseDial
 
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)
+        when (apiCode) {
+            ApiEndPoints.API_CANCEL_REQ -> {
+                showToastShort((value as BaseResponse<UserProfile>).message)
+                viewModel.onViewEvent(PagerViewEventsRequest.Remove(courseData ?: CourseData()))
+                refreshData()
+            }
 
+            ApiEndPoints.API_EXISTS_COAUTHOR -> {
+
+                var data = (value as BaseResponse<ExistsCoAuthorResponse>)
+                when (data.resource?.coAuthorExists) {
+                    true -> {
+
+                        val finalSpannedStr = if (data.resource?.email.isNullOrEmpty()) {
+                            val desc = String.format(
+                                baseActivity.getString(R.string.course_coauthor_exists_desc_text),
+                                data.resource?.phone
+                            )
+                            SpanUtils.with(
+                                baseActivity, desc
+
+                            ).startPos(63)
+                                .endPos(63.plus(data.resource?.phone?.length ?: 0).plus(2)).isBold()
+                                .getSpanString()
+                        } else {
+
+                            val firstString = String.format(
+                                baseActivity.getString(R.string.course_coauthor_exists_desc_text_2),
+                                data.resource?.phone
+                            )
+                            var firstHalfSpannedStr = SpanUtils.with(
+                                baseActivity, firstString
+
+                            ).startPos(63)
+                                .endPos(63.plus(data.resource?.phone?.length ?: 0).plus(1)).isBold()
+                                .getSpanString()
+
+                            val secondString = String.format(
+                                baseActivity.getString(R.string.course_coauthor_exists_desc_text_with_email),
+                                data.resource?.email
+                            )
+
+
+                            var secondHalfStr =
+                                SpanUtils.with(
+                                    baseActivity,
+                                    secondString
+                                ).startPos(11)
+                                    .endPos(11.plus(data.resource?.email?.length ?: 0).plus(2))
+                                    .isBold().getSpanString()
+
+
+
+
+
+                            SpannableString(TextUtils.concat(firstHalfSpannedStr, secondHalfStr))
+
+
+                        }
+
+                        CommonAlertDialog.builder(baseActivity)
+                            .title(baseActivity.getString(R.string.coauthor_already_exists))
+                            .spannedText(
+                                finalSpannedStr
+                            )
+                            .positiveBtnText(baseActivity.getString(R.string.proceed))
+                            .negativeBtnText(baseActivity.getString(R.string.cancel))
+                            .icon(R.drawable.ic_assessment_submitted)
+                            .getCallback {
+                                if (it) {
+                                    openCoAuthorDialog()
+                                }
+                            }
+                            .build()
+                    }
+                    false -> {
+                        openCoAuthorDialog()
+                    }
+                }
+
+
+            }
+        }
+    }
+
+    private fun openCoAuthorDialog() {
+        InviteCoAuthorDialog().apply {
+            arguments = bundleOf("courseId" to viewModel.courseId)
+            setOnDialogClickListener(this@SentRequestFragment)
+        }.show(childFragmentManager, "")
+    }
+
+    fun refreshData() {
+        adapter.refresh()
     }
 
 }

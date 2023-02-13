@@ -5,7 +5,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -15,16 +19,21 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.navigation.NavigationBarView
+import com.google.firebase.messaging.FirebaseMessaging
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseActivity
+import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.databinding.ActivityModeratorBinding
 import com.selflearningcoursecreationapp.extensions.*
-import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseBaseFragment
+import com.selflearningcoursecreationapp.models.user.UserProfile
 import com.selflearningcoursecreationapp.ui.home.HomeActivityViewModel
+import com.selflearningcoursecreationapp.ui.moderator.moderatorHome.ModeratorBaseFragment
+import com.selflearningcoursecreationapp.ui.moderator.myCategories.ModeMyCategories
+import com.selflearningcoursecreationapp.ui.notification.NotificationFragment
 import com.selflearningcoursecreationapp.ui.preferences.PreferencesFragment
-import com.selflearningcoursecreationapp.utils.ACTION_NOTIFICATION_BROADCAST
-import com.selflearningcoursecreationapp.utils.ApiEndPoints
-import com.selflearningcoursecreationapp.utils.CoAuthorStatus
+import com.selflearningcoursecreationapp.utils.*
+import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
+import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -32,12 +41,66 @@ class ModeratorActivity : BaseActivity(), NavigationBarView.OnItemSelectedListen
     private var navController: NavController? = null
     private lateinit var binding: ActivityModeratorBinding
     private val viewModel: HomeActivityViewModel by viewModel()
+    private var doubleBackToExitPressedOnce = false
     private var receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
                 ACTION_NOTIFICATION_BROADCAST -> {
+                    handleBroadcastNotification(intent.extras)
                 }
             }
+
+        }
+    }
+
+    private fun accountBlockedPopup(notificationPayload: String, categoryCount: Int = 0) {
+        var jsonObject = JSONObject(notificationPayload)
+
+        CommonAlertDialog.builder(this).hideNegativeBtn(true)
+            .title(
+                "${this.getString(R.string.moderator_access_removed)} ${this.getString(R.string.for_category)} \"${
+                    jsonObject.getString(
+                        "CategoryName"
+                    )
+                }\""
+            )
+            .description(getString(R.string.account_blocked_desc_text)).getCallback {
+
+                if (jsonObject.getInt("CategoriesForModerator") <= 0 && categoryCount <= 0)
+                    viewModel.switchMod()
+                else if (navController?.currentDestination?.id == R.id.fragment_mode_my_categories) {
+                    (getCurrentFragment() as ModeMyCategories).refreshData()
+                }
+                if (navController?.currentDestination?.id == R.id.notificationFragment) {
+                    (getCurrentFragment() as NotificationFragment).refreshData()
+                }
+            }.notCancellable(false).icon(R.drawable.ic_help_desk).build()
+    }
+
+
+    private fun handleBroadcastNotification(extras: Bundle?) {
+        val type = extras?.getString("type").toString()
+        when (type) {
+            NotificationType.MODERATOR_REQUEST_APPROVED -> {
+                if (navController?.currentDestination?.id == R.id.fragment_mode_my_categories) {
+                    (getCurrentFragment() as ModeMyCategories).refreshData()
+                }
+                if (navController?.currentDestination?.id == R.id.notificationFragment) {
+                    (getCurrentFragment() as NotificationFragment).refreshData()
+                }
+            }
+            NotificationType.AS_MODERATOR_BLOCKED -> {
+                val notificationPayload = extras?.get("notification_Payload").toString()
+                accountBlockedPopup(notificationPayload)
+            }
+            NotificationType.COURSE_REVIEW_REQUEST -> {
+                if (navController?.currentDestination?.id == R.id.moderatorBaseFragment) {
+                    (getCurrentFragment() as ModeratorBaseFragment).refreshData()
+
+                }
+
+            }
+
 
         }
     }
@@ -45,14 +108,21 @@ class ModeratorActivity : BaseActivity(), NavigationBarView.OnItemSelectedListen
 
     override fun onStart() {
         super.onStart()
-        val intentFilter = IntentFilter(ACTION_NOTIFICATION_BROADCAST)
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, intentFilter)
+        try {
+            val intentFilter = IntentFilter(ACTION_NOTIFICATION_BROADCAST)
+            LocalBroadcastManager.getInstance(this).registerReceiver(receiver, intentFilter)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun onStop() {
         super.onStop()
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
-
+        try {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,13 +133,46 @@ class ModeratorActivity : BaseActivity(), NavigationBarView.OnItemSelectedListen
         viewModel.getApiResponse().observe(this, this)
         initUi()
 
+
         intent.let {
             if (it.hasExtra("notificationBundle")) {
                 val notifyBundle = it.getBundleExtra("notificationBundle")
+                viewModel.notificationId = notifyBundle?.getString("NotificationId")?.toInt() ?: 0
+                viewModel.patchNotification()
+                handleNotification(notifyBundle)
 
             }
         }
 
+
+    }
+
+    fun handleNotification(bundle: Bundle?, fromList: Boolean = false, categoryCount: Int = 0) {
+        val type = bundle?.getString("type").toString()
+
+        when (type) {
+            NotificationType.MODERATOR_REQUEST_APPROVED -> {
+                if (navController?.currentDestination?.id == R.id.fragment_mode_my_categories) {
+                    (getCurrentFragment() as ModeMyCategories).refreshData()
+                }
+                if (navController?.currentDestination?.id == R.id.notificationFragment) {
+                    (getCurrentFragment() as NotificationFragment).refreshData()
+                }
+            }
+            NotificationType.AS_MODERATOR_BLOCKED -> {
+                val type1 = bundle?.get("notification_Payload").toString()
+                showLog("onMessageReceived: {ima", "" + type1)
+                accountBlockedPopup(type1, categoryCount)
+            }
+            NotificationType.COURSE_REVIEW_REQUEST -> {
+                setSelected(R.id.action_home)
+            }
+            else -> {
+                if (navController?.currentDestination?.id == R.id.moderatorBaseFragment) {
+                    (getCurrentFragment() as ModeratorBaseFragment).refreshData()
+                }
+            }
+        }
 
     }
 
@@ -82,6 +185,8 @@ class ModeratorActivity : BaseActivity(), NavigationBarView.OnItemSelectedListen
         setDestinationChangeListener()
         setBottomBar()
         setSelected(R.id.action_home)
+        viewModel.viewProfile()
+
     }
 
     private fun setBottomBar() {
@@ -108,8 +213,7 @@ class ModeratorActivity : BaseActivity(), NavigationBarView.OnItemSelectedListen
                 R.id.quizBaseFragment,
                 R.id.privacyFragment
             )
-            val showCrossIcon =
-                arrayListOf(R.id.homeCategoriesFragment)
+            val showCrossIcon = arrayListOf(R.id.homeCategoriesFragment)
             val subTitleArray = arrayListOf(R.id.popularFragment)
             val secondaryBgColor = arrayListOf(R.id.paymentDetailsFragment)
             when {
@@ -136,9 +240,7 @@ class ModeratorActivity : BaseActivity(), NavigationBarView.OnItemSelectedListen
                     val title =
                         if (args?.containsKey("title") == true) args.getString("title") else destination.label.toString()
                     setToolbar(
-                        title = title,
-                        showToolbar = true,
-                        subTitle = subtitle
+                        title = title, showToolbar = true, subTitle = subtitle
                     )
                 }
                 else -> {
@@ -146,12 +248,9 @@ class ModeratorActivity : BaseActivity(), NavigationBarView.OnItemSelectedListen
                 }
             }
 
-            val bottomBarArray =
-                arrayListOf(
-                    R.id.settingsFragment,
-                    R.id.moderatorBaseFragment,
-                    R.id.myCourseTabFragment
-                )
+            val bottomBarArray = arrayListOf(
+                R.id.settingsFragment, R.id.moderatorBaseFragment, R.id.myCourseTabFragment
+            )
             bottomBarVisibility(bottomBarArray.contains(destination.id))
             if (bottomBarArray.contains(destination.id)) {
 
@@ -213,8 +312,7 @@ class ModeratorActivity : BaseActivity(), NavigationBarView.OnItemSelectedListen
 
             binding.toolbar.setBackgroundColor(
                 ContextCompat.getColor(
-                    this,
-                    getAttrColor(toolbarColor ?: R.attr.toolbarColor)
+                    this, getAttrColor(toolbarColor ?: R.attr.toolbarColor)
                 )
             )
         } catch (e: UninitializedPropertyAccessException) {
@@ -224,8 +322,7 @@ class ModeratorActivity : BaseActivity(), NavigationBarView.OnItemSelectedListen
         supportActionBar?.setDisplayHomeAsUpEnabled(showBackIcon)
         if (showBackIcon) {
             binding.toolbar.setContentInsetsRelative(
-                0,
-                resources.getDimensionPixelOffset(R.dimen._15sdp)
+                0, resources.getDimensionPixelOffset(R.dimen._15sdp)
             )
 
         } else {
@@ -253,17 +350,29 @@ class ModeratorActivity : BaseActivity(), NavigationBarView.OnItemSelectedListen
         val bottomArray = listOf(R.id.settingsFragment)
         when {
             destArrayList.contains(navController?.currentDestination?.id) -> {
-                finishAffinity()
+                if (doubleBackToExitPressedOnce) {
+                    finishAffinity()
+                    return
+                }
+
+                this.doubleBackToExitPressedOnce = true
+                showToastShort(getString(R.string.press_again_to_exit))
+                Handler(Looper.getMainLooper()).postDelayed(Runnable {
+                    doubleBackToExitPressedOnce = false
+                }, 2000)
+
             }
             bottomArray.contains(navController?.currentDestination?.id) -> {
                 setSelected(R.id.action_home)
             }
+            navController?.currentDestination?.id == R.id.profileThumbFragment -> {
+                setSelected(R.id.action_home)
+
+            }
             navController?.currentDestination?.id == R.id.preferencesFragment -> {
                 (getCurrentFragment() as PreferencesFragment).onClickBack()
             }
-            navController?.currentDestination?.id == R.id.addCourseBaseFragment -> {
-                (getCurrentFragment() as AddCourseBaseFragment).onClickBack()
-            }
+
             else -> {
                 navController?.popBackStack()
             }
@@ -278,14 +387,14 @@ class ModeratorActivity : BaseActivity(), NavigationBarView.OnItemSelectedListen
         when (item.itemId) {
             R.id.action_more -> {
 
-                navController?.navigate(R.id.setting_graph)
+                navController?.navigateTo(R.id.setting_graph)
                 return true
 
             }
 
             R.id.action_home -> {
 
-                navController?.navigate(R.id.moderatorBaseFragment)
+                navController?.navigateTo(R.id.moderatorBaseFragment)
 
             }
 
@@ -306,10 +415,31 @@ class ModeratorActivity : BaseActivity(), NavigationBarView.OnItemSelectedListen
                 val type = value as Pair<String, Int>
                 when (type.second) {
                     CoAuthorStatus.ACCEPT -> {
-                        navController?.navigate(
-                            R.id.addCourseBaseFragment,
-                            bundleOf("courseId" to type.first.toInt())
+                        navController?.navigateTo(
+                            R.id.addCourseBaseFragment, bundleOf("courseId" to type.first.toInt())
                         )
+                    }
+                }
+            }
+
+            ApiEndPoints.API_SWITCH_TO_MOD -> {
+                (value as BaseResponse<UserProfile>).let {
+                    if (viewModel.userProfile?.currentMode == MODTYPE.LEARNER /*&& it.resource?.roles?.get(
+                            1)?.id == 3*/) {
+                        goToModeratorActivity()
+                    } else if (viewModel.userProfile?.currentMode == MODTYPE.MODERATOR) {
+                        goToHomeActivity()
+                    }
+                }
+
+            }
+            ApiEndPoints.API_VIEW_PROFILE -> {
+                FirebaseMessaging.getInstance().subscribeToTopic("uat_all_loggedin") //for UAT
+//                    FirebaseMessaging.getInstance().subscribeToTopic("production_all_loggedin") //for Production
+                viewModel.getUserData().apply {
+                    viewModel.userProfile?.roles?.forEach {
+                        Log.d("varun", "onReceive: ${it.topicName}")
+                        FirebaseMessaging.getInstance().subscribeToTopic(it.topicName.toString())
                     }
                 }
             }
@@ -319,5 +449,31 @@ class ModeratorActivity : BaseActivity(), NavigationBarView.OnItemSelectedListen
     override fun onApiRetry(apiCode: String) {
         super.onApiRetry(apiCode)
         viewModel.onApiRetry(apiCode)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        setBottomBar()
+
+    }
+
+    override fun updateTheme() {
+        super.updateTheme()
+        navController?.navigateTo(R.id.nav_profile_graph)
+
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.let {
+            if (it.hasExtra("notificationBundle")) {
+                val notifyBundle = it.getBundleExtra("notificationBundle")
+                handleNotification(notifyBundle)
+                viewModel.notificationId = notifyBundle?.getString("NotificationId")?.toInt() ?: 0
+                viewModel.patchNotification()
+
+            }
+        }
     }
 }

@@ -18,6 +18,9 @@ fun Context.openDatePickerDialog(
     setMaxDate: Boolean = false,
     setMaxYear: Int = 0,
     minYear: Calendar? = null,
+    maxDate: Calendar? = null,
+
+    skipCurrentDay: Boolean = false,
     onDateSelect: (calendar: Calendar) -> Unit
 ) {
     val calendar = if (setMinDate && minYear != null) minYear else Calendar.getInstance()
@@ -44,12 +47,24 @@ fun Context.openDatePickerDialog(
         }
     }
     if (setMaxDate) {
-        datePickerDialog.datePicker.maxDate = System.currentTimeMillis() - 1000
-        if (setMaxYear != 0) {
-            val cal = Calendar.getInstance()
-            cal.add(Calendar.YEAR, -setMaxYear)
-            datePickerDialog.datePicker.maxDate = cal.timeInMillis - 1000
+        if (maxDate != null) {
+            datePickerDialog.datePicker.maxDate = maxDate.timeInMillis
+        } else {
+            datePickerDialog.datePicker.maxDate = System.currentTimeMillis() - 1000
         }
+    }
+    if (setMaxDate) {
+        val cal = Calendar.getInstance()
+        if (skipCurrentDay) {
+            cal.add(Calendar.DATE, -1)
+        }
+        if (setMaxYear != 0) {
+
+            cal.add(Calendar.YEAR, -setMaxYear)
+
+
+        }
+        datePickerDialog.datePicker.maxDate = cal.timeInMillis - 1000
     }
 
     val headerId: Int =

@@ -36,5 +36,6 @@ interface AddCourseRepo {
     suspend fun publishCourse(data: HashMap<String, Any>): Flow<Resource>
     suspend fun getKeywords(data: HashMap<String, Any>): Flow<Resource>
     suspend fun updateCoAuthorStatus(map: HashMap<String, Any>): Flow<Resource>
-
+    suspend fun getCompleteCourse(map: HashMap<String, Any>): Flow<Resource>
+    suspend fun existsCoAuthor(courseId: Int): Flow<Resource>
 }

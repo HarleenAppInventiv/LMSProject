@@ -7,11 +7,14 @@ import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.data.network.ApiError
+import com.selflearningcoursecreationapp.data.network.HTTPCode
 import com.selflearningcoursecreationapp.extensions.gone
 import com.selflearningcoursecreationapp.extensions.loadImage
+import com.selflearningcoursecreationapp.extensions.navigateTo
 import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.MODSTATUS
+import com.selflearningcoursecreationapp.utils.isLessThan9
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -21,11 +24,18 @@ class RequestTrackerDashboardFragment :
     private val viewModel: RequestrackerVM by viewModel()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        callMenu()
         init()
     }
 
     override fun getLayoutRes(): Int {
         return R.layout.fragment_request_tracker_dashboard
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        init()
     }
 
     private fun init() {
@@ -37,10 +47,10 @@ class RequestTrackerDashboardFragment :
         viewModel.requestCount()
 
         binding.buttonBecomeModerator.setOnClickListener {
-            findNavController().navigate(R.id.action_requestTrackerDashboardFragment_to_becomeModeratorFragment)
+            findNavController().navigateTo(R.id.action_requestTrackerDashboardFragment_to_becomeModeratorFragment)
         }
         binding.cardViewAcceptedRequest.setOnClickListener {
-            findNavController().navigate(
+            findNavController().navigateTo(
                 R.id.action_requestTrackerDashboardFragment_to_AcceptedRequestFragment,
                 bundleOf(
                     "isRejected" to false,
@@ -49,7 +59,7 @@ class RequestTrackerDashboardFragment :
             )
         }
         binding.cardViewRejectedReq.setOnClickListener {
-            findNavController().navigate(
+            findNavController().navigateTo(
                 R.id.action_requestTrackerDashboardFragment_to_AcceptedRequestFragment,
                 bundleOf(
                     "isRejected" to true,
@@ -59,14 +69,14 @@ class RequestTrackerDashboardFragment :
         }
 
         binding.cardViewCoAuthor.setOnClickListener {
-            findNavController().navigate(
+            findNavController().navigateTo(
                 R.id.action_requestTrackerDashboardFragment_to_coAuthorRequestFragment,
                 bundleOf("coAuthorRequestId" to viewModel.requestCountLiveData.value?.coAuthorRequestId)
             )
         }
 
         binding.cardViewModeratorComments.setOnClickListener {
-            findNavController().navigate(
+            findNavController().navigateTo(
                 R.id.action_requestTrackerDashboardFragment_to_moderatorsCommentFragment,
                 bundleOf(
                     "modComment" to true,
@@ -76,7 +86,7 @@ class RequestTrackerDashboardFragment :
         }
 
         binding.cardViewRejectedCourses.setOnClickListener {
-            findNavController().navigate(
+            findNavController().navigateTo(
                 R.id.action_requestTrackerDashboardFragment_to_moderatorsCommentFragment,
                 bundleOf(
                     "modComment" to false,
@@ -86,21 +96,41 @@ class RequestTrackerDashboardFragment :
         }
 
         binding.cardViewSendRequest.setOnClickListener {
-            findNavController().navigate(
+            findNavController().navigateTo(
                 R.id.action_requestTrackerDashboardFragment_to_sentRequestFragment,
                 bundleOf("sentRequestId" to viewModel.requestCountLiveData.value?.sentRequestId)
+            )
+        }
+
+        binding.cardViewPaymentWithdrawls.setOnClickListener {
+            findNavController().navigateTo(
+                R.id.action_requestTrackerDashboardFragment_to_paymentWithdrawlsFragment
             )
         }
     }
 
     private fun observerRequestCountLiveData() {
         viewModel.requestCountLiveData.observe(viewLifecycleOwner) {
-            binding.textCoAuthorRequestCount.text = it.coAuthorRequestCount.toString()
-            binding.textAcceptedRequestCount.text = it.acceptedRequestCount.toString()
-            binding.textRejectedRequestCount.text = it.rejectedRequestCount.toString()
-            binding.textModCommentsCount.text = it.moderatorCommentsCount.toString()
-            binding.textRejectedCoursesCount.text = it.rejectedCoursesCount.toString()
-            binding.textSendRequestCount.text = it.sentRequestCount.toString()
+            binding.textCoAuthorRequestCount.text = isLessThan9(it.coAuthorRequestCount ?: 0)
+            binding.textAcceptedRequestCount.text = isLessThan9(it.acceptedRequestCount ?: 0)
+            binding.textRejectedRequestCount.text = isLessThan9(it.rejectedRequestCount ?: 0)
+            binding.textModCommentsCount.text = isLessThan9(it.moderatorCommentsCount)
+            binding.textRejectedCoursesCount.text = isLessThan9(it.rejectedCoursesCount ?: 0)
+            binding.textSendRequestCount.text = isLessThan9(it.sentRequestCount ?: 0)
+
+            binding.cardViewCoAuthor.contentDescription =
+                "${it.coAuthorRequestCount} Co-Author requests"
+            binding.cardViewSendRequest.contentDescription = "${it.sentRequestCount} Send requests"
+            binding.cardViewAcceptedRequest.contentDescription =
+                "${it.acceptedRequestCount} Accepted Request"
+            binding.cardViewRejectedReq.contentDescription =
+                "${it.rejectedRequestCount} rejected requests"
+            binding.cardViewModeratorComments.contentDescription =
+                "${it.moderatorCommentsCount} moderator comments"
+            binding.cardViewRejectedCourses.contentDescription =
+                "${it.rejectedCoursesCount} rejected courses"
+            binding.textPaymentWithdrawlsCount.text =
+                isLessThan9(it.paymentWithdrawRequestCount ?: 0)
         }
     }
 
@@ -109,7 +139,13 @@ class RequestTrackerDashboardFragment :
             binding.tvVerify.text = baseActivity.getString(R.string.verification)
             when (it) {
                 MODSTATUS.BLOCKED -> {
-                    binding.buttonBecomeModerator.visible()
+                    binding.ivRequestForm.loadImage(R.drawable.ic_correct_with_whitecircle)
+                    binding.ivRequestSent.loadImage(R.drawable.ic_correct_with_whitecircle)
+                    binding.ivVerify.loadImage(R.drawable.ic_rejected_account)
+                    binding.tvVerify.text = baseActivity.getString(R.string.account_blocked)
+                    binding.buttonBecomeModerator.gone()
+
+
                 }
                 MODSTATUS.ACCEPTED -> {
                     binding.ivRequestForm.loadImage(R.drawable.ic_correct_with_whitecircle)
@@ -121,6 +157,8 @@ class RequestTrackerDashboardFragment :
                 MODSTATUS.PENDING -> {
                     binding.ivRequestForm.loadImage(R.drawable.ic_correct_with_whitecircle)
                     binding.ivRequestSent.loadImage(R.drawable.ic_correct_with_whitecircle)
+                    binding.tvVerify.text = baseActivity.getString(R.string.under_verification)
+                    binding.ivVerify.loadImage(R.drawable.ic_verification_icon)
                     binding.buttonBecomeModerator.gone()
                 }
                 MODSTATUS.REJECTED -> {
@@ -129,6 +167,8 @@ class RequestTrackerDashboardFragment :
                     binding.ivVerify.loadImage(R.drawable.ic_rejected_request)
                     binding.tvVerify.text = baseActivity.getString(R.string.rejected)
                     binding.buttonBecomeModerator.visible()
+                    binding.buttonBecomeModerator.text =
+                        baseActivity.getString(R.string.request_again)
                 }
                 MODSTATUS.CANCELLED -> {
                     binding.ivRequestForm.loadImage(R.drawable.ic_request_form_icon)
@@ -156,10 +196,22 @@ class RequestTrackerDashboardFragment :
     override fun onException(isNetworkAvailable: Boolean, exception: ApiError, apiCode: String) {
         when (apiCode) {
             ApiEndPoints.API_MOD_STATUS -> {
-                if (exception.statusCode == 400) {
-                    hideLoading()
-                } else {
-                    super.onException(isNetworkAvailable, exception, apiCode)
+
+                when (exception.statusCode) {
+                    HTTPCode.UN_SUCESS -> {
+                        hideLoading()
+                        binding.ivRequestForm.loadImage(R.drawable.ic_request_form_icon)
+                        binding.ivRequestSent.loadImage(R.drawable.ic_request_sent_icon)
+                        binding.ivVerify.loadImage(R.drawable.ic_verification_icon)
+                        binding.buttonBecomeModerator.visible()
+                        binding.tvVerify.text = baseActivity.getString(R.string.verification)
+                    }
+                    HTTPCode.FORBIDDEN -> {
+                        hideLoading()
+                    }
+                    else -> {
+                        super.onException(isNetworkAvailable, exception, apiCode)
+                    }
                 }
             }
 
@@ -168,6 +220,12 @@ class RequestTrackerDashboardFragment :
     }
 
     override fun onApiRetry(apiCode: String) {
+
+    }
+
+    fun refreshData() {
+        viewModel.requestCount()
+        viewModel.modStatus()
 
     }
 

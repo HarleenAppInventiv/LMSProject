@@ -1,6 +1,5 @@
 package com.selflearningcoursecreationapp.ui.profile.edit_profile
 
-import android.graphics.Typeface
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
@@ -18,8 +17,7 @@ class AdapterSelectGender(private val list: ArrayList<GenderModel>) :
         super.onBindViewHolder(holder, position)
         binding.tvRemoveSection.apply {
             changeTextColor(if (list[position].isSelected) ThemeConstants.TYPE_THEME else ThemeConstants.TYPE_PRIMARY)
-            typeface =
-                if (list[position].isSelected) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
+            changeFontType(if (list[position].isSelected) ThemeConstants.FONT_MEDIUM else ThemeConstants.FONT_REGULAR)
             text = list[position].genderName
             setOnClickListener {
                 onItemClick(Constant.CLICK_VIEW, list[position])

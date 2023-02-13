@@ -20,6 +20,7 @@ import com.selflearningcoursecreationapp.ui.bottom_home.popular_courses.filter.S
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.CourseScreenType
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -34,6 +35,9 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
     var recyclerViewState: Parcelable? = null
     var otp = ""
 
+    init {
+        getUserData()
+    }
 
 // Restore state
 
@@ -44,6 +48,7 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
     var courseLiveData = MutableLiveData<ArrayList<CourseTypeModel>>().apply {
         value = arrayListOf()
     }
+
     var fromOther = false
     var isFirst = true
     var otherCourseLiveData = MutableLiveData<ArrayList<CourseData>>().apply {
@@ -68,6 +73,22 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
     }
 
 
+    fun patchNotification() = viewModelScope.launch(coroutineExceptionHandle) {
+
+//        val response = repo.patchNotification(
+//            notificationLiveData.value?.get(adapterPosition)?.notificationId ?: 0
+//        )
+//        withContext(Dispatchers.IO) {
+//            response.collect {
+////                if (it is Resource.Success<*>) {
+////                    notificationLiveData.value?.get(adapterPosition)?.isRead= true
+////                }
+//                updateResponseObserver(it)
+//            }
+//        }
+    }
+
+
     fun homeCourse() = viewModelScope.launch(coroutineExceptionHandle) {
 
         val response = repo.homeCourse(getFilterPayload())
@@ -82,6 +103,16 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
             }
         }
     }
+
+    fun getNotificationCount() = viewModelScope.launch(coroutineExceptionHandle) {
+        val response = repo.getNotificationCount()
+        withContext(Dispatchers.IO) {
+            response.collect {
+                updateResponseObserver(it)
+            }
+        }
+    }
+
 
     fun getCourses() {
         if (SelfLearningApplication.token.isNullOrEmpty()) {
@@ -149,6 +180,27 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
             val response = repo.addWishlist(map, false)
             withContext(Dispatchers.IO) {
                 response.collect {
+
+                    courseLiveData.value?.forEach { typeModel ->
+                        typeModel.courses?.forEach { course ->
+                            if (course.courseId == coursePair?.first) {
+                                course.bookmarkProgress = it is Resource.Loading
+                                course.notifyPropertyChanged(BR.bookmarkProgress)
+                                course.notifyChange()
+                            }
+                        }
+
+                    }
+                    otherCourseLiveData.value?.forEach { data ->
+                        if (data.courseId == coursePair?.first) {
+                            data.bookmarkProgress = it is Resource.Loading
+                            data.notifyPropertyChanged(BR.bookmarkProgress)
+                            data.notifyChange()
+                        }
+
+                    }
+
+
                     if (it is Resource.Success<*>) {
 //                        setWishlist(coursePair)
 
@@ -168,7 +220,6 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
 
 
     fun setWishlist(coursePair: Pair<Int?, Boolean>?) {
-        val courseDataList = courseLiveData.value
         courseLiveData.value?.let {
             it.forEach { courseTypeModel ->
                 courseTypeModel.courses?.forEach { data ->
@@ -189,6 +240,8 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
             it.forEach { data ->
                 if (data.courseId == coursePair?.first) {
                     data.courseWishlisted = if (coursePair?.second == true) 1 else 0
+                    data.notifyPropertyChanged(BR.courseWishlisted)
+                    data.notifyChange()
                 }
 
             }
@@ -197,7 +250,7 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
 
 //         courseLiveData.postValue(courseDataList)
 //         otherCourseLiveData.postValue(otherCourseLiveData.value)
-        wishlistLiveData.postValue(EventObserver(coursePair ?: Pair(0, false)))
+//        wishlistLiveData.postValue(EventObserver(coursePair ?: Pair(0, false)))
 
     }
 
@@ -217,6 +270,7 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
                 }
             }
         }
+
 
     fun purchaseCourse() =
         viewModelScope.launch(coroutineExceptionHandle) {
@@ -271,6 +325,7 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
 
         }
 
+    var stateId = ""
     fun buyRazorPayCourse() =
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
@@ -280,12 +335,14 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
                     map["courseId"] = it.courseId ?: 0
                     map["amount"] = it.courseFee ?: ""
                     map["currency"] = "INR"
+                    map["stateId"] = stateId
                 }
             } else {
                 courseLiveData.value?.get(adapterPosition)?.let {
                     map["courseId"] = it.courses?.get(childPosition)?.courseId ?: 0
                     map["amount"] = it.courses?.get(childPosition)?.courseFee ?: ""
                     map["currency"] = "INR"
+                    map["stateId"] = stateId
                 }
             }
 
@@ -306,8 +363,6 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
 
     fun getOtherCourses() {
         if (currentPage < totalPage) {
-
-
             val filterPayload = getFilterPayload(true)
             viewModelScope.launch(coroutineExceptionHandle) {
                 val response =
@@ -321,7 +376,13 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
                         if (it is Resource.Success<*>) {
                             isFirst = false
                             (it.value as BaseResponse<AllCoursesResponse>).resource?.let { resource ->
-                                totalPage = resource.resultCount ?: 2
+                                val totalPage =
+                                    (resource?.totalCount ?: 0) / (resource?.pageSize ?: 8)
+                                val remCount =
+                                    (resource?.totalCount ?: 0) % (resource?.pageSize ?: 8)
+                                this@HomeVM.totalPage =
+                                    totalPage + (if (remCount > 0) 1 else 0)
+//                                totalPage = resource.resultCount ?: 2
                                 val list = otherCourseLiveData.value ?: ArrayList()
                                 if (resource.currentPage == 1) {
                                     list.clear()
@@ -331,7 +392,7 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
                                 list.addAll(resource.coursesList ?: ArrayList())
                                 otherCourseLiveData.postValue(list)
                             }
-
+                            delay(500)
                         }
                         updateResponseObserver(it)
 
@@ -345,14 +406,20 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
     override fun onApiRetry(apiCode: String) {
         when (apiCode) {
             ApiEndPoints.API_HOME_COURSES -> {
-                homeCourse()
+                callCombinedApis()
             }
 
             ApiEndPoints.API_HOME_GUESTCOURSES -> {
-                guestHomeCourse()
+                callCombinedApis()
             }
             ApiEndPoints.API_HOME_TAB_CATE -> {
-                homeCategories()
+                callCombinedApis()
+            }
+            ApiEndPoints.API_ALL_COURSES -> {
+                callCombinedApis()
+            }
+            ApiEndPoints.API_GUEST_ALL_COURSES -> {
+                callCombinedApis()
             }
             ApiEndPoints.API_HOME_WISHLIST + "/false" -> {
                 addWishlist()
@@ -370,8 +437,6 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
 
     private fun getFilterPayload(fromAll: Boolean = false): JSONObject {
         return try {
-
-
             val map = JSONObject()
             if (!searchLiveData.value.isNullOrEmpty()) {
                 map.put("generalSearchField", searchLiveData.value ?: "")
@@ -397,7 +462,7 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
                 val catObj = JSONObject()
                 catObj.put("fieldName", "CategorytypeId")
                 catObj.put("fieldValue", valArray)
-                catObj.put("operatorType", 3)
+                catObj.put("operatorType", if (valArray.length() > 1) 3 else 1)
                 filterArray.put(
                     catObj
                 )
@@ -407,10 +472,15 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
             if (filterArray.length() != 0) {
                 map.put("searchFields", filterArray)
             }
+
             if (fromAll) {
                 map.put("pageNumber", currentPage)
+//                if (SelfLearningApplication.token.isNullOrEmpty()){
+//
+//                }
                 map.put("courseType", CourseScreenType.ALL_COURSES)
             }
+
             map
         } catch (e: Exception) {
             e.printStackTrace()
@@ -430,17 +500,17 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
 
     fun callCombinedApis() {
         viewModelScope.launch(coroutineExceptionHandle) {
-            updateResponseObserver(Resource.Loading())
+            updateResponseObserver(Resource.Loading(apiCode = ApiEndPoints.HOME_SUCCESS))
             val otherCourses =
-                if (SelfLearningApplication.token.isNullOrEmpty()) repo.getGuestOtherCourses(
-                    getFilterPayload(true)
-                ) else repo.getOtherCourses(
+                if (SelfLearningApplication.token.isNullOrEmpty())
+                    repo.getGuestOtherCourses(
+                        getFilterPayload(true)
+                    ) else repo.getOtherCourses(
                     getFilterPayload(true)
                 )
 
             val mainCourses = if (SelfLearningApplication.token.isNullOrEmpty()) {
                 repo.guestHomeCourse(getFilterPayload())
-
             } else {
                 repo.homeCourse(getFilterPayload())
             }
@@ -449,20 +519,16 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
             val category = repo.homeCategories()
 
             combine(category, otherCourses, mainCourses) { t1, t2, t3 ->
-
                 val list = ArrayList<Resource>()
                 list.add(t1)// category
                 list.add(t2)// other courses
                 list.add(t3)// main courses
-
                 list
             }.collect { list ->
 
                 var successCount = 0
                 var failureCount = 0
                 list.forEachIndexed { index, resource ->
-
-
                     if (resource is Resource.Success<*>) {
                         successCount += 1
                         when (index) {
@@ -478,6 +544,10 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
                         }
                     } else if (resource is Resource.Failure) {
                         failureCount += 1
+                        updateResponseObserver(resource)
+                        return@collect
+                    } else if (resource is Resource.Retry) {
+                        updateResponseObserver(resource)
                     }
                 }
 
@@ -492,6 +562,8 @@ class HomeVM(private val repo: HomeRepo, private var apiService: ApiService) : B
     private fun handleMainCoursesResponse(response: Resource.Success<*>) {
         isFirst = false
         val resource = (response.value as BaseResponse<ArrayList<CourseTypeModel>>).resource
+
+        resource?.removeAll { it.courses.isNullOrEmpty() }
         courseLiveData.postValue(resource)
 
     }

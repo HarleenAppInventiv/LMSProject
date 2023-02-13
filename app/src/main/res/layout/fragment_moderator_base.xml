@@ -13,7 +13,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/screen_background">
+        android:background="?attr/screenBackgroundColor">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -37,7 +37,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="@dimen/_95sdp"
+                    android:minHeight="@dimen/_100sdp"
                     android:orientation="vertical"
                     android:scaleType="centerCrop"
                     app:layout_collapseMode="parallax"
@@ -54,19 +54,32 @@
                         android:drawablePadding="@dimen/_10sdp"
                         android:gravity="center_vertical"
                         android:hint="@string/search_courses"
-                        android:imeOptions="actionDone"
+                        android:imeOptions="actionSearch"
                         android:maxLines="1"
                         android:padding="10dp"
                         android:singleLine="true"
                         android:textColor="?attr/whiteTextColor"
                         android:textSize="@dimen/_11sdp"
+                        android:textColorHint="?attr/blackTextColor"
+                        app:layout_constraintVertical_bias="0"
                         app:drawableStartCompat="@drawable/ic_home_search"
                         app:fontType="regular"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:textColorType="black"
                         app:primaryIconTint="end" />
 
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                        android:id="@+id/img_cross"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_10sdp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@+id/et_search"
+                        app:layout_constraintEnd_toEndOf="@+id/et_search"
+                        app:layout_constraintTop_toTopOf="@+id/et_search"
+                        app:srcCompat="@drawable/ic_cross_grey" />
 
                     <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                         android:id="@+id/img_mic"
@@ -89,6 +102,7 @@
                     android:layout_height="wrap_content"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/AppTheme"
+                    android:paddingBottom="@dimen/_10sdp"
                     app:title="My Toolbar">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -106,12 +120,12 @@
                             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                             android:padding="@dimen/_2sdp"
 
-                            android:scaleType="fitXY"
+                            android:scaleType="centerCrop"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:shapeAppearanceOverlay="@style/circle"
-                            app:srcCompat="@drawable/ic_course_dummy" />
+                            app:srcCompat="@drawable/ic_default_user_grey" />
 
                         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                             android:id="@+id/tv_hi"
@@ -119,13 +133,12 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:text="@string/hey"
-                            android:textColor="?attr/whiteTextColor"
                             android:textSize="@dimen/textField_12"
                             app:fontType="medium"
                             app:layout_constraintBottom_toTopOf="@+id/tv_user_name"
                             app:layout_constraintStart_toEndOf="@+id/iv_user_image"
                             app:layout_constraintTop_toTopOf="@+id/iv_user_image"
-                            app:textColorType="none" />
+                            app:textColorType="white" />
 
                         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                             android:id="@+id/tv_user_name"
@@ -136,16 +149,13 @@
                             android:ellipsize="end"
                             android:onClickListener="@{(v)->handleClick.onHandleClick(v)}"
                             android:singleLine="true"
-                            android:text="Amanda"
-                            android:textColor="?attr/whiteTextColor"
-                            android:textSize="@dimen/titleUserName_17"
-
+                            android:textSize="@dimen/textField_15"
                             app:fontType="bold"
                             app:layout_constraintBottom_toBottomOf="@+id/iv_user_image"
                             app:layout_constraintEnd_toStartOf="@+id/iv_talkback"
                             app:layout_constraintStart_toEndOf="@+id/iv_user_image"
                             app:layout_constraintTop_toBottomOf="@+id/tv_hi"
-                            app:textColorType="none" />
+                            app:textColorType="white" />
 
 
                         <androidx.appcompat.widget.AppCompatImageView
@@ -159,6 +169,20 @@
                             app:layout_constraintBottom_toBottomOf="@+id/iv_user_image"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/iv_user_image" />
+
+                        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                            android:id="@+id/tv_notification_count"
+                            android:layout_width="@dimen/_12sdp"
+                            android:layout_height="@dimen/_12sdp"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:background="@drawable/notification_count_indicator"
+                            android:gravity="center"
+                            android:textSize="@dimen/_6sdp"
+                            android:visibility="gone"
+                            app:layout_constraintEnd_toEndOf="@+id/iv_notification"
+                            app:layout_constraintTop_toTopOf="@+id/iv_notification"
+                            app:textColorType="white" />
+
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/iv_notification"
@@ -180,7 +204,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/screen_background"
+                android:background="?attr/screenBackgroundColor"
                 android:elevation="@dimen/_4sdp"
                 app:layout_collapseMode="pin">
 
@@ -195,7 +219,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:tabBackground="?attr/screenBackgroundColor"
                     app:tabIndicatorHeight="@dimen/_2sdp"
-                    app:tabMode="fixed"
+                    android:overScrollMode="never"
+                    app:tabMode="auto"
                     app:tabSelectedTextColor="?attr/headingTextColor"
                     app:tabTextAppearance="@style/MyTabTextAppearance"
                     app:tabTextColor="?attr/hintColor" />
@@ -212,41 +237,52 @@
                     app:layout_constraintTop_toTopOf="@+id/tabLayout"
                     app:srcCompat="@drawable/ic_filter_blue_bg" />
 
+                <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                    android:id="@+id/iv_red"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_2sdp"
+
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@+id/filter"
+                    app:layout_constraintTop_toTopOf="@+id/filter"
+                    app:srcCompat="@drawable/ic_circle_red" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/swipeRefresh"
+        <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+        <!--            android:id="@+id/swipeRefresh"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+
+        <!--            <androidx.core.widget.NestedScrollView-->
+        <!--                android:id="@+id/nestedScroll"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:fillViewport="true">-->
+
+
+        <!--                <LinearLayout-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="match_parent"-->
+        <!--                    android:orientation="vertical">-->
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_moderator_home"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <androidx.core.widget.NestedScrollView
-                android:id="@+id/nestedScroll"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+        <!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
+        <!--                </LinearLayout>-->
 
-                    <androidx.viewpager2.widget.ViewPager2
-                        android:id="@+id/vp_moderator_home"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-
-                    <!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-                </LinearLayout>
-
-            </androidx.core.widget.NestedScrollView>
-            <!--        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <!--            </androidx.core.widget.NestedScrollView>-->
+        <!--        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+        <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
     <!--    <androidx.constraintlayout.widget.ConstraintLayout-->

@@ -1,8 +1,10 @@
 package com.selflearningcoursecreationapp.utils
 
+import android.media.AudioManager
 import android.speech.tts.TextToSpeech
-import android.util.Log
+import androidx.core.os.bundleOf
 import com.selflearningcoursecreationapp.di.getAppContext
+import com.selflearningcoursecreationapp.extensions.showLog
 import java.util.*
 
 class SpeechUtils : TextToSpeech.OnInitListener {
@@ -10,11 +12,12 @@ class SpeechUtils : TextToSpeech.OnInitListener {
 
     init {
 
-        tts = TextToSpeech(getAppContext(), this)
+        tts = TextToSpeech(getAppContext(), this, "com.google.android.tts")
     }
 
     override fun onInit(p0: Int) {
-        Log.d("main", "")
+        showLog("TTS", "initialized >> $p0")
+
     }
 
     fun changeLanguage(locale: Locale) {
@@ -22,7 +25,8 @@ class SpeechUtils : TextToSpeech.OnInitListener {
     }
 
     fun speakToUser(txt: String) {
-        tts?.speak(txt, TextToSpeech.QUEUE_FLUSH, null)
+        val bundle = bundleOf(TextToSpeech.Engine.KEY_PARAM_STREAM to AudioManager.STREAM_MUSIC);
+        tts?.speak(txt, TextToSpeech.QUEUE_FLUSH, bundle, null)
 
     }
 

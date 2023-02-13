@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/videoBaseFragment"
         android:name="com.selflearningcoursecreationapp.ui.course_details.video.VideoBaseFragment"
-        android:label="VideoBaseFragment" />
+        android:label="Lesson" />
     <fragment
         android:id="@+id/quizReportFragment"
         android:name="com.selflearningcoursecreationapp.ui.course_details.quiz.QuizReportFragment"
@@ -32,15 +32,22 @@
         <action
             android:id="@+id/action_courseDetailsFragment_to_popularFragment"
             app:destination="@id/popularFragment" />
-        <action
-            android:id="@+id/action_courseDetailsFragment_to_videoBaseFragment"
-            app:destination="@id/videoBaseFragment" />
+        <!--        <action-->
+        <!--            android:id="@+id/action_courseDetailsFragment_to_videoBaseFragment"-->
+        <!--            app:destination="@id/videoBaseFragment" />-->
         <action
             android:id="@+id/action_courseDetailsFragment_to_quizReportFragment"
             app:destination="@id/quizReportFragment" />
         <action
             android:id="@+id/action_courseDetailsFragment_to_pdfReaderFragment"
             app:destination="@id/pdfReaderFragment" />
+        <action
+            android:id="@+id/action_courseDetailsFragment_to_authorDetailsFragment"
+            app:destination="@id/authorDetailsFragment" />
+        <action
+            android:id="@+id/action_courseDetailsFragment_to_contentCreatorAssessmentFragment"
+            app:destination="@id/contentCreatorAssessmentFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/quizBaseFragment"
@@ -50,9 +57,39 @@
             android:id="@+id/action_quizBaseFragment_to_quizReportFragment"
             app:destination="@id/quizReportFragment"
             app:popUpTo="@id/courseDetailsFragment" />
+
     </fragment>
+
+    <fragment
+        android:id="@+id/authorDetailsFragment"
+        android:name="com.selflearningcoursecreationapp.ui.course_details.AuthorDetailsFragment"
+        android:label=""
+        tools:layout="@layout/fragment_author_details" />
     <fragment
         android:id="@+id/pdfReaderFragment"
-        android:name="com.selflearningcoursecreationapp.ui.course_details.doc.PdfReaderFragment"
+        android:name="com.selflearningcoursecreationapp.ui.course_details.doc.PdfViewerFragment"
         android:label="Document" />
+
+    <!--    <dialog-->
+    <!--        android:id="@+id/quizNextPrev"-->
+    <!--        android:name="com.selflearningcoursecreationapp.ui.course_details.quiz.NextPrevQuizBottomSheet"-->
+    <!--        android:label="Quiz" />-->
+
+
+    <action
+        android:id="@+id/action_global_courseDetailsFragment"
+        app:destination="@id/courseDetailsFragment" />
+    <fragment
+        android:id="@+id/contentCreatorAssessmentFragment"
+        android:name="com.selflearningcoursecreationapp.ui.content_creator.course_detail.assessment.ContentCreatorAssessmentFragment"
+        android:label="" />
+    <!--    <action-->
+    <!--        android:id="@+id/action_global_quizNextPrev"-->
+    <!--        app:destination="@id/quizNextPrev" />-->
+
+    <action
+        android:id="@+id/action_global_contentCreatorAssessmentFragment2"
+        app:destination="@id/contentCreatorAssessmentFragment" />
+
+
 </navigation>

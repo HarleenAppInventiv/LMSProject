@@ -7,9 +7,9 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class AssessmentReportData(
-    @SerializedName("assessmentId")
+    @SerializedName("assessmentId", alternate = ["quizId"])
     var assessmentId: Int? = null,
-    @SerializedName("assessmentPassed")
+    @SerializedName("assessmentPassed", alternate = ["quizPassed"])
     var assessmentPassed: Boolean? = null,
     @SerializedName("attemptedBy")
     var attemptedBy: Int? = null,

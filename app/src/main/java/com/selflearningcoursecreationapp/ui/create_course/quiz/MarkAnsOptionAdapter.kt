@@ -6,6 +6,7 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterAnsOptionsBinding
+import com.selflearningcoursecreationapp.extensions.content
 import com.selflearningcoursecreationapp.extensions.getAttrColor
 import com.selflearningcoursecreationapp.extensions.getCharString
 import com.selflearningcoursecreationapp.models.course.quiz.QuizOptionData
@@ -44,8 +45,9 @@ class MarkAnsOptionAdapter(private var list: ArrayList<QuizOptionData>) :
         }
 
 
+        binding.tvTitle.contentDescription =
+            "Double Click to mark ${binding.tvTitle.content()} as correct answer"
         binding.root.setOnClickListener {
-
             onItemClick(Constant.CLICK_VIEW, position)
         }
     }

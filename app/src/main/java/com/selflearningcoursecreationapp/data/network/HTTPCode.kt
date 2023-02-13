@@ -13,10 +13,16 @@ object HTTPCode {
     const val SERVER_ERROR = 500  // Please try again
     const val TOKEN_EXPIRED = 401  // Token expired refresh token needed to be generated
     const val UPDATE_SUCCESS = 202  // Success
+    const val NO_CONTENT = 204  // Success
     const val NOT_FOUND = 404
     const val UN_SUCESS = 400
-    const val NETWORK_ISSUE = 403
     const val FORBIDDEN = 403
+    const val CO_AUTHOR_ACCESS_DENIED = 406
+    const val USER_NOT_FOUND = 410
+    const val COURSE_HAS_ENROLLED_USERS = 412
+    const val CREATOR_HAS_PENDING_BALANCE = 417
+    const val CONTENT_DELETED = 423
     const val DATA_MISSING_VALIDATION = 424
+    const val NO_MODERATOR_AVAILABLE = 428
     const val CONFLICT = 409
 }

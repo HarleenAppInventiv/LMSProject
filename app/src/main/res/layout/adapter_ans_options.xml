@@ -29,7 +29,6 @@
             android:gravity="center"
             tools:text="A"
             android:textAlignment="center"
-            android:textColor="@color/white"
             android:textSize="@dimen/textField_14"
 
             app:layout_constraintBottom_toBottomOf="@+id/iv_bg"

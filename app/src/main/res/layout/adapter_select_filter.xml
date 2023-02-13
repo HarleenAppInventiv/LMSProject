@@ -20,6 +20,7 @@
             android:textColor="@color/radioTextColor"
             app:compoundFont="medium"
             app:compoundTextColor="none"
+            android:textSize="@dimen/textField_12"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

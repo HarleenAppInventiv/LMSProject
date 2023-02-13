@@ -10,6 +10,8 @@ import androidx.paging.LoadState
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentAcceptedRequestBinding
+import com.selflearningcoursecreationapp.extensions.navigateTo
+import com.selflearningcoursecreationapp.ui.course_details.ratings.model.GetReviewsRequestModel
 import com.selflearningcoursecreationapp.ui.profile.requestTracker.RequestrackerVM
 import com.selflearningcoursecreationapp.utils.ModeratorDashboard
 import kotlinx.coroutines.launch
@@ -20,20 +22,21 @@ class AcceptedRequestFragment : BaseFragment<FragmentAcceptedRequestBinding>() {
     private val viewModel: RequestrackerVM by viewModel()
     private val adapter by lazy {
         AcceptedRequestsAdapter(viewModel) { type, data, _ ->
-            findNavController().navigate(
-                R.id.action_global_addCourseBaseFragment,
-                bundleOf("courseId" to data.courseId)
-            )
-
+            if (!viewModel.isRejected) {
+                findNavController().navigateTo(
+                    R.id.action_global_addCourseBaseFragment,
+                    bundleOf("courseId" to data.courseId)
+                )
+            }
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
+        callMenu()
 
     }
-
     override fun getLayoutRes(): Int {
         return R.layout.fragment_accepted_request
     }
@@ -44,27 +47,25 @@ class AcceptedRequestFragment : BaseFragment<FragmentAcceptedRequestBinding>() {
             viewModel.isRejected = it.getBoolean("isRejected")
         }
         baseActivity.setToolbar(
-            title = if (!viewModel.isRejected) getString(R.string.accept_request) else getString(
+            title = if (!viewModel.isRejected) getString(R.string.accepted_request) else getString(
                 R.string.rejectRequest
             )
         )
 
-        val hashMap = HashMap<String, Int>()
-        hashMap["PageNumber"] = 1
-        hashMap["PageSize"] = 20
+
+        val filterData = GetReviewsRequestModel()
+        filterData.pageSize = 20
+        filterData.pageNumber = 1
         if (!viewModel.isRejected) {
 
-            hashMap["RequestType"] = ModeratorDashboard.ACCEPTED_COUNT
+            filterData.RequestType = ModeratorDashboard.ACCEPTED_COUNT
         } else {
-            hashMap["RequestType"] = ModeratorDashboard.REJECTED_COUNT
+            filterData.RequestType = ModeratorDashboard.REJECTED_COUNT
 
         }
 
-
-
-
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getRequestResponse(hashMap).observe(viewLifecycleOwner) {
+            viewModel.getRequestResponse(filterData).observe(viewLifecycleOwner) {
                 adapter.submitData(lifecycle, it)
             }
 

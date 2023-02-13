@@ -24,8 +24,8 @@
     <!--            tools:context=".ui.bottom_home.categories.HomeCategoriesFragment">-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="?attr/secondaryScreenBgColor">
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
@@ -37,12 +37,28 @@
             android:drawableStart="@drawable/ic_grey_search"
             android:drawablePadding="@dimen/_10sdp"
             android:hint="@string/search_category_by_name"
+            android:imeOptions="actionSearch"
             android:padding="@dimen/_8sdp"
+            android:maxLines="1"
             android:textSize="@dimen/textField_14"
             app:fontType="regular"
+            android:paddingEnd="@dimen/_35sdp"
+            android:singleLine="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:id="@+id/img_cross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/et_search"
+            app:layout_constraintEnd_toEndOf="@+id/et_search"
+            app:layout_constraintTop_toTopOf="@+id/et_search"
+            app:srcCompat="@drawable/ic_cross_grey" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
             android:id="@+id/img_mic"
@@ -117,15 +133,17 @@
         <!--                    tools:listitem="@layout/adapter_select_category" />-->
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="0dp"
             android:id="@+id/rv_list"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/_10sdp"
-            app:layout_constraintStart_toStartOf="parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_search" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_search"
+            app:layout_constraintVertical_bias="0.0" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/noDataTV"

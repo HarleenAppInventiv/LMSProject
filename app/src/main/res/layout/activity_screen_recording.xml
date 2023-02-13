@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="Overdraw">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/iv_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/button_start"
+        android:background="@drawable/outline_screen_recording" />
+
+    <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+
+        android:layout_margin="@dimen/_30sdp"
+        android:src="@drawable/ic_recording_icon_camera" />
+
+
+    <Button
+        android:id="@+id/button_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/start_recording"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        tools:text="@string/start_recording" />
+
+
+</RelativeLayout>

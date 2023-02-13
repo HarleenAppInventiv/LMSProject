@@ -11,7 +11,8 @@ import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 
 class LanguageAdapter(
     private var list: ArrayList<CategoryData>,
-    private var isSingleSelection: Boolean = true
+    private var isSingleSelection: Boolean = true,
+    private var fromModFilter: Boolean = false
 ) :
     BaseAdapter<AdapterSelectLanguageBinding>() {
     override fun getLayoutRes(): Int {
@@ -31,9 +32,30 @@ class LanguageAdapter(
         binding.rbName.visibleView(isSingleSelection)
         binding.cbName.visibleView(!isSingleSelection)
 
-        binding.tvName.changeFontType(if (data.isSelected) ThemeConstants.FONT_SEMI_BOLD else ThemeConstants.FONT_REGULAR)
-        binding.rbName.setOnClickListener { onItemClick(Constant.CLICK_VIEW, position) }
-        binding.tvName.setOnClickListener { onItemClick(Constant.CLICK_VIEW, position) }
-        binding.cbName.setOnClickListener { onItemClick(Constant.CLICK_VIEW, position) }
+        if (!fromModFilter) {
+            binding.tvName.alpha = if (list[position].isFaded) 0.5f else 1f
+            binding.rbName.setEnabled(!list[position].isFaded)
+        } else {
+            binding.tvName.alpha = 1f
+            binding.rbName.setEnabled(true)
+        }
+
+        binding.tvName.changeFontType(if (data.isSelected && isSingleSelection) ThemeConstants.FONT_SEMI_BOLD else ThemeConstants.FONT_REGULAR)
+
+
+        binding.rbName.setOnClickListener {
+            onItemClick(Constant.CLICK_VIEW, position)
+        }
+        binding.tvName.setOnClickListener {
+            if (fromModFilter || !list[position].isFaded) {
+                onItemClick(Constant.CLICK_VIEW, position)
+            }
+
+        }
+        binding.cbName.setOnClickListener {
+            onItemClick(Constant.CLICK_VIEW, position)
+
+
+        }
     }
 }

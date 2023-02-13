@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.selflearningcoursecreationapp.base.BaseViewModel
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.data.network.ToastData
+import com.selflearningcoursecreationapp.extensions.showLog
 import com.selflearningcoursecreationapp.models.user.UserProfile
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -18,7 +18,7 @@ class EditProfileViewModel(private val repo: EditProfileRepo) : BaseViewModel() 
         getUserData()
         value = userProfile
         value?.professionId = value?.profession?.id?.toString() ?: ""
-        value?.genderId = value?.genderId.toString()
+        value?.genderId = value?.genderId
         value?.countryCode = value?.countryCode.toString()
     }
 
@@ -41,18 +41,23 @@ class EditProfileViewModel(private val repo: EditProfileRepo) : BaseViewModel() 
 
     fun update() =
         viewModelScope.launch(coroutineExceptionHandle) {
-            val map = HashMap<String, Any>()
+            val map = HashMap<String, Any?>()
             userData.value?.let {
-                map["name"] = it.name
-//            if (email != it.email.toString()) map["email"] = it.email
-                if (phone != it.number) map["phoneNumber"] =
-                    it.number
+                var city =
+                    if (it.stateId != null && it.cityId.isNullOrEmpty()) 0 else it.cityId ?: 0
+                showLog("stateId", "" + it.stateId)
+                showLog("cityId", "" + it.cityId)
+                showLog("city", "" + city)
+                map["name"] = it.name.trim()
+                if (email != it.email.toString()) map["email"] = it.email
+                if (phone != it.number) map["phoneNumber"] = it.number
                 map["dob"] = it.dob ?: ""
-                map["cityId"] = it.cityId ?: 0
+                map["cityId"] =
+                    if (it.stateId != null && it.cityId.isNullOrEmpty()) 0 else it.cityId ?: 0
                 map["stateId"] = it.stateId ?: 0
                 map["bio"] = it.bio ?: ""
                 map["professionId"] = it.professionId
-                map["genderId"] = it.genderId ?: 0
+                map["genderId"] = it.genderId
                 map["countryCode"] = selectedCountryCodeWithPlus
 
             }
@@ -76,8 +81,9 @@ class EditProfileViewModel(private val repo: EditProfileRepo) : BaseViewModel() 
     }
 
 
+    var stateId = 0
     fun getCityList() = viewModelScope.launch(coroutineExceptionHandle) {
-        val response = repo.cityList(userData.value?.stateId ?: 0)
+        val response = repo.cityList(stateId ?: 0)
         withContext(Dispatchers.IO) {
             response.collect {
                 updateResponseObserver(it)
@@ -90,12 +96,7 @@ class EditProfileViewModel(private val repo: EditProfileRepo) : BaseViewModel() 
             ApiEndPoints.API_UPDATE_PROFILE -> {
                 saveEditProfile()
             }
-            ApiEndPoints.API_GET_ALL_STATES -> {
-                getStateList()
-            }
-            ApiEndPoints.API_GET_ALL_CITY -> {
-                getCityList()
-            }
+
 
         }
     }

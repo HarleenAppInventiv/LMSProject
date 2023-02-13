@@ -1,13 +1,14 @@
 package com.selflearningcoursecreationapp.ui.splash
 
-import  android.util.Log
+import android.util.Log
+import com.selflearningcoursecreationapp.extensions.showLog
 import okhttp3.*
 import okio.ByteString
-import  java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeUnit
 
 object WebSocketManager {
     private val TAG = WebSocketManager::class.java.simpleName
-    private const val MAX_NUM = 150000  // Maximum number of reconnections
+    private const val MAX_NUM = 12  // Maximum number of reconnections
     private const val MILLIS = 5000  // Reconnection interval, milliseconds
     private lateinit var client: OkHttpClient
     private lateinit var request: Request
@@ -21,8 +22,11 @@ object WebSocketManager {
             .readTimeout(5, TimeUnit.SECONDS)
             .connectTimeout(10, TimeUnit.SECONDS)
             .build()
-        request = Request.Builder().url(url).build()
+        request = Request.Builder()
+            .url(url)
+            .build()
         messageListener = _messageListener
+
     }
 
     /**
@@ -70,7 +74,12 @@ object WebSocketManager {
      * @return boolean
      */
     fun sendMessage(text: String): Boolean {
-        return if (!isConnect()) false else mWebSocket.send(text)
+        return if (!isConnect()) {
+            false
+        } else {
+            showLog("WEB_SOCKET", "payload >> $text")
+            mWebSocket.send(text)
+        }
     }
 
     /**
@@ -158,8 +167,9 @@ object WebSocketManager {
                     "connect failed throwable：" + t.message
                 )
                 isConnect = false
+                close()
                 messageListener.onConnectFailed()
-                reconnect()
+//                reconnect()
             }
         }
     }
@@ -171,3 +181,6 @@ interface MessageListener {
     fun onClose() // close
     fun onMessage(text: String?)
 }
+
+data class ReviewsRequest(var CourseId: Int, var ReviewId: Int, var webSocketCallType: Int)
+data class VideoAudioProgress(var LectureId: Int, var Duration: Long, var SectionId: Int)

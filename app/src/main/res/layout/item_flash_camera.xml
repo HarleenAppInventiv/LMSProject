@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+        android:id="@+id/tvAuto"
+        android:layout_width="@dimen/_45sdp"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:background="@drawable/bg_rounded_red_solid"
+        android:gravity="center"
+        android:scaleType="center"
+        android:text="auto"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/adapterTextField_11"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:textColorType="white" />
+</layout>

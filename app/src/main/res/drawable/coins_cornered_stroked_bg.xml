@@ -3,8 +3,8 @@
 
     <stroke
         android:width="@dimen/_1sdp"
-        android:color="@color/coin_stroked_color" />
+        android:color="?attr/coinDrawableStrokeColor" />
     <corners android:radius="@dimen/_5sdp" />
-    <solid android:color="@color/white" />
+    <solid android:color="?attr/whiteTextColor" />
 
 </shape>

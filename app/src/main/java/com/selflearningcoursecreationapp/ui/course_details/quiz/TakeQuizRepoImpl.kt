@@ -16,10 +16,10 @@ import org.json.JSONObject
 import retrofit2.Response
 
 class TakeQuizRepoImpl(private var apiService: ApiService) : TakeQuizRepo {
-    override suspend fun getQuiz(quizId: Int): Flow<Resource> {
+    override suspend fun getQuiz(quizId: Int, courseId: Int): Flow<Resource> {
         return object : BaseRepo<BaseResponse<QuizData>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<QuizData>> {
-                return apiService.getQuizData(quizId)
+                return apiService.getQuizData(quizId, courseId)
             }
 
         }.safeApiCall(ApiEndPoints.API_COURSE_QUIZ).flowOn(Dispatchers.IO)
@@ -36,7 +36,7 @@ class TakeQuizRepoImpl(private var apiService: ApiService) : TakeQuizRepo {
 
     }
 
-    override suspend fun getAssessment(assessmentId: String): Flow<Resource> {
+    override suspend fun getAssessment(assessmentId: Int): Flow<Resource> {
         return object : BaseRepo<BaseResponse<QuizData>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<QuizData>> {
                 return apiService.assessmentList(assessmentId)
@@ -52,19 +52,28 @@ class TakeQuizRepoImpl(private var apiService: ApiService) : TakeQuizRepo {
         }.safeApiCall(ApiEndPoints.API_ASSESSMENT_SUBMIT).flowOn(Dispatchers.IO)
     }
 
-    override suspend fun assessmentReport(attemptId: String): Flow<Resource> {
+    override suspend fun assessmentReport(
+        attemptId: String,
+        courseId: Int,
+        isQuizReport: Boolean
+    ): Flow<Resource> {
         return object : BaseRepo<BaseResponse<AssessmentReportData>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<AssessmentReportData>> {
-                return apiService.assessmentReport(attemptId)
+                if (isQuizReport) return apiService.quizReport(attemptId, courseId)
+                else return apiService.assessmentReport(attemptId, courseId)
             }
         }.safeApiCall(ApiEndPoints.API_ASSESSMENT_REPORT).flowOn(Dispatchers.IO)
     }
 
 
-    override suspend fun assessmentReportStatus(map: HashMap<String, Any>): Flow<Resource> {
+    override suspend fun assessmentReportStatus(
+        map: HashMap<String, Any>,
+        isQuizReport: Boolean
+    ): Flow<Resource> {
         return object : BaseRepo<BaseResponse<QuizData>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<QuizData>> {
-                return apiService.assessmentReportStatus(map)
+                if (!isQuizReport) return apiService.assessmentReportStatus(map)
+                else return apiService.quizReportStatus(map)
             }
         }.safeApiCall(ApiEndPoints.API_ASSESSMENT_REPORT_STATUS).flowOn(Dispatchers.IO)
     }

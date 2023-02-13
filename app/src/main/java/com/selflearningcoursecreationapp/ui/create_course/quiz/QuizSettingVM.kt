@@ -39,4 +39,18 @@ class QuizSettingVM(private var repo: AddQuizRepo) : BaseViewModel() {
     override fun onApiRetry(apiCode: String) {
         saveSettings()
     }
+
+    fun getQuizQuestions(quizId: Int?) {
+        viewModelScope.launch(coroutineExceptionHandle) {
+            val response =
+                repo.getQuizQues(quizId ?: 0)
+
+            withContext(Dispatchers.IO) {
+                response.collect {
+
+                    updateResponseObserver(it)
+                }
+            }
+        }
+    }
 }

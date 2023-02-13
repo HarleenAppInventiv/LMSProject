@@ -22,7 +22,7 @@ class HomeCategoryAdapter(private var list: ArrayList<CategoryData>) :
             .placeHolder(R.drawable.ic_all_courses)
             .setImageUrl(list[position]?.imageUrl)
             .blurhash(list[position].courseLogoBlurHash)
-            .primaryTint(true)
+//            .primaryTint(true)
             .loadImage()
 //        binding.ivImg.loadImage(list[position].imageUrl, R.drawable.ic_all_courses)
         binding.tvTitle.text = list[position].name ?: list[position].codeId?.let {

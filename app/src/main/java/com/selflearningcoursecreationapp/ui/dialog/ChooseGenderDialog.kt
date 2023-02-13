@@ -30,9 +30,9 @@ class ChooseGenderDialog : BaseBottomSheetDialog<BottomDialogCourceCateBinding>(
             }
 
         }
-        list.add(GenderModel(1, "Male", selectedId == 1))
-        list.add(GenderModel(2, "Female", selectedId == 2))
-        list.add(GenderModel(3, "Other", selectedId == 3))
+        list.add(GenderModel(1, getString(R.string.male), selectedId == 1))
+        list.add(GenderModel(2, getString(R.string.female), selectedId == 2))
+        list.add(GenderModel(3, getString(R.string.other), selectedId == 3))
 
         binding.etSearch.gone()
         binding.tvTitle.text = getString(R.string.gender)

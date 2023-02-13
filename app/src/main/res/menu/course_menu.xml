@@ -4,6 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_download"
+        android:contentDescription="@string/download_lesson_for_offline_mode"
+        android:icon="@drawable/ic_download_black"
+        android:title="@string/download"
+        android:visible="false"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_read"
         android:icon="@drawable/ic_screen_reading_mode"
         android:title="@string/read_aloud"

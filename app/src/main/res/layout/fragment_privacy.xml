@@ -46,6 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_35sdp"
+            android:contentDescription="@string/back_button"
             android:drawablePadding="@dimen/_5sdp"
             android:lineSpacingExtra="6sp"
             android:onClickListener="@{(v)->privacy.onHandleClick(v)}"
@@ -62,10 +63,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_15sdp"
 
-            android:importantForAccessibility="no"
+            android:contentDescription="Talkback button"
             app:layout_constraintBottom_toBottomOf="@+id/img_back"
             app:layout_constraintEnd_toEndOf="parent"
-
             app:layout_constraintTop_toTopOf="@+id/img_back"
             app:srcCompat="@drawable/ic_screen_reading_mode_white" />
 

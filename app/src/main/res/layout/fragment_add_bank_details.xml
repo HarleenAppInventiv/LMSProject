@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="bankAccount"
+            type="com.selflearningcoursecreationapp.ui.my_bank.BankAccountVM" />
+
+        <import
+            alias="const"
+            type="com.selflearningcoursecreationapp.utils.ValidationConst" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/levelBgColor">
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/label_email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/email_id"
+                android:textSize="@dimen/textField_14"
+                app:fontType="semiBold"
+                app:layout_constraintStart_toStartOf="@+id/guide_line_start"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textColorType="heading" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/et_email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/ic_bg_search_home"
+                android:drawablePadding="@dimen/_18sdp"
+                android:hint="@string/enter_your_email"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:maxLength="@{const.MAX_EMAIL_LENGTH}"
+                android:singleLine="true"
+                android:text="@={bankAccount.bankDetailsLiveData.email}"
+                android:textSize="@dimen/editTextField_14"
+                app:fontType="regular"
+                app:layout_constraintEnd_toEndOf="@+id/guide_line_end"
+                app:layout_constraintStart_toStartOf="@+id/guide_line_start"
+                app:layout_constraintTop_toBottomOf="@+id/label_email" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_contact"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:text="@string/contact"
+                android:textSize="@dimen/textField_14"
+                app:fontType="semiBold"
+                app:layout_constraintStart_toStartOf="@+id/guide_line_start"
+                app:layout_constraintTop_toBottomOf="@+id/et_email"
+                app:textColorType="heading" />
+
+            <LinearLayout
+                android:id="@+id/ll_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/ic_bg_search_home"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+                app:layout_constraintStart_toStartOf="@id/guide_line_start"
+                app:layout_constraintTop_toBottomOf="@+id/tv_contact">
+
+
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/country_code_picker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:textSize="@dimen/editTextField_14"
+                    android:visibility="visible"
+                    app:ccpDialog_backgroundColor="?attr/viewBackgroundColor"
+                    app:ccp_clickable="false"
+                    app:ccp_defaultNameCode="IN"
+                    app:ccp_showArrow="false"
+                    app:ccp_showFlag="false"
+                    app:ccp_showNameCode="false"
+                    app:ccp_textSize="@dimen/textField_14" />
+
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                    android:id="@+id/edt_reg_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_bg_search_home"
+                    android:hint="@string/enter_phone_num"
+                    android:imeOptions="actionNext"
+                    android:inputType="phone"
+                    android:maxLength="@{const.MAX_NO_LENGTH}"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_16sdp"
+                    android:singleLine="true"
+                    android:text="@={bankAccount.bankDetailsLiveData.number}"
+                    android:textSize="@dimen/editTextField_14"
+                    app:fontType="regular" />
+
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view19"
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/_12sdp"
+                android:layout_marginStart="@dimen/_32sdp"
+                android:background="?attr/radioUnselectedColor"
+                android:importantForAccessibility="no"
+                app:layout_constraintBottom_toBottomOf="@+id/ll_phone"
+                app:layout_constraintStart_toStartOf="@+id/ll_phone"
+                app:layout_constraintTop_toTopOf="@+id/ll_phone" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_bank_detail_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:text="@string/bank_account_name"
+                android:textSize="@dimen/textField_14"
+                app:fontType="semiBold"
+                app:layout_constraintStart_toStartOf="@+id/guide_line_start"
+                app:layout_constraintTop_toBottomOf="@+id/ll_phone"
+                app:textColorType="heading" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/edt_enter_your_bank_account_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/ic_bg_search_home"
+                android:hint="@string/enter_your_bank_account_name"
+                android:imeOptions="actionNext"
+                android:maxLength="@{const.MAX_BANK_ACCOUNT_NAME}"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_16sdp"
+                android:singleLine="true"
+                android:text="@={bankAccount.bankDetailsLiveData.bankName}"
+                android:textSize="@dimen/editTextField_14"
+                app:fontType="regular"
+                app:layout_constraintEnd_toEndOf="@+id/guide_line_end"
+                app:layout_constraintStart_toStartOf="@id/guide_line_start"
+                app:layout_constraintTop_toBottomOf="@+id/tv_bank_detail_name" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_account_number"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:text="@string/account_number"
+                android:textSize="@dimen/textField_14"
+                app:fontType="semiBold"
+                app:layout_constraintStart_toStartOf="@+id/guide_line_start"
+                app:layout_constraintTop_toBottomOf="@+id/edt_enter_your_bank_account_name"
+                app:textColorType="heading" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/edt_account_number"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/ic_bg_search_home"
+                android:digits="1234567890"
+                android:hint="@string/enter_account_number"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                android:maxLength="@{const.MAX_BANK_ACCOUNT_NUM_LEN}"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_16sdp"
+                android:singleLine="true"
+                android:text="@={bankAccount.bankDetailsLiveData.accountNumber}"
+                android:textSize="@dimen/editTextField_14"
+                app:fontType="regular"
+                app:layout_constraintEnd_toEndOf="@+id/guide_line_end"
+                app:layout_constraintStart_toStartOf="@id/guide_line_start"
+                app:layout_constraintTop_toBottomOf="@+id/tv_account_number" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_confirm_account_number"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:text="@string/confirm_account_number"
+                android:textSize="@dimen/textField_14"
+                app:fontType="semiBold"
+                app:layout_constraintStart_toStartOf="@+id/guide_line_start"
+                app:layout_constraintTop_toBottomOf="@+id/edt_account_number"
+                app:textColorType="heading" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/edt_confirm_account_number"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/ic_bg_search_home"
+                android:digits="1234567890"
+                android:hint="@string/confirm_account_number"
+                android:imeOptions="actionNext"
+                android:inputType="numberPassword"
+                android:maxLength="@{const.MAX_BANK_ACCOUNT_NUM_LEN}"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_16sdp"
+                android:singleLine="true"
+                android:text="@={bankAccount.bankDetailsLiveData.confirmAccountNumber}"
+                android:textSize="@dimen/editTextField_14"
+                app:fontType="regular"
+                app:layout_constraintEnd_toEndOf="@+id/guide_line_end"
+                app:layout_constraintStart_toStartOf="@id/guide_line_start"
+                app:layout_constraintTop_toBottomOf="@+id/tv_confirm_account_number" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_ifsc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:text="@string/ifsc_code"
+                android:textSize="@dimen/textField_14"
+                app:fontType="semiBold"
+                app:layout_constraintStart_toStartOf="@+id/guide_line_start"
+                app:layout_constraintTop_toBottomOf="@+id/edt_confirm_account_number"
+                app:textColorType="heading" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
+                android:id="@+id/edt_ifsc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/ic_bg_search_home"
+                android:hint="@string/enter_ifsc"
+                android:imeOptions="actionDone"
+                android:maxLength="@{const.MIN_IFSC_LENGTH}"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_16sdp"
+                android:singleLine="true"
+                android:text="@={bankAccount.bankDetailsLiveData.ifscCode}"
+                android:textSize="@dimen/editTextField_14"
+                app:fontType="regular"
+                app:layout_constraintEnd_toEndOf="@+id/guide_line_end"
+                app:layout_constraintStart_toStartOf="@id/guide_line_start"
+                app:layout_constraintTop_toBottomOf="@+id/tv_ifsc" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSCheckBox
+                android:id="@+id/rb_checked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:checked="@={bankAccount.isPrimaryChecked()}"
+                android:text="@string/set_as_primary_card"
+                app:compoundFont="bold"
+                app:layout_constraintStart_toStartOf="@+id/guide_line_start"
+                app:layout_constraintTop_toBottomOf="@+id/edt_ifsc" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+                android:id="@+id/btn_sign_up"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:capitalize="none"
+                android:enabled="@{bankAccount.bankDetailsLiveData.bankDetailsDataEntered}"
+                android:onClick="@{()->bankAccount.bankDetailsValidation()}"
+                android:text="@string/save_card"
+                android:textSize="@dimen/materialButton_14"
+                app:btnEnabled="@{bankAccount.bankDetailsLiveData.bankDetailsDataEntered}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rb_checked"
+                app:layout_constraintWidth_percent=".9"
+                app:textAllCaps="false" />
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide_line_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/_16sdp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide_line_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/_16sdp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

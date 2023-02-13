@@ -1,8 +1,6 @@
 package com.selflearningcoursecreationapp.ui.bottom_more.cards
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.widget.Toast
 import androidx.core.os.bundleOf
@@ -26,12 +24,8 @@ class CardsFragment : BaseFragment<FragmentCardsBinding>(), HandleClick, BaseAda
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        callMenu()
         initUi()
-        setHasOptionsMenu(true)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.course_menu, menu)
     }
 
 
@@ -76,7 +70,11 @@ class CardsFragment : BaseFragment<FragmentCardsBinding>(), HandleClick, BaseAda
                     cardDetailsBottomSheet.show(childFragmentManager, "card details")
                 }
                 Constant.CLICK_DELETE -> {
-                    Toast.makeText(requireContext(), "delete${position}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        baseActivity,
+                        getString(R.string.delete) + "${position}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -88,14 +86,22 @@ class CardsFragment : BaseFragment<FragmentCardsBinding>(), HandleClick, BaseAda
             val position = items[1] as Int
             when (type) {
                 Constant.CLICK_ADD -> {
-                    Toast.makeText(requireContext(), "Add${position}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        baseActivity,
+                        getString(R.string.add) + "${position}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 Constant.CLICK_EDIT -> {
-                    Toast.makeText(requireContext(), "Edit${position}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        baseActivity,
+                        getString(R.string.edit) + "${position}",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
                 }
                 else -> {
-                    Toast.makeText(requireContext(), "fsfdsfs", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(baseActivity, "fsfdsfs", Toast.LENGTH_SHORT).show()
 
                 }
             }

@@ -5,6 +5,7 @@ import androidx.annotation.MainThread
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.selflearningcoursecreationapp.data.network.ApiError
+import com.selflearningcoursecreationapp.data.network.HTTPCode
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.utils.isInternetAvailable
 import kotlinx.coroutines.flow.FlowCollector
@@ -29,6 +30,13 @@ abstract class BaseRepo<REQUEST> {
                 val response = fetchDataFromRemoteSource()
                 val data = response.body()
                 when {
+                    response.code() == HTTPCode.NO_CONTENT -> {
+                        val error = ApiError()
+                        error.statusCode = response.code()
+
+                        emit(Resource.Failure(false, apiCode, error))
+
+                    }
                     response.isSuccessful -> {
                         handleSuccessResponse(data, apiCode, response)
 
@@ -47,14 +55,10 @@ abstract class BaseRepo<REQUEST> {
                 }
             } catch (e: Exception) {
                 val error = handleException(e)
-
-//               emit(Resource.Failure(false, apiCode, error))
                 emit(Resource.Retry(false, apiCode, error))
 
             }
         } else {
-//            emit(Resource.Retry(false, apiCode))
-//            emit(Resource.Failure(true, apiCode, setApiError(false) ?: ApiError()))
             emit(Resource.Retry(true, apiCode, setApiError(false) ?: ApiError()))
         }
     }

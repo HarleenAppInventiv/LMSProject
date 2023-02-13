@@ -1,11 +1,11 @@
 package com.selflearningcoursecreationapp.ui.course_details.ratings
 
 import android.view.View
+import android.widget.RatingBar.OnRatingBarChangeListener
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.base.BaseResponse
 import com.selflearningcoursecreationapp.databinding.BottomDialogRateCourseBinding
-import com.selflearningcoursecreationapp.extensions.content
 import com.selflearningcoursecreationapp.extensions.loadImage
 import com.selflearningcoursecreationapp.extensions.setLimitedName
 import com.selflearningcoursecreationapp.models.course.CourseData
@@ -36,19 +36,55 @@ class RateCourseDialog : BaseBottomSheetDialog<BottomDialogRateCourseBinding>(),
                     courseData.courseBannerUrl,
                     R.drawable.ic_home_default_banner, 3
                 )
+//                binding.tvProgress.text = (courseData.percentageCompleted).toString() + "% " + context?.getString(R.string.completed)
+
+                binding.tvProgress.text =
+                    if ((courseData.percentageCompleted
+                            ?: 0.0) > 0 && (courseData.percentageCompleted
+                            ?: 0.0) < 1
+                    ) {
+                        (courseData.percentageCompleted).toString() + "% " + context?.getString(R.string.completed)
+
+                    } else {
+                        (courseData.percentageCompleted)?.toInt()
+                            .toString() + "% " + context?.getString(R.string.completed)
+
+                    }
+                binding.pbProgress.apply {
+
+                    max = 100
+                    progress = if ((courseData.percentageCompleted
+                            ?: 0.0) > 0 && (courseData.percentageCompleted ?: 0.0) < 1
+                    ) 1
+                    else
+                        courseData.percentageCompleted?.toInt() ?: 0
+
+                }
+            }
+
+            binding.rating.onRatingBarChangeListener = OnRatingBarChangeListener { _, rating, _ ->
+                binding.rating.contentDescription = "$rating star out of 5 star"
             }
         }
 
 
+        binding.pbProgress.setOnTouchListener { _, _ ->
+            return@setOnTouchListener true
+        }
+
         binding.evEnterDescription.setOnTouchListener(this)
         binding.btnSubmit.setOnClickListener {
             if (binding.rating.rating == 0f) {
-                showToastShort("Please provide rating")
-            } else if (binding.evEnterDescription.content().isEmpty()) {
-                showToastShort("Please provide review.")
+                showToastShort(getString(R.string.please_provide_rating))
+            }
+//
+//            else if (binding.evEnterDescription.content().isEmpty()) {
+//                showToastShort(getString(R.string.please_provide_review))
 
 
-            } else {
+//            }
+
+            else {
                 viewModel.addReviewRequest.rating = binding.rating.rating.toInt()
                 viewModel.addReviewRequest.courseId = viewModel.courseId
                 viewModel.addReviewRequest.description = binding.evEnterDescription.text.toString()
@@ -64,9 +100,7 @@ class RateCourseDialog : BaseBottomSheetDialog<BottomDialogRateCourseBinding>(),
 
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
         super.onResponseSuccess(value, apiCode)
-        (value as BaseResponse<Any>)?.let {
-            showToastShort(it.message)
-        }
+        showToastShort((value as BaseResponse<Any>).message)
         onDialogClick(DialogType.RATE_COURSE)
         dismiss()
     }

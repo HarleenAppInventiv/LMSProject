@@ -26,7 +26,7 @@
                 android:layout_margin="@dimen/_8sdp"
                 android:contentDescription="@string/course_image"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_course_dummy"
+                android:src="@drawable/ic_default_banner"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +39,6 @@
                 android:drawablePadding="@dimen/_5sdp"
                 android:paddingHorizontal="@dimen/_5sdp"
                 android:paddingVertical="@dimen/_2sdp"
-                android:text="4.8"
                 android:textSize="@dimen/adapterTextField_10"
                 app:layout_constraintStart_toStartOf="@+id/iv_preview"
                 app:layout_constraintTop_toTopOf="@+id/iv_preview" />
@@ -50,7 +49,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:text="UX and Web Design Course"
                 app:fontType="semiBold"
                 android:textSize="@dimen/adapterTF_14"
                 app:layout_constraintEnd_toStartOf="@+id/iv_more"
@@ -75,7 +73,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
-                android:text="1,11,121 Students"
                 android:textSize="@dimen/adapterTextField_10"
                 app:fontType="medium"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +90,6 @@
                 android:background="?attr/coinDrawableStrokeBgColor"
                 android:paddingHorizontal="@dimen/_8sdp"
                 android:paddingVertical="@dimen/_4sdp"
-                android:text="Pending"
                 android:textSize="@dimen/adapterTextField_10"
                 app:fontType="medium"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -119,7 +115,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:text="Revenue: ₹2000"
                 android:textSize="@dimen/adapterTextField_12"
                 app:fontType="semiBold"
                 app:layout_constraintStart_toStartOf="@+id/tv_name"

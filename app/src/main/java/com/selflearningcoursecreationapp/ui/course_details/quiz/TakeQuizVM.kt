@@ -10,6 +10,8 @@ import com.selflearningcoursecreationapp.data.network.ToastData
 import com.selflearningcoursecreationapp.extensions.showException
 import com.selflearningcoursecreationapp.models.AssessmentReportData
 import com.selflearningcoursecreationapp.models.course.quiz.QuizData
+import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.ChildModel
+import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.QUIZ
@@ -21,27 +23,51 @@ import org.json.JSONObject
 
 class TakeQuizVM(private var repo: TakeQuizRepo) : BaseViewModel() {
     var quizId: Int = 0
-    var courseId: String = ""
+    var courseId: Int = 0
+    var isQuizReport: Boolean = false
     var type: Int = 0
     var currentPos = 0
     var endTime: Long? = null
     var timerValue: Long? = null
     var attemptId: String = ""
     var quizData = MutableLiveData<QuizData?>()
+    var innerPosition = 0
+    var position = 0
 
     var assessmentReportLiveData = MutableLiveData<AssessmentReportData>().apply {
         value = AssessmentReportData()
+
+
     }
 
-    override fun onApiRetry(apiCode: String) {
+    var lectureId: Int = 0
+    var modType: Int = 0
+    var sectionId: Int = 0
+    var duration: Int = 0
+    var mediaType: Int = 0
 
+
+    var lessonList = ArrayList<ChildModel?>()
+    var sectionList = ArrayList<SectionModel?>()
+
+    override fun onApiRetry(apiCode: String) {
+        when (apiCode) {
+            ApiEndPoints.API_ASSESSMENT_REPORT_STATUS -> {
+                getAssessmentReportStatus()
+            }
+            ApiEndPoints.API_ASSESSMENT_REPORT -> {
+                getAssessmentReport()
+            }
+        }
     }
 
     fun getQuizQues() {
         viewModelScope.launch(coroutineExceptionHandle) {
             val response =
-                if (type == Constant.CLICK_ASSESSMENT) repo.getAssessment(courseId)
-                else repo.getQuiz(quizId)
+                if (type == Constant.CLICK_ASSESSMENT || type == Constant.CLICK_ASSESSMENT_REVIEW) repo.getAssessment(
+                    courseId
+                )
+                else repo.getQuiz(quizId, courseId.toInt())
 
             withContext(Dispatchers.IO) {
                 response.collect {
@@ -96,7 +122,7 @@ class TakeQuizVM(private var repo: TakeQuizRepo) : BaseViewModel() {
                 }
             }
             jsonObject.put("questions", quesArray)
-            if (type == Constant.CLICK_ASSESSMENT) jsonObject.put(
+            jsonObject.put(
                 "duration",
                 quizData.value?.totalAssessmentTime?.toDouble()
                     ?.minus(timerValue?.toDouble() ?: 0.0)
@@ -174,7 +200,7 @@ class TakeQuizVM(private var repo: TakeQuizRepo) : BaseViewModel() {
 
     fun getAssessmentReport() {
         viewModelScope.launch(coroutineExceptionHandle) {
-            val response = repo.assessmentReport(attemptId)
+            val response = repo.assessmentReport(attemptId, courseId, isQuizReport)
 
             withContext(Dispatchers.IO) {
                 response.collect {
@@ -191,15 +217,20 @@ class TakeQuizVM(private var repo: TakeQuizRepo) : BaseViewModel() {
 
     }
 
-    fun getAssessmentReportStatus(status: Boolean, assessmentId: String) {
+    var status = false
+    var assessmentId = ""
+    fun getAssessmentReportStatus() {
         viewModelScope.launch(coroutineExceptionHandle) {
 
             val map = HashMap<String, Any>()
             map["CourseId"] = courseId
             map["AttemptedId"] = attemptId
-            map["AssessmentId"] = assessmentId
+
             map["MarkedAnswerCorrect"] = status
-            val response = repo.assessmentReportStatus(map)
+
+            if (!isQuizReport)
+                map["AssessmentId"] = assessmentId
+            val response = repo.assessmentReportStatus(map, isQuizReport)
 
             withContext(Dispatchers.IO) {
                 response.collect {

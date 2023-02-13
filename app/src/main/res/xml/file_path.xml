@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
+
+
     <!--    <cache-path-->
     <!--        name="cache"-->
     <!--        path="." />-->
@@ -13,9 +15,22 @@
     <!--        name="external_file"-->
     <!--        path="." />-->
 
+    <!--    <external-path-->
+    <!--        name="external_files"-->
+    <!--        path="." />-->
+    <files-path
+        name="internal_files"
+        path="." />
+    <cache-path
+        name="cache_files"
+        path="." />
     <external-path
         name="external_files"
         path="." />
+    <files-path
+        name="camera_photos"
+        path="." />
+
     <!--    <external-path name="Download" path="Download/"/>-->
     <!--    <external-path name="Documents" path="Documents/"/>-->
 </paths>

@@ -13,6 +13,7 @@ import com.google.android.material.button.MaterialButton
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.SelfLearningApplication
 import com.selflearningcoursecreationapp.extensions.getAttrColor
+import com.selflearningcoursecreationapp.extensions.getAttrResource
 
 
 class LMSMaterialButton : MaterialButton {
@@ -20,6 +21,7 @@ class LMSMaterialButton : MaterialButton {
     private var mAttrs: AttributeSet? = null
     private var mDefStyle: Int? = null
     private var buttonType = ThemeConstants.TYPE_PRIMARY
+
     constructor(context: Context) : super(context) {
         initView(context)
     }
@@ -45,7 +47,7 @@ class LMSMaterialButton : MaterialButton {
 
         val themeAttrs = context.obtainStyledAttributes(
             attrs, R.styleable.LMSMaterialButton,
-            defStyle!!, 0
+            defStyle ?: 0, 0
         )
 
 
@@ -86,7 +88,7 @@ class LMSMaterialButton : MaterialButton {
     }
 
     @SuppressLint("RestrictedApi")
-    private fun changeBtnBackground(backgroundType: Int) {
+    fun changeBtnBackground(backgroundType: Int) {
 
         buttonType = backgroundType
         val tintColor = ThemeUtils.getBtnTintColor(context)
@@ -120,16 +122,30 @@ class LMSMaterialButton : MaterialButton {
                     strokeWidth = context.resources.getDimensionPixelOffset(R.dimen._1sdp)
                 }
                 ThemeConstants.TYPE_TINT -> {
-                    colors[0] = tintColor
+                    colors[0] = ThemeUtils.getLightestColor(ThemeUtils.getAppColor(context))
 
                 }
                 ThemeConstants.TYPE_BACKGROUND_TINT -> {
-                    colors[0] = tintColor
+                    colors[0] = ThemeUtils.getLightestColor(ThemeUtils.getAppColor(context))
                     strokeArray[0] = primaryColor
 
                     strokeColor = ColorStateList(states, strokeArray)
                     strokeWidth = context.resources.getDimensionPixelOffset(R.dimen._1sdp)
 
+                }
+                ThemeConstants.TYPE_ACCEPT -> {
+                    if (!ThemeUtils.isViOn()) {
+                        colors[0] = context.getAttrResource(R.attr.accentColor_Green)
+                    }
+                }
+                ThemeConstants.TYPE_REJECT -> {
+                    if (!ThemeUtils.isViOn()) {
+                        colors[0] = context.getAttrResource(R.attr.accentColor_Red)
+                    } else {
+                        colors[0] = ContextCompat.getColor(context, R.color.white)
+                        strokeColor = ColorStateList(states, strokeArray)
+                        strokeWidth = context.resources.getDimensionPixelOffset(R.dimen._1sdp)
+                    }
                 }
 
             }
@@ -170,7 +186,7 @@ class LMSMaterialButton : MaterialButton {
         )
     }
 
-    private fun changeTextColor(textColorType: Int) {
+    fun changeTextColor(textColorType: Int) {
         if (textColorType != ThemeConstants.TYPE_NONE) {
             val colorValue = when (textColorType) {
 
@@ -183,6 +199,16 @@ class LMSMaterialButton : MaterialButton {
                 }
                 ThemeConstants.TYPE_BODY -> {
                     ContextCompat.getColor(context, context.getAttrColor(R.attr.bodyTextColor))
+                }
+                ThemeConstants.TYPE_REJECT -> {
+                    if (ThemeUtils.isViOn()) {
+                        ThemeUtils.getAppColor(context)
+                    } else {
+                        ContextCompat.getColor(
+                            context,
+                            context.getAttrColor(R.attr.buttonTextColor)
+                        )
+                    }
                 }
 
                 else -> {
@@ -220,7 +246,7 @@ class LMSMaterialButton : MaterialButton {
         }
     }
 
-    fun setBtnDisabled(enabled: Boolean, typeSecondary: Boolean = false) {
+    fun setBtnDisabled(enabled: Boolean) {
 
         var buttonData = Pair(ThemeConstants.TYPE_PRIMARY, ThemeConstants.TYPE_PRIMARY)
         if (mAttrs != null && mDefStyle != null) {

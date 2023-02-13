@@ -16,14 +16,13 @@ class AdapterFilterUIAdapter(
         val binding = holder.binding as AdapterSelectFilterBinding
         val context = binding.root.context
         binding.rbName.isChecked = filterOptionData[position].isSelected
-        if (isFromFilter) {
-            binding.rbName.text =
-                filterOptionData[position].filterOptionDisplayName + "(${filterOptionData[position].filterOptionCount})"
+//        if (isFromFilter){
+//            binding.rbName.text = filterOptionData[position].filterOptionDisplayName+"(${filterOptionData[position].filterOptionCount})"
+//
+//        }else{
+        binding.rbName.text = filterOptionData[position].filterOptionDisplayName
 
-        } else {
-            binding.rbName.text = filterOptionData[position].filterOptionDisplayName
-
-        }
+//        }
         binding.rbName.setOnClickListener {
             filterOptionData.forEach {
                 it.isSelected = false

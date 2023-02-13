@@ -15,8 +15,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:id="@+id/clParent"
+        android:background="?attr/secondaryScreenBgColor"
         android:layout_height="match_parent"
-        android:background="?attr/off_whiteTextColor">
+        android:keepScreenOn="true">
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -71,7 +73,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_5sdp"
-                android:backgroundTint="@color/white"
                 android:contentDescription="@string/add_section"
                 android:letterSpacing="0.02"
                 android:padding="@dimen/_12sdp"
@@ -85,10 +86,7 @@
                 app:buttonFont="semiBold"
                 app:icon="@drawable/ic_add"
                 app:iconGravity="textStart"
-                app:iconPadding="@dimen/_10sdp"
-                app:iconTint="?attr/colorPrimary"
-                app:strokeColor="?attr/buttonBackgroundTintColor"
-                app:strokeWidth="@dimen/_1sdp" />
+                app:iconPadding="@dimen/_10sdp" />
         </LinearLayout>
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
@@ -105,6 +103,7 @@
             android:visibility="@{addSectionLecture.courseData.sectionDataAdded ? View.VISIBLE: View.GONE }"
             app:icon="@drawable/ic_add"
             app:iconGravity="textStart"
+            android:contentDescription="@string/add_section"
             app:iconPadding="0dp"
             app:layout_constraintHorizontal_bias="1"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -112,5 +111,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_sections"
             app:layout_constraintVertical_bias="1" />
+
+
+        <View
+            android:id="@+id/disableView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clickable="true"
+            android:contentDescription="@string/add_section"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

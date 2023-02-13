@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-<import type="android.view.View" />
+      <import type="android.view.View" />
 
         <variable
             name="handleClick"
@@ -18,8 +18,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/screenBackgroundColor"
-        tools:context=".ui.create_course.add_courses_steps.AddCourseBaseFragment">
+        android:background="?attr/screenBackgroundColor">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_header"
@@ -44,7 +43,6 @@
                 android:paddingBottom="@dimen/_2sdp"
                 android:text="@string/_1"
                 android:textAlignment="center"
-                android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp"
                 app:fontType="semiBold"
                 app:layout_constraintEnd_toStartOf="@+id/tv_second"
@@ -53,7 +51,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:textBgColor="theme"
                 app:textBgMode="tint"
-                app:textColorType="none" />
+                app:textColorType="white" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                 android:id="@+id/iv_first"
@@ -79,7 +77,6 @@
                 android:paddingBottom="@dimen/_2sdp"
                 android:text="@string/_2"
                 android:textAlignment="center"
-                android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp"
                 app:fontType="semiBold"
                 app:layout_constraintEnd_toStartOf="@+id/tv_third"
@@ -87,7 +84,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:textBgColor="grey_body"
                 app:textBgMode="tint"
-                app:textColorType="none" />
+                app:textColorType="white" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                 android:id="@+id/iv_second"
@@ -113,7 +110,6 @@
                 android:paddingBottom="@dimen/_2sdp"
                 android:text="@string/_3"
                 android:textAlignment="center"
-                android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp"
                 app:fontType="semiBold"
                 app:layout_constraintEnd_toStartOf="@+id/tv_fourth"
@@ -122,7 +118,7 @@
                 app:textBgColor="grey_body"
 
                 app:textBgMode="tint"
-                app:textColorType="none" />
+                app:textColorType="white" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                 android:id="@+id/iv_third"
@@ -148,7 +144,6 @@
                 android:paddingBottom="@dimen/_2sdp"
                 android:text="@string/_4"
                 android:textAlignment="center"
-                android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp"
                 app:fontType="semiBold"
                 app:layout_constraintEnd_toStartOf="@+id/tv_fifth"
@@ -156,7 +151,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:textBgColor="grey_body"
                 app:textBgMode="tint"
-                app:textColorType="none" />
+                app:textColorType="white" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                 android:id="@+id/iv_fourth"
@@ -183,7 +178,6 @@
                 android:paddingBottom="@dimen/_2sdp"
                 android:text="@string/_5"
                 android:textAlignment="center"
-                android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp"
                 app:fontType="semiBold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -191,7 +185,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:textBgColor="grey_body"
                 app:textBgMode="tint"
-                app:textColorType="none" />
+                app:textColorType="white" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                 android:id="@+id/iv_fifth"

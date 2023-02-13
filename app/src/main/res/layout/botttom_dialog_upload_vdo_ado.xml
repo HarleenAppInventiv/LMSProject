@@ -106,9 +106,7 @@
                     android:drawableStart="@drawable/ic_info_small"
                     android:drawablePadding="@dimen/_5sdp"
                     android:gravity="center_horizontal"
-                    android:maxLines="2"
 
-                    android:singleLine="false"
                     android:text="@string/video_length_limit_text"
                     android:textAlignment="textStart"
                     android:textSize="@dimen/textField_11"
@@ -126,8 +124,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:backgroundTint="@color/white"
-                    android:contentDescription="@string/add_section"
+                    android:backgroundTint="?attr/whiteTextColor"
+                    android:contentDescription="@string/take_from_camera"
                     android:onClick="@{(v)->clickHandler.onHandleClick(v)}"
                     android:padding="@dimen/_8sdp"
                     android:text="@string/camera"
@@ -158,8 +156,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:backgroundTint="@color/white"
-                    android:contentDescription="@string/add_section"
+                    android:backgroundTint="?attr/whiteTextColor"
+                    android:contentDescription="@string/take_from_file_manager"
                     android:onClick="@{(v)->clickHandler.onHandleClick(v)}"
                     android:padding="@dimen/_8sdp"
                     android:paddingVertical="@dimen/_8sdp"
@@ -189,7 +187,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_0.5dp"
                     android:layout_marginTop="@dimen/_20sdp"
-                    android:background="@color/off_white_f5f5f5"
+                    android:background="?attr/lineColor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/tv_video_desc"
                     app:layout_constraintTop_toBottomOf="@+id/btn_camera" />
@@ -232,7 +230,6 @@
                     android:drawableStart="@drawable/ic_info_small"
                     android:drawablePadding="@dimen/_4sdp"
                     android:gravity="center_horizontal"
-                    android:maxLines="2"
                     android:singleLine="false"
                     android:text="@string/audio_length_limit_text"
                     android:textAlignment="textStart"
@@ -253,7 +250,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="?attr/whiteTextColor"
                     android:onClick="@{(v)->clickHandler.onHandleClick(v)}"
                     android:padding="@dimen/_8sdp"
                     android:text="@string/recording"
@@ -285,7 +282,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="?attr/whiteTextColor"
 
                     android:onClick="@{(v)->clickHandler.onHandleClick(v)}"
                     android:padding="@dimen/_8sdp"
@@ -302,6 +299,7 @@
                     app:cornerRadius="@dimen/_50sdp"
                     app:icon="@drawable/gallery_small"
                     app:iconGravity="textStart"
+                    android:contentDescription="@string/upload_from_the_file"
                     app:iconPadding="@dimen/_8sdp"
                     app:iconTint="?attr/colorPrimary"
                     app:layout_constraintEnd_toEndOf="@+id/tv_audio_desc"
@@ -314,7 +312,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_0.5dp"
                     android:layout_marginTop="@dimen/_20sdp"
-                    android:background="@color/off_white_f5f5f5"
+                    android:background="?attr/lineColor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/tv_audio_desc"
                     app:layout_constraintTop_toBottomOf="@+id/btn_record_audio" />
@@ -352,7 +350,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/_10sdp"
-                    android:text="@string/docs"
+                    android:text="@string/study_material"
                     android:textSize="@dimen/textField_14"
                     app:drawableStartCompat="@drawable/ic_notes"
                     app:fontType="regular"
@@ -362,6 +360,7 @@
                     app:primaryIconTint="start"
                     app:textColorType="heading" />
 
+
                 <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                     android:id="@+id/tv_docs_desc"
                     android:layout_width="0dp"
@@ -369,11 +368,8 @@
                     android:layout_marginStart="@dimen/_28sdp"
                     android:drawableStart="@drawable/ic_info_small"
                     android:drawablePadding="@dimen/_4sdp"
-                    android:gravity="center_horizontal"
-                    android:maxLines="2"
-                    android:singleLine="false"
                     android:text="@string/document_format_should_be_pdf_docx_and_ppt"
-                    android:textAlignment="textStart"
+                    android:textAlignment="gravity"
                     android:textSize="@dimen/textField_11"
                     app:fontType="regular"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -381,14 +377,13 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_take_docs"
                     app:primaryIconTint="bottom"
 
-                    app:textColorType="body"
-                    tools:ignore="RtlCompat" />
+                    app:textColorType="body" />
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_0.5dp"
                     android:layout_marginTop="@dimen/_20sdp"
-                    android:background="@color/off_white_f5f5f5"
+                    android:background="?attr/lineColor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/tv_docs_desc"
                     app:layout_constraintTop_toBottomOf="@+id/tv_docs_desc" />
@@ -417,7 +412,8 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_0.5dp"
                 android:layout_marginStart="@dimen/_28sdp"
-                android:background="@color/off_white_f5f5f5"
+                android:id="@+id/screenV"
+                android:background="?attr/lineColor"
                 app:layout_constraintEnd_toEndOf="@+id/tv_record_screen"
                 app:layout_constraintStart_toStartOf="@+id/tv_record_screen"
                 app:layout_constraintTop_toBottomOf="@+id/tv_record_screen" />
@@ -431,7 +427,7 @@
                 android:paddingTop="@dimen/_20sdp"
 
                 android:paddingBottom="@dimen/_20sdp"
-                android:text="@string/text"
+                android:text="@string/enter_text"
                 android:textSize="@dimen/textField_14"
                 app:drawableStartCompat="@drawable/ic_assessment"
                 app:fontType="regular"
@@ -445,7 +441,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_0.5dp"
                 android:layout_marginStart="@dimen/_28sdp"
-                android:background="@color/off_white_f5f5f5"
+                android:background="?attr/lineColor"
                 app:layout_constraintEnd_toEndOf="@+id/tv_record_screen"
                 app:layout_constraintStart_toStartOf="@+id/tv_record_screen"
                 app:layout_constraintTop_toBottomOf="@+id/tv_text" />
@@ -454,8 +450,8 @@
                 android:id="@+id/tv_quiz"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/_8sdp"
                 android:layout_marginStart="5dp"
+                android:drawablePadding="@dimen/_8sdp"
                 android:onClick="@{(v)->clickHandler.onHandleClick(v)}"
                 android:paddingTop="@dimen/_20sdp"
                 android:paddingBottom="@dimen/_20sdp"

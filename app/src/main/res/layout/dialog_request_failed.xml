@@ -5,7 +5,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="?attr/screenBackgroundColor">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -49,12 +49,41 @@
                 android:letterSpacing="0.02"
                 android:paddingHorizontal="@dimen/_30sdp"
                 android:text="@string/retry"
-                android:textSize="@dimen/materialButton_14"
                 android:textAllCaps="true"
+                android:textSize="@dimen/materialButton_14"
                 app:btnTextColor="primary"
                 app:buttonBackground="primary" />
 
         </LinearLayout>
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSMaterialButton
+            android:id="@+id/tv_goToDownlaod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:backgroundTint="?attr/whiteTextColor"
+            android:padding="@dimen/_15sdp"
+            android:text="@string/go_to_downloads"
+            android:textAlignment="center"
+            android:textSize="@dimen/textField_12"
+            app:btnIconColor="none"
+            app:btnTextColor="heading"
+            app:buttonBackground="none"
+            app:buttonFont="medium"
+            app:fontFamily="@font/ibm_regular"
+            app:fontType="bold"
+            app:icon="@drawable/ic_download"
+            app:iconPadding="@dimen/_10ssp"
+            app:iconTint="?attr/primaryTintColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:strokeColor="?attr/buttonBackgroundTintColor"
+            app:strokeWidth="@dimen/_1sdp"
+            app:textColorType="heading" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

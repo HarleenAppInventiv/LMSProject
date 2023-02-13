@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_16sdp"
                 app:cardBackground="none"
-                app:cardBackgroundColor="@color/sky_blue_light"
+                app:cardBackgroundColor="?attr/colorVariant_LightSky"
 
                 app:cardCornerRadius="@dimen/_16sdp"
                 app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
@@ -46,7 +46,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/become_moderator"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/blackTextColor"
                         android:textSize="@dimen/textField_14"
                         android:textStyle="bold"
                         app:fontType="semiBold"
@@ -182,6 +182,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_16sdp"
                         android:letterSpacing="0.02"
+                        android:textSize="@dimen/textField_14"
                         android:lineSpacingExtra="@dimen/_4ssp"
                         android:text="@string/become_moderator"
                         android:textColor="?attr/whiteTextColor"
@@ -202,7 +203,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:text="@string/course_requests"
-                android:textColor="@color/black"
+                android:textColor="?attr/blackTextColor"
                 android:textSize="@dimen/textField_14"
                 android:textStyle="bold"
                 app:fontType="semiBold"
@@ -232,7 +233,7 @@
                 android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 app:cardBackground="none"
-                app:cardBackgroundColor="@color/red_light"
+                app:cardBackgroundColor="?attr/colorVariant_LightPink"
                 app:cardCornerRadius="@dimen/_15sdp"
                 app:layout_constraintBottom_toBottomOf="@+id/barrier1"
                 app:layout_constraintEnd_toEndOf="@+id/guidelineMid"
@@ -273,10 +274,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/blackTextColor"
                         android:textSize="@dimen/textField_24"
                         app:fontType="bold"
-                        android:text="00"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/image1"
@@ -289,7 +289,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/co_author_request"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/blackTextColor"
                         android:textSize="@dimen/textField_12"
                         app:fontType="regular"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -308,7 +308,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_16sdp"
                 app:cardBackground="none"
-                app:cardBackgroundColor="@color/violet_light"
+                app:cardBackgroundColor="?attr/colorVariant_LightPurple"
                 app:cardCornerRadius="@dimen/_15sdp"
                 app:layout_constraintBottom_toBottomOf="@+id/barrier1"
                 app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
@@ -349,8 +349,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="00"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/blackTextColor"
                         android:textSize="@dimen/textField_24"
                         app:fontType="bold"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -365,7 +364,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/accepted_requests"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/blackTextColor"
                         android:textSize="@dimen/textField_12"
                         app:fontType="regular"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -385,7 +384,8 @@
                 android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 app:cardBackground="none"
-                app:cardBackgroundColor="@color/yellow_light"
+                app:cardBackgroundColor="?attr/colorVariant_LightYellow"
+
                 app:cardCornerRadius="@dimen/_15sdp"
                 app:layout_constraintBottom_toBottomOf="@+id/barrier2"
                 app:layout_constraintEnd_toEndOf="@+id/guidelineMid"
@@ -427,8 +427,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="00"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/blackTextColor"
                         android:textSize="@dimen/textField_24"
                         app:fontType="bold"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -443,7 +442,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/rejected_requests"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/blackTextColor"
                         android:textSize="@dimen/textField_12"
                         app:fontType="regular"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -470,6 +469,7 @@
                 app:barrierDirection="bottom"
                 app:constraint_referenced_ids="cardViewModeratorComments,cardViewRejectedReq" />
 
+
             <com.selflearningcoursecreationapp.utils.customViews.LMSCardView
                 android:id="@+id/cardViewModeratorComments"
                 android:layout_width="0dp"
@@ -477,7 +477,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_16sdp"
                 app:cardBackground="none"
-                app:cardBackgroundColor="@color/green_light"
+                app:cardBackgroundColor="?attr/colorVariant_LightGreen"
                 app:cardCornerRadius="@dimen/_15sdp"
                 app:layout_constraintBottom_toBottomOf="@+id/barrier2"
                 app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
@@ -518,8 +518,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="00"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/blackTextColor"
                         android:textSize="@dimen/textField_24"
                         app:fontType="bold"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -534,7 +533,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/moderator_comments"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/blackTextColor"
                         android:textSize="@dimen/textField_12"
                         app:fontType="regular"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -555,9 +554,8 @@
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_16sdp"
                 app:cardBackground="none"
-                app:cardBackgroundColor="@color/red_light"
+                app:cardBackgroundColor="?attr/colorVariant_LightPink"
                 app:cardCornerRadius="@dimen/_15sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/guidelineMid"
                 app:layout_constraintStart_toStartOf="@+id/guidelineStart"
                 app:layout_constraintTop_toBottomOf="@+id/barrier2">
@@ -596,8 +594,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="00"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/blackTextColor"
                         android:textSize="@dimen/textField_24"
                         app:fontType="bold"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -612,7 +609,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/rejected_courses"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/blackTextColor"
                         android:textSize="@dimen/textField_12"
                         app:fontType="regular"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -632,9 +629,8 @@
                 android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginBottom="@dimen/_16sdp"
                 app:cardBackground="none"
-                app:cardBackgroundColor="@color/violet_light"
+                app:cardBackgroundColor="?attr/colorVariant_LightPurple"
                 app:cardCornerRadius="@dimen/_15sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
                 app:layout_constraintStart_toStartOf="@+id/guidelineMid"
                 app:layout_constraintTop_toBottomOf="@+id/barrier2">
@@ -673,8 +669,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="00"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/blackTextColor"
                         android:textSize="@dimen/textField_24"
                         app:fontType="bold"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -689,7 +684,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/sent_requests"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/blackTextColor"
                         android:textSize="@dimen/textField_12"
                         app:fontType="regular"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -701,6 +696,87 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.selflearningcoursecreationapp.utils.customViews.LMSCardView>
 
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="cardViewPaymentWithdrawls" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSCardView
+                android:id="@+id/cardViewPaymentWithdrawls"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_16sdp"
+                app:cardBackground="none"
+                app:cardBackgroundColor="?attr/colorVariant_LightBlue"
+                app:cardCornerRadius="@dimen/_15sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+                app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@+id/cardViewRejectedCourses">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/_10sdp"
+                    android:paddingVertical="@dimen/_10sdp">
+
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSRichView
+                        android:id="@+id/imageView7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_view_password"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:vector="@drawable/ic_view_password"
+
+                        />
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                        android:id="@+id/image7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_withdraw_count"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView7"
+
+                        />
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/textPaymentWithdrawlsCount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="?attr/blackTextColor"
+                        android:textSize="@dimen/textField_24"
+                        app:fontType="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/image7"
+                        app:textColorType="heading" />
+
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                        android:id="@+id/textPaymentWithdrawls"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/payment_withdrawls"
+                        android:textColor="?attr/blackTextColor"
+                        android:textSize="@dimen/textField_12"
+                        app:fontType="regular"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textPaymentWithdrawlsCount"
+                        app:textColorType="secondary" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.selflearningcoursecreationapp.utils.customViews.LMSCardView>
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineStart"

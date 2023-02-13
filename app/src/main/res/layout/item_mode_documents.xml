@@ -6,21 +6,77 @@
 
     </data>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cv_ongoing"
+
+    <com.selflearningcoursecreationapp.utils.customViews.LMSCardView
+        android:id="@+id/cv_doc_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_12sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:layout_marginBottom="@dimen/_8sdp"
-        app:cardBackgroundColor="?attr/viewBackgroundColor"
-        app:cardCornerRadius="@dimen/_5sdp">
+        android:layout_margin="@dimen/_10sdp"
 
-        <ImageView
-            android:id="@+id/img_certificate"
+        android:background="?attr/viewBackgroundColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_mode_doc" />
-    </com.google.android.material.card.MaterialCardView>
+            android:layout_height="@dimen/_200sdp"
+            android:background="?attr/viewBackgroundColor">
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSRichView
+                android:id="@+id/iv_doc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/tv_doc_name"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:srcCompat="@drawable/ic_doc"
+                app:vector="@drawable/ic_doc" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_doc_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:textAlignment="center"
+                android:textSize="@dimen/textField_14"
+                app:fontType="semiBold"
+                app:layout_constraintBottom_toTopOf="@+id/tv_doc_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_doc"
+                app:textColorType="heading" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_doc_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textField_14"
+                app:fontType="regular"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_doc_name"
+                app:textColorType="body" />
+
+            <!--                <com.selflearningcoursecreationapp.utils.customViews.LMSImageView-->
+            <!--                    android:id="@+id/iv_preview"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_margin="@dimen/_5sdp"-->
+            <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                    app:layout_constraintTop_toTopOf="parent"-->
+            <!--                    app:srcCompat="@drawable/ic_edit_grey_bg" />-->
+        </com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout>
+
+
+    </com.selflearningcoursecreationapp.utils.customViews.LMSCardView>
+
 
 </layout>

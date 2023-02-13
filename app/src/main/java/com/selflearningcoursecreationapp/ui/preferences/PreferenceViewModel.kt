@@ -9,6 +9,7 @@ import com.selflearningcoursecreationapp.data.network.ApiError
 import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.models.CategoryResponse
+import com.selflearningcoursecreationapp.models.masterData.MasterDataItem
 import com.selflearningcoursecreationapp.models.user.PreferenceData
 import com.selflearningcoursecreationapp.models.user.UserResponse
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
@@ -27,6 +28,7 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
         value = ArrayList()
     }
     var type: Int = PREFERENCES.TYPE_ALL
+    var from: Boolean = false
     var screenType: Int = PREFERENCES.SCREEN_APP
     var themeListLiveData = MutableLiveData<ArrayList<CategoryData>>().apply {
         value = ArrayList()
@@ -237,11 +239,40 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
             languageListLiveData.value?.singleOrNull { it.isSelected }?.let {
                 userProfile?.language = it
                 saveLanguage(it.code ?: LanguageConstant.ENGLISH)
+                saveLanguageId(it.id ?: 1)
             }
 
         }
         saveUser(UserResponse(user = userProfile))
     }
+
+    fun getMasterData() {
+        viewModelScope.launch(coroutineExceptionHandle) {
+            val response = repo.getMasterData()
+            withContext(Dispatchers.IO) {
+                response.collect {
+                    if (it is Resource.Success<*>) {
+                        val masterData =
+                            (it.value as BaseResponse<MasterDataItem>).resource ?: MasterDataItem()
+                        val list =
+                            if (preferenceArgData.isSignIncluded) masterData.allLanguages?.list else masterData.languages?.list
+
+                        list?.apply {
+                            forEach {
+                                it.isSelected =
+                                    if (screenType == PREFERENCES.SCREEN_SELECT) preferenceArgData?.selectedValues?.contains(
+                                        it.id
+                                    ) ?: false else it.id == userProfile?.language?.id
+                            }
+                        }
+                        languageListLiveData.postValue(list)
+                    }
+                    updateResponseObserver(it)
+                }
+            }
+        }
+    }
+
 
     override fun onApiRetry(apiCode: String) {
         when (apiCode) {
@@ -256,6 +287,9 @@ class PreferenceViewModel(private val repo: PreferenceRepo) : BaseViewModel() {
             }
             ApiEndPoints.API_GET_THEME_LIST -> {
                 getThemeData()
+            }
+            ApiEndPoints.API_MASTER_DATA -> {
+                getMasterData()
             }
         }
     }

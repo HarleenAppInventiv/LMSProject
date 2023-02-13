@@ -16,7 +16,7 @@
             app:destination="@id/setting_graph" />
         <action
             android:id="@+id/action_moreFragment_to_paymentsFragment"
-            app:destination="@id/paymentsFragment" />
+            app:destination="@id/payment_graph" />
         <action
             android:id="@+id/action_moreFragment_to_cardsFragment"
             app:destination="@id/cardsFragment" />
@@ -31,6 +31,11 @@
             app:destination="@id/becomeModeratorFragment" />
 
     </fragment>
+
+    <fragment
+        android:id="@+id/videoBaseFragment"
+        android:name="com.selflearningcoursecreationapp.ui.course_details.video.VideoBaseFragment"
+        android:label="" />
     <fragment
         android:id="@+id/selectLanguageFragment"
         android:name="com.selflearningcoursecreationapp.ui.preferences.language.SelectLanguageFragment"
@@ -40,7 +45,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.selflearningcoursecreationapp.ui.bottom_home.HomeFragment"
-        android:label=""
+        android:label=" "
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_profileThumbFragment"
@@ -64,19 +69,33 @@
         <action
             android:id="@+id/action_homeFragment_to_fragment_search"
             app:destination="@id/fragment_search" />
+        <action
+            android:id="@+id/action_homeFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_downloadedCourseFragment"
+            app:destination="@id/downloadedCourseFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_privacyFragment"
+            app:destination="@id/privacyFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/fragment_search"
+        android:label=" "
         android:name="com.selflearningcoursecreationapp.ui.search.SearchFragment"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_categoryWiseCoursesFragment"
+            app:destination="@+id/categoryWiseCoursesFragment" />
+    </fragment>
+
+
     <fragment
         android:id="@+id/addCourseBaseFragment"
-        android:name="com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseBaseFragment"
+        android:name="com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseBaseNewFragment"
         android:label="@string/create_course"
         tools:layout="@layout/fragment_add_course_base">
-        <action
-            android:id="@+id/action_addCourseBaseFragment_to_addSectionOrLectureFragment"
-            app:destination="@id/addSectionOrLectureFragment" />
 
         <action
             android:id="@+id/action_addCourseBaseFragment_to_textEditorFragment"
@@ -90,9 +109,7 @@
         <action
             android:id="@+id/action_addCourseBaseFragment_to_lessonTextFragment"
             app:destination="@id/lessonTextFragment" />
-        <action
-            android:id="@+id/action_addCourseBaseFragment_to_assessmentFragment"
-            app:destination="@id/assessmentFragment" />
+
 
         <action
             android:id="@+id/action_addCourseBaseFragment_to_audioLectureFragment"
@@ -103,27 +120,22 @@
         <action
             android:id="@+id/action_addCourseBaseFragment_to_recordAudioFragment"
             app:destination="@id/recordAudioFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/addSectionOrLectureFragment"
-        android:name="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.AddSectionOrLectureFragment"
-        android:label="Add Section"
-        tools:layout="@layout/fragment_add_section_or_lecture">
         <action
-            android:id="@+id/action_addSectionOrLectureFragment_to_docLessonFragment"
-            app:destination="@id/docLessonFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/paymentsFragment"
-        android:name="com.selflearningcoursecreationapp.ui.bottom_more.payments.PaymentsFragment"
-        android:label="@string/payments">
+            android:id="@+id/action_addCourseBaseFragment_to_pdfReaderFragment"
+            app:destination="@id/pdfReaderFragment" />
         <action
-            android:id="@+id/action_paymentsFragment_to_walletFragment"
-            app:destination="@id/walletFragment" />
+            android:id="@+id/action_addCourseBaseFragment_to_uploadDocOptionsDialog"
+            app:destination="@id/uploadDocOptionsDialog" />
         <action
-            android:id="@+id/action_paymentsFragment_to_paymentDetailsFragment"
-            app:destination="@id/paymentDetailsFragment" />
+            android:id="@+id/action_addCourseBaseFragment_to_contentCreatorAssessmentFragment"
+            app:destination="@id/contentCreatorAssessmentFragment" />
+        <action
+            android:id="@+id/action_addCourseBaseFragment_to_supportFragment"
+            app:destination="@id/supportFragment2"
+            app:popUpToInclusive="false" />
     </fragment>
+
+
     <fragment
         android:id="@+id/walletFragment"
         android:name="com.selflearningcoursecreationapp.ui.bottom_more.payments.wallet.WalletFragment"
@@ -137,18 +149,11 @@
         android:name="com.selflearningcoursecreationapp.ui.review.ReviewTabFragment"
         android:label="Review"
         tools:layout="@layout/fragment_review_parent" />
-    <fragment
-        android:id="@+id/paymentDetailsFragment"
-        android:name="com.selflearningcoursecreationapp.ui.bottom_more.payments.details.PaymentDetailsFragment"
-        android:label="">
-        <action
-            android:id="@+id/action_paymentDetailsFragment_to_courseDetailsFragment"
-            app:destination="@id/course_detail_graph" />
-    </fragment>
+
     <fragment
         android:id="@+id/practiceAccentFragment"
         android:name="com.selflearningcoursecreationapp.ui.practice_accent.PracticeAccentFragment"
-        android:label="PracticeAccentFragment"
+        android:label="Practice English"
         tools:layout="@layout/fragment_practice_accent">
         <action
             android:id="@+id/action_practiceAccentFragment_to_selectLanguageFragment"
@@ -174,35 +179,40 @@
         android:id="@+id/addQuizFragment"
         android:name="com.selflearningcoursecreationapp.ui.create_course.quiz.AddQuizFragment"
         android:label="Add Quiz">
+        <argument
+            android:name="lessonArgs"
+            android:defaultValue="@null"
+            app:argType="com.selflearningcoursecreationapp.models.course.LessonArgs"
+            app:nullable="true" />
         <action
             android:id="@+id/action_addQuizFragment_to_quizSettingsFragment"
             app:destination="@id/quizSettingsFragment" />
-        <argument
-            android:name="courseData"
-            android:defaultValue="@null"
-            app:argType="com.selflearningcoursecreationapp.models.course.CourseData"
-            app:nullable="true" />
-        <argument
-            android:name="isQuiz"
-            android:defaultValue="true"
-            app:argType="boolean" />
-        <argument
-            android:name="adapterPosition"
-            android:defaultValue="-1"
-            app:argType="integer" />
-        <argument
-            android:name="sectionData"
-            android:defaultValue="@null"
-            app:argType="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel[]"
-            app:nullable="true" />
-        <argument
-            android:name="childPosition"
-            android:defaultValue="-1"
-            app:argType="integer" />
-        <argument
-            android:name="assessmentId"
-            android:defaultValue="-1"
-            app:argType="integer" />
+        <!--        <argument-->
+        <!--            android:name="courseData"-->
+        <!--            android:defaultValue="@null"-->
+        <!--            app:argType="com.selflearningcoursecreationapp.models.course.CourseData"-->
+        <!--            app:nullable="true" />-->
+        <!--        <argument-->
+        <!--            android:name="isQuiz"-->
+        <!--            android:defaultValue="true"-->
+        <!--            app:argType="boolean" />-->
+        <!--        <argument-->
+        <!--            android:name="adapterPosition"-->
+        <!--            android:defaultValue="-1"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="sectionData"-->
+        <!--            android:defaultValue="@null"-->
+        <!--            app:argType="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel[]"-->
+        <!--            app:nullable="true" />-->
+        <!--        <argument-->
+        <!--            android:name="childPosition"-->
+        <!--            android:defaultValue="-1"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="assessmentId"-->
+        <!--            android:defaultValue="-1"-->
+        <!--            app:argType="integer" />-->
     </fragment>
     <fragment
         android:id="@+id/assessmentFragment"
@@ -239,92 +249,110 @@
     <fragment
         android:id="@+id/docLessonFragment"
         android:name="com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_as_lecture.DocLessonFragment"
-        android:label="Doc Lesson">
+        android:label="Study materials">
+
         <argument
-            android:name="sendSectionModel"
+            android:name="lessonArgs"
             android:defaultValue="@null"
-            app:argType="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel"
+            app:argType="com.selflearningcoursecreationapp.models.course.LessonArgs"
             app:nullable="true" />
-        <argument
-            android:name="type"
-            app:argType="integer" />
-        <argument
-            android:name="lectureId"
-            android:defaultValue="0"
-            app:argType="integer" />
-        <argument
-            android:name="childPosition"
-            app:argType="integer" />
-        <argument
-            android:name="courseId"
-            app:argType="integer" />
-        <argument
-            android:name="filePath"
-            android:defaultValue=""
-            app:argType="string" />
+        <!--        <argument-->
+        <!--            android:name="sendSectionModel"-->
+        <!--            android:defaultValue="@null"-->
+        <!--            app:argType="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel"-->
+        <!--            app:nullable="true" />-->
+        <!--        <argument-->
+        <!--            android:name="type"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="lectureId"-->
+        <!--            android:defaultValue="0"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="childPosition"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="courseId"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="filePath"-->
+        <!--            android:defaultValue=""-->
+        <!--            app:argType="string" />-->
     </fragment>
     <fragment
         android:id="@+id/lessonTextFragment"
         android:name="com.selflearningcoursecreationapp.ui.create_course.upload_content.docs_text.LessonTextFragment"
-        android:label="Text Lesson">
+        android:label="@string/enter_text">
+
+
         <action
             android:id="@+id/action_lessonTextFragment_to_textEditorFragment"
             app:destination="@id/textEditorFragment" />
+        <!--        <argument-->
+        <!--            android:name="sendSectionModel"-->
+        <!--            android:defaultValue="@null"-->
+        <!--            app:argType="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel"-->
+        <!--            app:nullable="true" />-->
+        <!--        <argument-->
+        <!--            android:name="type"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="lectureId"-->
+        <!--            android:defaultValue="0"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="childPosition"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="courseId"-->
+        <!--            app:argType="integer" />-->
+
+        <!--        <argument-->
+        <!--            android:name="htmlText"-->
+        <!--            android:defaultValue=""-->
+
+        <!--            app:argType="string" />-->
         <argument
-            android:name="sendSectionModel"
+            android:name="lessonArgs"
             android:defaultValue="@null"
-            app:argType="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel"
+            app:argType="com.selflearningcoursecreationapp.models.course.LessonArgs"
             app:nullable="true" />
-        <argument
-            android:name="type"
-            app:argType="integer" />
-        <argument
-            android:name="lectureId"
-            android:defaultValue="0"
-            app:argType="integer" />
-        <argument
-            android:name="childPosition"
-            app:argType="integer" />
-        <argument
-            android:name="courseId"
-            app:argType="integer" />
-
-        <argument
-            android:name="htmlText"
-            android:defaultValue=""
-
-            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/quizSettingsFragment"
         android:name="com.selflearningcoursecreationapp.ui.create_course.quiz.QuizSettingsFragment"
         android:label="Add Quiz">
         <argument
-            android:name="courseData"
+            android:name="lessonArgs"
             android:defaultValue="@null"
-            app:argType="com.selflearningcoursecreationapp.models.course.CourseData"
+            app:argType="com.selflearningcoursecreationapp.models.course.LessonArgs"
             app:nullable="true" />
-        <argument
-            android:name="isQuiz"
-            android:defaultValue="true"
-            app:argType="boolean" />
-        <argument
-            android:name="adapterPosition"
-            android:defaultValue="-1"
-            app:argType="integer" />
-        <argument
-            android:name="sectionData"
-            android:defaultValue="@null"
-            app:argType="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel[]"
-            app:nullable="true" />
-        <argument
-            android:name="childPosition"
-            android:defaultValue="-1"
-            app:argType="integer" />
-        <argument
-            android:name="assessmentId"
-            android:defaultValue="-1"
-            app:argType="integer" />
+        <!--        <argument-->
+        <!--            android:name="courseData"-->
+        <!--            android:defaultValue="@null"-->
+        <!--            app:argType="com.selflearningcoursecreationapp.models.course.CourseData"-->
+        <!--            app:nullable="true" />-->
+        <!--        <argument-->
+        <!--            android:name="isQuiz"-->
+        <!--            android:defaultValue="true"-->
+        <!--            app:argType="boolean" />-->
+        <!--        <argument-->
+        <!--            android:name="adapterPosition"-->
+        <!--            android:defaultValue="-1"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="sectionData"-->
+        <!--            android:defaultValue="@null"-->
+        <!--            app:argType="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel[]"-->
+        <!--            app:nullable="true" />-->
+        <!--        <argument-->
+        <!--            android:name="childPosition"-->
+        <!--            android:defaultValue="-1"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="assessmentId"-->
+        <!--            android:defaultValue="-1"-->
+        <!--            app:argType="integer" />-->
         <argument
             android:name="quizData"
             android:defaultValue="@null"
@@ -338,29 +366,34 @@
         android:name="com.selflearningcoursecreationapp.ui.create_course.upload_content.video_as_lecture.VideoLectureFragment"
         android:label="Video Lesson">
         <argument
-            android:name="sendSectionModel"
+            android:name="lessonArgs"
             android:defaultValue="@null"
-            app:argType="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel"
+            app:argType="com.selflearningcoursecreationapp.models.course.LessonArgs"
             app:nullable="true" />
-        <argument
-            android:name="filePath"
-            android:defaultValue=""
-            app:argType="string" />
-        <argument
-            android:name="courseId"
-            android:defaultValue="0"
-            app:argType="integer" />
-        <argument
-            android:name="lectureId"
-            android:defaultValue="0"
-            app:argType="integer" />
-        <argument
-            android:name="childPosition"
-            android:defaultValue="0"
-            app:argType="integer" />
-        <argument
-            android:name="type"
-            app:argType="integer" />
+        <!--        <argument-->
+        <!--            android:name="sendSectionModel"-->
+        <!--            android:defaultValue="@null"-->
+        <!--            app:argType="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel"-->
+        <!--            app:nullable="true" />-->
+        <!--        <argument-->
+        <!--            android:name="filePath"-->
+        <!--            android:defaultValue=""-->
+        <!--            app:argType="string" />-->
+        <!--        <argument-->
+        <!--            android:name="courseId"-->
+        <!--            android:defaultValue="0"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="lectureId"-->
+        <!--            android:defaultValue="0"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="childPosition"-->
+        <!--            android:defaultValue="0"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="type"-->
+        <!--            app:argType="integer" />-->
 
 
     </fragment>
@@ -369,38 +402,46 @@
         android:name="com.selflearningcoursecreationapp.ui.create_course.upload_content.audio_as_lesson.AudioLectureFragment"
         android:label="Audio Lesson"
         tools:layout="@layout/fragment_audio_lecture">
-
         <argument
-            android:name="sendSectionModel"
+            android:name="lessonArgs"
             android:defaultValue="@null"
-            app:argType="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel"
+            app:argType="com.selflearningcoursecreationapp.models.course.LessonArgs"
             app:nullable="true" />
-        <argument
-            android:name="filePath"
-            android:defaultValue=""
-            app:argType="string" />
-        <argument
-            android:name="courseId"
-            android:defaultValue="0"
-            app:argType="integer" />
-        <argument
-            android:name="lectureId"
-            android:defaultValue="0"
-            app:argType="integer" />
-        <argument
-            android:name="childPosition"
-            android:defaultValue="0"
-            app:argType="integer" />
-        <argument
-            android:name="type"
-            app:argType="integer" />
-        <argument
-            android:name="from"
-            android:defaultValue="0"
-            app:argType="integer" />
+        <!--        <argument-->
+        <!--            android:name="sendSectionModel"-->
+        <!--            android:defaultValue="@null"-->
+        <!--            app:argType="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel"-->
+        <!--            app:nullable="true" />-->
+        <!--        <argument-->
+        <!--            android:name="filePath"-->
+        <!--            android:defaultValue=""-->
+        <!--            app:argType="string" />-->
+        <!--        <argument-->
+        <!--            android:name="courseId"-->
+        <!--            android:defaultValue="0"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="lectureId"-->
+        <!--            android:defaultValue="0"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="childPosition"-->
+        <!--            android:defaultValue="0"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="type"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="from"-->
+        <!--            android:defaultValue="0"-->
+        <!--            app:argType="integer" />-->
         <action
             android:id="@+id/action_audioLectureFragment_to_recordAudioFragment"
             app:destination="@id/recordAudioFragment" />
+
+        <action
+            android:id="@+id/action_audioLectureFragment_to_editAudioFragment"
+            app:destination="@id/editAudioFragment" />
 
 
     </fragment>
@@ -408,34 +449,46 @@
         android:id="@+id/recordAudioFragment"
         android:name="com.selflearningcoursecreationapp.ui.create_course.upload_content.audio_as_lesson.RecordAudioFragment"
         android:label="RecordAudioFragment">
+
+        <argument
+            android:name="lessonArgs"
+            android:defaultValue="@null"
+            app:argType="com.selflearningcoursecreationapp.models.course.LessonArgs"
+            app:nullable="true" />
         <action
             android:id="@+id/action_recordAudioFragment_to_audioLectureFragment"
             app:destination="@id/audioLectureFragment"
             app:popUpTo="@id/addCourseBaseFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_recordAudioFragment_to_editAudioFragment"
+            app:destination="@id/editAudioFragment"
+            app:popUpTo="@id/addCourseBaseFragment"
+            app:popUpToInclusive="false" />
+        <argument
+            android:name="fromLesson"
+            android:defaultValue="false"
+            app:argType="boolean" />
 
-        <argument
-            android:name="sendSectionModel"
-            android:defaultValue="@null"
-            app:argType="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel"
-            app:nullable="true" />
-        <argument
-            android:name="courseId"
-            android:defaultValue="0"
-            app:argType="integer" />
-        <argument
-            android:name="lectureId"
-            android:defaultValue="0"
-            app:argType="integer" />
-        <argument
-            android:name="childPosition"
-            app:argType="integer" />
-        <argument
-            android:name="type"
-            app:argType="integer" />
-        <argument
-            android:name="from"
-            app:argType="integer" />
+        <!--        <argument-->
+        <!--            android:name="sendSectionModel"-->
+        <!--            android:defaultValue="@null"-->
+        <!--            app:argType="com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel"-->
+        <!--            app:nullable="true" />-->
+        <!--        <argument-->
+        <!--            android:name="courseId"-->
+        <!--            android:defaultValue="0"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="lectureId"-->
+        <!--            android:defaultValue="0"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="childPosition"-->
+        <!--            app:argType="integer" />-->
+        <!--        <argument-->
+        <!--            android:name="type"-->
+        <!--            app:argType="integer" />-->
 
 
     </fragment>
@@ -444,7 +497,7 @@
     <fragment
         android:id="@+id/categoryWiseCoursesFragment"
         android:name="com.selflearningcoursecreationapp.ui.bottom_home.categoryWiseCourses.CategoryWiseCoursesFragment"
-        android:label="CategoryWiseCoursesFragment">
+        android:label="Courses">
         <action
             android:id="@+id/action_categoryWiseCoursesFragment_to_courseDetailsFragment"
             app:destination="@id/course_detail_graph" />
@@ -458,8 +511,14 @@
         <action
             android:id="@+id/action_categoryWiseCoursesFragment_to_homeCategoriesFragment2"
             app:destination="@id/homeCategoriesFragment" />
+
+        <action
+            android:id="@+id/action_categoryWiseCoursesFragment_to_searchFragment"
+            app:destination="@id/fragment_search" />
+
     </fragment>
     <include app:graph="@navigation/setting_graph" />
+    <include app:graph="@navigation/payment_graph" />
     <include app:graph="@navigation/nav_profile_graph" />
     <include app:graph="@navigation/course_detail_graph" />
     <fragment
@@ -472,15 +531,23 @@
         <action
             android:id="@+id/action_moderatorBaseFragment_to_notificationFragment"
             app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_moderatorBaseFragment_to_modCourseDetailsFragment"
+            app:destination="@id/modCourseDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/modDashBaseFragment"
         android:name="com.selflearningcoursecreationapp.ui.moderator.moderatorDashboard.ModDashBaseFragment"
-        android:label="Dashboard" />
+        android:label="ModDashBaseFragment">
+
+        <action
+            android:id="@+id/action_modDashBaseFragment_to_modCourseDetailsFragment"
+            app:destination="@id/modCourseDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/notificationFragment"
         android:name="com.selflearningcoursecreationapp.ui.notification.NotificationFragment"
-        android:label="Notification" />
+        android:label="@string/notifications" />
     <fragment
         android:id="@+id/becomeModeratorFragment"
         android:name="com.selflearningcoursecreationapp.ui.moderator.BecomeModeratorFragment"
@@ -489,6 +556,8 @@
         <!--            android:id="@+id/action_becomeModeratorFragment_to_preferencesFragment"-->
         <!--            app:destination="@id/preferencesFragment" />-->
     </fragment>
+
+
     <fragment
         android:id="@+id/myCourseTabFragment"
         android:name="com.selflearningcoursecreationapp.ui.bottom_course.MyCourseTabFragment"
@@ -507,8 +576,37 @@
         android:label="ContentCourseDetailFragment">
         <action
             android:id="@+id/action_contentCourseDetailFragment_to_addCourseBaseFragment"
-            app:destination="@id/addCourseBaseFragment" />
+            app:destination="@id/addCourseBaseFragment"
+            app:popUpTo="@+id/myCourseTabFragment" />
+        <action
+            android:id="@+id/action_contentCourseDetailFragment_to_authorDetailsFragment"
+            app:destination="@id/authorDetailsFragment" />
+
+        <action
+            android:id="@+id/action_contentCourseDetailFragment_to_contentCreatorAssessmentFragment"
+            app:destination="@id/contentCreatorAssessmentFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/authorDetailsFragment"
+        android:name="com.selflearningcoursecreationapp.ui.course_details.AuthorDetailsFragment"
+        android:label=""
+        tools:layout="@layout/fragment_author_details">
+
+        <action
+            android:id="@+id/action_authorDetailsFragment_to_contentCourseDetailFragment"
+            app:destination="@id/contentCourseDetailFragment" />
+
+        <action
+            android:id="@+id/action_authorDetailsFragment_to_courseDetailsFragment"
+            app:destination="@id/course_detail_graph" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/contentCreatorAssessmentFragment"
+        android:name="com.selflearningcoursecreationapp.ui.content_creator.course_detail.assessment.ContentCreatorAssessmentFragment"
+        android:label="" />
+
     <action
         android:id="@+id/action_global_addCourseBaseFragment"
         app:destination="@id/addCourseBaseFragment" />
@@ -555,7 +653,200 @@
         app:destination="@id/homeFragment" />
     <action
         android:id="@+id/action_global_preferencesFragment"
-        app:destination="@id/preferencesFragment" />
+        app:destination="@id/preferencesFragment"
+        app:popUpToInclusive="false" />
+    <fragment
+        android:id="@+id/modCourseDetailsFragment"
+        android:name="com.selflearningcoursecreationapp.ui.moderator.courseDetails.ModCourseDetailsFragment"
+        android:label="ModCourseDetailsFragment" />
+    <action
+        android:id="@+id/action_global_contentCourseDetailFragment"
+        app:destination="@id/contentCourseDetailFragment" />
+    <action
+        android:id="@+id/action_global_authorDetailsFragment"
+        app:destination="@id/authorDetailsFragment"
+
+        app:popUpToInclusive="false" />
+    <action
+        android:id="@+id/action_global_courseDetailsFragment"
+        app:destination="@id/course_detail_graph" />
+    <action
+        android:id="@+id/action_global_videoBaseFragment"
+        app:destination="@id/videoBaseFragment" />
+    <fragment
+        android:id="@+id/pdfReaderFragment"
+        android:name="com.selflearningcoursecreationapp.ui.course_details.doc.PdfViewerFragment"
+        android:label="Document" />
+
+    <fragment
+        android:id="@+id/quizBaseFragment"
+        android:name="com.selflearningcoursecreationapp.ui.course_details.quiz.QuizBaseFragment"
+        android:label="QuizBaseFragment" />
+    <action
+        android:id="@+id/action_global_quizBaseFragment"
+        app:destination="@id/quizBaseFragment"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/action_global_pdfViewerFragment"
+        app:destination="@id/pdfReaderFragment"
+
+        app:popUpToInclusive="false" />
+    <fragment
+        android:id="@+id/modAssessmentFragment"
+        android:name="com.selflearningcoursecreationapp.ui.moderator.courseDetails.Assessment.ModAssessmentFragment"
+        android:label="ModAssessmentFragment" />
+    <action
+        android:id="@+id/action_global_modAssessmentFragment"
+        app:destination="@id/modAssessmentFragment" />
+    <fragment
+        android:id="@+id/quiZListForModCreatorFragment"
+        android:name="com.selflearningcoursecreationapp.ui.course_details.quizList.QuiZListForModCreatorFragment"
+        android:label="QuiZListForModCreatorFragment" />
+    <action
+        android:id="@+id/action_global_quiZListForModCreatorFragment"
+        app:destination="@id/quiZListForModCreatorFragment" />
+    <action
+        android:id="@+id/action_global_contentCreatorAssessmentFragment"
+        app:destination="@id/contentCreatorAssessmentFragment" />
+
+    <fragment
+        android:id="@+id/paymentDetailsFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.payments.details.PaymentDetailsFragment"
+        android:label="">
+        <action
+            android:id="@+id/action_paymentDetailsFragment_to_courseDetailsFragment"
+            app:destination="@id/course_detail_graph"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+
+    <!--    <fragment-->
+    <!--        android:id="@+id/pdfReaderFragment"-->
+    <!--        android:name="com.selflearningcoursecreationapp.ui.course_details.doc.ViewQualificationFragment"-->
+    <!--        android:label="ViewQualificationFragment" />-->
+    <!--    <action-->
+    <!--        android:id="@+id/action_global_pdfViewerFragment"-->
+    <!--        app:destination="@id/pdfReaderFragment" />-->
+
+    <fragment
+        android:id="@+id/rewardFragment"
+        android:name="com.selflearningcoursecreationapp.ui.profile.reward.RewardFragment"
+        android:label="@string/reward_points">
+
+        <action
+            android:id="@+id/action_reward_to_courseDetailsFragment"
+            app:destination="@id/course_detail_graph" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_rewardFragment"
+        app:destination="@id/rewardFragment" />
+
+    <fragment
+        android:id="@+id/coAuthorRequestFragment"
+        android:name="com.selflearningcoursecreationapp.ui.profile.requestTracker.coAuthorRequest.CoAuthorRequestFragment"
+        android:label="Co-Author Request"
+        tools:layout="@layout/fragment_co_author_request" />
+    <dialog
+        android:id="@+id/uploadDocOptionsDialog"
+        android:name="com.selflearningcoursecreationapp.ui.dialog.UploadDocOptionsDialog"
+        android:label="">
+        <action
+            android:id="@+id/action_uploadDocOptionsDialog_to_addQuizFragment"
+            app:destination="@id/addQuizFragment" />
+        <action
+            android:id="@+id/action_uploadDocOptionsDialog_to_docLessonFragment"
+            app:destination="@id/docLessonFragment" />
+        <action
+            android:id="@+id/action_uploadDocOptionsDialog_to_lessonTextFragment"
+            app:destination="@id/lessonTextFragment" />
 
 
+        <action
+            android:id="@+id/action_uploadDocOptionsDialog_to_audioLectureFragment"
+            app:destination="@id/audioLectureFragment" />
+        <action
+            android:id="@+id/action_uploadDocOptionsDialog_to_videoLectureFragment"
+            app:destination="@id/videoLectureFragment" />
+        <action
+            android:id="@+id/action_uploadDocOptionsDialog_to_recordAudioFragment"
+            app:destination="@id/recordAudioFragment" />
+
+        <action
+            android:id="@+id/action_uploadDocOptionsDialog_to_screeRecordingOptions"
+            app:destination="@id/screeRecordingOptions" />
+
+        <action
+            android:id="@+id/action_uploadDocOptionsDialog_to_editAudioFragment"
+            app:destination="@id/editAudioFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/screeRecordingOptions"
+        android:name="com.selflearningcoursecreationapp.ui.dialog.ScreenRecordingOptions"
+        android:label="UploadDocOptionsDialog" />
+
+
+    <fragment
+        android:id="@+id/downloadedCourseFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_home.downloaded.DownloadedCourseFragment"
+        android:label="@string/downloads">
+        <action
+            android:id="@+id/action_downloadedCourseFragment_to_downloadedLessonFragment"
+            app:destination="@id/downloadedLessonFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/downloadedLessonFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_home.downloaded.DownloadedLessonFragment"
+        android:label="@string/downloads">
+        <action
+            android:id="@+id/action_downloadedLessonFragment_to_downloadedLectureViewFragment"
+            app:destination="@id/downloadedLectureViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/downloadedLectureViewFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_home.downloaded.DownloadedLectureViewFragment"
+        android:label="DownloadedLectureViewFragment" />
+    <fragment
+
+        android:id="@+id/moderatorsCommentFragment"
+        android:name="com.selflearningcoursecreationapp.ui.profile.requestTracker.moderatorComments.ModeratorsCommentFragment"
+        android:label="Moderator's Comments"
+        tools:layout="@layout/fragment_moderators_comment">
+        <action
+            android:id="@+id/action_moderatorsCommentFragment_to_courseDetailsFragment"
+            app:destination="@id/course_detail_graph" />
+    </fragment>
+    <fragment
+        android:id="@+id/supportFragment2"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.settings.support.SupportFragment"
+        android:label="@string/support" />
+    <fragment
+        android:id="@+id/editAudioFragment"
+        android:name="com.selflearningcoursecreationapp.ui.create_course.upload_content.editVideo.EditAudioFragment"
+        android:label="Audio Trimmer">
+        <argument
+            android:name="lessonArgs"
+            android:defaultValue="@null"
+            app:argType="com.selflearningcoursecreationapp.models.course.LessonArgs"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_editAudioFragment_to_audioLectureFragment"
+            app:destination="@id/audioLectureFragment"
+            app:popUpTo="@id/addCourseBaseFragment"
+            app:popUpToInclusive="false" />
+        <argument
+            android:name="fromLesson"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/privacyFragment"
+        android:name="com.selflearningcoursecreationapp.ui.bottom_more.settings.staticPages.PrivacyFragment"
+        android:label="Privacy">
+        <argument
+            android:name="type"
+            app:argType="integer" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_privacyFragment"
+        app:destination="@id/privacyFragment" />
 </navigation>

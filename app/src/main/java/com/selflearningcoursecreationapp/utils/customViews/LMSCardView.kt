@@ -29,7 +29,7 @@ class LMSCardView : MaterialCardView {
     private fun initView(context: Context, attrs: AttributeSet? = null, defStyle: Int? = 0) {
         val themeAttrs = context.obtainStyledAttributes(
             attrs, R.styleable.LMSCardView,
-            defStyle!!, 0
+            defStyle ?: 0, 0
         )
 
         val changeBgType =
@@ -54,6 +54,7 @@ class LMSCardView : MaterialCardView {
                     ThemeUtils.getSecondaryBgColor(context)
 
                 }
+
                 else -> {
                     ThemeUtils.getPrimaryBgColor(context)
 

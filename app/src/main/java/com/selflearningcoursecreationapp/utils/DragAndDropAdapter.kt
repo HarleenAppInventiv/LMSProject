@@ -10,6 +10,7 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterDragQuestionsBinding
+import com.selflearningcoursecreationapp.extensions.content
 import com.selflearningcoursecreationapp.extensions.getCharString
 import com.selflearningcoursecreationapp.extensions.loadImage
 import com.selflearningcoursecreationapp.extensions.visibleView
@@ -30,6 +31,7 @@ class DragAndDropAdapter(private var list: ArrayList<QuizOptionData>) :
         binding.llDrag.setTag(position)
         binding.tvTitle.visibleView(list[position].image.isNullOrEmpty())
         binding.ivOption.visibleView(!list[position].image.isNullOrEmpty())
+
         binding.tvTitle.text = list[position].option1
         binding.ivOption.loadImage(list[position].image, R.drawable.ic_default_banner)
         binding.llDrag.setOnTouchListener(ChoiceTouchListener())
@@ -44,6 +46,10 @@ class DragAndDropAdapter(private var list: ArrayList<QuizOptionData>) :
             binding.tvOptionNo.changeTextColor(ThemeConstants.TYPE_BODY)
         }
         binding.tvOptionNo.text = position.getCharString()
+        binding.tvTitle.contentDescription =
+            "Option ${binding.tvOptionNo.content()} ${binding.tvTitle.content()}, drag and drop option at the bottom to submit the answer"
+        binding.ivOption.contentDescription =
+            "Option ${binding.tvOptionNo.content()} image, drag and drop option at the bottom to submit the answer"
     }
 
     override fun getItemCount(): Int {

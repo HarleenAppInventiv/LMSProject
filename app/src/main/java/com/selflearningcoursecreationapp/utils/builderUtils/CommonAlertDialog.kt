@@ -51,6 +51,7 @@ class CommonAlertDialog {
         private var negativeBgColor: Int? = null
         private var negativeTextColor: Int? = null
         private var negativeStrokeColor: Int? = null
+        private var isCloseIconEnabled: Boolean = false
         private var onClick: (isPositive: Boolean) -> Unit = {}
 
 
@@ -89,6 +90,11 @@ class CommonAlertDialog {
             return this
         }
 
+        fun isCloseIconEnabled(isCloseIconEnabled: Boolean = false): Builder {
+            this.isCloseIconEnabled = isCloseIconEnabled
+            return this
+        }
+
         fun hidePositiveBtn(isHide: Boolean = false): Builder {
             this.hidePositiveBtn = isHide
             return this
@@ -99,13 +105,18 @@ class CommonAlertDialog {
             return this
         }
 
-        fun notCancellable(): Builder {
-            this.isCancellable = false
+        fun notCancellable(b: Boolean = false): Builder {
+            this.isCancellable = b
             return this
         }
 
         fun getCallback(callback: (isPositive: Boolean) -> Unit): Builder {
             onClick = callback
+            return this
+        }
+
+        fun getCloseButtonCallback(isVisible: Boolean): Builder {
+            this.isCloseIconEnabled = isVisible
             return this
         }
 
@@ -198,13 +209,22 @@ class CommonAlertDialog {
                 } ?: kotlin.run {
                     imageView2.gone()
                 }
+                if (isCloseIconEnabled) {
+                    icClose.visible()
+                }
 
                 btnPositive.setOnClickListener {
+                    btnPositive.isClickable = false
                     onClick(true)
                     alertDialog.dismiss()
                 }
                 btnNegative.setOnClickListener {
+                    btnNegative.isClickable = false
                     onClick(false)
+                    alertDialog.dismiss()
+                }
+
+                icClose.setOnClickListener {
                     alertDialog.dismiss()
                 }
 

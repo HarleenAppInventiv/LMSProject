@@ -8,11 +8,10 @@
 
 
     <com.selflearningcoursecreationapp.utils.customViews.LMSCardView
+        android:id="@+id/parent_card"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_12sdp"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:layout_marginEnd="@dimen/_12sdp">
+        android:visibility="gone"
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,35 +23,61 @@
                 android:id="@+id/LMSImageView4"
                 android:layout_width="@dimen/_48sdp"
                 android:layout_height="@dimen/_48sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/dummys" />
+                app:srcCompat="@drawable/ic_default_banner" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_course_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:text="Sign language video lesson 2"
-                android:textSize="@dimen/textField_16"
+                android:maxLines="1"
+                android:textSize="@dimen/textField_12"
                 app:fontType="semiBold"
-                app:layout_constraintBottom_toTopOf="@+id/LMSTextView23"
+                app:layout_constraintBottom_toTopOf="@+id/tv_course_length"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/LMSImageView4"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
                 app:textColorType="heading" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
-                android:id="@+id/LMSTextView23"
+                android:id="@+id/tv_Video"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Video   .   35 mins"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:textSize="@dimen/textField_11"
+                android:text="@string/video"
+                app:fontType="medium"
+                app:layout_constraintStart_toStartOf="@+id/tv_course_name"
+                app:layout_constraintTop_toBottomOf="@+id/tv_course_name"
+                app:textColorType="body" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_dot"
+                android:layout_width="@dimen/_4sdp"
+                android:layout_height="@dimen/_4sdp"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:background="?attr/dotColor"
+                app:layout_constraintBottom_toBottomOf="@id/tv_course_length"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@+id/tv_Video"
+                app:layout_constraintTop_toBottomOf="@+id/tv_course_name"
+                app:layout_constraintTop_toTopOf="@+id/tv_course_length"
+                app:shapeAppearanceOverlay="@style/circleImage" />
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_course_length"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_marginStart="@dimen/_6sdp"
                 android:textSize="@dimen/textField_11"
                 app:fontType="medium"
-                android:layout_marginTop="@dimen/_2sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/tv_course_name"
+                app:layout_constraintStart_toEndOf="@+id/iv_dot"
                 app:layout_constraintTop_toBottomOf="@+id/tv_course_name"
                 app:textColorType="body" />
 

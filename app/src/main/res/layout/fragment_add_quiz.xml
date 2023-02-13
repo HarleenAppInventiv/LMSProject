@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:overScrollMode="never"
         android:layout_height="match_parent"
-        android:background="?attr/off_whiteTextColor">
+        android:background="?attr/secondaryScreenBgColor">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_sections"
@@ -42,6 +42,7 @@
             app:btnTextColor="secondary"
             app:buttonBackground="secondary"
             app:icon="@drawable/ic_add"
+            android:contentDescription="@string/add_quiz_button"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
             app:layout_constraintBottom_toTopOf="@+id/view"

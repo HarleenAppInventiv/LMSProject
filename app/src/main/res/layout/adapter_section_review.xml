@@ -13,9 +13,7 @@
     </data>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
 
 
         <com.google.android.material.card.MaterialCardView
@@ -26,7 +24,7 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:elevation="@dimen/_5sdp"
-            app:cardBackgroundColor="?attr/viewBackgroundColor"
+            app:cardBackgroundColor="?attr/screenBackgroundColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,13 +43,14 @@
                     android:layout_height="wrap_content"
                     app:constraint_referenced_ids="iv_user_logo,iv_user_image" />
 
-                <com.google.android.material.imageview.ShapeableImageView
+                <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
                     android:id="@+id/iv_user_image"
+                    android:src="@drawable/ic_default_user_grey"
                     android:layout_width="@dimen/_28sdp"
                     android:layout_height="@dimen/_28sdp"
                     android:layout_margin="@dimen/_10sdp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/dummy_user"
+                    app:applyGrayscale="true"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:shapeAppearanceOverlay="@style/circleImage" />
@@ -62,8 +61,9 @@
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="@dimen/_20sdp"
                     android:layout_margin="@dimen/_12sdp"
-                    android:background="@color/white"
+                    android:background="?attr/whiteTextColor"
                     android:scaleType="centerCrop"
+                    app:applyGrayscale="true"
                     android:src="@drawable/ic_logo_default"
                     app:changeBackgroundType="bg_theme_src"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -80,7 +80,6 @@
                     android:layout_margin="@dimen/_10sdp"
                     android:ellipsize="end"
                     android:lineSpacingExtra="6sp"
-                    android:text="The UX Design Process: Empathize, Define, and Ideate"
                     android:textSize="@dimen/adapterTF_14"
                     app:fontType="semiBold"
                     app:layout_constraintEnd_toStartOf="@+id/iv_visible"
@@ -93,7 +92,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:text="1 Videos, 1 Audio"
                     android:textSize="@dimen/adapterTextField_11"
                     app:layout_constraintEnd_toStartOf="@+id/iv_dot"
                     app:layout_constraintHorizontal_bias="0"
@@ -108,7 +106,7 @@
                     android:layout_width="@dimen/_3sdp"
                     android:layout_height="@dimen/_3sdp"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:background="@color/no_earning_chart_bg"
+                    android:background="?attr/dotColor"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_total_time"
                     app:layout_constraintEnd_toStartOf="@+id/tv_total_time"
                     app:layout_constraintStart_toEndOf="@+id/tv_lecture_list"
@@ -122,7 +120,6 @@
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:text="30 Min"
                     android:textSize="@dimen/adapterTextField_11"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_dot"
@@ -205,6 +202,5 @@
         </com.google.android.material.card.MaterialCardView>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

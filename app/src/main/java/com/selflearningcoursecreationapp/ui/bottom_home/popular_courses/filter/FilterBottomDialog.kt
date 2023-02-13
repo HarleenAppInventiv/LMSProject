@@ -82,9 +82,9 @@ class FilterBottomDialog : BaseBottomSheetDialog<DialogFilterBottomBinding>(),
 
     private fun observeData() {
         viewModel.filterLiveData.observe(viewLifecycleOwner, Observer {
-            binding.tvTitle.text = it.filterName
-            setBundleData(it.list)
-            setAdapter(it.list)
+            binding.tvTitle.text = it?.filterName ?: ""
+            setBundleData(it?.list)
+            setAdapter(it?.list)
         })
     }
 
@@ -158,18 +158,18 @@ class FilterBottomDialog : BaseBottomSheetDialog<DialogFilterBottomBinding>(),
                     filterOptionId = selectedData.filterOptionId
                 )
             }
-        } as ArrayList)
+        } as ArrayList?)
 
-        resultList.removeAll { data -> data == null }
+        resultList?.removeAll { data -> data == null }
 
-        resultList.forEach {
+        resultList?.forEach {
             showLog(
                 "FILTER_DATA",
                 " value >> ${it?.filterName} ... ${it?.filterOptionValue}"
             )
         }
 
-        onDialogClick(DialogType.HOME_FILTER, resultList)
+        onDialogClick(DialogType.HOME_FILTER, resultList ?: ArrayList<SelectedFilterData>())
         dismiss()
     }
 
@@ -222,7 +222,7 @@ class FilterBottomDialog : BaseBottomSheetDialog<DialogFilterBottomBinding>(),
     //Calculates window height for fullscreen use
     private fun getWindowHeight(): Int {
         val displayMetrics = DisplayMetrics()
-        (requireContext() as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
+        (baseActivity as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
         return displayMetrics.heightPixels
     }
 

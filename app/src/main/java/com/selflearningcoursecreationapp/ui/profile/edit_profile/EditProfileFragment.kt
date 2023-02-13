@@ -1,10 +1,7 @@
 package com.selflearningcoursecreationapp.ui.profile.edit_profile
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
@@ -37,7 +34,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
-
+        callMenu()
 
     }
 
@@ -45,6 +42,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
         binding.evBio.setOnTouchListener(this)
         binding.editProfile = viewModel
         binding.handleClick = this
+        binding.edtUserName.contentDescription = "User name is" + viewModel.userData.value?.name
         binding.evChooseProfession.setText(viewModel.userData.value?.profession?.name)
         binding.evBio.setText(viewModel.userData.value?.bio)
         binding.edtChooseState.setText(viewModel.userData.value?.state)
@@ -52,7 +50,6 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
         binding.evChooseGender.setText(viewModel.userData.value?.genderName)
         binding.edtChooseCity.setText(viewModel.userData.value?.city)
 
-        setHasOptionsMenu(true)
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         binding.edtUserDob.setOnClickListener(this)
 
@@ -84,20 +81,17 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
                 )?.toString()?.toInt() ?: 91
             )
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.course_menu, menu)
     }
 
-
-
     override fun getLayoutRes() = R.layout.fragment_edit_profile
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.edt_user_dob -> {
-                baseActivity.openDatePickerDialog(setMaxDate = true) {
+                baseActivity.openDatePickerDialog(setMaxDate = true, setMaxYear = 5) {
                     viewModel.userData.value?.apply {
                         it.set(Calendar.HOUR_OF_DAY, 0)
                         it.set(Calendar.MINUTE, 0)
@@ -118,37 +112,22 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
                 showToastShort(response?.message.toString())
                 findNavController().popBackStack()
             }
-            ApiEndPoints.API_GET_ALL_STATES -> {
-                val result = response?.resource as ArrayList<StateModel>
-                result.let {
-                    StateListDialog().apply {
-                        arguments = bundleOf(
-                            "data" to it,
-                            "title" to this@EditProfileFragment.baseActivity.getString(R.string.select_state)
-                        )
-                        setOnDialogClickListener(this@EditProfileFragment)
-                    }.show(childFragmentManager, "")
-                }
-
-
-            }
-            ApiEndPoints.API_GET_ALL_CITY -> {
-                val result = response?.resource as? ArrayList<CityModel>
-                result?.let {
-                    CityListDialog().apply {
-                        arguments = bundleOf(
-                            "data" to it,
-                            "title" to this@EditProfileFragment.baseActivity.getString(R.string.select_city)
-                        )
-                        setOnDialogClickListener(this@EditProfileFragment)
-                    }.show(childFragmentManager, "")
-                }
-
-            }
 
 
         }
 
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_read -> {
+                baseActivity.checkAccessibilityService()
+
+                true
+            }
+            else -> false
+        }
 
     }
 
@@ -185,7 +164,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
                 DialogType.GENDER -> {
                     value as GenderModel
                     binding.evChooseGender.setText(value.genderName)
-                    viewModel.userData.value?.genderId = value.genderId.toString()
+                    viewModel.userData.value?.genderId = value.genderId
 
                 }
             }
@@ -210,17 +189,31 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
                     }.show(childFragmentManager, "")
                 }
                 R.id.edt_choose_state -> {
-                    viewModel.getStateList()
+                    StateListDialog().apply {
+                        arguments = bundleOf(
+                            "title" to this@EditProfileFragment.baseActivity.getString(R.string.select_state)
+                        )
+                        setOnDialogClickListener(this@EditProfileFragment)
+                    }.show(childFragmentManager, "")
 
                 }
                 R.id.edt_choose_city -> {
-                    if (viewModel.userData.value?.stateId.isNullOrZero()) showToastShort(getString(R.string.select_state_first)) else viewModel.getCityList()
+                    if (viewModel.userData.value?.stateId.isNullOrZero()) showToastShort(getString(R.string.select_state_first))
+                    else {
+                        CityListDialog().apply {
+                            arguments = bundleOf(
+                                "title" to this@EditProfileFragment.baseActivity.getString(R.string.select_city),
+                                "stateId" to viewModel.userData.value?.stateId
+                            )
+                            setOnDialogClickListener(this@EditProfileFragment)
+                        }.show(childFragmentManager, "")
+                    }
                 }
                 R.id.ev_choose_gender -> {
                     ChooseGenderDialog().apply {
-                        if (!viewModel.userData.value?.genderId.isNullOrEmpty() && !viewModel.userData.value?.genderId.equals(
+                        if (!viewModel.userData.value?.genderId.isNullOrZero()/* && !viewModel.userData.value?.genderId.equals(
                                 "null"
-                            )
+                            )*/
                         ) {
                             arguments =
                                 bundleOf("id" to viewModel.userData.value?.genderId?.toInt())
@@ -242,5 +235,6 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(), View.OnC
         super.onResume()
         baseActivity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
     }
+
 
 }

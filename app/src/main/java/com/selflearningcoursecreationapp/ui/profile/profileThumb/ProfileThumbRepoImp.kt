@@ -22,12 +22,14 @@ class ProfileThumbRepoImp(private val apiService: ApiService) : ProfileThumbRepo
         }.safeApiCall(ApiEndPoints.API_LOGOUT).flowOn(Dispatchers.IO)
     }
 
-    override suspend fun deleteAccount(): Flow<Resource> {
+    override suspend fun deleteAccount(
+        deleteUsers: Boolean,
+        deleteWallet: Boolean
+    ): Flow<Resource> {
         return object : BaseRepo<BaseResponse<UserResponse>>() {
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<UserResponse>> {
-                return apiService.deleteAccount()
+                return apiService.deleteAccount(deleteUsers, deleteWallet)
             }
-
         }.safeApiCall(ApiEndPoints.API_DELETE_ACCOUNT).flowOn(Dispatchers.IO)
     }
 
@@ -36,9 +38,24 @@ class ProfileThumbRepoImp(private val apiService: ApiService) : ProfileThumbRepo
             override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<UserProfile>> {
                 return apiService.switchToMod(userMode)
             }
-
         }.safeApiCall(ApiEndPoints.API_SWITCH_TO_MOD).flowOn(Dispatchers.IO)
     }
 
+    override suspend fun changeViMode(changeViMode: ChangeViModeModel): Flow<Resource> {
+        return object : BaseRepo<BaseResponse<UserProfile>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<UserProfile>> {
+                return apiService.changeViModeStatus(changeViMode)
+            }
+        }.safeApiCall(ApiEndPoints.API_CHANGE_VI_MODE).flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun profileApi(): Flow<Resource> {
+        return object : BaseRepo<BaseResponse<UserProfile>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<UserProfile>> {
+                return apiService.viewProfile()
+            }
+
+        }.safeApiCall(ApiEndPoints.API_VIEW_PROFILE).flowOn(Dispatchers.IO)
+    }
 
 }

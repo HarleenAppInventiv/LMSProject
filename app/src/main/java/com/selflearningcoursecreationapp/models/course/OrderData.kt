@@ -23,6 +23,8 @@ data class OrderData(
     var description: String? = null,
     @SerializedName("image")
     var image: String? = null,
+    @SerializedName("invoiceURL")
+    var invoiceURL: String? = null,
     @SerializedName("name")
     var name: String? = null,
     @SerializedName("notes")

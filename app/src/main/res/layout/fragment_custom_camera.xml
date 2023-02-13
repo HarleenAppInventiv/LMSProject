@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="typeOfClick"
+            type="Integer" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/lCameraOption"
+            layout="@layout/layout_camera_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            bind:typeOfClick="@{typeOfClick}" />
+
+        <RelativeLayout
+            android:id="@+id/rlContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/btnCapture"
+            app:layout_constraintTop_toBottomOf="@id/lCameraOption">
+
+            <androidx.camera.view.PreviewView
+                android:id="@+id/surface_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <!--            <WebView-->
+            <!--                android:id="@+id/myWebView"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:visibility="gone"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:background="@color/transparent" />-->
+
+
+        </RelativeLayout>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTimerCount"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="#B7B5Bd"
+            android:textSize="@dimen/_100ssp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/btnCapture"
+            app:layout_constraintTop_toBottomOf="@id/lCameraOption" />
+
+        <include
+            android:id="@+id/lFlashLayout"
+            layout="@layout/layout_aspect_ratio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{typeOfClick == 1 ? View.VISIBLE :View.GONE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lCameraOption" />
+
+        <!--        <include-->
+        <!--            android:id="@+id/container_hint"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginBottom="@dimen/_16sdp"-->
+        <!--            app:layout_constraintBottom_toBottomOf="@+id/ivDropDown"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent" />-->
+
+        <ImageView
+            android:id="@+id/ivDropDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rotation="90"
+            app:layout_constraintBottom_toTopOf="@id/rvImages"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/pop_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="ivDropDown" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvImages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="@id/rlContainer"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCapture"
+            android:layout_width="@dimen/_68sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginBottom="@dimen/_30sdp"
+            android:background="@drawable/camera_small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rlContainer" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/switchCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="@dimen/_50sdp"
+            android:padding="@dimen/_10sdp"
+            android:src="@drawable/ic_camera"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

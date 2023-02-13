@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_12sdp"
                 android:text="@string/vi_mode"
-                android:textColor="@color/black"
+                android:textColor="?attr/blackTextColor"
                 android:textSize="@dimen/textField_21"
                 app:fontType="bold"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -13,7 +13,7 @@
         <clip>
             <shape>
                 <corners android:radius="@dimen/_5sdp" />
-                <solid android:color="#2fbf71"/>
+                <solid android:color="?attr/accentColor_Green" />
             </shape>
         </clip>
     </item>
@@ -23,7 +23,7 @@
             <shape>
                 <corners
                     android:radius="@dimen/_5sdp" />
-                <solid android:color="#2fbf71"/>
+                <solid android:color="?attr/accentColor_Green" />
 
             </shape>
         </clip>

@@ -18,8 +18,10 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.base.BaseResponse
+import com.selflearningcoursecreationapp.base.SelfLearningApplication
 import com.selflearningcoursecreationapp.databinding.FragmentSignUpBinding
 import com.selflearningcoursecreationapp.extensions.content
+import com.selflearningcoursecreationapp.extensions.navigateTo
 import com.selflearningcoursecreationapp.models.SingleChoiceData
 import com.selflearningcoursecreationapp.models.user.UserProfile
 import com.selflearningcoursecreationapp.ui.authentication.viewModel.OnBoardingViewModel
@@ -49,6 +51,9 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), BaseBottomSheetDia
         }
         viewModel.signUpLiveData.value?.countryCode =
             binding.countryCodePicker.selectedCountryCodeWithPlus
+
+        viewModel.signUpLiveData.value?.viMode =
+            SelfLearningApplication.isViOn
         setSpanString()
         binding.evChooseProfession.setOnClickListener {
             SingleChoiceBottomDialog().apply {
@@ -56,7 +61,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), BaseBottomSheetDia
                     "type" to DialogType.PROFESSION,
                     "title" to this@SignUpFragment.baseActivity.getString(R.string.profession),
                     "id" to if (!viewModel.signUpLiveData.value?.professionId.isNullOrEmpty()) {
-                        viewModel.signUpLiveData.value?.professionId!!.toInt()
+                        viewModel.signUpLiveData.value?.professionId?.toIntOrNull() ?: 0
                     } else 0
                 )
 
@@ -75,7 +80,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), BaseBottomSheetDia
             if (apiCode == ApiEndPoints.API_SIGNUP) {
                 val result = response.resource as? UserProfile
                 result?.let {
-                    findNavController().navigate(
+                    findNavController().navigateTo(
                         LoginSignUpFragmentDirections.actionLoginSignUpFragmentToOTPVerifyFragment(
                             phone = binding.edtRegPhone.content(),
                             email = "",
@@ -101,7 +106,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), BaseBottomSheetDia
 //                        ApiEndPoints.LINK_PRIVACY_POL
                         STATIC_PAGES_TYPE.PRIVACY
                     )
-                findNavController().navigate(action)
+                findNavController().navigateTo(action)
 
             }
 
@@ -122,7 +127,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), BaseBottomSheetDia
 //                        ApiEndPoints.LINK_TERM_COND
                         STATIC_PAGES_TYPE.TERMS
                     )
-                findNavController().navigate(action)
+                findNavController().navigateTo(action)
 
 
             }

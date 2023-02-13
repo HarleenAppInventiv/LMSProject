@@ -20,13 +20,15 @@
     <com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/off_white_f5f5f5"
+        android:background="?attr/secondaryScreenBgColor"
+        android:keepScreenOn="true"
         tools:context=".ui.create_course.upload_content.audio_as_lesson.AudioLectureFragment">
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/_16sdp"
             android:text="@string/lesson"
             android:textSize="@dimen/textField_14"
@@ -41,7 +43,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/_48sdp"
             android:layout_marginTop="@dimen/_12sdp"
-            android:background="@drawable/edt_bg_white"
+            android:background="@drawable/edt_white_bg"
             android:hint="@string/enter_title"
             android:imeOptions="actionNext"
             android:inputType="text"
@@ -54,6 +56,7 @@
             android:id="@+id/iv_audio_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/play_and_pause_button"
             android:layout_marginStart="@dimen/_8sdp"
             android:onClick="@{(v)->handleClick.onHandleClick(v)}"
             app:changeBackgroundType="theme_src"
@@ -62,17 +65,19 @@
             app:layout_constraintTop_toTopOf="@+id/view"
             app:srcCompat="@drawable/ic_baseline_play_circle_filled_24" />
 
-        <Chronometer
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_8sdp"
-            android:textColor="@color/black"
+            android:text="00:00:00"
             android:textSize="@dimen/textField_10"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toStartOf="@+id/tv_timer_max"
             app:layout_constraintStart_toEndOf="@+id/iv_audio_play"
-            app:layout_constraintTop_toTopOf="@+id/view" />
+            app:layout_constraintTop_toTopOf="@+id/view"
+            app:textColorType="heading" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_timer_max"
@@ -85,12 +90,15 @@
             app:layout_constraintTop_toTopOf="@+id/view"
             app:textColorType="heading" />
 
-        <com.google.android.material.progressindicator.LinearProgressIndicator
+        <androidx.appcompat.widget.AppCompatSeekBar
             android:id="@+id/seekbar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:padding="0dp"
+            android:progress="50"
+            android:progressDrawable="@drawable/sb_drawable_course"
+            android:thumb="@null"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toStartOf="@+id/iv_audio_volume"
             app:layout_constraintStart_toEndOf="@+id/tv_timer_max"
@@ -100,9 +108,11 @@
             android:id="@+id/iv_audio_volume"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_3sdp"
+            android:contentDescription="@string/mute_and_unmute_button"
+            android:padding="@dimen/_5sdp"
             android:onClick="@{(v)->handleClick.onHandleClick(v)}"
-            android:tint="@color/hint_color_929292"
+            android:tint="?attr/hintColor"
             app:changeBackgroundType="none"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toStartOf="@+id/iv_audio_edit"
@@ -113,9 +123,12 @@
             android:id="@+id/iv_audio_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_3sdp"
+            android:contentDescription="@string/edit_audio"
+            android:focusable="false"
             android:onClick="@{(v)->handleClick.onHandleClick(v)}"
-
+            android:focusableInTouchMode="false"
+            android:padding="@dimen/_5sdp"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintTop_toTopOf="@+id/view"
@@ -123,27 +136,50 @@
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_read_time"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
             android:text="@string/title"
             android:textSize="@dimen/textField_14"
             app:fontType="medium"
+            app:layout_constraintEnd_toStartOf="@+id/tv_word_count"
             app:layout_constraintStart_toStartOf="@id/guidelineStart"
             app:layout_constraintTop_toBottomOf="@+id/view"
             app:textColorType="heading" />
 
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_word_count"
+            limitColor="@{audioLesson.docLiveData.titleLength &lt; const.MAX_COURSE_LESSON_LENGTH }"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{``+audioLesson.docLiveData.titleLength}"
+            android:textSize="@dimen/textField_12"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_read_time"
+            app:layout_constraintEnd_toStartOf="@+id/tv_word_count_title"
+            app:layout_constraintTop_toTopOf="@+id/tv_read_time"
+            app:textColorType="body" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_word_count_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{@string/title_count(const.MAX_COURSE_LESSON_LENGTH)}"
+            android:textSize="@dimen/textField_12"
+            app:fontType="medium"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_read_time"
+            app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+            app:layout_constraintTop_toTopOf="@+id/tv_read_time" />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSEditText
             android:id="@+id/edt_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
-            android:background="@drawable/edt_bg_white"
+            android:background="@drawable/edt_white_bg"
             android:hint="@string/enter_title"
-            android:imeOptions="actionDone"
-            android:inputType="text"
-            android:maxLength="@{const.MAX_QUIZ_TITLE}"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLength="@{const.MAX_COURSE_LESSON_LENGTH}"
             android:lineSpacingExtra="@dimen/_7ssp"
             android:text="@={audioLesson.docLiveData.lectureTitle}"
             android:textSize="@dimen/editTextField_14"
@@ -156,7 +192,7 @@
             android:id="@+id/view_bottom"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_80sdp"
-            android:background="@color/white"
+            android:background="?attr/whiteTextColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

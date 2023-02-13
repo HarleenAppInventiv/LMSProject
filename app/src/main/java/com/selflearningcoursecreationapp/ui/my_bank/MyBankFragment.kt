@@ -1,49 +1,71 @@
 package com.selflearningcoursecreationapp.ui.my_bank
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.selflearningcoursecreationapp.R
+import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.base.BaseDialog
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentMyBankBinding
-import com.selflearningcoursecreationapp.extensions.gone
-import com.selflearningcoursecreationapp.extensions.visible
-import com.selflearningcoursecreationapp.ui.dialog.CheckMailDialog
+import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.utils.HandleClick
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class MyBankFragment : BaseFragment<FragmentMyBankBinding>(), HandleClick, BaseDialog.IDialogClick {
+class MyBankFragment : BaseFragment<FragmentMyBankBinding>(), HandleClick, BaseDialog.IDialogClick,
+    BaseBottomSheetDialog.IDialogClick {
 
+    val viewModel: BankAccountVM by viewModel()
+    private lateinit var adapter: MyBankAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
+        callMenu()
         init()
 
     }
 
     fun init() {
         binding.cvAddBank.visible()
-        binding.recyclerBankDetail.adapter = MyBankAdapter()
         binding.myBank = this
-    }
+        viewModel.getApiResponse().observe(viewLifecycleOwner, this)
+        viewModel.getBankAccountListing()
+        viewModel.maxBankAddedCount()
+        viewModel.bankAccountListingLiveData.observe(viewLifecycleOwner) {
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.course_menu, menu)
-    }
+            if (!it.isNullOrEmpty()) {
+                adapter = MyBankAdapter(it) { payload ->
+                    val data = AccountOptionsBottomSheet()
+                    data.arguments = bundleOf(
+                        "id" to payload.id,
+                        "isPrimeyChecked" to payload.isPrimaryChecked
+                    )
+                    data.setOnDialogClickListener(this)
+                    data.show(childFragmentManager, "")
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_read -> {
-//                baseActivity.checkAccessibilityService()
+                }
+                binding.recyclerBankDetail.adapter = adapter
+                binding.recyclerBankDetail.visible()
+                showLog("BANK", "size >>> " + (it.size < viewModel.maxBankCount.value ?: 0))
+                binding.btnAddBank.visibleView(viewModel.bankAccountListingLiveData.value?.size ?: 0 != 0 && it.size < viewModel.maxBankCount.value ?: 0)
+                binding.cvAddBank.gone()
+
+
+            } else {
+                binding.cvAddBank.visible()
+
             }
 
         }
-        return super.onOptionsItemSelected(item)
+
+        viewModel.maxBankCount.observe(viewLifecycleOwner, Observer {
+            binding.btnAddBank.visibleView(viewModel.bankAccountListingLiveData.value?.size ?: 0 != 0 && viewModel.bankAccountListingLiveData.value?.size ?: 0 < it ?: 0)
+
+        })
+
     }
 
 
@@ -53,12 +75,11 @@ class MyBankFragment : BaseFragment<FragmentMyBankBinding>(), HandleClick, BaseD
             val view = items[0] as View
             when (view.id) {
                 R.id.btn_add_bank_acc -> {
-                    val bundle =
-                        bundleOf("description" to baseActivity.getString(R.string.send_razorpay_link))
-                    CheckMailDialog().apply {
-                        arguments = bundle
-                        setOnDialogClickListener(this@MyBankFragment)
-                    }.show(childFragmentManager, "")
+                    findNavController().navigateTo(R.id.action_myBankFragment_to_addBankDetailsFragment)
+                }
+
+                R.id.btn_add_bank -> {
+                    findNavController().navigateTo(R.id.action_myBankFragment_to_addBankDetailsFragment)
                 }
             }
         }
@@ -66,11 +87,11 @@ class MyBankFragment : BaseFragment<FragmentMyBankBinding>(), HandleClick, BaseD
 
 
     override fun onDialogClick(vararg items: Any) {
-        binding.cvAddBank.gone()
-        binding.recyclerBankDetail.visible()
+        viewModel.getBankAccountListing()
     }
 
     override fun onApiRetry(apiCode: String) {
+        viewModel.onApiRetry(apiCode)
 
     }
 

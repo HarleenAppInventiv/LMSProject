@@ -24,7 +24,7 @@ class BlurHash(
         blurString: String,
         width: Int,
         height: Int,
-        response: (drawable: BitmapDrawable) -> Unit
+        response: (drawable: BitmapDrawable?) -> Unit
     ) {
         scope.launch {
             var blurBitmap = getBlurDrawable(blurString)
@@ -41,10 +41,10 @@ class BlurHash(
                         context.resources,
                         bitmap
                     )
-                    cache(blurString, blurBitmap!!)
+                    blurBitmap?.let { cache(blurString, blurBitmap!!) }
                 }
             }
-            response(blurBitmap!!)
+            response(blurBitmap)
         }
     }
 

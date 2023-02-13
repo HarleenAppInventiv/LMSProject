@@ -13,7 +13,6 @@ import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.OtpType
 import com.selflearningcoursecreationapp.utils.ValidationConst
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -34,9 +33,9 @@ class ForgotPassViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
                     )
                 )
             }
-            emailPhone.value!!.isDigitsOnly() -> {
+            emailPhone.value?.isDigitsOnly() == true -> {
 
-                if (emailPhone.value!!.length < ValidationConst.MIN_NO_LENGTH) {
+                if ((emailPhone.value?.length ?: 0) < ValidationConst.MIN_NO_LENGTH) {
                     updateResponseObserver(
                         Resource.Error(
                             ToastData(R.string.enter_valid_phone_number)
@@ -47,7 +46,7 @@ class ForgotPassViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
                 }
 
             }
-            !emailPhone.value!!.isValidEmail() -> {
+            emailPhone.value?.isValidEmail() == false -> {
                 updateResponseObserver(
                     Resource.Error(
                         ToastData(
@@ -68,12 +67,13 @@ class ForgotPassViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
         viewModelScope.launch(coroutineExceptionHandle) {
             val map = HashMap<String, Any>()
             if (isPhone) {
-                map["phone"] = emailPhone.value!!
+                map["phone"] = emailPhone.value ?: ""
                 map["countryCode"] = selectedCountryCodeWithPlus ?: ""
             } else {
-                map["email"] = emailPhone.value!!
+                map["email"] = emailPhone.value ?: ""
             }
             map["OtpType"] = OtpType.TYPE_FORGOT.toString()
+            map["unit"] = 60
 
 
             updateResponseObserver(Resource.Loading())

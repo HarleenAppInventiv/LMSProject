@@ -8,34 +8,33 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/const_parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/color_view">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_cat_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_20sdp"
-            android:text="Text to World"
-
-            android:textColor="@color/hintColor"
+            android:paddingHorizontal="@dimen/_16sdp"
+            android:paddingVertical="@dimen/_20sdp"
             android:textSize="@dimen/textField_14"
             app:fontType="regular"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:textAllCaps="true"
-            app:textColorType="none">
+            app:textColorType="body">
 
         </com.selflearningcoursecreationapp.utils.customViews.LMSTextView>
 
 
         <View
-            android:layout_width="wrap_content"
-            android:layout_height="2dp"
-            android:background="@color/filter_stroke_view"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_1sdp"
+            android:background="?attr/filterStrokeColor"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_cat_name" />
 

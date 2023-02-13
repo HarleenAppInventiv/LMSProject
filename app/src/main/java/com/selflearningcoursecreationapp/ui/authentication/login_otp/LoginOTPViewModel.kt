@@ -20,7 +20,6 @@ class LoginOTPViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
     }
 
     var countryCode = ""
-    var cc = ""
 
 
     fun loginViaOTP() {
@@ -30,7 +29,7 @@ class LoginOTPViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
                 updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_phone_number)))
 
             }
-            phone.value!!.length < ValidationConst.MIN_NO_LENGTH -> {
+            (phone.value?.length ?: 0) < ValidationConst.MIN_NO_LENGTH -> {
                 updateResponseObserver(Resource.Error(ToastData(errorCode = R.string.enter_valid_phone_number)))
             }
             else -> {
@@ -51,6 +50,7 @@ class LoginOTPViewModel(private val repo: OTPVerifyRepo) : BaseViewModel() {
             map["phone"] = phone.value!!
             map["OtpType"] = "${OtpType.TYPE_LOGIN}"
             map["countryCode"] = countryCode
+            map["unit"] = 60
 
 
             val response = repo.reqOtp(map)

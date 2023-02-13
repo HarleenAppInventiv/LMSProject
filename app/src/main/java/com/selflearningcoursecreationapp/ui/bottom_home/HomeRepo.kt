@@ -6,6 +6,7 @@ import org.json.JSONObject
 
 interface HomeRepo {
     suspend fun homeCourse(map: JSONObject): Flow<Resource>
+    suspend fun getNotificationCount(): Flow<Resource>
     suspend fun guestHomeCourse(map: JSONObject): Flow<Resource>
     suspend fun homeCategories(): Flow<Resource>
     suspend fun addWishlist(map: Map<String, Any>, fromWishlist: Boolean): Flow<Resource>

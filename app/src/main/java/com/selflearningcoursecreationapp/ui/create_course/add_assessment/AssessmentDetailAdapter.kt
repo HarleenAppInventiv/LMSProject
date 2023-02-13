@@ -24,7 +24,7 @@ class AssessmentDetailAdapter(
             String.format(context.getString(R.string.question_no), position + 1, list.size)
         binding.tvSelectedValue.text = context.getQuantityString(R.plurals.point_quantity, points)
         binding.tvQuesTitle.text = data.title
-        binding.ivHeader.visibleView(!data.questionImage.isNullOrEmpty())
+        binding.parentCL.visibleView(!data.questionImage.isNullOrEmpty())
         binding.ivHeader.loadImage(data.questionImage, R.drawable.ic_default_banner)
 
         when (data.questionType) {

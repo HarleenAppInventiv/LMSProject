@@ -59,19 +59,20 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
             PreferencesFragmentArgs.fromBundle(it).let { args ->
                 viewModel.preferenceArgData = args.preferenceData ?: PreferenceData()
                 viewModel.type = viewModel.preferenceArgData.type
+                viewModel.from = viewModel.preferenceArgData.from
                 viewModel.screenType = viewModel.preferenceArgData.screenType
                 viewModel.languageSingleSelection =
                     viewModel.preferenceArgData.languageSingleSelection
                 viewModel.categorySingleSelection =
                     viewModel.preferenceArgData.categorySingleSelection
                 currentSelection =
-                    if (viewModel.preferenceArgData?.currentSelection.isNullOrNegative()) {
+                    if (viewModel.preferenceArgData.currentSelection.isNullOrNegative()) {
                         if (viewModel.type == -1) 0 else viewModel.type
-                    } else viewModel.preferenceArgData?.currentSelection
-                if (!viewModel.preferenceArgData?.title.isNullOrEmpty()) {
+                    } else viewModel.preferenceArgData.currentSelection
+                if (!viewModel.preferenceArgData.title.isNullOrEmpty()) {
 
                     baseActivity.setToolbar(
-                        viewModel.preferenceArgData?.title,
+                        viewModel.preferenceArgData.title,
                         backIcon = if (viewModel.screenType == PREFERENCES.SCREEN_SELECT) R.drawable.ic_cross_grey else R.drawable.ic_arrow_left
                     )
                 }
@@ -144,36 +145,53 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.action_read -> {
+                baseActivity.checkAccessibilityService()
+            }
             R.id.action_skip -> {
                 when (binding.viewpager.currentItem) {
                     0 -> {
                         binding.btContinue.setBtnDisabled(true)
                         binding.btContinue.isEnabled = (true)
-                        viewModel.categoryListLiveData.value?.forEachIndexed { index, _ ->
-                            viewModel.categoryListLiveData.value!![index].isSelected = false
-                        }
+                        viewModel.categoryListLiveData.value =
+                            viewModel.categoryListLiveData.value?.apply {
+                                forEachIndexed { index, data ->
+                                    data.isSelected = false
+                                }
 
+                            }
                     }
                     1 -> {
-                        viewModel.themeListLiveData.value?.forEach { themeData ->
-                            themeData.isSelected = themeData.id == viewModel.userProfile?.theme?.id
-                        }
+                        viewModel.themeListLiveData.value =
+                            viewModel.themeListLiveData.value?.apply {
+                                forEach { themeData ->
+                                    themeData.isSelected =
+                                        themeData.id == viewModel.userProfile?.theme?.id
+                                }
 
+                            }
                     }
                     2 -> {
-                        viewModel.fontListData.value?.forEach { themeData ->
-                            themeData.isSelected = viewModel.userProfile?.font?.id == themeData.id
+                        viewModel.fontListData.value =
+                            viewModel.fontListData.value?.apply {
+                                forEach { themeData ->
+                                    themeData.isSelected =
+                                        viewModel.userProfile?.font?.id == themeData.id
 
-                        }
+                                }
 
-
+                            }
                     }
 
                     3 -> {
-                        viewModel.languageListLiveData.value?.forEach { data ->
-                            data.isSelected = viewModel.userProfile?.language?.code == data.code
+                        viewModel.languageListLiveData.value =
+                            viewModel.languageListLiveData.value?.apply {
+                                forEach { data ->
+                                    data.isSelected =
+                                        viewModel.userProfile?.language?.code == data.code
 
-                        }
+                                }
+                            }
 
 
                     }
@@ -270,11 +288,24 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
     }
 
     private fun setCategoryData() {
-        val total = viewModel.categoryListLiveData.value?.filter { it.isSelected }?.size ?: 0
-        binding.tvSelectedValue.text = "${if (total <= 9) "0$total" else total}"
-        binding.tvSelectedValue.changeTextColor(ThemeConstants.TYPE_THEME)
-        binding.btContinue.setBtnDisabled(total >= 1)
-        binding.btContinue.isEnabled = (total >= 1)
+
+        viewModel.categoryListLiveData.value?.filter { it.isSelected }?.let {
+            val total = it.size
+            if (viewModel.categorySingleSelection) {
+                binding.tvSelectedValue.text = if (total >= 1) it[0].name else "-"
+                binding.tvSelectedTitle.text = baseActivity.getString(R.string.selected_category)
+                binding.tvSelectedValue.changeTextColor(ThemeConstants.TYPE_PRIMARY)
+            } else {
+                binding.tvSelectedValue.text = "${if (total <= 9) "0$total" else total}"
+                binding.tvSelectedValue.changeTextColor(ThemeConstants.TYPE_THEME)
+
+            }
+
+            binding.btContinue.setBtnDisabled(total >= 1)
+
+            binding.btContinue.isEnabled = (total >= 1)
+
+        }
     }
 
     private fun setThemeData() {
@@ -318,10 +349,12 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
             if (it.endsWith(",")) {
                 it.dropLast(it.length - 1).toString()
             } else {
-                it
+                if (it.isNullOrEmpty()) "-" else it
             }
         }
         binding.tvSelectedValue.text = name
+        binding.btContinue.isEnabled = !name.isNullOrEmpty()
+        binding.btContinue.setBtnEnabled(!name.isNullOrEmpty())
     }
 
     private fun resetData() {
@@ -347,6 +380,10 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
         when (position) {
             0 -> {
                 binding.cbSelectAll.visibleView(!viewModel.categorySingleSelection)
+                if (viewModel.categorySingleSelection) {
+                    binding.tvSelectedTitle.text =
+                        baseActivity.getString(R.string.category_selected)
+                }
                 setCategoryData()
             }
             1 -> {
@@ -414,22 +451,28 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
             }
         }?.filter { it.isSelected }
 
-        setFragmentResult("preferenceData", bundleOf("type" to viewModel.type, "data" to list))
+        setFragmentResult(
+            "preferenceData",
+            bundleOf(
+                "type" to viewModel.type,
+                "data" to list,
+                "clickType" to viewModel.preferenceArgData.clickType
+            )
+        )
         findNavController().navigateUp()
     }
 
 
     @SuppressLint("ResourceType")
     override fun <T> onResponseSuccess(value: T, apiCode: String) {
-        super.onResponseSuccess(value, apiCode)
         when (apiCode) {
             ApiEndPoints.API_SAVE_PREFERENCES -> {
-                showLoading()
+
                 lifecycleScope.launch {
                     viewModel.savePrefDataInDB(viewModel.type)
                     delay(2000)
                     baseActivity.runOnUiThread {
-                        hideLoading()
+
                         when {
                             viewModel.type == PREFERENCES.TYPE_ALL -> {
                                 pagerMoveOrUpdateThemeFile()
@@ -468,7 +511,9 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
 
                                     }
                                 }
-
+                                lifecycleScope.launch {
+                                    (getAppContext() as SelfLearningApplication).updatedThemeFile()
+                                }
                                 val msg =
                                     SpanUtils.with(baseActivity, "$changedText \"$themeText\"")
                                         .apply {
@@ -482,11 +527,31 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
                             }
                             else -> {
                                 showToastLong(baseActivity.getString(R.string.categories_updated_successfully))
-                                findNavController().navigateUp()
+                                if (baseActivity is HomeActivity) {
+                                    baseActivity.startActivity(
+                                        Intent(
+                                            baseActivity,
+                                            HomeActivity::class.java
+                                        )
+                                    )
+                                } else {
+                                    baseActivity.startActivity(
+                                        Intent(
+                                            baseActivity,
+                                            ModeratorActivity::class.java
+                                        )
+                                    )
+                                }
+                                baseActivity.finish()
                             }
                         }
+                        super.onResponseSuccess(value, apiCode)
                     }
                 }
+            }
+            else -> {
+                super.onResponseSuccess(value, apiCode)
+
             }
         }
     }
@@ -494,7 +559,7 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
     private fun closePopUp(msg: SpannableString) {
         CommonAlertDialog.builder(baseActivity)
             .spannedText(msg)
-            .notCancellable()
+            .notCancellable(false)
             .positiveBtnText(getString(R.string.ok_close))
             .hideNegativeBtn(true)
             .getCallback {
@@ -554,7 +619,7 @@ class PreferencesFragment : BaseFragment<FragmentPreferencesBinding>(), View.OnC
                 lifecycleScope.launch {
                     (getAppContext() as SelfLearningApplication).updatedThemeFile()
                 }
-                findNavController().navigate(R.id.homeActivity)
+                findNavController().navigateTo(R.id.homeActivity)
             }
             else -> {
                 binding.viewpager.currentItem += 1

@@ -9,6 +9,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
+        android:id="@+id/parentNSV"
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout

@@ -28,13 +28,14 @@
             android:background="?attr/screenBackgroundColor"
             android:paddingBottom="@dimen/_8sdp">
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
                 android:id="@+id/iv_user_image"
                 android:layout_width="@dimen/_28sdp"
                 android:layout_height="@dimen/_28sdp"
                 android:layout_margin="@dimen/_10sdp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/dummy_user"
+                android:src="@drawable/ic_default_user_grey"
+                app:applyGrayscale="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/circleImage" />
@@ -45,7 +46,8 @@
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_margin="@dimen/_12sdp"
-                android:background="@color/white"
+                android:background="?attr/whiteTextColor"
+                app:applyGrayscale="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_logo_default"
                 app:changeBackgroundType="bg_theme_src"
@@ -67,6 +69,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/iv_extend"
                 app:layout_constraintStart_toEndOf="@+id/iv_user_logo"
                 app:layout_constraintTop_toTopOf="parent"
+                android:ellipsize="end"
+                android:maxLines="1"
                 app:textColorType="heading" />
 
 
@@ -85,10 +89,9 @@
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tv_lecture_list"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_6sdp"
 
-                android:text="1 Audio, 2 Videos, 1 Quiz, 1 Doc, 1 Text"
                 android:textSize="@dimen/_10ssp"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -105,7 +108,7 @@
                 android:layout_width="@dimen/_4sdp"
                 android:layout_height="@dimen/_4sdp"
                 android:layout_marginStart="@dimen/_6sdp"
-                android:background="@color/grey_c4c4c4"
+                android:background="?attr/dotColor"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_total_time"
                 app:layout_constraintEnd_toStartOf="@+id/tv_total_time"
                 app:layout_constraintHorizontal_bias="0"
@@ -118,7 +121,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_6sdp"
-                android:text="11.05hrs"
                 android:textSize="@dimen/_10ssp"
                 android:visibility="visible"
                 app:layout_constraintEnd_toStartOf="@+id/iv_comment"
@@ -148,15 +150,17 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_lesson"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_12sdp"
                 app:layout_constraintTop_toBottomOf="@+id/barrier">
 
                 <View
+                    android:id="@+id/v"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+
                     android:background="@color/opacity_50_929292"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -166,19 +170,19 @@
                     android:id="@+id/tv_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_8sdp"
-                    android:lineSpacingExtra="@dimen/_3sdp"
                     android:textSize="@dimen/adapterTF_14"
+                    android:layout_margin="@dimen/_8sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/desView"
+                    app:layout_constraintTop_toBottomOf="@+id/v"
                     app:textColorType="body" />
 
                 <View
                     android:id="@+id/desView"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_2sdp"
-                    android:layout_marginTop="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:background="@drawable/ic_dotted_line_small"
                     app:layout_constraintEnd_toEndOf="@+id/tv_description"
                     app:layout_constraintStart_toStartOf="@+id/tv_description"
@@ -200,14 +204,14 @@
                     android:id="@+id/commentG"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:constraint_referenced_ids="listView,tv_time,tv_comment,iv_edit,iv_delete" />
+                    app:constraint_referenced_ids="listView,tv_time,tv_comment" />
 
                 <View
                     android:id="@+id/listView"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_2sdp"
                     android:background="@drawable/ic_dotted_line_small"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_description"
+                    app:layout_constraintEnd_toEndOf=" @+id/tv_description"
                     app:layout_constraintStart_toStartOf="@+id/tv_description"
                     app:layout_constraintTop_toBottomOf="@+id/rv_lessons" />
 
@@ -220,7 +224,7 @@
                     android:background="@drawable/comment_bg"
                     android:paddingHorizontal="@dimen/_16sdp"
                     android:paddingVertical="@dimen/_8sdp"
-                    android:text="Comment : Lorem ipsum dolor sitamet, consecte tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                    android:alpha=".8"
                     android:textSize="@dimen/textField_12"
                     app:layout_constraintEnd_toEndOf="@+id/tv_description"
                     app:layout_constraintStart_toStartOf="@+id/tv_description"
@@ -233,9 +237,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_8sdp"
-                    android:text="22 Mar, 2022 at 9:00 AM"
                     android:textSize="@dimen/textField_11"
                     app:fontType="medium"
+                    app:layout_goneMarginTop="@dimen/_24sdp"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_delete"
                     app:layout_constraintEnd_toStartOf="@+id/iv_edit"
                     app:layout_constraintStart_toStartOf="@+id/tv_comment"
@@ -249,6 +253,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:src="@drawable/ic_del_mod_comment"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="@+id/tv_comment"
                     app:layout_constraintTop_toBottomOf="@+id/tv_comment" />
 
@@ -257,8 +262,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_3sdp"
+                    android:src="@drawable/ic_edit_mod_comment"
                     app:layout_constraintEnd_toStartOf="@+id/iv_delete"
                     app:layout_constraintTop_toTopOf="@+id/iv_delete"
+                    android:visibility="gone"
                     app:vector="@drawable/ic_edit_mod_comment" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 

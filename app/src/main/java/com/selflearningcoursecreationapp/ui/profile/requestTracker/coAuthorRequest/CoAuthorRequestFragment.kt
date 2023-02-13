@@ -2,17 +2,18 @@ package com.selflearningcoursecreationapp.ui.profile.requestTracker.coAuthorRequ
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.base.BaseResponse
+import com.selflearningcoursecreationapp.data.network.ApiError
 import com.selflearningcoursecreationapp.databinding.FragmentCoAuthorRequestBinding
-import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.models.course.CourseData
 import com.selflearningcoursecreationapp.models.user.UserProfile
-import com.selflearningcoursecreationapp.ui.profile.requestTracker.PagerViewEventsRequest
+import com.selflearningcoursecreationapp.ui.course_details.ratings.model.GetReviewsRequestModel
 import com.selflearningcoursecreationapp.ui.profile.requestTracker.RequestrackerVM
 import com.selflearningcoursecreationapp.utils.ApiEndPoints
 import com.selflearningcoursecreationapp.utils.CoAuthorStatus
@@ -20,7 +21,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class CoAuthorRequestFragment : BaseFragment<FragmentCoAuthorRequestBinding>() {
+class CoAuthorRequestFragment : BaseFragment<FragmentCoAuthorRequestBinding>(), MenuProvider {
     private val viewModel: RequestrackerVM by viewModel()
     var courseData: CourseData? = null
     private val adapter by lazy {
@@ -45,6 +46,7 @@ class CoAuthorRequestFragment : BaseFragment<FragmentCoAuthorRequestBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        callMenu()
         init()
     }
 
@@ -58,14 +60,17 @@ class CoAuthorRequestFragment : BaseFragment<FragmentCoAuthorRequestBinding>() {
         arguments?.let {
             viewModel.coAuthorRequestId = it.getInt("coAuthorRequestId")
         }
-        val hashMap = HashMap<String, Int>()
-        hashMap["PageNumber"] = 1
-        hashMap["PageSize"] = 20
-        hashMap["RequestType"] = viewModel.coAuthorRequestId
+
+        val filterData = GetReviewsRequestModel()
+        filterData.pageSize = 20
+        filterData.pageNumber = 1
+
+        filterData.RequestType = viewModel.coAuthorRequestId
+
 
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getRequestResponse(hashMap).observe(viewLifecycleOwner) {
+            viewModel.getRequestResponse(filterData).observe(viewLifecycleOwner) {
                 adapter.submitData(lifecycle, it)
             }
         }
@@ -76,6 +81,7 @@ class CoAuthorRequestFragment : BaseFragment<FragmentCoAuthorRequestBinding>() {
             val isListEmpty =
                 loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
             binding.noDataTV.isVisible = isListEmpty
+            binding.rvRequests.isVisible = !isListEmpty
             handleLoading(loadState.source.refresh is LoadState.Loading)
 
             val errorState = when {
@@ -97,10 +103,25 @@ class CoAuthorRequestFragment : BaseFragment<FragmentCoAuthorRequestBinding>() {
         when (apiCode) {
             ApiEndPoints.API_COAUTHOR_INVITATION -> {
                 showToastShort((value as BaseResponse<UserProfile>).message)
-                viewModel.onViewEvent(PagerViewEventsRequest.Remove(courseData ?: CourseData()))
-                if (adapter.itemCount == 0) {
-                    binding.noDataTV.visible()
-                }
+//                viewModel.onViewEvent(PagerViewEventsRequest.Remove(courseData ?: CourseData()))
+//                if (adapter.itemCount == 0) {
+//                    binding.noDataTV.visible()
+//                    binding.rvRequests.gone()
+                adapter.refresh()
+//                }
+            }
+
+        }
+    }
+
+    override fun onException(isNetworkAvailable: Boolean, exception: ApiError, apiCode: String) {
+        super.onException(isNetworkAvailable, exception, apiCode)
+        when (apiCode) {
+            ApiEndPoints.API_COAUTHOR_INVITATION -> {
+
+
+                adapter.refresh()
+
             }
 
         }
@@ -120,5 +141,12 @@ class CoAuthorRequestFragment : BaseFragment<FragmentCoAuthorRequestBinding>() {
         viewModel.onApiRetry(apiCode)
 
     }
+
+    fun refreshData() {
+
+        adapter.refresh()
+
+    }
+
 
 }

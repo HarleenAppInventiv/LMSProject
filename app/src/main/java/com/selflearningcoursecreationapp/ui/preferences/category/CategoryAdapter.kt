@@ -5,11 +5,11 @@ import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseViewHolder
 import com.selflearningcoursecreationapp.databinding.AdapterSelectCategoryBinding
 import com.selflearningcoursecreationapp.extensions.gone
-import com.selflearningcoursecreationapp.extensions.loadImage
 import com.selflearningcoursecreationapp.extensions.visible
 import com.selflearningcoursecreationapp.extensions.visibleView
 import com.selflearningcoursecreationapp.models.CategoryData
 import com.selflearningcoursecreationapp.utils.Constant
+import com.selflearningcoursecreationapp.utils.builderUtils.ImageViewBuilder
 
 class CategoryAdapter(
     private val value: ArrayList<CategoryData>,
@@ -37,7 +37,12 @@ class CategoryAdapter(
             binding.ivSelected.visibleView(value[position].isSelected)
         }
         binding.tvTitle.text = value[position].name
-        binding.ivPreview.loadImage(value[position].imageUrl, R.drawable.ic_science_dummy)
+        ImageViewBuilder.builder(binding.ivPreview)
+            .placeHolder(R.drawable.ic_all_courses_large)
+//            .primaryTint(true)
+            .setImageUrl(value[position].imageUrl)
+            .loadImage()
+//        binding.ivPreview.loadImage(value[position].imageUrl, R.drawable.ic_science_dummy)
 
         binding.parentCL.setOnClickListener {
             onItemClick(Constant.CLICK_VIEW, position, type)

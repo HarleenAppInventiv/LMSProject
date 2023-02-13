@@ -30,7 +30,6 @@
             android:paddingHorizontal="@dimen/_15sdp"
             android:paddingTop="@dimen/_3sdp"
             android:paddingBottom="@dimen/_4sdp"
-            android:text="Science"
             android:textSize="@dimen/textField_12"
             app:fontType="regular"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -40,7 +39,7 @@
             app:textColorType="heading"
 
             />
-        <!--        android:textColor="@{model.isSelected ?  @color/black :  @color/hintColor}"-->
+<!--        android:textColor="@{model.isSelected ?  @color/black :  @color/hintColor}"-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

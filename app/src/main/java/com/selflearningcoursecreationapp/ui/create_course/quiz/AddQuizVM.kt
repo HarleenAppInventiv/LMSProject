@@ -114,16 +114,16 @@ class AddQuizVM(private var repo: AddQuizRepo) : BaseViewModel() {
                       val optionId =
                           resource?.optionList?.map { option -> option.id }?.joinToString { "," }
                       quizData.list?.get(adapterPosition)?.optionList =
-                            if (quizData.list?.get(adapterPosition)?.optionIds?.equals(optionId) == true) {
-                                resource?.optionList ?: ArrayList()
+                          if (quizData.list?.get(adapterPosition)?.optionIds?.equals(optionId) == true) {
+                              resource?.optionList ?: ArrayList()
 
-                            } else {
-                                resource?.optionList?.onEach { option ->
-                                    option.ansId = 0
-                                    option.isSelected = false
-                                } ?: ArrayList()
-                            }
-                        quizData.list?.get(adapterPosition)?.optionIds = optionId
+                          } else {
+                              resource?.optionList?.onEach { option ->
+                                  option.ansId = 0
+                                  option.isSelected = false
+                              } ?: ArrayList()
+                          }
+                      quizData.list?.get(adapterPosition)?.optionIds = optionId
                         quizData.list?.get(adapterPosition)?.questionImageId =
                             resource?.questionImageId
                         quizData.list?.get(adapterPosition)?.isEnabled = false

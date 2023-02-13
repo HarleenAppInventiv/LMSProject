@@ -9,7 +9,7 @@
     <group>
         <clip-path android:pathData="M26,18h19.5v29h-19.5z" />
         <path
-            android:fillColor="#FFE1B7"
+            android:fillColor="?attr/colorVariant_Yellow"
             android:pathData="M43,18.21H26C27.36,23.92 31.83,27.85 35.73,32.07C39.63,36.29 42.28,40.32 41.94,46.2H26.68C25.35,34.89 42.64,27.56 44,18.21H26" />
         <path
             android:fillColor="#ffffff"
@@ -21,7 +21,7 @@
             android:fillColor="#00000000"
             android:pathData="M44,19H27C28.36,24.72 32.83,28.64 36.73,32.87C40.63,37.09 43.28,41.12 42.94,47H27.68C26.35,35.68 43.64,28.36 45,19H27"
             android:strokeWidth="0.45"
-            android:strokeColor="#FFB13E"
+            android:strokeColor="?attr/colorVariant_DarkYellow"
             android:strokeLineCap="round"
             android:strokeLineJoin="round" />
     </group>

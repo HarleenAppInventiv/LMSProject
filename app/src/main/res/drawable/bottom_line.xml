@@ -12,7 +12,7 @@
         <shape android:shape="rectangle">
             <stroke
                 android:width="@dimen/_1sdp"
-                android:color="?attr/hintColor" />
+                android:color="?attr/lineColor" />
         </shape>
     </item>
 

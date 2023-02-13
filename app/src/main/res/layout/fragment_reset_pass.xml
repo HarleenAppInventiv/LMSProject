@@ -96,7 +96,7 @@
                 android:layout_height="0dp"
                 android:layout_marginVertical="@dimen/_12sdp"
                 android:layout_marginStart="@dimen/_40sdp"
-                android:background="?attr/etDashColor"
+                android:background="?attr/radioUnselectedColor"
                 android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="@+id/et_newPass"
                 app:layout_constraintStart_toStartOf="@+id/et_newPass"
@@ -135,7 +135,7 @@
                 android:layout_height="0dp"
                 android:layout_marginVertical="@dimen/_12sdp"
                 android:layout_marginStart="@dimen/_40sdp"
-                android:background="?attr/etDashColor"
+                android:background="?attr/radioUnselectedColor"
                 android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="@+id/edt_confirm_pass"
                 app:layout_constraintStart_toStartOf="@+id/edt_confirm_pass"
@@ -159,6 +159,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edt_confirm_pass"
                 app:layout_constraintVertical_bias="0.1"
+                android:capitalize="none"
+                android:textAllCaps="false"
                 app:layout_constraintWidth_percent=".9" />
 
 

@@ -30,19 +30,15 @@ class AdapterCourseType(
         } else {
             when (position % 4) {
                 0 -> {
-
                     R.color.blue_indicator_color
                 }
                 1 -> {
-
                     R.color.color_green
                 }
                 2 -> {
-
                     R.color.coin_stroked_color
                 }
                 3 -> {
-
                     R.color.purple_700
                 }
                 else -> {

@@ -138,6 +138,8 @@ object ThemeUtils {
                     R.font.roboto_black
                 )
                 fontArray[styleType - 1]
+
+//                R.font.edu_test
             }
 
             else -> {
@@ -221,6 +223,57 @@ object ThemeUtils {
             String.format(
                 "#%02x%02x%02x%02x",
                 255,
+                red,
+                green,
+                blue
+            )
+        )
+
+    }
+
+    fun getLightestColor(colorString: Int): Int {
+
+
+        var red = (Color.red(colorString))
+//        if (red >= 100) {
+//            red -= 10
+//        } else {
+//            red += 10
+//        }
+
+
+        var green = (Color.green(colorString))
+        if (green >= 150) {
+            green -= 30
+        } else {
+            green += 30
+        }
+
+
+        var blue = (Color.blue(colorString))
+        if (blue <= 235)
+            blue += 30
+        else blue -= 30
+
+
+
+
+
+        showLog(
+            "COLOR_HEX",
+            String.format(
+                "#%02x%02x%02x%02x",
+                255,
+                red,
+                green,
+
+                blue
+            )
+        )
+        return Color.parseColor(
+            String.format(
+                "#%02x%02x%02x%02x",
+                5,
                 red,
                 green,
                 blue

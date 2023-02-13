@@ -20,6 +20,7 @@ import androidx.core.text.isDigitsOnly
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import com.selflearningcoursecreationapp.R
+import com.selflearningcoursecreationapp.textEditor.TextEditor
 import com.selflearningcoursecreationapp.utils.customViews.LMSTextView
 import com.selflearningcoursecreationapp.utils.customViews.ThemeConstants
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
@@ -113,29 +114,67 @@ fun TextView.onRightDrawableClick(onClick: () -> Unit) {
     }
 }
 
+fun EditText.otpHelper(list: ArrayList<EditText>) {
+    list.forEachIndexed { index, editText ->
+
+
+        editText.setOnFocusChangeListener { view, b ->
+            if (b) {
+                this.requestFocus()
+                this.showKeyBoard()
+            }
+        }
+    }
+    this.doOnTextChanged { text, start, before, count ->
+        val typedText = text.toString()
+
+        list.forEachIndexed { index, editText ->
+            editText.text?.clear()
+            if (typedText.isNullOrEmpty()) {
+                editText.setText("")
+            }
+            if (typedText.length >= index + 1) {
+                editText.setText(String.format("%s", typedText[index]))
+            }
+            if (typedText.length == list.size) {
+                hideKeyboard()
+            }
+
+        }
+
+    }
+}
+
 fun EditText.otpHelper() {
+
     setOnKeyListener { _, keyCode, keyEvent ->
         showLog("OTP", "setOnKeyListener>> >> $keyEvent")
 
 
-        when {
-            keyCode == KeyEvent.KEYCODE_DEL && isBlank() -> {
-
-
+//        when {
+//            keyCode == KeyEvent.KEYCODE_DEL && isBlank() -> {
+//
+//
+//                val view = focusSearch(View.FOCUS_LEFT) ?: focusSearch(View.FOCUS_UP)
+//                view?.requestFocus()
+//                if (view is EditText)
+//                    view.setSelection(view.text.toString().length)
+//
+//            }
+//            keyEvent.action == KeyEvent.ACTION_DOWN && content().length == 1 && keyCode != KeyEvent.KEYCODE_DEL -> {
+//                showLog("OTP", "action up>>")
+//
+//                //            if (content().length == 1) {
+//                setOverridingText(keyEvent)
+//            }
+//        }
+        if (keyCode == KeyEvent.KEYCODE_DEL) {
+            if (isBlank()) {
                 val view = focusSearch(View.FOCUS_LEFT)
                 view?.requestFocus()
-                if (view is EditText)
-                    view.setSelection(view.text.toString().length)
 
-
-            }
-            keyEvent.action == KeyEvent.ACTION_UP && content().length == 1 && keyCode != KeyEvent.KEYCODE_DEL -> {
-
-                //            if (content().length == 1) {
-                setOverridingText(keyEvent)
             }
         }
-
 
 //        }
 
@@ -154,17 +193,32 @@ fun EditText.otpHelper() {
             showLog("OTP", "p1>>> $p1")
             showLog("OTP", "p2>>> $p2")
             showLog("OTP", "p3>>> $p3")
-            if (p0.toString().length == 1 && p3 == 1) {
+            if (p0.toString().length == 1) {
 
                 val view = focusSearch(View.FOCUS_RIGHT)
-                view?.requestFocus() ?: kotlin.run {
+                view?.let {
+
+                    it.requestFocus()
+                } ?: kotlin.run {
                     this@otpHelper.hideKeyboard()
                 }
-            }
+            }/*else if (p0.toString().isEmpty() && p2==1){
+                val view = focusSearch(View.FOCUS_LEFT)
+                view?.requestFocus() ?: kotlin.run {
+
+                }
+            }*/
         }
 
         override fun afterTextChanged(p0: Editable?) {
-            Log.d("text", "afterTextChanged: ")
+            Log.e("OTP", "afterTextChanged: ")
+//            if (this@otpHelper.content().isEmpty())
+//            {
+//                val view = focusSearch(View.FOCUS_LEFT)
+//                view?.requestFocus() ?: kotlin.run {
+//
+//                }
+//            }
         }
 
     })
@@ -199,7 +253,7 @@ private fun EditText.setOverridingText(keyEvent: KeyEvent) {
     val m = keyEvent.getUnicodeChar(keyEvent.metaState).toChar().toString()
     if (m.isDigitsOnly()) {
         showLog("OTP", "charrr>> >> $m")
-        val view = focusSearch(View.FOCUS_RIGHT)
+        val view = focusSearch(View.FOCUS_RIGHT) ?: focusSearch(View.FOCUS_DOWN)
 
         view?.let {
 
@@ -217,6 +271,9 @@ private fun EditText.setOverridingText(keyEvent: KeyEvent) {
         } ?: kotlin.run {
             this.hideKeyboard()
         }
+    } else {
+        showLog("OTP", "no digit>>")
+
     }
 }
 
@@ -231,11 +288,10 @@ fun TextView.setNoSpaceFilter() {
 }
 
 
-
 fun EditText.addDecimalLimiter(maxLimit: Int = 2, beforeDecimal: Int = 4) {
 
     this.doAfterTextChanged {
-        val str = this@addDecimalLimiter.text!!.toString()
+        val str = this@addDecimalLimiter.text?.toString() ?: ""
         if (str.isNotEmpty()) {
 
             val str2 = decimalLimiter(str, maxLimit, beforeDecimal)
@@ -244,7 +300,7 @@ fun EditText.addDecimalLimiter(maxLimit: Int = 2, beforeDecimal: Int = 4) {
 
             if (str2 != str) {
                 this@addDecimalLimiter.setText(str2)
-                val pos = this@addDecimalLimiter.text!!.length
+                val pos = this@addDecimalLimiter.text?.length ?: 0
                 this@addDecimalLimiter.setSelection(pos)
             }
         }
@@ -319,6 +375,8 @@ fun LMSTextView.setStepColor(isSelected: Boolean) {
         changeBackgroundTint(ThemeConstants.TYPE_BODY)
     }
 }
+
+
 fun TextView.disableCopyPaste() {
     isLongClickable = false
     setTextIsSelectable(false)
@@ -337,4 +395,11 @@ fun TextView.disableCopyPaste() {
 
         override fun onDestroyActionMode(mode: ActionMode?) {}
     }
+}
+
+fun TextEditor.disableCopyPaste() {
+    isLongClickable = false
+    isFocusable = false
+    setInputEnabled(false)
+
 }

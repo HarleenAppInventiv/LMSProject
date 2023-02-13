@@ -28,6 +28,20 @@ class ProfileDetailViewModel(private val repo: ProfileDetailRepo) : BaseViewMode
     var certificateFiles = arrayListOf<ModeCertificate>()
     var categoryData = arrayListOf<CategoryData>()
     var laguageData = arrayListOf<CategoryData>()
+
+    var isAllDataSelected = MutableLiveData(false)
+
+
+    fun observeData() {
+        if (!categoryData.isNullOrEmpty() && !certificateFiles.isNullOrEmpty() && certificateFiles.size > 1 && !laguageData.isNullOrEmpty()) {
+
+            isAllDataSelected.postValue(true)
+        } else {
+            isAllDataSelected.postValue(false)
+        }
+    }
+
+
     var position = -1
     private var uploadFile: File? = null
     fun viewProfile() = viewModelScope.launch(coroutineExceptionHandle) {
@@ -40,6 +54,15 @@ class ProfileDetailViewModel(private val repo: ProfileDetailRepo) : BaseViewMode
                     userProfile = data.resource
                     delay(1000)
                 }
+                updateResponseObserver(it)
+            }
+        }
+    }
+
+    fun deleteProfile() = viewModelScope.launch(coroutineExceptionHandle) {
+        val response = repo.deleteProfileImage()
+        withContext(Dispatchers.IO) {
+            response.collect {
                 updateResponseObserver(it)
             }
         }
@@ -83,6 +106,8 @@ class ProfileDetailViewModel(private val repo: ProfileDetailRepo) : BaseViewMode
                         certificateFiles[position] =
                             ModeCertificate(id = data.resource?.id ?: "", file)
                         certificateFiles.add(ModeCertificate("", File("")))
+                        observeData()
+
                     }
                     updateResponseObserver(it)
                 }
@@ -93,8 +118,9 @@ class ProfileDetailViewModel(private val repo: ProfileDetailRepo) : BaseViewMode
     fun addModerator() = viewModelScope.launch {
 
         val languageList = laguageData.joinToString(separator = ",") { "${it.id}" }
+        val categoryList = categoryData.joinToString(separator = ",") { "${it.id}" }
 
-        val categoryId = categoryData[0].id
+//        val categoryId = categoryData[0].id
         val docu = arrayListOf<String>()
 
         certificateFiles.forEach {
@@ -109,7 +135,7 @@ class ProfileDetailViewModel(private val repo: ProfileDetailRepo) : BaseViewMode
             AddModeratorResponse(
                 language = languageList,
                 documentsContentId = docu,
-                categoryId = categoryId
+                category = categoryList
             )
         )
         withContext(Dispatchers.IO) {

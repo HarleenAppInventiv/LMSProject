@@ -17,6 +17,8 @@ data class MasterDataItem(
     var courseTypes: SingleClickResponse? = null,
     @SerializedName("languages")
     var languages: CategoryResponse? = null,
+    @SerializedName("allLanguages")
+    var allLanguages: CategoryResponse? = null,
     @SerializedName("professions")
     var professions: SingleClickResponse? = null
 ) : Parcelable {

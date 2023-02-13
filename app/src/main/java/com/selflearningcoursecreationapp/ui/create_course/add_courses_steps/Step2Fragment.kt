@@ -25,8 +25,10 @@ import java.io.File
 class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
     BaseBottomSheetDialog.IDialogClick {
 
-    private val viewModel: AddCourseViewModel by viewModels({ requireParentFragment() })
+    private val viewModel: AddCourseViewModel by viewModels({ requireParentFragment().requireParentFragment() })
     private var dialogFragment: BottomSheetDialogFragment? = null
+
+    var isLogoOptionalId = 1 // 0 for yes, 1 for no
 
     override fun getLayoutRes(): Int {
         return R.layout.fragment_step2
@@ -41,17 +43,27 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
     private fun initUi() {
         binding.handleClick = this
         binding.step2 = viewModel
+        enableFields()
         binding.tvFee.addDecimalLimiter()
         if (!viewModel.courseData.value?.keyTakeaways.isNullOrEmpty()) {
             binding.tvKeywordTitle.text = Html.fromHtml(viewModel.courseData.value?.keyTakeaways)
         }
 
         viewModel.courseData.value?.let {
+            if (it.logoRequiredOnCertificate == true) {
+                isLogoOptionalId = 0
+                binding.tvIsShowLogo.text = getString(R.string.yes)
+            } else {
+                binding.tvIsShowLogo.text = getString(R.string.no)
+                isLogoOptionalId = 1
+            }
+
+
             if (!it.keyTakeaways.isNullOrEmpty()) {
                 binding.tvKeywordTitle.text =
                     Html.fromHtml(viewModel.courseData.value?.keyTakeaways)
             }
-            if (!it.courseLogoUrl.isNullOrEmpty()) {
+            if (!it.courseLogoUrl.isNullOrEmpty() || viewModel.isCreator.value == false) {
                 binding.ivLogo.loadImage(it.courseLogoUrl, R.drawable.ic_logo_default)
                 binding.tvLogo.gone()
                 binding.ivEditLogo.visible()
@@ -61,7 +73,8 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
             if (!it.courseBannerUrl.isNullOrEmpty()) {
                 binding.ivHeader.loadImage(it.courseBannerUrl, R.drawable.ic_default_banner)
                 binding.tvHeader.gone()
-                binding.ivEditBanner.visible()
+                binding.ivEditBanner.visibleView(viewModel.isCreator.value == true)
+
             }
 
         }
@@ -75,8 +88,20 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
 
     }
 
+    private fun enableFields() {
+
+        binding.svParent.isEnabled = viewModel.courseData.value?.enableFields ?: true
+        binding.svParent.isClickable = viewModel.courseData.value?.enableFields ?: true
+
+        binding.disableView.visibleView(!(viewModel.courseData.value?.enableFields ?: true))
+
+
+        binding.svParent.alpha = if (viewModel.courseData.value?.enableFields ?: true) 1f else 0.3f
+    }
+
     private fun coAuthorHandling() {
         viewModel.getCoAuthor()?.let {
+
             binding.noEditCL.visibleView(it.courseLogoURL.isNullOrEmpty())
             if (!viewModel.getCoAuthor()?.courseLogoURL.isNullOrEmpty()) {
                 viewModel.courseData.value?.courseLogoId = viewModel.getCoAuthor()?.courseLogoId
@@ -92,19 +117,6 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
             }
         }
 
-//        binding.noEditCL.visibleView(viewModel.courseData.value?.isCoAuthor == true && viewModel.getCoAuthor()?.courseLogoURL.isNullOrEmpty())
-//        if (!viewModel.getCoAuthor()?.courseLogoURL.isNullOrEmpty()) {
-//            viewModel.courseData.value?.courseLogoId = viewModel.getCoAuthor()?.courseLogoId
-//            binding.ivCoauthorLogo.loadImage(
-//                viewModel.getCoAuthor()?.courseLogoURL,
-//                R.drawable.ic_logo_default
-//            )
-//            binding.ivLogo.loadImage(
-//                viewModel.getCoAuthor()?.courseLogoURL,
-//                R.drawable.ic_logo_default
-//            )
-//
-//        }
     }
 
 
@@ -131,8 +143,10 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
                         dialogFragment?.dismiss()
                     }
                     dialogFragment = UploadImageOptionsDialog().apply {
-                        arguments = bundleOf("type" to DialogType.CLICK_BANNER)
+                        arguments = bundleOf(
+                            "type" to DialogType.CLICK_BANNER,
 
+                            )
                         setOnDialogClickListener(this@Step2Fragment)
                     }
                     dialogFragment?.show(childFragmentManager, "")
@@ -176,9 +190,48 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
                     }
                     dialogFragment?.show(childFragmentManager, "")
                 }
+                R.id.tv_is_show_logo -> {
+                    if (dialogFragment?.isVisible == true) {
+                        dialogFragment?.dismiss()
+                    }
+                    dialogFragment = SingleChoiceBottomDialog().apply {
+                        arguments = bundleOf(
+                            "type" to DialogType.LOGO_OPTION,
+                            "title" to this@Step2Fragment.baseActivity.getString(R.string.would_you_like_to_show_same_logo_to_the_certification),
+                            "list" to arrayListOf<SingleChoiceData>(
+                                SingleChoiceData(
+                                    0,
+                                    viewModel.courseData.value?.logoRequiredOnCertificate,
+                                    false,
+                                    false,
+                                    "Yes"
+                                ),
+                                SingleChoiceData(
+                                    1,
+                                    !viewModel.courseData.value?.logoRequiredOnCertificate!!,
+                                    false,
+                                    false,
+                                    "No"
+                                )
+                            ),
+                            "id" to isLogoOptionalId/// need to pass type for yes or no
+                        )
+                        setOnDialogClickListener(this@Step2Fragment)
+                    }
+                    dialogFragment?.show(childFragmentManager, "")
+                }
+
                 R.id.tv_type -> {
                     if (dialogFragment?.isVisible == true) {
                         dialogFragment?.dismiss()
+                    }
+
+                    viewModel.masterData.courseTypes?.list?.apply {
+                        this.forEach {
+                            if (it.isPaid == true) {
+                                it.isEnabled = false
+                            }
+                        }
                     }
                     dialogFragment = SingleChoiceBottomDialog().apply {
                         arguments = bundleOf(
@@ -225,10 +278,10 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
                 }
                 R.id.tv_keyword -> {
                     val action =
-                        AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToTextEditorFragment(
+                        AddCourseBaseNewFragmentDirections.actionAddCourseBaseFragmentToTextEditorFragment(
                             Constant.KEY_TAKEAWAY, viewModel.courseData.value?.keyTakeaways ?: ""
                         )
-                    findNavController().navigate(action)
+                    findNavController().navigateTo(action)
                 }
 
 
@@ -243,6 +296,15 @@ class Step2Fragment : BaseFragment<FragmentStep2Binding>(), HandleClick,
                     val value = items[1] as SingleChoiceData
                     binding.tvComplexity.text = value.title
                     viewModel.courseData.value?.courseComplexityId = value.id
+
+                }
+                DialogType.LOGO_OPTION -> {
+                    val value = items[1] as SingleChoiceData
+                    binding.tvIsShowLogo.text = value.title
+                    isLogoOptionalId = value.id ?: 1
+                    viewModel.courseData.value?.logoRequiredOnCertificate =
+                        if (value.id == 1) false else true
+                    viewModel.courseData.value?.notifyChange()
 
                 }
 

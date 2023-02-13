@@ -9,6 +9,8 @@ import com.selflearningcoursecreationapp.base.BaseDialog
 import com.selflearningcoursecreationapp.data.network.ApiError
 import com.selflearningcoursecreationapp.databinding.DialogRequestFailedBinding
 import com.selflearningcoursecreationapp.extensions.loadImage
+import com.selflearningcoursecreationapp.extensions.visibleView
+import com.selflearningcoursecreationapp.utils.Constant
 import java.io.IOException
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeoutException
@@ -17,6 +19,7 @@ class NetworkFailDialogue : BaseDialog<DialogRequestFailedBinding>() {
 
     private var isNetworkError: Boolean = false
     private var apiError: ApiError? = null
+    private var fromHome: Boolean = false
 
     override fun getLayoutRes(): Int {
         return R.layout.dialog_request_failed
@@ -27,9 +30,11 @@ class NetworkFailDialogue : BaseDialog<DialogRequestFailedBinding>() {
 
         arguments?.let {
             isNetworkError = arguments?.getBoolean("networkError", false) ?: false
+            fromHome = arguments?.getBoolean("fromHome", false) ?: false
             apiError = arguments?.getParcelable("exception")
         }
 
+        binding.tvGoToDownlaod.visibleView(isNetworkError && fromHome)
         if (isNetworkError) {
             binding.btnSubmit.text = baseActivity.getString(R.string.try_again)
             binding.tvErrorSubHeading.text =
@@ -57,6 +62,7 @@ class NetworkFailDialogue : BaseDialog<DialogRequestFailedBinding>() {
             }
         }
 
+
         dialog?.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
@@ -66,12 +72,19 @@ class NetworkFailDialogue : BaseDialog<DialogRequestFailedBinding>() {
 
         binding.btnSubmit.setOnClickListener {
             onDialogClick(
+                Constant.CLICK_ADD,
                 arguments?.getString("apiCode", "").toString(),
                 arguments?.getBoolean("networkError", false) ?: false
             )
             dismiss()
 
 
+        }
+        binding.tvGoToDownlaod.setOnClickListener {
+            onDialogClick(Constant.CLICK_VIEW)
+
+
+            dismiss()
         }
 
         changeImage(arguments?.getBoolean("networkError", false) ?: false)

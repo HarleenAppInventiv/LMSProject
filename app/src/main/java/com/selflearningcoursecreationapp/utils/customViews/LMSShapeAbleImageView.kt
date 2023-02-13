@@ -33,7 +33,7 @@ class LMSShapeAbleImageView : ShapeableImageView {
     private fun initView(context: Context, attrs: AttributeSet? = null, defStyle: Int? = 0) {
         val themeAttrs = context.obtainStyledAttributes(
             attrs, R.styleable.LMSShapeAbleImageView,
-            defStyle!!, 0
+            defStyle ?: 0, 0
         )
 
         val changeBgType =

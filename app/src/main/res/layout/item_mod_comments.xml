@@ -1,29 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.selflearningcoursecreationapp.utils.customViews.LMSCardView
         android:id="@+id/cvParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        app:cardBackgroundColor="?attr/viewBackgroundColor"
         app:cardCornerRadius="@dimen/_8sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_8sdp">
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:paddingVertical="@dimen/_8sdp">
+
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
                 android:id="@+id/ivCourseImage"
-                android:layout_width="@dimen/_100sdp"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/_90sdp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_course_dummy"
+                android:src="@drawable/ic_home_default_banner"
+                app:applyGrayscale="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/guideline"
+                app:layout_constraintVertical_bias="0"
                 app:shapeAppearanceOverlay="@style/corner_radius_5" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.38"
+                tools:ignore="DuplicateIncludedIds" />
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                 android:id="@+id/ivSave"
@@ -31,6 +46,7 @@
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_save"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,10 +58,9 @@
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_16sdp"
                 android:ellipsize="end"
+                android:maxLines="1"
                 android:textSize="@dimen/adapterTF_14"
                 app:fontType="semiBold"
-                android:maxLines="1"
-                android:text="UX and Web Design Course"
                 app:layout_constraintEnd_toStartOf="@+id/ivSave"
                 app:layout_constraintStart_toEndOf="@+id/ivCourseImage"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -54,8 +69,7 @@
                 android:id="@+id/tvUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:text="@string/allen_wen"
+                android:layout_marginTop="@dimen/_4sdp"
                 android:textSize="@dimen/adapterTextField_12"
                 app:fontType="medium"
                 app:layout_constraintStart_toStartOf="@+id/tvCourseName"
@@ -66,8 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:text="@string/ba_certification"
+                android:layout_marginTop="@dimen/_4sdp"
                 android:textSize="@dimen/adapterTextField_10"
                 app:fontType="medium"
                 app:layout_constraintStart_toEndOf="@+id/ivCourseImage"
@@ -80,7 +93,7 @@
                 android:layout_height="@dimen/_4sdp"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:importantForAccessibility="no"
-                android:src="@color/grey_c4c4c4"
+                android:src="?attr/dotColor"
                 app:layout_constraintBottom_toBottomOf="@+id/tvCourseDesc"
                 app:layout_constraintStart_toEndOf="@+id/tvCourseDesc"
                 app:layout_constraintTop_toTopOf="@+id/tvCourseDesc"
@@ -91,13 +104,82 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:text="@string/english_language"
+                android:layout_marginTop="@dimen/_4sdp"
                 android:textSize="@dimen/adapterTextField_10"
                 app:fontType="medium"
                 app:layout_constraintStart_toEndOf="@+id/iv_dot1"
                 app:layout_constraintTop_toBottomOf="@+id/tvUserName"
                 app:textColorType="theme" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/const_rejectDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                app:layout_constraintStart_toEndOf="@+id/ivCourseImage"
+                app:layout_constraintTop_toBottomOf="@+id/tvCourseDesc">
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tvRejectedTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/reject_date"
+                    android:textSize="@dimen/adapterTextField_10"
+                    app:fontType="medium"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:textColorType="black" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tvRejectedDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:textColor="?attr/accentColor_Red"
+                    android:textSize="@dimen/adapterTextField_10"
+                    app:fontType="medium"
+                    app:layout_constraintStart_toEndOf="@+id/tvRejectedTitle"
+                    app:layout_constraintTop_toTopOf="@+id/tvRejectedTitle"
+                    app:textColorType="none" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/const_total_comment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                app:layout_constraintStart_toEndOf="@+id/ivCourseImage"
+                app:layout_constraintTop_toBottomOf="@+id/const_rejectDate">
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tvCommentTtile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/comments"
+                    android:textSize="@dimen/adapterTextField_10"
+                    app:fontType="medium"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:textColorType="black" />
+
+                <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                    android:id="@+id/tvTotalComments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:textColor="?attr/accentColor_Red"
+                    android:textSize="@dimen/adapterTextField_10"
+                    app:fontType="medium"
+                    app:layout_constraintStart_toEndOf="@+id/tvCommentTtile"
+                    app:layout_constraintTop_toTopOf="@+id/tvCommentTtile"
+                    app:textColorType="none" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
                 android:id="@+id/tvRatings"
@@ -112,8 +194,65 @@
                 android:text="@string/_4_5"
                 android:textSize="@dimen/_10ssp"
                 app:fontType="medium"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="@+id/ivCourseImage"
                 app:layout_constraintTop_toTopOf="@+id/ivCourseImage" />
+
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="ivCourseImage" />
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="?attr/lineColor"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/barrier" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_text_reason"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/reason_for_rejection"
+                android:textSize="@dimen/textField_11"
+                android:visibility="gone"
+                app:fontType="medium"
+                app:layout_constraintStart_toStartOf="@+id/ivCourseImage"
+                app:layout_constraintTop_toBottomOf="@+id/view1"
+                app:textAllCaps="true"
+                app:textColorType="body" />
+
+
+            <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                android:id="@+id/tv_reason"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textSize="@dimen/textField_14"
+                android:visibility="gone"
+                app:fontType="regular"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tv_text_reason"
+                app:layout_constraintTop_toBottomOf="@+id/tv_text_reason"
+                app:textColorType="primary" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

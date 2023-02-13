@@ -13,19 +13,35 @@
         android:background="?attr/secondaryScreenBgColor"
         tools:context=".ui.course_details.video.TranscriptFragment">
 
-        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+        <WebView
+            android:id="@+id/webview"
             android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/noDataTV"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur"
-            android:textSize="@dimen/textField_14"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:drawableTop="@drawable/ic_no_doc"
+            android:drawablePadding="@dimen/_15sdp"
+            android:gravity="center"
+            android:text="@string/no_transcript_found"
+            android:textAlignment="center"
+            android:textSize="@dimen/textField_15"
+            android:visibility="gone"
             app:fontType="medium"
+
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_margin="@dimen/_12sdp"
-            android:lineSpacingExtra="@dimen/_3sdp"
-            android:textAlignment="textStart"
-            app:textColorType="black" />
+            app:primaryIconTint="bottom"
+            app:textColorType="heading" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -23,8 +23,8 @@
             android:layout_marginEnd="@dimen/_8sdp"
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_height="wrap_content"
-            android:paddingEnd="@dimen/_12sdp"
             android:textSize="@dimen/textField_14"
+            android:paddingEnd="@dimen/_12sdp"
             android:paddingStart="@dimen/_10sdp"
             android:paddingVertical="@dimen/_10sdp"
             app:fontType="semiBold"
@@ -52,7 +52,7 @@
         <View
             android:layout_width="@dimen/_1sdp"
             android:layout_height="0dp"
-            android:background="@color/progress_bg"
+            android:background="?attr/lineColor"
             app:layout_constraintBottom_toBottomOf="@+id/rv_list"
             app:layout_constraintEnd_toEndOf="@+id/tv_answer"
             app:layout_constraintTop_toTopOf="@+id/rv_list" />
@@ -62,12 +62,12 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/_1sdp"
             android:layout_marginTop="@dimen/_14sdp"
-            android:background="@color/opacity_15_929292"
+            android:background="?attr/lineColor"
             app:layout_constraintEnd_toEndOf="@+id/rv_list"
             app:layout_constraintStart_toStartOf="@+id/tv_answer"
-            android:layout_marginBottom="@dimen/_2sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_list" />
+            app:layout_constraintTop_toBottomOf="@+id/rv_list"
+            android:layout_marginBottom="@dimen/_2sdp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

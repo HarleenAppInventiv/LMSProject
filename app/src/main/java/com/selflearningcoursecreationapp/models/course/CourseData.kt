@@ -2,6 +2,7 @@
 
 package com.selflearningcoursecreationapp.models.course
 
+import android.os.Build
 import android.os.Parcelable
 import android.text.Html
 import androidx.databinding.BaseObservable
@@ -15,6 +16,7 @@ import com.selflearningcoursecreationapp.models.SingleChoiceData
 import com.selflearningcoursecreationapp.models.user.UserProfile
 import com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture.SectionModel
 import com.selflearningcoursecreationapp.utils.CourseType
+import com.selflearningcoursecreationapp.utils.LectureStatus
 import com.selflearningcoursecreationapp.utils.MediaType
 import kotlinx.android.parcel.Parcelize
 
@@ -24,11 +26,20 @@ data class CourseData(
     @SerializedName("categoryId")
     var categoryId: Int? = null,
 
-    @SerializedName("courseId")
+
+    @SerializedName("courseMandatory")
+    var courseMandatory: Boolean? = null,
+
+    @SerializedName("courseId", alternate = ["CourseId"])
     var courseId: Int? = 0,
+    @SerializedName("id")
+    var id: Int? = 0,
 
     @SerializedName("createdById")
     var createdById: Int? = 0,
+
+    @SerializedName("logoRequiredOnCertificate")
+    var logoRequiredOnCertificate: Boolean = false,
 
     @SerializedName("languageId")
     var languageId: Int? = null,
@@ -40,8 +51,27 @@ data class CourseData(
     var assessmentFreezeContent: Boolean? = null,
     @SerializedName("assessmentPassingCriteria")
     var assessmentPassingCriteria: Int? = null,
-    @SerializedName("statusId")
-    var statusId: Int? = null,
+
+    @SerializedName("status")
+    var status: Int? = null,
+
+    @SerializedName("requestStatus")
+    var requestStatus: Int? = null,
+
+    @SerializedName("streamingEndpointUrl")
+    var streamingEndpointUrl: String? = null,
+    @SerializedName("lectureThumbnailUrl")
+    var lectureThumbnailUrl: String? = null,
+
+
+    @SerializedName("statusName")
+    var statusName: String? = null,
+
+    @SerializedName("pl", alternate = ["isSignLanguage"])
+    var isSignLanguage: Boolean? = null,
+
+//    @SerializedName("statusId")
+//    var statusId: Int? = null,
 
     @SerializedName("courseTypeId", alternate = ["courseType"])
     var courseTypeId: Int? = null,
@@ -57,14 +87,16 @@ data class CourseData(
     )
     var courseComplexityId: Int? = null,
 
-    @SerializedName("assessmentId")
-    var assessmentId: Int? = null,
+
     @SerializedName("approvalStatus")
     var approvalStatus: Int? = null,
     @SerializedName("courseStatus")
     var courseStatus: Int? = null,
     @SerializedName("completeStep")
     var completeStep: Int? = null,
+
+    @SerializedName("deleted")
+    var deleted: Boolean? = null,
 
     @SerializedName("assessmentName")
     var assessmentName: String? = null,
@@ -81,10 +113,31 @@ data class CourseData(
     @SerializedName("paymentStatus")
     var paymentStatus: Int? = null,
 
+
     @SerializedName("name")
     var name: String? = null,
+
+    @SerializedName("totalPlayedTime")
+    var totalPlayedTime: Int? = null,
+
+    @SerializedName("totalDurationLeft")
+    var totalDurationLeft: Int? = null,
+
+    @SerializedName("totalSectionsCompleted")
+    var totalSectionsCompleted: Int? = null,
+
+    @SerializedName("publishAttempt")
+    var publishAttempt: Int? = null,
+
+    @SerializedName("percentageCompleted")
+    var percentageCompleted: Double? = null,
+
+    @SerializedName("isCompleted")
+    var isCompleted: Boolean? = null,
+
     @SerializedName("courseBannerHash", alternate = ["courseBannerBlurHash"])
     var courseBannerHash: String? = null,
+
     @SerializedName("courseLogoHash", alternate = ["courseLogoBlurHash"])
     var courseLogoHash: String? = null,
     @SerializedName("keywords")
@@ -104,11 +157,14 @@ data class CourseData(
     var averageRating: String? = null,
 
 
-    @SerializedName("reviewId")
+    @SerializedName("reviewId", alternate = ["ReviewId"])
     var reviewId: Int? = null,
 
     @SerializedName("totalReviews")
     var totalReviews: Long? = null,
+
+    @SerializedName("reportReviewAlready")
+    var reportReviewAlready: Boolean? = null,
 
     @SerializedName("createdByName", alternate = ["createdName", "prefill_Name"])
     var createdByName: String? = null,
@@ -120,43 +176,96 @@ data class CourseData(
     @SerializedName("themeId")
     var themeId: String? = null,
 
+    @SerializedName("assessmentDuration")
+    var assessmentDuration: Long? = null,
 
-    @SerializedName("totalSections")
+    @SerializedName("assessmentTotalQuestion")
+    var assessmentTotalQuestion: Int? = null,
+
+    @SerializedName("totalLectures")
+    var totalLectures: Int? = null,
+
+
+    @SerializedName("totalSections", alternate = ["totalSection"])
     var totalSections: Int? = 0,
 
-    @SerializedName("profileUrl", alternate = ["image", "profileURL"])
+    @SerializedName("profileUrl", alternate = ["image", "profileURL", "createdByContentUrl"])
     var profileUrl: String? = null,
-    @SerializedName("profileBlurHash")
+    @SerializedName("profileBlurHash", alternate = ["coCreatorContentBlurHash"])
     var profileBlurHash: String? = null,
+    @SerializedName("coCreatorContentUrl")
+    var coAuthorUrl: String? = null,
+    @SerializedName("createdByContentBlurHash")
+    var coAuthorBlurHash: String? = null,
+
     @SerializedName("description")
     var contentDescription: String? = null,
+
     @SerializedName("createdDate")
     var createdDate: String? = null,
+    @SerializedName("modifiedDate")
+    var modifiedDate: String? = null,
 
     @SerializedName("currencySymbol")
     var currencySymbol: String? = null,
+
+    @SerializedName("previousModeratorId")
+    var previousModeratorId: Int? = null,
+
+    @SerializedName("previousModeratorName")
+    var previousModeratorName: String? = null,
+
+    @SerializedName("success")
+    var success: Boolean? = false,
+
+    @SerializedName("previousModeratorTimeConsumed")
+    var previousModeratorTimeConsumed: Long? = null,
+
+    @SerializedName("previousModeratorComment")
+    var previousModeratorComment: String? = null,
 
     @SerializedName("courseRating")
     var courseRating: Int? = null,
     @SerializedName("userDisLiked")
     var userDisLiked: Int? = null,
 
-    @SerializedName("totalLikes")
+    @SerializedName("totalLikes", alternate = ["TotalLikes"])
     var totalLikes: Int? = null,
-    @SerializedName("totalDislikes")
+    @SerializedName("totalDislikes", alternate = ["TotalDislikes"])
     var totalDislikes: Int? = null,
 
     @SerializedName("coCreatorName")
     var coCreatorName: String? = null,
-
-    @SerializedName("userLiked")
-    var userLiked: Int? = null,
+//
+//    @SerializedName("userLiked")
+//    var userLiked: Int? = null,
 
     @SerializedName("requestId")
     var requestId: String? = null,
 
+    @SerializedName("courseModeratorId")
+    var courseModeratorId: String? = null,
+
+    @SerializedName("totalComment")
+    var totalComment: Int? = null,
+
+    @SerializedName("rejectedDate")
+    var rejectedDate: String? = null,
+
+    @SerializedName("permanentRejectedDate")
+    var permanentRejectedDate: String? = null,
+
     @SerializedName("comment")
     var comment: String? = null,
+
+    @SerializedName("isCommentAdded")
+    var isCommentAdded: Boolean? = null,
+
+    @SerializedName("courseComments")
+    var courseComments: ArrayList<CourseComments>? = null,
+
+    @field:SerializedName("learnerName")
+    var learnerName: String? = null,
 
     @Transient
     var isPaid: Boolean = false,
@@ -201,6 +310,12 @@ data class CourseData(
             notifyPropertyChanged(BR.allDataEntered)
         }
 
+    @SerializedName("assessmentId")
+    var assessmentId: Int? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.allDataEntered)
+        }
 
     @SerializedName("rewardPoints")
     var rewardPoints: String? = null
@@ -288,6 +403,13 @@ data class CourseData(
             notifyPropertyChanged(BR.allDataEntered)
         }
 
+    @get:Bindable
+    @Transient
+    var bookmarkProgress: Boolean = false
+
+    @get:Bindable
+    @SerializedName("userLiked")
+    var userLiked: Int? = null
 
     @get:Bindable
     @SerializedName("courseWishlisted")
@@ -295,41 +417,56 @@ data class CourseData(
 
     @get:Bindable
     @SerializedName("userCourseStatus")
-    var userCourseStatus: Int? = null
+    var userCourseStatus: Int? = 0
 
     @Transient
     @get:Bindable
     var allDataEntered: Boolean = true
         get() {
-
-            return when (currentPage) {
-                0 -> {
-                    !courseTitle.isNullOrEmpty() /*&& courseTitle!!.isNotBlank()*/ && getDescription().isNotEmpty() && !categoryName.isNullOrEmpty() && !languageName.isNullOrEmpty()
-                            && getTakeaways().isNotEmpty()
+            return if (!enableFields) false else {
+                when (currentPage) {
+                    0 -> {
+                        !courseTitle.isNullOrEmpty() /*&& courseTitle!!.isNotBlank()*/ && getDescription().isNotEmpty() && !categoryName.isNullOrEmpty() && !languageName.isNullOrEmpty()
+                                && getTakeaways().isNotEmpty()
+                    }
+                    1 -> {
+                        !courseTypeName.isNullOrEmpty()
+                                && !targetAudiences.isNullOrEmpty()
+                                && !courseComplexityName.isNullOrEmpty()
+                                && !courseFee.isNullOrEmpty()
+                                && !courseBannerUrl.isNullOrEmpty()
+//                                && !courseLogoUrl.isNullOrEmpty()
+                                && if (logoRequiredOnCertificate == true) !courseLogoUrl.isNullOrEmpty() else true
+                                && if (courseTypeId == CourseType.REWARD_POINTS) !rewardPoints.isNullOrEmpty() else true
+                    }
+                    2 -> {
+                        val creatorId =
+                            if (isCreator) createdById else if (isCoAuthor) coAuthorId else 0
+                        !sectionData.isNullOrEmpty() && sectionData?.find {
+                            it.sectionCreatedById == coAuthorId && !it.isSaved || it.isDataValid(
+                                true, creatorId ?: 0
+                            ) != 0
+                        } == null
+                    }
+                    3 -> {
+                        !assessmentId.isNullOrZero()
+                    }
+                    4 -> {
+                        singleClick
+                    }
+                    else -> true
                 }
-                1 -> {
-                    !courseTypeName.isNullOrEmpty()
-                            && !targetAudiences.isNullOrEmpty()
-                            && !courseComplexityName.isNullOrEmpty()
-                            && !courseFee.isNullOrEmpty()
-                            && !courseBannerUrl.isNullOrEmpty()
-                            && !courseLogoUrl.isNullOrEmpty()
-                            && if (courseTypeId == CourseType.REWARD_POINTS) !rewardPoints.isNullOrEmpty() else true
-                }
-                2 -> {
-                    val creatorId =
-                        if (isCreator) createdById else if (isCoAuthor) coAuthorId else 0
-                    !sectionData.isNullOrEmpty() && sectionData?.find {
-                        it.sectionCreatedById == coAuthorId && !it.isSaved || it.isDataValid(
-                            true, creatorId ?: 0
-                        ) != 0
-                    } == null
-                }
-                3 -> {
-                    true
-                }
-                else -> true
             }
+        }
+
+    @Transient
+    var enableFields: Boolean = true
+
+    @Transient
+    var singleClick: Boolean = true
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.allDataEntered)
         }
 
     @Bindable
@@ -399,7 +536,7 @@ data class CourseData(
 //               }
 
 
-            courseTypeId == CourseType.REWARD_POINTS && rewardPoints!!.toIntOrNull()
+            courseTypeId == CourseType.REWARD_POINTS && rewardPoints?.toIntOrNull()
                 .isNullOrZero() -> R.string.reward_points_cant_be_zero
             else -> {
                 return 0
@@ -472,11 +609,16 @@ data class CourseData(
 //    }
 
 
-    fun isStep3Verified(loggedId: Int?, checkId: Boolean = true): Int {
+    fun isStep3Verified(loggedId: Int?, checkId: Boolean = true, ignoreEmpty: Boolean = true): Int {
         var errorId = 0
+        var sectionCount = 0
         sectionData?.forEach {
             val selection = if (checkId) {
-                it.sectionCreatedById == loggedId
+
+                if (it.sectionCreatedById == loggedId) {
+                    sectionCount += 1
+                    true
+                } else false
             } else true
             if (selection) {
 
@@ -487,13 +629,18 @@ data class CourseData(
             }
 
         }
-        return errorId
+        return if (sectionCount > 0 || ignoreEmpty) {
+            errorId
+        } else {
+            R.string.plz_add_sections
+        }
     }
 
     private fun isStep3SingleVerified(data: SectionModel): Int {
         return when {
             !data.uploadLesson -> R.string.plz_add_data_in_section
             data.lessonList.isNullOrEmpty() -> R.string.plz_add_lesson
+            data.lessonList.find { it.lectureStatusId != LectureStatus.COMPLETED } != null -> R.string.plz_complete_your_lessons
             data.lessonList.find { it.mediaType == MediaType.QUIZ && it.totalQuizQues.isNullOrZero() } != null -> R.string.plz_add_ques_in_quiz_section
             data.lessonList.find { it.mediaType == MediaType.QUIZ && !it.allAnsMarked } != null -> R.string.plz_mark_ans_ques_in_quiz
             data.lessonList.find { it.mediaType == MediaType.QUIZ && it.lectureTitle.isNullOrEmpty() } != null -> R.string.plz_add_data_in_quiz_section
@@ -516,8 +663,17 @@ data class CourseData(
     }
 
     fun getDescription(): String {
-        return if (courseDescription.isNullOrEmpty()) "" else (Html.fromHtml(courseDescription)
-            .toString()).trim()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return if (courseDescription.isNullOrEmpty()) " " else Html.fromHtml(
+                courseDescription,
+                Html.FROM_HTML_MODE_LEGACY
+            ).toString().trim()
+        } else {
+            return if (courseDescription.isNullOrEmpty()) "" else Html.fromHtml(courseDescription)
+                .toString().trim()
+        }
+//         if (courseDescription.isNullOrEmpty()) "" else (Html.fromHtml(courseDescription)
+//            .toString()).trim()
     }
 
     fun getTakeaways(): String {
@@ -569,3 +725,20 @@ data class Rating(
     val averageReview: Float,
     val totalReviews: Int,
 )
+
+@Parcelize
+data class CourseComments(
+    @SerializedName("id")
+    val id: Int? = null,
+
+    @SerializedName("commentType")
+    val commentType: Int? = null,
+
+    @SerializedName("comment")
+    var comment: String? = null,
+
+    @SerializedName("courseCommentCreatedDate")
+    val courseCommentCreatedDate: String? = null,
+
+
+    ) : Parcelable

@@ -23,6 +23,9 @@ class QuizMarkAnsDialog : BaseBottomSheetDialog<BottomDialogMarkAnswerBinding>()
     View.OnClickListener,
     BaseAdapter.IViewClick {
     private var adapter: MarkColumnOptionAdapter? = null
+    var position: Int = 0
+    var childPosition = 0
+    var type: Int? = null
 
     private val viewModel: AddQuizAnsVM by viewModel()
     override fun getLayoutRes() = R.layout.bottom_dialog_mark_answer
@@ -37,11 +40,12 @@ class QuizMarkAnsDialog : BaseBottomSheetDialog<BottomDialogMarkAnswerBinding>()
 
             if (it.containsKey("position")) {
                 viewModel.adapterPosition = it.getInt("position")
-
             }
             if (it.containsKey("quizData")) {
                 viewModel.quizData = it.getParcelable("quizData") ?: QuizData()
-                optionList = viewModel.getListData()?.optionList ?: ArrayList()
+                optionList = viewModel.getListData()?.optionList?.map { option -> option.copy() }
+                    ?.toList() as ArrayList<QuizOptionData> /* = java.util.ArrayList<com.selflearningcoursecreationapp.models.course.quiz.QuizOptionData> */
+                    ?: ArrayList()
                 viewModel.quizType = viewModel.getListData()?.questionType ?: QUIZ.MULTIPLE_CHOICE
             }
 
@@ -60,7 +64,6 @@ class QuizMarkAnsDialog : BaseBottomSheetDialog<BottomDialogMarkAnswerBinding>()
             }
             else -> {
                 binding.columnG.gone()
-
                 viewModel.hashmap[baseActivity.getString(R.string.answer_is)] = optionList
             }
         }
@@ -75,7 +78,7 @@ class QuizMarkAnsDialog : BaseBottomSheetDialog<BottomDialogMarkAnswerBinding>()
                 viewModel.getListData()?.questionType ?: QUIZ.MATCH_COLUMN
             )
             binding.rvColumn.adapter = adapter
-            adapter!!.setOnAdapterItemClickListener(this)
+            adapter?.setOnAdapterItemClickListener(this)
 
         }
     }
@@ -88,35 +91,38 @@ class QuizMarkAnsDialog : BaseBottomSheetDialog<BottomDialogMarkAnswerBinding>()
         }
     }
 
+
     override fun onItemClick(vararg items: Any) {
         if (items.isNotEmpty()) {
-            val type = items[0] as Int
-            val position = items[1] as Int
-            val childPos = items[2] as Int
+            type = items[0] as Int
+            position = items[1] as Int
+            childPosition = items[2] as Int
             when (type) {
                 Constant.CLICK_VIEW -> {
                     val keyList = viewModel.hashmap.map { it.key }
                     when (viewModel.quizType) {
                         QUIZ.MULTIPLE_CHOICE -> {
-
-                            viewModel.hashmap[keyList[position]]?.get(childPos)?.isSelected =
-                                !(viewModel.hashmap[keyList[position]]?.get(childPos)?.isSelected
+                            viewModel.hashmap[keyList[position]]?.get(childPosition)?.isSelected =
+                                !(viewModel.hashmap[keyList[position]]?.get(childPosition)?.isSelected
                                     ?: false)
-
                             setAdapter()
                         }
 
                         QUIZ.MATCH_COLUMN -> {
                             viewModel.hashmap[keyList[position]]?.forEach { it.isSelected = false }
                             keyList.forEach {
-                                viewModel.hashmap[it]?.get(childPos)?.isSelected = false
+                                viewModel.hashmap[it]?.get(childPosition)?.isSelected = false
                             }
-                            viewModel.hashmap[keyList[position]]?.get(childPos)?.isSelected = true
+                            viewModel.hashmap[keyList[position]]?.get(childPosition)?.isSelected =
+                                true
                             setAdapter()
                         }
+
                         else -> {
                             viewModel.hashmap[keyList[position]]?.forEach { it.isSelected = false }
-                            viewModel.hashmap[keyList[position]]?.get(childPos)?.isSelected = true
+                            viewModel.hashmap[keyList[position]]?.get(childPosition)?.isSelected =
+                                true
+                            viewModel
                             setAdapter()
                         }
                     }

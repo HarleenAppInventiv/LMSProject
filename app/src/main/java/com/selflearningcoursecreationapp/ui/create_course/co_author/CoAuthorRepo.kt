@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface CoAuthorRepo {
     suspend fun inviteCoAuthor(map: HashMap<String, Any>): Flow<Resource>
-
+    suspend fun existsCoAuthor(courseId: Int): Flow<Resource>
 }

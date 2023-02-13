@@ -25,13 +25,12 @@
             android:textSize="@dimen/textField_15"
             app:fontType="semiBold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+
             app:textBgColor="theme"
-            app:textColorType="none"
-
-            />
-
+            app:textColorType="none" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/img_close"
@@ -87,9 +86,46 @@
             android:layout_height="@dimen/_0.5dp"
             android:layout_marginStart="@dimen/_40sdp"
             android:layout_marginEnd="@dimen/_16sdp"
-            android:background="@color/off_white_f5f5f5"
+            android:background="?attr/lineColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_take_photo" />
+
+        <View
+            android:id="@+id/view_base"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_0.5dp"
+            android:layout_marginStart="@dimen/_40sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:background="?attr/lineColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_take_from_gallary" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/txt_delete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/_10sdp"
+            android:lineSpacingExtra="4sp"
+            android:paddingHorizontal="@dimen/_16sdp"
+            android:paddingVertical="@dimen/_22sdp"
+            android:text="@string/remove_photo"
+
+            android:textSize="@dimen/textField_14"
+            app:drawableStartCompat="@drawable/ic_remove_small"
+            app:fontType="regular"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_take_from_gallary"
+            app:primaryIconTint="start" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="txt_delete,view_base" />
     </com.selflearningcoursecreationapp.utils.customViews.LMSConstraintLayout>
 </layout>

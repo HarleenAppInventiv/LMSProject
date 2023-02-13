@@ -3,6 +3,7 @@ package com.selflearningcoursecreationapp.ui.create_course
 import android.os.Bundle
 import android.text.Html
 import android.view.View
+import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
@@ -14,17 +15,18 @@ import com.selflearningcoursecreationapp.extensions.*
 import com.selflearningcoursecreationapp.textEditor.TextEditor
 import com.selflearningcoursecreationapp.utils.HandleClick
 import com.selflearningcoursecreationapp.utils.ValidationConst
+import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
 
 
 class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClick,
-    TextEditor.OnTextChangeListener {
+    TextEditor.OnTextChangeListener, TextEditor.OnDecorationStateListener {
     private var type = 0
     private var htmlValue = ""
     private var from = 0
     private var count = -1
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE )
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         initUI()
 
     }
@@ -33,26 +35,17 @@ class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClic
     private fun initUI() {
         binding.handleClick = this
         binding.textEditor.setOnTextChangeListener(this)
+        binding.textEditor.setOnDecorationChangeListener(this)
         binding.textEditor.requestFocus()
         binding.root.fitSystemWindowsAndAdjustResize()
 
-
-//
-//        binding.rootView.setPadding(binding.rootView.getPaddingLeft(),
-//            -getStatusBarHeight(),
-//            binding.rootView.getPaddingRight(),
-//            binding.rootView.getPaddingBottom() + 500);
-
-
+        binding.textEditor.setEditorFontSize(14)
+        binding.textEditor.setEditorFontColor(ThemeUtils.getPrimaryTextColor(baseActivity))
         arguments?.let {
             type = it.getInt("type")
             htmlValue = it.getString("htmlValue").toString()
             from = it.getInt("from")
             binding.tvWordCount.text = (Html.fromHtml(htmlValue).toString()).wordCount().toString()
-
-//            singleValueEditor()
-//            doubleValueEditor()
-//            tripleValueEditor()
 
             if (from == 1) {
                 binding.tvWordCount.visible()
@@ -62,7 +55,7 @@ class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClic
                 binding.tvWordCountTitle.gone()
             }
             if (htmlValue.isEmpty()) {
-                binding.textEditor.setPlaceholder("Enter description")
+                binding.textEditor.setPlaceholder(getString(R.string.enter_descriptions))
                 binding.btAddText.isEnabled = false
                 binding.textEditor.focusEditor()
 
@@ -89,108 +82,6 @@ class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClic
     }
 
 
-//    private fun tripleValueEditor() {
-//        if (htmlValue.endsWith("</b></u></i>") || htmlValue.endsWith("</b></i></u>") || htmlValue.endsWith(
-//                "</i></b></u>"
-//            )
-//            || htmlValue.endsWith("</i></u></b>") || htmlValue.endsWith("</u></i></b>") || htmlValue.endsWith(
-//                "</u></b></i>"
-//            )
-//        ) {
-//            binding.actionUnderline.setBackgroundColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    R.color.orange_text_color
-//                )
-//            )
-//            binding.actionBold.setBackgroundColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    R.color.orange_text_color
-//                )
-//            )
-//            binding.actionItalic.setBackgroundColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    R.color.orange_text_color
-//                )
-//            )
-//        }
-//    }
-//
-//    private fun doubleValueEditor() {
-//        if (htmlValue.endsWith("</i></b>") || htmlValue.endsWith("</b></i>")) {
-//            binding.actionBold.setBackgroundColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    R.color.orange_text_color
-//                )
-//            )
-//            binding.actionItalic.setBackgroundColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    R.color.orange_text_color
-//                )
-//            )
-//        }
-//        if (htmlValue.endsWith("</i></u>") || htmlValue.endsWith("</u></i>")) {
-//            binding.actionItalic.setBackgroundColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    R.color.orange_text_color
-//                )
-//            )
-//            binding.actionUnderline.setBackgroundColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    R.color.orange_text_color
-//                )
-//            )
-//        }
-//        if (htmlValue.endsWith("</b></u>") || htmlValue.endsWith("</u></b>")) {
-//            binding.actionUnderline.setBackgroundColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    R.color.orange_text_color
-//                )
-//            )
-//            binding.actionBold.setBackgroundColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    R.color.orange_text_color
-//                )
-//            )
-//        }
-//    }
-//
-//    private fun singleValueEditor() {
-//        if (htmlValue.endsWith("</b>")) {
-//            binding.actionBold.setBackgroundColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    R.color.orange_text_color
-//                )
-//            )
-//        }
-//        if (htmlValue.endsWith("</i>")) {
-//
-//            binding.actionItalic.setBackgroundColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    R.color.orange_text_color
-//                )
-//            )
-//        }
-//        if (htmlValue.endsWith("</u>")) {
-//            binding.actionUnderline.setBackgroundColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    R.color.orange_text_color
-//                )
-//            )
-//        }
-//    }
-
     override fun getLayoutRes() = R.layout.fragment_text_editor
     override fun onHandleClick(vararg items: Any) {
         if (items.isNotEmpty()) {
@@ -206,10 +97,7 @@ class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClic
                     binding.textEditor.setBold()
                     if (binding.actionBold.background == null)
                         binding.actionBold.setBackgroundColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.orange_text_color
-                            )
+                            ThemeUtils.getBtnBgColor(baseActivity)
                         )
                     else
                         binding.actionBold.background = null
@@ -218,10 +106,7 @@ class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClic
                     binding.textEditor.setItalic()
                     if (binding.actionItalic.background == null)
                         binding.actionItalic.setBackgroundColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.orange_text_color
-                            )
+                            ThemeUtils.getBtnBgColor(baseActivity)
                         )
                     else
                         binding.actionItalic.background = null
@@ -231,28 +116,76 @@ class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClic
                     binding.textEditor.setUnderline()
                     if (binding.actionUnderline.background == null)
                         binding.actionUnderline.setBackgroundColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.orange_text_color
-                            )
+                            ThemeUtils.getBtnBgColor(baseActivity)
                         )
                     else
                         binding.actionUnderline.background = null
                 }
                 R.id.action_align_left -> {
+
                     binding.textEditor.setAlignLeft()
+                    binding.actionAlignCentre.background = null
+                    binding.actionAlignRight.background = null
+
+//                    if (binding.actionAlignLeft.background == null)
+                    binding.actionAlignLeft.setBackgroundColor(
+                        ThemeUtils.getBtnBgColor(baseActivity)
+
+                    )
+//                    else
+//                        binding.actionAlignLeft.background = null
                 }
                 R.id.action_align_centre -> {
                     binding.textEditor.setAlignCenter()
+                    binding.actionAlignLeft.background = null
+                    binding.actionAlignRight.background = null
+
+//                    if (binding.actionAlignCentre.background == null)
+                    binding.actionAlignCentre.setBackgroundColor(
+                        ThemeUtils.getBtnBgColor(baseActivity)
+                    )
+//                    else
+//                        binding.actionAlignCentre.background = null
                 }
                 R.id.action_align_right -> {
                     binding.textEditor.setAlignRight()
+                    binding.actionAlignLeft.background = null
+                    binding.actionAlignCentre.background = null
+
+//                    if (binding.actionAlignRight.background == null)
+                    binding.actionAlignRight.setBackgroundColor(
+                        ThemeUtils.getBtnBgColor(baseActivity)
+                    )
+//                    else
+//                        binding.actionAlignRight.background = null
                 }
                 R.id.action_bullet -> {
+                    binding.actionNumberBullet.background = null
                     binding.textEditor.setBullets()
+                    if (binding.actionBullet.background == null) {
+
+//                        binding.textEditor.setAlignLeft()
+                        binding.actionBullet.setBackgroundColor(
+                            ThemeUtils.getBtnBgColor(
+                                baseActivity
+                            )
+                        )
+                    } else
+                        binding.actionBullet.background = null
                 }
                 R.id.action_number_bullet -> {
                     binding.textEditor.setNumbers()
+                    binding.actionBullet.background = null
+                    if (binding.actionNumberBullet.background == null) {
+
+//                        binding.textEditor.setAlignLeft()
+                        binding.actionNumberBullet.setBackgroundColor(
+                            ThemeUtils.getBtnBgColor(
+                                baseActivity
+                            )
+                        )
+                    } else
+                        binding.actionNumberBullet.background = null
                 }
             }
         }
@@ -262,20 +195,124 @@ class TextEditorFragment : BaseFragment<FragmentTextEditorBinding>(), HandleClic
 
         count = (Html.fromHtml(text1).toString()).wordCount()
         binding.btAddText.isEnabled =
-            !(count == 0 || count > ValidationConst.MAX_COURSE_DESC_LENGTH_SHOW)
+            !(count == 0 || count > ValidationConst.MAX_COURSE_DESC_LENGTH)
+
+
 
         binding.tvWordCount.apply {
             text = count.toString()
-            if (count < ValidationConst.MAX_COURSE_DESC_LENGTH_SHOW) {
+            if (count < ValidationConst.MAX_COURSE_DESC_LENGTH) {
                 setTextColor(ContextCompat.getColor(context, R.color.black))
+            } else if (count == ValidationConst.MAX_COURSE_DESC_LENGTH) {
+                setTextColor(
+                    baseActivity.getAttrResource(R.attr.accentColor_Red)
+                )
             } else {
-                showToastShort("Reached max limit")
-                setTextColor(ContextCompat.getColor(context, R.color.accent_color_fc6d5b))
+                showToastShort(context.getString(R.string.reached_max_limit))
+                setTextColor(
+                    baseActivity.getAttrResource(R.attr.accentColor_Red)
+                )
+
             }
         }
     }
 
     override fun onApiRetry(apiCode: String) {
+
+    }
+
+    override fun onStateChangeListener(text: String?, types: List<TextEditor.Type>?) {
+        try {
+            if (types!!.contains(TextEditor.Type.BOLD))
+                binding.actionBold.setBackgroundColor(
+                    ThemeUtils.getBtnBgColor(baseActivity)
+
+                )
+            else
+                binding.actionBold.background = null
+            if (types!!.contains(TextEditor.Type.ITALIC))
+                binding.actionItalic.setBackgroundColor(
+                    ThemeUtils.getBtnBgColor(baseActivity)
+
+                )
+            else
+                binding.actionItalic.background = null
+
+            if (types!!.contains(TextEditor.Type.UNDERLINE))
+                binding.actionUnderline.setBackgroundColor(
+                    ThemeUtils.getBtnBgColor(baseActivity)
+
+                )
+            else
+                binding.actionUnderline.background = null
+
+            if (types!!.contains(TextEditor.Type.JUSTIFYCENTER)) {
+                binding.actionAlignLeft.background = null
+                binding.actionAlignRight.background = null
+                binding.actionAlignCentre.setBackgroundColor(
+                    ThemeUtils.getBtnBgColor(baseActivity)
+
+                )
+            } else if (types!!.contains(TextEditor.Type.JUSTIFYRIGHT)) {
+                binding.actionAlignLeft.background = null
+                binding.actionAlignCentre.background = null
+                binding.actionAlignRight.setBackgroundColor(
+                    ThemeUtils.getBtnBgColor(baseActivity)
+
+                )
+            } else if (types!!.contains(TextEditor.Type.JUSTIFYLEFT)) {
+
+                binding.actionAlignCentre.background = null
+                binding.actionAlignRight.background = null
+                binding.actionAlignLeft.setBackgroundColor(
+                    ThemeUtils.getBtnBgColor(baseActivity)
+
+                )
+            }
+
+            if (types!!.contains(TextEditor.Type.UNORDEREDLIST)) {
+                binding.actionNumberBullet.background = null
+//                binding.textEditor.setAlignLeft()
+
+                binding.actionBullet.setBackgroundColor(
+                    ThemeUtils.getBtnBgColor(baseActivity)
+
+                )
+            } else if (types!!.contains(TextEditor.Type.ORDEREDLIST)) {
+                binding.actionBullet.background = null
+//                binding.textEditor.setAlignLeft()
+
+                binding.actionNumberBullet.setBackgroundColor(
+                    ThemeUtils.getBtnBgColor(baseActivity)
+
+                )
+            } else {
+                binding.actionBullet.background = null
+                binding.actionNumberBullet.background = null
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+//    fun onApplyWindowInsets(insets: WindowInsets): WindowInsets {
+//        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+//            super.onApplyWindowInsets(
+//                insets.replaceSystemWindowInsets(
+//                    0,
+//                    0,
+//                    0,
+//                    insets.getSystemWindowInsetBottom()
+//                )
+//            )
+//        } else {
+//            insets
+//        }
+//    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.window?.clearFlags(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
     }
 

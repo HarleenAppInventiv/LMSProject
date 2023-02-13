@@ -8,4 +8,5 @@ interface PreferenceRepo {
     suspend fun getCategory(): Flow<Resource>
     suspend fun myCategories(): Flow<Resource>
     suspend fun getThemeList(): Flow<Resource>
+    suspend fun getMasterData(): Flow<Resource>
 }

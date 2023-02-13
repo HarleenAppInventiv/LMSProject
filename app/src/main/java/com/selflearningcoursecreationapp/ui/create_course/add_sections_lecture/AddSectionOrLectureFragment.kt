@@ -3,26 +3,27 @@ package com.selflearningcoursecreationapp.ui.create_course.add_sections_lecture
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
+import android.os.Handler
 import android.view.View
+import android.view.WindowManager
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.databinding.library.baseAdapters.BR
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
 import com.selflearningcoursecreationapp.base.BaseBottomSheetDialog
 import com.selflearningcoursecreationapp.base.BaseFragment
-import com.selflearningcoursecreationapp.extensions.gone
-import com.selflearningcoursecreationapp.extensions.visibleView
-import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseBaseFragmentDirections
+import com.selflearningcoursecreationapp.extensions.*
+import com.selflearningcoursecreationapp.models.course.LessonArgs
+import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseBaseNewFragmentDirections
 import com.selflearningcoursecreationapp.ui.create_course.add_courses_steps.AddCourseViewModel
 import com.selflearningcoursecreationapp.ui.dialog.SectionMoreDialog
-import com.selflearningcoursecreationapp.ui.dialog.UploadDocOptionsDialog
 import com.selflearningcoursecreationapp.utils.Constant
 import com.selflearningcoursecreationapp.utils.ImagePickUtils
 import com.selflearningcoursecreationapp.utils.Lecture
@@ -32,24 +33,36 @@ import org.koin.android.ext.android.inject
 import java.io.File
 import java.util.*
 
+
 @SuppressLint("NotifyDataSetChanged")
 class AddSectionOrLectureFragment :
     BaseFragment<com.selflearningcoursecreationapp.databinding.FragmentAddSectionOrLectureBinding>(),
     BaseAdapter.IViewClick, BaseBottomSheetDialog.IDialogClick, (String?) -> Unit {
     private var adapter: AddSectionAdapter? = null
     private val imagePickUtils: ImagePickUtils by inject()
-    private val viewModel: AddCourseViewModel by viewModels({ requireParentFragment() })
+    private val viewModel: AddCourseViewModel by viewModels({ requireParentFragment().requireParentFragment() })
     private var mediaFrom = 0
     private var filePath = ""
     private var mOrderChanged = false
     private var _lectureId = -1
+    private var isTextChanging = false
+    val timeoutHandler: Handler = Handler()
+    private lateinit var mainFragment: Fragment
 
+    val typingTimeout: Runnable? = Runnable {
+        isTextChanging = false
+//        serviceCall()
+    }
     private val touchHelper = object : TouchHelper() {
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder,
         ): Boolean {
+            showLog(
+                "SECTION_DATA",
+                "onMove >> fromPos ${viewHolder.adapterPosition} ..... toPos >> ${target.adapterPosition}"
+            )
 
             viewModel.fromPosition = viewHolder.adapterPosition
             viewModel.toPosition = target.adapterPosition
@@ -60,31 +73,44 @@ class AddSectionOrLectureFragment :
 
         override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
             super.onSelectedChanged(viewHolder, actionState)
+            showLog("SECTION_DATA", "onMoved >> actionState $actionState")
             if (actionState == ItemTouchHelper.ACTION_STATE_IDLE && mOrderChanged) {
                 mOrderChanged = false
                 val recyclerviewAdapter = binding.rvSections.adapter as AddSectionAdapter
-                Collections.swap(
-                    viewModel.getSectionList(),
-                    viewModel.toPosition,
-                    viewModel.fromPosition
-                )
+                if (!viewModel.toPosition.isNullOrNegative() && !viewModel.fromPosition.isNullOrNegative()) {
 
 
-                val previous =
-                    if (viewModel.toPosition == 0 || viewModel.toPosition == viewModel.getSectionList()?.size!! - 1) 0 else viewModel.getSectionList()
-                        ?.get(viewModel.toPosition - 1)?.sectionId
+                    Collections.swap(
+                        viewModel.getSectionList(),
+                        viewModel.toPosition,
+                        viewModel.fromPosition
+                    )
+                    val first =
+                        if ((viewModel.toPosition - 1).isNullOrNegative()) 0 else viewModel.getSectionList()
+                            ?.get(viewModel.toPosition - 1)?.sectionId
+//                        if (viewModel.toPosition == 0 || viewModel.toPosition == viewModel.getSectionList()?.size!! - 1) 0 else viewModel.getSectionList()
+//                            ?.get(viewModel.toPosition - 1)?.sectionId
 
-                val last =
-                    if (viewModel.toPosition == viewModel.getSectionList()?.size!! - 1 || viewModel.toPosition == 0) 0 else viewModel.getSectionList()
-                        ?.get(viewModel.toPosition + 1)?.sectionId
-                viewModel.dragAndDropSection(
-                    previous,
-                    last
-                )
-                recyclerviewAdapter.notifyItemMoved(viewModel.fromPosition, viewModel.toPosition)
-                recyclerviewAdapter.notifyDataSetChanged()
-                viewModel.fromPosition = -1
-                viewModel.toPosition = -1
+                    val second =
+                        if ((viewModel.toPosition + 1) >= viewModel.getSectionList()?.size ?: 0) 0 else viewModel.getSectionList()
+                            ?.get(viewModel.toPosition + 1)?.sectionId
+//                        if (viewModel.toPosition == viewModel.getSectionList()?.size!! - 1 || viewModel.toPosition == 0) 0 else viewModel.getSectionList()
+//                            ?.get(viewModel.toPosition + 1)?.sectionId
+                    viewModel.dragAndDropSection(
+                        first,
+                        second
+                    )
+
+
+
+                    recyclerviewAdapter.notifyItemMoved(
+                        viewModel.fromPosition,
+                        viewModel.toPosition
+                    )
+                    recyclerviewAdapter.notifyDataSetChanged()
+                    viewModel.fromPosition = -1
+                    viewModel.toPosition = -1
+                }
             }
 //                if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
 //                    viewHolder?.itemView?.alpha = 0.5f
@@ -96,9 +122,21 @@ class AddSectionOrLectureFragment :
             return true
         }
 
+        override fun getMovementFlags(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder
+        ): Int {
+            val dragFlags =
+                if (isTextChanging) 0 else if (viewModel.courseData.value?.sectionData?.size ?: 0 > 1) UP or DOWN or START or END else 0
+            return makeMovementFlags(dragFlags, 0)
+        }
     }
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mainFragment = requireParentFragment().requireParentFragment()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -107,7 +145,7 @@ class AddSectionOrLectureFragment :
 
     fun init() {
 
-
+        enableFields()
         binding.addSectionLecture = viewModel
         viewModel.getApiResponse().observe(viewLifecycleOwner, this)
         handleInitList()
@@ -123,6 +161,14 @@ class AddSectionOrLectureFragment :
         observeAddLecture()
 
         observeSectionData()
+    }
+
+    private fun enableFields() {
+
+        binding.clParent.isEnabled = viewModel.courseData.value?.enableFields ?: true
+        binding.clParent.isClickable = viewModel.courseData.value?.enableFields ?: true
+        binding.disableView.visibleView(!(viewModel.courseData.value?.enableFields ?: true))
+        binding.clParent.alpha = if (viewModel.courseData.value?.enableFields ?: true) 1f else 0.3f
     }
 
     private fun observeSectionData() {
@@ -192,66 +238,27 @@ class AddSectionOrLectureFragment :
                             imagePickUtils.openDocs(
                                 baseActivity,
                                 this,
-                                registry = baseActivity.activityResultRegistry
-                            )
+
+                                )
                         }
 
                         MediaType.TEXT -> {
-                            val action =
-                                AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToLessonTextFragment(
-                                    sendSectionModel = viewModel.getSectionList()
-                                        ?.get(viewModel.sectionAdapterPosition),
-                                    lectureId = lectureId,
-                                    type = Constant.CLICK_ADD,
-                                    childPosition = -1,
-                                    courseId = viewModel.courseData.value?.courseId ?: 0
+                            val lessonArgs = LessonArgs(
+                                courseId = viewModel.courseData.value?.courseId ?: 0,
+                                type = Constant.CLICK_ADD,
+                                sectionId = viewModel.getSectionList()
+                                    ?.get(viewModel.sectionAdapterPosition)?.sectionId
+                            )
 
+                            val action =
+                                AddCourseBaseNewFragmentDirections.actionAddCourseBaseFragmentToLessonTextFragment(
+                                    lessonArgs
                                 )
-                            findNavController().navigate(action)
+                            mainFragment.findNavController().navigateTo(action)
                         }
                         MediaType.AUDIO -> {
-                            if (mediaFrom == 1) {
-                                val action =
-                                    AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToRecordAudioFragment(
-                                        sendSectionModel = viewModel.getSectionList()
-                                            ?.get(viewModel.sectionAdapterPosition),
-                                        courseId = viewModel.courseData.value?.courseId
-                                            ?: 0,
-                                        lectureId = lectureId,
-                                        childPosition = viewModel.sectionChildPosition,
-                                        type = Constant.CLICK_ADD,
-                                        from = mediaFrom
-
-                                    )
-                                findNavController().navigate(action)
-                            } else {
-                                val action =
-                                    AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToAudioLectureFragment(
-                                        sendSectionModel = viewModel.getSectionList()
-                                            ?.get(viewModel.sectionAdapterPosition),
-                                        lectureId = lectureId,
-                                        type = Constant.CLICK_ADD,
-                                        childPosition = -1,
-                                        courseId = viewModel.courseData.value?.courseId ?: 0,
-                                        filePath = filePath
-
-                                    )
-                                findNavController().navigate(action)
-                            }
                         }
                         MediaType.VIDEO -> {
-                            val action =
-                                AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToVideoLectureFragment(
-                                    sendSectionModel = viewModel.getSectionList()
-                                        ?.get(viewModel.sectionAdapterPosition),
-                                    lectureId = lectureId,
-                                    type = Constant.CLICK_ADD,
-                                    childPosition = -1,
-                                    courseId = viewModel.courseData.value?.courseId ?: 0,
-                                    filePath = filePath
-
-                                )
-                            findNavController().navigate(action)
                         }
 
                     }
@@ -260,11 +267,6 @@ class AddSectionOrLectureFragment :
                 }
             }
         }
-    }
-
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.course_menu, menu)
     }
 
 
@@ -300,33 +302,10 @@ class AddSectionOrLectureFragment :
     override fun onDialogClick(vararg items: Any) {
         if (items.isNotEmpty()) {
             when (items[0] as Int) {
-                Constant.CLICK_DELETE -> {
-                    deleteSectionFunctionality()
-                }
-                Constant.CLICK_EDIT -> {
-                    showToastShort("edit")
-                }
-                Lecture.CLICK_LESSON_TEXT -> {
-                    viewModel.mediaType = MediaType.TEXT
-                    viewModel.sectionChildPosition = -1
-                    viewModel.addLecture()
-                }
-                Lecture.CLICK_LESSON_QUIZ -> {
-                    viewModel.mediaType = MediaType.QUIZ
-                    viewModel.sectionChildPosition = -1
-
-                    findNavController().navigate(
-                        AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToAddQuizFragment(
-                            viewModel.courseData.value,
-                            true,
-                            viewModel.sectionAdapterPosition,
-                            viewModel.getSectionList()?.toTypedArray()
-                        )
-                    )
-                }
                 MediaType.AUDIO -> {
                     filePath = items[1] as String
-                    if (isFileLessThan5MB(File(filePath))) {
+                    if (filePath.isFileLimitExceed(1024)) {
+//                    if (isFileLessThan5MB(File(filePath))) {
                         showToastShort(baseActivity.getString(R.string.file_limit_alert_text))
                     } else {
                         viewModel.mediaType = MediaType.AUDIO
@@ -339,7 +318,6 @@ class AddSectionOrLectureFragment :
                     viewModel.mediaType = MediaType.DOC
                     viewModel.sectionChildPosition = -1
                     viewModel.addLecture()
-
                 }
                 Lecture.CLICK_LESSON_AUDIO -> {
                     viewModel.mediaType = MediaType.AUDIO
@@ -349,8 +327,8 @@ class AddSectionOrLectureFragment :
                 }
                 MediaType.VIDEO -> {
                     filePath = items[1] as String
-
-                    if (isFileLessThan5MB(File(filePath))) {
+                    if (filePath.isFileLimitExceed(1024)) {
+//                    if (isFileLessThan5MB(File(filePath))) {
                         showToastShort(baseActivity.getString(R.string.file_limit_alert_text))
                     } else {
                         viewModel.mediaType = MediaType.VIDEO
@@ -369,8 +347,44 @@ class AddSectionOrLectureFragment :
             viewModel.sectionAdapterPosition = items[1] as Int
 
             when (type) {
+                Constant.CLICK_INFO -> {
+                    CommonAlertDialog.builder(baseActivity)
+                        .title(baseActivity.getString(R.string.alert))
+                        .description(baseActivity.getString(R.string.section_not_saved_info_alert_text))
+                        .icon(R.drawable.ic_info_large)
+                        .hideNegativeBtn(true)
+                        .setThemeIconColor(true)
+                        .positiveBtnText(baseActivity.getString(R.string.okay))
+                        .build()
+                }
                 Constant.CLICK_TEXT_CHANGES -> {
+//                    isTextChanging=true
                     viewModel.courseData.value?.notifyPropertyChanged(BR.sectionDataAdded)
+                    typingTimeout?.let {
+                        timeoutHandler.removeCallbacks(it)
+                        timeoutHandler.postDelayed(typingTimeout, 2000)
+                    }
+
+
+                    if (!isTextChanging) {
+                        isTextChanging = true
+//                        serviceCall();
+                    }
+                }
+                Constant.CLICK_AFTER_TEXT_CHANGES -> {
+//isTextChanging=false
+                }
+                Constant.CLICK_BEFORE_TEXT_CHANGES -> {
+                    viewModel.courseData.value?.notifyPropertyChanged(BR.sectionDataAdded)
+                    typingTimeout?.let {
+                        timeoutHandler.removeCallbacks(it)
+                        timeoutHandler.postDelayed(typingTimeout, 2000)
+                    }
+
+
+                    if (!isTextChanging) {
+                        isTextChanging = true
+                    }
                 }
                 Constant.CLICK_MORE -> {
                     SectionMoreDialog().apply {
@@ -378,9 +392,18 @@ class AddSectionOrLectureFragment :
                     }.show(childFragmentManager, "")
                 }
                 Constant.CLICK_UPLOAD -> {
-                    UploadDocOptionsDialog().apply {
-                        setOnDialogClickListener(this@AddSectionOrLectureFragment)
-                    }.show(childFragmentManager, "")
+                    mainFragment.findNavController().navigateTo(
+                        R.id.action_addCourseBaseFragment_to_uploadDocOptionsDialog, bundleOf(
+                            "courseId" to viewModel
+                                .courseData.value?.courseId,
+                            "sectionId" to viewModel.getSectionList()
+                                ?.get(viewModel.sectionAdapterPosition)?.sectionId
+                        )
+                    )
+//
+//                    UploadDocOptionsDialog().apply {
+//                        setOnDialogClickListener(this@AddSectionOrLectureFragment)
+//                    }.show(childFragmentManager, "")
                 }
                 Constant.CLICK_DELETE -> {
                     deleteSectionFunctionality()
@@ -413,22 +436,18 @@ class AddSectionOrLectureFragment :
     }
 
     private fun swapFunctionality(toPosition: Int, fromPosition: Int) {
-        val previous =
-            if (toPosition == 0 || toPosition == viewModel.getSectionList()
-                    ?.get(viewModel.sectionAdapterPosition)?.lessonList?.size!! - 1
-            ) 0 else viewModel.getSectionList()
-                ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(toPosition - 1)?.lectureId
-        val last =
-            if (toPosition == viewModel.getSectionList()
-                    ?.get(viewModel.sectionAdapterPosition)?.lessonList?.size!! - 1 || toPosition == 0
-            ) 0 else viewModel.getSectionList()
-                ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(
-                    toPosition + 1
-                )?.lectureId
+        val previous = if ((toPosition - 1).isNullOrNegative()) 0 else viewModel.getSectionList()
+            ?.get(viewModel.sectionAdapterPosition)?.lessonList
+            ?.get(toPosition - 1)?.lectureId
+        val last = if ((toPosition + 1) >= viewModel.getSectionList()
+                ?.get(viewModel.sectionAdapterPosition)?.lessonList?.size ?: 0
+        ) 0 else viewModel.getSectionList()?.get(viewModel.sectionAdapterPosition)?.lessonList
+            ?.get(toPosition + 1)?.lectureId
+
 
         viewModel.dragAndDropLecture(
             viewModel.getSectionList()?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(
-                fromPosition
+                toPosition
             )?.lectureId,
             previous,
             last
@@ -440,83 +459,105 @@ class AddSectionOrLectureFragment :
             viewModel.sectionChildPosition
         )?.mediaType) {
             MediaType.VIDEO -> {
+                val lessonArgs = LessonArgs(
+                    viewModel.courseData.value?.courseId,
+                    viewModel.getSectionList()
+                        ?.get(viewModel.sectionAdapterPosition)?.sectionId,
+                    lectureId = viewModel.getSectionList()
+                        ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(viewModel.sectionChildPosition)?.lectureId
+                        ?: 0,
+                    type = Constant.CLICK_EDIT
+                )
                 val action =
-                    AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToVideoLectureFragment(
-                        sendSectionModel = viewModel.getSectionList()
-                            ?.get(viewModel.sectionAdapterPosition),
-                        lectureId = viewModel.getSectionList()
-                            ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(viewModel.sectionChildPosition)?.lectureId
-                            ?: 0,
-                        type = Constant.CLICK_EDIT,
-                        childPosition = viewModel.sectionChildPosition,
-                        courseId = viewModel.courseData.value?.courseId ?: 0
+                    AddCourseBaseNewFragmentDirections.actionAddCourseBaseFragmentToVideoLectureFragment(
+                        lessonArgs
+//                        sendSectionModel = viewModel.getSectionList()
+//                            ?.get(viewModel.sectionAdapterPosition),
+//                        lectureId = viewModel.getSectionList()
+//                            ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(viewModel.sectionChildPosition)?.lectureId
+//                            ?: 0,
+//                        type = Constant.CLICK_EDIT,
+//                        childPosition = viewModel.sectionChildPosition,
+//                        courseId = viewModel.courseData.value?.courseId ?: 0
                     )
-                findNavController().navigate(action)
+                mainFragment.findNavController().navigateTo(action)
             }
             MediaType.AUDIO -> {
-                val action =
-
-                    AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToAudioLectureFragment(
-                        sendSectionModel = viewModel.getSectionList()
-                            ?.get(viewModel.sectionAdapterPosition),
-                        lectureId = viewModel.getSectionList()
-                            ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(viewModel.sectionChildPosition)?.lectureId
-                            ?: 0,
-                        type = Constant.CLICK_EDIT,
-                        childPosition = viewModel.sectionChildPosition,
-                        courseId = viewModel.courseData.value?.courseId ?: 0
-                    )
-                findNavController().navigate(
-                    R.id.audioLectureFragment, bundleOf(
-                        "sendSectionModel" to viewModel.getSectionList()
-                            ?.get(viewModel.sectionAdapterPosition),
-                        "lectureId" to (viewModel.getSectionList()
-                            ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(viewModel.sectionChildPosition)?.lectureId
-                            ?: 0),
-                        "type" to Constant.CLICK_EDIT,
-                        "childPosition" to viewModel.sectionChildPosition,
-                        "courseId" to (viewModel.courseData.value?.courseId ?: 0)
-                    )
+                val lessonArgs = LessonArgs(
+                    viewModel.courseData.value?.courseId,
+                    viewModel.getSectionList()
+                        ?.get(viewModel.sectionAdapterPosition)?.sectionId,
+                    lectureId = viewModel.getSectionList()
+                        ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(viewModel.sectionChildPosition)?.lectureId
+                        ?: 0,
+                    type = Constant.CLICK_EDIT
                 )
+                val action =
+                    AddCourseBaseNewFragmentDirections.actionAddCourseBaseFragmentToAudioLectureFragment(
+                        lessonArgs
+                    )
+                mainFragment.findNavController().navigateTo(action)
             }
             MediaType.DOC -> {
+                val lessonArgs = LessonArgs(
+                    courseId = viewModel.courseData.value?.courseId ?: 0,
+                    type = Constant.CLICK_EDIT,
+                    sectionId = viewModel.getSectionList()
+                        ?.get(viewModel.sectionAdapterPosition)?.sectionId ?: 0,
+                    lectureId = viewModel.getSectionList()
+                        ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(viewModel.sectionChildPosition)?.lectureId
+                        ?: 0
+                )
+
 
                 val action =
-                    AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToDocLessonFragment(
-                        sendSectionModel = viewModel.getSectionList()
-                            ?.get(viewModel.sectionAdapterPosition),
-                        lectureId = viewModel.getSectionList()
-                            ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(viewModel.sectionChildPosition)?.lectureId
-                            ?: 0,
-                        type = Constant.CLICK_EDIT,
-                        childPosition = viewModel.sectionChildPosition,
-                        courseId = viewModel.courseData.value?.courseId ?: 0
+                    AddCourseBaseNewFragmentDirections.actionAddCourseBaseFragmentToDocLessonFragment(
+                        lessonArgs
                     )
-                findNavController().navigate(action)
+//                AddCourseBaseNewFragmentDirections.actionAddCourseBaseFragmentToDocLessonFragment(
+//                        sendSectionModel = viewModel.getSectionList()
+//                            ?.get(viewModel.sectionAdapterPosition),
+//                        lectureId = viewModel.getSectionList()
+//                            ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(viewModel.sectionChildPosition)?.lectureId
+//                            ?: 0,
+//                        type = Constant.CLICK_EDIT,
+//                        childPosition = viewModel.sectionChildPosition,
+//                        courseId = viewModel.courseData.value?.courseId ?: 0
+//                    )
+                mainFragment.findNavController().navigateTo(action)
             }
             MediaType.TEXT -> {
-                val action =
-                    AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToLessonTextFragment(
-                        sendSectionModel = viewModel.getSectionList()
-                            ?.get(viewModel.sectionAdapterPosition),
-                        lectureId = viewModel.getSectionList()
-                            ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(viewModel.sectionChildPosition)?.lectureId
-                            ?: 0,
-                        type = Constant.CLICK_EDIT,
-                        childPosition = viewModel.sectionChildPosition,
-                        courseId = viewModel.courseData.value?.courseId ?: 0
+                val lessonArray = LessonArgs(
+                    courseId = viewModel.courseData.value?.courseId ?: 0,
+                    sectionId = viewModel.getSectionList()
+                        ?.get(viewModel.sectionAdapterPosition)?.sectionId ?: 0,
+                    type = Constant.CLICK_EDIT,
+                    lectureId = viewModel.getSectionList()
+                        ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(viewModel.sectionChildPosition)?.lectureId
+                        ?: 0
 
+                )
+                val action =
+                    AddCourseBaseNewFragmentDirections.actionAddCourseBaseFragmentToLessonTextFragment(
+                        lessonArray
                     )
-                findNavController().navigate(action)
+                mainFragment.findNavController().navigateTo(action)
             }
             MediaType.QUIZ -> {
-                findNavController().navigate(
-                    AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToAddQuizFragment(
-                        viewModel.courseData.value,
-                        true,
-                        viewModel.sectionAdapterPosition,
-                        viewModel.getSectionList()?.toTypedArray(),
-                        viewModel.sectionChildPosition
+                val lessonArgs = LessonArgs(
+                    courseId = viewModel.courseData.value?.courseId ?: 0,
+                    type = Constant.CLICK_EDIT,
+                    sectionId = viewModel.getSectionList()
+                        ?.get(viewModel.sectionAdapterPosition)?.sectionId,
+                    isQuiz = true,
+                    quizId = viewModel.getSectionList()
+                        ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(viewModel.sectionChildPosition)?.quizId,
+                    lectureId = viewModel.getSectionList()
+                        ?.get(viewModel.sectionAdapterPosition)?.lessonList?.get(viewModel.sectionChildPosition)?.lectureId
+                )
+                mainFragment.findNavController().navigateTo(
+                    AddCourseBaseNewFragmentDirections.actionAddCourseBaseFragmentToAddQuizFragment(
+                        lessonArgs
                     )
                 )
 
@@ -562,27 +603,6 @@ class AddSectionOrLectureFragment :
     override fun invoke(p1: String?) {
         when (viewModel.mediaType) {
             MediaType.DOC -> {
-                val action =
-                    AddCourseBaseFragmentDirections.actionAddCourseBaseFragmentToDocLessonFragment(
-                        sendSectionModel = viewModel.getSectionList()
-                            ?.get(viewModel.sectionAdapterPosition),
-                        lectureId = _lectureId,
-                        type = Constant.CLICK_ADD,
-                        childPosition = -1,
-                        courseId = viewModel.courseData.value?.courseId ?: 0,
-                        filePath = p1.toString()
-
-                    )
-
-                //R.id.docLessonFragment, bundleOf(   "sendSectionModel" to viewModel.getSectionList()
-                //                    ?.get(viewModel.sectionAdapterPosition),
-                //                    "lectureId" to _lectureId,
-                //                    "type" to Constant.CLICK_ADD,
-                //                    "childPosition" to  -1,
-                //                    "courseId" to (viewModel.courseData.value?.courseId ?: 0),
-                //                    "filePath" to  p1.toString()
-                //                )
-                parentFragment?.findNavController()?.navigate(action)
             }
         }
 
@@ -591,7 +611,7 @@ class AddSectionOrLectureFragment :
 
 
     private fun isFileLessThan5MB(file: File): Boolean {
-        val maxFileSize = 5 * 1024 * 1024
+        val maxFileSize = 1024 * 1024 * 1024
         val l = file.length()
         val fileSize = l.toString()
         val finalFileSize = fileSize.toInt()
@@ -600,7 +620,24 @@ class AddSectionOrLectureFragment :
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (viewModel.courseData.value?.enableFields ?: true)
+            viewModel.getCourseSections()
+    }
+
     override fun onApiRetry(apiCode: String) {
         //handled in AddCourseBaseFragment
     }
+
+    fun onClickBack() {
+        showToastShort("yo")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+    }
+
 }

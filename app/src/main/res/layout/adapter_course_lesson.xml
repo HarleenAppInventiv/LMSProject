@@ -8,25 +8,27 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:id="@+id/parentCL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_8sdp"
         android:layout_marginTop="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_8sdp"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:background="?attr/viewBackgroundColor"
+        android:background="?attr/screenBackgroundColor"
         android:paddingBottom="@dimen/_10sdp">
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
             android:id="@+id/iv_media_file"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:scaleType="centerCrop"
+            app:applyGrayscale="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/ic_video_file"
             app:shapeAppearanceOverlay="@style/corner_radius_5"
+            app:srcCompat="@drawable/ic_video_file"
 
             />
 
@@ -35,23 +37,74 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_10sdp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="Video Lesson 1"
             android:textSize="@dimen/textField_12"
             app:fontType="semiBold"
-            app:layout_constraintEnd_toStartOf="@+id/iv_check"
+            app:layout_constraintEnd_toStartOf="@+id/tv_quiz_status"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@+id/iv_media_file"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_default="wrap"
             app:layout_constraintVertical_chainStyle="spread"
             app:textColorType="heading" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_quiz_astr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*"
+            android:textColor="@color/error_red"
+            android:textSize="@dimen/textField_12"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/tv_lesson_name"
+            app:layout_constraintTop_toTopOf="@+id/tv_lesson_name"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:textColorType="none" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_quiz_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:background="@drawable/rounded_corner_white_80"
+            android:paddingHorizontal="@dimen/_8sdp"
+            android:paddingVertical="@dimen/_3sdp"
+            android:textSize="@dimen/textField_11"
+            app:fontType="medium"
+            app:layout_constraintEnd_toStartOf="@+id/iv_eye"
+            app:layout_constraintTop_toTopOf="parent"
+            app:textColorType="theme" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSRichView
+            android:id="@+id/iv_eye"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:src="@drawable/ic_view_password"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/iv_completed"
+            app:layout_constraintTop_toTopOf="parent"
+            app:vector="@drawable/ic_view_password" />
+
+        <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+            android:id="@+id/iv_completed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:importantForAccessibility="yes"
+            android:padding="@dimen/_2sdp"
+            android:src="@drawable/ic_section_completed"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            />
 
         <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
             android:id="@+id/tv_lesson_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
-            android:text="Video"
             android:textSize="@dimen/textField_11"
             app:fontType="medium"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -65,7 +118,7 @@
             android:layout_width="@dimen/_4sdp"
             android:layout_height="@dimen/_4sdp"
             android:layout_marginStart="@dimen/_10sdp"
-            android:background="@color/grey_c4c4c4"
+            android:background="?attr/dotColor"
             app:layout_constraintBottom_toBottomOf="@+id/tv_lesson_type"
             app:layout_constraintStart_toEndOf="@+id/tv_lesson_type"
             app:layout_constraintTop_toTopOf="@+id/tv_lesson_type"
@@ -78,26 +131,31 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_4sdp"
-            android:text="20 mins"
             android:textSize="@dimen/textField_11"
             app:fontType="medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_dot"
-
             app:layout_constraintTop_toBottomOf="@+id/tv_lesson_name"
             app:layout_constraintVertical_bias="0"
             app:textColorType="body" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_check"
-            android:layout_width="wrap_content"
+        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+            android:id="@+id/tv_Lec_comment"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_12sdp"
-            android:src="@drawable/ic_check_green"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:alpha=".8"
+            android:background="@drawable/outline_rejection"
+            android:lineSpacingExtra="@dimen/_4sdp"
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/textField_14"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_media_file"
+            app:layout_constraintVertical_bias="0"
+            app:textColorType="heading" />
 
         <androidx.appcompat.widget.AppCompatSeekBar
             android:id="@+id/pb_progress"
@@ -107,10 +165,11 @@
             android:clickable="false"
             android:enabled="false"
             android:focusable="false"
+            android:minHeight="0dp"
             android:padding="0dp"
-            android:progress="10"
-            android:progressDrawable="@drawable/sb_drawable"
 
+            android:progress="10"
+            android:progressDrawable="@drawable/sb_drawable_course"
             android:thumb="@null"
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@+id/tv_percent"
@@ -123,13 +182,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:text="25%"
             android:textSize="@dimen/textField_10"
             android:visibility="gone"
             app:fontType="medium"
-            app:layout_constraintBottom_toBottomOf="@+id/pb_progress"
+            app:layout_constraintBottom_toTopOf="@+id/pb_progress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/pb_progress"
+            app:layout_constraintVertical_bias="0"
             app:textColorType="heading" />
 
 

@@ -19,4 +19,14 @@ class CoAuthorRepoImpl(private var apiService: ApiService) : CoAuthorRepo {
 
         }.safeApiCall(ApiEndPoints.API_INVITE_COAUTHOR).flowOn(Dispatchers.IO)
     }
+
+    override suspend fun existsCoAuthor(courseId: Int): Flow<Resource> {
+        return object : BaseRepo<BaseResponse<ExistsCoAuthorResponse>>() {
+            override suspend fun fetchDataFromRemoteSource(): Response<BaseResponse<ExistsCoAuthorResponse>> {
+                return apiService.existsCoAuthorDetails(courseId)
+            }
+
+        }.safeApiCall(ApiEndPoints.API_EXISTS_COAUTHOR).flowOn(Dispatchers.IO)
+    }
+
 }

@@ -92,7 +92,7 @@
             android:textSize="@dimen/textField_16"
             android:visibility="gone"
             app:drawableTopCompat="@drawable/ic_no_doc"
-            app:fontType="regular"
+            app:fontType="semiBold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_search"

@@ -17,6 +17,7 @@ import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import com.google.gson.Gson
@@ -51,6 +52,10 @@ fun Context.getAttrColor(attrColor: Int): Int {
 
 fun TextView.setColor(color: Int) {
     setTextColor(ContextCompat.getColor(context, context.getAttrColor(color)))
+}
+
+fun Context.getAttrResource(attrColor: Int): Int {
+    return ContextCompat.getColor(this, getAttrColor(attrColor))
 }
 
 
@@ -96,9 +101,12 @@ fun Long?.getTime(context: Context, showHms: Boolean = true, showHrs: Boolean = 
 }
 
 private fun Long?.getTimeInHMS(showHrs: Boolean): String {
+
     val seconds = this!!.div(1000).rem(60).toInt()
     val mins = this.div(1000.times(60)).rem(60).toInt()
-    val hrs = this.div(1000.times(60).times(60)).rem(24).toInt()
+    val hrs = (this.div(1000.times(60).times(60)).rem(24).toInt()).plus(
+        this.div(1000.times(60).times(60)).div(24).toInt().times(24)
+    )
 
 
 
@@ -115,31 +123,31 @@ fun Context.getTimeInChar(milliseconds: Long?): String {
 
     val seconds = milliseconds!!.div(1000).rem(60).toInt()
     val mins = milliseconds.div(1000.times(60)).rem(60).toInt()
-    val hrs = milliseconds.div(1000.times(60).times(60)).rem(24).toInt()
-
+//    val hrs = milliseconds.div(1000.times(60).times(60)).rem(24).toInt()
+    val hrs = (milliseconds.div(1000.times(60).times(60)).rem(24).toInt()).plus(
+        milliseconds.div(
+            1000.times(60).times(60)
+        ).div(24).toInt().times(24)
+    )
+    showLog("hr", hrs.toString())
     var time = ""
-    if (hrs > 0) {
+    if (hrs >= 0) {
         time = if (hrs > 9) hrs.toString() else "0$hrs"
 
     }
-    if (mins > 0) {
-        time += ".${if (mins > 9) mins else "0$mins"}"
+    showLog("hr1", time.toString())
+    if (mins >= 0) {
+        time += ":${if (mins > 9) mins else "0$mins"}"
 
     }
-    if (seconds > 0 && (time.isEmpty() || time.startsWith("."))) {
-        time += ".${if (seconds > 9) seconds else "0$seconds"}"
+    showLog("min", time.toString())
+    if (seconds >= 0) {
+        time += ":${if (seconds > 9) seconds else "0$seconds"}"
     }
+    showLog("sec", time.toString())
 
-    val format = if (hrs > 0) {
-        "hrs"
-    } else if (mins > 0) {
-        "mins"
-    } else {
 
-        "secs"
-    }
-    return String.format("%s %s", if (time.startsWith(".")) time.substring(1) else time, format)
-
+    return String.format("%s", if (time.startsWith(".")) time.substring(1) else time)
 
 
 }
@@ -147,6 +155,7 @@ fun Context.getTimeInChar(milliseconds: Long?): String {
 fun Activity.getRootView(): View {
     return findViewById<View>(android.R.id.content)
 }
+
 fun Context.convertDpToPx(dp: Float): Float {
     return TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,
@@ -154,6 +163,7 @@ fun Context.convertDpToPx(dp: Float): Float {
         this.resources.displayMetrics
     )
 }
+
 fun Activity.isKeyboardOpen(): Boolean {
     val visibleBounds = Rect()
     this.getRootView().getWindowVisibleDisplayFrame(visibleBounds)
@@ -191,8 +201,18 @@ fun NavController.navigateTo(
     navigatorExtras: Navigator.Extras? = null
 ) {
     try {
-
         navigate(resId, args, navOptions, navigatorExtras)
+    } catch (e: Exception) {
+        showException(e)
+    }
+}
+
+fun NavController.navigateTo(
+    directions: NavDirections
+) {
+    try {
+
+        navigate(directions)
     } catch (e: Exception) {
         showException(e)
     }

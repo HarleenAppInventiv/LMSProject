@@ -1,7 +1,6 @@
 package com.selflearningcoursecreationapp.ui.dialog
 
 import android.annotation.SuppressLint
-import android.content.res.ColorStateList
 import android.graphics.Color
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseDialog
@@ -28,20 +27,20 @@ class ViModeDialog : BaseDialog<DialogViLayoutBinding>() {
         }
 
 //        binding.btnClose.backgroundTintList = null
-        binding.imageView2.setCustomColor(colorString)
-        binding.imageView2.setSecondaryColor(
-            Color.parseColor(
-                String.format(
-                    "#%02x%02x%02x%02x",
-                    80,
-                    Color.red(colorString),
-                    Color.green(colorString),
-                    Color.blue(colorString)
-                )
-            )
-        )
+//        binding.imageView2.setCustomColor(colorString)
+//        binding.imageView2.setSecondaryColor(
+//            Color.parseColor(
+//                String.format(
+//                    "#%02x%02x%02x%02x",
+//                    80,
+//                    Color.red(colorString),
+//                    Color.green(colorString),
+//                    Color.blue(colorString)
+//                )
+//            )
+//        )
 
-        binding.btnClose.backgroundTintList = ColorStateList.valueOf(colorString)
+//        binding.btnClose.backgroundTintList = ColorStateList.valueOf(colorString)
         binding.btnClose.setOnClickListener { dismiss() }
     }
 

@@ -18,7 +18,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/screen_background">
+        android:background="?attr/screenBackgroundColor">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             android:paddingTop="@dimen/_30sdp"
+            android:importantForAccessibility="no"
             android:theme="@style/AppTheme"
             app:changeBackgroundType="bg_theme_solid"
 
@@ -53,7 +54,8 @@
                         android:id="@+id/et_search"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/_15sdp"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_16sdp"
                         android:background="@drawable/ic_bg_search_home"
                         android:drawablePadding="@dimen/_10sdp"
@@ -61,22 +63,32 @@
                         android:hint="@string/search_courses"
                         android:imeOptions="actionSearch"
                         android:maxLines="1"
-                        android:paddingEnd="@dimen/_40sdp"
+                        android:focusable="false"
                         android:padding="10dp"
                         android:singleLine="true"
                         android:textColor="?attr/whiteTextColor"
-                        android:textColorHint="@color/black"
+                        android:paddingEnd="@dimen/_40sdp"
                         android:textSize="@dimen/_11sdp"
                         android:text="@={viewModel.searchLiveData}"
-
+                        android:textColorHint="?attr/blackTextColor"
                         app:drawableStartCompat="@drawable/ic_home_search"
                         app:fontType="regular"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/filter"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintVertical_bias="0"
                         app:primaryIconTint="end" />
 
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                        android:id="@+id/img_cross"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_10sdp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@+id/et_search"
+                        app:layout_constraintEnd_toEndOf="@+id/et_search"
+                        app:layout_constraintTop_toTopOf="@+id/et_search"
+                        app:srcCompat="@drawable/ic_cross_grey" />
 
                     <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
                         android:id="@+id/img_mic"
@@ -88,8 +100,33 @@
                         app:layout_constraintEnd_toEndOf="@+id/et_search"
                         app:layout_constraintTop_toTopOf="@+id/et_search"
                         app:srcCompat="@drawable/ic_mic_home"
+                        android:visibility="gone" />
 
-                        />
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                        android:id="@+id/filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="@dimen/_12sdp"
+                        android:contentDescription="@string/filter"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="@+id/et_search"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/et_search"
+                        app:layout_constraintTop_toTopOf="@+id/et_search"
+                        app:srcCompat="@drawable/ic_filter_new" />
+
+
+                    <com.selflearningcoursecreationapp.utils.customViews.LMSImageView
+                        android:id="@+id/iv_red"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-4dp"
+                        android:layout_marginEnd="-4dp"
+                        android:padding="@dimen/_2sdp"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="@+id/filter"
+                        app:layout_constraintTop_toTopOf="@+id/filter"
+                        app:srcCompat="@drawable/ic_circle_red" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -107,7 +144,7 @@
                         android:orientation="vertical"
                         android:paddingBottom="@dimen/_10sdp">
 
-                        <com.google.android.material.imageview.ShapeableImageView
+                        <com.selflearningcoursecreationapp.utils.customViews.LMSShapeAbleImageView
                             android:id="@+id/iv_user_image"
                             android:layout_width="@dimen/_35sdp"
                             android:layout_height="@dimen/_35sdp"
@@ -115,8 +152,9 @@
                             android:contentDescription="@string/user_image"
                             android:onClickListener="@{(v)->homefrag.onHandleClick(v)}"
                             android:padding="@dimen/_2sdp"
+                            android:scaleType="centerCrop"
 
-                            android:scaleType="fitXY"
+                            app:applyGrayscale="true"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -161,19 +199,32 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/_15sdp"
-                            android:contentDescription="@string/notification"
+                            android:contentDescription="@string/enable_disable_screen_reading_mode"
                             android:padding="@dimen/_5sdp"
                             android:src="@drawable/ic_screen_reading_mode_white"
                             app:layout_constraintBottom_toBottomOf="@+id/iv_user_image"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/iv_user_image" />
 
+                        <com.selflearningcoursecreationapp.utils.customViews.LMSTextView
+                            android:id="@+id/tv_notification_count"
+                            android:layout_width="@dimen/_13sdp"
+                            android:layout_height="@dimen/_13sdp"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:background="@drawable/notification_count_indicator"
+                            android:gravity="center"
+                            android:textSize="@dimen/_6sdp"
+                            android:visibility="gone"
+                            app:layout_constraintEnd_toEndOf="@+id/iv_notification"
+                            app:layout_constraintTop_toTopOf="@+id/iv_notification"
+                            app:textColorType="white" />
+
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/iv_notification"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/_5sdp"
-                            android:contentDescription="@string/enable_disable_screen_reading_mode"
+                            android:contentDescription="@string/notification"
                             android:padding="@dimen/_5sdp"
                             app:layout_constraintBottom_toBottomOf="@+id/iv_user_image"
                             app:layout_constraintEnd_toStartOf="@+id/iv_talkback"
@@ -188,7 +239,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/screen_background"
+                android:background="?attr/screenBackgroundColor"
                 android:elevation="@dimen/_4sdp"
                 app:layout_collapseMode="pin">
 
@@ -221,6 +272,7 @@
                     android:paddingVertical="@dimen/_3sdp"
                     android:text="@string/see_all"
                     android:textSize="@dimen/textField_12"
+                    android:contentDescription="@string/see_all_course_categories"
                     android:visibility="gone"
                     app:fontType="regular"
 
@@ -290,7 +342,7 @@
                         android:layout_marginStart="@dimen/_12sdp"
                         android:layout_marginTop="@dimen/_12sdp"
                         android:text="@string/other_courses"
-                        android:textColor="@color/adapter_header_color"
+                        android:textColor="?attr/adapterTitleColor"
                         android:textSize="@dimen/textField_15"
                         app:fontType="semiBold"
                         android:visibility="gone"
