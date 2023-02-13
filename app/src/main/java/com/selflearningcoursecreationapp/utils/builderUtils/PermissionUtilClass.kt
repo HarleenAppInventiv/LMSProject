@@ -82,6 +82,21 @@ class PermissionUtilClass {
             }
         }
 
+        fun requestStoragePermission(): Builder {
+            permissionArray = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                arrayOf(
+                    Manifest.permission.READ_MEDIA_VIDEO,
+
+                    )
+            } else {
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+            }
+            return this
+        }
+
         fun requestPermissions(array: Array<String>): Builder {
             permissionArray = array
             return this

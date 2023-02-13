@@ -79,15 +79,6 @@ abstract class BaseViewModel : ViewModel() {
             PreferenceDataStore.saveString(Constants.USER_RESPONSE, Gson().toJson(userResponse))
         }
     }
-
-//    suspend fun setIntercomLoginStatus(isLogIn: Boolean) {
-//        PreferenceDataStore.saveBoolean(Constants.INTERCOM_LOGIN, isLogIn)
-//    }
-
-//    suspend fun getIntercomLoginStatus(): Boolean {
-//        return PreferenceDataStore.getBoolean(Constants.INTERCOM_LOGIN) == true
-//    }
-
     suspend fun saveUserToken(token: String?) {
         PreferenceDataStore.saveString(Constants.USER_TOKEN, token ?: "")
         (getAppContext() as SelfLearningApplication).updateToken()
@@ -226,20 +217,10 @@ abstract class BaseViewModel : ViewModel() {
 
     fun saveViMode(isViOn: Boolean) {
         viewModelScope.launch {
-//            withContext(viewModelScope.coroutineContext) {
             PreferenceDataStore.saveBoolean(Constants.VI_MODE, isViOn)
             delay(500)
             (getAppContext() as SelfLearningApplication).updatedThemeFile()
-//            }
         }
     }
-
-//    fun localToGMT(date: String): String {
-////        val date = Date()
-//        Log.d("TimeTest", "date: $date ")
-//        val sdf = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-//        sdf.timeZone = TimeZone.getTimeZone("UTC")
-//        return sdf.format(date).toString()
-//    }
 
 }

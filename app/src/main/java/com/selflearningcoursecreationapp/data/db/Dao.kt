@@ -29,19 +29,5 @@ interface Dao {
     @Update
     suspend fun updateCourse(user: OfflineCourseData?)
 
-//    @Query("SELECT * FROM offlinesectiondata WHERE course_id = :courseId AND user_id = :userId")
-//    suspend fun getAllCourseSections(courseId: Int, userId: Int): List<OfflineSectionData>?
-
-
-//    @Query("SELECT * FROM offlinesectiondata WHERE section_id = :courseId AND user_id = :userId")
-//    suspend fun getCourseSections(courseId: Int, userId: Int): OfflineSectionData?
-
-
-//    @Insert
-//    suspend fun insertLessonData(user: OfflineLessonData?): Long
-//
-//    @Insert
-//    suspend fun insertSectionData(user: OfflineSectionData?): Long
-
 
 }

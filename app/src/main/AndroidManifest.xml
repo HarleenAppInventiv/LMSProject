@@ -5,9 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- <uses-permission -->
-    <!-- android:name="android.permission.MANAGE_EXTERNAL_STORAGE" -->
-    <!-- tools:ignore="ScopedStorage" /> -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -129,14 +127,8 @@
             android:supportsPictureInPicture="true"
             tools:targetApi="n">
 
-            <!-- <meta-data -->
-            <!-- android:name="android.app.shortcuts" -->
-            <!-- android:resource="@xml/shortcut" /> -->
-        </activity> <!-- <service -->
-        <!-- android:name=".utils.screenRecorder.services.RecorderService" -->
-        <!-- android:exported="false" -->
-        <!-- android:foregroundServiceType="mediaProjection" -->
-        <!-- tools:targetApi="q" /> -->
+
+        </activity>
         <service
             android:name=".utils.screenRecorder.home.FloatingWidgetService"
             android:exported="false"
@@ -156,9 +148,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_path" />
-        </provider> <!-- <service -->
-        <!-- android:name=".utils.screen_recording_v1.RecorderService" -->
-        <!-- android:exported="false" /> -->
+        </provider>
         <service
             android:name=".utils.screen_recording_v1.ScreenRecordService"
             android:enabled="true"

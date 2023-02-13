@@ -30,7 +30,10 @@ abstract class BaseBottomSheetDialog<DB : ViewDataBinding> : BottomSheetDialogFr
     @LayoutRes
     abstract fun getLayoutRes(): Int
     abstract fun initUi()
-    open fun onApiRetry(apiCode: String) {}
+    open fun onApiRetry(apiCode: String) {
+        //handled in all subclasses for api retry
+
+    }
 
 
     override fun onCreateView(

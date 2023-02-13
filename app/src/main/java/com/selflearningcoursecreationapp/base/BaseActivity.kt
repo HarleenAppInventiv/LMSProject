@@ -1,6 +1,5 @@
 package com.selflearningcoursecreationapp.base
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.DownloadManager
 import android.content.ActivityNotFoundException
@@ -65,7 +64,7 @@ import kotlin.concurrent.schedule
 
 
 open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDialogClick,
-    /*PaymentResultListener,*/ PaymentResultWithDataListener,
+    PaymentResultWithDataListener,
     ExternalWalletListener, RazorpayUtils.RazorPayCallback, ActivityMessageListener {
 
 
@@ -86,28 +85,8 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
         changeAppLanguage()
         getRefreshToken()
 
-//        val exceptionHandler by inject<ExceptionHandler>()
-//        exceptionHandler.initialize(this)
-//        Thread.setDefaultUncaughtExceptionHandler(exceptionHandler)
 
         setDayNightTheme()
-
-//        transferObject.apply {
-//            crashText = "D'oh! Its Crash.." // your error message "oops its crash" or something.
-//            destinationActivity = HomeActivity::class.java //MUST BE UR STARTING ACTIVITY
-//            detailsButonText =
-//                "Details" // showing stacktrace. change your button's text what you want
-//            restartAppButtonText =
-//                "Contiune" // restart your app. change your button's text what you want
-//            imagePath =
-//                R.drawable.ic_logo_default // ur error image change what you want. MUST BE "R.drawable.example"
-//            backgorundHex = "#ffffff" // ur crash activity's backgorund color.change what you want.
-//            crashTextColor = "#000000" // CrashText's color. MUST BE HEX CODE
-//
-//        }
-
-//        Thread.setDefaultUncaughtExceptionHandler(CosmosException(this,transferObject))
-
 
     }
 
@@ -298,7 +277,7 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
     }
 
     open fun onApiRetry(apiCode: String) {
-
+//handled in all screen for api retry
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -335,7 +314,7 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
         showBackIcon: Boolean = true,
         subTitle: String? = ""
     ) {
-
+//handle set toolbar in all activities
     }
 
     fun changeAppLanguage() {
@@ -376,7 +355,6 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
 
 
     fun checkAccessibilityService() {
-//        val isActive = getAccessibilityService()
 
         CommonAlertDialog.builder(this)
             .title(getString(R.string.screen_reading_mode))
@@ -385,81 +363,12 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
                     .startPos(80)
                     .textColor().isBold().getSpanString()
             ).positiveBtnText(getString(R.string.close_cap))
-//            .negativeBtnText(getString(R.string.close))
             .setThemeIconColor(true)
             .hideNegativeBtn(true)
             .notCancellable()
             .icon(R.drawable.ic_visually_impaired)
             .getCallback {
-//                        if (it) {
-//
-//                            try {
-//                                val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
-//                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-//                                startActivityForResult(intent, RequestCode.ACCESSIBILITY)
-//
-//                            } catch (e: ActivityNotFoundException) {
-//                                showToastLong(getString(R.string.you_dont_have_activity_to_perform_action))
-//                            }
-//                        }
             }.build()
-//        when {
-//            isActive -> {
-//                CommonAlertDialog.builder(this)
-//                    .title(getString(R.string.screen_reading_mode))
-//                    .description(getString(R.string.disable_screen_reading_mode_desc))
-//                    .positiveBtnText(getString(R.string.disable))
-//                    .notCancellable()
-//                    .setThemeIconColor(true)
-//                    .hideNegativeBtn(true)
-//                    .icon(R.drawable.ic_visually_impaired)
-//                    .getCallback {
-////                        if (it) {
-////
-////                            try {
-////                                val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
-////                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-////                                startActivityForResult(intent, RequestCode.ACCESSIBILITY)
-////
-////                            } catch (e: ActivityNotFoundException) {
-////                                showToastLong(getString(R.string.you_dont_have_activity_to_perform_action))
-////                            }
-////                        }
-//                    }.build()
-//
-//
-//            }
-//            else -> {
-//
-//
-//                CommonAlertDialog.builder(this)
-//                    .title(getString(R.string.screen_reading_mode))
-//                    .spannedText(
-//                        SpanUtils.with(this, getString(R.string.enable_screen_reading_mode_desc))
-//                            .startPos(80)
-//                            .textColor().isBold().getSpanString()
-//                    ).positiveBtnText(getString(R.string.okay))
-////                    .negativeBtnText(getString(R.string.close))
-//                    .setThemeIconColor(true)
-//                    .hideNegativeBtn(true)
-//                    .notCancellable()
-//                    .icon(R.drawable.ic_visually_impaired)
-//                    .getCallback {
-////                        if (it) {
-////
-////                            try {
-////                                val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
-////                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-////                                startActivityForResult(intent, RequestCode.ACCESSIBILITY)
-////
-////                            } catch (e: ActivityNotFoundException) {
-////                                showToastLong(getString(R.string.you_dont_have_activity_to_perform_action))
-////                            }
-////                        }
-//                    }.build()
-//            }
-//        }
-
 
     }
 
@@ -514,8 +423,6 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
             this,
             HomeActivity::class.java
         )
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-//        overridePendingTransition(0, 0)
         startActivity(
             intent
         )
@@ -703,11 +610,11 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
 
 
     open fun onRazorpayCallback(isSuccess: Boolean, data: OrderData?, response: String? = null) {
-
+//get callback from razorpay and handle it in main activity
     }
 
     open fun callFragment(id: Int, isBottomFrag: Boolean) {
-
+//called when click on "Go to downloads" in retry dialog
     }
 
     override fun orderDetail(orderData: OrderData?) {
@@ -783,19 +690,7 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
 
     @SuppressLint("Range")
     fun downloadPdf(contentURL: String?, fileName: String) {
-        PermissionUtilClass.builder(this).requestPermissions(
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                arrayOf(
-                    Manifest.permission.READ_MEDIA_VIDEO,
-
-                    )
-            } else {
-                arrayOf(
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-            }
-        ).getCallBack { b, strings, _ ->
+        PermissionUtilClass.builder(this).requestStoragePermission().getCallBack { b, strings, _ ->
             if (b) {
                 try {
 
@@ -814,45 +709,7 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
                     val downloadID = manager?.enqueue(request) ?: 0
                     showToastShort(getString(R.string.download_start))
 
-                    var finishDownload = false
-                    var progress: Int
-                    while (!finishDownload) {
-                        val cursor: Cursor? =
-                            manager?.query(DownloadManager.Query().setFilterById(downloadID))
-                        if (cursor?.moveToFirst() == true) {
-                            val status =
-                                cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
-                            when (status) {
-                                DownloadManager.STATUS_FAILED -> {
-                                    finishDownload = true
-                                    showToastShort(getString(R.string.download_failed))
-
-                                }
-                                DownloadManager.STATUS_PAUSED -> {}
-                                DownloadManager.STATUS_PENDING -> {}
-                                DownloadManager.STATUS_RUNNING -> {
-//                                val total =
-//                                    cursor.getLong(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
-//                                if (total > 0) {
-//                                    val downloaded = cursor.getLong(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
-//                                    progress = (downloaded * 100L / total).toInt()
-                                    // if you use downloadmanger in async task, here you can use like this to display progress.
-                                    // Don't forget to do the division in long to get more digits rather than double.
-                                    //  publishProgress((int) ((downloaded * 100L) / total));
-//                                }
-                                }
-                                DownloadManager.STATUS_SUCCESSFUL -> {
-                                    progress = 100
-                                    // if you use aysnc task
-                                    // publishProgress(100);
-                                    finishDownload = true
-
-                                    showToastShort(getString(R.string.download_completed))
-                                }
-                            }
-                        }
-                        cursor?.close()
-                    }
+                    handleDownloadStatus(manager, downloadID)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -863,6 +720,34 @@ open class BaseActivity : AppCompatActivity(), LiveDataObserver, BaseDialog.IDia
 
         }.build()
 
+    }
+
+    private fun handleDownloadStatus(manager: DownloadManager?, downloadID: Long) {
+        var finishDownload = false
+        var progress: Int
+        while (!finishDownload) {
+            val cursor: Cursor? =
+                manager?.query(DownloadManager.Query().setFilterById(downloadID))
+            if (cursor?.moveToFirst() == true) {
+                val status =
+                    cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
+                when (status) {
+                    DownloadManager.STATUS_FAILED -> {
+                        finishDownload = true
+                        showToastShort(getString(R.string.download_failed))
+
+                    }
+
+                    DownloadManager.STATUS_SUCCESSFUL -> {
+
+                        finishDownload = true
+
+                        showToastShort(getString(R.string.download_completed))
+                    }
+                }
+            }
+            cursor?.close()
+        }
     }
 
     override fun onStop() {
