@@ -2,7 +2,6 @@ package com.selflearningcoursecreationapp.ui.bottom_more
 
 import androidx.lifecycle.viewModelScope
 import com.selflearningcoursecreationapp.base.BaseViewModel
-import com.selflearningcoursecreationapp.data.network.Resource
 import com.selflearningcoursecreationapp.utils.MODTYPE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,13 +18,7 @@ class MoreFragmentVM(private val repo: MoreFragmentRepo) : BaseViewModel() {
             repo.switchMod(if (userProfile?.currentMode == MODTYPE.LEARNER) MODTYPE.MODERATOR else MODTYPE.LEARNER)
         withContext(Dispatchers.IO) {
             response.collect {
-                if (it is Resource.Success<*>) {
                     updateResponseObserver(it)
-//                    val data = it.value as BaseResponse<UserProfile>
-//                    saveUser(UserResponse(user = data.resource))
-                } else {
-                    updateResponseObserver(it)
-                }
             }
         }
     }

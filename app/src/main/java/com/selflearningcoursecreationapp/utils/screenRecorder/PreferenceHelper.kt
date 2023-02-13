@@ -68,7 +68,6 @@ class PreferenceHelper(
         get() {
             val deviceWidth = displayMetrics.widthPixels
             return getString(R.string.pref_key_resolution)?.toIntOrNull() ?: deviceWidth
-            Log.e("frame_rate", "videoWidth$videoWidth")
 
         }
         set(value) {
@@ -209,12 +208,14 @@ class PreferenceHelper(
             return when (getString(R.string.pref_key_audio_encoder) ?: "aac") {
                 "default" -> MediaRecorder.AudioEncoder.DEFAULT
                 "aac" -> MediaRecorder.AudioEncoder.AAC
-                "opus" -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    MediaRecorder.AudioEncoder.OPUS
-                } else {
-                    // Fallback to default value to avoid crash
-                    putString(R.string.pref_key_audio_encoder, "default")
-                    throw java.lang.IllegalArgumentException("Opus codec requires Android Q.")
+                "opus" -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        MediaRecorder.AudioEncoder.OPUS
+                    } else {
+                        // Fallback to default value to avoid crash
+                        putString(R.string.pref_key_audio_encoder, "default")
+                        throw java.lang.IllegalArgumentException("Opus codec requires Android Q.")
+                    }
                 }
                 "vorbis" -> MediaRecorder.AudioEncoder.VORBIS
 
@@ -222,7 +223,6 @@ class PreferenceHelper(
                 else -> MediaRecorder.AudioEncoder.AAC
             }
 
-            Log.e("audioEncoder", "audioEncoder$audioEncoder")
 
         }
         set(value) {

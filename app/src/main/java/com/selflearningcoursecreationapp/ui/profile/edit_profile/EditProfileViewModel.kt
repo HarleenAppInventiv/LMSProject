@@ -17,9 +17,9 @@ class EditProfileViewModel(private val repo: EditProfileRepo) : BaseViewModel() 
     var userData = MutableLiveData<UserProfile>().apply {
         getUserData()
         value = userProfile
-        value?.professionId = value?.profession?.id?.toString() ?: ""
-        value?.genderId = value?.genderId
-        value?.countryCode = value?.countryCode.toString()
+        value?.professionId = userProfile?.profession?.id?.toString() ?: ""
+        value?.genderId = userProfile?.genderId
+        value?.countryCode = userProfile?.countryCode.toString()
     }
 
 
