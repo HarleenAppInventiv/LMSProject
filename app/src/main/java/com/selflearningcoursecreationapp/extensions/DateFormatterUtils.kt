@@ -94,10 +94,10 @@ fun getCurrentDate(): String {
 }
 
 fun String.convertToUtc(): String {
-    var selectedDate = this.getFormateedDateYear("yyyy-MM-dd", "EEE MMM dd")
-    var selectedYear = this.getFormateedDateYear("yyyy-MM-dd", "yyyy")
+    val selectedDate = this.getFormateedDateYear("yyyy-MM-dd", "EEE MMM dd")
+    val selectedYear = this.getFormateedDateYear("yyyy-MM-dd", "yyyy")
 
-    var fullDate = "${selectedDate} ${"00:00:00"} ${selectedYear}"
+    val fullDate = "${selectedDate} ${"00:00:00"} ${selectedYear}"
 
     val sdfForDateUTC = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
     sdfForDateUTC.timeZone = TimeZone.getTimeZone("UTC")

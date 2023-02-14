@@ -8,7 +8,8 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.io.File
 
-fun String?.getRequestBody(type: String = "text/plain"): RequestBody? {
+val TEXT_PLAIN = "text/plain"
+fun String?.getRequestBody(type: String = TEXT_PLAIN): RequestBody? {
     return this?.toRequestBody((type).toMediaTypeOrNull())
 }
 
@@ -17,11 +18,11 @@ fun JSONObject?.getRequestBody(): RequestBody? {
 }
 
 fun Int?.getRequestBody(): RequestBody? {
-    return this?.toString()?.toRequestBody(("text/plain").toMediaTypeOrNull())
+    return this?.toString()?.toRequestBody((TEXT_PLAIN).toMediaTypeOrNull())
 }
 
 fun Long?.getRequestBody(): RequestBody? {
-    return this?.toString()?.toRequestBody(("text/plain").toMediaTypeOrNull())
+    return this?.toString()?.toRequestBody((TEXT_PLAIN).toMediaTypeOrNull())
 }
 
 fun File.getMultiPartBody(param: String): MultipartBody.Part {
