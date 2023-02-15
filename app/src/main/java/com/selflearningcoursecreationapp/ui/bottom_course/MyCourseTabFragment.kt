@@ -123,10 +123,10 @@ class MyCourseTabFragment : BaseFragment<FragmentMyCourseTabBinding>() {
     }
 
     override fun onApiRetry(apiCode: String) {
-
+//handle api retry callback
     }
 
-    fun refreshData() {
-
-    }
+//    fun refreshData() {
+//
+//    }
 }

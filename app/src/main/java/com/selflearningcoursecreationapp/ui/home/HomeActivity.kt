@@ -120,9 +120,9 @@ class HomeActivity : BaseActivity(), NavigationBarView.OnItemSelectedListener {
                 }
                 if (getCurrentFragment() is ContentCourseDetailFragment) {
                     (getCurrentFragment() as ContentCourseDetailFragment?)?.refreshData(false)
-                } else if (getCurrentFragment() is MyCourseTabFragment) {
+                } /*else if (getCurrentFragment() is MyCourseTabFragment) {
                     (getCurrentFragment() as MyCourseTabFragment?)?.refreshData()
-                }
+                }*/
 
             }
 

@@ -17,6 +17,7 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.SelfLearningApplication
 import com.selflearningcoursecreationapp.textEditor.TextEditor
 import com.selflearningcoursecreationapp.utils.ComplexityLevel
+import com.selflearningcoursecreationapp.utils.builderUtils.HtmlResizeableUtils
 import com.selflearningcoursecreationapp.utils.customViews.*
 import java.util.*
 
@@ -140,12 +141,15 @@ fun WebView.setFormattedTextDesc(unformattedText: String?, lineCount: Int = 3) {
 
 //    var desc= "asadasadasadasd<br>a<br>a<br>a<br>a<br>a<br>a<br>aa<br>a<br>"
 //            var desc = courseData.courseDescription ?: ""
-    var readMoreStatus = getMoreText(unformattedText.toString())
-    if (readMoreStatus.first) {
-        displayDataToWeb(readMoreStatus.second, this)
-    } else {
-        displayDataToWeb(unformattedText.toString(), this)
-    }
+//    var readMoreStatus = getResizableFormattedText(unformattedText.toString())
+//    if (readMoreStatus.first) {
+//        displayDataToWeb(readMoreStatus.second, this)
+//    } else {
+//        displayDataToWeb(unformattedText.toString(), this)
+//    }
+
+    HtmlResizeableUtils.builder(this).fullContent(unformattedText ?: "")
+        .build()
 
 }
 

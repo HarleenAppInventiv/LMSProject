@@ -113,7 +113,7 @@ class LoginSignUpFragment : BaseFragment<FragmentLoginSignUpBinding>(), View.OnC
     }
 
     override fun onApiRetry(apiCode: String) {
-
+//handle api retry callback
     }
 
 

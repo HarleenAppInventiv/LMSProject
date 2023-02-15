@@ -83,6 +83,10 @@ fun Int?.isLectureFailed(): Boolean {
     }
 }
 
+fun Int?.isCourseInProgress(): Boolean {
+
+    return (this ?: 0) > 0 && (this ?: 0) < 100
+}
 
 fun TextView.setPriceColor(type: Int?) {
     when (type) {

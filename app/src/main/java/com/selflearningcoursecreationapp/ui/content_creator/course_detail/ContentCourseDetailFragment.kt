@@ -30,6 +30,7 @@ import com.selflearningcoursecreationapp.ui.course_details.ratings.ReviewsFragme
 import com.selflearningcoursecreationapp.ui.preferences.ScreenSlidePagerAdapter
 import com.selflearningcoursecreationapp.utils.*
 import com.selflearningcoursecreationapp.utils.builderUtils.CommonAlertDialog
+import com.selflearningcoursecreationapp.utils.builderUtils.HtmlResizeableUtils
 import com.selflearningcoursecreationapp.utils.builderUtils.ResizeableUtils
 import com.selflearningcoursecreationapp.utils.builderUtils.SpanUtils
 import com.selflearningcoursecreationapp.utils.customViews.LMSTextView
@@ -366,29 +367,43 @@ class ContentCourseDetailFragment : BaseFragment<FragmentContentCourseDetailBind
             }
 
 
-            var desc = courseData.courseDescription
-            var readMoreStatus = checkForReadMoreDesc(desc)
+            val htmlBuilder = HtmlResizeableUtils.builder(binding.tvDescription)
+                .fullContent(courseData.courseDescription ?: "")
+                .getCallback {
+                    if (it) {
+//                        displayDataToWeb(readMoreStatus.second, binding.tvDescription)
+                        binding.tvReadMore.visible()
+                    } else {
+//                        displayDataToWeb(desc.toString(), binding.tvDescription)
+                        binding.tvReadMore.gone()
+                    }
+                }
+                .build()
 
-            showLog("SECOND_STRING", "" + readMoreStatus.second)
-            if (readMoreStatus.first) {
-                displayDataToWeb(readMoreStatus.second, binding.tvDescription)
-                binding.tvReadMore.visible()
-            } else {
-                displayDataToWeb(desc.toString(), binding.tvDescription)
-                binding.tvReadMore.gone()
-            }
 
+//            var desc = courseData.courseDescription
+//            var readMoreStatus = checkForReadMoreDesc(desc)
+//
+//            showLog("SECOND_STRING", "" + readMoreStatus.second)
+//            if (readMoreStatus.first) {
+//                displayDataToWeb(readMoreStatus.second, binding.tvDescription)
+//                binding.tvReadMore.visible()
+//            } else {
+//                displayDataToWeb(desc.toString(), binding.tvDescription)
+//                binding.tvReadMore.gone()
+//            }
 
 
             binding.tvReadMore.setOnClickListener {
                 if (binding.tvReadMore.content()
                         .equals(baseActivity.getString(R.string.read_more_arrow))
                 ) {
-                    displayDataToWeb(desc.toString(), binding.tvDescription)
+//                    displayDataToWeb(desc.toString(), binding.tvDescription)
+                    htmlBuilder.showFullContent()
                     binding.tvReadMore.text = baseActivity.getString(R.string.read_less_arrow)
                 } else {
-                    displayDataToWeb(readMoreStatus.second, binding.tvDescription)
-
+//                    displayDataToWeb(readMoreStatus.second, binding.tvDescription)
+                    htmlBuilder.showLessContent()
                     binding.tvReadMore.text = baseActivity.getString(R.string.read_more_arrow)
                 }
             }
@@ -444,39 +459,7 @@ class ContentCourseDetailFragment : BaseFragment<FragmentContentCourseDetailBind
         }
     }
 
-    private fun checkDescForLimitedText(
-        splitList: List<String>?,
-        content: String?,
-        courseDescription: String?
-    ): Boolean {
-        if ((splitList?.size ?: 0) > 7) {
-            var concattedText = ""
-            for (i in 0 until 7) {
-                concattedText += ((splitList?.get(i) ?: "") + "<br>")
-            }
-            if ((concattedText?.length ?: 0) > Constant.DESC_CHAR_COUNT_MAX) {
-                binding.tvReadMore.visible()
-                displayDataToWeb(
-                    concattedText?.substring(0, Constant.DESC_CHAR_COUNT_MAX) + "...",
-                    binding.tvDescription
-                )
 
-            } else {
-                binding.tvReadMore.visible()
-                displayDataToWeb(concattedText + "...", binding.tvDescription)
-            }
-            return true
-        } else if ((content?.length ?: 0) > Constant.DESC_CHAR_COUNT_MAX) {
-            binding.tvReadMore.visible()
-            val newT = checkUnclosedTags(
-                content?.substring(0, Constant.DESC_CHAR_COUNT_MAX)?.replace("\n", "<br>") + "...",
-                content ?: ""
-            )
-            displayDataToWeb(newT, binding.tvDescription)
-            return true
-        }
-        return false
-    }
 
     private fun initViewPager() {
 

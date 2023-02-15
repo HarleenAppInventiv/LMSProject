@@ -2,7 +2,6 @@ package com.selflearningcoursecreationapp.ui.bottom_course
 
 import android.annotation.SuppressLint
 import android.graphics.Paint
-import android.util.Log
 import androidx.core.content.ContextCompat
 import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseAdapter
@@ -33,19 +32,6 @@ class MyCourseAdapter(private var type: Int, private val list: ArrayList<CourseD
         binding.tvTime.text = list[position].courseDuration.getTime(context)
         when (type) {
 
-            Constant.MYCOURSES -> {
-                binding.bookmarkTimeG.gone()
-                binding.priceG.gone()
-                binding.tvCoin.gone()
-                binding.btBuy.visible()
-                binding.tvDuration.gone()
-                binding.tvDuration.gone()
-                binding.progressG.invisible()
-                binding.btBuy.setCreateCourseText(list[position].status)
-
-                binding.ivSignLanguage.visibleView(list[position].isSignLanguage ?: false)
-            }
-
             CourseScreenType.COMPLETED_COURSES -> {
                 binding.bookmarkTimeG.gone()
                 binding.priceG.gone()
@@ -56,8 +42,6 @@ class MyCourseAdapter(private var type: Int, private val list: ArrayList<CourseD
                 binding.progressG.invisible()
                 binding.btBuy.text = context.getString(R.string.completed)
                 binding.ivSignLanguage.visibleView(list[position].isSignLanguage ?: false)
-
-//                binding.btBuy.setCreateCourseText(list[position].status)
             }
             else -> {
                 binding.bookmarkTimeG.gone()
@@ -65,8 +49,6 @@ class MyCourseAdapter(private var type: Int, private val list: ArrayList<CourseD
                 binding.tvCoin.gone()
                 binding.btBuy.visible()
                 binding.ivSignLanguage.visibleView(list[position].isSignLanguage ?: false)
-
-//                binding.tvDuration.visible()
 
                 if (list[position].totalPlayedTime == 0) {
                     binding.btBuy.text = context.getString(R.string.start)
@@ -76,32 +58,15 @@ class MyCourseAdapter(private var type: Int, private val list: ArrayList<CourseD
                 } else {
                     binding.btBuy.icon = ContextCompat.getDrawable(context, R.drawable.ic_resume)
                     binding.btBuy.text = context.getString(R.string.resume)
-//                    binding.tvProgress.text = list[position].percentageCompleted
-//                        .toString() + "% " + context?.getString(R.string.completed)
-                    binding.tvProgress.text =
-                        if ((list[position].percentageCompleted
-                                ?: 0.0) > 0 && (list[position].percentageCompleted
-                                ?: 0.0) < 1
-                        ) {
-                            (list[position].percentageCompleted).toString() + "% " + context.getString(
-                                R.string.completed
-                            )
-
-                        } else {
-                            (list[position].percentageCompleted)?.toInt()
-                                .toString() + "% " + context.getString(R.string.completed)
-
-                        }
-
+                    binding.tvProgress.text = (list[position].percentageCompleted)?.toInt()
+                        .toString() + "% " + context.getString(R.string.completed)
 
                     binding.progressG.visible()
                     binding.tvDuration.apply {
                         visibleView(
-                            (list[position].percentageCompleted?.toInt()
-                                ?: 0) > 0 && (list[position].percentageCompleted?.toInt()
-                                ?: 0) < 100
+                            list[position].percentageCompleted?.toInt().isCourseInProgress()
                         )
-                        val duration = list[position]?.totalDurationLeft.milliSecToMin().toString()
+                        val duration = list[position].totalDurationLeft.milliSecToMin().toString()
                         val msg =
                             SpanUtils.with(
                                 context,
@@ -110,8 +75,6 @@ class MyCourseAdapter(private var type: Int, private val list: ArrayList<CourseD
                                 .endPos(duration.length + 9)
                                 .themeColor().getSpanString()
                         binding.tvDuration.setSpanString(msg)
-//                        text = (list[position].courseDuration?.toInt()
-//                            ?: 0.minus(list[position].totalDurationLeft ?: 0)).toString()
                     }
 
 
@@ -147,28 +110,23 @@ class MyCourseAdapter(private var type: Int, private val list: ArrayList<CourseD
 
         ImageViewBuilder.builder(binding.ivPreview)
             .placeHolder(R.drawable.ic_home_default_banner)
-//            .blurhash(list[position].courseBannerHash)
             .setImageUrl(list[position].courseBannerUrl)
             .colorIndex(position)
             .loadImage()
+
         binding.tvName.text = list.get(position).courseTitle
         binding.tvRating.apply {
             text = list[position].averageRating
             contentDescription = "$text ${context.getString(R.string.reviews_small)}"
         }
-//
-//        binding.tvReviewCount.setText(list!![position].totalReviews)
         binding.tvAuthor.text = list[position].createdByName
         binding.ivCertification.text = list[position].categoryName
         binding.ivLang.text = list[position].languageName
 
 
-        binding.ivBookmark.apply {
-            gone()
-        }
+        binding.ivBookmark.gone()
+
         binding.btBuy.setOnClickListener {
-            Log.d("varun", "onBindViewHolder: yes")
-//            onItemClick(Constant.CLICK_EDIT, position, list.get(position).status ?: 0)
             onItemClick(Constant.CLICK_VIEW, position)
 
         }
@@ -177,8 +135,6 @@ class MyCourseAdapter(private var type: Int, private val list: ArrayList<CourseD
 
         }
 
-
-//
         binding.pbProgress.setOnTouchListener { _, _ ->
             return@setOnTouchListener true
         }
