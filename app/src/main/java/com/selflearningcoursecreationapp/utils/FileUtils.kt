@@ -421,7 +421,7 @@ object FileUtils {
     fun getCreatedFilePath(
         context: Context,
         imageFile: File,
-        mimeType: String = "audio/mp3"
+        mimeType: String = DefaultMime.AUDIO
     ): Uri? {
         val filePath = imageFile.absolutePath
         try {

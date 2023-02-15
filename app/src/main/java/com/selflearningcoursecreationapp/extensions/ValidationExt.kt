@@ -8,6 +8,8 @@ import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.core.util.PatternsCompat
 import com.selflearningcoursecreationapp.base.SelfLearningApplication
+import com.selflearningcoursecreationapp.utils.DefaultExt
+import com.selflearningcoursecreationapp.utils.DefaultMime
 import com.selflearningcoursecreationapp.utils.FileUtils
 import com.selflearningcoursecreationapp.utils.ValidationConst
 import java.io.File
@@ -88,8 +90,6 @@ fun String?.isFileLimitExceedWithoutRealPath(limit: Int): Boolean {
 fun String?.getValidAudioMimeType(context: Context, withoutType: Boolean = false): String {
     var mime = this?.let {
         "audio/" + it.substringAfterLast(".")
-
-
     }
 
     val mimeTypes = arrayOf(
@@ -105,22 +105,19 @@ fun String?.getValidAudioMimeType(context: Context, withoutType: Boolean = false
         "audio/aac-adts"
     )
     if (mimeTypes.contains(mime)) {
-        return if (withoutType) {
-            if (mime?.contains("/") == true) "." + (mime?.split("/")?.get(1)
-                ?: "mp3") else ".mp3"
-        } else mime ?: "audio/mp3"
+        return getAudioMime(withoutType, mime)
     } else {
         val uri = Uri.parse(this)
 //Check uri format to avoid null
-        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
+        if (uri.scheme.equals(ContentResolver.SCHEME_CONTENT)) {
             //If scheme is a content
             mime = MimeTypeMap.getSingleton()
-                .getExtensionFromMimeType(context.getContentResolver().getType(uri));
+                .getExtensionFromMimeType(context.contentResolver.getType(uri))
 
         } else {
             //If scheme is a File
             //This will replace white spaces with %20 and also other special characters. This will avoid returning null values on file name with spaces and special characters.
-            mime = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(File(this)).toString());
+            mime = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(File(this)).toString())
 
         }
         if (mime?.contains("/") == false) {
@@ -129,16 +126,17 @@ fun String?.getValidAudioMimeType(context: Context, withoutType: Boolean = false
 
         showLog("MIME_TYPE", "mime 2>>> $mime")
 
-        if (mimeTypes.contains(mime)) {
-            return if (withoutType) {
-                if (mime?.contains("/") == true) "." + (mime?.split("/")?.get(1)
-                    ?: "mp3") else ".mp3"
-            } else mime ?: "audio/mp3"
+        return if (mimeTypes.contains(mime)) {
+            getAudioMime(withoutType, mime)
         } else {
-            return if (withoutType) ".mp3" else "audio/mp3"
+            if (withoutType) DefaultExt.AUDIO else DefaultMime.AUDIO
         }
     }
 }
+
+private fun getAudioMime(withoutType: Boolean, mime: String?) = if (withoutType) {
+    if (mime?.contains("/") == true) "." + mime.split("/").get(1) else DefaultExt.AUDIO
+} else mime ?: DefaultMime.AUDIO
 
 fun String?.getValidVideoMimeType(context: Context, withoutType: Boolean = false): String {
     var mime = this?.let {
@@ -159,22 +157,19 @@ fun String?.getValidVideoMimeType(context: Context, withoutType: Boolean = false
         "video/x-flv"
     )
     if (mimeTypes.contains(mime)) {
-        return if (!withoutType) mime ?: "video/mp4" else {
-            if (mime?.contains("/") == true) "." + (mime?.split("/")?.get(1)
-                ?: "mp4") else ".mp4"
-        }
+        return getVideoMime(withoutType, mime)
     } else {
         val uri = Uri.parse(this)
 //Check uri format to avoid null
-        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
+        if (uri.scheme.equals(ContentResolver.SCHEME_CONTENT)) {
             //If scheme is a content
             mime = MimeTypeMap.getSingleton()
-                .getExtensionFromMimeType(context.getContentResolver().getType(uri));
+                .getExtensionFromMimeType(context.contentResolver.getType(uri))
 
         } else {
             //If scheme is a File
             //This will replace white spaces with %20 and also other special characters. This will avoid returning null values on file name with spaces and special characters.
-            mime = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(File(this)).toString());
+            mime = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(File(this)).toString())
 
         }
         if (mime?.contains("/") == false) {
@@ -184,12 +179,14 @@ fun String?.getValidVideoMimeType(context: Context, withoutType: Boolean = false
         showLog("MIME_TYPE", "mime 2>>> $mime")
 
         if (mimeTypes.contains(mime)) {
-            return if (!withoutType) mime ?: "video/mp4" else {
-                if (mime?.contains("/") == true) "." + (mime?.split("/")?.get(1)
-                    ?: "mp4") else ".mp4"
-            }
+            return getVideoMime(withoutType, mime)
         } else {
-            return if (withoutType) ".mp4" else "video/mp4"
+            return if (withoutType) DefaultExt.VIDEO else DefaultMime.VIDEO
         }
     }
 }
+
+private fun getVideoMime(withoutType: Boolean, mime: String?) =
+    if (!withoutType) mime ?: DefaultMime.VIDEO else {
+        if (mime?.contains("/") == true) "." + mime.split("/").get(1) else DefaultExt.VIDEO
+    }

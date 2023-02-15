@@ -525,3 +525,13 @@ object WithdrawalType {
     val RAZORPAY_WITHDRAW_AMOUNT = 5
     val MANUAL_WITHDRAW_AMOUNT = 6
 }
+
+object DefaultMime {
+    val AUDIO = "audio/mp3"
+    val VIDEO = "video/mp4"
+}
+
+object DefaultExt {
+    val AUDIO = ".mp3"
+    val VIDEO = ".mp4"
+}

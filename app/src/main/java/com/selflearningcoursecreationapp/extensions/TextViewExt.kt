@@ -393,7 +393,9 @@ fun TextView.disableCopyPaste() {
             return false
         }
 
-        override fun onDestroyActionMode(mode: ActionMode?) {}
+        override fun onDestroyActionMode(mode: ActionMode?) {
+            //no implementation
+        }
     }
 }
 

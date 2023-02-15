@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+val DEFAULT_DATE_FORMAT_YMD = "yyyy-MM-dd"
 
 fun Date?.getStringDate(format: String? = "MMM dd, yyyy"): String {
     if (this == null || format.isNullOrEmpty()) {
@@ -88,12 +89,12 @@ private const val MINUTE_MILLIS = 60 * SECOND_MILLIS
 private const val HOUR_MILLIS = 60 * MINUTE_MILLIS
 private const val DAY_MILLIS = 24 * HOUR_MILLIS
 
-fun getCurrentDate(outputFormat: String = "yyyy-MM-dd"): String {
+fun getCurrentDate(outputFormat: String = DEFAULT_DATE_FORMAT_YMD): String {
     val sdf = SimpleDateFormat(outputFormat)
     return sdf.format(Date())
 }
 
-fun String.convertToUtc(inputFormat: String = "yyyy-MM-dd"): String {
+fun String.convertToUtc(inputFormat: String = DEFAULT_DATE_FORMAT_YMD): String {
     val selectedDate = this.getFormateedDateYear(inputFormat, "EEE MMM dd")
     val selectedYear = this.getFormateedDateYear(inputFormat, "yyyy")
 
@@ -119,7 +120,7 @@ private fun String.getFormateedDateYear(inFormat: String, outputFormat: String):
 fun getLastWeekDate(
     dateString: String,
     noOfDays: Int = 7,
-    inputFormat: String = "yyyy-MM-dd"
+    inputFormat: String = DEFAULT_DATE_FORMAT_YMD
 ): String {
     val dateFormat = SimpleDateFormat(inputFormat)
     val myDate: Date = dateFormat.parse(dateString)
@@ -138,7 +139,7 @@ fun getLastMOnthDate(dateString: String): String {
     return getLastWeekDate(dateString, monthDays)
 }
 
-fun getNextMOnthDate(dateString: String, inputFormat: String = "yyyy-MM-dd"): String {
+fun getNextMOnthDate(dateString: String, inputFormat: String = DEFAULT_DATE_FORMAT_YMD): String {
     val dateFormat = SimpleDateFormat(inputFormat)
     val myDate: Date = dateFormat.parse(dateString)
     val calendar = Calendar.getInstance()
@@ -150,7 +151,7 @@ fun getNextMOnthDate(dateString: String, inputFormat: String = "yyyy-MM-dd"): St
 fun getNextXDays(
     dateString: String,
     noOfDays: Int = 1,
-    inputFormat: String = "yyyy-MM-dd"
+    inputFormat: String = DEFAULT_DATE_FORMAT_YMD
 ): String {
     val dateFormat = SimpleDateFormat(inputFormat)
     val myDate: Date = dateFormat.parse(dateString)
@@ -164,7 +165,7 @@ fun getNextXDays(
 
 fun getNextDay(
     dateString: String,
-    sourceFormat: String? = "yyyy-MM-dd",
+    sourceFormat: String? = DEFAULT_DATE_FORMAT_YMD
 ): String {
     val dateFormat = SimpleDateFormat(sourceFormat)
     val myDate: Date = dateFormat.parse(dateString)
@@ -176,7 +177,7 @@ fun getNextDay(
     return date
 }
 
-fun getLastDay(dateString: String, inputFormat: String = "yyyy-MM-dd"): String {
+fun getLastDay(dateString: String, inputFormat: String = DEFAULT_DATE_FORMAT_YMD): String {
     val dateFormat = SimpleDateFormat(inputFormat)
     val myDate: Date = dateFormat.parse(dateString)
     val calendar = Calendar.getInstance()

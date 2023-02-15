@@ -266,7 +266,7 @@ class ImagePickUtils {
 
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            type = "audio/mp3"
+            type = DefaultMime.AUDIO
             val mimeTypes = arrayOf(
                 "audio/mp3",
                 "audio/aac",

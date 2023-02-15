@@ -20,6 +20,7 @@ import com.selflearningcoursecreationapp.R
 import com.selflearningcoursecreationapp.base.BaseFragment
 import com.selflearningcoursecreationapp.databinding.FragmentEditAudioBinding
 import com.selflearningcoursecreationapp.extensions.*
+import com.selflearningcoursecreationapp.utils.DefaultMime
 import com.selflearningcoursecreationapp.utils.FileUtils
 import com.selflearningcoursecreationapp.utils.customViews.RangeSeekBarView
 import com.selflearningcoursecreationapp.utils.customViews.ThemeUtils
@@ -308,7 +309,7 @@ class EditAudioFragment : BaseFragment<FragmentEditAudioBinding>(),
                 val path = FileUtils.getCreatedFilePath(
                     baseActivity,
                     File(viewModel.outputPath ?: ""),
-                    viewModel.mimeType ?: "audio/mp3"
+                    viewModel.mimeType ?: DefaultMime.AUDIO
                 )?.toString() ?: viewModel.outputPath
                 if (args?.fromLesson == true) {
                     setFragmentResult(

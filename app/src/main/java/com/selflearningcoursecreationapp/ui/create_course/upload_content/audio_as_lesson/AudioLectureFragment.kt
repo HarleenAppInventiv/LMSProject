@@ -286,7 +286,7 @@ class AudioLectureFragment : BaseFragment<FragmentAudioLectureBinding>(),
             "audio/" + it.substringAfterLast(".")
 
 
-        } ?: kotlin.run { "audio/mp3" }
+        } ?: kotlin.run { DefaultMime.AUDIO }
         mimeType_tus = type ?: ""
         val upload: TusUpload = TusAndroidUpload(uri, baseActivity)
         fileSize_tus = upload.size
