@@ -88,14 +88,14 @@ private const val MINUTE_MILLIS = 60 * SECOND_MILLIS
 private const val HOUR_MILLIS = 60 * MINUTE_MILLIS
 private const val DAY_MILLIS = 24 * HOUR_MILLIS
 
-fun getCurrentDate(): String {
-    val sdf = SimpleDateFormat("yyyy-MM-dd")
+fun getCurrentDate(outputFormat: String = "yyyy-MM-dd"): String {
+    val sdf = SimpleDateFormat(outputFormat)
     return sdf.format(Date())
 }
 
-fun String.convertToUtc(): String {
-    val selectedDate = this.getFormateedDateYear("yyyy-MM-dd", "EEE MMM dd")
-    val selectedYear = this.getFormateedDateYear("yyyy-MM-dd", "yyyy")
+fun String.convertToUtc(inputFormat: String = "yyyy-MM-dd"): String {
+    val selectedDate = this.getFormateedDateYear(inputFormat, "EEE MMM dd")
+    val selectedYear = this.getFormateedDateYear(inputFormat, "yyyy")
 
     val fullDate = "${selectedDate} ${"00:00:00"} ${selectedYear}"
 
@@ -116,8 +116,12 @@ private fun String.getFormateedDateYear(inFormat: String, outputFormat: String):
     return goal
 }
 
-fun getLastWeekDate(dateString: String, noOfDays: Int = 7): String {
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+fun getLastWeekDate(
+    dateString: String,
+    noOfDays: Int = 7,
+    inputFormat: String = "yyyy-MM-dd"
+): String {
+    val dateFormat = SimpleDateFormat(inputFormat)
     val myDate: Date = dateFormat.parse(dateString)
     val calendar = Calendar.getInstance()
     calendar.time = myDate
@@ -134,8 +138,8 @@ fun getLastMOnthDate(dateString: String): String {
     return getLastWeekDate(dateString, monthDays)
 }
 
-fun getNextMOnthDate(dateString: String): String {
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+fun getNextMOnthDate(dateString: String, inputFormat: String = "yyyy-MM-dd"): String {
+    val dateFormat = SimpleDateFormat(inputFormat)
     val myDate: Date = dateFormat.parse(dateString)
     val calendar = Calendar.getInstance()
     calendar.time = myDate
@@ -143,8 +147,12 @@ fun getNextMOnthDate(dateString: String): String {
     return getNextXDays(dateString, monthDays)
 }
 
-fun getNextXDays(dateString: String, noOfDays: Int = 1): String {
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+fun getNextXDays(
+    dateString: String,
+    noOfDays: Int = 1,
+    inputFormat: String = "yyyy-MM-dd"
+): String {
+    val dateFormat = SimpleDateFormat(inputFormat)
     val myDate: Date = dateFormat.parse(dateString)
     val calendar = Calendar.getInstance()
     calendar.time = myDate
@@ -168,8 +176,8 @@ fun getNextDay(
     return date
 }
 
-fun getLastDay(dateString: String): String {
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+fun getLastDay(dateString: String, inputFormat: String = "yyyy-MM-dd"): String {
+    val dateFormat = SimpleDateFormat(inputFormat)
     val myDate: Date = dateFormat.parse(dateString)
     val calendar = Calendar.getInstance()
     calendar.time = myDate
